@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="IContext.cs" />
     <Compile Include="IPropertyBag.cs" />
+    <Compile Include="Patterns\DisposableBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
