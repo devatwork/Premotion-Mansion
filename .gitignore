@@ -7,7 +7,6 @@
 *.orig
 *.pidb
 *.userprefs
-AssemblyInfo.cs
 .DS_Store
 deploy/
 build/
@@ -18,3 +17,4 @@ build/
 _[Rr]e[Ss]harper.*/
 *.docstates
 *.tss
+packages/
