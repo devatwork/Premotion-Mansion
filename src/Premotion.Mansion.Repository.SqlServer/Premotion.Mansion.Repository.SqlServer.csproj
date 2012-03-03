@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1DA4CE84-DE57-4235-B374-FCC246C35038}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Premotion.Mansion.Repository.SqlServer</RootNamespace>
+    <AssemblyName>Premotion.Mansion.Repository.SqlServer</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\src\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Premotion.Mansion.Repository.SqlServer.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Premotion.Mansion.Repository.SqlServer.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Premotion.Mansion.Core">
+      <HintPath>..\packages\Premotion.Mansion.Core.1.0.2\lib\net40\Premotion.Mansion.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BulkOperationContext.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Converters\AllowedRolesClauseConverter.cs" />
+    <Compile Include="Converters\BaseTypeClauseConverter.cs" />
+    <Compile Include="Converters\ChildOfClauseConverter.cs" />
+    <Compile Include="Converters\ClauseConverter.cs" />
+    <Compile Include="Converters\IClauseConverter.cs" />
+    <Compile Include="Converters\IdClauseConverter.cs" />
+    <Compile Include="Converters\LimitClauseConverter.cs" />
+    <Compile Include="Converters\PagingClauseConverter.cs" />
+    <Compile Include="Converters\ParentOfClauseConverter.cs" />
+    <Compile Include="Converters\PermanentIdClauseConverter.cs" />
+    <Compile Include="Converters\PropertyClauseConverter.cs" />
+    <Compile Include="Converters\SortClauseConverter.cs" />
+    <Compile Include="Converters\StatusClauseConverter.cs" />
+    <Compile Include="Converters\TypeClauseConverter.cs" />
+    <Compile Include="Converters\WhereClauseConverter.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="ModificationQueryBuilder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\CopyQuery.cs" />
+    <Compile Include="Queries\DeleteQuery.cs" />
+    <Compile Include="Queries\InsertQuery.cs" />
+    <Compile Include="Queries\MoveQuery.cs" />
+    <Compile Include="Queries\SelectQuery.cs" />
+    <Compile Include="Queries\UpdateQuery.cs" />
+    <Compile Include="Schemas\BooleanPropertyColumn.cs" />
+    <Compile Include="Schemas\Column.cs" />
+    <Compile Include="Schemas\DateTimePropertyColumn.cs" />
+    <Compile Include="Schemas\Descriptors\BooleanColumnDescriptor.cs" />
+    <Compile Include="Schemas\Descriptors\ColumnDescriptor.cs" />
+    <Compile Include="Schemas\Descriptors\DateTimeColumnDescriptor.cs" />
+    <Compile Include="Schemas\Descriptors\MultiValuePropertyTableDescriptor.cs" />
+    <Compile Include="Schemas\Descriptors\PropertyTableDescriptor.cs" />
+    <Compile Include="Schemas\Descriptors\RootTypeTableDescriptor.cs" />
+    <Compile Include="Schemas\Descriptors\SingleValuePropertyTableDescriptor.cs" />
+    <Compile Include="Schemas\Descriptors\TypeTableDescriptor.cs" />
+    <Compile Include="Schemas\DummyColumn.cs" />
+    <Compile Include="Schemas\ExtendedPropertiesColumn.cs" />
+    <Compile Include="Schemas\IdentityColumn.cs" />
+    <Compile Include="Schemas\JoinColumn.cs" />
+    <Compile Include="Schemas\MultiValuePropertyTable.cs" />
+    <Compile Include="Schemas\OrderColumn.cs" />
+    <Compile Include="Schemas\PropertyColumn.cs" />
+    <Compile Include="Schemas\RootTable.cs" />
+    <Compile Include="Schemas\Schema.cs" />
+    <Compile Include="Schemas\SchemaProvider.cs" />
+    <Compile Include="Schemas\SingleValuePropertyTable.cs" />
+    <Compile Include="Schemas\Table.cs" />
+    <Compile Include="Schemas\TableColumnPair.cs" />
+    <Compile Include="Schemas\TypeTable.cs" />
+    <Compile Include="ScriptFunctions\MaxSqlDate.cs" />
+    <Compile Include="ScriptFunctions\SqlEncode.cs" />
+    <Compile Include="ScriptTags\SyncTablesTag.cs" />
+    <Compile Include="SqlServerRepository.cs" />
+    <Compile Include="SqlServerRepositoryFactory.cs" />
+    <Compile Include="SqlStringBuilder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Premotion.Mansion.Repository.SqlServer.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Schemas\Descriptors\repository.mssql.descriptors.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Schemas\Schemas.cd" />
+    <None Include="ScriptTags\repository.mssql.tags.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
