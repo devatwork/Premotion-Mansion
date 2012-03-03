@@ -670,6 +670,7 @@
     <Content Include="Web\Types\User\user.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".gitignore.pp" />
     <None Include="Assets\Assets.cd" />
     <None Include="Cms\Descriptors\web.cms.descriptors.xsd">
       <SubType>Designer</SubType>
