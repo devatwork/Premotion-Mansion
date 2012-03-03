@@ -1,0 +1,5 @@
+﻿Version 1.1
+* renamed attribute dataspace on setPropertiesTag to dataspaceName
+
+Version 1.0
+* initial

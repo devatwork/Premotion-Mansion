@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Premotion.Mansion.Core.Scripting.TagScript.TagScriptService" BaseTypeListCollapsed="true">
+    <Position X="11" Y="4.75" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Core.Scripting.TagScript.TagScriptService.CachedTagScript" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Scripting\TagScript\TagScriptService.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="Premotion.Mansion.Core.Scripting.TagScript.TagScriptService.MansionScriptXmlTextReader" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Scripting\TagScript\TagScriptService.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAICAAACAAAAACAAAAAAAAgAAAAAAAAAAAEA=</HashCode>
+      <FileName>Scripting\TagScript\TagScriptService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.TagScript.AlternativeScriptTag">
+    <Position X="7.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Scripting\TagScript\AlternativeScriptTag.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.TagScript.AttributeNotSpecifiedException">
+    <Position X="7.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACA=</HashCode>
+      <FileName>Scripting\TagScript\AttributeNotSpecifiedException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.TagScript.AttributeNullException">
+    <Position X="12.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACA=</HashCode>
+      <FileName>Scripting\TagScript\AttributeNullException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.TagScript.ScriptTag">
+    <Position X="4.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAICBAAAEgIAAQQgAAIAAAAAghAAMAIAACAAAkBAIQA=</HashCode>
+      <FileName>Scripting\TagScript\ScriptTag.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Info" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.TagScript.ScriptTagException">
+    <Position X="12.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAA=</HashCode>
+      <FileName>Scripting\TagScript\ScriptTagException.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ScriptStackTrace" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.TagScript.TagInfo">
+    <Position X="2.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAIAAQAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripting\TagScript\TagInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.TagScript.TagScript" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAQQAAAAAAAAAAAAAggAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripting\TagScript\TagScript.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DocumentTag" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="Premotion.Mansion.Core.Scripting.TagScript.ITagScript">
+    <Position X="6.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripting\TagScript\ITagScript.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Premotion.Mansion.Core.Scripting.TagScript.ITagScriptService">
+    <Position X="9.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripting\TagScript\ITagScriptService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

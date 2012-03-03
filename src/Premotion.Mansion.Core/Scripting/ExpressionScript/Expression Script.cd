@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Premotion.Mansion.Core.Scripting.ExpressionScript.ArgumentTokenizer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripting\ExpressionScript\ArgumentTokenizer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.ExpressionScript.ScriptFunctionAttribute" Collapsed="true">
+    <Position X="23.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripting\ExpressionScript\ScriptFunctionAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.ExpressionScript.Constants" Collapsed="true">
+    <Position X="21.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripting\ExpressionScript\Constants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.ExpressionScript.EscapedExpressionInterpreter" Collapsed="true">
+    <Position X="13.5" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Scripting\ExpressionScript\EscapedExpressionInterpreter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.ExpressionScript.ExpressionPartInterpreter" Collapsed="true">
+    <Position X="9.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAEAABAAA=</HashCode>
+      <FileName>Scripting\ExpressionScript\ExpressionPartInterpreter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.ExpressionScript.ExpressionScriptService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="23.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgEAAAALAAAAiAAAAAAAAAAAAAAgAAAAAAAAAAIAA=</HashCode>
+      <FileName>Scripting\ExpressionScript\ExpressionScriptService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.ExpressionScript.FunctionExpression" Collapsed="true">
+    <Position X="4.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAQQAAAAAAAAAAAAQAAAAAAgAAAQAAAA=</HashCode>
+      <FileName>Scripting\ExpressionScript\FunctionExpression.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.ExpressionScript.FunctionExpressionInterpreter" Collapsed="true">
+    <Position X="10.5" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAACAAAAAAAAAAAAAAAAEAAAAAE=</HashCode>
+      <FileName>Scripting\ExpressionScript\FunctionExpressionInterpreter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.ExpressionScript.LiteralExpressionInterpreter" Collapsed="true">
+    <Position X="1.25" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Scripting\ExpressionScript\LiteralExpressionInterpreter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.ExpressionScript.Phrase" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Scripting\ExpressionScript\Phrase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.ExpressionScript.PhraseExpression" Collapsed="true">
+    <Position X="4.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripting\ExpressionScript\PhraseExpression.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.ExpressionScript.PhraseScriptTokenizer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripting\ExpressionScript\PhraseScriptTokenizer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.ExpressionScript.PlaceholderExpressionInterpreter" Collapsed="true">
+    <Position X="16.5" Y="1.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Scripting\ExpressionScript\PlaceholderExpressionInterpreter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.ExpressionScript.PropertyExpressionInterpreter" Collapsed="true">
+    <Position X="4.25" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Scripting\ExpressionScript\PropertyExpressionInterpreter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Scripting.ExpressionScript.ReferenceExpressionInterpreter" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Scripting\ExpressionScript\ReferenceExpressionInterpreter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Premotion.Mansion.Core.Scripting.ExpressionScript.IExpressionScript" Collapsed="true">
+    <Position X="20" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripting\ExpressionScript\IExpressionScript.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Premotion.Mansion.Core.Scripting.ExpressionScript.IExpressionScriptService">
+    <Position X="0.75" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripting\ExpressionScript\IExpressionScriptService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Premotion.Mansion.Core.Scripting.ExpressionScript.IExpressionScriptServiceImplementation" Collapsed="true">
+    <Position X="0.5" Y="5.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripting\ExpressionScript\IExpressionScriptServiceImplementation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

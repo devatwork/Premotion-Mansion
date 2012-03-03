@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/stl.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<!-- imports -->
+	<xs:include schemaLocation="../stl.xsd" />
+	
+	<!-- elements -->
+	<xs:element name="authenticateUser" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Authenticates an user for the current request context.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="failedContentGroup" />
+			<!-- attributes -->
+			<xs:attribute name="authenticationProvider" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Specified the authentication provider which to use in order to authenticate the user.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="allowRevival" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Flag indacating whether revival is allowed. Default is false.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:anyAttribute namespace="##any" processContents="skip" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="logoff" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Logs off the user for the current request context.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType />
+	</xs:element>
+
+	<xs:element name="initializeSecurityContext" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Initializes the security context. Also makes the FrontofficeUser, BackofficeUser and User dataspace available.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType />
+	</xs:element>
+
+	<xs:element name="getProtectedResourceDataset" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Gets a dataset containing all the protected resources.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="notFoundContentGroup" />
+			<!-- attributes -->
+			<xs:attributeGroup ref="targetAttributes" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="getProtectedOperationDataset" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Gets a dataset containing all the protected operations.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="notFoundContentGroup" />
+			<!-- attributes -->
+			<xs:attributeGroup ref="sourceAttributes" />
+			<xs:attributeGroup ref="targetAttributes" />
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

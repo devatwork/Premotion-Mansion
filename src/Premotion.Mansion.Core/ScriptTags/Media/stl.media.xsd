@@ -1,0 +1,281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/stl.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<!-- imports -->
+	<xs:include schemaLocation="../stl.xsd" />
+	
+	
+	
+	<!-- ######################################################### -->
+	<!-- XML media elements                                        -->
+	<!-- ######################################################### -->
+	
+	<xs:element name="renderXmlDocument" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Renders an XML to the top most output pipe.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="renderXmlElement" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Renders an XML element to the XML output pipe. This tag must be used within and RenderXmlDocument tag. Attributes of this tag are rendered as XML attributes and child tags are rendered as XML children.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!--attributes -->
+			<xs:attribute name="elementName" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Specifies the name of this element.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:anyAttribute namespace="##any" processContents="skip" />
+		</xs:complexType>
+	</xs:element>
+	
+	
+	
+	<!-- ######################################################### -->
+	<!-- JJON media elements                                       -->
+	<!-- ######################################################### -->
+	
+	<xs:element name="renderJsonDocument" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Renders an JSON document to the top most output pipe.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="renderJsonObject" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Renders an JSON object to the JSON output pipe. This tag must be used within and RenderJsonDocument tag.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!--attributes -->
+			<xs:anyAttribute namespace="##any" processContents="skip" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="renderJsonProperty" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Renders an JSON property to the JSON output pipe. The child tags can write content to the created buffer. This tag must be used within and RenderJsonObject tag.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!--attributes -->
+			<xs:attribute name="propertyName" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The name of the property.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="renderJsonArrayProperty" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Renders an JSON array property to the JSON output pipe. This tag must be used within and RenderJsonObject tag. Any attributes will be rendered as simple values of the array.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!--attributes -->
+			<xs:attribute name="propertyName" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Specified the name of the JSON property in which the array is stored.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:anyAttribute namespace="##any" processContents="skip" />
+		</xs:complexType>
+	</xs:element>
+	
+	
+	
+	<!-- ######################################################### -->
+	<!-- content resource media elements                           -->
+	<!-- ######################################################### -->
+	
+	<xs:simpleType name="contentResourceCategories">
+		<xs:union>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Uploads">
+						<xs:annotation>
+							<xs:documentation>Use this type for user uploaded resource.</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="Exports">
+						<xs:annotation>
+							<xs:documentation>Use this type for application generated exports.</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="Temp">
+						<xs:annotation>
+							<xs:documentation>Use this type for temporarily resources, these resources will automatically be cleaned up.</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType>
+				<xs:restriction base="xs:string" />
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+
+	<xs:attributeGroup name="contentResourceIdentifierAttributes">
+		<xs:annotation>
+			<xs:documentation>Contains a set of attributes which identify a content resource.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="fileName" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Identifies the name of the content resource. Use when opening a new content resource.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="relativePath" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Identifies the relative path of the content resource. Use when opening an existing content resource.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="category" type="contentResourceCategories" use="optional">
+			<xs:annotation>
+				<xs:documentation>Identifies the type of content.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+
+	<xs:element name="openContentForReading" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Opens a content resource for reading.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!--attributes -->
+			<xs:attributeGroup ref="contentResourceIdentifierAttributes" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="openContentForWriting" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Opens a content resource for writing.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!--attributes -->
+			<xs:attributeGroup ref="contentResourceIdentifierAttributes" />
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<!-- ######################################################### -->
+	<!-- CSV media elements                                        -->
+	<!-- ######################################################### -->
+
+	<xs:simpleType name="csvFormatEnumeration">
+		<xs:restriction base="xs:string"></xs:restriction>
+	</xs:simpleType>
+
+	<xs:element name="renderCSVDocument" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Renders a CSV document to the outpipe.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!-- attributes -->
+			<xs:attribute name="format" type="csvFormatEnumeration" use="optional">
+				<xs:annotation>
+					<xs:documentation>The name of the format which to use.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="columnDelimitor" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>The column delimitor.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="columnProperties" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>The name of the properties displayed in eacht column, separated by a comma.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="columnHeaders" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>The headers of the column, separated by a comma.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="documentEndDelimitor" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>The document end delemitor.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="documentStartDelimitor" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>The document start delemitor.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="includeColumnHeaders" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Flag indicating whether to include the headers in the document being written. Default is true.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="rowDelimitor" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>The row delimitor.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="textQualifier" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>The text qualifier.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="renderCsvRow" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Renders values as a CSV row to the output.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attribute name="values" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>A  comma separated list of values which to write to the row.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="renderDataspaceToCsvRow" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Renders a dataspace as a CSV row to the output.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attributeGroup ref="sourceAttributes" />
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<!-- abstract elements -->
+	<xs:element name="propertyDescriptor" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Describes a facet of the current property.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="typeDescriptor" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Describes a facet of the current type.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	
+	
+	
+	<!-- types -->
+	<xs:complexType name="propertyElementType">
+		<xs:annotation>
+			<xs:documentation>Defines a property of the current type.</xs:documentation>
+		</xs:annotation>
+
+		<!-- content -->
+		<xs:sequence>
+			<xs:element ref="propertyDescriptor" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		
+		<!-- attributes -->
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>The name of this property.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="typeElementType">
+		<xs:annotation>
+			<xs:documentation>Defines a type.</xs:documentation>
+		</xs:annotation>
+		
+		<!-- content -->
+		<xs:sequence>
+			<xs:element name="property" type="propertyElementType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element ref="typeDescriptor" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		
+		<!-- attributes -->
+		<xs:attribute name="inherits" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Indicates which type is this type inherits.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	
+	
+	
+	<!-- elements -->
+	<xs:element name="type" type="typeElementType" />
+
+</xs:schema>

@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/stl.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<!-- imports -->
+	<xs:include schemaLocation="../stl.xsd" />
+	
+	<!-- elements -->
+	<xs:element name="renderText" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Renders a literal to the current output. If the message is not specified the content of this tag will be written to the output pipe.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType mixed="true">
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!-- attributes -->
+			<xs:attribute name="message" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>The message which to write.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="openTemplate" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Opens a template for rendering.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!-- attributes -->
+			<xs:attributeGroup ref="resourceLocationAttributes" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="renderSection" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Renders a template section.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!-- attributes -->
+			<xs:attribute name="name" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The name of the section which to render.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attributeGroup ref="targetFieldAttributes" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="responseTemplate" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Caches a response template by cache key. Can be used for personalization. The children of this template assemble the template, when the template is in cache the children are not executed.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!-- attributes -->
+			<xs:attribute name="cacheKey" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The variable cache key used to cache the template on.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="enabled" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Flag indicating whether the cache is enabled or not. Default is true.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="disableResponseTemplateCache" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Disables the response template cache for this request.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+</xs:schema>

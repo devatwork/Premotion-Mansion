@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+	<metadata>
+		<version>1.0.0</version>
+		<authors>Premotion Software Solutions</authors>
+		<owners>Premotion Software Solutions</owners>
+		<id>Premotion.Mansion.Web</id>
+		<title>Premotion Mansion Web Framework</title>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>Contains the Premotion Mansion Framework core types.</description>
+		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+		<copyright>Copyright 2012</copyright>
+		<dependencies>
+			<dependency id="Premotion.Mansion.Core" />
+		</dependencies> 
+		<tags>Premotion Mansion Web</tags>
+	</metadata>
+	<files>
+		<file src="bin\Premotion.Mansion.Web.dll" target="lib\net40" />
+		<file src="bin\Premotion.Mansion.Web.pdb" target="lib\net40" />
+		<file src="bin\Premotion.Mansion.Web.XML" target="lib\net40" />
+		<file src="**\*.cs" target="src" />
+		<file src="\Web\**\*" target="Web" />
+	</files>
+</package>

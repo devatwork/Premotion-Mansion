@@ -10,6 +10,24 @@ namespace Premotion.Mansion.Core
 	{
 		#region Property Methods
 		/// <summary>
+		/// Gets the value for a specific property.
+		/// </summary>
+		/// <typeparam name="TValue">The value type.</typeparam>
+		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="propertyName">The name of the property which to get.</param>
+		/// <returns>Returns the value.</returns>
+		/// <exception cref="PropertyNotFoundException">Thrown when the property can not be found in this bag.</exception>
+		TValue Get<TValue>(IContext context, string propertyName);
+		/// <summary>
+		/// Gets the value for a specific property.
+		/// </summary>
+		/// <typeparam name="TValue">The value type.</typeparam>
+		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="propertyName">The name of the property which to get.</param>
+		/// <param name="defaultValue">The default value when the property can not be found or cast.</param>
+		/// <returns>Returns the value.</returns>
+		TValue Get<TValue>(IContext context, string propertyName, TValue defaultValue);
+		/// <summary>
 		/// Tries to get the value from this bag.
 		/// </summary>
 		/// <typeparam name="TValue">The type of value.</typeparam>
@@ -44,6 +62,17 @@ namespace Premotion.Mansion.Core
 		/// </summary>
 		/// <param name="properties"></param>
 		void Merge(IEnumerable<KeyValuePair<string, object>> properties);
+		/// <summary>
+		/// Checks whether this property bag contains the <paramref name="propertyName"/>.
+		/// </summary>
+		/// <param name="propertyName">The name of the property for which to check.</param>
+		/// <returns>Returns true when this bag contains the property otherwise false.</returns>
+		bool Contains(string propertyName);
+		/// <summary>
+		/// Removes a property from this bag.
+		/// </summary>
+		/// <param name="propertyName">The name of the property which to remove.</param>
+		void Remove(string propertyName);
 		#endregion
 		#region Properties
 		/// <summary>

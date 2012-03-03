@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/stl.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<!-- imports -->
+	<xs:include schemaLocation="../stl.xsd" />
+	
+	
+	
+	<!-- ######################################################### -->
+	<!-- elements                                                  -->
+	<!-- ######################################################### -->
+	
+	<xs:element name="if" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Branches based on the condition. If the condition is false the else tag will be executed when available.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="elseContentGroup" />
+			<!-- attributes -->
+			<xs:attribute name="condition" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The condition on which to branch.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="switch" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Branches based on the condition. First all cases will be check for equality with the condition, if no case matching case is found the default case will be executed.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:sequence>
+				<xs:element name="case" minOccurs="1" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>A case for this switch statement.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<!-- content -->
+						<xs:group ref="defaultContentGroup" />
+						<!-- attributes -->
+						<xs:attribute name="value" type="xs:string" use="required">
+							<xs:annotation>
+								<xs:documentation>The value of this case.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="default" minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>The default case of this switch.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:group ref="defaultContentGroup" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<!-- attributes -->
+			<xs:attribute name="condition" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The condition on which to branch.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

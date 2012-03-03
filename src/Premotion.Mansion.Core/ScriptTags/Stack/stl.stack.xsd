@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/stl.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<!-- imports -->
+	<xs:include schemaLocation="../stl.xsd" />
+	
+	<!-- elements -->
+	<xs:element name="createDataspace" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Creates a dataspace in which properies can be stored.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!-- attributes -->
+			<xs:attributeGroup ref="targetAttributes" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="createDataset" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Creates a dataset in which rows can be stored.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!-- attributes -->
+			<xs:attributeGroup ref="targetAttributes" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="setProperties" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Sets properties in a specific dataspace. If the dataspace does not exists a new one will be created locally.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!-- attributes -->
+			<xs:attribute name="dataspaceName" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The dataspace in which to store the properties.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attributeGroup ref="globalAttributes" />
+			<xs:anyAttribute processContents="skip" namespace="##any" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="setProperty" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Sets a specific property in a specific dataspace.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attribute name="dataspace" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The dataspace in which to store the property.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="property" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The name of the property in which to store the value.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="value" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The value of the property which to set.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="appendProperty" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Appends a value to an existing property.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attribute name="dataspace" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The dataspace in which to store the property.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="property" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The name of the property which to append.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="value" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The value of the property which to set.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="separator" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>The separator. Default value is ','.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="fetchDataspace" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Creates a dataspace in which properies can be stored.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="notFoundContentGroup" />
+			<!-- attributes -->
+			<xs:attributeGroup ref="sourceAttributes" />
+			<xs:attributeGroup ref="targetAttributes" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="copyProperties" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Copies properties from source dataspace to that target dataspace.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attributeGroup ref="sourceAttributes" />
+			<xs:attributeGroup ref="targetAttributes" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="loopDataset" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Loops through a dataset. Puts the Loop dataspace on the stack containing loop information.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="loopBase">
+					<!-- attributes -->
+					<xs:attributeGroup ref="sourceAttributes" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="addRowToSet" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Adds a new row to an existing dataset.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			
+			<!-- attributes -->
+			<xs:attributeGroup ref="sourceAttributes" />
+			<xs:attribute name="target" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The namespace of the dataset to which to add the row.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

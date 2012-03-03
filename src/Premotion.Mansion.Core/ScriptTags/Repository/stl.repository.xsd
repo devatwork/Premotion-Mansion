@@ -1,0 +1,420 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/stl.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<!-- imports -->
+	<xs:include schemaLocation="../stl.xsd" />
+	
+	
+	
+	<!-- enumerations -->
+	<xs:simpleType name="nodeStatusEnumeration">
+		<xs:annotation>
+			<xs:documentation>Enumerates all the states a node can have.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="draft">
+				<xs:annotation>
+					<xs:documentation>This node is not approved yet and therefore can not be published.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="staged">
+				<xs:annotation>
+					<xs:documentation>This node is approved and the publication date is in the future.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="published">
+				<xs:annotation>
+					<xs:documentation>This node is published. This is the default setting for node queries.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="expired">
+				<xs:annotation>
+					<xs:documentation>This nodes expiration date has passed.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="archived">
+				<xs:annotation>
+					<xs:documentation>This node is marked as archived.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	
+	
+	<!-- groups -->
+	<xs:attributeGroup name="parentSourceAttributes">
+		<xs:attribute name="parentPointer" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies the parent node by pointer.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="parentSource" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies the parent node by dataspace name.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="depth" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies the depth from which the nodes are selected. Use 'any' for all depths. The default depth is 1. Use negative values for depth relative to the root.</xs:documentation>
+			</xs:annotation>
+
+			<xs:simpleType>
+				<xs:union memberTypes="xs:integer">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="any" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:union>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="childSourceAttributes">
+		<xs:attribute name="childPointer" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies the child node by pointer.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="childSource" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies the child node by dataspace name.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="depth" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies the depth from which the nodes are selected. Use 'any' for all depths. The default depth is 1. Use negative values for depth relative to the root.</xs:documentation>
+			</xs:annotation>
+
+			<xs:simpleType>
+				<xs:union memberTypes="xs:integer">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="any" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:union>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="pagingAttributes">
+		<xs:attribute name="pageNumber" type="xs:positiveInteger" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies the number of the page which to retrieve.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="pageSize" type="xs:positiveInteger" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies the number of nodes per page.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="limit" type="xs:positiveInteger" use="optional">
+			<xs:annotation>
+				<xs:documentation>Limits the number of nodes returned by this query.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="filterAttributes">
+		<xs:attribute name="status" type="nodeStatusEnumeration" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies the status nodes must have in order to be retrieved by this query.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="type" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies the type nodes must have in order to be retrieved by this query.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="baseType" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies the type from which nodes must derive  in order to be retrieved by this query.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="where" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies a custom where clause. Warning: unsafe usage might lead to injections.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="sort" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies a custom sort clause. Warning: unsafe usage might lead to injections.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="bypassAuthorization" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Flag indicating whether to bypass the access authorization. Default is false.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	
+	
+	
+	<!-- base types-->
+	<xs:complexType name="retrieveTagType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>The base tag definition for the retrieve node tags.</xs:documentation>
+		</xs:annotation>
+
+		<!-- content-->
+		<xs:group ref="notFoundContentGroup" />
+
+		<!-- attributes -->
+		<xs:attributeGroup ref="targetAttributes" />
+	</xs:complexType>
+	
+	
+	
+	<!-- elements -->
+	<xs:element name="fetchNode" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Fetches a node from the stack and puts it into a new dataspace.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="retrieveTagType">
+
+					<!-- attributes -->
+					<xs:attributeGroup ref="sourceAttributes" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="retrieveNode" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Retrieves a single node by it's permanent ID or pointer.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="retrieveTagType">
+
+					<!-- attributes -->
+					<xs:attribute name="id" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>Retrieves a node by it's identifier.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="pointer" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>Retrieves a node by it's pointer.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="guid" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>Retrieves a node by it's permanent identifier.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="retrieveChildNodeset" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Retrieves child nodes.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="retrieveTagType">
+
+					<!-- attributes -->
+					<xs:attributeGroup ref="parentSourceAttributes" />
+					<xs:attributeGroup ref="pagingAttributes" />
+					<xs:attributeGroup ref="filterAttributes" />
+					<xs:anyAttribute namespace="##any" processContents="skip" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="retrieveChildNode" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Retrieves a single child node.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="retrieveTagType">
+
+					<!-- attributes -->
+					<xs:attributeGroup ref="parentSourceAttributes" />
+					<xs:attributeGroup ref="filterAttributes" />
+					<xs:anyAttribute namespace="##any" processContents="skip" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="retrieveParentNodeset" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Retrieves parent nodes.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="retrieveTagType">
+
+					<!-- attributes -->
+					<xs:attributeGroup ref="childSourceAttributes" />
+					<xs:attributeGroup ref="pagingAttributes" />
+					<xs:attributeGroup ref="filterAttributes" />
+					<xs:anyAttribute namespace="##any" processContents="skip" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="retrieveParentNode" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Retrieves a single parent node.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="retrieveTagType">
+
+					<!-- attributes -->
+					<xs:attributeGroup ref="childSourceAttributes" />
+					<xs:attributeGroup ref="filterAttributes" />
+					<xs:anyAttribute namespace="##any" processContents="skip" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="loopNodeset" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Loops through a nodeset. Puts the Loop dataspace on the stack containing loop information.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="loopBase">
+					<!-- attributes -->
+					<xs:attributeGroup ref="sourceAttributes" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="addNode" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Creates a new node in the topmost repository. Use the dataspace NewProperties to set the properties of this new node. Warning: properties name and type must be specified.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			
+			<!-- attributes -->
+			<xs:attribute name="parentSource" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The dataspace name of the parent to which to add the new node.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attributeGroup ref="targetAttributes" />
+			<xs:anyAttribute namespace="##any" processContents="skip" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="editNode" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Allows a node to be edited. Use the dataspace EditProperties to add or update properties.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			
+			<!-- attributes -->
+			<xs:attributeGroup ref="sourceAttributes" />
+			<xs:anyAttribute namespace="##any" processContents="skip" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="moveNode" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Moves a node in the top most repository.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			
+			<!-- attributes -->
+			<xs:attribute name="source" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Specifies the node which will be moved.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="newParent" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Specifies the node under which the source node will be moved.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attributeGroup ref="targetAttributes" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="copyNode" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Copies a node in the top most repository.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			
+			<!-- attributes -->
+			<xs:attribute name="source" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Specifies the node which will be copied.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="newParent" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Specifies the node under which the source node will be copied.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attributeGroup ref="targetAttributes" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="deleteNode" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Deletes a node from the top most repository.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attributeGroup ref="sourceAttributes" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="openRepository" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Opens a repository. Attributes except repositoryNamespace are used as factory arguments.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			
+			<!-- attributes -->
+			<xs:attribute name="repositoryNamespace" type="xs:anyURI" use="required">
+				<xs:annotation>
+					<xs:documentation>The namespace of the repository which to open.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:anyAttribute processContents="skip" />
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

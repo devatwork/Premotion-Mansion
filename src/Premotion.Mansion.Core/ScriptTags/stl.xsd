@@ -1,0 +1,340 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/stl.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">	
+	
+	<!-- enumerations  -->
+	<xs:simpleType name="encodingEnumeration">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="UTF-8">
+				<xs:annotation>
+					<xs:documentation>Uses the UTF-8 encoding.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- attributes -->
+	<xs:attributeGroup name="sourceAttributes">
+		<xs:attribute name="source" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>The namespace which serves as the input of this tag.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="globalAttributes">
+		<xs:attribute name="global" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Flag indicating whether the value should remain on the stack.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="targetAttributes">
+		<xs:attribute name="target" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>The namespace in which the result is stored.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="globalAttributes" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="targetFieldAttributes">
+		<xs:attribute name="targetField" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies the name of the target field to which to render this content. If not specified it will render to the default field.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="resourceLocationAttributes">
+		<xs:attribute name="path" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>The relative path to resource which to open.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="type" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>The type from which to open the resource.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="extension" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>The extension of the resource. Can only be used in conjunction with the type attribute.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="overridable" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Flaf indicating whether the resource is overridable. When a resource is overridable all overrides of the resource are returned.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="checkExists" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>Specified whether an existing should be thrown when the resource does not exists. Default is true.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="encodingAttributes">
+		<xs:attribute name="encoding" type="encodingEnumeration" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies the encoding used for this operation. UTF-8 is the default encoding.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	
+	
+	
+	<!-- content groups -->
+	<xs:group name="defaultContentGroup">
+		<xs:annotation>
+			<xs:documentation>Represents the default content of a tag.</xs:documentation>
+		</xs:annotation>
+
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="scriptTag" />
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="failedContentGroup">
+		<xs:annotation>
+			<xs:documentation>Represents the content group for exception handling branches.</xs:documentation>
+		</xs:annotation>
+
+		<xs:sequence>
+			<xs:group ref="defaultContentGroup" />
+			<xs:element minOccurs="0" maxOccurs="1" name="failed">
+				<xs:annotation>
+					<xs:documentation>The alternative path which will handle the exception.</xs:documentation>
+				</xs:annotation>
+
+				<xs:complexType>
+					<xs:group ref="defaultContentGroup" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="elseContentGroup">
+		<xs:annotation>
+			<xs:documentation>Represents the content group for alternative branches.</xs:documentation>
+		</xs:annotation>
+
+		<xs:sequence>
+			<xs:group ref="defaultContentGroup" />
+			<xs:element name="else" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The alternative path for conditional tags.</xs:documentation>
+				</xs:annotation>
+
+				<xs:complexType>
+					<xs:group ref="defaultContentGroup" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="notFoundContentGroup">
+		<xs:annotation>
+			<xs:documentation>Represents the content group for alternative branches.</xs:documentation>
+		</xs:annotation>
+
+		<xs:sequence>
+			<xs:group ref="defaultContentGroup" />
+			<xs:element name="notFound" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>This alternative path is executed when no result was found for parent tag.</xs:documentation>
+				</xs:annotation>
+
+				<xs:complexType>
+					<xs:group ref="defaultContentGroup" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	
+	
+	<!-- complex types -->
+	<xs:complexType name="loopBase" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Loop through a set. Puts the Loop dataspace on the stack containing loop information.</xs:documentation>
+		</xs:annotation>
+
+		<!-- content -->
+		<xs:group ref="defaultContentGroup" />
+			
+		<!-- attributes -->
+		<xs:attributeGroup ref="targetAttributes" />
+	</xs:complexType>
+	
+	
+	
+	<!-- abstract elements -->
+	<xs:element name="scriptTag" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Base type for all script tags.</xs:documentation>
+		</xs:annotation>
+		<!--
+		<xs:complexType>
+			<xs:attribute name="debug" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>
+						When set to true the framework tries to attach the debugger and break when this specific tag is executed.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType> -->
+	</xs:element>
+	
+	
+	
+	<!-- elements -->
+	<xs:element name="mansion">
+		<xs:annotation>
+			<xs:documentation>The proud start tag of each and every mansion script.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="throw" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>This tag throws an exception.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attribute name="message" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="try" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>This tag implements a try catch block. When an exception occurred while executing child tags the catch tag will be invoked.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:sequence>
+				<xs:group ref="defaultContentGroup" />
+				<xs:element name="catch" minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>This branch is exuceted when an exception occurred in the main branch.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<!-- content -->
+						<xs:group ref="defaultContentGroup" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="invokeProcedure" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Invokes a procedure by it's name.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attribute name="procedureName" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The name of the procedure which to invoke.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="checkExists" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Checks whether the procedure must exists. Default is true.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:anyAttribute namespace="##any" processContents="skip" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="declareProcedure" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Declares a procedure. Invocation arguments are on the stack in dataspace Arguments.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!-- attributes -->
+			<xs:attribute name="procedureName" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The name of the procedure which to invoke.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="exitProcedure" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Breaks the execution flow of the current procedure.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="fireEvent" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Fires an event. Invocation arguments are on the stack in dataspace Arguments.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!-- attributes -->
+			<xs:attribute name="eventName" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The name of the event which to fire.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:anyAttribute namespace="##any" processContents="skip" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="declareEventHandler" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Declares an event handlers. Invocation arguments are on the stack in dataspace Arguments.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!-- attributes -->
+			<xs:attribute name="eventName" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The name of the event to which to attach this event handler.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="loop" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Loops over a set of numbers.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="loopBase">
+					<!-- attributes -->
+					<xs:attribute name="start" type="xs:int" use="required">
+						<xs:annotation>
+							<xs:documentation>Defines the start of the loop.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="end" type="xs:int" use="required">
+						<xs:annotation>
+							<xs:documentation>Defines the end of the loop.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

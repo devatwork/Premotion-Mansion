@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/stl.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<!-- imports -->
+	<xs:include schemaLocation="../stl.xsd" />
+
+	<xs:element name="enumerateApplicationFolder" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Opens a repository. Attributes except repositoryNamespace are used as factory arguments.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			
+			<!-- attributes -->
+			<xs:attribute name="path" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The path to the folder of which to enumerate the content.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attributeGroup ref="targetAttributes" />
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

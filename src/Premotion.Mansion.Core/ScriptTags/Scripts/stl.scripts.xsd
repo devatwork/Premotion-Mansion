@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/stl.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<!-- imports -->
+	<xs:include schemaLocation="../stl.xsd" />
+	
+	<!-- elements -->
+	<xs:element name="openScript" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Opens a script.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!-- attributes -->
+			<xs:attributeGroup ref="resourceLocationAttributes" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="breakExecution" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Breaks the execution of the current context.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+</xs:schema>
