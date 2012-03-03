@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd" xmlns:portal="http://schemas.premotion.nl/mansion/1.0/web/portal/tags.xsd">
+
+	<!-- Renders the xForm content -->
+	<declareProcedure procedureName="RenderXFormContent">
+		<forms:fieldset label="General">
+			<forms:textbox name="name" label="Name">
+				<forms:requiredFieldValidator />
+			</forms:textbox>
+		</forms:fieldset>
+		<invokeProcedure procedureName="RenderPermissionsGroup"/>
+		<invokeProcedure procedureName="RenderGroupPublication"/>
+		<invokeProcedure procedureName="RenderGroupIdentity"/>
+		<invokeProcedure procedureName="RenderGroupSecurity"/>
+	</declareProcedure>
+
+
+	<!-- renders the which can be configured on this role permissions -->
+	<declareProcedure procedureName="RenderPermissionsGroup">
+		<forms:fieldset label="Permissions">
+
+			<!-- loop over all the protected resources -->
+			<getProtectedResourceDataset target="ProtectedResourceDataset">
+			<loopDataset source="{$ProtectedResourceDataset}" target="ProtectedResourceRow">
+
+				<forms:fieldset label="{GetTypeDefinitionLabel( ProtectedResourceRow.id )}">
+					
+					<!-- loop over all the commands for this resource -->
+					<getProtectedOperationDataset source="{$ProtectedResourceRow}" target="ProtectedOperationDataset">
+					<loopDataset source="{$ProtectedOperationDataset}" target="ProtectedOperationRow">
+
+						<forms:fieldset label="{ProtectedOperationRow.name}">
+							<forms:checkbox name="{ProtectedResourceRow.id}_{ProtectedOperationRow.id}_granted" label="Granted" />
+							<forms:number name="{ProtectedResourceRow.id}_{ProtectedOperationRow.id}_priority" label="Priority" />
+						</forms:fieldset>
+
+					</loopDataset>
+					</getProtectedOperationDataset>
+				</forms:fieldset>
+					
+			</loopDataset>
+			</getProtectedResourceDataset>
+			
+		</forms:fieldset>
+	</declareProcedure>
+
+</mansion>

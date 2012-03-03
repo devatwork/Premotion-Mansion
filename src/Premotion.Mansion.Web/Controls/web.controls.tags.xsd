@@ -1,0 +1,326 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/web.controls.tags.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/web.controls.tags.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:stl="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
+
+	<!-- imports -->
+	<xs:import namespace="http://schemas.premotion.nl/mansion/1.0/stl.xsd" />
+	
+	
+	
+	<!-- providers -->
+	<xs:complexType name="dataProviderBase" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Provides a source data.</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+	
+	
+	
+	<!-- base type for all controls -->
+	<xs:complexType name="controlBase" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Base type for all web controls.</xs:documentation>
+		</xs:annotation>
+		
+		<!-- attrbutes -->
+		<xs:attribute name="targetField" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specified the field in which this control is rendered. Only applies to top-level controls. Default value is Control.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	
+	
+	
+	<!-- base type for all containers -->
+	<xs:complexType name="containerBase" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Base type for all container controls.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexContent>
+			<xs:extension base="controlBase">
+
+				<xs:group ref="stl:defaultContentGroup" />
+
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	
+	
+	<!-- base type for all databound controls -->
+	<xs:complexType name="databoundControlBase" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Base type for all data-bound controls.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexContent>
+			<xs:extension base="controlBase">
+
+				<xs:group ref="stl:defaultContentGroup" />
+
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	
+	
+	<!-- list tags -->
+	<xs:element name="list" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Defines a list displaying data</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="databoundControlBase">
+					<!-- content -->
+					<xs:group ref="stl:defaultContentGroup" />
+					<!--- attrbiutes -->
+					<xs:attribute name="notFoundMessage" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>Defines the message that this list will display when it does not have results to display.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="rowContentExpression" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>Escaped expression used to extract the content of a row in this list. The row is available in the Row dataspace.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	
+	
+	<!-- grid tags -->
+	<xs:element name="grid" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Defines a grid displaying data</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="databoundControlBase">
+					<!-- content -->
+					<xs:group ref="stl:defaultContentGroup" />
+					<!--- attrbiutes -->
+					<xs:attribute name="notFoundMessage" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>Defines the message that this grid will display when it does not have results to display.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="columnBase" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Base type for all grid columns.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexContent>
+			<xs:extension base="controlBase">
+				<!-- content -->
+				<xs:group ref="stl:defaultContentGroup" />
+				
+				<!-- attributes -->
+				<xs:attribute name="heading" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>The heading of this column.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="width" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>The width of this column, including the unit postfix.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="propertyColumn" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Defines a column in a grid which displays an property.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="columnBase">
+					<!-- content -->
+					<xs:group ref="stl:defaultContentGroup" />
+					
+					<!-- attributes -->
+					<xs:attribute name="property" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>The name of the property displayed in this column.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="expressionColumn" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Defines a column in a grid which displays the result of an expression.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="columnBase">
+					<!-- content -->
+					<xs:group ref="stl:defaultContentGroup" />
+					
+					<!-- attributes -->
+					<xs:attribute name="expression" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>The expression to evaluate. Dataspaces available GridProperties, Row, Loop. Note to execute within the context of a row the expression must be escaped.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="scriptedColumn" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Defines a grid column which displays content by rendering the inner content of the tag.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="columnBase">
+					<!-- content -->
+					<xs:sequence>
+						<xs:group ref="stl:defaultContentGroup" />
+						<xs:element name="scriptedColumnContent" minOccurs="0" maxOccurs="1">
+							<xs:annotation>
+								<xs:documentation>Contains the script which will be executed when the cell is rendered. Row is on the stack.</xs:documentation>
+							</xs:annotation>
+
+							<xs:complexType>
+								<xs:group ref="stl:defaultContentGroup" />
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="columnSortBase" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Base type for all grid column sorts.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexContent>
+			<xs:extension base="controlBase" />
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="propertyColumnSort" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Sorts this column based on a property</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="columnSortBase">
+					<!-- attributes -->
+					<xs:attribute name="property" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>The property on which to sort.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="columnFilterBase" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Base type for all grid column filters.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexContent>
+			<xs:extension base="controlBase">
+				
+				<!-- attributes -->
+				<xs:attribute name="property" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>The property on which to filter.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="textboxColumnFilter" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Filters this column using a textbox filter.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="columnFilterBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="selectboxColumnFilter" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Filters this column using a selectbox filter.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="columnFilterBase">
+					<xs:group ref="stl:defaultContentGroup" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	
+	
+	<!-- dialog tags -->
+	<xs:element name="invokeDialogParentTrigger" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Sends a trigger with optional paremeters to the parent window of an dialog.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attribute name="action" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The name of the action which to invoke on the parent window.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:anyAttribute processContents="skip" namespace="##any" />
+		</xs:complexType>
+	</xs:element>
+	
+	
+	
+	<!-- container tags -->
+	<xs:element name="group" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Groups a set of controls in a frame.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="containerBase"><!-- attributes -->
+					<xs:attribute name="label" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>The label of the group.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

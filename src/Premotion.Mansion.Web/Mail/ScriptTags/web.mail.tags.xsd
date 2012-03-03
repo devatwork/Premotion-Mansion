@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/web/mail/tags.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/web/mail/tags.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:stl="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
+
+	<!-- imports -->
+	<xs:import namespace="http://schemas.premotion.nl/mansion/1.0/stl.xsd" />
+	
+	<!-- enumerations -->
+	
+	
+	<!-- elements -->
+	<xs:element name="sendMail" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Sends an e-mail message to recipients.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="stl:defaultContentGroup" />
+			
+			<!-- attributes -->
+			<xs:attribute name="recipients" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Specifies the recipients of the mail. Must contain a csv of e-mail addresses separated by ',' or ';'.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="recipientNames" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specifies the names of the recipients of the mail. Names must be separated by ',' or ';'.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="ccRecipients" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specifies the CC recipients of the mail. Must contain a csv of e-mail addresses separated by ',' or ';'.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="ccRecipientNames" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specifies the names of the CC recipients of the mail. Names must be separated by ',' or ';'.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="bccRecipients" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specifies the BCC recipients of the mail. Must contain a csv of e-mail addresses separated by ',' or ';'.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="bccRecipientNames" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specifies the names of the BCC recipients of the mail. Names must be separated by ',' or ';'.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="sender" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specifies the technical sender of the mail. Must contain a e-mail address.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="senderName" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specifies the name of the technical sender of the mail.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="from" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Specifies the sender of the mail. Must contain a e-mail address.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="fromName" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specifies the name of the sender of the mail.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="replyTos" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specifies the reply to addresses of the mail. Must contain a csv of e-mail addresses separated by ',' or ';'.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="replyToNames" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specifies the reply to names of the mail. Names must be separated by ',' or ';'.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="subject" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Specifies the subject of the mail.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="addHtmlBody" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Adds an HTML body to an e-mail message. Any content rendered in this tag is written as HTML to the body of the e-mail.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="stl:defaultContentGroup" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="addTextBody" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Adds an plain text body to an e-mail message. Any content rendered in this tag is written as plain text to the body of the e-mail.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="stl:defaultContentGroup" />
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

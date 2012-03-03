@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Premotion.Mansion.Web.Controls.DataboundControl&lt;TDataType&gt;" Collapsed="true">
+    <Position X="5.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\DataboundControl.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Controls.ControlDefinition" Collapsed="true">
+    <Position X="11.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Controls\ControlDefinition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Controls.Control" Collapsed="true">
+    <Position X="6.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACQAAAgAAAAAAAAAAgAAQABAAAAABAAA=</HashCode>
+      <FileName>Controls\Control.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Controls.Container" Collapsed="true">
+    <Position X="7.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAgCAAAAAgAAAAAAA=</HashCode>
+      <FileName>Controls\Container.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Controls.Constants" Collapsed="true">
+    <Position X="10" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\Constants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Premotion.Mansion.Web.Controls.IDataConsumerControl&lt;TProviderType, TDataType&gt;" Collapsed="true">
+    <Position X="10" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\IDataConsumerControl.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

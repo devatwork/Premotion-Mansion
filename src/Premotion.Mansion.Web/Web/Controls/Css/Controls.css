@@ -1,0 +1,420 @@
+﻿/* Prettier Accessible Forms
+	http://www.alistapart.com/articles/prettyaccessibleforms
+*/
+
+form.inline-form
+{
+	margin: 0;
+	list-style: none;
+}
+
+	form.inline-form ol
+	{
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	
+	.field
+	{
+		float: left;
+		display: block;
+	}
+
+	form.inline-form input[type="radio"],
+	form.inline-form input[type="checkbox"]
+	{
+		height: 24px;
+	}
+
+	form.inline-form input.field,
+	form.inline-form textarea.field,
+	form.inline-form select.field
+	{
+		padding: 2px;
+		border: solid 1px #999;
+	}
+
+	form.inline-form textarea.field
+	{
+		height: 120px;
+	}
+
+	form.inline-form textarea.rich-text.field
+	{
+		height: 400px;
+	}
+	
+	form.inline-form input.image-upload.field
+	{
+	}
+	
+		form.inline-form .image-upload.field img
+		{
+			max-width: 100%;
+			display: block;
+		}
+		
+	form.inline-form .checkbox-list label
+	{
+		float: none;
+		display: inline-block;
+	}
+
+form.inline-form fieldset:not(:last-child)
+{
+	margin-bottom: 10px;
+}
+
+form.inline-form legend span
+{
+	padding: 0 2px;
+	font-weight: bold;
+}
+
+form.inline-form label
+{
+	display: inline-block;
+	line-height: 24px;
+	vertical-align: top;
+	margin-right: 5px;
+	float: left;
+	display: block;
+}
+
+form.inline-form fieldset ol
+{
+	margin: 0;
+	padding: 0;
+}
+
+form.inline-form fieldset li
+{
+	list-style: none;
+	margin: 5px;
+}
+
+form.inline-form fieldset fieldset
+{
+	border: none;
+	margin: 3px 0 0;
+}
+
+form.inline-form em
+{
+	font-weight: bold;
+	font-style: normal;
+	color: #f00;
+	margin: 0 0 0 2px;
+}
+
+form.inline-form .button-bar
+{
+	text-align: right;
+}
+
+form.inline-form ol.field li label
+{
+	float: none;
+	line-height: 16px;
+}
+
+
+
+/* control styles */
+ol.control-container
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+form.inline-form .field-prefix
+{
+	float: left;
+	padding-right: 4px;
+}
+
+form.inline-form .field-postfix
+{
+	float: left;
+	padding-left: 4px;
+}
+
+form.inline-form .field-explanation
+{
+	display: inline-block;
+}
+
+form.inline-form .message { border: 1px solid; margin: 0; padding: 5px 5px 5px 26px; background-repeat: no-repeat; background-position: 5px center; }
+	form.inline-form .message.info { color: #00529B; background-color: #BDE5F8; background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Controls/Images/Icon.Information.png') )}'); }
+	form.inline-form .message.instruction { color: #9F6000; background-color: #FEEFB3; background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Controls/Images/Icon.Instruction.png') )}'); }
+	form.inline-form .message.success { color: #4F8A10; background-color: #DFF2BF; background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Controls/Images/Icon.Success.png') )}'); }
+	form.inline-form .message.warning { color: #9F6000; background-color: #FEEFB3; background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Controls/Images/Icon.Warning.png') )}'); }
+	form.inline-form .message.error { color: #D8000C; background-color: #FFBABA; background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Controls/Images/Icon.Error.png') )}'); }
+
+form.inline-form li.validation-summary
+{
+	background: #f0f0f0 none;
+	border: solid 1px #f00;
+	color: #f00;
+	margin: 5px 0;
+	padding: 5px 10px;
+}
+
+	form.inline-form li.validation-summary ul
+	{
+		margin: 0;
+	}
+
+		form.inline-form li.validation-summary ul li
+		{
+			list-style: disc none inside;
+		}
+
+/* list styles */
+ul.list
+{
+	list-style: none;
+	margin: 0;
+	width: 100%;
+	-moz-box-shadow: 2px 2px 5px #888;
+	-webkit-box-shadow: 2px 2px 5px#888;
+	box-shadow: 2px 2px 5px #888;
+}
+
+	ul.list li:nth-child(even)	{ background-color: #ecf2f6; }
+	ul.list li:nth-child(odd)	{ background-color: #fff; }
+	ul.list li:hover { background-color: #dce2e6; }
+	ul.list li.clickable:hover { cursor: pointer; }
+	
+	
+	ul.list li
+	{
+		padding: 4px;
+		border-bottom: 1px solid #c6d5e1;
+		border-right: 1px solid #c6d5e1;
+		border-left: 1px solid #c6d5e1;
+	}
+	ul.list li:first-child { border-top: 1px solid #c6d5e1; }
+
+
+
+/* grid styles */
+table.grid
+{
+	width: 100%;
+	-moz-box-shadow: 2px 2px 5px #888;
+	-webkit-box-shadow: 2px 2px 5px#888;
+	box-shadow: 2px 2px 5px #888;
+}
+
+	table.grid thead tr
+	{
+		border-top: 1px solid #c6d5e1;
+	}
+
+	table.grid tbody tr:nth-child(even)	{ background-color: #ecf2f6; }
+	table.grid tbody tr:nth-child(odd)	{ background-color: #fff; }
+	table.grid tbody tr:hover { background-color: #dce2e6; }
+	table.grid tbody tr.clickable:hover { cursor: pointer; }
+		
+		table.grid tr th
+		{
+			background-color: #4b708d;
+			color: #ccc;
+			text-align: left;
+			font-weight: normal;
+		}
+		
+		table.grid tr th a,
+		table.grid tr th a:hover,
+		table.grid tr th a:active,
+		table.grid tr th a:visited
+		{
+			color: #ccc;
+		}
+		
+			table.grid tr th a.sortable
+			{
+				padding-left: 10px;
+				background-repeat: no-repeat;
+				background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Controls/Images/Sort.png') )}');
+			}
+		
+				table.grid tr th a.sortable { background-position: 0px 1px; }
+				table.grid tr th a.sortable.asc { background-position: 0px -17px; }
+				table.grid tr th a.sortable.desc { background-position: 0px -36px; }
+	
+		table.grid tr td,
+		table.grid tr th
+		{
+			padding: 4px;
+			border-bottom: 1px solid #c6d5e1;
+			border-right: 1px solid #c6d5e1;
+		}
+		
+		table.grid tr td:first-child,
+		table.grid tr th:first-child
+		{
+			border-left: 1px solid #c6d5e1;
+		}
+		
+		
+		
+/* paging control style */
+.paging-control
+{
+	vertical-align: middle;
+	margin-top: 4px;
+}
+	
+	.paging-control .summary
+	{
+		float: left;
+	}
+	
+	.paging-control .navigation
+	{
+		float: right;
+	}
+	
+		.paging-control .navigation div
+		{
+			display: inline-block;
+		}
+	
+		.paging-control .navigation div span,
+		.paging-control .navigation div a
+		{
+			display: inline-block;
+			width: 16px;
+			height: 20px;
+			color: transparent;
+			background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Controls/Images/Paging.png') )}');
+		}
+		
+			.paging-control .navigation div a.first-page { background-position: 0px 2px; }
+			.paging-control .navigation div a.previous-page { background-position: -16px 2px; }
+			.paging-control .navigation div a.next-page { background-position: -32px 2px; }
+			.paging-control .navigation div a.last-page { background-position: -48px 2px; }
+			.paging-control .navigation div span.first-page { background-position: 0px 18px; }
+			.paging-control .navigation div span.previous-page { background-position: -16px 18px; }
+			.paging-control .navigation div span.next-page { background-position: -32px 18px; }
+			.paging-control .navigation div span.last-page { background-position: -48px 18px; }
+
+
+
+/* jquery datetime picker */
+.ui-datetime { position: absolute; z-index: 9999; }
+.ui-datetime-inline { position: static; display: block; clear: both; }
+.ui-datetime-to { margin-left: 0; float: left; clear: right; }
+
+.ui-datetime-calendar { float: left; }
+
+.ui-datetime .ui-datetime-header { position:relative; padding:.2em 0; }
+.ui-datetime .ui-datetime-title { margin: 0; line-height: 1.8em; text-align: center; }
+
+.ui-datetime .ui-datetime-prev { left:2px; }
+.ui-datetime .ui-datetime-next { right:2px; }
+.ui-datetime .ui-datetime-prev, .ui-datetime .ui-datetime-next { position:absolute; top: 2px; width: 1.8em; height: 1.8em; }
+.ui-datetime .ui-datetime-prev span { display: block; position: absolute; left: 50%; margin-left: -7px; top: 50%; margin-top: -7px;  }
+.ui-datetime .ui-datetime-next span { display: block; position: absolute; left: 50%; margin-left: -8px; top: 50%; margin-top: -7px;  }
+.ui-datetime .ui-datetime-prev.ui-state-hover span { margin-left: -8px; margin-top: -8px; }
+.ui-datetime .ui-datetime-next.ui-state-hover span { margin-left: -7px; margin-top: -8px; }
+
+.ui-datetime-calendar .ui-datetime-week { text-align: center; }
+
+.ui-datetime table { width: 100%; font-size: .9em; border-collapse: collapse; margin: 0; }
+.ui-datetime th { padding: .7em .3em; text-align: center; font-weight: bold; border: 0; vertical-align: top; height: 1px; }
+.ui-datetime td { border: 0; padding: 1px; }
+.ui-datetime td span, .ui-datetime td a { display: block; padding: .2em; text-align: right; text-decoration: none; }
+
+.ui-datetime-clock { width: 5em; float: left; }
+
+.ui-datetime-slider { position: relative; margin: 0 auto .1em auto; }
+.ui-datetime-slider .ui-datetime-slider-handle { position: absolute; z-index: 2; left: -.3em; width: 1em; height: 1em; margin-top: -.1em; cursor: move; }
+.ui-datetime-slider-vertical { width: .6em; }
+
+.ui-datetime-calendar-first, .ui-datetime-calendar-middle, .ui-datetime-calendar-last { width: 17em; float: left; }
+.ui-datetime-calendar-first table, .ui-datetime-calendar-middle table, .ui-datetime-calendar-last table { width: 95%; margin: 0 auto; }
+
+.ui-datetime .ui-widget-content { padding: .2em; }
+.ui-datetime .ui-state-hover { cursor: pointer; }
+
+
+
+/* jquery treeview styles */
+ul.treeview
+{ 
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.treeview .hitarea
+{
+	background: url({MakeAbsoluteUrl( StaticResourceUrl('Controls/Images/Treeview/treeview-default.gif') )}) -64px -25px no-repeat;
+	height: 16px;
+	width: 16px;
+	margin-left: -16px;
+	float: left;
+	cursor: pointer;
+}
+/* fix for IE6 */
+* html .hitarea
+{
+	display: inline;
+	float:none;
+}
+
+.treeview li
+{ 
+	margin: 0;
+	padding: 3px 0pt 3px 16px;
+}
+
+.treeview a.selected
+{
+	background-color: #eee;
+}
+
+#treecontrol { margin: 1em 0; display: none; }
+
+.treeview .hover { color: red; cursor: pointer; }
+
+.treeview li { background: url('{MakeAbsoluteUrl( StaticResourceUrl('/Controls/Images/Treeview/treeview-default-line.gif') )}') 0 0 no-repeat; }
+.treeview li.collapsable, .treeview li.expandable { background-position: 0 -176px; }
+
+.treeview .expandable-hitarea { background-position: -80px -3px; }
+
+.treeview li.last { background-position: 0 -1766px }
+.treeview li.lastCollapsable, .treeview li.lastExpandable { background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Controls/Images/Treeview/treeview-default.gif') )}'); }  
+.treeview li.lastCollapsable { background-position: 0 -111px }
+.treeview li.lastExpandable { background-position: -32px -67px }
+
+.treeview div.lastCollapsable-hitarea, .treeview div.lastExpandable-hitarea { background-position: 0; }
+
+.treeview .placeholder
+{
+	background: url('{MakeAbsoluteUrl( StaticResourceUrl('/Controls/Images/Treeview/ajax-loader.gif') )}') 0 0 no-repeat;
+	height: 16px;
+	width: 16px;
+	display: block;
+}
+
+/* jQuery Tags Input Plugin 1.3.3 */
+div.tagsinput { border:1px solid #CCC; background: #FFF; padding:5px; width:300px; height:100px; overflow-y: auto;}
+div.tagsinput span.tag { border: 1px solid #a5d24a; -moz-border-radius:2px; -webkit-border-radius:2px; display: block; float: left; padding: 5px; text-decoration:none; background: #cde69c; color: #638421; margin-right: 5px; margin-bottom:5px;font-family: helvetica; font-size:13px;}
+div.tagsinput span.tag a { font-weight: bold; color: #82ad2b; text-decoration:none; font-size: 11px; }
+div.tagsinput input { width:80px; margin:0px; font-family: helvetica; font-size: 13px; border:1px solid transparent; padding:5px; background: transparent; color: #000; outline:0px; margin-right:5px; margin-bottom:5px; }
+div.tagsinput div { display:block; float: left; }
+.tags_clear { clear: both; width: 100%; height: 0px; }
+.not_valid { background: #FBD8DB !important; color: #90111A !important;}
+
+/* node tree styles */
+form.inline-form .node-tree { }
+form.inline-form .node-tree ul { margin: 0; padding: 0; }
+form.inline-form .node-tree ul li { margin: 0; padding: 3px 0 3px 16px; }
+form.inline-form .node-tree label { line-height: normal; float: none; display: inline-block; }
+form.inline-form .node-tree input { height: auto; }

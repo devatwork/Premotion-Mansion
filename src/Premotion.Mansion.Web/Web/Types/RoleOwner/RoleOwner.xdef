@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<type inherits="Default" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd">
+	
+	<!-- properties -->
+	<property name="foreignId">
+		<sqlserver:column allowNullValue="true" />
+	</property>
+	<property name="assignedRoleGuids">
+		<sqlserver:singleValuePropertyTable tableName="NodesAssignedRoleGuids" />
+	</property>
+
+	<!-- type table -->
+	<sqlserver:typeTable tableName="RoleOwnerNodes" />
+	
+	<!-- specify cms behavior -->
+	<cms:behavior label="Role Owner" abstract="true" />
+	
+</type>

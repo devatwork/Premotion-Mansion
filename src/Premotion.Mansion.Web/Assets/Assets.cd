@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Premotion.Mansion.Web.Assets.AssetEntry">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAgAAAAAQAAAAAAkAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\AssetEntry.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="AssetFolder" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Assets.AssetService" BaseTypeListCollapsed="true">
+    <Position X="4.25" Y="5.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgggAIQAAQCAICEAAAABCgIAABAEAAAAAARAQBk=</HashCode>
+      <FileName>Assets\AssetService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Assets.AssetType">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAEAAAEAAAAAAAAAAAAAAAAAAAAEAACAAAAAEAABA=</HashCode>
+      <FileName>Assets\AssetType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Assets.AssetFolder">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAEAAAQAIAAAAAAAAAAAAAAEAACAAAAAEAABA=</HashCode>
+      <FileName>Assets\AssetFolder.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="AssetType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Assets.AssetUtil">
+    <Position X="8.5" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\AssetUtil.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Premotion.Mansion.Web.Assets.IAssetService">
+    <Position X="0.5" Y="5.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAgAAAAAAAAAAAAAAABAAAAAAAEAAAAAABAQAg=</HashCode>
+      <FileName>Assets\IAssetService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

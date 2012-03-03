@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:stl="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
+
+	<!-- imports -->
+	<xs:import namespace="http://schemas.premotion.nl/mansion/1.0/stl.xsd" />
+	
+	<!-- enumerations -->
+	<xs:simpleType name="contentTypeEnumeration">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="text/plain">
+				<xs:annotation>
+					<xs:documentation>Returns an plain text document.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="text/html">
+				<xs:annotation>
+					<xs:documentation>Returns an HTML page.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="text/css">
+				<xs:annotation>
+					<xs:documentation>Returns a CSS document.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="text/xml">
+				<xs:annotation>
+					<xs:documentation>Returns a XML document.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="text/csv">
+				<xs:annotation>
+					<xs:documentation>Returns a CSV document.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="application/json">
+				<xs:annotation>
+					<xs:documentation>Returns JavaScript Object Notation.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="application/javascript">
+				<xs:annotation>
+					<xs:documentation>Returns JavaScript.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="application/rss+xml">
+				<xs:annotation>
+					<xs:documentation>Returns a RSS XML document.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- elements -->
+	<xs:element name="respondDocument" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Responds a page to the browser.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="stl:defaultContentGroup" />
+			
+			<!-- attributes -->
+			<xs:attributeGroup ref="stl:encodingAttributes" />
+			<xs:attribute name="contentType" type="contentTypeEnumeration" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specifies the content type of the current page. Default is text/html.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="cache" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>This flag indicates whether the response of this document is output cached. Default is true.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="respondDownload" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Responds a download to the client.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="stl:defaultContentGroup" />
+
+			<!-- attributes -->
+			<xs:attribute name="fileName" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The name of the file which to return to the client.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="fileSize" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Set the size of the download in bytes. Browsers use this value to determine how long the download will take.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attributeGroup ref="stl:encodingAttributes" />
+			<xs:attribute name="contentType" type="contentTypeEnumeration" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specifies the content type of the current page. Default is text/html.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="cache" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>This flag indicates whether the response of this document is output cached. Default is false.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="retrieveSiteNode" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Retrieves the site node based on a hostname. If no url is specified the hostname of the current request URL will be used,</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="stl:retrieveTagType">
+					<!-- attributes -->
+					<xs:attribute name="url" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>Specified a specific URL from which to get the site node.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="retrieveNodeByUrl" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Retrieves a node identified by an URL. If no URL is specified the URL from the current request is used.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="stl:retrieveTagType">
+					<!-- attributes -->
+					<xs:attribute name="url" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>Specified a specific URL from which to get the node.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="redirectRequest" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Redirects the client to another url.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attribute name="url" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The url to which to redirect the client.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="permanent" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Whether the redirect is permanent or not. Default is false.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="disableOutputCache" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Disables the output cache for the current request.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="setStatusCode" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Sets the status code for the current response.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			
+			<!-- attributes -->
+			<xs:attribute name="code" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>The HTTP status code which to return.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="description" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>The HTTP status description which to return.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="saveUploadedFile" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Saves an uploaded file. The namespace specified by the target properties contains the fileName and relativePath to the uploaded file.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="stl:defaultContentGroup" />
+			
+			<!-- attributes -->
+			<xs:attribute name="category" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Defines the category in which the uploaded file is stored. Default is Uploads.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attributeGroup ref="stl:targetAttributes" />
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

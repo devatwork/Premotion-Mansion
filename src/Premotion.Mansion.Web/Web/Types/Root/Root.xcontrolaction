@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+	
+	<!-- auto complete -->
+	<declareProcedure procedureName="GetPages">
+		
+		<!-- we are returning JSon -->
+		<web:respondDocument contentType="application/json" cache="false">
+			<renderJsonDocument>
+				
+				<!-- retrieve the nodes node -->
+				<retrieveChildNodeset parentSource="{$UrlNode}" depth="any" baseType="Page,Content" status="published" target="PageNodeset">
+					
+					<loopNodeset source="{$PageNodeset}" target="PageNode">
+						<renderJsonObject name="{Replace( Replace( PageNode.path, 'Root~', '' ),  '~', '-' )}" url="{NodeUrl( $PageNode )}" />
+					</loopNodeset>
+					
+				</retrieveChildNodeset>
+				
+			</renderJsonDocument>
+		</web:respondDocument>
+		
+	</declareProcedure>
+	
+</mansion>

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+
+	<!-- Invoked by the dispatcher when the application is bootstrapped -->
+	<declareProcedure procedureName="HandleDefault">
+
+		<!-- we are returning a page -->
+		<web:respondDocument contentType="text/html" encoding="UTF-8" cache="false">
+
+			<!-- disable caching -->
+			<web:disableOutputCache />
+
+			<!-- check if the user is not authenticated -->
+			<if condition="{Not( IsAuthenticated() )}">
+				<web:redirectRequest url="{CmsRouteUrl( 'Authentication', 'Authenticate' )}"/>
+			</if>
+
+			<!-- check if the user is not allowed to use the CMS -->
+			<if condition="{Not( HasPermission( 'Cms', 'use' ) )}">
+				<logoff />
+				<web:redirectRequest url="{CmsRouteUrl( 'Authentication', 'Authenticate' )}"/>
+			</if>
+			
+			<!-- retrieve the root node -->
+			<retrieveNode id="1" target="RootNode" global="true" />
+
+			<!-- render the CMS section -->
+			<renderSection name="CmsPage">
+				<renderSection name="Content">
+
+				</renderSection>
+			</renderSection>
+
+		</web:respondDocument>
+
+	</declareProcedure>
+
+</mansion>

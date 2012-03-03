@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd">
+
+	<!-- Invoked by the dispatcher when the application is bootstrapped -->
+	<declareProcedure procedureName="HandleAuthenticate">
+
+		<!-- we are returning a page -->
+		<web:respondDocument contentType="text/html" encoding="UTF-8" cache="false">
+
+			<!-- disable caching -->
+			<web:disableOutputCache />
+
+			<!-- render the form -->
+			<renderSection name="CmsPage">
+			<renderSection name="Content">
+			<renderSection name="LoginBlock">
+
+				<forms:form name="Login">
+					<forms:step label="Login">
+						<forms:validationSummary />
+						<forms:textbox name="username" label="Username">
+							<forms:requiredFieldValidator/>
+						</forms:textbox>
+						<forms:password name="password" label="Password">
+							<forms:requiredFieldValidator/>
+						</forms:password>
+						<forms:checkbox name="rememberByCookie" label="Remember me" />
+						<forms:buttonBar>
+							<forms:button action="login" label="Login" cssClass="ok" />
+						</forms:buttonBar>
+
+						<!-- authentication action -->
+						<forms:processScriptAction supportedActions="login" requiresValidForm="true">
+
+							<authenticateUser authenticationProvider="RepositoryAuthenticationProvider" username="{FieldProperties.username}" password="{FieldProperties.password}" allowRevival="{FieldProperties.rememberByCookie}">
+
+								<!-- redirect to cms home -->
+								<web:redirectRequest url="{CmsRouteUrl( 'Cms', 'Home' )}"/>
+
+							</authenticateUser>
+
+						</forms:processScriptAction>
+
+					</forms:step>
+				</forms:form>
+
+			</renderSection>
+			</renderSection>
+			</renderSection>
+
+		</web:respondDocument>
+
+	</declareProcedure>
+
+	
+	<!-- Invoked by the dispatcher when the application is bootstrapped -->
+	<declareProcedure procedureName="HandleLogoff">
+		<logoff />
+		<web:redirectRequest url="{CmsRouteUrl( 'Authentication', 'Authenticate' )}"/>
+	</declareProcedure>
+
+</mansion>

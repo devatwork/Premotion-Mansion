@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+
+	<!-- retrieve the index node -->
+	<retrieveNode id="{Get.id}" target="IndexNode" global="true">
+		<notFound>
+			<web:setStatusCode code="403" />
+			<breakExecution />
+		</notFound>
+	</retrieveNode>
+	
+	<!-- render the CSV -->
+	<web:respondDownload contentType="text/csv" cache="false" fileName="{FormatDate( Now(), 'yyyyMMddhhmm' )} Export {Get.name}.csv">
+		
+		<renderCSVDocument
+			columnDelimitor=";"
+			columnProperties="name,email,created"
+			columnHeaders="Naam,E-mail adres,Registratiedatum"
+			rowDelimitor="{Character( 'newline' )}"
+			includeColumnHeaders="true">
+			
+			<!-- loop over all the registrations -->
+			<retrieveChildNodeset parentSource="{$IndexNode}" baseType="Registration" sort="created ASC" target="RegistrationSet">
+				<loopNodeset source="{$RegistrationSet}" target="RegistrationNode">
+					<renderDataspaceToCsvRow source="{$RegistrationNode}" />
+				</loopNodeset>
+			</retrieveChildNodeset>
+			
+		</renderCSVDocument>
+		
+	</web:respondDownload>
+
+</mansion>

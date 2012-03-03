@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+
+	<!-- Invoked when the tree is rendered as HTML -->
+	<declareProcedure procedureName="HandleDefault">
+
+		<!-- redirect action to type -->
+		<openScript type="{UrlNode.type}" extension=".xcontrolaction">
+			<invokeProcedure procedureName="{Route.originalAction}" />
+		</openScript>
+		
+	</declareProcedure>
+
+</mansion>
