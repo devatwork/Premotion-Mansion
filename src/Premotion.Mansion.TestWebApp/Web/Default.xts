@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
+
+	<!-- render hello word message-->
+	<renderText message="Hello, world" />
+	
+</mansion>

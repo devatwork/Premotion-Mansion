@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
+
+	<!-- define the database -->
+	<setProperties dataspaceName="Application" global="true"
+						repositoryNamespace="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.xsd"
+						repositoryConnectionString="Server=TRILOBYTE-02\SQLEXPRESS;Database=LoesRandazzoWebsite;User ID=sa;Password=sqlpw1" />
+	
+	<!-- staging settings -->
+	<setProperties dataspaceName="Application"
+						live="false"
+						stagingEmail="support@premotion.nl" />
+
+</mansion>

@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="Global.asax" />
     <Content Include="MansionWeb\Web\Cms\AuthenticationController.htm" />
     <Content Include="MansionWeb\Web\Cms\Cms.htm" />
     <Content Include="MansionWeb\Web\Cms\CmsController.htm" />
@@ -531,6 +535,8 @@
     <None Include="MansionWeb\Web\Types\UserIndex\UserIndex.xdef" />
     <None Include="MansionWeb\Web\Types\User\User.xdef" />
     <None Include="MansionWeb\Web\Types\User\User.xform" />
+    <None Include="Web\Default.xts" />
+    <None Include="Web\Settings\Trilobyte-02.xinclude" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
