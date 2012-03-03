@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd">
+
+	<!-- Renders the xForm content -->
+	<declareProcedure procedureName="RenderXFormContent">
+		<invokeProcedure procedureName="RenderGroupPageProperties" />
+		<invokeProcedure procedureName="RenderGroupContentPointer" />
+		<invokeProcedure procedureName="RenderGroupLookAndFeelGroup" />
+		<invokeProcedure procedureName="RenderGroupPublication"/>
+		<invokeProcedure procedureName="RenderGroupIdentity"/>
+		<invokeProcedure procedureName="RenderGroupSecurity"/>
+	</declareProcedure>
+
+
+	
+	<!-- Renders the group which allows the user to select the sourc -->
+	<declareProcedure procedureName="RenderGroupContentPointer">
+		<forms:fieldset label="Content source">
+			<forms:instructionMessage><![CDATA[Select the folder in which the content, displayed by this template page, resides.]]></forms:instructionMessage>
+			<forms:nodeTreeSelect name="contentSourceGuid" label="Folder" defaultValue="{ContentIndexRootNode.pointer}">
+				<providers:nodeTreeProvider rootPointer="{ContentIndexRootNode.pointer}" valueProperty="guid" labelProperty="name" />
+				<forms:requiredFieldValidator />
+			</forms:nodeTreeSelect>
+		</forms:fieldset>
+	</declareProcedure>
+	
+</mansion>

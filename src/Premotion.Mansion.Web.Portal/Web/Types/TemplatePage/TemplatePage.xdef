@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<type inherits="Page" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/descriptors.xsd" xmlns:listeners="http://schemas.premotion.nl/mansion/1.0/data.listeners.descriptors.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd">
+
+	<!-- register the listeners for this type -->
+	<listeners:register type="Premotion.Mansion.Web.Portal.Web.Types.TemplatePage.TemplatePageListener, Premotion.Mansion.Web.Portal" />
+
+	<!-- specify cms behavior -->
+	<cms:behavior label="Templatepage" icon="Types/Page/Page.png">
+		<cms:childType baseType="Block" />
+	</cms:behavior>
+	
+</type>

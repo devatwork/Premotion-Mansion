@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+
+	<declareProcedure procedureName="RenderOneColumnLayout">
+
+		<!-- render the layout-->
+		<renderSection name="{PageNode.layout}" />
+
+	</declareProcedure>
+
+</mansion>

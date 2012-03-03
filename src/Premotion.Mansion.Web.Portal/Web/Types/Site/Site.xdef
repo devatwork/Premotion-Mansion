@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<type inherits="Page" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/descriptors.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:webdescriptors="http://schemas.premotion.nl/mansion/1.0/web/descriptors.xsd">
+	
+	<!-- properties -->
+	<property name="hostHeaders">
+		<sqlserver:singleValuePropertyTable tableName="NodesHostHeaders" />
+	</property>
+	
+	<!-- specify cms behavior -->
+	<cms:behavior label="Website" icon="Types/Site/Site.png">
+		<cms:childType baseType="Page" />
+		<cms:childType baseType="Block" />
+	</cms:behavior>
+
+	<!-- url generator -->
+	<webdescriptors:nodeUrlGenerator type="Premotion.Mansion.Web.Url.SiteUrlGenerator,Premotion.Mansion.Web" />
+	
+</type>

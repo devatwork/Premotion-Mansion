@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<type inherits="Default" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:portal="http://schemas.premotion.nl/mansion/1.0/web/portal/descriptors.xsd">
+
+	<!-- specify cms behavior -->
+	<cms:behavior label="Block" abstract="true" icon="Types/Block/Block.png" />
+	
+	<!-- block behavior -->
+	<portal:defaultBlockBehavior />
+
+</type>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<type inherits="NavigationItem" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/descriptors.xsd" xmlns:listeners="http://schemas.premotion.nl/mansion/1.0/data.listeners.descriptors.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd">
+
+	<!-- specify cms behavior -->
+	<cms:behavior label="External link">
+		<cms:childType baseType="Navigationitem" />
+	</cms:behavior>
+	
+</type>

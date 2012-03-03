@@ -22,6 +22,7 @@ using Premotion.Mansion.Web.Caching;
 using Premotion.Mansion.Web.Http;
 using Premotion.Mansion.Web.Mail;
 using Premotion.Mansion.Web.Mail.Standard;
+using Premotion.Mansion.Web.Portal.Service;
 using Premotion.Mansion.Web.Security;
 using Premotion.Mansion.Web.Url;
 
@@ -52,6 +53,7 @@ namespace Premotion.Mansion.TestWebApp
 			var assemblyRegistrationService = nucleus.Get<IAssemblyRegistrationService>(context);
 			assemblyRegistrationService.RegisterAssembly(AssemblyModel.Create<MansionContext>("Mansion"));
 			assemblyRegistrationService.RegisterAssembly(AssemblyModel.Create<MansionWebContext>("MansionWeb"));
+			assemblyRegistrationService.RegisterAssembly(AssemblyModel.Create<IPortalService>("MansionWebPortal"));
 			assemblyRegistrationService.RegisterAssembly(AssemblyModel.Create<SqlServerRepositoryFactory>("SqlServer"));
 			assemblyRegistrationService.RegisterAssembly(AssemblyModel.Create<Global>("/"));
 
@@ -70,6 +72,7 @@ namespace Premotion.Mansion.TestWebApp
 			nucleus.Register<ISecurityPersistenceService>(context, new RepositorySecurityPersistenceService());
 			nucleus.Register<ISecurityModelService>(context, new SecurityModelService());
 			nucleus.Register<IAssetService>(context, new AssetService());
+			nucleus.Register<IPortalService>(context, new PortalService());
 
 			return context;
 		}

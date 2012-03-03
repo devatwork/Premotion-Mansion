@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd">
+
+	<declareProcedure procedureName="RenderXFormContent">
+
+		<invokeProcedure procedureName="RenderPropertiesGroup" />
+		<invokeProcedure procedureName="RenderClassificationGroup" />
+		<invokeProcedure procedureName="RenderGroupSeo" />
+		<invokeProcedure procedureName="RenderGroupPublication" />
+		<invokeProcedure procedureName="RenderGroupIdentity"/>
+		<invokeProcedure procedureName="RenderGroupSecurity"/>
+
+	</declareProcedure>
+
+	<declareProcedure procedureName="RenderPropertiesGroup">
+		<forms:fieldset label="Content">
+			<forms:textbox name="name" label="Title">
+				<forms:requiredFieldValidator/>
+			</forms:textbox>
+		</forms:fieldset>
+	</declareProcedure>
+
+	<declareProcedure procedureName="RenderClassificationGroup">
+		<forms:fieldset label="Classification">
+
+			<!-- siteGuids -->
+			<forms:fieldset label="Publish to">
+				<forms:infoMessage>Select the websites on which this content is published.</forms:infoMessage>
+				<forms:checkboxList name="siteGuids" label="Publish to" valueProperty="guid" labelProperty="name">
+					<providers:fetchNodesetProvider source="{$SiteNodeset}" />
+				</forms:checkboxList>
+			</forms:fieldset>
+
+			<!-- taxonomyGuids -->
+			<forms:fieldset label="Taxonomy">
+				<forms:infoMessage>Categorize this content using the taxonomy.</forms:infoMessage>
+				<forms:nodeTreeSelect name="taxonomyGuids" label="Select the categories" allowMultiple="true">
+					<setProperties dataspaceName="TaxonomyProperties" valueProperty="guid" labelProperty="name" parentPointer="{ContentIndexRootNode.pointer}" type="Taxonomy" selectableExpression="{\Equal( Row.type, 'TaxonomyItem' )}">
+						<providers:nodeTreeSelectProvider source="{$TaxonomyProperties}" />
+					</setProperties>
+				</forms:nodeTreeSelect>
+			</forms:fieldset>
+
+			<!-- tagGuids -->
+			<forms:fieldset label="Tags">
+				<forms:infoMessage>Tag this content.</forms:infoMessage>
+				<forms:tagTextbox name="_tags" label="Tags" />
+			</forms:fieldset>
+
+		</forms:fieldset>
+	</declareProcedure>
+
+
+
+	<!-- action buttons for pages -->
+	<declareProcedure procedureName="IncludeActionButtons">
+		<invokeProcedure procedureName="IncludeActionPreviewPageButton"/>
+		<invokeProcedure procedureName="IncludeActionAddChildButton"/>
+		<invokeProcedure procedureName="IncludeActionChangeNodeOrderButton"/>
+		<invokeProcedure procedureName="IncludeActionMoveNodeButton"/>
+		<invokeProcedure procedureName="IncludeActionCopyNodeButton"/>
+		<invokeProcedure procedureName="IncludeActionDeleteNodeButton"/>
+	</declareProcedure>
+	
+	<declareProcedure procedureName="IncludeActionPreviewPageButton">
+		<forms:linkButton action="{MakeAbsoluteUrl( NodeUrl( $FormSourceNode ) )}" label="Preview" cssClass="cms-preview preview" />
+	</declareProcedure>
+	
+</mansion>

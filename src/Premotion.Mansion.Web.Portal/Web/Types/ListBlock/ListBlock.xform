@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd" xmlns:portal="http://schemas.premotion.nl/mansion/1.0/web/portal/tags.xsd">
+
+	<declareProcedure procedureName="IncludeBlockConfiguration">
+		
+		<!-- content source -->
+		<forms:fieldset label="Content source">
+			<forms:infoMessage>Select the folder from which content is displayed.</forms:infoMessage>
+			<forms:nodeTreeSelect name="contentSourceGuid" label="Folder" defaultValue="{ContentIndexRootNode.pointer}">
+				<providers:nodeTreeProvider rootPointer="{ContentIndexRootNode.pointer}" valueProperty="guid" labelProperty="name" />
+				<forms:requiredFieldValidator />
+			</forms:nodeTreeSelect>
+		</forms:fieldset>
+		
+		<!-- number of items -->
+		<forms:fieldset label="Limiting">
+			<forms:selectbox name="limitType" label="Limit type" defaultValue="paging">
+				<providers:csvLabelValuePairProvider csv=",No limit;limit,Limit;paging,Paging" />
+			</forms:selectbox>
+			<forms:number name="limit" label="Total number of items" defaultValue="25" />
+			<forms:number name="pageSize" label="Number per page" defaultValue="25" />
+		</forms:fieldset>
+		
+		<!-- Sorting -->
+		<forms:fieldset label="Sorting">
+			<forms:selectbox name="sortOn" label="Sort on" defaultValue="normal">
+				<providers:csvLabelValuePairProvider csv="publicationDate,Publication date;modified,Modification date;order,CMS order" />
+				<forms:requiredFieldValidator />
+			</forms:selectbox>
+			<forms:selectbox name="sortDirection" label="Direction" defaultValue="normal">
+				<providers:csvLabelValuePairProvider csv="asc,Ascending;desc,Descending" />
+				<forms:requiredFieldValidator />
+			</forms:selectbox>
+		</forms:fieldset>
+
+		<!-- Appearance -->
+		<forms:fieldset label="Appearance">
+			<forms:selectbox name="listItemAppearance" label="List item appearance" defaultValue="normal">
+				<providers:csvLabelValuePairProvider csv="compact,Compact;normal,Normal;extensive,Extensive" />
+				<forms:requiredFieldValidator />
+			</forms:selectbox>
+		</forms:fieldset>
+		
+	</declareProcedure>
+
+</mansion>

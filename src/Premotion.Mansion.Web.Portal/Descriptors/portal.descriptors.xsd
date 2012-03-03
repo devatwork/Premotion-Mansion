@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/web/portal/descriptors.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/web/portal/descriptors.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:def="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd">
+	
+	<!-- import -->
+	<xs:import namespace="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" />
+	
+	<!-- the column schema descriptor -->
+	<xs:element name="columnSchema" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>Specifies the columns of this layout.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attribute name="columns" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The column names of the columns in this layout. The first column is the default column.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	
+	
+	<!-- default block behavior descriptor -->
+	<xs:element name="defaultBlockBehavior" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>Defines the default behavior of this block. Only applicable for types inheriting from Block.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- attributes -->
+		</xs:complexType>
+	</xs:element>
+
+	<!-- delayed rendering block behavior descriptor -->
+	<xs:element name="delayedRenderingBlockBehavior" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>Defines the delayed rendering behavior of this block. Use for personalized blocks. Only applicable for types inheriting from Block.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- attributes -->
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

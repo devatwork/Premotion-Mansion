@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd">
+
+	<!-- Renders the xForm content -->
+	<declareProcedure procedureName="RenderXFormContent">
+		<forms:fieldset label="Properties">
+			<forms:textbox name="name" label="Name">
+				<forms:requiredFieldValidator />
+			</forms:textbox>
+			<forms:nodeTreeSelect name="targetGuid" label="Internal Target">
+				<providers:nodeTreeProvider rootPointer="1" disabledExpression="{\Not( Or( IsEqual( Node.type, 'Page' ), InList( Node.type, GetSubTypes( 'Page' ) )) )}" valueProperty="guid" labelProperty="name" />
+				<forms:requiredFieldValidator />
+			</forms:nodeTreeSelect>
+		</forms:fieldset>
+		<invokeProcedure procedureName="RenderGroupPublication"/>
+		<invokeProcedure procedureName="RenderGroupIdentity"/>
+		<invokeProcedure procedureName="RenderGroupSecurity"/>
+	</declareProcedure>
+
+</mansion>

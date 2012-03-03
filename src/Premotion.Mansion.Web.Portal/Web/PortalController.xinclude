@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:portal="http://schemas.premotion.nl/mansion/1.0/web/portal/tags.xsd">
+
+	<!-- Invoked by the dispatcher when the application is bootstrapped -->
+	<declareProcedure procedureName="HandleView">
+
+		<!-- the page rendering starts there, the response template contains the raw page which is personalized -->
+		<web:respondDocument contentType="text/html" encoding="UTF-8">
+			<responseTemplate cacheKey="{Request.url}&amp;is-admin={HasPortalAdminPermission()}">
+				
+				<!-- disable caching for user logged in to the backoffice -->
+				<if condition="{IsBackofficeUserAuthenticated()}">
+					<disableResponseTemplateCache />
+					<web:disableOutputCache />
+				</if>
+
+				<!-- check if the site node exists -->
+				<if condition="{Not( IsNode( $SiteNode ) )}">
+					<throw message="No site node found for hostheader '{Request.url}', please check configuration" />
+				</if>
+
+				<!-- check if the url node exists -->
+				<if condition="{Not( IsNode( $UrlNode ) )}">
+					<fetchNode source="{$SiteNode}" target="UrlNode" global="true" />
+				</if>
+
+				<!-- determine the PageNode and the ContentNode -->
+				<switch condition="True">
+
+					<!-- check if the url node type is assignable to type Page -->
+					<case value="{IsAssignable( UrlNode.type, 'Page' )}">
+						<fetchNode source="{$UrlNode}" target="PageNode" global="true" />
+						<fetchNode source="{$UrlNode}" target="ContentNode" global="true" />
+						<fetchNode source="{$UrlNode}" target="ContentProperties" global="true" />
+					</case>
+
+					<!-- check if the url node type is assignable to type Content -->
+					<case value="{Or( IsAssignable( UrlNode.type, 'Content' ), IsAssignable( UrlNode.type, 'ContentIndex' ) )}">
+						<fetchNode source="{$UrlNode}" target="ContentNode" global="true" />
+						<fetchNode source="{$UrlNode}" target="ContentProperties" global="true" />
+						<portal:retrieveTemplatePageNode source="{$ContentNode}" siteNode="{$SiteNode}" target="PageNode" global="true">
+							<notFound>
+								<throw message="Could not determine template page for node {UrlNode.path} ({UrlNode.pointer}), please check configuration" />
+							</notFound>
+						</portal:retrieveTemplatePageNode>
+					</case>
+
+					<!-- something must have gone wrong because we dont know the base type -->
+					<default>
+						<throw message="I really dont have a clue what to do with nodes of type '{UrlNode.type}'" />
+					</default>
+
+				</switch>
+				
+				<!-- determine if the url is the proper unique url -->
+				<if condition="{Not( IsEqual( WithoutQueryString( Request.url ), NodeUrl( $ContentNode ) ) )}">
+					<web:redirectRequest url="{CopyQueryString( Request.url, NodeUrl( $ContentNode ) )}" permanent="true" />
+				</if>
+				
+				<!-- next step is the theme which to render, one of the nodes between PageNode and SiteNode determines the theme -->
+				<portal:retrieveThemeNode source="{$PageNode}" target="ThemeNode" global="true">
+					<notFound>
+						<throw message="Could not determine theme for page, please check configuration" />
+					</notFound>
+				</portal:retrieveThemeNode>
+
+				<!-- retrieve the block sets -->
+				<portal:retrieveBlockNodeset source="{$PageNode}" target="PageBlockNodeset" global="true" />
+				<portal:retrieveBlockNodeset source="{$ThemeNode}" target="ThemeBlockNodeset" global="true" />
+
+				<!-- start the rendering the theme -->
+				<openTemplate type="{ThemeNode.theme}">
+				<openScript type="{ThemeNode.theme}">
+					<invokeProcedure procedureName="RenderTheme" />
+				</openScript>
+				</openTemplate>
+
+			</responseTemplate>
+		</web:respondDocument>
+		
+	</declareProcedure>
+	
+	
+	
+	<!-- callback from the move block -->
+	<declareProcedure procedureName="HandleUpdateBlockPosition">
+		<!-- first check permission -->
+		<if condition="{Not( HasPortalAdminPermission() )}">
+			<web:setStatusCode code="401" description="You do not have enough permission to execute this request" />
+			<exitProcedure />
+		</if>
+		
+		<!-- retrieve the nodes -->
+		<retrieveNode id="{Get.blockId}" target="BlockNode" global="true">
+			<notFound>
+				<web:setStatusCode code="404" description="Could not find block with id '{Get.blockId}'" />
+				<exitProcedure />
+			</notFound>
+		</retrieveNode>
+		<retrieveNode id="{Get.columnOwnerId}" target="ColumnOwnerNode" global="true">
+			<notFound>
+				<web:setStatusCode code="404" description="Could not find column owner with id '{Get.blockId}'" />
+				<exitProcedure />
+			</notFound>
+		</retrieveNode>
+		
+		<!-- if the column owner node is not the parent of the block node, move the block to the column owner node -->
+		<if condition="{Not( IsDirectParentOf( $ColumnOwnerNode, $BlockNode ) )}">
+			<moveNode source="{$BlockNode}" newParent="{$ColumnOwnerNode}" target="BlockNode" global="true" />
+		</if>
+		
+		<!-- update block properties -->
+		<editNode source="{$BlockNode}" order="{Get.order}" column="{Get.columnName}" />
+		
+	</declareProcedure>
+	
+</mansion>

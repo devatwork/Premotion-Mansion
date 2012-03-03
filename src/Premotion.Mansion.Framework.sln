@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Repositor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Repository.SqlServer.Tests", "Premotion.Mansion.Repository.SqlServer.Tests\Premotion.Mansion.Repository.SqlServer.Tests.csproj", "{539C06CF-073F-4CEE-B8CE-EAA644F3AE39}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Web.Portal", "Premotion.Mansion.Web.Portal\Premotion.Mansion.Web.Portal.csproj", "{4236DAA1-2041-4EE6-98F0-827209E15818}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Web.Portal.Tests", "Premotion.Mansion.Web.Portal.Tests\Premotion.Mansion.Web.Portal.Tests.csproj", "{8E12C1FD-9752-4760-81D2-09E7E65439F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +59,14 @@ Global
 		{539C06CF-073F-4CEE-B8CE-EAA644F3AE39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{539C06CF-073F-4CEE-B8CE-EAA644F3AE39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{539C06CF-073F-4CEE-B8CE-EAA644F3AE39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4236DAA1-2041-4EE6-98F0-827209E15818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4236DAA1-2041-4EE6-98F0-827209E15818}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4236DAA1-2041-4EE6-98F0-827209E15818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4236DAA1-2041-4EE6-98F0-827209E15818}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E12C1FD-9752-4760-81D2-09E7E65439F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E12C1FD-9752-4760-81D2-09E7E65439F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E12C1FD-9752-4760-81D2-09E7E65439F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E12C1FD-9752-4760-81D2-09E7E65439F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
