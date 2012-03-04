@@ -62,12 +62,13 @@
       <HintPath>..\packages\Premotion.Mansion.Repository.SqlServer.1.0.0\lib\net40\Premotion.Mansion.Repository.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Premotion.Mansion.Web.1.0.0\lib\net40\Premotion.Mansion.Web.dll</HintPath>
+      <HintPath>..\packages\Premotion.Mansion.Web.1.0.2\lib\net40\Premotion.Mansion.Web.dll</HintPath>
     </Reference>
     <Reference Include="Premotion.Mansion.Web.Portal">
       <HintPath>..\packages\Premotion.Mansion.Web.Portal.1.0.0\lib\net40\Premotion.Mansion.Web.Portal.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />

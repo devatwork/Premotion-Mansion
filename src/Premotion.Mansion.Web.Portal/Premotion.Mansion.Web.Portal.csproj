@@ -53,10 +53,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Premotion.Mansion.Core.1.0.3\lib\net40\Premotion.Mansion.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Premotion.Mansion.Web">
-      <HintPath>..\packages\Premotion.Mansion.Web.1.0.0\lib\net40\Premotion.Mansion.Web.dll</HintPath>
+    <Reference Include="Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Premotion.Mansion.Web.1.0.2\lib\net40\Premotion.Mansion.Web.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
