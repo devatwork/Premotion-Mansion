@@ -54,8 +54,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Premotion.Mansion.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Premotion.Mansion.Core.1.0.2\lib\net40\Premotion.Mansion.Core.dll</HintPath>
+    <Reference Include="Premotion.Mansion.Core, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Premotion.Mansion.Core.1.0.3\lib\net40\Premotion.Mansion.Core.dll</HintPath>
     </Reference>
     <Reference Include="Premotion.Mansion.Repository.SqlServer">
       <HintPath>..\packages\Premotion.Mansion.Repository.SqlServer.1.0.0\lib\net40\Premotion.Mansion.Repository.SqlServer.dll</HintPath>

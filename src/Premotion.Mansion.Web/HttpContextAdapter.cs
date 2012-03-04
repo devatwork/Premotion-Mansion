@@ -80,6 +80,7 @@ namespace Premotion.Mansion.Web
 				#region Properties
 				/// <summary>
 				/// Gets the weight of this value.
+				/// Gets the weight of this value.
 				/// </summary>
 				public float Weight { get; private set; }
 				/// <summary>
@@ -126,12 +127,8 @@ namespace Premotion.Mansion.Web
 				/// <returns></returns>
 				public static QValueList Parse(string value)
 				{
-					// validate arguments
-					if (string.IsNullOrEmpty(value))
-						throw new ArgumentNullException("value");
-
 					// parse
-					return new QValueList(value.Split(separators).Select(QValue.Parse));
+					return new QValueList((value ?? string.Empty).Split(separators).Select(QValue.Parse));
 				}
 				#endregion
 				#region Properties
