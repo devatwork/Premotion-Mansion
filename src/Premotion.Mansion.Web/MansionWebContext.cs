@@ -76,16 +76,15 @@ namespace Premotion.Mansion.Web
 			var mansionContext = new MansionWebContext(MansionHttpApplicationBase.ApplicationContext.Nucleus, httpContext, MansionHttpApplicationBase.GlobalData);
 
 			// get the application dataspace
-			IPropertyBag applicationDataspace;
-			if (mansionContext.Stack.TryPeek("Application", out applicationDataspace))
+			IPropertyBag applicationSettings;
+			if (mansionContext.Stack.TryPeek(ApplicationSettingsConstants.DataspaceName, out applicationSettings))
 			{
 				// initialize the repository, when possible
-				var repositoryNamespace = applicationDataspace.Get(mansionContext, "repositoryNamespace", string.Empty);
-				var repositoryConnectionString = applicationDataspace.Get(mansionContext, "repositoryConnectionString", string.Empty);
-				if (!string.IsNullOrEmpty(repositoryNamespace) && !string.IsNullOrEmpty(repositoryConnectionString))
+				var repositoryNamespace = applicationSettings.Get(mansionContext, ApplicationSettingsConstants.RepositoryNamespace, string.Empty);
+				if (!string.IsNullOrEmpty(repositoryNamespace))
 				{
 					// open the repository
-					mansionContext.repositoryDisposable = RepositoryUtil.Open(mansionContext, repositoryNamespace, repositoryConnectionString);
+					mansionContext.repositoryDisposable = RepositoryUtil.Open(mansionContext, repositoryNamespace, applicationSettings);
 				}
 
 				// initialize the security context

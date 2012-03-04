@@ -28,8 +28,8 @@ namespace Premotion.Mansion.Repository.SqlServer
 
 			// check for connection string
 			string connectionString;
-			if (!arguments.TryGet(context, "connectionString", out connectionString) || string.IsNullOrEmpty(connectionString))
-				throw new InvalidOperationException("Could not open connection to SQL server repository without a connection string");
+			if (!arguments.TryGet(context, "SQLSERVER_CONNECTION_STRING", out connectionString) || string.IsNullOrEmpty(connectionString))
+				throw new InvalidOperationException("Could not open connection to SQL server repository without a connection string. Make sure the setting SQLSERVER_CONNECTION_STRING is specified.");
 
 			// create the repository
 			return new SqlServerRepository(context, connectionString);

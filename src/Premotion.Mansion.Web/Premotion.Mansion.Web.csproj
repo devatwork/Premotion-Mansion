@@ -49,6 +49,7 @@
       <HintPath>..\packages\Premotion.Mansion.Core.1.0.2\lib\net40\Premotion.Mansion.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
@@ -58,6 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationSettingsConstants.cs" />
     <Compile Include="Assets\AssetEntry.cs" />
     <Compile Include="Assets\AssetFolder.cs" />
     <Compile Include="Assets\AssetService.cs" />
@@ -670,7 +672,6 @@
     <Content Include="Web\Types\User\user.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".gitignore.pp" />
     <None Include="Assets\Assets.cd" />
     <None Include="Cms\Descriptors\web.cms.descriptors.xsd">
       <SubType>Designer</SubType>

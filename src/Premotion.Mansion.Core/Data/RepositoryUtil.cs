@@ -1,5 +1,4 @@
 ﻿using System;
-using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data.Caching;
 using Premotion.Mansion.Core.Data.Listeners;
 using Premotion.Mansion.Core.Nucleus.Facilities.Reflection;
@@ -17,17 +16,17 @@ namespace Premotion.Mansion.Core.Data
 		/// </summary>
 		/// <param name="context">The <see cref="MansionContext"/>.</param>
 		/// <param name="repositoryNamespace">The namespace in which the repository lives.</param>
-		/// <param name="connectionString">The connection string of the repository.</param>
+		/// <param name="applicationSettings">The <see cref="IPropertyBag"/> containing the application settings.</param>
 		/// <returns>Returns an <see cref="IDisposable"/> which cleans up the opened repository and the stack.</returns>
-		public static IDisposable Open(MansionContext context, string repositoryNamespace, string connectionString)
+		public static IDisposable Open(MansionContext context, string repositoryNamespace, IPropertyBag applicationSettings)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
-			if (string.IsNullOrEmpty(connectionString))
+			if (string.IsNullOrEmpty(repositoryNamespace))
 				throw new ArgumentNullException("repositoryNamespace");
-			if (string.IsNullOrEmpty(connectionString))
-				throw new ArgumentNullException("connectionString");
+			if (applicationSettings == null)
+				throw new ArgumentNullException("applicationSettings");
 
 			// look up the factory for the repository
 			var namingService = context.Nucleus.Get<ITypeDirectoryService>(context);
@@ -39,10 +38,7 @@ namespace Premotion.Mansion.Core.Data
 			var disposableChain = new DisposableChain();
 
 			// create the repository
-			var repository = objectFactoryService.Create<IRepositoryFactory>(repositoryFactoryType).Create(context, new PropertyBag
-			                                                                                                        {
-			                                                                                                        	{"connectionString", connectionString}
-			                                                                                                        });
+			var repository = objectFactoryService.Create<IRepositoryFactory>(repositoryFactoryType).Create(context, applicationSettings);
 
 			// decorate with listing capabilities
 			repository = new ListeningRepositoryDecorator(repository);

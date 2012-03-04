@@ -29,8 +29,8 @@ namespace Premotion.Mansion.Web.Mail.Standard
 			CheckDisposed();
 
 			// if the application is not live, capture all mail
-			var application = context.Stack.Peek<IPropertyBag>("Application");
-			var isApplicationStaging = !application.Get(context, "live", false);
+			var application = context.Stack.Peek<IPropertyBag>(ApplicationSettingsConstants.DataspaceName);
+			var isApplicationStaging = !application.Get(context, ApplicationSettingsConstants.IsLiveApplicationSetting, false);
 			if (isApplicationStaging)
 			{
 				var subject = new StringBuilder();

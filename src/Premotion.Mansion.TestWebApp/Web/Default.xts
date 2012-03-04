@@ -3,5 +3,6 @@
 
 	<!-- render hello word message-->
 	<renderText message="Hello, world" />
+	<retrieveNode id="1" target="RootNode" />
 	
 </mansion>

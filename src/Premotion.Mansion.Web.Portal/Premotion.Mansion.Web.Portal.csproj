@@ -92,7 +92,6 @@
     <Compile Include="Web\Types\TemplatePage\TemplatePageListener.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".gitignore.pp" />
     <None Include="Descriptors\portal.descriptors.xsd">
       <SubType>Designer</SubType>
     </None>

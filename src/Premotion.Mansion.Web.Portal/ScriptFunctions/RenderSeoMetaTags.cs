@@ -30,8 +30,8 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 			var buffer = new StringBuilder();
 
 			// get the application live flag
-			var application = context.Stack.Peek<IPropertyBag>("Application");
-			var isApplicationStaging = !application.Get(context, "live", false);
+			var application = context.Stack.Peek<IPropertyBag>(ApplicationSettingsConstants.DataspaceName);
+			var isApplicationStaging = !application.Get(context, ApplicationSettingsConstants.IsLiveApplicationSetting, false);
 
 			// append the seo description when available
 			string seoDescription;

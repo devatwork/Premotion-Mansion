@@ -19,11 +19,10 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 		{
 			// get the attributes
 			var repositoryNamespace = GetRequiredAttribute<string>(context, "repositoryNamespace");
-			var connectionString = GetRequiredAttribute<string>(context, "connectionString");
+			var applicationSettings = context.Stack.Peek<IPropertyBag>("Application");
 
 			// open the repository
-			using (RepositoryUtil.Open(context, repositoryNamespace, connectionString))
-
+			using (RepositoryUtil.Open(context, repositoryNamespace, applicationSettings))
 				ExecuteChildTags(context);
 		}
 		#endregion
