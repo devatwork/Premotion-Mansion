@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Web.Porta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Web.Portal.Tests", "Premotion.Mansion.Web.Portal.Tests\Premotion.Mansion.Web.Portal.Tests.csproj", "{8E12C1FD-9752-4760-81D2-09E7E65439F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Amazon", "Premotion.Mansion.Amazon\Premotion.Mansion.Amazon.csproj", "{A8024127-8B4D-41BC-9A1A-DEBC7CF1BFE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Amazon.Tests", "Premotion.Mansion.Amazon.Tests\Premotion.Mansion.Amazon.Tests.csproj", "{565B0CAB-0B6C-4437-9E86-E1F96622E96F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +71,14 @@ Global
 		{8E12C1FD-9752-4760-81D2-09E7E65439F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E12C1FD-9752-4760-81D2-09E7E65439F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E12C1FD-9752-4760-81D2-09E7E65439F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8024127-8B4D-41BC-9A1A-DEBC7CF1BFE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8024127-8B4D-41BC-9A1A-DEBC7CF1BFE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8024127-8B4D-41BC-9A1A-DEBC7CF1BFE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8024127-8B4D-41BC-9A1A-DEBC7CF1BFE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{565B0CAB-0B6C-4437-9E86-E1F96622E96F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{565B0CAB-0B6C-4437-9E86-E1F96622E96F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{565B0CAB-0B6C-4437-9E86-E1F96622E96F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{565B0CAB-0B6C-4437-9E86-E1F96622E96F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

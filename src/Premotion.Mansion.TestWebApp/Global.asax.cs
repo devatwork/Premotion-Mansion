@@ -1,4 +1,5 @@
 ﻿using System.Web;
+using Premotion.Mansion.Amazon.S3;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Caching;
 using Premotion.Mansion.Core.Conversion;
@@ -55,12 +56,14 @@ namespace Premotion.Mansion.TestWebApp
 			assemblyRegistrationService.RegisterAssembly(AssemblyModel.Create<MansionWebContext>("MansionWeb"));
 			assemblyRegistrationService.RegisterAssembly(AssemblyModel.Create<IPortalService>("MansionWebPortal"));
 			assemblyRegistrationService.RegisterAssembly(AssemblyModel.Create<SqlServerRepositoryFactory>("SqlServer"));
+			assemblyRegistrationService.RegisterAssembly(AssemblyModel.Create<S3ContentResourceService>("Amazon"));
 			assemblyRegistrationService.RegisterAssembly(AssemblyModel.Create<Global>("/"));
 
 			// register all the services
 			nucleus.Register<IConversionService>(context, new ConversionService());
 			nucleus.Register<IApplicationResourceService>(context, new WindowsApplicationResourceService(HttpRuntime.AppDomainAppPath, "Web"));
-			nucleus.Register<IContentResourceService>(context, new WindowsContentResourceService(HttpRuntime.AppDomainAppPath, "Content"));
+			//nucleus.Register<IContentResourceService>(context, new WindowsContentResourceService(HttpRuntime.AppDomainAppPath, "Content"));
+			nucleus.Register<IContentResourceService>(context, new S3ContentResourceService());
 			nucleus.Register<IExpressionScriptService>(context, new ExpressionScriptService());
 			nucleus.Register<ITagScriptService>(context, new TagScriptService());
 			nucleus.Register<ITemplateService>(context, new HtmlTemplateService());
