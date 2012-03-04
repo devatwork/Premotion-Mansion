@@ -69,5 +69,20 @@ namespace Premotion.Mansion.Web
 			context.BreakExecution = true;
 		}
 		#endregion
+		#region Uri Methods
+		/// <summary>
+		/// Strips the <see cref="UriComponents.Port"/> from the <paramref name="original"/>.
+		/// </summary>
+		/// <param name="original">The original <see cref="Uri"/>.</param>
+		/// <returns>Returns the stripped <see cref="Uri"/>.</returns>
+		public static Uri StripPort(Uri original)
+		{
+			// validate arguments
+			if (original == null)
+				throw new ArgumentNullException("original");
+
+			return new Uri(original.GetComponents(UriComponents.Fragment | UriComponents.Query | UriComponents.Path | UriComponents.Host | UriComponents.UserInfo | UriComponents.Scheme, UriFormat.SafeUnescaped));
+		}
+		#endregion
 	}
 }

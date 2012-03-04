@@ -45,10 +45,14 @@ namespace Premotion.Mansion.Web
 			Stack.Push("Post", httpContext.Request.Form.ToPropertyBag(), true);
 			Stack.Push("Server", httpContext.Request.ServerVariables.ToPropertyBag(), true);
 
+			// get the original url
+			var originalUri = PathRewriterModule.GetOriginalRawUrl(httpContext);
+			originalUri = WebUtilities.StripPort(originalUri);
+
 			// create the application dataspace
 			Stack.Push("Request", new PropertyBag
 			                      {
-			                      	{"url", PathRewriterModule.GetOriginalRawUrl(httpContext).ToString()},
+			                      	{"url", originalUri.ToString()},
 			                      	{"urlPath", httpContext.Request.Url.GetLeftPart(UriPartial.Path)},
 			                      	{"baseUrl", httpContext.Request.ApplicationBaseUri.ToString().TrimEnd('/')}
 			                      }, true);

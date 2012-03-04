@@ -170,7 +170,8 @@ namespace Premotion.Mansion.Web
 
 				// set values
 				this.request = request;
-				applicationBaseUri = applicationUriBuilder.Uri;
+				applicationBaseUri = WebUtilities.StripPort(applicationUriBuilder.Uri);
+				url = WebUtilities.StripPort(request.Url);
 			}
 			#endregion
 			#region Implementation of IRequest
@@ -194,7 +195,7 @@ namespace Premotion.Mansion.Web
 			/// </summary>
 			public Uri Url
 			{
-				get { return request.Url; }
+				get { return url; }
 			}
 			/// <summary>
 			/// Gets the referring URL.
@@ -376,6 +377,7 @@ namespace Premotion.Mansion.Web
 			}
 			#endregion
 			#region Private Fields
+			private readonly Uri url;
 			private readonly Uri applicationBaseUri;
 			private readonly HttpRequest request;
 			#endregion
