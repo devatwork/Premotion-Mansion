@@ -128,7 +128,7 @@ namespace Premotion.Mansion.Web
 				public static QValueList Parse(string value)
 				{
 					// parse
-					return new QValueList((value ?? string.Empty).Split(separators).Select(QValue.Parse));
+					return new QValueList((value ?? string.Empty).Split(separators, StringSplitOptions.RemoveEmptyEntries).Select(QValue.Parse));
 				}
 				#endregion
 				#region Properties
@@ -377,9 +377,9 @@ namespace Premotion.Mansion.Web
 			}
 			#endregion
 			#region Private Fields
-			private readonly Uri url;
 			private readonly Uri applicationBaseUri;
 			private readonly HttpRequest request;
+			private readonly Uri url;
 			#endregion
 		}
 		#endregion
