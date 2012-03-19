@@ -92,8 +92,10 @@ namespace Premotion.Mansion.Repository.SqlServer
 
 			// check for separator
 			if (wheres.Length > 0)
-				wheres.Append(" AND (");
+				wheres.Append(" AND ");
 
+			
+			wheres.Append("(");
 			wheres.Append(clause);
 			wheres.Append(")");
 		}
@@ -112,7 +114,9 @@ namespace Premotion.Mansion.Repository.SqlServer
 			if (wheres.Length > 0)
 				wheres.Append(" AND ");
 
+			wheres.Append("(");
 			wheres.AppendFormat(clause, parameters);
+			wheres.Append(")");
 		}
 		/// <summary>
 		/// Appends a ORDER BY clause.
