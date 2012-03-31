@@ -1,4 +1,4 @@
-﻿using Premotion.Mansion.Core.Attributes;
+﻿using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Forms
 {
@@ -11,16 +11,16 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// This tags creates <see cref="Step"/>s.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "step")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "step")]
 		public class StepFactoryTag : FormControlFactoryTag<Step>
 		{
 			#region Overrides of ControlFactoryTag<Step>
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override Step Create(MansionWebContext context, ControlDefinition definition)
+			protected override Step Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				return new Step(definition);
 			}

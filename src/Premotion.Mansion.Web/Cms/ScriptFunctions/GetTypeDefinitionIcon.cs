@@ -3,7 +3,6 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Web.Cms.Descriptors;
-using Premotion.Mansion.Web.Http;
 
 namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 {
@@ -13,12 +12,29 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 	[ScriptFunction("GetTypeDefinitionIcon")]
 	public class GetTypeDefinitionIcon : FunctionExpression
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="typeService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public GetTypeDefinitionIcon(ITypeService typeService)
+		{
+			// validate arguments
+			if (typeService == null)
+				throw new ArgumentNullException("typeService");
+
+			// set values
+			this.typeService = typeService;
+		}
+		#endregion
+		#region Evaluate Methods
 		/// <summary>
 		/// Gets the label of a particular <paramref name="typeName"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="typeName">The <see cref="ITypeDefinition"/> for which to get the label.</param>
-		public string Evaluate(MansionContext context, string typeName)
+		public string Evaluate(IMansionContext context, string typeName)
 		{
 			// validate arguments
 			if (context == null)
@@ -27,7 +43,6 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 				throw new ArgumentNullException("typeName");
 
 			// try to find the type
-			var typeService = context.Nucleus.Get<ITypeService>(context);
 			ITypeDefinition type;
 			if (!typeService.TryLoad(context, typeName, out type))
 				return typeName;
@@ -41,12 +56,16 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 			var behavior = cmsDescriptor.GetBehavior(context);
 
 			// get the url
-			var webContext = context.Cast<MansionWebContext>();
-			var prefixedRelativePath = HttpUtilities.CombineIntoRelativeUrl(webContext.HttpContext.Request.ApplicationPath, PathRewriterModule.StaticResourcesPrefix, behavior.PathToIcon);
-			var imageUrl = new Uri(webContext.HttpContext.Request.ApplicationBaseUri, prefixedRelativePath);
+			var webContext = context.Cast<IMansionWebContext>();
+			var prefixedRelativePath = HttpUtilities.CombineIntoRelativeUrl(webContext.HttpContext.Request.ApplicationPath, Premotion.Mansion.Web.Constants.StaticResourcesPrefix, behavior.PathToIcon);
+			var imageUrl = new Uri(webContext.ApplicationBaseUri, prefixedRelativePath);
 
 			// build the icon html
 			return string.Format("<img class=\"icon\" src=\"{0}\" alt=\"{1}\">", imageUrl, behavior.Label ?? string.Empty);
 		}
+		#endregion
+		#region Private Fields
+		private readonly ITypeService typeService;
+		#endregion
 	}
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.IO.JSon;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
@@ -8,13 +7,13 @@ namespace Premotion.Mansion.Core.ScriptTags.Media
 	/// <summary>
 	/// Renders a JSON object.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "renderJsonObject")]
+	[ScriptTag(Constants.NamespaceUri, "renderJsonObject")]
 	public class RenderJsonObjectTag : ScriptTag
 	{
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
 			// get the attributes
 			var attributes = GetAttributes(context);

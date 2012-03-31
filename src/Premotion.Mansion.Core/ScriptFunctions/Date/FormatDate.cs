@@ -15,7 +15,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Date
 		/// <param name="date"></param>
 		/// <param name="format"></param>
 		/// <returns></returns>
-		public string Evaluate(MansionContext context, DateTime date, string format)
+		public string Evaluate(IMansionContext context, DateTime date, string format)
 		{
 			// validate arguments
 			if (date == DateTime.MinValue)

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:ctrls="http://schemas.premotion.nl/mansion/1.0/web.controls.tags.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd">
+
+	<!-- render the dialog -->
+	<declareProcedure procedureName="RenderRemoveDialog">
+		<setProperties dataspaceName="DialogProperties" title="Remove this block" />
+		<!-- TODO: create message -->
+	</declareProcedure>
+
+</mansion>

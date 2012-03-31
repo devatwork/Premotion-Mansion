@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<type inherits="Default" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/descriptors.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:webdescriptors="http://schemas.premotion.nl/mansion/1.0/web/descriptors.xsd">
+	
+	<!-- properties -->
+	<property name="siteGuids">
+		<sqlserver:multiValuePropertyTable tableName="NodesAssociations" />
+	</property>
+	<property name="taxonomyGuids">
+		<sqlserver:multiValuePropertyTable tableName="NodesAssociations" />
+	</property>
+	<property name="tagGuids">
+		<sqlserver:multiValuePropertyTable tableName="NodesAssociations" />
+	</property>
+	
+	<!-- specify cms behavior -->
+	<cms:behavior label="Content" abstract="true" />
+
+	<!-- url generator -->
+	<webdescriptors:nodeUrlGenerator type="Premotion.Mansion.Web.Portal.Url.ContentUrlGenerator,Premotion.Mansion.Web.Portal" />
+	
+</type>

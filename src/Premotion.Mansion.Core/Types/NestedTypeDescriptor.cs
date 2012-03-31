@@ -10,18 +10,6 @@ namespace Premotion.Mansion.Core.Types
 	/// </summary>
 	public abstract class NestedTypeDescriptor : TypeDescriptor, IDescriptee
 	{
-		#region Constructors
-		/// <summary>
-		/// Constructs a descriptor.
-		/// </summary>
-		/// <param name="namespaceUri">The namespace.</param>
-		/// <param name="name">The name of this descriptor.</param>
-		/// <param name="properties">The properties.</param>
-		/// <param name="typeDefinition">The <see cref="ITypeDefinition"/> to which this descriptor is applied.</param>
-		protected NestedTypeDescriptor(string namespaceUri, string name, IPropertyBag properties, ITypeDefinition typeDefinition) : base(namespaceUri, name, properties, typeDefinition)
-		{
-		}
-		#endregion
 		#region IDescriptee Members
 		/// <summary>
 		/// Gets all the <see cref="IDescriptor"/>s of the specified type <typeparamref name="TDescriptor"/>.

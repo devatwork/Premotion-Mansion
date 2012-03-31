@@ -12,13 +12,30 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 	[ScriptFunction("NodeURL")]
 	public class NodeUrl : FunctionExpression
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="nodeUrlService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public NodeUrl(INodeUrlService nodeUrlService)
+		{
+			// validate arguments
+			if (nodeUrlService == null)
+				throw new ArgumentNullException("nodeUrlService");
+
+			// set values
+			this.nodeUrlService = nodeUrlService;
+		}
+		#endregion
+		#region Evaluate Methods
 		/// <summary>
 		/// Generates a URL for the node.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The <see cref="Node"/> for which to generate the URL.</param>
 		/// <returns>The <see cref="Uri"/> generated for the <paramref name="node"/>.</returns>
-		public Uri Evaluate(MansionContext context, Node node)
+		public Uri Evaluate(IMansionContext context, Node node)
 		{
 			// validate arguments
 			if (context == null)
@@ -27,7 +44,11 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 				throw new ArgumentNullException("node");
 
 			// return the url
-			return context.Nucleus.Get<INodeUrlService>(context).Generate(context.Cast<MansionWebContext>(), node);
+			return nodeUrlService.Generate(context.Cast<IMansionWebContext>(), node);
 		}
+		#endregion
+		#region Private Fields
+		private readonly INodeUrlService nodeUrlService;
+		#endregion
 	}
 }

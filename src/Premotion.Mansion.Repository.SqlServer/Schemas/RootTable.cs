@@ -31,7 +31,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="newPointer"></param>
 		/// <param name="newProperties"></param>
-		protected override void DoToInsertStatement(MansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag newProperties)
+		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag newProperties)
 		{
 			// create a table modification query
 			var tableModificationQuery = new ModificationQueryBuilder(queryBuilder);
@@ -53,7 +53,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="node"></param>
 		/// <param name="modifiedProperties"></param>
-		protected override void DoToUpdateStatement(MansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
 		{
 			// create a table modification query
 			var tableModificationQuery = new ModificationQueryBuilder(queryBuilder);
@@ -70,7 +70,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="context">The request context.</param>
 		/// <param name="bulkContext"></param>
 		/// <param name="nodes"></param>
-		protected override void DoToSyncStatement(MansionContext context, BulkOperationContext bulkContext, List<Node> nodes)
+		protected override void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Node> nodes)
 		{
 			// this is only invoked when there is a issue in mansion framwork
 			throw new NotSupportedException("Root tables will not be synced");

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Scripting;
+using Premotion.Mansion.Core.Scripting.TagScript;
 using ActionDelegate = System.Action;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Actions
@@ -16,17 +16,17 @@ namespace Premotion.Mansion.Web.Controls.Forms.Actions
 		/// <summary>
 		/// Constructs <see cref="ProcessScriptAction"/>.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "processScriptAction")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "processScriptAction")]
 		public class ProcessScriptActionFactoryTag : ActionFactoryTag<ProcessScriptAction>
 		{
 			#region Overrides of ActionFactoryTag<ProcessScriptAction>
 			/// <summary>
 			/// Creates an instance of the <see cref="Action"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="properties">The properties of the action.</param>
 			/// <returns>Returns the created <see cref="Action"/>.</returns>
-			protected override ProcessScriptAction Create(MansionWebContext context, IPropertyBag properties)
+			protected override ProcessScriptAction Create(IMansionWebContext context, IPropertyBag properties)
 			{
 				// get the values
 				var supportedActions = GetAttribute(context, "supportedActions", string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
@@ -67,10 +67,10 @@ namespace Premotion.Mansion.Web.Controls.Forms.Actions
 		/// <summary>
 		/// Processes the <paramref name="step"/> after the <paramref name="form"/> is submitted back to the server with valid data.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/>.</param>
 		/// <param name="step">The <see cref="Step"/>.</param>
-		protected override void Process(MansionWebContext context, Form form, Step step)
+		protected override void Process(IMansionWebContext context, Form form, Step step)
 		{
 			// check if this action requires a valid form
 			if (requiresValidForm && !form.ValidationResults.IsValid)

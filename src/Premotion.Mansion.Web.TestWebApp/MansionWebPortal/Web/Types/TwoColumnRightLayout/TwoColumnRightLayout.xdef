@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<type inherits="Layout" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:portal="http://schemas.premotion.nl/mansion/1.0/web/portal/descriptors.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd">
+	
+	<!-- define the columns -->
+	<portal:columnSchema columns="primary-column,secondary-column" />
+	
+	<!-- specify cms behavior -->
+	<cms:behavior label="Tweekoloms rechts indeling" />
+	
+</type>

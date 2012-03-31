@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Core.ScriptTags.Boolean
@@ -8,14 +7,14 @@ namespace Premotion.Mansion.Core.ScriptTags.Boolean
 	/// <summary>
 	/// Implements the switch condition tag.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "switch")]
+	[ScriptTag(Constants.NamespaceUri, "switch")]
 	public class SwitchTag : ScriptTag
 	{
 		/// <summary>
 		/// Executes the tag.
 		/// </summary>
 		/// <param name="context">The application context.</param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
 			// get the condition
 			var condition = GetAttribute(context, "condition", string.Empty) ?? string.Empty;

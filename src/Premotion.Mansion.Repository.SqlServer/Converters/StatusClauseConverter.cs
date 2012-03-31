@@ -21,7 +21,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Converters
 		/// <param name="command"></param>
 		/// <param name="queryBuilder"></param>
 		/// <param name="clause">The clause.</param>
-		protected override void Map(IContext context, Schema schema, SqlCommand command, SqlStringBuilder queryBuilder, StatusClause clause)
+		protected override void Map(IMansionContext context, Schema schema, SqlCommand command, SqlStringBuilder queryBuilder, StatusClause clause)
 		{
 			// check for any
 			if (clause.Status == NodeStatus.Any)

@@ -1,4 +1,4 @@
-﻿using Premotion.Mansion.Core.Attributes;
+﻿using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Templating;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Validation
@@ -12,16 +12,16 @@ namespace Premotion.Mansion.Web.Controls.Forms.Validation
 		/// <summary>
 		/// This tags creates <see cref="Step"/>s.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "validationSummary")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "validationSummary")]
 		public class ValidationSummaryFactoryTag : FormControlFactoryTag<ValidationSummary>
 		{
 			#region Overrides of ControlFactoryTag<Step>
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override ValidationSummary Create(MansionWebContext context, ControlDefinition definition)
+			protected override ValidationSummary Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				return new ValidationSummary(definition);
 			}
@@ -41,9 +41,9 @@ namespace Premotion.Mansion.Web.Controls.Forms.Validation
 		/// <summary>
 		/// Render this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		protected override void DoRender(MansionWebContext context, ITemplateService templateService)
+		protected override void DoRender(IMansionWebContext context, ITemplateService templateService)
 		{
 			// get the results from the form.
 			var results = context.CurrentForm.ValidationResults;

@@ -1,5 +1,5 @@
 ﻿using System;
-using Premotion.Mansion.Core.Attributes;
+using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Buttons
 {
@@ -12,16 +12,16 @@ namespace Premotion.Mansion.Web.Controls.Forms.Buttons
 		/// <summary>
 		/// Factory for <see cref="ButtonBar"/>s.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "buttonbar")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "buttonbar")]
 		public class ButtonBarFactoryTag : FormControlFactoryTag<ButtonBar>
 		{
 			#region Overrides of ControlFactoryTag<Form>
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override ButtonBar Create(MansionWebContext context, ControlDefinition definition)
+			protected override ButtonBar Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				// create the form
 				return new ButtonBar(definition);

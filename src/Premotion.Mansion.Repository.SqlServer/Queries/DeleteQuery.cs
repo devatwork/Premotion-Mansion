@@ -5,7 +5,6 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Patterns;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
-using log4net;
 
 namespace Premotion.Mansion.Repository.SqlServer.Queries
 {
@@ -38,7 +37,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <param name="schemaProvider"></param>
 		/// <param name="pointer"></param>
 		/// <returns></returns>
-		public static DeleteQuery Prepare(MansionContext context, SqlConnection connection, SqlTransaction transaction, SchemaProvider schemaProvider, NodePointer pointer)
+		public static DeleteQuery Prepare(IMansionContext context, SqlConnection connection, SqlTransaction transaction, SchemaProvider schemaProvider, NodePointer pointer)
 		{
 			// validate arguments
 			if (connection == null)
@@ -72,7 +71,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// </summary>
 		public void Execute()
 		{
-			log.Info("Executing delete query: " + deleteCommand.CommandText);
 			deleteCommand.ExecuteNonQuery();
 		}
 		#endregion
@@ -92,7 +90,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		}
 		#endregion
 		#region Private Fields
-		private static readonly ILog log = LogManager.GetLogger(typeof (DeleteQuery));
 		private readonly IDbCommand deleteCommand;
 		#endregion
 	}

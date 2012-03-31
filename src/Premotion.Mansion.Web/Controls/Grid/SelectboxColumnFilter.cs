@@ -1,7 +1,7 @@
 ﻿using System;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Templating;
 using Premotion.Mansion.Web.Controls.Providers;
 
@@ -16,18 +16,18 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		/// <summary>
 		/// Constructs <see cref="TextboxColumnFilter"/>s.
 		/// </summary>
-		[Named(Constants.ControlTagNamespaceUri, "selectboxColumnFilter")]
+		[ScriptTag(Constants.ControlTagNamespaceUri, "selectboxColumnFilter")]
 		public class SelectboxColumnFilterFactoryTag : ColumnFilterFactoryTag
 		{
 			#region Overrides of ColumnFilterFactoryTag
 			/// <summary>
 			/// Creates a <see cref="ColumnFilter"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="column">The <see cref="Column"/> to which this filter is applied.</param>
 			/// <param name="properties">The properties of the filter.</param>
 			/// <returns>Returns the created <see cref="ColumnFilter"/>.</returns>
-			protected override ColumnFilter Create(MansionContext context, Column column, IPropertyBag properties)
+			protected override ColumnFilter Create(IMansionContext context, Column column, IPropertyBag properties)
 			{
 				return new SelectboxColumnFilter(properties);
 			}
@@ -47,10 +47,10 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		/// <summary>
 		/// Renders this column sort.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
 		/// <param name="data">The <see cref="Dataset"/>.</param>
-		protected override void DoRender(MansionWebContext context, ITemplateService templateService, Dataset data)
+		protected override void DoRender(IMansionWebContext context, ITemplateService templateService, Dataset data)
 		{
 			using (templateService.Render(context, "SelectboxColumnFilter"))
 			{
@@ -81,9 +81,9 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		/// <summary>
 		/// Gets the data bound to this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the data.</returns>
-		private Dataset Retrieve(MansionContext context)
+		private Dataset Retrieve(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)

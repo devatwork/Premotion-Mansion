@@ -1,8 +1,9 @@
 ﻿using System;
+using Premotion.Mansion.Core.Caching;
 using Premotion.Mansion.Core.Data.Caching;
 using Premotion.Mansion.Core.Data.Listeners;
-using Premotion.Mansion.Core.Nucleus.Facilities.Reflection;
 using Premotion.Mansion.Core.Patterns;
+using Premotion.Mansion.Core.Types;
 
 namespace Premotion.Mansion.Core.Data
 {
@@ -14,11 +15,11 @@ namespace Premotion.Mansion.Core.Data
 		/// <summary>
 		/// Opens a repository and pushes it to the stack.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="repositoryNamespace">The namespace in which the repository lives.</param>
 		/// <param name="applicationSettings">The <see cref="IPropertyBag"/> containing the application settings.</param>
 		/// <returns>Returns an <see cref="IDisposable"/> which cleans up the opened repository and the stack.</returns>
-		public static IDisposable Open(MansionContext context, string repositoryNamespace, IPropertyBag applicationSettings)
+		public static IDisposable Open(IMansionContext context, string repositoryNamespace, IPropertyBag applicationSettings)
 		{
 			// validate arguments
 			if (context == null)
@@ -28,23 +29,16 @@ namespace Premotion.Mansion.Core.Data
 			if (applicationSettings == null)
 				throw new ArgumentNullException("applicationSettings");
 
-			// look up the factory for the repository
-			var namingService = context.Nucleus.Get<ITypeDirectoryService>(context);
-			var objectFactoryService = context.Nucleus.Get<IObjectFactoryService>(context);
-			Type repositoryFactoryType;
-			if (!namingService.TryLookupSingle<IRepositoryFactory>(repositoryNamespace, "Factory", out repositoryFactoryType))
-				throw new InvalidOperationException(string.Format("Could not find repository factory in namespace '{0}'", repositoryNamespace));
-
 			var disposableChain = new DisposableChain();
 
 			// create the repository
-			var repository = objectFactoryService.Create<IRepositoryFactory>(repositoryFactoryType).Create(context, applicationSettings);
+			var repository = context.Nucleus.ResolveSingle<IRepositoryFactory>(repositoryNamespace, "Factory").Create(context, applicationSettings);
 
 			// decorate with listing capabilities
-			repository = new ListeningRepositoryDecorator(repository);
+			repository = new ListeningRepositoryDecorator(repository, context.Nucleus.ResolveSingle<ITypeService>());
 
 			// decorate the caching capabilities
-			repository = new CachingRepositoryDecorator(repository);
+			repository = new CachingRepositoryDecorator(repository, context.Nucleus.ResolveSingle<ICachingService>());
 
 			// start the repository
 			disposableChain.Add(repository);

@@ -1,12 +1,12 @@
 ﻿using System;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Providers.Datasets
 {
 	/// <summary>
-	/// Provides data by fetching a <see cref="Dataset"/> from the <see cref="MansionContext.Stack"/>.
+	/// Provides data by fetching a <see cref="Dataset"/> from the <see cref="IMansionContext.Stack"/>.
 	/// </summary>
 	public class FetchDatasetProvider : DatasetProvider
 	{
@@ -14,16 +14,16 @@ namespace Premotion.Mansion.Web.Controls.Providers.Datasets
 		/// <summary>
 		/// Creates <see cref="FetchDatasetProvider"/>s.
 		/// </summary>
-		[Named(Constants.DataProviderTagNamespaceUri, "fetchDatasetProvider")]
+		[ScriptTag(Constants.DataProviderTagNamespaceUri, "fetchDatasetProvider")]
 		public class FetchDatasetProviderFactoryTag : DatasetProviderFactoryTag<DatasetProvider>
 		{
 			#region Overrides of DataProviderFactoryTag
 			/// <summary>
 			/// Creates the data provider.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <returns>Returns the created data provider.</returns>
-			protected override DatasetProvider Create(MansionWebContext context)
+			protected override DatasetProvider Create(IMansionWebContext context)
 			{
 				return new FetchDatasetProvider(GetRequiredAttribute<Dataset>(context, "source"));
 			}
@@ -34,16 +34,16 @@ namespace Premotion.Mansion.Web.Controls.Providers.Datasets
 		/// <summary>
 		/// Creates <see cref="FetchDatasetProvider"/>s.
 		/// </summary>
-		[Named(Constants.DataProviderTagNamespaceUri, "scriptedDatasetProvider")]
+		[ScriptTag(Constants.DataProviderTagNamespaceUri, "scriptedDatasetProvider")]
 		public class ScriptedDatasetProviderFactoryTag : DatasetProviderFactoryTag<DatasetProvider>
 		{
 			#region Overrides of DataProviderFactoryTag
 			/// <summary>
 			/// Creates the data provider.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <returns>Returns the created data provider.</returns>
-			protected override DatasetProvider Create(MansionWebContext context)
+			protected override DatasetProvider Create(IMansionWebContext context)
 			{
 				// create the dataset
 				var dataset = new Dataset();
@@ -74,9 +74,9 @@ namespace Premotion.Mansion.Web.Controls.Providers.Datasets
 		/// <summary>
 		/// Retrieves the data from this provider.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the retrieve data.</returns>
-		protected override Dataset DoRetrieve(MansionContext context)
+		protected override Dataset DoRetrieve(IMansionContext context)
 		{
 			return dataset;
 		}

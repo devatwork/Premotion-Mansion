@@ -13,11 +13,11 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 		/// <summary>
 		/// Copies the query string from <paramref name="source"/> to <paramref name="target"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The source <see cref="Uri"/> from which to copy the query string.</param>
 		/// <param name="target">The target <see cref="Uri"/> to which to copy the query string.</param>
 		/// <returns>The <see cref="Uri"/> with the modified query string.</returns>
-		public Uri Evaluate(MansionContext context, Uri source, Uri target)
+		public Uri Evaluate(IMansionContext context, Uri source, Uri target)
 		{
 			// validate arguments
 			if (context == null)

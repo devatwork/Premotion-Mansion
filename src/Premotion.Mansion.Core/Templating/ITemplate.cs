@@ -11,11 +11,11 @@ namespace Premotion.Mansion.Core.Templating
 		/// <summary>
 		/// Tries to get the section with the name <paramref name="sectionName"/> from this template.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="sectionName">The name of the section.</param>
 		/// <param name="section">The section when found.</param>
 		/// <returns>Returns true when the section was found, otherwise false.</returns>
-		bool TryGet(IContext context, string sectionName, out ISection section);
+		bool TryGet(IMansionContext context, string sectionName, out ISection section);
 		#endregion
 		#region Properties
 		/// <summary>

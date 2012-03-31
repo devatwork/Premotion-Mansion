@@ -15,7 +15,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions
 		/// <param name="candidateA"></param>
 		/// <param name="candidateB"></param>
 		/// <returns></returns>
-		public object Evaluate(MansionContext context, object candidateA, object candidateB)
+		public object Evaluate(IMansionContext context, object candidateA, object candidateB)
 		{
 			// validate arguments
 			if (context == null)

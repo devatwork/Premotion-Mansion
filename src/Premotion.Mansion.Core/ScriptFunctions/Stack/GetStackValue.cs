@@ -12,10 +12,10 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Stack
 		/// <summary>
 		/// Gets a value from the script stack.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="fullPropertyName">The full name of the property including the name of the dataspace in the following format: '{dataspace}.{property}'.</param>
 		/// <returns>Returns the value of the specified property.</returns>
-		public object Evaluate(MansionContext context, string fullPropertyName)
+		public object Evaluate(IMansionContext context, string fullPropertyName)
 		{
 			// validate arguments
 			if (context == null)
@@ -34,11 +34,11 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Stack
 		/// <summary>
 		/// Gets a value from the script stack.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="dataspace">The name of the dataspace from which to get the property.</param>
 		/// <param name="property">The name of the property from which to get the value.</param>
 		/// <returns>Returns the value of the specified property.</returns>
-		public object Evaluate(MansionContext context, string dataspace, string property)
+		public object Evaluate(IMansionContext context, string dataspace, string property)
 		{
 			// validate arguments
 			if (context == null)
@@ -62,12 +62,12 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Stack
 		/// <summary>
 		/// Gets a value from the script stack.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="dataspace">The name of the dataspace from which to get the property.</param>
 		/// <param name="property">The name of the property from which to get the value.</param>
 		/// <param name="defaultValue">The default value which to return in case the <paramref name="dataspace"/> does not exist or it does not contain <paramref name="property"/>.</param>
 		/// <returns>Returns the value of the specified property.</returns>
-		public object Evaluate(MansionContext context, string dataspace, string property, object defaultValue)
+		public object Evaluate(IMansionContext context, string dataspace, string property, object defaultValue)
 		{
 			// validate arguments
 			if (context == null)

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Premotion.Mansion.Core.Nucleus;
-using Premotion.Mansion.Core.Nucleus.Facilities.Dependencies;
-using Premotion.Mansion.Core.Nucleus.Facilities.Lifecycle;
-using Premotion.Mansion.Core.Nucleus.Facilities.Reflection;
+using System.Linq;
 using Premotion.Mansion.Core.Patterns.Voting;
 
 namespace Premotion.Mansion.Core.Conversion
@@ -11,18 +8,38 @@ namespace Premotion.Mansion.Core.Conversion
 	/// <summary>
 	/// Implements <see cref="IConversionService"/>.
 	/// </summary>
-	public class ConversionService : ManagedLifecycleService, IConversionService, IServiceWithDependencies
+	public class ConversionService : IConversionService
 	{
+		#region Constructors
+		/// <summary>
+		/// Constructs the conversion service with the given <paramref name="converters"/> and <paramref name="comparers"/>.
+		/// </summary>
+		/// <param name="converters">The <see cref="IEnumerable{T}"/>s</param>
+		/// <param name="comparers">The <see cref="IEnumerable{IComparer}"/>s</param>
+		/// <exception cref="ArgumentNullException">Thrown when either <paramref name="converters"/> or <paramref name="comparers"/> is null.</exception>
+		public ConversionService(IEnumerable<IConverter> converters, IEnumerable<IComparer> comparers)
+		{
+			// validate arguments
+			if (converters == null)
+				throw new ArgumentNullException("converters");
+			if (comparers == null)
+				throw new ArgumentNullException("comparers");
+
+			// set values
+			this.converters = converters.ToList();
+			this.comparers = comparers.ToList();
+		}
+		#endregion
 		#region Implementation of IConversionService
 		/// <summary>
 		/// Converts the source object into the desired target type.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <typeparam name="TTarget">The target type.</typeparam>
 		/// <param name="source">The source object.</param>
 		/// <returns>Returns the converted object.</returns>
 		/// <exception cref="NoConverterFoundException">Thrown when there is no convert for <typeparamref name="TTarget"/>.</exception>
-		public TTarget Convert<TTarget>(IContext context, object source)
+		public TTarget Convert<TTarget>(IMansionContext context, object source)
 		{
 			// validate arguments
 			if (context == null)
@@ -44,13 +61,13 @@ namespace Premotion.Mansion.Core.Conversion
 		/// <summary>
 		/// Converts the source object into the desired target type.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <typeparam name="TTarget">The target type.</typeparam>
 		/// <param name="source">The source object.</param>
 		/// <param name="defaultValue">The default value returned when the conversion can not be found.</param>
 		/// <returns>Returns the converted object or <paramref name="defaultValue"/>.</returns>
 		/// <exception cref="NoConverterFoundException">Thrown when there is no convert for <typeparamref name="TTarget"/>.</exception>
-		public TTarget Convert<TTarget>(IContext context, object source, TTarget defaultValue)
+		public TTarget Convert<TTarget>(IMansionContext context, object source, TTarget defaultValue)
 		{
 			// validate arguments
 			if (context == null)
@@ -72,11 +89,11 @@ namespace Premotion.Mansion.Core.Conversion
 		/// <summary>
 		/// Compares <paramref name="left"/> to <paramref name="right"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="left">The left-hand object.</param>
 		/// <param name="right">The right-hand object.</param>
 		/// <returns>Returns 0 when the objects are equal, greater than zero when <paramref name="left"/> is greater than <paramref name="right"/>, or less than zero when <paramref name="left"/> is smaller than <paramref name="right"/>.</returns>
-		public int Compare(IContext context, object left, object right)
+		public int Compare(IMansionContext context, object left, object right)
 		{
 			// validate arguments
 			if (context == null)
@@ -106,12 +123,12 @@ namespace Premotion.Mansion.Core.Conversion
 		/// <summary>
 		/// Converts the source object into the desired target type.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The source object.</param>
 		/// <param name="targetType">The target type.</param>
 		/// <returns>Returns the converted object.</returns>
 		/// <exception cref="NoConverterFoundException">Thrown when there is no convert is found.</exception>
-		private object ConvertObject(IContext context, object source, Type targetType)
+		private object ConvertObject(IMansionContext context, object source, Type targetType)
 		{
 			// validate arguments
 			if (context == null)
@@ -135,11 +152,11 @@ namespace Premotion.Mansion.Core.Conversion
 		/// <summary>
 		/// Gets the converter for the specified input and output types.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="sourceType">The input type.</param>
 		/// <param name="targetType">The output type.</param>
 		/// <returns>Returns the <see cref="IConverter"/>.</returns>
-		private IConverter GetConverter(IContext context, Type sourceType, Type targetType)
+		private IConverter GetConverter(IMansionContext context, Type sourceType, Type targetType)
 		{
 			IConverter converter;
 			if (!Election<IConverter, ConversionVotingSubject>.TryElect(context, converters, new ConversionVotingSubject(sourceType, targetType), out converter))
@@ -149,7 +166,7 @@ namespace Premotion.Mansion.Core.Conversion
 		/// <summary>
 		/// Makes two objects the same type.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="left">The left-hand object.</param>
 		/// <param name="leftType">The type of <paramref name="left"/>.</param>
 		/// <param name="leftObj">The resulting left-hand object.</param>
@@ -157,7 +174,7 @@ namespace Premotion.Mansion.Core.Conversion
 		/// <param name="rightType">The type of <paramref name="right"/>.</param>
 		/// <param name="rightObj">The resulting right-hand object.</param>
 		/// <returns>Returns the type to which the resulting objects were casted.</returns>
-		private Type MakeSameType(IContext context, object left, Type leftType, out object leftObj, object right, Type rightType, out object rightObj)
+		private Type MakeSameType(IMansionContext context, object left, Type leftType, out object leftObj, object right, Type rightType, out object rightObj)
 		{
 			// check if the objects are already of equal type
 			if (leftType.Equals(rightType))
@@ -213,10 +230,10 @@ namespace Premotion.Mansion.Core.Conversion
 		/// <summary>
 		/// Gets the <see cref="IComparer"/> for object of type <paramref name="objectType"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="objectType">The type of object being compared.</param>
 		/// <returns>Returns the <see cref="IComparer"/>.</returns>
-		private IComparer GetComparer(IContext context, Type objectType)
+		private IComparer GetComparer(IMansionContext context, Type objectType)
 		{
 			IComparer comparer;
 			if (!Election<IComparer, Type>.TryElect(context, comparers, objectType, out comparer))
@@ -224,39 +241,9 @@ namespace Premotion.Mansion.Core.Conversion
 			return comparer;
 		}
 		#endregion
-		#region Implementation of IServiceWithDependencies
-		/// <summary>
-		/// Gets the <see cref="DependencyModel"/> of this service.
-		/// </summary>
-		public DependencyModel Dependencies
-		{
-			get { return dependencies; }
-		}
-		#endregion
-		#region Overrides of ManagedLifecycleService
-		/// <summary>
-		/// Invoked just before this service is used for the first time.
-		/// </summary>
-		/// <param name="context">The <see cref="INucleusAwareContext"/>.</param>
-		protected override void DoStart(INucleusAwareContext context)
-		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
-
-			// get the naming and object factory services
-			var namingService = context.Nucleus.Get<ITypeDirectoryService>(context);
-			var objectFactoryService = context.Nucleus.Get<IObjectFactoryService>(context);
-
-			// look up all the types implementing 
-			converters.AddRange(objectFactoryService.Create<IConverter>(namingService.Lookup<IConverter>()));
-			comparers.AddRange(objectFactoryService.Create<IComparer>(namingService.Lookup<IComparer>()));
-		}
-		#endregion
 		#region Private Fields
-		private static readonly DependencyModel dependencies = new DependencyModel().Add<ITypeDirectoryService>().Add<IObjectFactoryService>();
-		private readonly List<IComparer> comparers = new List<IComparer>();
-		private readonly List<IConverter> converters = new List<IConverter>();
+		private readonly IEnumerable<IComparer> comparers;
+		private readonly IEnumerable<IConverter> converters;
 		#endregion
 	}
 }

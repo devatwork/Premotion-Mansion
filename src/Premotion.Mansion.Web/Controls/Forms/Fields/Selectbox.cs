@@ -1,4 +1,4 @@
-﻿using Premotion.Mansion.Core.Attributes;
+﻿using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Fields
 {
@@ -11,17 +11,17 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// This tag creates a <see cref="Textbox"/>.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "selectbox")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "selectbox")]
 		public class SelectboxFactoryTag : ListFieldFactoryTag<Selectbox>
 		{
 			#region Overrides of FieldFactoryTag<Textbox>
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
 			/// <param name="mappingStrategy">The <see cref="RowMappingStrategy"/> used by the list field.</param>
-			protected override Selectbox Create(MansionWebContext context, ControlDefinition definition, RowMappingStrategy mappingStrategy)
+			protected override Selectbox Create(IMansionWebContext context, ControlDefinition definition, RowMappingStrategy mappingStrategy)
 			{
 				return new Selectbox(definition, mappingStrategy);
 			}

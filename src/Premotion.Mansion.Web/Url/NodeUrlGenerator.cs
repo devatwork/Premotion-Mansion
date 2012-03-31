@@ -13,11 +13,11 @@ namespace Premotion.Mansion.Web.Url
 		/// <summary>
 		/// Generates an URL for the <paramref name="node"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="node">The <see cref="Node"/> for which to generate the URL.</param>
 		/// <param name="nodeType">The <see cref="ITypeDefinition"/> of the node.</param>
 		/// <param name="uriBuilder">The <see cref="UriBuilder"/> which to use to build the url.</param>
-		public void Generate(MansionWebContext context, Node node, ITypeDefinition nodeType, UriBuilder uriBuilder)
+		public void Generate(IMansionWebContext context, Node node, ITypeDefinition nodeType, UriBuilder uriBuilder)
 		{
 			// validate arguments
 			if (context == null)
@@ -35,11 +35,11 @@ namespace Premotion.Mansion.Web.Url
 		/// <summary>
 		/// Generates an URL for the <paramref name="node"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="node">The <see cref="Node"/> for which to generate the URL.</param>
 		/// <param name="nodeType">The <see cref="ITypeDefinition"/> of the node.</param>
 		/// <param name="uriBuilder">The <see cref="UriBuilder"/> which to use to build the url.</param>
-		protected abstract void DoGenerate(MansionWebContext context, Node node, ITypeDefinition nodeType, UriBuilder uriBuilder);
+		protected abstract void DoGenerate(IMansionWebContext context, Node node, ITypeDefinition nodeType, UriBuilder uriBuilder);
 		#endregion
 	}
 }

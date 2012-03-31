@@ -27,10 +27,10 @@ namespace Premotion.Mansion.Core.Data.Clauses
 			/// <summary>
 			/// 	Interprets the input.
 			/// </summary>
-			/// <param name = "context">The <see cref = "MansionContext" />.</param>
+			/// <param name = "context">The <see cref = "IMansionContext" />.</param>
 			/// <param name = "input">The input which to interpret.</param>
 			/// <returns>Returns the interpreted result.</returns>
-			protected override IEnumerable<NodeQueryClause> DoInterpret(MansionContext context, IPropertyBag input)
+			protected override IEnumerable<NodeQueryClause> DoInterpret(IMansionContext context, IPropertyBag input)
 			{
 				// validate arguments
 				if (context == null)
@@ -43,7 +43,7 @@ namespace Premotion.Mansion.Core.Data.Clauses
 					yield break;
 
 				// return the clause
-				var typeService = context.Nucleus.Get<ITypeService>(context);
+				var typeService = context.Nucleus.ResolveSingle<ITypeService>();
 				yield return new BaseTypeClause(baseTypes.Split(',').Select(x => typeService.Load(context, x)));
 			}
 			#endregion

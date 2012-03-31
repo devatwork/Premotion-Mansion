@@ -27,10 +27,10 @@ namespace Premotion.Mansion.Web.Cms.Model
 		/// <summary>
 		/// Creates an instance of <see cref="ChildType"/> from <paramref name="descriptor"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="descriptor">The <see cref="ChildTypeDescriptor"/>.</param>
 		/// <param name="behavior">The <see cref="CmsBehavior"/>.</param>
-		public static void Create(MansionContext context, ChildTypeDescriptor descriptor, CmsBehavior behavior)
+		public static void Create(IMansionContext context, ChildTypeDescriptor descriptor, CmsBehavior behavior)
 		{
 			// validate arguments
 			if (context == null)
@@ -64,7 +64,7 @@ namespace Premotion.Mansion.Web.Cms.Model
 		/// <param name="descriptor"></param>
 		/// <param name="behavior"></param>
 		/// <param name="type"></param>
-		private static void CreateChildType(MansionContext context, ChildTypeDescriptor descriptor, CmsBehavior behavior, ITypeDefinition type)
+		private static void CreateChildType(IMansionContext context, ChildTypeDescriptor descriptor, CmsBehavior behavior, ITypeDefinition type)
 		{
 			// create the child type
 			var childType = new ChildType(type);
@@ -74,7 +74,7 @@ namespace Premotion.Mansion.Web.Cms.Model
 			if (!string.IsNullOrEmpty(isAllowedExpressionString))
 			{
 				// get the expresion script service
-				var expressionScriptService = context.Nucleus.Get<IExpressionScriptService>(context);
+				var expressionScriptService = context.Nucleus.ResolveSingle<IExpressionScriptService>();
 
 				// compile the script
 				childType.IsAllowedExpression = expressionScriptService.Parse(context, new LiteralResource(isAllowedExpressionString));
@@ -87,9 +87,9 @@ namespace Premotion.Mansion.Web.Cms.Model
 		/// <summary>
 		/// Gets a flag indicating whether this child type is allowed within the given <paramref name="context"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns true when allowed, otherwise false.</returns>
-		public bool IsAllowed(MansionContext context)
+		public bool IsAllowed(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)

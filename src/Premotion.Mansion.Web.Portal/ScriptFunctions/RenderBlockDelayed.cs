@@ -18,10 +18,10 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 		/// <summary>
 		/// Renders the specified <paramref name="blockProperties"/> to the output pipe.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="blockProperties">The <see cref="IPropertyBag"/> of the block which to render.</param>
 		/// <returns>Returns the HTML for this block.</returns>
-		public string Evaluate(MansionContext context, IPropertyBag blockProperties)
+		public string Evaluate(IMansionContext context, IPropertyBag blockProperties)
 		{
 			// validate arguments
 			if (context == null)

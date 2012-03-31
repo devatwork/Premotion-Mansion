@@ -20,7 +20,7 @@
 		/// <param name="context">The security context.</param>
 		/// <param name="parameters">The parameters used for authentication.</param>
 		/// <returns>Returns the user when authenticated otherwise null.</returns>
-		protected override UserState DoAuthenticate(MansionContext context, IPropertyBag parameters)
+		protected override UserState DoAuthenticate(IMansionContext context, IPropertyBag parameters)
 		{
 			// get the credentials
 			var username = parameters.Get<string>(context, "username");
@@ -41,7 +41,7 @@
 		/// Logs the current user off.
 		/// </summary>
 		/// <param name="context">The security context.</param>
-		protected override void DoLogoff(MansionContext context)
+		protected override void DoLogoff(IMansionContext context)
 		{
 			// do nothing special
 		}

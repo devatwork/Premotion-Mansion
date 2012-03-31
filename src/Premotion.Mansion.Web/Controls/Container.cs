@@ -35,9 +35,9 @@ namespace Premotion.Mansion.Web.Controls
 		/// <summary>
 		/// Render this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		protected override void DoRender(MansionWebContext context, ITemplateService templateService)
+		protected override void DoRender(IMansionWebContext context, ITemplateService templateService)
 		{
 			// loop over all the controls and render them
 			using (templateService.Render(context, GetType().Name + "Control"))

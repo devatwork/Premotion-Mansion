@@ -1,5 +1,4 @@
 ﻿using System;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Core.ScriptTags.Stack
@@ -7,13 +6,13 @@ namespace Premotion.Mansion.Core.ScriptTags.Stack
 	/// <summary>
 	/// Fetches a dataspace from the stack.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "fetchDataspace")]
+	[ScriptTag(Constants.NamespaceUri, "fetchDataspace")]
 	public class FetchDataspaceTag : ScriptTag
 	{
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
 			// get the attributes
 			var source = GetAttribute<IPropertyBag>(context, "source");

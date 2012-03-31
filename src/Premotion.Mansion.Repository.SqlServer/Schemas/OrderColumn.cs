@@ -25,7 +25,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="newPointer"></param>
 		/// <param name="properties"></param>
-		protected override void DoToInsertStatement(MansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
+		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
 		{
 			// build the select max order + 1 query only for none root nodes
 			queryBuilder.PrependQuery("DECLARE @order int = 1");
@@ -42,7 +42,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="node"></param>
 		/// <param name="modifiedProperties"></param>
-		protected override void DoToUpdateStatement(MansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
 		{
 			// check if the property is not modified
 			int newOrder;

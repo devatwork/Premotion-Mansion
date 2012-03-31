@@ -14,9 +14,9 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// <summary>
 		/// Handels the incomming CKFinder command.
 		/// </summary>
-		/// <param name="context">The incoming <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The incoming <see cref="IMansionWebContext"/>.</param>
 		/// <exception cref="ConnectorException">Thrown when an error occured while handling the command.</exception>
-		protected override void DoHandle(MansionWebContext context)
+		protected override void DoHandle(IMansionWebContext context)
 		{
 			// get the uploaded file
 			var uploadedFile = Request.Files[Request.Files.AllKeys[0]];
@@ -80,7 +80,7 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// <param name="fileName"></param>
 		/// <param name="fileUrl"></param>
 		/// <returns></returns>
-		private static string GetJavaScriptCode(IHttpRequest request, ErrorCodes errorNumber, string fileName, string fileUrl)
+		private static string GetJavaScriptCode(HttpRequestBase request, ErrorCodes errorNumber, string fileName, string fileUrl)
 		{
 			var funcNum = request.QueryString["CKFinderFuncNum"];
 			var errorMessage = string.Empty;

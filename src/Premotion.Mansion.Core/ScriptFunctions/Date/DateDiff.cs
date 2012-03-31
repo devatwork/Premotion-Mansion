@@ -15,7 +15,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Date
 		/// <returns></returns>
 		/// <param name="one"></param>
 		/// <param name="other"></param>
-		public TimeSpan Evaluate(MansionContext context, DateTime one, DateTime other)
+		public TimeSpan Evaluate(IMansionContext context, DateTime one, DateTime other)
 		{
 			// validate arguments
 			if (context == null)

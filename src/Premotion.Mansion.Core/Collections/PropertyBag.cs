@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Premotion.Mansion.Core.Conversion;
-using Premotion.Mansion.Core.Nucleus;
 
 namespace Premotion.Mansion.Core.Collections
 {
@@ -18,7 +17,7 @@ namespace Premotion.Mansion.Core.Collections
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="propertyName"></param>
-		public MissingPropertyEventArgs(IContext context, string propertyName)
+		public MissingPropertyEventArgs(IMansionContext context, string propertyName)
 		{
 			// validate arguments
 			if (context == null)
@@ -51,9 +50,9 @@ namespace Premotion.Mansion.Core.Collections
 			}
 		}
 		/// <summary>
-		/// Gets the <see cref="IContext"/> in which the event was executed.
+		/// Gets the <see cref="IMansionContext"/> in which the event was executed.
 		/// </summary>
-		public IContext Context { get; private set; }
+		public IMansionContext Context { get; private set; }
 		/// <summary>
 		/// Gets the name of the missing property.
 		/// </summary>
@@ -66,8 +65,7 @@ namespace Premotion.Mansion.Core.Collections
 	/// <summary>
 	/// Implements <see cref="PropertyBag"/>.
 	/// </summary>
-	[JsonObject(MemberSerialization.OptIn)]
-	[Serializable]
+	[Serializable, JsonObject(MemberSerialization.OptIn)]
 	public class PropertyBag : IPropertyBag
 	{
 		#region Constructors
@@ -97,11 +95,11 @@ namespace Premotion.Mansion.Core.Collections
 		/// Gets the value for a specific property.
 		/// </summary>
 		/// <typeparam name="TValue">The value type.</typeparam>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="propertyName">The name of the property which to get.</param>
 		/// <returns>Returns the value.</returns>
 		/// <exception cref="PropertyNotFoundException">Thrown when the property can not be found in this bag.</exception>
-		public TValue Get<TValue>(IContext context, string propertyName)
+		public TValue Get<TValue>(IMansionContext context, string propertyName)
 		{
 			// validate arguments
 			if (context == null)
@@ -114,7 +112,7 @@ namespace Premotion.Mansion.Core.Collections
 			TryGetInternalValue(context, propertyName, out value);
 
 			// get the conversion service
-			var conversionService = context.Cast<INucleusAwareContext>().Nucleus.Get<IConversionService>(context);
+			var conversionService = context.Nucleus.ResolveSingle<IConversionService>();
 
 			// convert the value
 			return conversionService.Convert<TValue>(context, value);
@@ -123,11 +121,11 @@ namespace Premotion.Mansion.Core.Collections
 		/// Gets the value for a specific property.
 		/// </summary>
 		/// <typeparam name="TValue">The value type.</typeparam>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="propertyName">The name of the property which to get.</param>
 		/// <param name="defaultValue">The default value when the property can not be found or cast.</param>
 		/// <returns>Returns the value.</returns>
-		public TValue Get<TValue>(IContext context, string propertyName, TValue defaultValue)
+		public TValue Get<TValue>(IMansionContext context, string propertyName, TValue defaultValue)
 		{
 			// validate arguments
 			if (context == null)
@@ -141,7 +139,7 @@ namespace Premotion.Mansion.Core.Collections
 				return defaultValue;
 
 			// get the conversion service
-			var conversionService = context.Cast<INucleusAwareContext>().Nucleus.Get<IConversionService>(context);
+			var conversionService = context.Nucleus.ResolveSingle<IConversionService>();
 
 			// convert the value
 			return conversionService.Convert(context, value, defaultValue);
@@ -150,11 +148,11 @@ namespace Premotion.Mansion.Core.Collections
 		/// Tries to get the value from this bag.
 		/// </summary>
 		/// <typeparam name="TValue">The type of value.</typeparam>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="propertyName">The name of the property.</param>
 		/// <param name="target">The target.</param>
 		/// <returns>Returns true when the property could be retrieved otherwise false.</returns>
-		public bool TryGet<TValue>(IContext context, string propertyName, out TValue target)
+		public bool TryGet<TValue>(IMansionContext context, string propertyName, out TValue target)
 		{
 			// validate arguments
 			if (context == null)
@@ -171,7 +169,7 @@ namespace Premotion.Mansion.Core.Collections
 			}
 
 			// get the conversion service
-			var conversionService = context.Cast<INucleusAwareContext>().Nucleus.Get<IConversionService>(context);
+			var conversionService = context.Nucleus.ResolveSingle<IConversionService>();
 
 			// convert the value
 			target = conversionService.Convert<TValue>(context, value);
@@ -181,11 +179,11 @@ namespace Premotion.Mansion.Core.Collections
 		/// Tries to get the value from this bag and remove it.
 		/// </summary>
 		/// <typeparam name="TValue">The type of value.</typeparam>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="propertyName">The name of the property.</param>
 		/// <param name="target">The target.</param>
 		/// <returns>Returns true when the property could be retrieved otherwise false.</returns>
-		public bool TryGetAndRemove<TValue>(IContext context, string propertyName, out TValue target)
+		public bool TryGetAndRemove<TValue>(IMansionContext context, string propertyName, out TValue target)
 		{
 			// validate arguments
 			if (context == null)
@@ -208,7 +206,7 @@ namespace Premotion.Mansion.Core.Collections
 			}
 
 			// get the conversion service
-			var conversionService = context.Cast<INucleusAwareContext>().Nucleus.Get<IConversionService>(context);
+			var conversionService = context.Nucleus.ResolveSingle<IConversionService>();
 
 			// convert the value
 			target = conversionService.Convert<TValue>(context, value);
@@ -292,11 +290,11 @@ namespace Premotion.Mansion.Core.Collections
 		/// <summary>
 		/// Tries to read a value from the internal data representation.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="propertyName">The name of the property which to read.</param>
 		/// <param name="value">The value of the property.</param>
 		/// <returns>Returns true when the property was found, otherwise false.</returns>
-		private bool TryGetInternalValue(IContext context, string propertyName, out object value)
+		private bool TryGetInternalValue(IMansionContext context, string propertyName, out object value)
 		{
 			// if the property is not found, fire the event
 			if (InnerData.TryGetValue(propertyName, out value))
@@ -363,11 +361,11 @@ namespace Premotion.Mansion.Core.Collections
 		/// <summary>
 		/// Gets the modified properties.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="original">The original properties.</param>
 		/// <param name="modifications">The modifications.</param>
 		/// <returns>Returns only additions or modified properties.</returns>
-		public static IPropertyBag GetModifiedProperties(IContext context, IPropertyBag original, IEnumerable<KeyValuePair<string, object>> modifications)
+		public static IPropertyBag GetModifiedProperties(IMansionContext context, IPropertyBag original, IEnumerable<KeyValuePair<string, object>> modifications)
 		{
 			// validate arugments
 			if (context == null)

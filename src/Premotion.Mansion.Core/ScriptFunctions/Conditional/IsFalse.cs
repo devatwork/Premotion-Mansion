@@ -1,4 +1,5 @@
-﻿using Premotion.Mansion.Core.Conversion;
+﻿using System;
+using Premotion.Mansion.Core.Conversion;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
 
 namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
@@ -9,18 +10,40 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 	[ScriptFunction("IsFalse")]
 	public class IsFalse : FunctionExpression
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="conversionService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public IsFalse(IConversionService conversionService)
+		{
+			// validate arguments
+			if (conversionService == null)
+				throw new ArgumentNullException("conversionService");
+
+			// set values
+			this.conversionService = conversionService;
+		}
+		#endregion
+		#region Evaluate Methods
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="input"></param>
 		/// <returns></returns>
-		public bool Evaluate(MansionContext context, object input)
+		public bool Evaluate(IMansionContext context, object input)
 		{
-			// get the conversion service
-			var conversionService = context.Nucleus.Get<IConversionService>(context);
+			// valdidate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
 
 			// convert the value
 			return conversionService.Convert(context, input, true);
 		}
+		#endregion
+		#region Private Fields
+		private readonly IConversionService conversionService;
+		#endregion
 	}
 }

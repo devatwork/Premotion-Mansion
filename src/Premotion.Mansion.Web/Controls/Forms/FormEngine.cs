@@ -11,10 +11,10 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Loads the <see cref="FormState"/> of a particular <paramref name="form"/> from the <paramref name="context"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> for which to load the state.</param>
 		/// <returns>Returns the loaded <see cref="FormState"/>.</returns>
-		public FormState LoadState(MansionWebContext context, Form form)
+		public FormState LoadState(IMansionWebContext context, Form form)
 		{
 			// validate arguments
 			if (context == null)
@@ -26,17 +26,17 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Loads the <see cref="FormState"/> of a particular <paramref name="form"/> from the <paramref name="context"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> for which to load the state.</param>
 		/// <returns>Returns the loaded <see cref="FormState"/>.</returns>
-		protected abstract FormState DoLoadState(MansionWebContext context, Form form);
+		protected abstract FormState DoLoadState(IMansionWebContext context, Form form);
 		/// <summary>
 		/// Stores the <see cref="FormState"/> of a particular <paramref name="form"/> in the <paramref name="context"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> for which to store the state.</param>
 		/// <param name="state">The <see cref="FormState"/> which to save.</param>
-		public void StoreState(MansionWebContext context, Form form, FormState state)
+		public void StoreState(IMansionWebContext context, Form form, FormState state)
 		{
 			// validate arguments
 			if (context == null)
@@ -50,19 +50,19 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Stores the <see cref="FormState"/> of a particular <paramref name="form"/> in the <paramref name="context"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> for which to store the state.</param>
 		/// <param name="state">The <see cref="FormState"/> which to save.</param>
-		protected abstract void DoStoreState(MansionWebContext context, Form form, FormState state);
+		protected abstract void DoStoreState(IMansionWebContext context, Form form, FormState state);
 		#endregion
 		#region Advance Methods
 		/// <summary>
 		/// Advances the <paramref name="form"/> to the <paramref name="step"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> being advanced.</param>
 		/// <param name="step">The <see cref="Step"/> to which to advance.</param>
-		public void AdvanceTo(MansionWebContext context, Form form, Step step)
+		public void AdvanceTo(IMansionWebContext context, Form form, Step step)
 		{
 			// validate arguments
 			if (context == null)
@@ -76,10 +76,10 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Advances the <paramref name="form"/> to the <paramref name="step"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> being advanced.</param>
 		/// <param name="step">The <see cref="Step"/> to which to advance.</param>
-		protected abstract void DoAdvanceTo(MansionWebContext context, Form form, Step step);
+		protected abstract void DoAdvanceTo(IMansionWebContext context, Form form, Step step);
 		#endregion
 	}
 }

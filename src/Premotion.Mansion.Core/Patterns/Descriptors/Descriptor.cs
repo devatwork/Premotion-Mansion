@@ -7,42 +7,35 @@ namespace Premotion.Mansion.Core.Patterns.Descriptors
 	/// </summary>
 	public abstract class Descriptor : IDescriptor
 	{
-		#region Constructors
+		#region Methods
 		/// <summary>
-		/// Constructs a descriptor.
+		/// Initializes this descriptor.
 		/// </summary>
-		/// <param name="namespaceUri">The namespace.</param>
-		/// <param name="name">The name of this descriptor.</param>
-		/// <param name="properties">The properties.</param>
-		protected Descriptor(string namespaceUri, string name, IPropertyBag properties)
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		public void Initialize(IMansionContext context)
 		{
 			// validate arguments
-			if (string.IsNullOrEmpty(namespaceUri))
-				throw new ArgumentNullException("namespaceUri");
-			if (string.IsNullOrEmpty(name))
-				throw new ArgumentNullException("name");
-			if (properties == null)
-				throw new ArgumentNullException("properties");
+			if (context == null)
+				throw new ArgumentNullException("context");
 
-			// set values
-			NamespaceUri = namespaceUri;
-			Name = name;
-			Properties = properties;
+			// invoke template method
+			DoInitialize(context);
+		}
+
+		/// <summary>
+		/// Initializes this descriptor.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		protected virtual void DoInitialize(IMansionContext context)
+		{
+			// do nothin
 		}
 		#endregion
 		#region Properties
 		/// <summary>
-		/// Gets the namespace of this descriptor.
-		/// </summary>
-		public string NamespaceUri { get; private set; }
-		/// <summary>
-		/// Gets the name of this descriptor.
-		/// </summary>
-		public string Name { get; private set; }
-		/// <summary>
 		/// Gets the properties of this descriptor.
 		/// </summary>
-		public virtual IPropertyBag Properties { get; private set; }
+		public IPropertyBag Properties { get; set; }
 		#endregion
 	}
 }

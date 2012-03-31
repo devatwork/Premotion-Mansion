@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd" xmlns:portal="http://schemas.premotion.nl/mansion/1.0/web/portal/tags.xsd">
+
+	<!-- Defines the configurable properties of this block -->
+	<declareProcedure procedureName="IncludeBlockConfiguration">
+		<forms:richTextarea name="description" label="Description" />
+		<forms:richTextarea name="body" label="Body" />
+	</declareProcedure>
+
+</mansion>

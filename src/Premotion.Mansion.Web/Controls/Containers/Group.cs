@@ -1,4 +1,4 @@
-﻿using Premotion.Mansion.Core.Attributes;
+﻿using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Containers
 {
@@ -11,16 +11,16 @@ namespace Premotion.Mansion.Web.Controls.Containers
 		/// <summary>
 		/// Constructs <see cref="Group"/>s.
 		/// </summary>
-		[Named(Constants.ControlTagNamespaceUri, "group")]
+		[ScriptTag(Constants.ControlTagNamespaceUri, "group")]
 		public class GroupFactoryTag : ControlFactoryTag<Group>
 		{
 			#region Overrides of ControlFactoryTag<Group>
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override Group Create(MansionWebContext context, ControlDefinition definition)
+			protected override Group Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				return new Group(definition);
 			}

@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:ctrls="http://schemas.premotion.nl/mansion/1.0/web.controls.tags.xsd">
+
+	<!-- Invoked when a node is edited -->
+	<declareProcedure procedureName="HandleEdit">
+
+		<!-- we are returning a page -->
+		<web:respondDocument contentType="text/html" encoding="UTF-8" cache="false">
+
+			<!-- disable caching -->
+			<web:disableOutputCache />
+
+			<!-- render the tree -->
+			<web:retrieveNodeByUrl target="UrlNode">
+				
+				<!-- render content -->
+				<renderSection name="CmsPage">
+
+					<!-- check security -->
+					<if condition="{Not( And( IsAuthenticated(), HasPermission( 'Cms', 'use' ) ) )}">
+						<ctrls:invokeDialogParentTrigger action="cms.refresh.frames" />
+						<breakExecution />
+					</if>
+
+					<!-- render the content-->
+					<renderSection name="Content">
+						
+						<!-- determine the xform which to display -->
+						<setProperties dataspaceName="NodeInfo" type="{NotEmpty( Get.type, UrlNode.type )}">
+							
+							<!-- if the type does not exist show the default form -->
+							<if condition="{Not( TypeExists( NodeInfo.type ) )}">
+								<setProperties dataspaceName="NodeInfo" type="Default" />
+							</if>
+							
+							<!-- show the xform of the type -->
+							<openScript type="{NodeInfo.type}" extension="xform" checkExists="true">
+								<invokeProcedure procedureName="RenderXForm" source="{$UrlNode}" targetType="{NodeInfo.type}" mode="update" />
+							</openScript>
+							
+						</setProperties>
+						
+					</renderSection>
+				</renderSection>
+				
+				<notFound>
+					<web:setStatusCode code="404"/>
+				</notFound>
+			</web:retrieveNodeByUrl>
+
+		</web:respondDocument>
+
+	</declareProcedure>
+
+	<!-- Invoked when a node is edited -->
+	<declareProcedure procedureName="HandleNew">
+
+		<!-- we are returning a page -->
+		<web:respondDocument contentType="text/html" encoding="UTF-8" cache="false">
+
+			<!-- disable caching -->
+			<web:disableOutputCache />
+
+			<!-- render the tree -->
+			<web:retrieveNodeByUrl target="UrlNode">
+				
+				<!-- render content -->
+				<renderSection name="CmsPage">
+
+					<!-- check security -->
+					<if condition="{Not( And( IsAuthenticated(), HasPermission( 'Cms', 'use' ) ) )}">
+						<ctrls:invokeDialogParentTrigger action="cms.refresh.frames" />
+						<breakExecution />
+					</if>
+
+					<!-- render the content-->
+					<renderSection name="Content">
+						
+						<!-- determine the xform which to display -->
+						<setProperties dataspaceName="NodeInfo" type="{Route.routeParameter1}">
+							
+							<!-- if the type does not exist show the default form -->
+							<if condition="{Not( TypeExists( NodeInfo.type ) )}">
+								<setProperties dataspaceName="NodeInfo" type="Default" />
+							</if>
+							
+							<!-- show the xform of the type -->
+							<openScript type="{NodeInfo.type}" extension="xform" checkExists="true">
+								<invokeProcedure procedureName="RenderXForm" source="{$UrlNode}" targetType="{NodeInfo.type}" mode="create" />
+							</openScript>
+							
+						</setProperties>
+						
+					</renderSection>
+				</renderSection>
+				
+				<notFound>
+					<web:setStatusCode code="404"/>
+				</notFound>
+			</web:retrieveNodeByUrl>
+
+		</web:respondDocument>
+
+	</declareProcedure>
+
+	
+	
+	<!-- default action for form submits -->
+	<declareProcedure procedureName="OnCancel">
+	</declareProcedure>
+
+	<declareProcedure procedureName="OnCreated">
+		<ctrls:invokeDialogParentTrigger action="cms.tree.navigate" url="{RouteUrl( 'Cms', 'Tree', 'View', NewNode.id )}" />
+		<ctrls:invokeDialogParentTrigger action="cms.browser.navigate" url="{RouteUrl( 'Cms', 'Node', 'Edit', NewNode.id )}" />
+		<breakExecution />
+	</declareProcedure>
+
+	<declareProcedure procedureName="OnUpdated">
+		<ctrls:invokeDialogParentTrigger action="cms.tree.navigate" url="{RouteUrl( 'Cms', 'Tree', 'View', FormSourceNode.id )}" />
+		<ctrls:invokeDialogParentTrigger action="cms.browser.navigate" url="{RouteUrl( 'Cms', 'Node', 'Edit', FormSourceNode.id )}" />
+		<breakExecution />
+	</declareProcedure>
+
+
+</mansion>

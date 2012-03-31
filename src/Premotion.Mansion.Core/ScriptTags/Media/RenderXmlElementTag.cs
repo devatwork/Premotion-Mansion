@@ -1,5 +1,4 @@
 ﻿using System;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.IO.Xml;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
@@ -8,13 +7,13 @@ namespace Premotion.Mansion.Core.ScriptTags.Media
 	/// <summary>
 	/// Renders an XML element to the XML output pipe. This tag must be used within and <see cref="RenderXmlDocumentTag"/>.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "renderXmlElement")]
+	[ScriptTag(Constants.NamespaceUri, "renderXmlElement")]
 	public class RenderXmlElementTag : ScriptTag
 	{
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
 			// get the attributes
 			var attributes = GetAttributes(context);

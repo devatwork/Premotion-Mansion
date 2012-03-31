@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:ctrls="http://schemas.premotion.nl/mansion/1.0/web.controls.tags.xsd">
+	
+	<!-- render the new child form -->
+	<declareProcedure procedureName="RenderForm">
+		
+		<forms:form name="changeorder" dataSource="{$UrlNode}">
+			<forms:step label="Change position of {UrlNode.name}" headerCssClasses="background header-footer">
+				<forms:validationSummary/>
+
+				<forms:fieldset label="">
+					<forms:number name="order" label="Set new position" min="0" max="2147483647">
+						<forms:requiredFieldValidator />
+					</forms:number>
+				</forms:fieldset>
+				
+				<!-- retrieve the parent node of this node -->
+				<forms:renderScript>
+					<retrieveParentNode childSource="{$UrlNode}" target="ParentNode">
+					<retrieveChildNodeset parentSource="{$ParentNode}" limit="500" sort="order ASC" target="SiblingNodeset">
+							
+						<!-- render the other columns in an ordered list -->
+						<renderSection name="Siblings">
+							<loopNodeset source="{$SiblingNodeset}" target="SiblingNode">
+								<renderSection name="Sibling" />
+							</loopNodeset>
+						</renderSection>
+						
+					</retrieveChildNodeset>
+					</retrieveParentNode>
+				</forms:renderScript>
+
+				<forms:buttonBar cssClass="background grey cms-toolbar bottom right">
+					<forms:button action="cancel" label="Cancel" cssClass="cancel" />
+					<forms:button action="change" label="Change" cssClass="ok" />
+				</forms:buttonBar>
+				
+				<!-- processes the form actions -->
+				<forms:processScriptAction supportedActions="cancel" requiresValidForm="false">
+					<ctrls:invokeDialogParentTrigger action="cms.dialog.close" />
+					<breakExecution />
+				</forms:processScriptAction>
+				
+				<forms:processScriptAction supportedActions="change">
+					<editNode source="{$UrlNode}" order="{FieldProperties.order}"/>
+					<ctrls:invokeDialogParentTrigger action="cms.refresh.frames" />
+					<ctrls:invokeDialogParentTrigger action="cms.dialog.close" />
+					<breakExecution />
+				</forms:processScriptAction>
+				
+			</forms:step>
+		</forms:form>
+		
+	</declareProcedure>
+	
+</mansion>

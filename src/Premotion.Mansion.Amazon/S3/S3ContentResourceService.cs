@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Util;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.IO;
 using Premotion.Mansion.Core.IO.Windows;
-using Premotion.Mansion.Core.Nucleus;
-using Premotion.Mansion.Core.Nucleus.Facilities.Lifecycle;
 using Premotion.Mansion.Core.Patterns;
 
 namespace Premotion.Mansion.Amazon.S3
@@ -18,7 +17,7 @@ namespace Premotion.Mansion.Amazon.S3
 	/// <summary>
 	/// Implements <see cref="IContentResourceService"/> for Amazon S3.
 	/// </summary>
-	public class S3ContentResourceService : ManagedLifecycleService, IContentResourceService
+	public class S3ContentResourceService : DisposableBase, IContentResourceService
 	{
 		#region Nested type: S3Resource
 		/// <summary>
@@ -333,14 +332,18 @@ namespace Premotion.Mansion.Amazon.S3
 		/// <summary>
 		/// Checks whether a resource exists at the specified paths.
 		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="path">The path to the resource.</param>
 		/// <returns>Returns true when a resource exists, otherwise false.</returns>
-		public bool Exists(IResourcePath path)
+		public bool Exists(IMansionContext context, IResourcePath path)
 		{
 			// validate arguments
 			if (path == null)
 				throw new ArgumentNullException("path");
 			CheckDisposed();
+
+			// initialize
+			Initialize(context);
 
 			try
 			{
@@ -359,10 +362,10 @@ namespace Premotion.Mansion.Amazon.S3
 		/// <summary>
 		/// Parses the properties into a resource path.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="properties">The properties which to parse.</param>
 		/// <returns>Returns the parsed resource path.</returns>
-		public IResourcePath ParsePath(IContext context, IPropertyBag properties)
+		public IResourcePath ParsePath(IMansionContext context, IPropertyBag properties)
 		{
 			// validate arguments
 			if (context == null)
@@ -370,6 +373,9 @@ namespace Premotion.Mansion.Amazon.S3
 			if (properties == null)
 				throw new ArgumentNullException("properties");
 			CheckDisposed();
+
+			// initialize
+			Initialize(context);
 
 			// get the resource base path
 			var categoryBasePath = properties.Get(context, "category", "Temp");
@@ -384,10 +390,10 @@ namespace Premotion.Mansion.Amazon.S3
 		/// <summary>
 		/// Gets the first and most important relative path of <paramref name="resourcePath"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="resourcePath">The <see cref="IResourcePath"/>.</param>
 		/// <returns>Returns a string version of the most important relative path.</returns>
-		public string GetFirstRelativePath(IContext context, IResourcePath resourcePath)
+		public string GetFirstRelativePath(IMansionContext context, IResourcePath resourcePath)
 		{
 			// validate arguments
 			if (context == null)
@@ -396,16 +402,19 @@ namespace Premotion.Mansion.Amazon.S3
 				throw new ArgumentNullException("resourcePath");
 			CheckDisposed();
 
+			// initialize
+			Initialize(context);
+
 			// just return the first path
 			return resourcePath.Paths.First();
 		}
 		/// <summary>
 		/// Opens the resource using the specified path. This will create the resource if it does not already exist.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="path">The <see cref="IResourcePath"/> identifying the resource.</param>
 		/// <returns>Returns the <see cref="IResource"/>.</returns>
-		public IResource GetResource(IContext context, IResourcePath path)
+		public IResource GetResource(IMansionContext context, IResourcePath path)
 		{
 			// validate arguments
 			if (context == null)
@@ -413,6 +422,9 @@ namespace Premotion.Mansion.Amazon.S3
 			if (path == null)
 				throw new ArgumentNullException("path");
 			CheckDisposed();
+
+			// initialize
+			Initialize(context);
 
 			// get the meta data for the file and dispose the response streams inmediately
 			var metaData = client.GetObjectMetadata(new GetObjectMetadataRequest().WithBucketName(bucketName).WithKey(path.Paths.Single()));
@@ -441,11 +453,15 @@ namespace Premotion.Mansion.Amazon.S3
 		/// <summary>
 		/// Invoked just before this service is used for the first time.
 		/// </summary>
-		/// <param name="context">The <see cref="NucleusContext"/>.</param>
-		protected override void DoStart(INucleusAwareContext context)
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		private void Initialize(IMansionContext context)
 		{
+			// make thread safe
+			if ((initializedState != 0) || (Interlocked.CompareExchange(ref initializedState, 1, 0) != 0))
+				return;
+
 			// get the settings
-			var settings = context.Cast<MansionContext>().Stack.Peek<IPropertyBag>("Application");
+			var settings = context.Cast<IMansionContext>().Stack.Peek<IPropertyBag>("Application");
 
 			// get the settings from the application settings
 			var awsAccessKeyId = settings.Get(context, Constants.AccessKeyApplicationSetting, string.Empty);
@@ -516,6 +532,7 @@ namespace Premotion.Mansion.Amazon.S3
 		#region Private Fields
 		private string bucketName;
 		private AmazonS3 client;
+		private int initializedState;
 		#endregion
 	}
 }

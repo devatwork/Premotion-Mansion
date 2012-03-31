@@ -13,10 +13,10 @@ namespace Premotion.Mansion.Web.Controls.ScriptFunctions
 		/// <summary>
 		/// Gets the property of a control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="propertyName">The name of the control property which to get.</param>
 		/// <returns>Returns the page number.</returns>
-		public string Evaluate(MansionContext context, string propertyName)
+		public string Evaluate(IMansionContext context, string propertyName)
 		{
 			// validate arguments
 			if (context == null)
@@ -26,7 +26,7 @@ namespace Premotion.Mansion.Web.Controls.ScriptFunctions
 
 			// get the control
 			Control control;
-			if (!context.Cast<MansionWebContext>().TryFindControl(out control))
+			if (!context.Cast<IMansionWebContext>().TryFindControl(out control))
 				throw new InvalidOperationException("No control is found on the stack.");
 
 			// return the value
@@ -35,11 +35,11 @@ namespace Premotion.Mansion.Web.Controls.ScriptFunctions
 		/// <summary>
 		/// Gets the property of a control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="controlId">The ID of the dataset which to page.</param>
 		/// <param name="propertyName">The name of the control property which to get.</param>
 		/// <returns>Returns the page number.</returns>
-		public string Evaluate(MansionContext context, string controlId, string propertyName)
+		public string Evaluate(IMansionContext context, string controlId, string propertyName)
 		{
 			// validate arguments
 			if (context == null)

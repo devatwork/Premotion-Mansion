@@ -18,14 +18,14 @@ namespace Premotion.Mansion.Web.Caching
 		/// <summary>
 		/// Defines the context of the cache.
 		/// </summary>
-		private class CacheContext : ContextExtension
+		private class CacheMansionContext : MansionContextExtension
 		{
 			#region Constructors
 			/// <summary>
 			/// Constructs the context.
 			/// </summary>
-			/// <param name="originalContext">The <see cref="IContext"/>.</param>
-			public CacheContext(IContext originalContext) : base(originalContext)
+			/// <param name="originalContext">The <see cref="IMansionContext"/>.</param>
+			public CacheMansionContext(IMansionContext originalContext) : base(originalContext)
 			{
 			}
 			#endregion
@@ -87,11 +87,11 @@ namespace Premotion.Mansion.Web.Caching
 		/// Tries to get an object from this cache by its <paramref name="key"/>.
 		/// </summary>
 		/// <typeparam name="TObject">The type of the stored object.</typeparam>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="key">The <see cref="CacheKey"/>.</param>
 		/// <param name="value">The <see cref="CachedObject{TObject}"/> found in this cache.</param>
 		/// <returns>Returns true when the object was found, otherwise false.</returns>
-		public bool TryGet<TObject>(IContext context, CacheKey key, out CachedObject<TObject> value)
+		public bool TryGet<TObject>(IMansionContext context, CacheKey key, out CachedObject<TObject> value)
 		{
 			// validate arguments
 			if (context == null)
@@ -108,11 +108,11 @@ namespace Premotion.Mansion.Web.Caching
 		/// Gets an object of type <typeparamref name="TObject"/> from the cache byt it's key. If the item does not exist in the cache add and return it using <paramref name="valueFactory"/>.
 		/// </summary>
 		/// <typeparam name="TObject">The type of the stored object.</typeparam>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="key">The cache key.</param>
 		/// <param name="valueFactory">The value factory which provides the object if it doesn't exist in this cache.</param>
 		/// <returns>Returns the value.</returns>
-		public TObject GetOrAdd<TObject>(IContext context, CacheKey key, Func<CachedObject<TObject>> valueFactory)
+		public TObject GetOrAdd<TObject>(IMansionContext context, CacheKey key, Func<CachedObject<TObject>> valueFactory)
 		{
 			// validate arguments
 			if (context == null)
@@ -135,11 +135,11 @@ namespace Premotion.Mansion.Web.Caching
 		/// Adds or replaces an object of type <typeparamref name="TObject"/> in the cache.
 		/// </summary>
 		/// <typeparam name="TObject">The type of stored object.</typeparam>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="key">The <see cref="CacheKey"/>.</param>
 		/// <param name="valueFactory">The value factory which produces the cache object.</param>
 		/// <returns>Returns the value.</returns>
-		public TObject AddOrReplace<TObject>(IContext context, CacheKey key, Func<CachedObject<TObject>> valueFactory)
+		public TObject AddOrReplace<TObject>(IMansionContext context, CacheKey key, Func<CachedObject<TObject>> valueFactory)
 		{
 			// validate arguments
 			if (context == null)
@@ -181,16 +181,16 @@ namespace Premotion.Mansion.Web.Caching
 		/// Inserts an object into the cache.
 		/// </summary>
 		/// <typeparam name="TObject">The type of object which to insert.</typeparam>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="key">The cache key.</param>
 		/// <param name="valueFactory">The value factory.</param>
 		/// <returns>Returns the cached object.</returns>
-		private static TObject InsertIntoCache<TObject>(IContext context, string key, Func<CachedObject<TObject>> valueFactory)
+		private static TObject InsertIntoCache<TObject>(IMansionContext context, string key, Func<CachedObject<TObject>> valueFactory)
 		{
 			// create the value
 			CachedObject<TObject> entry;
 			var cacheEntryCollector = new CacheDependencyCollector();
-			var cacheContext = context.Extend(ctx => new CacheContext(context));
+			var cacheContext = context.Extend(ctx => new CacheMansionContext(context));
 			using (cacheContext.Collectors.Push(cacheEntryCollector))
 				entry = valueFactory();
 			if (entry == null)

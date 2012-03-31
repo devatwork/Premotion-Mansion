@@ -1,5 +1,4 @@
 ﻿using System;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.IO.Csv;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
@@ -8,13 +7,13 @@ namespace Premotion.Mansion.Core.ScriptTags.Media.Csv
 	/// <summary>
 	/// Renders a CSV document to the outpipe.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "renderCSVDocument")]
+	[ScriptTag(Constants.NamespaceUri, "renderCSVDocument")]
 	public class RenderCsvDocumentTag : ScriptTag
 	{
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
 			// check if a default format is used or a custom one is specified
 			var formatName = GetAttribute<string>(context, "format");

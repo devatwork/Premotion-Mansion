@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+	
+	<declareProcedure procedureName="RenderXFormContent">
+		<forms:fieldset label="General">
+			<forms:textbox name="name" label="Name">
+				<forms:requiredFieldValidator />
+			</forms:textbox>
+		</forms:fieldset>
+		<invokeProcedure procedureName="RenderGroupHostHeaders"/>
+		<invokeProcedure procedureName="RenderGroupPublication"/>
+		<invokeProcedure procedureName="RenderGroupIdentity"/>
+		<invokeProcedure procedureName="RenderGroupSecurity"/>
+	</declareProcedure>
+
+	<declareProcedure procedureName="RenderGroupHostHeaders">
+		<forms:fieldset label="Hostheaders">
+			<forms:textbox name="preferedHostheader" label="Preffered hostheader" />
+			<forms:textbox name="hostHeaders" label="Hostheaders">
+				<forms:requiredFieldValidator />
+			</forms:textbox>
+		</forms:fieldset>
+	</declareProcedure>
+	
+</mansion>

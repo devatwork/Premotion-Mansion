@@ -1,5 +1,4 @@
-﻿using Premotion.Mansion.Core.Attributes;
-using Premotion.Mansion.Core.Collections;
+﻿using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
@@ -8,13 +7,13 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 	/// <summary>
 	/// Edits an existing node.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "editNode")]
+	[ScriptTag(Constants.NamespaceUri, "editNode")]
 	public class EditNodeTag : ScriptTag
 	{
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
 			// get arguments
 			var node = GetRequiredAttribute<Node>(context, "source");

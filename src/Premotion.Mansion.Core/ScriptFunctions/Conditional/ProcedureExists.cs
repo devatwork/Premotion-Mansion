@@ -15,7 +15,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 		/// <param name="context"></param>
 		/// <param name="procedureName"></param>
 		/// <returns></returns>
-		public bool Evaluate(MansionContext context, string procedureName)
+		public bool Evaluate(IMansionContext context, string procedureName)
 		{
 			// valdidate arguments
 			if (context == null)

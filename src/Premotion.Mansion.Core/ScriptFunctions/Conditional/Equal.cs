@@ -15,7 +15,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 		/// <param name="leftHand"></param>
 		/// <param name="rightHand"></param>
 		/// <returns></returns>
-		public bool Evaluate(MansionContext context, string leftHand, string rightHand)
+		public bool Evaluate(IMansionContext context, string leftHand, string rightHand)
 		{
 			return Evaluate(context, leftHand, rightHand, true);
 		}
@@ -26,7 +26,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 		/// <param name="rightHand"></param>
 		/// <param name="ignoreCase"></param>
 		/// <returns></returns>
-		public bool Evaluate(MansionContext context, string leftHand, string rightHand, bool ignoreCase)
+		public bool Evaluate(IMansionContext context, string leftHand, string rightHand, bool ignoreCase)
 		{
 			// validate arguments
 			if (context == null)

@@ -11,8 +11,8 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// <summary>
 		/// Initializes this script.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
-		void Initialize(MansionContext context);
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		void Initialize(IMansionContext context);
 		#endregion
 	}
 }

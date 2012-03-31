@@ -16,9 +16,9 @@ namespace Premotion.Mansion.Web
 		/// <summary>
 		/// Retrieves the tag index <see cref="Node"/>. Creates one when no exists.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the <see cref="Node"/> representing the tag index.</returns>
-		public static Node RetrieveTagIndexNode(MansionContext context)
+		public static Node RetrieveTagIndexNode(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -47,11 +47,11 @@ namespace Premotion.Mansion.Web
 		/// <summary>
 		/// Retrieves the tag <see cref="Node"/> with name <paramref name="tagName"/>. Creates one when no exists.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="tagIndexNode">The tag index node.</param>
 		/// <param name="tagName">The name of the tag.</param>
 		/// <returns>Returns the <see cref="Node"/> representing the tag index.</returns>
-		public static Node RetrieveTagNode(MansionContext context, Node tagIndexNode, string tagName)
+		public static Node RetrieveTagNode(IMansionContext context, Node tagIndexNode, string tagName)
 		{
 			// validate arguments
 			if (context == null)
@@ -81,12 +81,12 @@ namespace Premotion.Mansion.Web
 		/// <summary>
 		/// Tries to retrieve the tag <see cref="Node"/> with name <paramref name="tagName"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="tagIndexNode">The tag index node.</param>
 		/// <param name="tagName">The name of the tag.</param>
 		/// <param name="tagNode"></param>
 		/// <returns>Returns true when the node was found, otherwise false.</returns>
-		public static bool TryRetrieveTagNode(MansionContext context, Node tagIndexNode, string tagName, out Node tagNode)
+		public static bool TryRetrieveTagNode(IMansionContext context, Node tagIndexNode, string tagName, out Node tagNode)
 		{
 			// validate arguments
 			if (context == null)
@@ -132,10 +132,10 @@ namespace Premotion.Mansion.Web
 		/// <summary>
 		/// Removes a tag name from the <paramref name="properties"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="properties">The properties containing the current tag names.</param>
 		/// <param name="tagName">The name of the tag which to remove.</param>
-		public static void RemoveTagName(MansionContext context, IPropertyBag properties, string tagName)
+		public static void RemoveTagName(IMansionContext context, IPropertyBag properties, string tagName)
 		{
 			// validate arguments
 			if (context == null)
@@ -160,9 +160,9 @@ namespace Premotion.Mansion.Web
 		/// <summary>
 		/// Manages the tags.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="properties">The new properties.</param>
-		public static void ToGuids(MansionContext context, IPropertyBag properties)
+		public static void ToGuids(IMansionContext context, IPropertyBag properties)
 		{
 			// validate arguments
 			if (context == null)
@@ -191,10 +191,10 @@ namespace Premotion.Mansion.Web
 		/// <summary>
 		/// Manages the tags.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="properties">The new properties.</param>
 		/// <returns>A CSV of all the tag names.</returns>
-		public static string ToNames(MansionContext context, IPropertyBag properties)
+		public static string ToNames(IMansionContext context, IPropertyBag properties)
 		{
 			// validate arguments
 			if (context == null)

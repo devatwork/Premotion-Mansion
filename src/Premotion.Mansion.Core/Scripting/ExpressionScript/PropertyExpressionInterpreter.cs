@@ -37,9 +37,9 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 			/// <summary>
 			/// Evaluates this expression.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
 			/// <returns>Returns the result of the evaluation.</returns>
-			public override TTarget Execute<TTarget>(MansionContext context)
+			public override TTarget Execute<TTarget>(IMansionContext context)
 			{
 				// validate argument
 				if (context == null)
@@ -70,10 +70,10 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// <summary>
 		/// Asks a voter to cast a vote on the subject.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="subject">The subject.</param>
 		/// <returns>Returns the result of the vote.</returns>
-		protected override VoteResult DoVote(MansionContext context, string subject)
+		protected override VoteResult DoVote(IMansionContext context, string subject)
 		{
 			// check
 			var isEscapedCodePart = subject.Length > 4 && subject[0] == '{' && subject.Contains(".") && subject[subject.Length - 1] == '}';
@@ -86,10 +86,10 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// <summary>
 		/// Interprets the input.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="input">The input which to interpret.</param>
 		/// <returns>Returns the interpreted result.</returns>
-		protected override IExpressionScript DoInterpret(MansionContext context, string input)
+		protected override IExpressionScript DoInterpret(IMansionContext context, string input)
 		{
 			// get the values
 			var split = input.Substring(1, input.Length - 2).Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);

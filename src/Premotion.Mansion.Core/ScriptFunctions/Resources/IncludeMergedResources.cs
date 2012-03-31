@@ -13,12 +13,33 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Resources
 	[ScriptFunction("IncludeMergedResources")]
 	public class IncludeMergedResources : FunctionExpression
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="applicationResourceService"></param>
+		/// <param name="expressionScriptService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public IncludeMergedResources(IApplicationResourceService applicationResourceService, IExpressionScriptService expressionScriptService)
+		{
+			// validate arguments
+			if (applicationResourceService == null)
+				throw new ArgumentNullException("applicationResourceService");
+			if (expressionScriptService == null)
+				throw new ArgumentNullException("expressionScriptService");
+
+			// set values
+			this.applicationResourceService = applicationResourceService;
+			this.expressionScriptService = expressionScriptService;
+		}
+		#endregion
+		#region Evalaluate Methods
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="relativePath">The relative path to the resource which to include.</param>
 		/// <returns></returns>
-		public string Evaluate(MansionContext context, string relativePath)
+		public string Evaluate(IMansionContext context, string relativePath)
 		{
 			// validate arguments
 			if (context == null)
@@ -26,21 +47,17 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Resources
 			if (string.IsNullOrEmpty(relativePath))
 				throw new ArgumentNullException("relativePath");
 
-			// get the services
-			var resourceService = context.Nucleus.Get<IApplicationResourceService>(context);
-			var scriptService = context.Nucleus.Get<IExpressionScriptService>(context);
-
 			// get the resource
-			var resourcePath = resourceService.ParsePath(context, new PropertyBag
-			                                                      {
-			                                                      	{"path", relativePath}
-			                                                      });
+			var resourcePath = applicationResourceService.ParsePath(context, new PropertyBag
+			                                                                 {
+			                                                                 	{"path", relativePath}
+			                                                                 });
 
 			// create the buffer
 			var buffer = new StringBuilder();
 
 			// loop over all the resources
-			foreach (var script in resourceService.Get(context, resourcePath).Select(resource => scriptService.Parse(context, resource)))
+			foreach (var script in applicationResourceService.Get(context, resourcePath).Select(resource => expressionScriptService.Parse(context, resource)))
 			{
 				// execute the script and write the result back to the output pipe
 				buffer.AppendLine(script.Execute<string>(context));
@@ -48,5 +65,10 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Resources
 
 			return buffer.ToString();
 		}
+		#endregion
+		#region Private Fields
+		private readonly IApplicationResourceService applicationResourceService;
+		private readonly IExpressionScriptService expressionScriptService;
+		#endregion
 	}
 }

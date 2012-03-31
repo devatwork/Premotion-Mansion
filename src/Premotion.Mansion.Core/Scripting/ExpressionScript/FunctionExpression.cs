@@ -16,17 +16,17 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// <summary>
 		/// executes this function.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the result.</returns>
-		public delegate object ExecuteFunction(MansionContext context);
+		public delegate object ExecuteFunction(IMansionContext context);
 		#endregion
 		#region Initialize Methods
 		/// <summary>
 		/// Initializes this script funtion.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="argumentExpressions">The arguments expression.</param>
-		public virtual void Initialize(IContext context, ICollection<IExpressionScript> argumentExpressions)
+		public virtual void Initialize(IMansionContext context, ICollection<IExpressionScript> argumentExpressions)
 		{
 			// validate argument
 			if (context == null)
@@ -41,7 +41,7 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 			var methodInfo = FindEvaluateMethod(argumentExpressions);
 
 			// build a dynamic method
-			var dynamicMethod = new DynamicMethod(string.Empty, typeof (string), new[] {GetType(), typeof (MansionContext)}, GetType());
+			var dynamicMethod = new DynamicMethod(string.Empty, typeof (string), new[] {GetType(), typeof (IMansionContext)}, GetType());
 			var generator = dynamicMethod.GetILGenerator();
 
 			// push the 'this' and context instance to te stack
@@ -208,15 +208,15 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// Evaluates this expression.
 		/// </summary>
 		/// <typeparam name="TTarget">The target type.</typeparam>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the result of the evaluation.</returns>
-		public override TTarget Execute<TTarget>(MansionContext context)
+		public override TTarget Execute<TTarget>(IMansionContext context)
 		{
 			// validate argument
 			if (context == null)
 				throw new ArgumentNullException("context");
 
-			return context.Nucleus.Get<IConversionService>(context).Convert<TTarget>(context, executeFunction(context));
+			return context.Nucleus.ResolveSingle<IConversionService>().Convert<TTarget>(context, executeFunction(context));
 		}
 		#endregion
 		#region Private Fields

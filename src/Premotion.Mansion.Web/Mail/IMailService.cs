@@ -1,13 +1,12 @@
 ﻿using System.Net.Mail;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Nucleus;
 
 namespace Premotion.Mansion.Web.Mail
 {
 	/// <summary>
 	/// Represents the mail service.
 	/// </summary>
-	public interface IMailService : IService
+	public interface IMailService
 	{
 		#region Create Methods
 		/// <summary>
@@ -20,9 +19,9 @@ namespace Premotion.Mansion.Web.Mail
 		/// <summary>
 		/// Sends the <paramref name="message"/> to the intended recepients.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="message">The <see cref="MailMessage"/> which to send.</param>
-		void Send(MansionContext context, MailMessage message);
+		void Send(IMansionContext context, MailMessage message);
 		#endregion
 	}
 }

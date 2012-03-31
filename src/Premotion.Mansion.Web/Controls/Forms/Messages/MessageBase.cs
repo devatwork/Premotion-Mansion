@@ -17,9 +17,9 @@ namespace Premotion.Mansion.Web.Controls.Forms.Messages
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override sealed MessageBase Create(MansionWebContext context, ControlDefinition definition)
+			protected override sealed MessageBase Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				// set the message
 				definition.Properties.Set("message", GetContent<string>(context));
@@ -30,9 +30,9 @@ namespace Premotion.Mansion.Web.Controls.Forms.Messages
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected abstract MessageBase CreateMessageControl(MansionWebContext context, ControlDefinition definition);
+			protected abstract MessageBase CreateMessageControl(IMansionWebContext context, ControlDefinition definition);
 			#endregion
 		}
 		#endregion

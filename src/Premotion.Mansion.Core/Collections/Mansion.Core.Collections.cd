@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Premotion.Mansion.Core.Collections.Sort" Collapsed="true">
+    <Position X="8.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Collections\Sort.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Collections.AutoPopDictionaryStack&lt;TKey, TEntry&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAEABAJAAAAAAAAAAAAAIAEAAAAAAAACAA=</HashCode>
+      <FileName>Collections\AutoPopDictionaryStack.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Collections.AutoPopStack&lt;TEntry&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAABAIAAAAAAQAAAAAAAAEAAAAAAAACAA=</HashCode>
+      <FileName>Collections\AutoPopStack.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Collections.AutoStackKeyGroup" Collapsed="true">
+    <Position X="8.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAAAAAgAAAAAAAAAACAA=</HashCode>
+      <FileName>Collections\AutoStackKeyGroup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Collections.Dataset" Collapsed="true">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAEAAIkBQACJAggAAAAAAkAAAVgAAAhI=</HashCode>
+      <FileName>Collections\Dataset.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Collections.Loop" Collapsed="true">
+    <Position X="2.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAKAAAACACIAAEAgAACAAAAAgAQAAAAAIAAAAAAAgAA=</HashCode>
+      <FileName>Collections\Loop.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Collections.PropertyBag" Collapsed="true">
+    <Position X="1.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIggAAEAAAABBBIAAAABARAgABAAYAEAAABABAQAAA=</HashCode>
+      <FileName>Collections\PropertyBag.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Collections.PropertyBagAdapterFactory" Collapsed="true">
+    <Position X="7" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAIAAAAAA=</HashCode>
+      <FileName>Collections\PropertyBagAdapterFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Collections.DataspaceNotFoundException" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACA=</HashCode>
+      <FileName>Collections\DataspaceNotFoundException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Premotion.Mansion.Core.Collections.IAutoPopDictionaryStack&lt;TKey, TEntry&gt;" Collapsed="true">
+    <Position X="5.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAEAAABAAAAAAAAAAAAAIAAAAAAAAAACAA=</HashCode>
+      <FileName>Collections\IAutoPopDictionaryStack.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Premotion.Mansion.Core.Collections.IAutoPopStack&lt;TEntry&gt;" Collapsed="true">
+    <Position X="7" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Collections\IAutoPopStack.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

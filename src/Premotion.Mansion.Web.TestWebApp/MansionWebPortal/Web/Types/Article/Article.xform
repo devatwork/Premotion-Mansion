@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd">
+
+	<declareProcedure procedureName="RenderPropertiesGroup">
+		<forms:fieldset label="Content">
+			<forms:textbox name="name" label="Title">
+				<forms:requiredFieldValidator/>
+			</forms:textbox>
+		</forms:fieldset>
+		<forms:richTextarea name="description" label="Introduction" />
+		<forms:richTextarea name="body" label="Text" />
+	</declareProcedure>
+	
+</mansion>

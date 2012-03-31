@@ -15,9 +15,9 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 		/// <summary>
 		/// Renders the title of this page.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the HTML for this block.</returns>
-		public string Evaluate(MansionContext context)
+		public string Evaluate(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)

@@ -1,15 +1,15 @@
 ﻿using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.ScriptTags.Repository;
+using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Portal.ScriptTags
 {
 	/// <summary>
 	/// Retrieves the block nodes for a node.
 	/// </summary>
-	[Named(Constants.TagNamespaceUri, "retrieveBlockNodeset")]
+	[ScriptTag(Constants.TagNamespaceUri, "retrieveBlockNodeset")]
 	public class RetrieveBlockNodesetTag : RetrieveNodesetBaseTag
 	{
 		/// <summary>
@@ -19,7 +19,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 		/// <param name="arguments">The arguments from which to build the query.</param>
 		/// <param name="repository"></param>
 		/// <returns>Returns the result.</returns>
-		protected override Nodeset Retrieve(MansionContext context, IPropertyBag arguments, IRepository repository)
+		protected override Nodeset Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository)
 		{
 			// get the node
 			var sourceNode = GetRequiredAttribute<Node>(context, "source");

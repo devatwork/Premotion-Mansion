@@ -26,10 +26,10 @@ namespace Premotion.Mansion.Core.Data.Clauses
 			/// <summary>
 			/// Interprets the input.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionContext" />.</param>
+			/// <param name="context">The <see cref="IMansionContext" />.</param>
 			/// <param name="input">The input which to interpret.</param>
 			/// <returns>Returns the interpreted result.</returns>
-			protected override IEnumerable<NodeQueryClause> DoInterpret(MansionContext context, IPropertyBag input)
+			protected override IEnumerable<NodeQueryClause> DoInterpret(IMansionContext context, IPropertyBag input)
 			{
 				// validate arguments
 				if (context == null)
@@ -43,7 +43,7 @@ namespace Premotion.Mansion.Core.Data.Clauses
 					yield break;
 
 				// get the security model service
-				var securityModelService = context.Nucleus.Get<ISecurityModelService>(context);
+				var securityModelService = context.Nucleus.ResolveSingle<ISecurityModelService>();
 
 				// retrieve the user
 				var user = securityModelService.RetrieveUser(context, context.CurrentUserState);

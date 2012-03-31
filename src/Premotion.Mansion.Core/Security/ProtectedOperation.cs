@@ -111,11 +111,11 @@ namespace Premotion.Mansion.Core.Security
 		/// <summary>
 		/// Creates a <see cref="ProtectedOperation"/> from the <paramref name="resourceId"/> and <paramref name="operationId"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="resourceId">The ID of the <see cref="ProtectedResource"/>.</param>
 		/// <param name="operationId">The ID of the <see cref="ProtectedOperation"/>.</param>
 		/// <returns>Returns the created <see cref="ProtectedOperation"/>.</returns>
-		public static ProtectedOperation Create(MansionContext context, string resourceId, string operationId)
+		public static ProtectedOperation Create(IMansionContext context, string resourceId, string operationId)
 		{
 			// validate arguments
 			if (context == null)

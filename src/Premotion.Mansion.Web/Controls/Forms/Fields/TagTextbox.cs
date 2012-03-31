@@ -1,4 +1,4 @@
-﻿using Premotion.Mansion.Core.Attributes;
+﻿using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Templating;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Fields
@@ -12,16 +12,16 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// This tag creates a <see cref="Textbox"/>.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "tagTextbox")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "tagTextbox")]
 		public class TagTextboxFactoryTag : FieldFactoryTag<TagTextbox>
 		{
 			#region Overrides of FieldFactoryTag<TagTextbox>
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override TagTextbox Create(MansionWebContext context, ControlDefinition definition)
+			protected override TagTextbox Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				return new TagTextbox(definition);
 			}
@@ -41,9 +41,9 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// Render this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		protected override void DoRender(MansionWebContext context, ITemplateService templateService)
+		protected override void DoRender(IMansionWebContext context, ITemplateService templateService)
 		{
 			// retrieve tag index node
 			var tagIndexNode = TagUtilities.RetrieveTagIndexNode(context);

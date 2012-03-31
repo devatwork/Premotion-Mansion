@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{539C06CF-073F-4CEE-B8CE-EAA644F3AE39}</ProjectGuid>
+    <ProjectGuid>{615BD1A7-BBC0-488B-A909-DB44B336E868}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Premotion.Mansion.Repository.SqlServer.Tests</RootNamespace>
@@ -38,6 +38,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Premotion.Mansion.Core\Premotion.Mansion.Core.csproj">
+      <Project>{95DFBC37-6549-4BC0-AB9F-0F5D22D35926}</Project>
+      <Name>Premotion.Mansion.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Premotion.Mansion.Repository.SqlServer\Premotion.Mansion.Repository.SqlServer.csproj">
+      <Project>{ACCEC1F3-EFDB-40BA-94BB-9EF9F6659397}</Project>
+      <Name>Premotion.Mansion.Repository.SqlServer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

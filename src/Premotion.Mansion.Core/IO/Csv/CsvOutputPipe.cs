@@ -70,9 +70,9 @@ namespace Premotion.Mansion.Core.IO.Csv
 		/// <summary>
 		/// Writes <paramref name="values"/> to the output.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="values">The <see cref="IPropertyBag"/> containing the values which to write.</param>
-		public void Write(IContext context, IPropertyBag values)
+		public void Write(IMansionContext context, IPropertyBag values)
 		{
 			// validate arguments
 			if (context == null)

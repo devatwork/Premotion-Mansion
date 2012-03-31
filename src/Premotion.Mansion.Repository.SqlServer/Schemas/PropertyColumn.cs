@@ -36,7 +36,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// Initializes this column.
 		/// </summary>
 		/// <param name="context">The application context.</param>
-		public void Initialize(MansionContext context)
+		public void Initialize(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -49,7 +49,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 			string expressionString;
 			if (Properties.TryGet(context, "expression", out expressionString))
 			{
-				var expressionService = context.Nucleus.Get<IExpressionScriptService>(context);
+				var expressionService = context.Nucleus.ResolveSingle<IExpressionScriptService>();
 				HasExpression = true;
 				Expression = expressionService.Parse(context, new LiteralResource(expressionString));
 			}
@@ -58,7 +58,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 			string defaultValue;
 			if (Properties.TryGet(context, "defaultValue", out defaultValue))
 			{
-				var expressionService = context.Nucleus.Get<IExpressionScriptService>(context);
+				var expressionService = context.Nucleus.ResolveSingle<IExpressionScriptService>();
 				var defaultValueExpression = expressionService.Parse(context, new LiteralResource(defaultValue));
 				DefaultValue = Normalize(context, defaultValueExpression.Execute<object>(context));
 				HasDefaultValue = true;
@@ -73,7 +73,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="newPointer"></param>
 		/// <param name="properties"></param>
-		protected override void DoToInsertStatement(MansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
+		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
 		{
 			// get the value of the column
 			var value = GetValue(context, properties.Get<object>(context, PropertyName));
@@ -91,7 +91,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="node"></param>
 		/// <param name="modifiedProperties"></param>
-		protected override void DoToUpdateStatement(MansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
 		{
 			// check if the property is not modified
 			object input;
@@ -115,7 +115,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="node"></param>
 		/// <param name="columnText"></param>
 		/// <param name="valueText"></param>
-		protected override void DoToSyncStatement(MansionContext context, SqlCommand command, Node node, StringBuilder columnText, StringBuilder valueText)
+		protected override void DoToSyncStatement(IMansionContext context, SqlCommand command, Node node, StringBuilder columnText, StringBuilder valueText)
 		{
 			// determine the value
 			var value = GetValue(context, node.Get<object>(context, PropertyName));
@@ -129,10 +129,10 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <summary>
 		/// Normalizes the value of this column.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="input">The input which to normalize.</param>
 		/// <returns>Returns the normalized value.</returns>
-		public object Normalize(MansionContext context, object input)
+		public object Normalize(IMansionContext context, object input)
 		{
 			// validate arguments
 			if (context == null)
@@ -144,10 +144,10 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <summary>
 		/// Normalizes the value of this column.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="input">The input which to normalize.</param>
 		/// <returns>Returns the normalized value.</returns>
-		protected virtual object DoNormalize(MansionContext context, object input)
+		protected virtual object DoNormalize(IMansionContext context, object input)
 		{
 			// check for empty strings
 			if (input is string && string.IsNullOrEmpty((string) input))
@@ -164,10 +164,10 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <summary>
 		/// Gets the value of this column.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="input">The input value from which to derive the column value.</param>
 		/// <returns>Returns the column value.</returns>
-		private object GetValue(MansionContext context, object input)
+		private object GetValue(IMansionContext context, object input)
 		{
 			// normalize the input
 			input = Normalize(context, input);

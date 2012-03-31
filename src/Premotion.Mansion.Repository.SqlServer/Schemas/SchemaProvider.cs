@@ -20,7 +20,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="context">The application context.</param>
 		/// <param name="query">The type.</param>
 		/// <returns>Returns the </returns>
-		public static Schema Resolve(MansionContext context, NodeQuery query)
+		public static Schema Resolve(IMansionContext context, NodeQuery query)
 		{
 			// validate arguments
 			if (context == null)
@@ -29,7 +29,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 				throw new ArgumentNullException("query");
 
 			// get the type service
-			var typeService = context.Nucleus.Get<ITypeService>(context);
+			var typeService = context.Nucleus.ResolveSingle<ITypeService>();
 
 			// check if there is a type specification
 			var definedTypes = query.Clauses.Where(candidate => candidate is ITypeSpecifierClause).SelectMany(candidate => ((ITypeSpecifierClause) candidate).Types).ToArray();
@@ -44,7 +44,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="context">The application context.</param>
 		/// <param name="typeName">The name of the type type.</param>
 		/// <returns>Returns the schema.</returns>
-		public static Schema Resolve(MansionContext context, string typeName)
+		public static Schema Resolve(IMansionContext context, string typeName)
 		{
 			// validate arguments
 			if (context == null)
@@ -53,7 +53,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 				throw new ArgumentNullException("typeName");
 
 			// get the type service
-			var typeService = context.Nucleus.Get<ITypeService>(context);
+			var typeService = context.Nucleus.ResolveSingle<ITypeService>();
 
 			// get the type
 			ITypeDefinition type;
@@ -69,7 +69,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="context">The application context.</param>
 		/// <param name="type">The type which to resolve.</param>
 		/// <returns>Returns the schema.</returns>
-		public static Schema Resolve(MansionContext context, ITypeDefinition type)
+		public static Schema Resolve(IMansionContext context, ITypeDefinition type)
 		{
 			// create a new schema
 			var schema = new Schema();
@@ -93,7 +93,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="type"></param>
 		/// <param name="schema"></param>
 		/// <param name="isOwner"></param>
-		private static void ExtractSchemaFromTypeDefinition(MansionContext context, ITypeDefinition type, Schema schema, bool isOwner)
+		private static void ExtractSchemaFromTypeDefinition(IMansionContext context, ITypeDefinition type, Schema schema, bool isOwner)
 		{
 			// check if this type has a table declaration
 			TypeTableDescriptor tableDescriptor;

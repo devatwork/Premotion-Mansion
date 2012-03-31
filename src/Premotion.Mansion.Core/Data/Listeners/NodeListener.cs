@@ -11,10 +11,10 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <summary>
 		/// This method is called just before a node is created by the repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="parent">The parent node to which the new child will be added.</param>
 		/// <param name="newProperties">The new properties of the node.</param>
-		public void BeforeCreate(MansionContext context, Node parent, IPropertyBag newProperties)
+		public void BeforeCreate(IMansionContext context, Node parent, IPropertyBag newProperties)
 		{
 			// validate arguments
 			if (context == null)
@@ -30,11 +30,11 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <summary>
 		/// This method is called just after a node is created by the repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="parent">The parent node to which the new child was be added.</param>
 		/// <param name="node">The created node.</param>
 		/// <param name="newProperties">The properties from which the <paramref name="node"/> was constructed.</param>
-		public void AfterCreate(MansionContext context, Node parent, Node node, IPropertyBag newProperties)
+		public void AfterCreate(IMansionContext context, Node parent, Node node, IPropertyBag newProperties)
 		{
 			// validate arguments
 			if (context == null)
@@ -52,10 +52,10 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <summary>
 		/// This method is called just before a node is updated by the repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The node which will be modified.</param>
 		/// <param name="modifiedProperties">The updated properties of the node.</param>
-		public void BeforeUpdate(MansionContext context, Node node, IPropertyBag modifiedProperties)
+		public void BeforeUpdate(IMansionContext context, Node node, IPropertyBag modifiedProperties)
 		{
 			// validate arguments
 			if (context == null)
@@ -71,10 +71,10 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <summary>
 		/// This method is called just after a node is updated by the repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The modified node.</param>
 		/// <param name="modifiedProperties">The properties which were set to the updated <paramref name="node"/>.</param>
-		public void AfterUpdate(MansionContext context, Node node, IPropertyBag modifiedProperties)
+		public void AfterUpdate(IMansionContext context, Node node, IPropertyBag modifiedProperties)
 		{
 			// validate arguments
 			if (context == null)
@@ -90,9 +90,9 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <summary>
 		/// This method is called just before a node is deleted from the repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node being deleted.</param>
-		public void BeforeDelete(MansionContext context, NodePointer pointer)
+		public void BeforeDelete(IMansionContext context, NodePointer pointer)
 		{
 			// validate arguments
 			if (context == null)
@@ -106,10 +106,10 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <summary>
 		/// This method is called just before a node is moved in the repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node being moved.</param>
 		/// <param name="newParentPointer">The pointer to the new parent.</param>
-		public void BeforeMove(MansionContext context, NodePointer pointer, NodePointer newParentPointer)
+		public void BeforeMove(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
 		{
 			// validate arguments
 			if (context == null)
@@ -125,9 +125,9 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <summary>
 		/// This method is called just before a node is moved in the repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The moved node.</param>
-		public void AfterMove(MansionContext context, Node node)
+		public void AfterMove(IMansionContext context, Node node)
 		{
 			// validate arguments
 			if (context == null)
@@ -141,10 +141,10 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <summary>
 		/// This method is called just before a node is copied in the repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node being copied.</param>
 		/// <param name="newParentPointer">The pointer to the parent under which the node is copied.</param>
-		public void BeforeCopy(MansionContext context, NodePointer pointer, NodePointer newParentPointer)
+		public void BeforeCopy(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
 		{
 			// validate arguments
 			if (context == null)
@@ -160,9 +160,9 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <summary>
 		/// This method is called just before a node is copied in the repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The copied node.</param>
-		public void AfterCopy(MansionContext context, Node node)
+		public void AfterCopy(IMansionContext context, Node node)
 		{
 			// validate arguments
 			if (context == null)
@@ -176,11 +176,11 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <summary>
 		/// This method is called when an property which is not on the node is accessed. Useful for lazy loading properties.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The <see cref="Node"/> which does not have the property..</param>
 		/// <param name="propertyName">The name of the property being retrieved.</param>
 		/// <param name="value">The missing value</param>
-		public bool TryResolveMissingProperty(MansionContext context, Node node, string propertyName, out object value)
+		public bool TryResolveMissingProperty(IMansionContext context, Node node, string propertyName, out object value)
 		{
 			// validate arguments
 			if (context == null)
@@ -198,90 +198,90 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <summary>
 		/// This method is called just before a node is created by the repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="parent">The parent node to which the new child will be added.</param>
 		/// <param name="newProperties">The new properties of the node.</param>
-		protected virtual void DoBeforeCreate(MansionContext context, Node parent, IPropertyBag newProperties)
+		protected virtual void DoBeforeCreate(IMansionContext context, Node parent, IPropertyBag newProperties)
 		{
 		}
 		/// <summary>
 		/// This method is called just after a node is created by the repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="parent">The parent node to which the new child was be added.</param>
 		/// <param name="node">The created node.</param>
 		/// <param name="newProperties">The properties from which the <paramref name="node"/> was constructed.</param>
-		protected virtual void DoAfterCreate(MansionContext context, Node parent, Node node, IPropertyBag newProperties)
+		protected virtual void DoAfterCreate(IMansionContext context, Node parent, Node node, IPropertyBag newProperties)
 		{
 		}
 		/// <summary>
 		/// This method is called just before a node is updated by the repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The node which will be modified.</param>
 		/// <param name="modifiedProperties">The updated properties of the node.</param>
-		protected virtual void DoBeforeUpdate(MansionContext context, Node node, IPropertyBag modifiedProperties)
+		protected virtual void DoBeforeUpdate(IMansionContext context, Node node, IPropertyBag modifiedProperties)
 		{
 		}
 		/// <summary>
 		/// This method is called just after a node is updated by the repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The modified node.</param>
 		/// <param name="modifiedProperties">The properties which were set to the updated <paramref name="node"/>.</param>
-		protected virtual void DoAfterUpdate(MansionContext context, Node node, IPropertyBag modifiedProperties)
+		protected virtual void DoAfterUpdate(IMansionContext context, Node node, IPropertyBag modifiedProperties)
 		{
 		}
 		/// <summary>
 		/// This method is called just before a node is deleted from the repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node being deleted.</param>
-		protected virtual void DoBeforeDelete(MansionContext context, NodePointer pointer)
+		protected virtual void DoBeforeDelete(IMansionContext context, NodePointer pointer)
 		{
 		}
 		/// <summary>
 		/// This method is called just before a node is moved in the repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node being moved.</param>
 		/// <param name="newParentPointer">The pointer to the new parent.</param>
-		protected virtual void DoBeforeMove(MansionContext context, NodePointer pointer, NodePointer newParentPointer)
+		protected virtual void DoBeforeMove(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
 		{
 		}
 		/// <summary>
 		/// This method is called just before a node is moved in the repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The moved node.</param>
-		protected virtual void DoAfterMove(MansionContext context, Node node)
+		protected virtual void DoAfterMove(IMansionContext context, Node node)
 		{
 		}
 		/// <summary>
 		/// This method is called just before a node is copied in the repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node being copied.</param>
 		/// <param name="newParentPointer">The pointer to the parent under which the node is copied.</param>
-		protected virtual void DoBeforeCopy(MansionContext context, NodePointer pointer, NodePointer newParentPointer)
+		protected virtual void DoBeforeCopy(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
 		{
 		}
 		/// <summary>
 		/// This method is called just before a node is copied in the repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The copied node.</param>
-		protected virtual void DoAfterCopy(MansionContext context, Node node)
+		protected virtual void DoAfterCopy(IMansionContext context, Node node)
 		{
 		}
 		/// <summary>
 		/// This method is called when an property which is not on the node is accessed. Useful for lazy loading properties.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The <see cref="Node"/> which does not have the property..</param>
 		/// <param name="propertyName">The name of the property being retrieved.</param>
 		/// <param name="value">The missing value</param>
-		protected virtual bool DoTryResolveMissingProperty(MansionContext context, Node node, string propertyName, out object value)
+		protected virtual bool DoTryResolveMissingProperty(IMansionContext context, Node node, string propertyName, out object value)
 		{
 			value = null;
 			return false;

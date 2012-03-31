@@ -12,7 +12,6 @@ using Premotion.Mansion.Core.Patterns;
 using Premotion.Mansion.Core.Patterns.Voting;
 using Premotion.Mansion.Repository.SqlServer.Converters;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
-using log4net;
 
 namespace Premotion.Mansion.Repository.SqlServer.Queries
 {
@@ -57,7 +56,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <param name="query"></param>
 		/// <param name="converters"></param>
 		/// <returns></returns>
-		public static SelectQuery Prepare(MansionContext context, SqlConnection connection, SchemaProvider schemaProvider, NodeQuery query, IEnumerable<IClauseConverter> converters)
+		public static SelectQuery Prepare(IMansionContext context, SqlConnection connection, SchemaProvider schemaProvider, NodeQuery query, IEnumerable<IClauseConverter> converters)
 		{
 			// validate arguments
 			if (context == null)
@@ -79,6 +78,8 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			var command = connection.CreateCommand();
 			command.CommandType = CommandType.Text;
 
+			converters = converters.ToList();
+
 			// map all clauses
 			foreach (var clause in query.Clauses)
 			{
@@ -97,7 +98,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// </summary>
 		/// <param name="context">The application context.</param>
 		/// <returns></returns>
-		public Nodeset Execute(MansionContext context)
+		public Nodeset Execute(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -107,7 +108,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			command.CommandText = sqlStringBuilder.ToString();
 
 			// execute the command
-			log.Info("Executing select query: " + command.CommandText);
 			using (var reader = command.ExecuteReader(CommandBehavior.Default))
 				return new Nodeset(context, MapRecords(context, reader), MapSetProperties(reader));
 		}
@@ -116,7 +116,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// </summary>
 		/// <param name="context">The application context.</param>
 		/// <returns></returns>
-		public Node ExecuteSingle(MansionContext context)
+		public Node ExecuteSingle(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -126,7 +126,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			command.CommandText = sqlStringBuilder.ToSingleNodeQuery();
 
 			// execute the command
-			log.Info("Executing select single query: " + command.CommandText);
 			using (var reader = command.ExecuteReader(CommandBehavior.SingleRow))
 			{
 				// first check if there is a result
@@ -145,7 +144,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <param name="context">The application context.</param>
 		/// <param name="reader">The reader from which to read.</param>
 		/// <returns>Returns a nodeset.</returns>
-		private IEnumerable<Node> MapRecords(MansionContext context, IDataReader reader)
+		private IEnumerable<Node> MapRecords(IMansionContext context, IDataReader reader)
 		{
 			var nodelist = new List<Node>();
 
@@ -197,7 +196,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <param name="context"></param>
 		/// <param name="record"></param>
 		/// <returns></returns>
-		private Node Map(MansionContext context, IDataRecord record)
+		private Node Map(IMansionContext context, IDataRecord record)
 		{
 			// validate argument
 			if (record == null)
@@ -230,7 +229,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 				record.GetBytes(extendedPropertiesIndex, 0, serializedProperties, 0, serializedProperties.Length);
 
 				// deserialize
-				var conversionService = context.Nucleus.Get<IConversionService>(context);
+				var conversionService = context.Nucleus.ResolveSingle<IConversionService>();
 				var deserializedProperties = conversionService.Convert<IPropertyBag>(context, serializedProperties);
 
 				// merge the deserialized properties
@@ -283,7 +282,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		}
 		#endregion
 		#region Private Fields
-		private static readonly ILog log = LogManager.GetLogger(typeof (SelectQuery));
 		private readonly IDbCommand command;
 		private readonly NodeQuery originalQuery;
 		private readonly Schema schema;

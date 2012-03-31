@@ -26,10 +26,10 @@ namespace Premotion.Mansion.Core.Data.Clauses
 			/// <summary>
 			/// 	Interprets the input.
 			/// </summary>
-			/// <param name = "context">The <see cref = "MansionContext" />.</param>
+			/// <param name = "context">The <see cref = "IMansionContext" />.</param>
 			/// <param name = "input">The input which to interpret.</param>
 			/// <returns>Returns the interpreted result.</returns>
-			protected override IEnumerable<NodeQueryClause> DoInterpret(MansionContext context, IPropertyBag input)
+			protected override IEnumerable<NodeQueryClause> DoInterpret(IMansionContext context, IPropertyBag input)
 			{
 				// validate arguments
 				if (context == null)
@@ -43,7 +43,7 @@ namespace Premotion.Mansion.Core.Data.Clauses
 					yield break;
 
 				// get the values
-				var conversionService = context.Nucleus.Get<IConversionService>(context);
+				var conversionService = context.Nucleus.ResolveSingle<IConversionService>();
 				var limit = conversionService.Convert<int>(context, limitString);
 
 				// create the paging clause

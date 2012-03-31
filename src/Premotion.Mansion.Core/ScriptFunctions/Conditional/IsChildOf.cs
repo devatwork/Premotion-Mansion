@@ -17,7 +17,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 		/// <param name="child"></param>
 		/// <param name="parent"></param>
 		/// <returns></returns>
-		public bool Evaluate(MansionContext context, Node child, Node parent)
+		public bool Evaluate(IMansionContext context, Node child, Node parent)
 		{
 			// validate arguments
 			if (context == null)

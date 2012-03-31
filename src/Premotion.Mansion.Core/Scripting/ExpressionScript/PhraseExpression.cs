@@ -12,9 +12,9 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// <summary>
 		/// Executes this script.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <exception cref="ScriptExecutionException">Thrown when an exception occured while executing this script.</exception>
-		public void Execute(MansionContext context)
+		public void Execute(IMansionContext context)
 		{
 			Execute<object>(context);
 		}
@@ -22,9 +22,9 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// Evaluates this expression.
 		/// </summary>
 		/// <typeparam name="TResult">The resulting type.</typeparam>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the result of the evaluation.</returns>
-		public abstract TResult Execute<TResult>(MansionContext context);
+		public abstract TResult Execute<TResult>(IMansionContext context);
 		#endregion
 		#region Properties
 		/// <summary>

@@ -15,11 +15,11 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The input value.</param>
 		/// <param name="sourceType">The actual type of the source.</param>
 		/// <returns>Returns the converted value.</returns>
-		protected override string DoConvert(IContext context, IPropertyBag source, Type sourceType)
+		protected override string DoConvert(IMansionContext context, IPropertyBag source, Type sourceType)
 		{
 			using (var bufferStream = new MemoryStream())
 			using (var writer = new BsonWriter(bufferStream))
@@ -31,12 +31,12 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The input value.</param>
 		/// <param name="sourceType">The actual type of the source.</param>
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns>Returns the converted value.</returns>
-		protected override string DoConvert(IContext context, IPropertyBag source, Type sourceType, string defaultValue)
+		protected override string DoConvert(IMansionContext context, IPropertyBag source, Type sourceType, string defaultValue)
 		{
 			try
 			{

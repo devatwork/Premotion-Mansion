@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+	
+	<declareProcedure procedureName="RenderXFormContent">
+		<forms:fieldset label="General">
+			<forms:textbox name="name" label="Name">
+				<forms:requiredFieldValidator />
+			</forms:textbox>
+		</forms:fieldset>
+		<!-- include additional property groups -->
+		<invokeProcedure procedureName="IncludePropertyGroups" checkExists="false"/>
+		<invokeProcedure procedureName="RenderGroupHostHeaders"/>
+		<invokeProcedure procedureName="RenderGroupLookAndFeelGroup" />
+		<invokeProcedure procedureName="RenderGroupSeo"/>
+		<invokeProcedure procedureName="RenderGoogleApplicationSettings"/>
+		<invokeProcedure procedureName="RenderGroupPublication"/>
+		<invokeProcedure procedureName="RenderGroupIdentity"/>
+		<invokeProcedure procedureName="RenderGroupSecurity"/>
+	</declareProcedure>
+
+	
+	
+	<!-- The settings for Google application like Analytics and Webmaster verification code -->
+	<declareProcedure procedureName="RenderGoogleApplicationSettings">
+		<forms:fieldset label="Google Application Settings">
+			<forms:textbox name="googleAnalyticsTrackingCode" label="Google Analytics Tracking Code" />
+			<forms:textbox name="googleSiteVerification" label="Google Webmaster Verification Code" />
+		</forms:fieldset>
+	</declareProcedure>
+	
+</mansion>

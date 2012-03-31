@@ -14,11 +14,11 @@ namespace Premotion.Mansion.Core.Patterns.Voting
 		/// <summary>
 		/// Solves the election.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="candidates">The candidates in this election.</param>
 		/// <param name="subject">The subject on which is voted.</param>
 		/// <returns>Returns the winner of the election.</returns>
-		public static TCandidate Elect(IContext context, IEnumerable<TCandidate> candidates, TSubject subject)
+		public static TCandidate Elect(IMansionContext context, IEnumerable<TCandidate> candidates, TSubject subject)
 		{
 			// validate argument
 			if (context == null)
@@ -62,12 +62,12 @@ namespace Premotion.Mansion.Core.Patterns.Voting
 		/// <summary>
 		/// Solves the election.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="candidates">The candidates in this election.</param>
 		/// <param name="subject">The subject on which is voted.</param>
 		/// <param name="winner">The winning candidate.</param>
 		/// <returns>Returns true when a winner was found, otherwise false.</returns>
-		public static bool TryElect(IContext context, IEnumerable<TCandidate> candidates, TSubject subject, out TCandidate winner)
+		public static bool TryElect(IMansionContext context, IEnumerable<TCandidate> candidates, TSubject subject, out TCandidate winner)
 		{
 			// validate argument
 			if (context == null)
@@ -120,16 +120,16 @@ namespace Premotion.Mansion.Core.Patterns.Voting
 	/// <summary>
 	/// Represents an election.
 	/// </summary>
-	/// <typeparam name="TContext">The type of <see cref="IContext"/>.</typeparam>
+	/// <typeparam name="TContext">The type of <see cref="IMansionContext"/>.</typeparam>
 	/// <typeparam name="TCandidate">The type of voter.</typeparam>
 	/// <typeparam name="TSubject">The type of subject on which to vote.</typeparam>
-	public static class Election<TContext, TCandidate, TSubject> where TCandidate : ICandidate<TContext, TSubject> where TContext : class, IContext
+	public static class Election<TContext, TCandidate, TSubject> where TCandidate : ICandidate<TContext, TSubject> where TContext : class, IMansionContext
 	{
 		#region Solve Methods
 		/// <summary>
 		/// Solves the election.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="candidates">The candidates in this election.</param>
 		/// <param name="subject">The subject on which is voted.</param>
 		/// <returns>Returns the winner of the election.</returns>
@@ -177,7 +177,7 @@ namespace Premotion.Mansion.Core.Patterns.Voting
 		/// <summary>
 		/// Solves the election.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <typeparamref name="TContext"/>.</param>
 		/// <param name="candidates">The candidates in this election.</param>
 		/// <param name="subject">The subject on which is voted.</param>
 		/// <param name="winner">The winning candidate.</param>

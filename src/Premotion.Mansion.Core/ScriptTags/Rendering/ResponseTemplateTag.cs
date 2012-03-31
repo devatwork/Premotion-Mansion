@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Caching;
 using Premotion.Mansion.Core.IO.Memory;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
@@ -11,9 +10,29 @@ namespace Premotion.Mansion.Core.ScriptTags.Rendering
 	/// <summary>
 	/// Caches the response in a template which can be personalized.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "responseTemplate")]
+	[ScriptTag(Constants.NamespaceUri, "responseTemplate")]
 	public class ResponseTemplateTag : ScriptTag
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cachingService"></param>
+		/// <param name="expressionScriptService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public ResponseTemplateTag(ICachingService cachingService, IExpressionScriptService expressionScriptService)
+		{
+			// validate arguments
+			if (cachingService == null)
+				throw new ArgumentNullException("cachingService");
+			if (expressionScriptService == null)
+				throw new ArgumentNullException("expressionScriptService");
+
+			// set values
+			this.cachingService = cachingService;
+			this.expressionScriptService = expressionScriptService;
+		}
+		#endregion
 		#region Nested type: ResponseOutputPipe
 		/// <summary>
 		/// Implements a special <see cref="StringOutputPipe"/>.
@@ -42,16 +61,13 @@ namespace Premotion.Mansion.Core.ScriptTags.Rendering
 		/// Caches the response in a template which can be personalized.
 		/// </summary>
 		/// <param name="context"></param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
 			// get the parameters
 			var cacheKey = cacheKeyPrefix + GetRequiredAttribute<string>(context, "cacheKey");
 
-			// get the services
-			var cacheService = context.Nucleus.Get<ICachingService>(context);
-
 			// load the expression
-			var expression = cacheService.GetOrAdd(
+			var expression = cachingService.GetOrAdd(
 				context,
 				(StringCacheKey) cacheKey,
 				() =>
@@ -70,8 +86,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Rendering
 					}
 
 					// turn it into an expression
-					var expressionService = context.Nucleus.Get<IExpressionScriptService>(context);
-					var responseTemplateExpression = expressionService.Parse(context, new LiteralResource(responseTemplateBuffer.ToString()));
+					var responseTemplateExpression = expressionScriptService.Parse(context, new LiteralResource(responseTemplateBuffer.ToString()));
 
 					// check if the object can be cached
 					return new CachedPhrase(responseTemplateExpression)
@@ -90,6 +105,8 @@ namespace Premotion.Mansion.Core.ScriptTags.Rendering
 		/// This prefix uniquely identifies this response template tag. different tags with the same cacheKey will yield different results.
 		/// </summary>
 		private readonly string cacheKeyPrefix = "ResponseTemplate" + "_" + Guid.NewGuid() + "_";
+		private readonly ICachingService cachingService;
+		private readonly IExpressionScriptService expressionScriptService;
 		#endregion
 	}
 }

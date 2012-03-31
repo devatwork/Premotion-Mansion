@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Patterns.Descriptors;
 
 namespace Premotion.Mansion.Core.Types
@@ -66,16 +65,16 @@ namespace Premotion.Mansion.Core.Types
 		/// <summary>
 		/// Gets the types inheriting from this type.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the inheriting types.</returns>
-		public IEnumerable<ITypeDefinition> GetInheritingTypes(IContext context)
+		public IEnumerable<ITypeDefinition> GetInheritingTypes(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 
 			// loop through all the types
-			var typeService = context.Cast<INucleusAwareContext>().Nucleus.Get<ITypeService>(context);
+			var typeService = context.Nucleus.ResolveSingle<ITypeService>();
 
 			// returns inheriting types
 			return from candidate in typeService.LoadAll(context)

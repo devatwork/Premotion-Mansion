@@ -1,4 +1,4 @@
-﻿using Premotion.Mansion.Core.Attributes;
+﻿using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Fields
 {
@@ -11,16 +11,16 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// This tag creates a <see cref="Hidden"/> field.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "hidden")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "hidden")]
 		public class HiddenFactoryTag : FormControlFactoryTag<Hidden>
 		{
 			#region Overrides of FieldFactoryTag<Textbox>
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override Hidden Create(MansionWebContext context, ControlDefinition definition)
+			protected override Hidden Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				return new Hidden(definition);
 			}
@@ -40,9 +40,9 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// Initializes this form control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> to which this control belongs.</param>
-		protected override void DoInitialize(MansionWebContext context, Form form)
+		protected override void DoInitialize(IMansionWebContext context, Form form)
 		{
 			// set the value
 			var name = Definition.Properties.Get<string>(context, "name");

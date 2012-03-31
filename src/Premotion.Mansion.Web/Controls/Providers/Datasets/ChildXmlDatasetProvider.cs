@@ -39,9 +39,9 @@ namespace Premotion.Mansion.Web.Controls.Providers.Datasets
 		/// <summary>
 		/// Retrieves the data from this provider.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext" />.</param>
+		/// <param name="context">The <see cref="IMansionContext" />.</param>
 		/// <returns>Returns the retrieve data.</returns>
-		protected override Dataset DoRetrieve(MansionContext context)
+		protected override Dataset DoRetrieve(IMansionContext context)
 		{
 			return dataset;
 		}

@@ -16,11 +16,11 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The input value.</param>
 		/// <param name="sourceType">The actual type of the source.</param>
 		/// <returns>Returns the converted value.</returns>
-		protected override IPropertyBag DoConvert(IContext context, string source, Type sourceType)
+		protected override IPropertyBag DoConvert(IMansionContext context, string source, Type sourceType)
 		{
 			// deserialize
 			using (var bufferStream = new MemoryStream(SystemConverter.FromBase64String(source)))
@@ -30,12 +30,12 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The input value.</param>
 		/// <param name="sourceType">The actual type of the source.</param>
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns>Returns the converted value.</returns>
-		protected override IPropertyBag DoConvert(IContext context, string source, Type sourceType, IPropertyBag defaultValue)
+		protected override IPropertyBag DoConvert(IMansionContext context, string source, Type sourceType, IPropertyBag defaultValue)
 		{
 			try
 			{

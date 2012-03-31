@@ -25,6 +25,7 @@ namespace Premotion.Mansion.Core.Templating
 				throw new ArgumentNullException("path");
 
 			// initialize all the sections
+			sections = sections.ToList();
 			foreach (var section in sections)
 				section.Template = this;
 
@@ -37,11 +38,11 @@ namespace Premotion.Mansion.Core.Templating
 		/// <summary>
 		/// Tries to get the section with the name <paramref name="sectionName"/> from this template.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="sectionName">The name of the section.</param>
 		/// <param name="section">The section when found.</param>
 		/// <returns>Returns true when the section was found, otherwise false.</returns>
-		public bool TryGet(IContext context, string sectionName, out ISection section)
+		public bool TryGet(IMansionContext context, string sectionName, out ISection section)
 		{
 			// validate arguments
 			if (context == null)

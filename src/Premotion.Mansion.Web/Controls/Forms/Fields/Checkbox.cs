@@ -1,6 +1,6 @@
 ﻿using System;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
+using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Fields
 {
@@ -13,16 +13,16 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// This tag creates a <see cref="Textbox"/>.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "checkbox")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "checkbox")]
 		public class CheckboxTag : FieldFactoryTag<Checkbox>
 		{
 			#region Overrides of FieldFactoryTag<Checkbox>
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override Checkbox Create(MansionWebContext context, ControlDefinition definition)
+			protected override Checkbox Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				return new Checkbox(definition);
 			}
@@ -42,9 +42,9 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// Gets a flag indicating whether this field has a value.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns true when the field is considered to have value, otherwise false.</returns>
-		public override bool HasValue(IContext context)
+		public override bool HasValue(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -55,9 +55,9 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// Initializes this form control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> to which this control belongs.</param>
-		protected override void DoInitialize(MansionWebContext context, Form form)
+		protected override void DoInitialize(IMansionWebContext context, Form form)
 		{
 			// if the form is posted back make sure the boolean is set when the checkbox was unchecked
 			if (form.State.IsPostback)

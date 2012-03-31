@@ -27,7 +27,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="newPointer"></param>
 		/// <param name="properties"></param>
-		protected override void DoToInsertStatement(MansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
+		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
 		{
 			// remove all properties starting with an underscore
 			var unstoredPropertyNames = properties.Names.Where(candidate => candidate.StartsWith("_")).ToList();
@@ -35,7 +35,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 				properties.Remove(propertyName);
 
 			// get the conversion service
-			var conversionService = context.Nucleus.Get<IConversionService>(context);
+			var conversionService = context.Nucleus.ResolveSingle<IConversionService>();
 
 			// set the column value
 			queryBuilder.AddColumnValue("extendedProperties", conversionService.Convert<byte[]>(context, properties), DbType.Binary);
@@ -47,7 +47,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="node"></param>
 		/// <param name="modifiedProperties"></param>
-		protected override void DoToUpdateStatement(MansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
 		{
 			// assemble the extended properties
 			var extendedProperties = new PropertyBag(node);
@@ -59,7 +59,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 				extendedProperties.Remove(propertyName);
 
 			// get the conversion service
-			var conversionService = context.Nucleus.Get<IConversionService>(context);
+			var conversionService = context.Nucleus.ResolveSingle<IConversionService>();
 
 			// set the column value
 			queryBuilder.AddColumnValue("extendedProperties", conversionService.Convert<byte[]>(context, extendedProperties), DbType.Binary);

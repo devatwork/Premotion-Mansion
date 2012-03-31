@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Xml;
 using Premotion.Mansion.Core.Caching;
 using Premotion.Mansion.Core.IO;
-using Premotion.Mansion.Core.Nucleus;
-using Premotion.Mansion.Core.Nucleus.Facilities.Dependencies;
-using Premotion.Mansion.Core.Nucleus.Facilities.Lifecycle;
 using Premotion.Mansion.Core.Patterns.Descriptors;
 
 namespace Premotion.Mansion.Core.Types.Xml
@@ -15,7 +12,7 @@ namespace Premotion.Mansion.Core.Types.Xml
 	/// <summary>
 	/// Implements <see cref="IPropertyDefinition"/>
 	/// </summary>
-	public class XmlTypeService : ManagedLifecycleService, ITypeService, IServiceWithDependencies
+	public class XmlTypeService : ITypeService
 	{
 		#region Nested type: CachedTypeDefinition
 		/// <summary>
@@ -41,22 +38,45 @@ namespace Premotion.Mansion.Core.Types.Xml
 		/// </summary>
 		private const string Namespace = "http://schemas.premotion.nl/mansion/1.0/type.definition.xsd";
 		#endregion
+		#region Constructors
+		/// <summary>
+		/// Constructs the XML Type service.
+		/// </summary>
+		/// <param name="cachingService">The <see cref="ICachingService"/>.</param>
+		/// <param name="applicationResourceService">The <see cref="IApplicationResourceService"/>.</param>
+		/// <exception cref="ArgumentNullException">Thrown when either <paramref name="cachingService"/> or <paramref name="applicationResourceService"/> is null.</exception>
+		public XmlTypeService(ICachingService cachingService, IApplicationResourceService applicationResourceService)
+		{
+			// validate arguments
+			if (cachingService == null)
+				throw new ArgumentNullException("cachingService");
+			if (applicationResourceService == null)
+				throw new ArgumentNullException("applicationResourceService");
+
+			// set values
+			this.cachingService = cachingService;
+			this.applicationResourceService = applicationResourceService;
+		}
+		#endregion
 		#region Get Methods
 		/// <summary>
 		/// Loads the type with the specified name.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="typeName">The name of the type which to load.</param>
 		/// <returns>Returns the loaded type.</returns>
 		/// <exception cref="TypeNotFoundException">Thrown when the type with the specified name can not be found.</exception>
 		/// <exception cref="ParseTypeException">Thrown when a type can not be parsed.</exception>
-		public ITypeDefinition Load(IContext context, string typeName)
+		public ITypeDefinition Load(IMansionContext context, string typeName)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (string.IsNullOrEmpty(typeName))
 				throw new ArgumentNullException("typeName");
+
+			// make sure the type service is initialized
+			Initialize(context);
 
 			ITypeDefinition type;
 			if (!types.TryGetValue(typeName, out type))
@@ -66,11 +86,11 @@ namespace Premotion.Mansion.Core.Types.Xml
 		/// <summary>
 		/// Tries to load the type with name <paramref name="typeName"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="typeName">The name of the type which to load.</param>
 		/// <param name="typeDefinition">The loaded type definition.</param>
 		/// <returns>Returns true when the type is loaded, otherwise false.</returns>
-		public bool TryLoad(IContext context, string typeName, out ITypeDefinition typeDefinition)
+		public bool TryLoad(IMansionContext context, string typeName, out ITypeDefinition typeDefinition)
 		{
 			// validate arguments
 			if (context == null)
@@ -78,43 +98,67 @@ namespace Premotion.Mansion.Core.Types.Xml
 			if (string.IsNullOrEmpty(typeName))
 				throw new ArgumentNullException("typeName");
 
+			// make sure the type service is initialized
+			Initialize(context);
+
 			return types.TryGetValue(typeName, out typeDefinition);
 		}
 		/// <summary>
 		/// Gets the type which represents the root of the type hierarchy.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <exception cref="ParseTypeException">Thrown when a type can not be parsed.</exception>
-		public ITypeDefinition LoadRoot(IContext context)
+		public ITypeDefinition LoadRoot(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
+
+			// make sure the type service is initialized
+			Initialize(context);
 
 			return rootType;
 		}
 		/// <summary>
 		/// Gets all the type definitions in this application.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns all the types.</returns>
 		/// <exception cref="ParseTypeException">Thrown when a type can not be parsed.</exception>
-		public IEnumerable<ITypeDefinition> LoadAll(IContext context)
+		public IEnumerable<ITypeDefinition> LoadAll(IMansionContext context)
 		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
+			// make sure the type service is initialized
+			Initialize(context);
 
-			// get the resource service
 			return types.Values;
+		}
+		/// <summary>
+		/// Initializes this service.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		private void Initialize(IMansionContext context)
+		{
+			// make thread safe
+			if ((initializedState != 0) || (Interlocked.CompareExchange(ref initializedState, 1, 0) != 0))
+				return;
+
+			// enumerate the types
+			types = applicationResourceService.EnumeratorFolders(context, "Types").Select(typeName => new
+			                                                                                          {
+			                                                                                          	Name = typeName,
+			                                                                                          	Definition = LoadTypeDefinition(context, typeName)
+			                                                                                          }).ToDictionary(x => x.Name, x => x.Definition, StringComparer.OrdinalIgnoreCase);
+
+			// find the root type
+			rootType = types.Values.Single(x => !x.HasParent);
 		}
 		/// <summary>
 		/// Loads the type definition for the specified type.
 		/// </summary>
-		/// <param name="context">The <see cref="INucleusAwareContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="name">The name of the type.</param>
 		/// <returns>Returns the loaded type.</returns>
-		private ITypeDefinition LoadTypeDefinition(INucleusAwareContext context, string name)
+		private ITypeDefinition LoadTypeDefinition(IMansionContext context, string name)
 		{
 			// validate arguments
 			if (context == null)
@@ -122,20 +166,16 @@ namespace Premotion.Mansion.Core.Types.Xml
 			if (string.IsNullOrEmpty(name))
 				throw new ArgumentNullException("name");
 
-			var applicationResourceService = context.Nucleus.Get<IApplicationResourceService>(context);
 			var resourcePath = TypeResourcePathInterpreter.TypeResourcePath.CreateTypeDefinitionResourcePath(name);
-			if (!applicationResourceService.Exists(resourcePath))
+			if (!applicationResourceService.Exists(context, resourcePath))
 				throw new TypeNotFoundException(name);
 
 			// get the resource service
 			var typeResource = applicationResourceService.GetSingle(context, resourcePath);
 
-			// get the cache service
-			var cacheKey = ResourceCacheKey.Create(typeResource);
-			var cacheService = context.Nucleus.Get<ICachingService>(context);
-
 			// create the type
-			return cacheService.GetOrAdd(
+			var cacheKey = ResourceCacheKey.Create(typeResource);
+			return cachingService.GetOrAdd(
 				context,
 				cacheKey,
 				() =>
@@ -165,10 +205,10 @@ namespace Premotion.Mansion.Core.Types.Xml
 		/// <summary>
 		/// Loads the element root from the resource.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="typeResource">The resource of the type definition.</param>
 		/// <exception cref="TypeNotFoundException">Thrown when the type with the specified path can not be found.</exception>
-		private XmlElement LoadElementFromDocument(IContext context, IResource typeResource)
+		private XmlElement LoadElementFromDocument(IMansionContext context, IResource typeResource)
 		{
 			// validate arguments
 			if (context == null)
@@ -187,11 +227,11 @@ namespace Premotion.Mansion.Core.Types.Xml
 		/// <summary>
 		/// Creates a type definition from the element.
 		/// </summary>
-		/// <param name="context">The <see cref="INucleusAwareContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="name">The name of the type which to load.</param>
 		/// <param name="nsmgr">The namespace manager of the element.</param>
 		/// <param name="element">The XML element.</param>
-		private TypeDefinition CreateTypeFromElement(INucleusAwareContext context, string name, XmlNamespaceManager nsmgr, XmlNode element)
+		private TypeDefinition CreateTypeFromElement(IMansionContext context, string name, XmlNamespaceManager nsmgr, XmlNode element)
 		{
 			// validate arguments
 			if (context == null)
@@ -252,15 +292,15 @@ namespace Premotion.Mansion.Core.Types.Xml
 		/// <summary>
 		/// Loads a <see cref="IDescriptor"/> from 
 		/// </summary>
-		/// <param name="context">The <see cref="INucleusAwareContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="nsmgr">The <see cref="XmlNamespaceManager"/>.</param>
 		/// <param name="descriptorNode">The <see cref="XmlNode"/> from which to load the descriptor.</param>
 		/// <param name="definition">The <see cref="TypeDefinition"/>.</param>
 		/// <returns>Returns the loaded <see cref="IDescriptor"/>.</returns>
-		private static IDescriptor LoadDescriptor(INucleusAwareContext context, XmlNamespaceManager nsmgr, XmlNode descriptorNode, TypeDefinition definition)
+		private static IDescriptor LoadDescriptor(IMansionContext context, XmlNamespaceManager nsmgr, XmlNode descriptorNode, TypeDefinition definition)
 		{
 			// construct the descriptor from XML
-			var descriptor = XmlDescriptorFactory<IDescriptor>.Create(context, descriptorNode, definition);
+			var descriptor = XmlDescriptorFactory<TypeDescriptor>.Create(context, descriptorNode, init => init.TypeDefinition = definition);
 
 			// if it is a nested descriptor, process the child XML elements
 			var descriptorWithNesting = descriptor as NestedTypeDescriptor;
@@ -277,43 +317,16 @@ namespace Premotion.Mansion.Core.Types.Xml
 			return descriptor;
 		}
 		#endregion
-		#region Overrides of ManagedLifecycleService
-		/// <summary>
-		/// Starts this service.
-		/// </summary>
-		/// <param name="context">The <see cref="INucleusAwareContext"/>.</param>
-		protected override void DoStart(INucleusAwareContext context)
-		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
-
-			// enumerate the types
-			var resourceService = context.Nucleus.Get<IApplicationResourceService>(context);
-			foreach (var typeName in resourceService.EnumeratorFolders(context, "Types"))
-				types.TryAdd(typeName, LoadTypeDefinition(context, typeName));
-
-			// find the root type
-			rootType = types.Values.Single(x => !x.HasParent);
-		}
-		#endregion
-		#region Implementation of IServiceWithDependencies
-		/// <summary>
-		/// Gets the <see cref="DependencyModel"/> of this service.
-		/// </summary>
-		DependencyModel IServiceWithDependencies.Dependencies
-		{
-			get { return dependencies; }
-		}
-		#endregion
 		#region Private Fields
-		private static readonly DependencyModel dependencies = new DependencyModel().Add<ICachingService>().Add<IApplicationResourceService>();
+		private readonly IApplicationResourceService applicationResourceService;
+		private readonly ICachingService cachingService;
 		private readonly XmlReaderSettings readerSettings = new XmlReaderSettings
 		                                                    {
 		                                                    	ValidationType = ValidationType.Schema
 		                                                    };
-		private readonly ConcurrentDictionary<string, ITypeDefinition> types = new ConcurrentDictionary<string, ITypeDefinition>(StringComparer.OrdinalIgnoreCase);
+		private int initializedState;
 		private ITypeDefinition rootType;
+		private IDictionary<string, ITypeDefinition> types;
 		#endregion
 	}
 }

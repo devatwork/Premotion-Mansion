@@ -1,5 +1,4 @@
 using System;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Core.ScriptTags
@@ -7,13 +6,13 @@ namespace Premotion.Mansion.Core.ScriptTags
 	/// <summary>
 	/// Calls a procedure.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "fireEvent")]
+	[ScriptTag(Constants.NamespaceUri, "fireEvent")]
 	public class FireEventTag : ScriptTag
 	{
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
 			// get all the attributes
 			var procedureArguments = GetAttributes(context);

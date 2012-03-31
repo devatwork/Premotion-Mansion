@@ -1,5 +1,5 @@
-﻿using Premotion.Mansion.Core.Attributes;
-using Premotion.Mansion.Core.Collections;
+﻿using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Web.Controls.Forms.Validation;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Fields
@@ -13,16 +13,16 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// This tag creates a <see cref="Textbox"/>.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "email")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "email")]
 		public class EmailFactoryTag : FieldFactoryTag<Email>
 		{
 			#region Overrides of FieldFactoryTag<Textbox>
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override Email Create(MansionWebContext context, ControlDefinition definition)
+			protected override Email Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				var field = new Email(definition);
 				field.Add(new EmailFieldValidator(new PropertyBag()));

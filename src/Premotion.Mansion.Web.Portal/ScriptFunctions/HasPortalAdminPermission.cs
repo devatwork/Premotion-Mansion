@@ -13,9 +13,9 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 		/// <summary>
 		/// Checks whether the user has permission to edit this site.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns true when the user has permission, otherwise false.</returns>
-		public bool Evaluate(MansionContext context)
+		public bool Evaluate(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)

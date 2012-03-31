@@ -29,10 +29,10 @@ namespace Premotion.Mansion.Core.Templating.Html
 		/// <summary>
 		/// Asks a voter to cast a vote on the subject.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="subject">The subject.</param>
 		/// <returns>Returns the result of the vote.</returns>
-		protected override VoteResult DoVote(MansionContext context, string subject)
+		protected override VoteResult DoVote(IMansionContext context, string subject)
 		{
 			return subject.StartsWith(SectionStart, StringComparison.OrdinalIgnoreCase) && subject.EndsWith(SectionEnd, StringComparison.OrdinalIgnoreCase) ? VoteResult.MediumInterest : VoteResult.Refrain;
 		}
@@ -41,10 +41,10 @@ namespace Premotion.Mansion.Core.Templating.Html
 		/// <summary>
 		/// Interprets the input..
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="input">The input which to interpret.</param>
 		/// <returns>Returns the interpreted result.</returns>
-		protected override Section DoInterpret(MansionContext context, string input)
+		protected override Section DoInterpret(IMansionContext context, string input)
 		{
 			// get the header and content
 			var headerEnd = input.IndexOf('>');
@@ -55,7 +55,7 @@ namespace Premotion.Mansion.Core.Templating.Html
 			var headerDescriptor = XmlDescriptorFactory<HtmlSectionHeaderDescriptor>.Create(context, header);
 
 			// parse the content
-			var expressionScriptService = context.Nucleus.Get<IExpressionScriptService>(context);
+			var expressionScriptService = context.Nucleus.ResolveSingle<IExpressionScriptService>();
 			var expression = expressionScriptService.Parse(context, new LiteralResource(content.Trim()));
 
 			// create the section

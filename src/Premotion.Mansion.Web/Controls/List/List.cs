@@ -1,9 +1,9 @@
 ﻿using System;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.IO.Memory;
 using Premotion.Mansion.Core.Scripting;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
+using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Templating;
 
 namespace Premotion.Mansion.Web.Controls.List
@@ -53,25 +53,43 @@ namespace Premotion.Mansion.Web.Controls.List
 		/// <summary>
 		/// Constructs <see cref="List"/>s.
 		/// </summary>
-		[Named(Constants.ControlTagNamespaceUri, "list")]
+		[ScriptTag(Constants.ControlTagNamespaceUri, "list")]
 		public class ListFactoryTag : ControlFactoryTag<List>
 		{
+			#region Constructors
+			/// <summary>
+			/// 
+			/// </summary>
+			/// <param name="expressionScriptService"></param>
+			/// <exception cref="ArgumentNullException"></exception>
+			public ListFactoryTag(IExpressionScriptService expressionScriptService)
+			{
+				// validate arguments
+				if (expressionScriptService == null)
+					throw new ArgumentNullException("expressionScriptService");
+
+				// set values
+				this.expressionScriptService = expressionScriptService;
+			}
+			#endregion
 			#region Overrides of ControlFactoryTag<List>
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override List Create(MansionWebContext context, ControlDefinition definition)
+			protected override List Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				// get the expressions
-				var expressionService = context.Nucleus.Get<IExpressionScriptService>(context);
-				var rowContentExpression = expressionService.Parse(context, new LiteralResource(GetRequiredAttribute<string>(context, "rowContentExpression")));
+				var rowContentExpression = expressionScriptService.Parse(context, new LiteralResource(GetRequiredAttribute<string>(context, "rowContentExpression")));
 
 				// create the proper control
 				IFormControl control;
 				return context.TryFindControl(out control) ? new EmbeddedList(definition, rowContentExpression) : (List) new FormList(definition, rowContentExpression);
 			}
+			#endregion
+			#region Private Fields
+			private readonly IExpressionScriptService expressionScriptService;
 			#endregion
 		}
 		#endregion
@@ -95,9 +113,9 @@ namespace Premotion.Mansion.Web.Controls.List
 		/// <summary>
 		/// Render this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		protected override void DoRender(MansionWebContext context, ITemplateService templateService)
+		protected override void DoRender(IMansionWebContext context, ITemplateService templateService)
 		{
 			// retrieve the data
 			var data = Retrieve(context);

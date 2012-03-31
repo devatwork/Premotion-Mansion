@@ -12,8 +12,8 @@ namespace Premotion.Mansion.Core.ScriptTags.Media.Csv
 		/// <summary>
 		/// Executes this tag.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
-		protected override void DoExecute(MansionContext context)
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		protected override void DoExecute(IMansionContext context)
 		{
 			// get the XML output pipe
 			var outputPipe = context.OutputPipe as CsvOutputPipe;
@@ -24,8 +24,8 @@ namespace Premotion.Mansion.Core.ScriptTags.Media.Csv
 		/// <summary>
 		/// Executes this tag.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="outputPipe">The <see cref="CsvOutputPipe"/> to which to write.</param>
-		protected abstract void DoExecute(MansionContext context, CsvOutputPipe outputPipe);
+		protected abstract void DoExecute(IMansionContext context, CsvOutputPipe outputPipe);
 	}
 }

@@ -1,14 +1,14 @@
 ﻿using System;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Clauses;
+using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Core.ScriptTags.Repository
 {
 	/// <summary>
 	/// Retrieves a child node from the top most repository.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "retrieveChildNode")]
+	[ScriptTag(Constants.NamespaceUri, "retrieveChildNode")]
 	public class RetrieveChildNodeTag : RetrieveNodeBaseTag
 	{
 		/// <summary>
@@ -18,7 +18,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 		/// <param name="arguments">The arguments from which to build the query.</param>
 		/// <param name="repository"></param>
 		/// <returns>Returns the result.</returns>
-		protected override Node Retrieve(MansionContext context, IPropertyBag arguments, IRepository repository)
+		protected override Node Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository)
 		{
 			// parse the query
 			var query = repository.ParseQuery(context, arguments);

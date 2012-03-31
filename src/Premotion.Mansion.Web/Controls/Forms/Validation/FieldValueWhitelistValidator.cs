@@ -33,11 +33,11 @@ namespace Premotion.Mansion.Web.Controls.Forms.Validation
 		/// <summary>
 		/// Executes the validation rule.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> being validated.</param>
 		/// <param name="control">The actual <see cref="FormControl"/> being validated.</param>
 		/// <param name="results">The <see cref="ValidationResults"/> containing the validation results.</param>
-		protected override void DoValidate(MansionWebContext context, Form form, Field<string> control, ValidationResults results)
+		protected override void DoValidate(IMansionWebContext context, Form form, Field<string> control, ValidationResults results)
 		{
 			// if the field has no value do nothing
 			if (!control.HasValue(context))

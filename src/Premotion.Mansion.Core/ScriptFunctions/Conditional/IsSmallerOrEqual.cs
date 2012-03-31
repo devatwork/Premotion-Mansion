@@ -10,23 +10,41 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 	[ScriptFunction("IsSmallerOrEqual")]
 	public class IsSmallerOrEqual : FunctionExpression
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="conversionService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public IsSmallerOrEqual(IConversionService conversionService)
+		{
+			// validate arguments
+			if (conversionService == null)
+				throw new ArgumentNullException("conversionService");
+
+			// set values
+			this.conversionService = conversionService;
+		}
+		#endregion
+		#region Evaluate Methods
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="left"></param>
 		/// <param name="right"></param>
 		/// <returns></returns>
-		public bool Evaluate(MansionContext context, object left, object right)
+		public bool Evaluate(IMansionContext context, object left, object right)
 		{
 			// valdidate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 
-			// get the conversion service
-			var conversionService = context.Nucleus.Get<IConversionService>(context);
-
 			// compare the two values
 			return conversionService.Compare(context, left, right) <= 0;
 		}
+		#endregion
+		#region Private Fields
+		private readonly IConversionService conversionService;
+		#endregion
 	}
 }

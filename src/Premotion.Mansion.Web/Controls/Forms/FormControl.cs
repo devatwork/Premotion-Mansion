@@ -19,9 +19,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 			/// <summary>
 			/// Executes the created <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="control">The control which to execute.</param>
-			protected override void Execute(MansionWebContext context, TControl control)
+			protected override void Execute(IMansionWebContext context, TControl control)
 			{
 				// add the control to the form control container
 				FormControlContainer container;
@@ -46,9 +46,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Initializes this form control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> to which this control belongs.</param>
-		public void Initialize(MansionWebContext context, Form form)
+		public void Initialize(IMansionWebContext context, Form form)
 		{
 			// validate arguments
 			if (context == null)
@@ -58,19 +58,19 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Initializes this form control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> to which this control belongs.</param>
-		protected virtual void DoInitialize(MansionWebContext context, Form form)
+		protected virtual void DoInitialize(IMansionWebContext context, Form form)
 		{
 			// do nothing
 		}
 		/// <summary>
 		/// Validates the state of this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> to which this control belongs.</param>
 		/// <param name="results">The <see cref="ValidationResults"/> in which the validation results are stored.</param>
-		public void Validate(MansionWebContext context, Form form, ValidationResults results)
+		public void Validate(IMansionWebContext context, Form form, ValidationResults results)
 		{
 			// validate arguments
 			if (context == null)
@@ -84,10 +84,10 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Validates the state of this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> to which this control belongs.</param>
 		/// <param name="results">The <see cref="ValidationResults"/> in which the validation results are stored.</param>
-		protected virtual void DoValidate(MansionWebContext context, Form form, ValidationResults results)
+		protected virtual void DoValidate(IMansionWebContext context, Form form, ValidationResults results)
 		{
 			// loop over all the validation rules
 			foreach (var rule in ValidationRules)

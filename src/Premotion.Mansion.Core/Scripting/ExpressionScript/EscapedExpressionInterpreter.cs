@@ -11,10 +11,10 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// <summary>
 		/// Asks a voter to cast a vote on the subject.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="subject">The subject.</param>
 		/// <returns>Returns the result of the vote.</returns>
-		protected override VoteResult DoVote(MansionContext context, string subject)
+		protected override VoteResult DoVote(IMansionContext context, string subject)
 		{
 			// check
 			var isEscapedCodePart = subject.Length > 2 && subject[0] == '{' && subject[1] == '\\' && subject[subject.Length - 1] == '}';
@@ -27,10 +27,10 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// <summary>
 		/// Interprets the input.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="input">The input which to interpret.</param>
 		/// <returns>Returns the interpreted result.</returns>
-		protected override IExpressionScript DoInterpret(MansionContext context, string input)
+		protected override IExpressionScript DoInterpret(IMansionContext context, string input)
 		{
 			// generate the literal
 			return new LiteralExpressionInterpreter.LiteralExpression("{" + input.Substring(2));

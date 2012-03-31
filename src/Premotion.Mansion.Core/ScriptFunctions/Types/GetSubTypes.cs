@@ -16,7 +16,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Types
 		/// <param name="context"></param>
 		/// <param name="type"></param>
 		/// <returns></returns>
-		public string Evaluate(MansionContext context, ITypeDefinition type)
+		public string Evaluate(IMansionContext context, ITypeDefinition type)
 		{
 			// validate arguments
 			if (context == null)

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.IO.JSon;
 using Premotion.Mansion.Core.IO.Memory;
 using Premotion.Mansion.Core.Scripting.TagScript;
@@ -10,13 +9,13 @@ namespace Premotion.Mansion.Core.ScriptTags.Media
 	/// <summary>
 	/// Renders a JSON property.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "renderJsonProperty")]
+	[ScriptTag(Constants.NamespaceUri, "renderJsonProperty")]
 	public class RenderJsonPropertyTag : ScriptTag
 	{
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
 			// get the XML output pipe
 			var outputPipe = context.OutputPipe as JsonOutputPipe;

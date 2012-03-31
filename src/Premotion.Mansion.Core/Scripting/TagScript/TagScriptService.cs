@@ -5,16 +5,30 @@ using System.Xml;
 using Premotion.Mansion.Core.Caching;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.IO;
-using Premotion.Mansion.Core.Nucleus.Facilities.Dependencies;
-using Premotion.Mansion.Core.Nucleus.Facilities.Reflection;
 
 namespace Premotion.Mansion.Core.Scripting.TagScript
 {
 	/// <summary>
 	/// Implements <see cref="ITagScriptService"/>.
 	/// </summary>
-	public class TagScriptService : ITagScriptService, IServiceWithDependencies
+	public class TagScriptService : ITagScriptService
 	{
+		#region Constructors
+		/// <summary>
+		/// Constructs the tag script service.
+		/// </summary>
+		/// <param name="cachingService">The <see cref="ICachingService"/>.</param>
+		/// <exception cref="ArgumentNullException">Thrown when <paramref name="cachingService"/> is null.</exception>
+		public TagScriptService(ICachingService cachingService)
+		{
+			// validate arguments
+			if (cachingService == null)
+				throw new ArgumentNullException("cachingService");
+
+			// set values
+			this.cachingService = cachingService;
+		}
+		#endregion
 		#region Nested type: CachedTagScript
 		/// <summary>
 		/// Implements <see cref="CachedObject{TObject}"/> for <see cref="TagScript"/>.
@@ -70,10 +84,10 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// <summary>
 		/// Opens a series of scripts.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="resources">The resources which to open.</param>
 		/// <returns>Returns a marker which will close the scripts automatically.</returns>
-		public IDisposable Open(MansionContext context, IEnumerable<IResource> resources)
+		public IDisposable Open(IMansionContext context, IEnumerable<IResource> resources)
 		{
 			// validate arguments
 			if (context == null)
@@ -102,11 +116,11 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// <summary>
 		/// Parses a script from the specified resource.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="resource">The resource wcich to parse as script.</param>
 		/// <returns>Returns the parsed script.</returns>
 		/// <exception cref="ParseScriptException">Thrown when an exception occurres while parsing the script.</exception>
-		public ITagScript Parse(MansionContext context, IResource resource)
+		public ITagScript Parse(IMansionContext context, IResource resource)
 		{
 			// validate arguments
 			if (context == null)
@@ -114,14 +128,10 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 			if (resource == null)
 				throw new ArgumentNullException("resource");
 
-			// get the cache service
-			var cacheKey = ResourceCacheKey.Create(resource);
-			var cacheService = context.Nucleus.Get<ICachingService>(context);
-
 			// open the script
-			return new TagScript(cacheService.GetOrAdd(
+			return new TagScript(cachingService.GetOrAdd(
 				context,
-				cacheKey,
+				ResourceCacheKey.Create(resource),
 				() =>
 				{
 					try
@@ -172,11 +182,11 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// <summary>
 		/// Resolves an XML node to a script tag.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The node which to resolve.</param>
 		/// <param name="resource">The resource to which the tag belongs.</param>
 		/// <returns>Returns the resolved script tag.</returns>
-		private static ScriptTag Resolve(MansionContext context, XmlNode node, IResource resource)
+		private static ScriptTag Resolve(IMansionContext context, XmlNode node, IResource resource)
 		{
 			// validate arguments
 			if (context == null)
@@ -192,12 +202,7 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 			var lineNumber = int.Parse(parts[1]);
 
 			// create the tag instance
-			var namingService = context.Nucleus.Get<ITypeDirectoryService>(context);
-			var objectFactoryService = context.Nucleus.Get<IObjectFactoryService>(context);
-			Type tagType;
-			if (!namingService.TryLookupSingle<ScriptTag>(node.NamespaceURI, localName, out tagType))
-				throw new ParseScriptException(string.Format("Could not find instance of tag '{0}' in namespace '{1}'. Tag is defined on line '{2}' in '{3}'", localName, node.NamespaceURI, lineNumber, resource.GetResourceIdentifier()));
-			var tag = objectFactoryService.Create<ScriptTag>(tagType);
+			var tag = context.Nucleus.ResolveSingle<ScriptTag>(node.NamespaceURI, localName);
 
 			// set tag info
 			tag.Info.Name = localName;
@@ -216,11 +221,11 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// <summary>
 		/// Parses the childeren of <paramref name="parentNode"/> and adds them as <see cref="ScriptTag"/>s to <paramref name="parentTag"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="parentNode">The parent node.</param>
 		/// <param name="parentTag">The parent tag.</param>
 		/// <param name="resource">The resource.</param>
-		private static void ParseChilderen(MansionContext context, XmlNode parentNode, ScriptTag parentTag, IResource resource)
+		private static void ParseChilderen(IMansionContext context, XmlNode parentNode, ScriptTag parentTag, IResource resource)
 		{
 			// validate arguments
 			if (context == null)
@@ -251,17 +256,8 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 			}
 		}
 		#endregion
-		#region Implementation of IServiceWithDependencies
-		/// <summary>
-		/// Gets the <see cref="DependencyModel"/> of this service.
-		/// </summary>
-		public DependencyModel Dependencies
-		{
-			get { return dependencies; }
-		}
-		#endregion
 		#region Private Fields
-		private static readonly DependencyModel dependencies = new DependencyModel().Add<ITypeDirectoryService>().Add<IObjectFactoryService>().Add<ICachingService>();
+		private readonly ICachingService cachingService;
 		#endregion
 	}
 }

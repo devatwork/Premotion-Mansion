@@ -14,7 +14,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 		/// <param name="one"></param>
 		/// <param name="two"></param>
 		/// <returns></returns>
-		public bool Evaluate(MansionContext context, bool one, bool two)
+		public bool Evaluate(IMansionContext context, bool one, bool two)
 		{
 			return one || two;
 		}
@@ -25,7 +25,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 		/// <param name="two"></param>
 		/// <param name="three"></param>
 		/// <returns></returns>
-		public bool Evaluate(MansionContext context, bool one, bool two, bool three)
+		public bool Evaluate(IMansionContext context, bool one, bool two, bool three)
 		{
 			return one || two || three;
 		}
@@ -37,7 +37,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 		/// <param name="three"></param>
 		/// <param name="four"></param>
 		/// <returns></returns>
-		public bool Evaluate(MansionContext context, bool one, bool two, bool three, bool four)
+		public bool Evaluate(IMansionContext context, bool one, bool two, bool three, bool four)
 		{
 			return one || two || three || four;
 		}
@@ -50,7 +50,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 		/// <param name="four"></param>
 		/// <param name="five"></param>
 		/// <returns></returns>
-		public bool Evaluate(MansionContext context, bool one, bool two, bool three, bool four, bool five)
+		public bool Evaluate(IMansionContext context, bool one, bool two, bool three, bool four, bool five)
 		{
 			return one || two || three || four || five;
 		}
@@ -64,7 +64,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 		/// <param name="five"></param>
 		/// <param name="six"></param>
 		/// <returns></returns>
-		public bool Evaluate(MansionContext context, bool one, bool two, bool three, bool four, bool five, bool six)
+		public bool Evaluate(IMansionContext context, bool one, bool two, bool three, bool four, bool five, bool six)
 		{
 			return one || two || three || four || five || six;
 		}

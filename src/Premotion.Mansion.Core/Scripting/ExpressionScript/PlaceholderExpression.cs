@@ -27,16 +27,16 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// <summary>
 		/// Evaluates this expression.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the result of the evaluation.</returns>
-		public override TTarget Execute<TTarget>(MansionContext context)
+		public override TTarget Execute<TTarget>(IMansionContext context)
 		{
 			// validate argument
 			if (context == null)
 				throw new ArgumentNullException("context");
 
 			// do nothing
-			return context.Nucleus.Get<IConversionService>(context).Convert<TTarget>(context, Content);
+			return context.Nucleus.ResolveSingle<IConversionService>().Convert<TTarget>(context, Content);
 		}
 		#endregion
 		#region Properties

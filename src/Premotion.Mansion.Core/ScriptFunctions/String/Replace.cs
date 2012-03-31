@@ -16,7 +16,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.String
 		/// <param name="oldValue"> </param>
 		/// <param name="newValue"> </param>
 		/// <returns></returns>
-		public string Evaluate(MansionContext context, string input, string oldValue, string newValue)
+		public string Evaluate(IMansionContext context, string input, string oldValue, string newValue)
 		{
 			// validate arguments
 			if (context == null)

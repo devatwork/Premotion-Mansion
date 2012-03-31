@@ -15,7 +15,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 		/// <param name="haystack"></param>
 		/// <param name="needle"></param>
 		/// <returns></returns>
-		public bool Evaluate(MansionContext context, string haystack, string needle)
+		public bool Evaluate(IMansionContext context, string haystack, string needle)
 		{
 			// valdidate arguments
 			if (haystack == null)

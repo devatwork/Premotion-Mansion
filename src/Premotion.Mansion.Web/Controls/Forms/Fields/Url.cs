@@ -1,5 +1,5 @@
-﻿using Premotion.Mansion.Core.Attributes;
-using Premotion.Mansion.Core.Collections;
+﻿using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Web.Controls.Forms.Validation;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Fields
@@ -13,16 +13,16 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// This tag creates a <see cref="Url"/>.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "url")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "url")]
 		public class UrlFactoryTag : FieldFactoryTag<Url>
 		{
 			#region Overrides of FieldFactoryTag<Textbox>
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override Url Create(MansionWebContext context, ControlDefinition definition)
+			protected override Url Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				var field = new Url(definition);
 				field.Add(new UrlFieldValidator(new PropertyBag()));

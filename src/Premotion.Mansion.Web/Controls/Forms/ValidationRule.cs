@@ -19,11 +19,11 @@ namespace Premotion.Mansion.Web.Controls.Forms
 			/// <summary>
 			/// Executes this tag.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionContext"/>.</param>
-			protected override void DoExecute(MansionContext context)
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
+			protected override void DoExecute(IMansionContext context)
 			{
 				// get the mansion web context
-				var webContext = context.Cast<MansionWebContext>();
+				var webContext = context.Cast<IMansionWebContext>();
 
 				// get the properties of this control
 				var properties = GetAttributes(context);
@@ -42,10 +42,10 @@ namespace Premotion.Mansion.Web.Controls.Forms
 			/// <summary>
 			/// Create the validation rule.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="properties">The <see cref="IPropertyBag"/> of the rule properties.</param>
 			/// <returns>Returns the created rule.</returns>
-			protected abstract ValidationRule Create(MansionWebContext context, IPropertyBag properties);
+			protected abstract ValidationRule Create(IMansionWebContext context, IPropertyBag properties);
 			#endregion
 		}
 		#endregion
@@ -68,11 +68,11 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Executes the validation rule.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> being validated.</param>
 		/// <param name="control">The actual <see cref="FormControl"/> being validated.</param>
 		/// <param name="results">The <see cref="ValidationResults"/> containing the validation results.</param>
-		public void Validate(MansionWebContext context, Form form, FormControl control, ValidationResults results)
+		public void Validate(IMansionWebContext context, Form form, FormControl control, ValidationResults results)
 		{
 			// validate arguments
 			if (context == null)
@@ -92,11 +92,11 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Executes the validation rule.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> being validated.</param>
 		/// <param name="control">The actual <see cref="FormControl"/> being validated.</param>
 		/// <param name="results">The <see cref="ValidationResults"/> containing the validation results.</param>
-		protected abstract void DoValidate(MansionWebContext context, Form form, FormControl control, ValidationResults results);
+		protected abstract void DoValidate(IMansionWebContext context, Form form, FormControl control, ValidationResults results);
 		#endregion
 		#region Properties
 		/// <summary>
@@ -134,11 +134,11 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Executes the validation rule.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> being validated.</param>
 		/// <param name="control">The actual <see cref="FormControl"/> being validated.</param>
 		/// <param name="results">The <see cref="ValidationResults"/> containing the validation results.</param>
-		protected override sealed void DoValidate(MansionWebContext context, Form form, FormControl control, ValidationResults results)
+		protected override sealed void DoValidate(IMansionWebContext context, Form form, FormControl control, ValidationResults results)
 		{
 			// check type
 			var typedControl = control as TControl;
@@ -151,11 +151,11 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Executes the validation rule.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> being validated.</param>
 		/// <param name="control">The actual <see cref="FormControl"/> being validated.</param>
 		/// <param name="results">The <see cref="ValidationResults"/> containing the validation results.</param>
-		protected abstract void DoValidate(MansionWebContext context, Form form, TControl control, ValidationResults results);
+		protected abstract void DoValidate(IMansionWebContext context, Form form, TControl control, ValidationResults results);
 		#endregion
 	}
 }

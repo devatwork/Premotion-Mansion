@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:ctrls="http://schemas.premotion.nl/mansion/1.0/web.controls.tags.xsd">
+
+	<!-- Invoked when the tree is rendered as HTML -->
+	<declareProcedure procedureName="HandleView">
+
+		<!-- we are returning a page -->
+		<web:respondDocument contentType="text/html" encoding="UTF-8" cache="false">
+
+			<!-- disable caching -->
+			<web:disableOutputCache />
+
+			<!-- render the tree -->
+			<renderSection name="CmsPage">
+				
+				<!-- check security -->
+				<if condition="{Not( And( IsAuthenticated(), HasPermission( 'Cms', 'use' ) ) )}">
+					<ctrls:invokeDialogParentTrigger action="cms.refresh.frames" />
+					<breakExecution />
+				</if>
+				
+				<!-- render the content-->
+				<renderSection name="Content">
+				
+					<!-- retrieve the root node -->
+					<retrieveNode id="1" target="LeafNode" global="true" />
+					<web:retrieveNodeByUrl target="UrlNode" global="true">
+						<notFound>
+							<fetchNode source="{$LeafNode}" target="UrlNode" global="true" />
+						</notFound>
+					</web:retrieveNodeByUrl>
+				
+					<!-- render the first leaf -->
+					<invokeProcedure procedureName="RenderLeaf" />
+
+				</renderSection>
+			</renderSection>
+
+		</web:respondDocument>
+
+	</declareProcedure>
+
+	<declareProcedure procedureName="RenderLeaf">
+		<renderSection name="Leaf">
+			
+			<!-- if the node is select of a parent of the selected node, retrieve the children -->
+			<if condition="{Or( IsChildOf( $UrlNode, $LeafNode  ), IsEqual( UrlNode.id, LeafNode.id ) )}">
+				<retrieveChildNodeset parentSource="{$LeafNode}" target="LeafNodeset">
+					<loopNodeset source="{$LeafNodeset}" target="LeafNode">
+						<renderSection name="Branch">
+							<invokeProcedure procedureName="RenderLeaf"/>
+						</renderSection>
+					</loopNodeset>
+				</retrieveChildNodeset>
+			</if>
+			
+		</renderSection>
+	</declareProcedure>
+
+</mansion>

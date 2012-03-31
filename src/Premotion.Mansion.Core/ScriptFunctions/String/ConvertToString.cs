@@ -10,12 +10,29 @@ namespace Premotion.Mansion.Core.ScriptFunctions.String
 	[ScriptFunction("ConvertToString")]
 	public class ConvertToString : FunctionExpression
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="conversionService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public ConvertToString(IConversionService conversionService)
+		{
+			// validate arguments
+			if (conversionService == null)
+				throw new ArgumentNullException("conversionService");
+
+			// set values
+			this.conversionService = conversionService;
+		}
+		#endregion
+		#region Evaluate Methods
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="input"></param>
 		/// <returns></returns>
-		public string Evaluate(MansionContext context, object input)
+		public string Evaluate(IMansionContext context, object input)
 		{
 			// validate arguments
 			if (context == null)
@@ -23,11 +40,12 @@ namespace Premotion.Mansion.Core.ScriptFunctions.String
 			if (input == null)
 				return string.Empty;
 
-			// get the conversion service
-			var conversionService = context.Nucleus.Get<IConversionService>(context);
-
 			// convert the object to string
 			return conversionService.Convert(context, input, string.Empty);
 		}
+		#endregion
+		#region Private Fields
+		private readonly IConversionService conversionService;
+		#endregion
 	}
 }

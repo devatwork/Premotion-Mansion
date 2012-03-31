@@ -2,8 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using Premotion.Mansion.Core.Conversion;
-using Premotion.Mansion.Core.Nucleus.Facilities.Reflection;
 using Premotion.Mansion.Core.Types;
 
 namespace Premotion.Mansion.Core.Data.Listeners
@@ -18,18 +16,25 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// Constructs a listening decorated <see cref="IRepository"/>.
 		/// </summary>
 		/// <param name="decoratedRepository">The <see cref="IRepository"/> being decorated.</param>
-		public ListeningRepositoryDecorator(IRepository decoratedRepository) : base(decoratedRepository)
+		/// <param name="typeService">The <see cref="ITypeService"/>.</param>
+		public ListeningRepositoryDecorator(IRepository decoratedRepository, ITypeService typeService) : base(decoratedRepository)
 		{
+			// validate arguments
+			if (typeService == null)
+				throw new ArgumentNullException("typeService");
+
+			// set values
+			this.typeService = typeService;
 		}
 		#endregion
 		#region Implementation of IRepository
 		/// <summary>
 		/// Retrieves a single node from this repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="query">The query on the node.</param>
 		/// <returns>Returns a single <see cref="Node"/>.</returns>
-		protected override Node DoRetrieveSingle(MansionContext context, NodeQuery query)
+		protected override Node DoRetrieveSingle(IMansionContext context, NodeQuery query)
 		{
 			// retrieve the node
 			var node = DecoratedRepository.RetrieveSingle(context, query);
@@ -37,17 +42,16 @@ namespace Premotion.Mansion.Core.Data.Listeners
 				return null;
 
 			// get the node listeners
-			var nodeType = context.Nucleus.Get<ITypeService>(context).Load(context, node.Pointer.Type);
+			var nodeType = typeService.Load(context, node.Pointer.Type);
 			var nodeListeners = GetListeners(nodeType);
 
 			// attach missing property event
 			node.MissingProperty += (sender, args) =>
 			                        {
-			                        	var ctx = args.Context.Cast<MansionContext>();
 			                        	foreach (var nodeListener in nodeListeners)
 			                        	{
 			                        		object value;
-			                        		if (!nodeListener.TryResolveMissingProperty(ctx, node, args.PropertyName, out value))
+			                        		if (!nodeListener.TryResolveMissingProperty(context, node, args.PropertyName, out value))
 			                        			continue;
 			                        		args.Value = value;
 			                        		break;
@@ -60,10 +64,10 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <summary>
 		/// Retrieves multiple nodes from this repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="query">The query on the node.</param>
 		/// <returns>Returns a <see cref="Nodeset"/>.</returns>
-		protected override Nodeset DoRetrieve(MansionContext context, NodeQuery query)
+		protected override Nodeset DoRetrieve(IMansionContext context, NodeQuery query)
 		{
 			// retrieve the nodeset
 			var nodeset = DecoratedRepository.Retrieve(context, query);
@@ -72,18 +76,17 @@ namespace Premotion.Mansion.Core.Data.Listeners
 			foreach (var node in nodeset.Nodes)
 			{
 				// get the node listeners
-				var nodeType = context.Nucleus.Get<ITypeService>(context).Load(context, node.Pointer.Type);
+				var nodeType = typeService.Load(context, node.Pointer.Type);
 				var nodeListeners = GetListeners(nodeType);
 
 				// attach missing property event
 				var node1 = node;
 				node.MissingProperty += (sender, args) =>
 				                        {
-				                        	var ctx = args.Context.Cast<MansionContext>();
 				                        	foreach (var nodeListener in nodeListeners)
 				                        	{
 				                        		object value;
-				                        		if (!nodeListener.TryResolveMissingProperty(ctx, node1, args.PropertyName, out value))
+				                        		if (!nodeListener.TryResolveMissingProperty(context, node1, args.PropertyName, out value))
 				                        			continue;
 				                        		args.Value = value;
 				                        		break;
@@ -97,11 +100,11 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <summary>
 		/// Creates a new node in this repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="parent">The parent node.</param>
 		/// <param name="newProperties">The properties of the node which to create.</param>
 		/// <returns>Returns the created nodes.</returns>
-		protected override Node DoCreate(MansionContext context, Node parent, IPropertyBag newProperties)
+		protected override Node DoCreate(IMansionContext context, Node parent, IPropertyBag newProperties)
 		{
 			// get the type of this node
 			var nodeType = newProperties.Get<ITypeDefinition>(context, "type");
@@ -124,13 +127,13 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <summary>
 		/// Updates an existing node in this repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The node which will be updated.</param>
 		/// <param name="modifiedProperties">The properties which to update.</param>
-		protected override void DoUpdate(MansionContext context, Node node, IPropertyBag modifiedProperties)
+		protected override void DoUpdate(IMansionContext context, Node node, IPropertyBag modifiedProperties)
 		{
 			// get the type of this node
-			var nodeType = context.Nucleus.Get<IConversionService>(context).Convert<ITypeDefinition>(context, node.Pointer);
+			var nodeType = typeService.Load(context, node.Pointer.Type);
 			var nodeListeners = GetListeners(nodeType);
 
 			// fire the on before update
@@ -147,12 +150,12 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <summary>
 		/// Deletes an existing node from this repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node which will be deleted.</param>
-		protected override void DoDelete(MansionContext context, NodePointer pointer)
+		protected override void DoDelete(IMansionContext context, NodePointer pointer)
 		{
 			// get the type of this node
-			var nodeType = context.Nucleus.Get<IConversionService>(context).Convert<ITypeDefinition>(context, pointer);
+			var nodeType = typeService.Load(context, pointer.Type);
 			var nodeListeners = GetListeners(nodeType);
 
 			// fire the on before delete
@@ -165,14 +168,14 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <summary>
 		/// Moves an existing node in this repository to a new parent node.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node which will be moved.</param>
 		/// <param name="newParentPointer">The pointer to the parent to which the node is moved.</param>
 		/// <returns>Returns the moved node.</returns>m
-		protected override Node DoMove(MansionContext context, NodePointer pointer, NodePointer newParentPointer)
+		protected override Node DoMove(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
 		{
 			// get the type of this node
-			var nodeType = context.Nucleus.Get<IConversionService>(context).Convert<ITypeDefinition>(context, pointer);
+			var nodeType = typeService.Load(context, pointer.Type);
 			var nodeListeners = GetListeners(nodeType);
 
 			// fire the on before move
@@ -191,14 +194,14 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <summary>
 		/// Copies an existing node in this repository to a new node.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node which will be copied.</param>
 		/// <param name="targetParentPointer">The pointer to the parent to which the copied node is added.</param>
 		/// <returns>Returns the copied node.</returns>
-		protected override Node DoCopy(MansionContext context, NodePointer pointer, NodePointer targetParentPointer)
+		protected override Node DoCopy(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer)
 		{
 			// get the type of this node
-			var nodeType = context.Nucleus.Get<IConversionService>(context).Convert<ITypeDefinition>(context, pointer);
+			var nodeType = typeService.Load(context, pointer.Type);
 			var nodeListeners = GetListeners(nodeType);
 
 			// fire the on before copy
@@ -217,16 +220,13 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <summary>
 		/// Starts this service. All other services are initialized.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
-		protected override void DoStart(MansionContext context)
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		protected override void DoStart(IMansionContext context)
 		{
 			// loop through all their types to get the registered listeners for them
-			var typeService = context.Nucleus.Get<ITypeService>(context);
-
-			var objectFactoryService = context.Nucleus.Get<IObjectFactoryService>(context);
 			foreach (var type in typeService.LoadAll(context))
 			{
-				foreach (var listener in type.GetDescriptors<RegisterListenerDescriptor>().Select(descriptor => objectFactoryService.Create<NodeListener>(descriptor.GetListenerType(context))))
+				foreach (var listener in type.GetDescriptors<RegisterListenerDescriptor>().Select(descriptor => descriptor.ListenerType.CreateInstance<NodeListener>(context.Nucleus)))
 				{
 					// add the listener to the type
 					var listener1 = listener;
@@ -266,6 +266,7 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		#endregion
 		#region Private Fields
 		private readonly ConcurrentDictionary<ITypeDefinition, List<NodeListener>> listeners = new ConcurrentDictionary<ITypeDefinition, List<NodeListener>>();
+		private readonly ITypeService typeService;
 		#endregion
 	}
 }

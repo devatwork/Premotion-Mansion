@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
 	<metadata>
-		<version>1.0.2</version>
+		<version>1.1.0</version>
 		<authors>Premotion Software Solutions</authors>
 		<owners>Premotion Software Solutions</owners>
 		<id>Premotion.Mansion.Web</id>
@@ -19,10 +19,8 @@
 		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
 		<copyright>Copyright 2012</copyright>
 		<dependencies>
-			<dependency id="log4net" />
 			<dependency id="Premotion.Mansion.Core" />
-			<dependency id="SharpZipLib" />
-			<dependency id="YUICompressor.NET" />
+			<dependency id="Microsoft.Web.Infrastructure" />
 		</dependencies> 
 		<tags>Premotion Mansion Web</tags>
 	</metadata>

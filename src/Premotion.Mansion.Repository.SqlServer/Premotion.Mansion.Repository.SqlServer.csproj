@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1DA4CE84-DE57-4235-B374-FCC246C35038}</ProjectGuid>
+    <ProjectGuid>{ACCEC1F3-EFDB-40BA-94BB-9EF9F6659397}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Premotion.Mansion.Repository.SqlServer</RootNamespace>
@@ -23,8 +23,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Premotion.Mansion.Repository.SqlServer.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Premotion.Mansion.Repository.SqlServer.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,20 +33,14 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Premotion.Mansion.Repository.SqlServer.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net">
-      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Premotion.Mansion.Core, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Premotion.Mansion.Core.1.0.3\lib\net40\Premotion.Mansion.Core.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
@@ -109,10 +103,13 @@
     <Compile Include="SqlStringBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="Premotion.Mansion.Repository.SqlServer.nuspec">
-      <SubType>Designer</SubType>
-    </None>
+    <ProjectReference Include="..\Premotion.Mansion.Core\Premotion.Mansion.Core.csproj">
+      <Project>{95DFBC37-6549-4BC0-AB9F-0F5D22D35926}</Project>
+      <Name>Premotion.Mansion.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Premotion.Mansion.Repository.SqlServer.nuspec" />
     <None Include="Schemas\Descriptors\repository.mssql.descriptors.xsd">
       <SubType>Designer</SubType>
     </None>

@@ -1,5 +1,4 @@
 ﻿using System;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Core.ScriptTags
@@ -7,7 +6,7 @@ namespace Premotion.Mansion.Core.ScriptTags
 	/// <summary>
 	/// Declares a procedure.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "declareProcedure")]
+	[ScriptTag(Constants.NamespaceUri, "declareProcedure")]
 	public class DeclareProcedureTag : AlternativeScriptTag
 	{
 		#region Initialize Methods
@@ -16,7 +15,7 @@ namespace Premotion.Mansion.Core.ScriptTags
 		/// </summary>
 		/// <param name="context">The request context.</param>
 		/// <param name="tagScript">The script to which the tag belongs.</param>
-		public override void InitializeContext(MansionContext context, TagScript tagScript)
+		public override void InitializeContext(IMansionContext context, TagScript tagScript)
 		{
 			// validate arguments
 			if (context == null)

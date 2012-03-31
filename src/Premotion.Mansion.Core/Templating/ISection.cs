@@ -19,19 +19,19 @@ namespace Premotion.Mansion.Core.Templating
 		/// <summary>
 		/// Gets the name of this section.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
-		string GetName(IContext context);
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		string GetName(IMansionContext context);
 		/// <summary>
 		/// Gets the target field to which this section is rendered.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
-		string GetTargetField(IContext context);
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		string GetTargetField(IMansionContext context);
 		/// <summary>
 		/// Checks whether this section is required or not.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns true when this section is required, otherwise false.</returns>
-		bool AreRequirementsSatified(MansionContext context);
+		bool AreRequirementsSatified(IMansionContext context);
 		#endregion
 	}
 }

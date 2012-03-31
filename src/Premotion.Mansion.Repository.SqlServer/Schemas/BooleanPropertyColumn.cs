@@ -23,13 +23,13 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <summary>
 		/// Normalizes the value of this column.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="input">The input which to normalize.</param>
 		/// <returns>Returns the normalized value.</returns>
-		protected override object DoNormalize(MansionContext context, object input)
+		protected override object DoNormalize(IMansionContext context, object input)
 		{
 			// parse to boolean
-			var conversionService = context.Nucleus.Get<IConversionService>(context);
+			var conversionService = context.Nucleus.ResolveSingle<IConversionService>();
 			var flag = conversionService.Convert<bool>(context, base.DoNormalize(context, input));
 			return flag;
 		}

@@ -19,9 +19,9 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// <summary>
 		/// Initializes this script tag.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The XML node fromwhich this tag is constructed.</param>
-		public void Initialize(IContext context, XmlNode node)
+		public void Initialize(IMansionContext context, XmlNode node)
 		{
 			// validate argument
 			if (context == null)
@@ -39,9 +39,9 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// <summary>
 		/// Initializes this tag in the correct context.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="tagScript">The script to which the tag belongs.</param>
-		public virtual void InitializeContext(MansionContext context, TagScript tagScript)
+		public virtual void InitializeContext(IMansionContext context, TagScript tagScript)
 		{
 			// validate arguments
 			if (context == null)
@@ -60,9 +60,9 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// <summary>
 		/// Adds a child tag to this tag.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="childTag">The child tag.</param>
-		public void Add(IContext context, ScriptTag childTag)
+		public void Add(IMansionContext context, ScriptTag childTag)
 		{
 			// validate arguments
 			if (context == null)
@@ -130,10 +130,10 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// Gets the value of the attribute.
 		/// </summary>
 		/// <typeparam name="TValue">The type of the value.</typeparam>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="attributeName">The name of the attribute from which to get the value.</param>
 		/// <returns>Returns the value.</returns>
-		public TValue GetAttribute<TValue>(MansionContext context, string attributeName)
+		public TValue GetAttribute<TValue>(IMansionContext context, string attributeName)
 		{
 			// validate arguments
 			if (context == null)
@@ -147,7 +147,7 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 				return default(TValue);
 
 			// get the expression script parser and parse the expression
-			var expressionScriptParser = context.Nucleus.Get<IExpressionScriptService>(context);
+			var expressionScriptParser = context.Nucleus.ResolveSingle<IExpressionScriptService>();
 			var expression = expressionScriptParser.Parse(context, new LiteralResource(attributeValue));
 
 			// return the parsed expression
@@ -157,11 +157,11 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// Gets the value of the attribute.
 		/// </summary>
 		/// <typeparam name="TValue">The type of the value.</typeparam>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="attributeName">The name of the attribute from which to get the value.</param>
 		/// <param name="defaultValue">The default value of this attribute.</param>
 		/// <returns>Returns the value.</returns>
-		protected TValue GetAttribute<TValue>(MansionContext context, string attributeName, TValue defaultValue)
+		protected TValue GetAttribute<TValue>(IMansionContext context, string attributeName, TValue defaultValue)
 		{
 			// validate arguments
 			if (context == null)
@@ -175,7 +175,7 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 				return defaultValue;
 
 			// get the expression script parser and parse the expression
-			var expressionScriptParser = context.Nucleus.Get<IExpressionScriptService>(context);
+			var expressionScriptParser = context.Nucleus.ResolveSingle<IExpressionScriptService>();
 			var expression = expressionScriptParser.Parse(context, new LiteralResource(attributeValue));
 
 			// return the parsed expression
@@ -185,12 +185,12 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// Gets the value of the attribute.
 		/// </summary>
 		/// <typeparam name="TValue">The type of the value.</typeparam>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="attributeName">The name of the attribute from which to get the value.</param>
 		/// <returns>Returns the value.</returns>
 		/// <exception cref="AttributeNotSpecifiedException">Thrown when an attribute with the name <paramref name="attributeName"/> is not found.</exception>
 		/// <exception cref="AttributeNullException">Thrown when the value of <paramref name="attributeName"/> is null.</exception>
-		protected TValue GetRequiredAttribute<TValue>(MansionContext context, string attributeName)
+		protected TValue GetRequiredAttribute<TValue>(IMansionContext context, string attributeName)
 		{
 			// validate arguments
 			if (context == null)
@@ -204,7 +204,7 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 				throw new AttributeNotSpecifiedException(attributeName, this);
 
 			// get the expression script parser and parse the expression
-			var expressionScriptParser = context.Nucleus.Get<IExpressionScriptService>(context);
+			var expressionScriptParser = context.Nucleus.ResolveSingle<IExpressionScriptService>();
 			var expression = expressionScriptParser.Parse(context, new LiteralResource(attributeValue));
 
 			// get the parsed expression
@@ -222,9 +222,9 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// <summary>
 		/// Gets all the evaluated attributes of this tag.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns></returns>
-		protected IPropertyBag GetAttributes(MansionContext context)
+		protected IPropertyBag GetAttributes(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -243,9 +243,9 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// Gets the evaluated content of this tag.
 		/// </summary>
 		/// <typeparam name="TValue">The type of value which to get.</typeparam>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the value.</returns>
-		protected TValue GetContent<TValue>(MansionContext context)
+		protected TValue GetContent<TValue>(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -255,7 +255,7 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 			var content = (XmlNode.HasChildNodes && XmlNode.FirstChild.NodeType == XmlNodeType.CDATA) ? XmlNode.FirstChild.InnerText : XmlNode.InnerText;
 
 			// get the expression script parser and parse the expression
-			var expressionScriptParser = context.Nucleus.Get<IExpressionScriptService>(context);
+			var expressionScriptParser = context.Nucleus.ResolveSingle<IExpressionScriptService>();
 			var expression = expressionScriptParser.Parse(context, new LiteralResource(content));
 
 			// return the parsed expression
@@ -266,9 +266,9 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// <summary>
 		/// Executes this script.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <exception cref="ScriptExecutionException">Thrown when an exception occured while executing this script.</exception>
-		public virtual void Execute(MansionContext context)
+		public virtual void Execute(IMansionContext context)
 		{
 			// validate argument
 			if (context == null)
@@ -303,23 +303,23 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// Executes this script.
 		/// </summary>
 		/// <typeparam name="TResult">The result type.</typeparam>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the result of this script expression.</returns>
 		/// <exception cref="ScriptExecutionException">Thrown when an exception occured while executing this script.</exception>
-		public TResult Execute<TResult>(MansionContext context)
+		public TResult Execute<TResult>(IMansionContext context)
 		{
 			throw new NotSupportedException();
 		}
 		/// <summary>
 		/// Executes this tag.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
-		protected abstract void DoExecute(MansionContext context);
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		protected abstract void DoExecute(IMansionContext context);
 		/// <summary>
 		/// Executes the child tags of this tag.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
-		protected void ExecuteChildTags(MansionContext context)
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		protected void ExecuteChildTags(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -334,9 +334,9 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// <summary>
 		/// Halts the current execution flow and breaks into the debugger.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		[Conditional("DEBUG"), DebuggerHidden]
-		private void DebugTag(MansionContext context)
+		private void DebugTag(IMansionContext context)
 		{
 			// validate argument
 			if (context == null)

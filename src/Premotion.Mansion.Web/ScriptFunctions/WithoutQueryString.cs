@@ -13,10 +13,10 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 		/// <summary>
 		/// Gets the <see cref="Uri"/> without the query string.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The source <see cref="Uri"/> from which to copy the query string.</param>
 		/// <returns>The <see cref="Uri"/> with the modified query string.</returns>
-		public Uri Evaluate(MansionContext context, Uri source)
+		public Uri Evaluate(IMansionContext context, Uri source)
 		{
 			// validate arguments
 			if (context == null)

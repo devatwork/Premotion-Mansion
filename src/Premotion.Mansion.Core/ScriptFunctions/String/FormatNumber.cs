@@ -14,7 +14,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.String
 		/// <param name="number"></param>
 		/// <param name="format"></param>
 		/// <returns></returns>
-		public string Evaluate(MansionContext context, double number, string format)
+		public string Evaluate(IMansionContext context, double number, string format)
 		{
 			// validate arguments
 			if (double.IsNaN(number))

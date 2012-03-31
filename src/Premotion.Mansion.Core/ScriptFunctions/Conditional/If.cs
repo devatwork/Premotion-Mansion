@@ -15,7 +15,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 		/// <param name="condition"></param>
 		/// <param name="trueValue"></param>
 		/// <returns></returns>
-		public string Evaluate(MansionContext context, bool condition, string trueValue)
+		public string Evaluate(IMansionContext context, bool condition, string trueValue)
 		{
 			return Evaluate(context, condition, trueValue, string.Empty);
 		}
@@ -26,7 +26,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 		/// <param name="trueValue"></param>
 		/// <param name="falseValue"></param>
 		/// <returns></returns>
-		public string Evaluate(MansionContext context, bool condition, string trueValue, string falseValue)
+		public string Evaluate(IMansionContext context, bool condition, string trueValue, string falseValue)
 		{
 			// validate arguments
 			if (context == null)

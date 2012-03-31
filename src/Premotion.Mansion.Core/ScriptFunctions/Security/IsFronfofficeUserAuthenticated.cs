@@ -13,7 +13,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Security
 		/// </summary>
 		/// <param name="context"></param>
 		/// <returns></returns>
-		public bool Evaluate(MansionContext context)
+		public bool Evaluate(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)

@@ -23,10 +23,10 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		/// <summary>
 		/// Renders this column sort.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
 		/// <param name="data">The <see cref="Dataset"/>.</param>
-		protected override void DoRender(MansionWebContext context, ITemplateService templateService, Dataset data)
+		protected override void DoRender(IMansionWebContext context, ITemplateService templateService, Dataset data)
 		{
 			templateService.Render(context, "NoFilterColumnFilter").Dispose();
 		}

@@ -26,7 +26,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="newPointer"></param>
 		/// <param name="properties"></param>
-		protected override void DoToInsertStatement(MansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
+		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
 		{
 			// join the two tables on ID
 			queryBuilder.AddColumnValue("id", "@ScopeIdentity");
@@ -38,7 +38,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="node"></param>
 		/// <param name="modifiedProperties"></param>
-		protected override void DoToUpdateStatement(MansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
 		{
 			// get the parameter name
 			var parameterName = queryBuilder.AddParameter("id", node.Pointer.Id, DbType.Int32);
@@ -54,7 +54,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="node"></param>
 		/// <param name="columnText"></param>
 		/// <param name="valueText"></param>
-		protected override void DoToSyncStatement(MansionContext context, SqlCommand command, Node node, StringBuilder columnText, StringBuilder valueText)
+		protected override void DoToSyncStatement(IMansionContext context, SqlCommand command, Node node, StringBuilder columnText, StringBuilder valueText)
 		{
 			// join the two tables on ID
 			columnText.Append("[id], ");

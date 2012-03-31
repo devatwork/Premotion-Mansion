@@ -15,7 +15,7 @@ namespace Premotion.Mansion.Web
 	public static class Extensions
 	{
 		#region Constants
-		private static readonly string[][] htmlNamedEntities = new[]
+		private static readonly string[][] HtmlNamedEntities = new[]
 		                                                       {
 		                                                       	new[] {"&quot;", "\""},
 		                                                       	new[] {"&lt;", "<"},
@@ -273,11 +273,24 @@ namespace Premotion.Mansion.Web
 		#endregion
 		#region IHttpContext Extensions
 		/// <summary>
+		/// Gets a flag indicating whether the <paramref name="httpContext"/> has a session.
+		/// </summary>
+		/// <param name="httpContext">The <see cref="HttpContextBase"/>.</param>
+		/// <returns>Returns true when the <paramref name="httpContext"/> has a sessions, otherwise false.</returns>
+		/// <exception cref="ArgumentNullException">Thrown when <paramref name="httpContext"/> is null.</exception>
+		public static bool HasSession(this HttpContextBase httpContext)
+		{
+			// validate arguments
+			if (httpContext == null)
+				throw new ArgumentNullException("httpContext");
+			return httpContext.Session != null;
+		}
+		/// <summary>
 		/// Deletes a cookie from the <see cref="HttpContext"/>.
 		/// </summary>
 		/// <param name="httpContext">The http context.</param>
 		/// <param name="cookieName">The name of the cookie which to delete.</param>
-		public static void DeleteCookie(this IHttpContext httpContext, string cookieName)
+		public static void DeleteCookie(this HttpContextBase httpContext, string cookieName)
 		{
 			// validate arguments
 			if (httpContext == null)
@@ -392,10 +405,8 @@ namespace Premotion.Mansion.Web
 					{
 						i += 2;
 						insideHtmlComment = false;
-						continue;
 					}
-					else
-						continue;
+					continue;
 				}
 
 				// noscript block
@@ -572,7 +583,7 @@ namespace Premotion.Mansion.Web
 				sb.Append(input[i]);
 			}
 
-			foreach (var htmlNamedEntity in htmlNamedEntities)
+			foreach (var htmlNamedEntity in HtmlNamedEntities)
 				sb.Replace(htmlNamedEntity[0], htmlNamedEntity[1]);
 
 			for (var i = 0; i < 512; i++)

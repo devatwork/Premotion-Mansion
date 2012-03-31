@@ -1,4 +1,4 @@
-﻿using Premotion.Mansion.Core.Attributes;
+﻿using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Web.Controls.Forms.Fields;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Messages
@@ -12,16 +12,16 @@ namespace Premotion.Mansion.Web.Controls.Forms.Messages
 		/// <summary>
 		/// This tag creates a <see cref="Textbox"/>.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "successMessage")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "successMessage")]
 		public class SuccessMessageTag : MessageBaseTag
 		{
 			#region Overrides of MessageBaseTag
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override MessageBase CreateMessageControl(MansionWebContext context, ControlDefinition definition)
+			protected override MessageBase CreateMessageControl(IMansionWebContext context, ControlDefinition definition)
 			{
 				return new SuccessMessage(definition);
 			}

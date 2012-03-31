@@ -3,23 +3,32 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Nucleus;
-using Premotion.Mansion.Core.Nucleus.Facilities.Lifecycle;
+using Premotion.Mansion.Core.Patterns;
 
 namespace Premotion.Mansion.Web.Mail.Standard
 {
 	/// <summary>
 	/// Implements <see cref="IMailService"/> using the default ASP.NET <see cref="SmtpClient"/>.
 	/// </summary>
-	public class StandardMailService : ManagedLifecycleService, IMailService
+	public class StandardMailService : DisposableBase, IMailService
 	{
+		#region Constructors
+		/// <summary>
+		/// Constructs a standard mail service.
+		/// </summary>
+		public StandardMailService()
+		{
+			// create the client
+			smptClient = new SmtpClient();
+		}
+		#endregion
 		#region Implementation of IMailService
 		/// <summary>
 		/// Sends the <paramref name="message"/> to the intended recepients.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="message">The <see cref="MailMessage"/> which to send.</param>
-		public void Send(MansionContext context, MailMessage message)
+		public void Send(IMansionContext context, MailMessage message)
 		{
 			// validate arguments
 			if (context == null)
@@ -67,17 +76,6 @@ namespace Premotion.Mansion.Web.Mail.Standard
 			return new MailMessage();
 		}
 		#endregion
-		#region Overrides of ServiceBase
-		/// <summary>
-		/// Starts this service. All other services are initialized.
-		/// </summary>
-		/// <param name="context">The <see cref="INucleusAwareContext"/>.</param>
-		protected override void DoStart(INucleusAwareContext context)
-		{
-			// create the client
-			smptClient = new SmtpClient();
-		}
-		#endregion
 		#region Overrides of DisposableBase
 		/// <summary>
 		/// Dispose resources. Override this method in derived classes. Unmanaged resources should always be released
@@ -87,7 +85,6 @@ namespace Premotion.Mansion.Web.Mail.Standard
 		protected override void DisposeResources(bool disposeManagedResources)
 		{
 			// check for unmanaged disposal
-			base.DisposeResources(disposeManagedResources);
 			if (!disposeManagedResources)
 				return;
 
@@ -97,7 +94,7 @@ namespace Premotion.Mansion.Web.Mail.Standard
 		}
 		#endregion
 		#region Private Fields
-		private SmtpClient smptClient;
+		private readonly SmtpClient smptClient;
 		#endregion
 	}
 }

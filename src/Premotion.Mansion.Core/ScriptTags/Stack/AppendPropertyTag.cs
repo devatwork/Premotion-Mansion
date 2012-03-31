@@ -1,4 +1,3 @@
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Core.ScriptTags.Stack
@@ -6,13 +5,13 @@ namespace Premotion.Mansion.Core.ScriptTags.Stack
 	/// <summary>
 	/// Append a string property.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "appendProperty")]
+	[ScriptTag(Constants.NamespaceUri, "appendProperty")]
 	public class AppendPropertyTag : ScriptTag
 	{
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
 			// get the attributes
 			var dataspace = GetRequiredAttribute<IPropertyBag>(context, "dataspace");

@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{88604C21-F7B7-4647-8E91-76B3B173CB7E}</ProjectGuid>
+    <ProjectGuid>{9287F2CC-38C0-49D5-A683-164C53C690DD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Premotion.Mansion.Web.Tests</RootNamespace>
@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Premotion.Mansion.Web\Premotion.Mansion.Web.csproj">
-      <Project>{3446EAB3-B254-425F-852A-58B0A62CB9B8}</Project>
+      <Project>{7170BC06-87E5-4BFD-831C-B0A286F93182}</Project>
       <Name>Premotion.Mansion.Web</Name>
     </ProjectReference>
   </ItemGroup>

@@ -14,22 +14,36 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 	[ScriptFunction("renderBlock")]
 	public class RenderBlock : FunctionExpression
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="portalService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public RenderBlock(IPortalService portalService)
+		{
+			// validate arguments
+			if (portalService == null)
+				throw new ArgumentNullException("portalService");
+
+			// set values
+			this.portalService = portalService;
+		}
+		#endregion
+		#region Evaluate Methods
 		/// <summary>
 		/// Renders the specified <paramref name="blockProperties"/> to the output pipe.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="blockProperties">The <see cref="IPropertyBag"/> of the block which to render.</param>
 		/// <returns>Returns the HTML for this block.</returns>
-		public string Evaluate(MansionContext context, IPropertyBag blockProperties)
+		public string Evaluate(IMansionContext context, IPropertyBag blockProperties)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (blockProperties == null)
 				throw new ArgumentNullException("blockProperties");
-
-			// get the services
-			var portalService = context.Nucleus.Get<IPortalService>(context);
 
 			// render the block
 			var buffer = new StringBuilder();
@@ -40,5 +54,9 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 			// return the bufferred content
 			return buffer.ToString();
 		}
+		#endregion
+		#region Private Fields
+		private readonly IPortalService portalService;
+		#endregion
 	}
 }

@@ -1,13 +1,13 @@
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.ScriptTags.Stack;
+using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Core.ScriptTags
 {
 	/// <summary>
 	/// Loops over a specific range.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "loop")]
+	[ScriptTag(Constants.NamespaceUri, "loop")]
 	public class LoopTag : LoopBaseTag
 	{
 		/// <summary>
@@ -15,7 +15,7 @@ namespace Premotion.Mansion.Core.ScriptTags
 		/// </summary>
 		/// <param name="context">The request context.</param>
 		/// <returns>Returns the <see cref="Dataset"/> on which to loop.</returns>
-		protected override Dataset GetLoopset(MansionContext context)
+		protected override Dataset GetLoopset(IMansionContext context)
 		{
 			// get the range
 			var start = GetRequiredAttribute<int>(context, "start");

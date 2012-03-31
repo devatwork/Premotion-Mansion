@@ -43,7 +43,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="newPointer"></param>
 		/// <param name="properties"></param>
-		public void ToInsertStatement(MansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
+		public void ToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
 		{
 			// validate arguments
 			if (context == null)
@@ -61,7 +61,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="newPointer"></param>
 		/// <param name="properties"></param>
-		protected abstract void DoToInsertStatement(MansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties);
+		protected abstract void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties);
 		/// <summary>
 		/// 
 		/// </summary>
@@ -69,7 +69,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="node"></param>
 		/// <param name="modifiedProperties"></param>
-		public void ToUpdateStatement(MansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		public void ToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
 		{
 			// validate arguments
 			if (context == null)
@@ -89,7 +89,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="node"></param>
 		/// <param name="modifiedProperties"></param>
-		protected abstract void DoToUpdateStatement(MansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties);
+		protected abstract void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties);
 		/// <summary>
 		/// Generates an sync statements of this colum.
 		/// </summary>
@@ -98,7 +98,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="node"></param>
 		/// <param name="columnText"></param>
 		/// <param name="valueText"></param>
-		public void ToSyncStatement(MansionContext context, SqlCommand command, Node node, StringBuilder columnText, StringBuilder valueText)
+		public void ToSyncStatement(IMansionContext context, SqlCommand command, Node node, StringBuilder columnText, StringBuilder valueText)
 		{
 			// validate arguments
 			if (context == null)
@@ -123,7 +123,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="node"></param>
 		/// <param name="columnText"></param>
 		/// <param name="valueText"></param>
-		protected virtual void DoToSyncStatement(MansionContext context, SqlCommand command, Node node, StringBuilder columnText, StringBuilder valueText)
+		protected virtual void DoToSyncStatement(IMansionContext context, SqlCommand command, Node node, StringBuilder columnText, StringBuilder valueText)
 		{
 			throw new NotSupportedException(string.Format("Column type '{0}' can not be synced", GetType()));
 		}

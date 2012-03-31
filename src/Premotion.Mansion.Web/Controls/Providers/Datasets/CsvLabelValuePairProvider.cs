@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Types;
 
 namespace Premotion.Mansion.Web.Controls.Providers.Datasets
@@ -16,16 +16,16 @@ namespace Premotion.Mansion.Web.Controls.Providers.Datasets
 		/// <summary>
 		/// Creates <see cref="TypeDefinitionDatasetProvider"/>s.
 		/// </summary>
-		[Named(Constants.DataProviderTagNamespaceUri, "csvLabelValuePairProvider")]
+		[ScriptTag(Constants.DataProviderTagNamespaceUri, "csvLabelValuePairProvider")]
 		public class CsvLabelValuePairProviderFactoryTag : DatasetProviderFactoryTag<DatasetProvider>
 		{
 			#region Overrides of DataProviderFactoryTag
 			/// <summary>
 			/// Creates the data provider.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <returns>Returns the created data provider.</returns>
-			protected override DatasetProvider Create(MansionWebContext context)
+			protected override DatasetProvider Create(IMansionWebContext context)
 			{
 				return new CsvLabelValuePairProvider(GetRequiredAttribute<string>(context, "csv"));
 			}
@@ -57,9 +57,9 @@ namespace Premotion.Mansion.Web.Controls.Providers.Datasets
 		/// <summary>
 		/// Retrieves the data from this provider.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the retrieve data.</returns>
-		protected override Dataset DoRetrieve(MansionContext context)
+		protected override Dataset DoRetrieve(IMansionContext context)
 		{
 			return dataset;
 		}

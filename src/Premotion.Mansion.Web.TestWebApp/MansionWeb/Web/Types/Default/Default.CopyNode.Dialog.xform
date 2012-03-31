@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:ctrls="http://schemas.premotion.nl/mansion/1.0/web.controls.tags.xsd">
+	
+	<!-- render the new child form -->
+	<declareProcedure procedureName="RenderForm">
+		
+		<forms:form name="copynode">
+			<forms:step label="Copy {UrlNode.name}" headerCssClasses="background header-footer">
+				<forms:validationSummary/>
+
+				<forms:nodeTreeSelect name="newParentId" label="Select a new parent" defaultValue="{UrlNode.parentId}">
+					<providers:nodeTreeProvider rootPointer="1" valueProperty="id" labelProperty="name" disabledExpression="{\Or( IsChildOf( $Node, $UrlNode ), IsEqual( Node.pointer, UrlNode.pointer ), Not( CanContainChild( $Node, $UrlNode ) ) )}" />
+					<forms:requiredFieldValidator message="Select a new parent"/>
+				</forms:nodeTreeSelect>
+
+				<forms:buttonBar cssClass="background grey cms-toolbar bottom right">
+					<forms:button action="cancel" label="Cancel" cssClass="cancel" />
+					<forms:button action="copy" label="Copy" cssClass="ok" />
+				</forms:buttonBar>
+				
+				<!-- processes the form actions -->
+				<forms:processScriptAction supportedActions="cancel" requiresValidForm="false">
+					<ctrls:invokeDialogParentTrigger action="cms.dialog.close" />
+					<breakExecution />
+				</forms:processScriptAction>
+				
+				<forms:processScriptAction supportedActions="copy">
+					<retrieveNode id="{FieldProperties.newParentId}" target="NewParentNode">
+						<copyNode source="{$UrlNode}" newParent="{$NewParentNode}" target="CopiedNode">
+							<ctrls:invokeDialogParentTrigger action="cms.tree.navigate" url="{RouteUrl( 'Cms', 'Tree', 'View', CopiedNode.id )}" />
+							<ctrls:invokeDialogParentTrigger action="cms.browser.navigate" url="{RouteUrl( 'Cms', 'Node', 'Edit', CopiedNode.id )}" />
+							<ctrls:invokeDialogParentTrigger action="cms.dialog.close" />
+						</copyNode>
+					</retrieveNode>
+					<breakExecution />
+				</forms:processScriptAction>
+				
+			</forms:step>
+		</forms:form>
+		
+	</declareProcedure>
+	
+</mansion>

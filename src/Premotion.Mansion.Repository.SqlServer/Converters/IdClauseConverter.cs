@@ -19,7 +19,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Converters
 		/// <param name="command"></param>
 		/// <param name="queryBuilder"></param>
 		/// <param name="clause">The clause.</param>
-		protected override void Map(IContext context, Schema schema, SqlCommand command, SqlStringBuilder queryBuilder, IdClause clause)
+		protected override void Map(IMansionContext context, Schema schema, SqlCommand command, SqlStringBuilder queryBuilder, IdClause clause)
 		{
 			// append the query
 			queryBuilder.AppendWhere(" [{1}].[id] = @{0}", command.AddParameter(clause.Id), schema.RootTable.Name);

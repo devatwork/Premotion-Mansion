@@ -9,8 +9,8 @@
 		/// <summary>
 		/// Executes this tag.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
-		protected override void DoExecute(MansionContext context)
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		protected override void DoExecute(IMansionContext context)
 		{
 			ExecuteChildTags(context);
 		}

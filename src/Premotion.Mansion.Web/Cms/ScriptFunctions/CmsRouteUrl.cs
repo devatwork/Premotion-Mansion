@@ -14,11 +14,11 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 		/// <summary>
 		/// Generates a route URL.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="controller">The name of the controller.</param>
 		/// <param name="action">The action of the controller.</param>
 		/// <returns>Return the relative URL.</returns>
-		public Uri Evaluate(MansionContext context, string controller, string action)
+		public Uri Evaluate(IMansionContext context, string controller, string action)
 		{
 			// validate arguments
 			if (context == null)
@@ -32,19 +32,19 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 			var relativeUrl = AssembleRoute(new[] {"Cms", controller, action});
 
 			// return the uri
-			var webContext = context.Cast<MansionWebContext>();
-			return new Uri(webContext.HttpContext.Request.ApplicationBaseUri, relativeUrl);
+			var webContext = context.Cast<IMansionWebContext>();
+			return new Uri(webContext.ApplicationBaseUri, relativeUrl);
 		}
 		/// <summary>
 		/// Generates a route URL.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="controller">The name of the controller.</param>
 		/// <param name="action">The action of the controller.</param>
 		/// <param name="nodeId">The ID of the node.</param>
 		/// <param name="parameters">The parameters for the route URL.</param>
 		/// <returns>Return the relative URL.</returns>
-		public Uri Evaluate(MansionContext context, string controller, string action, int nodeId, params string[] parameters)
+		public Uri Evaluate(IMansionContext context, string controller, string action, int nodeId, params string[] parameters)
 		{
 			// validate arguments
 			if (context == null)
@@ -60,8 +60,8 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 			var relativeUrl = AssembleRoute(new[] {"Cms", controller, action}, parameters, nodeId);
 
 			// return the uri
-			var webContext = context.Cast<MansionWebContext>();
-			return new Uri(webContext.HttpContext.Request.ApplicationBaseUri, relativeUrl);
+			var webContext = context.Cast<IMansionWebContext>();
+			return new Uri(webContext.ApplicationBaseUri, relativeUrl);
 		}
 	}
 }

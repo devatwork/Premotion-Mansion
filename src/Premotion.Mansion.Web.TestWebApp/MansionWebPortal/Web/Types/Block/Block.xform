@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd" xmlns:portal="http://schemas.premotion.nl/mansion/1.0/web/portal/tags.xsd">
+
+	<!-- Renders the xForm content -->
+	<declareProcedure procedureName="RenderXFormContent">
+		<invokeProcedure procedureName="RenderGroupBlockProperties" />
+		<invokeProcedure procedureName="RenderGroupColumn" />
+		<invokeProcedure procedureName="RenderGroupPublication"/>
+		<invokeProcedure procedureName="RenderGroupIdentity"/>
+		<invokeProcedure procedureName="RenderGroupSecurity"/>
+	</declareProcedure>
+
+	
+	
+	<!-- render the properties of this block -->
+	<declareProcedure procedureName="RenderGroupBlockProperties">
+		<forms:fieldset label="Configuration">
+			<forms:textbox name="name" label="Name">
+				<forms:requiredFieldValidator />
+			</forms:textbox>
+			<invokeProcedure procedureName="IncludeBlockConfiguration" checkExists="false" />
+		</forms:fieldset>
+
+		<!-- Look & feel of the block -->
+		<forms:fieldset label="Look &amp; Feel">
+			<forms:selectbox name="borderStyle" label="Border type">
+				<providers:scriptedDatasetProvider>
+					<invokeProcedure procedureName="GetAllowedBlockBorders" />
+				</providers:scriptedDatasetProvider>
+				<forms:requiredFieldValidator/>
+			</forms:selectbox>
+			<forms:selectbox name="blockStyle" label="Block style">
+				<providers:scriptedDatasetProvider>
+					<invokeProcedure procedureName="GetAllowedBlockStyles" />
+				</providers:scriptedDatasetProvider>
+				<forms:requiredFieldValidator/>
+			</forms:selectbox>
+		</forms:fieldset>
+		
+	</declareProcedure>
+	
+		<!-- Get the border options for this block -->
+		<declareProcedure procedureName="GetAllowedBlockBorders">
+			<setProperties dataspaceName="Option" value="border" label="Border">
+				<addRowToSet source="{$Option}" target="{$Dataset}" />
+			</setProperties>
+			<setProperties dataspaceName="Option" value="borderless" label="Borderless">
+				<addRowToSet source="{$Option}" target="{$Dataset}" />
+			</setProperties>
+		</declareProcedure>
+	
+		<!-- Get the block style options for this block -->
+		<declareProcedure procedureName="GetAllowedBlockStyles">
+			<setProperties dataspaceName="Option" value="normal" label="Normal">
+				<addRowToSet source="{$Option}" target="{$Dataset}" />
+			</setProperties>
+			<setProperties dataspaceName="Option" value="inverse" label="Inverse">
+				<addRowToSet source="{$Option}" target="{$Dataset}" />
+			</setProperties>
+			<setProperties dataspaceName="Option" value="highlight" label="Highlight">
+				<addRowToSet source="{$Option}" target="{$Dataset}" />
+			</setProperties>
+		</declareProcedure>
+	
+	
+	
+	<!-- render the column in which this block is shown -->
+	<declareProcedure procedureName="RenderGroupColumn">
+		<forms:fieldset label="Column">
+			<forms:selectbox name="column" label="Column">
+
+				<providers:scriptedDatasetProvider>
+					<!-- add columns for theme -->
+					<portal:retrieveThemeNode source="{$UrlNode}" target="ThemeNode">
+						<portal:getColumnDataset type="{ThemeNode.theme}" target="ColumnSet">
+							<loopDataset source="{$ColumnSet}" target="ColumnRow">
+								<addRowToSet source="{$ColumnRow}" target="{$Dataset}" />
+							</loopDataset>
+						</portal:getColumnDataset>
+					</portal:retrieveThemeNode>
+
+					<!-- retrieve the columns for the page -->
+					<portal:retrieveLayoutNode source="{$UrlNode}" target="PageNode">
+						<portal:getColumnDataset type="{PageNode.layout}" target="ColumnSet">
+							<loopDataset source="{$ColumnSet}" target="ColumnRow">
+								<addRowToSet source="{$ColumnRow}" target="{$Dataset}" />
+							</loopDataset>
+						</portal:getColumnDataset>
+					</portal:retrieveLayoutNode>
+				</providers:scriptedDatasetProvider>
+
+				<forms:requiredFieldValidator />
+			</forms:selectbox>
+		</forms:fieldset>
+	</declareProcedure>
+
+</mansion>

@@ -14,14 +14,31 @@ namespace Premotion.Mansion.Web.Controls.Paging
 	[ScriptFunction("RenderEmbeddedPagingControl")]
 	public class RenderEmbeddedPagingControl : FunctionExpression
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="templateService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public RenderEmbeddedPagingControl(ITemplateService templateService)
+		{
+			// validate arguments
+			if (templateService == null)
+				throw new ArgumentNullException("templateService");
+
+			// set values
+			this.templateService = templateService;
+		}
+		#endregion
+		#region Evaluate Methods
 		/// <summary>
 		/// Renders the paging control for the given dataset.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="dataset">The <see cref="Dataset"/>.</param>
 		/// <param name="id">The ID of the dataset which to page.</param>
 		/// <returns>Returns the HTML of the paging control.</returns>
-		public string Evaluate(MansionContext context, Dataset dataset, string id)
+		public string Evaluate(IMansionContext context, Dataset dataset, string id)
 		{
 			// validate arguments
 			if (context == null)
@@ -38,7 +55,6 @@ namespace Premotion.Mansion.Web.Controls.Paging
 			// render the control
 			var buffer = new StringBuilder();
 
-			var templateService = context.Nucleus.Get<ITemplateService>(context);
 			using (var pipe = new StringOutputPipe(buffer))
 			using (context.OutputPipeStack.Push(pipe))
 			using (templateService.Render(context, "EmbeddedPagingControl", TemplateServiceConstants.OutputTargetField))
@@ -77,5 +93,9 @@ namespace Premotion.Mansion.Web.Controls.Paging
 			// return the buffer
 			return buffer.ToString();
 		}
+		#endregion
+		#region Private Fields
+		private readonly ITemplateService templateService;
+		#endregion
 	}
 }

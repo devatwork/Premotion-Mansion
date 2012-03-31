@@ -1,12 +1,12 @@
 ﻿using System;
-using Premotion.Mansion.Core.Attributes;
+using Premotion.Mansion.Core.Nucleus;
 
 namespace Premotion.Mansion.Core.Security
 {
 	/// <summary>
 	/// Defines an authentication provider.
 	/// </summary>
-	[Exported]
+	[Exported(typeof (AuthenticationProvider))]
 	public abstract class AuthenticationProvider
 	{
 		#region Constructors
@@ -31,7 +31,7 @@ namespace Premotion.Mansion.Core.Security
 		/// <param name="context">The security context.</param>
 		/// <param name="parameters">The parameters used for authentication.</param>
 		/// <returns>Returns the user when authenticated otherwise null.</returns>
-		public UserState Authenticate(MansionContext context, IPropertyBag parameters)
+		public UserState Authenticate(IMansionContext context, IPropertyBag parameters)
 		{
 			// validate arguments
 			if (context == null)
@@ -46,7 +46,7 @@ namespace Premotion.Mansion.Core.Security
 		/// Logs the current user off.
 		/// </summary>
 		/// <param name="context">The security context.</param>
-		public void Logoff(MansionContext context)
+		public void Logoff(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -61,12 +61,12 @@ namespace Premotion.Mansion.Core.Security
 		/// <param name="context">The security context.</param>
 		/// <param name="parameters">The parameters used for authentication.</param>
 		/// <returns>Returns the user when authenticated otherwise null.</returns>
-		protected abstract UserState DoAuthenticate(MansionContext context, IPropertyBag parameters);
+		protected abstract UserState DoAuthenticate(IMansionContext context, IPropertyBag parameters);
 		/// <summary>
 		/// Template method for <see cref="AuthenticationProvider.Logoff"/>.
 		/// </summary>
 		/// <param name="context">The security context.</param>
-		protected abstract void DoLogoff(MansionContext context);
+		protected abstract void DoLogoff(IMansionContext context);
 		#endregion
 		#region Revival Methods
 		/// <summary>
@@ -77,7 +77,7 @@ namespace Premotion.Mansion.Core.Security
 		/// <param name="parameters">The parameters used for authentication of <paramref name="userState"/>.</param>
 		/// <returns>Returns the revival data or null.</returns>
 		/// <exception cref="NotSupportedException">Thrown when <see cref="SupportsRevival"/> is false.</exception>
-		public virtual IPropertyBag GetRevivalProperties(MansionContext context, UserState userState, IPropertyBag parameters)
+		public virtual IPropertyBag GetRevivalProperties(IMansionContext context, UserState userState, IPropertyBag parameters)
 		{
 			throw new NotSupportedException();
 		}
@@ -87,7 +87,7 @@ namespace Premotion.Mansion.Core.Security
 		/// <param name="context">The security context.</param>
 		/// <param name="revivalProperties">The revival properties.</param>
 		/// <returns>Returns the revived <see cref="UserState"/> or null.</returns>
-		public virtual UserState ReviveUser(MansionContext context, IPropertyBag revivalProperties)
+		public virtual UserState ReviveUser(IMansionContext context, IPropertyBag revivalProperties)
 		{
 			throw new NotSupportedException();
 		}

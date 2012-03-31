@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:dispatcher="http://schemas.premotion.nl/mansion/1.0/web/dispatcher/tags.xsd">
+	
+	<!-- welcome to the dispatcher this will bootstrap your application in a MVC style -->
+	<!-- arguments:                                                                    -->
+	<!--   defaultArea, specifies the area in which the controllers live               -->
+	<!--   defaultController, specifies the name of the default controller             -->
+	<!--   defaultAction, specifies the name of the default action                     -->
+	<declareProcedure procedureName="Dispatch">
+		
+		<!-- include the application scripts and templates -->
+		<openScript path="Application.xinclude" checkExists="false">
+		<openTemplate path="Application.htm" checkExists="false">
+			
+			<!-- initialize the request, could be used to retrieve common nodes etc. -->
+			<fireEvent eventName="InitializeRequest" />
+			
+			<!-- parse the route to extract the controller and action -->
+			<dispatcher:parseRoute defaultArea="{Arguments.defaultArea}" defaultController="{NotEmpty( Arguments.defaultController, 'Page' )}" defaultAction="{NotEmpty( Arguments.defaultAction, 'Render' )}" target="Route">
+					
+				<!-- invoke the controller action -->
+				<dispatcher:invokeAction route="{$Route}" />
+				
+			</dispatcher:parseRoute>
+			
+		</openTemplate>
+		</openScript>
+		
+	</declareProcedure>
+	
+</mansion>

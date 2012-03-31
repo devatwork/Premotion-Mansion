@@ -1,13 +1,13 @@
 ﻿using System.Text;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.IO.Memory;
+using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Mail.ScriptTags
 {
 	/// <summary>
 	/// Adds an text body to a message.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "addTextBody")]
+	[ScriptTag(Constants.NamespaceUri, "addTextBody")]
 	public class AddTextBodyTag : AddBodyBaseTag
 	{
 		#region Constructors
@@ -21,9 +21,9 @@ namespace Premotion.Mansion.Web.Mail.ScriptTags
 		/// <summary>
 		/// Gets the content which to add to the message.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <returns>Returns the content.</returns>
-		protected override string GetContent(MansionWebContext context)
+		protected override string GetContent(IMansionWebContext context)
 		{
 			// get the content
 			var content = new StringBuilder();

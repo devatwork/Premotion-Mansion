@@ -1,5 +1,5 @@
 ﻿using System;
-using Premotion.Mansion.Core.Attributes;
+using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Patterns.Voting;
 
 namespace Premotion.Mansion.Core.Conversion
@@ -9,7 +9,7 @@ namespace Premotion.Mansion.Core.Conversion
 	/// </summary>
 	/// <typeparam name="TSource">The source type from which to convert.</typeparam>
 	/// <typeparam name="TTarget">The target type from which to convert.</typeparam>
-	[Exported]
+	[Exported(typeof (IConverter))]
 	public abstract class ConverterBase<TSource, TTarget> : IConverter
 	{
 		#region Constructors
@@ -37,10 +37,10 @@ namespace Premotion.Mansion.Core.Conversion
 		/// <summary>
 		/// Requests this voter to cast a vote.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="subject">The subject.</param>
 		/// <returns>Returns the result of the vote.</returns>
-		public VoteResult Vote(IContext context, ConversionVotingSubject subject)
+		public VoteResult Vote(IMansionContext context, ConversionVotingSubject subject)
 		{
 			// validate arguments
 			if (context == null)
@@ -52,10 +52,10 @@ namespace Premotion.Mansion.Core.Conversion
 		/// <summary>
 		/// Requests this voter to cast a vote.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="subject">The subject.</param>
 		/// <returns>Returns the result of the vote.</returns>
-		protected virtual VoteResult DoVote(IContext context, ConversionVotingSubject subject)
+		protected virtual VoteResult DoVote(IMansionContext context, ConversionVotingSubject subject)
 		{
 			return SourceType.IsAssignableFrom(subject.SourceType) && subject.TargetType.IsAssignableFrom(TargetType) ? interestWeight : VoteResult.Refrain;
 		}
@@ -64,11 +64,11 @@ namespace Premotion.Mansion.Core.Conversion
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The input value.</param>
 		/// <param name="sourceType">The actual type of the source.</param>
 		/// <returns>Returns the converted value.</returns>
-		public object Convert(IContext context, object source, Type sourceType)
+		public object Convert(IMansionContext context, object source, Type sourceType)
 		{
 			// validate arguments
 			if (context == null)
@@ -84,12 +84,12 @@ namespace Premotion.Mansion.Core.Conversion
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The input value.</param>
 		/// <param name="sourceType">The actual type of the source.</param>
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns>Returns the converted value.</returns>
-		public object Convert(IContext context, object source, Type sourceType, object defaultValue)
+		public object Convert(IMansionContext context, object source, Type sourceType, object defaultValue)
 		{
 			// validate arguments
 			if (context == null)
@@ -107,20 +107,20 @@ namespace Premotion.Mansion.Core.Conversion
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The input value.</param>
 		/// <param name="sourceType">The actual type of the source.</param>
 		/// <returns>Returns the converted value.</returns>
-		protected abstract TTarget DoConvert(IContext context, TSource source, Type sourceType);
+		protected abstract TTarget DoConvert(IMansionContext context, TSource source, Type sourceType);
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The input value.</param>
 		/// <param name="sourceType">The actual type of the source.</param>
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns>Returns the converted value.</returns>
-		protected abstract TTarget DoConvert(IContext context, TSource source, Type sourceType, TTarget defaultValue);
+		protected abstract TTarget DoConvert(IMansionContext context, TSource source, Type sourceType, TTarget defaultValue);
 		#endregion
 		#region Properties
 		/// <summary>

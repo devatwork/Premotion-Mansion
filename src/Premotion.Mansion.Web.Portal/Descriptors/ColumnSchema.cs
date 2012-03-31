@@ -33,7 +33,7 @@ namespace Premotion.Mansion.Web.Portal.Descriptors
 		/// <param name="context">The request context.</param>
 		/// <param name="typeName">The name of the type from which to get the column scheme.</param>
 		/// <returns>Returns the schema.</returns>
-		public static ColumnSchema GetSchema(MansionContext context, string typeName)
+		public static ColumnSchema GetSchema(IMansionContext context, string typeName)
 		{
 			// validate arguments
 			if (context == null)
@@ -42,7 +42,7 @@ namespace Premotion.Mansion.Web.Portal.Descriptors
 				throw new ArgumentNullException("typeName");
 
 			// get the type
-			var typeService = context.Nucleus.Get<ITypeService>(context);
+			var typeService = context.Nucleus.ResolveSingle<ITypeService>();
 			var type = typeService.Load(context, typeName);
 
 			return GetSchema(context, type);
@@ -53,7 +53,7 @@ namespace Premotion.Mansion.Web.Portal.Descriptors
 		/// <param name="context">The request context.</param>
 		/// <param name="type">The <see cref="ITypeDefinition" /> of the type from which to get the column scheme.</param>
 		/// <returns>Returns the <see cref="ColumnSchema"/>.</returns>
-		public static ColumnSchema GetSchema(MansionContext context, ITypeDefinition type)
+		public static ColumnSchema GetSchema(IMansionContext context, ITypeDefinition type)
 		{
 			// validate arguments
 			if (context == null)

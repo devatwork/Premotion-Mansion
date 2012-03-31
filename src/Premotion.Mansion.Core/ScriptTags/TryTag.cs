@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
@@ -9,14 +8,14 @@ namespace Premotion.Mansion.Core.ScriptTags
 	/// <summary>
 	/// Implements the mansion document tag.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "try")]
+	[ScriptTag(Constants.NamespaceUri, "try")]
 	public class TryTag : ScriptTag
 	{
 		/// <summary>
 		/// Executes the tag.
 		/// </summary>
 		/// <param name="context">The application context.</param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
 			try
 			{

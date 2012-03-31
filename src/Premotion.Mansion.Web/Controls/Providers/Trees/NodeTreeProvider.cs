@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.IO.Memory;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
+using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Providers.Trees
 {
@@ -19,16 +19,32 @@ namespace Premotion.Mansion.Web.Controls.Providers.Trees
 		/// <summary>
 		/// Constructs node tree providers.
 		/// </summary>
-		[Named(Constants.DataProviderTagNamespaceUri, "nodeTreeProvider")]
+		[ScriptTag(Constants.DataProviderTagNamespaceUri, "nodeTreeProvider")]
 		public class NodeTreeProviderFactoryTag : DataProviderFactoryTag<NodeTreeProvider>
 		{
+			#region Constructors
+			/// <summary>
+			/// 
+			/// </summary>
+			/// <param name="expressionScriptService"></param>
+			/// <exception cref="ArgumentNullException"></exception>
+			public NodeTreeProviderFactoryTag(IExpressionScriptService expressionScriptService)
+			{
+				// validate arguments
+				if (expressionScriptService == null)
+					throw new ArgumentNullException("expressionScriptService");
+
+				// set values
+				this.expressionScriptService = expressionScriptService;
+			}
+			#endregion
 			#region Overrides of DataProviderFactoryTag<NodeTreeProvider>
 			/// <summary>
 			/// Creates the data provider.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <returns>Returns the created data provider.</returns>
-			protected override NodeTreeProvider Create(MansionWebContext context)
+			protected override NodeTreeProvider Create(IMansionWebContext context)
 			{
 				// get the values
 				var rootPointer = GetRequiredAttribute<NodePointer>(context, "rootPointer");
@@ -43,13 +59,15 @@ namespace Premotion.Mansion.Web.Controls.Providers.Trees
 				if (!string.IsNullOrEmpty(disabledExpressionString))
 				{
 					// parse into an expression
-					var expressionService = context.Nucleus.Get<IExpressionScriptService>(context);
-					provider.DisabledExpression = expressionService.Parse(context, new LiteralResource(disabledExpressionString));
+					provider.DisabledExpression = expressionScriptService.Parse(context, new LiteralResource(disabledExpressionString));
 				}
 
 				// return the created provider
 				return provider;
 			}
+			#endregion
+			#region Private Fields
+			private readonly IExpressionScriptService expressionScriptService;
 			#endregion
 		}
 		#endregion
@@ -80,9 +98,9 @@ namespace Premotion.Mansion.Web.Controls.Providers.Trees
 		/// <summary>
 		/// Retrieves the data from this provider.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the retrieve data.</returns>
-		protected override Leaf DoRetrieve(MansionContext context)
+		protected override Leaf DoRetrieve(IMansionContext context)
 		{
 			// get the current repository
 			var repository = context.Repository;
@@ -97,11 +115,11 @@ namespace Premotion.Mansion.Web.Controls.Providers.Trees
 		/// <summary>
 		/// Retrieves the children of the node.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="repository">The <see cref="IRepository"/> from which to retrieve the children.</param>
 		/// <param name="parentNode">The parent <see cref="Node"/>.</param>
 		/// <returns>Returns the child <see cref="Leaf"/>s.</returns>
-		private IEnumerable<Leaf> RetrieveChildren(MansionContext context, IRepository repository, Node parentNode)
+		private IEnumerable<Leaf> RetrieveChildren(IMansionContext context, IRepository repository, Node parentNode)
 		{
 			// retrieve it's direct children
 			var childNodeset = repository.Retrieve(context, repository.ParseQuery(context, new PropertyBag
@@ -115,10 +133,10 @@ namespace Premotion.Mansion.Web.Controls.Providers.Trees
 		/// <summary>
 		/// Extracts the tree attributes from the node.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The <see cref="Node"/> from which to extract the data.</param>
 		/// <returns>Returns the extracted data.</returns>
-		private IPropertyBag ExtractProperties(MansionContext context, Node node)
+		private IPropertyBag ExtractProperties(IMansionContext context, Node node)
 		{
 			// assemble the properties
 			var properties = new PropertyBag

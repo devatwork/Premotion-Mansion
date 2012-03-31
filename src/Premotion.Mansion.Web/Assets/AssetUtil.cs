@@ -2,7 +2,6 @@
 using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
-using Premotion.Mansion.Web.Http;
 
 namespace Premotion.Mansion.Web.Assets
 {
@@ -45,11 +44,11 @@ namespace Premotion.Mansion.Web.Assets
 		/// <summary>
 		/// Builds the folder url of the specified <paramref name="folderNode"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="assetTypeNode">The asset type node.</param>
 		/// <param name="folderNode">The asset folder node.</param>
 		/// <returns>Returns the <see cref="Uri"/>.</returns>
-		public static Uri GetUrl(MansionContext context, Node assetTypeNode, Node folderNode)
+		public static Uri GetUrl(IMansionContext context, Node assetTypeNode, Node folderNode)
 		{
 			// validate arguments
 			if (context == null)
@@ -60,16 +59,16 @@ namespace Premotion.Mansion.Web.Assets
 				throw new ArgumentNullException("folderNode");
 
 			// get the web context
-			var webContext = context.Cast<MansionWebContext>();
+			var webContext = context.Cast<IMansionWebContext>();
 
 			// get the path
 			var folderPath = GetPath(assetTypeNode, folderNode);
 
 			// create the relative path
-			var prefixedRelativePath = HttpUtilities.CombineIntoRelativeUrl(webContext.HttpContext.Request.ApplicationPath, PathRewriterModule.StaticContentPrefix, folderPath);
+			var prefixedRelativePath = HttpUtilities.CombineIntoRelativeUrl(webContext.HttpContext.Request.ApplicationPath, Constants.StaticContentPrefix, folderPath);
 
 			// create the uri
-			return new Uri(webContext.HttpContext.Request.ApplicationBaseUri, prefixedRelativePath);
+			return new Uri(webContext.ApplicationBaseUri, prefixedRelativePath);
 		}
 	}
 }

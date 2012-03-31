@@ -13,10 +13,10 @@ namespace Premotion.Mansion.Core.Patterns.Tokenizing
 		/// <summary>
 		/// Tokenizes the input.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="input">The input for this tokenizer.</param>
 		/// <returns>Returns the tokens parsed from <paramref name="input"/>.</returns>
-		IEnumerable<TToken> Tokenize(IContext context, TInput input);
+		IEnumerable<TToken> Tokenize(IMansionContext context, TInput input);
 		#endregion
 	}
 }

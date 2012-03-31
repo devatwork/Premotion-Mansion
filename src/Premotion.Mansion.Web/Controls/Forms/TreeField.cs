@@ -22,9 +22,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override TField Create(MansionWebContext context, ControlDefinition definition)
+			protected override TField Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				// create the controls
 				var control = DoCreate(context, definition);
@@ -35,9 +35,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected abstract TField DoCreate(MansionWebContext context, ControlDefinition definition);
+			protected abstract TField DoCreate(IMansionWebContext context, ControlDefinition definition);
 			#endregion
 		}
 		#endregion
@@ -71,9 +71,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Render this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		protected override void DoRender(MansionWebContext context, ITemplateService templateService)
+		protected override void DoRender(IMansionWebContext context, ITemplateService templateService)
 		{
 			// check if no provider was set
 			if (provider == null)
@@ -96,20 +96,20 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Renders the root leaf.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
 		/// <param name="root">The <see cref="Leaf"/> which to render.</param>
-		private void RenderRoot(MansionWebContext context, ITemplateService templateService, Leaf root)
+		private void RenderRoot(IMansionWebContext context, ITemplateService templateService, Leaf root)
 		{
 			RenderLeaf(context, templateService, root);
 		}
 		/// <summary>
 		/// Renders a leaf.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
 		/// <param name="root">The <see cref="Leaf"/> which to render.</param>
-		private void RenderLeaf(MansionWebContext context, ITemplateService templateService, Leaf root)
+		private void RenderLeaf(IMansionWebContext context, ITemplateService templateService, Leaf root)
 		{
 			// push leaf properties to the stack
 			using (context.Stack.Push("LeafProperties", root.Properties))

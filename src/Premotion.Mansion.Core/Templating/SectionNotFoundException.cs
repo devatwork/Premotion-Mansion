@@ -15,7 +15,7 @@ namespace Premotion.Mansion.Core.Templating
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="context"></param>
-		public SectionNotFoundException(string name, MansionContext context)
+		public SectionNotFoundException(string name, IMansionContext context)
 		{
 			// validate arguments
 			if (string.IsNullOrEmpty(name))

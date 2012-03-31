@@ -14,7 +14,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Actions
 		/// Constructs a process delegate action.
 		/// </summary>
 		/// <param name="action">The action which to execute when preparing.</param>
-		public ProcessDelegateAction(Action<MansionWebContext, Form, Step> action) : this(new string[0], action)
+		public ProcessDelegateAction(Action<IMansionWebContext, Form, Step> action) : this(new string[0], action)
 		{
 		}
 		/// <summary>
@@ -22,7 +22,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Actions
 		/// </summary>
 		/// <param name="actions">The actions on which to execute.</param>
 		/// <param name="action">The action which to execute when preparing.</param>
-		public ProcessDelegateAction(IEnumerable<string> actions, Action<MansionWebContext, Form, Step> action)
+		public ProcessDelegateAction(IEnumerable<string> actions, Action<IMansionWebContext, Form, Step> action)
 		{
 			// validate arguments
 			if (actions == null)
@@ -39,10 +39,10 @@ namespace Premotion.Mansion.Web.Controls.Forms.Actions
 		/// <summary>
 		/// Processes the <paramref name="step"/> after the <paramref name="form"/> is submitted back to the server with valid data.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/>.</param>
 		/// <param name="step">The <see cref="Step"/>.</param>
-		protected override void Process(MansionWebContext context, Form form, Step step)
+		protected override void Process(IMansionWebContext context, Form form, Step step)
 		{
 			// filter on actions
 			if (actions.Count != 0 && !actions.Contains(form.State.CurrentAction))
@@ -52,7 +52,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Actions
 		}
 		#endregion
 		#region Private Fields
-		private readonly Action<MansionWebContext, Form, Step> action;
+		private readonly Action<IMansionWebContext, Form, Step> action;
 		private readonly List<string> actions;
 		#endregion
 	}

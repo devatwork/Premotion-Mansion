@@ -12,8 +12,8 @@ namespace Premotion.Mansion.Core.Templating
 		/// <summary>
 		/// Constructs the output pipe target field.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
-		public OutputPipeTargetField(MansionContext context)
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		public OutputPipeTargetField(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)

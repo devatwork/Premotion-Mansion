@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Premotion.Mansion.Core.Data.Listeners.Constants" Collapsed="true">
+    <Position X="7.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Listeners\Constants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Data.Listeners.RegisterListenerDescriptor" Collapsed="true">
+    <Position X="9.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Listeners\RegisterListenerDescriptor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Data.Listeners.ListeningRepositoryDecorator" Collapsed="true">
+    <Position X="9.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAACAAAIAAAAEAAEAEAAAAYAAAAAAAAAAAABAAIA=</HashCode>
+      <FileName>Data\Listeners\ListeningRepositoryDecorator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Data.Listeners.NodeListener" Collapsed="true">
+    <Position X="7.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAgAgCEQAVQIAAAAEACAAAAAAAAAAAAAhEAMICAAAA=</HashCode>
+      <FileName>Data\Listeners\NodeListener.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

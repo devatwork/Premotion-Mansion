@@ -12,7 +12,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Stack
 		/// <summary>
 		/// </summary>
 		/// <param name="context">The application context.</param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
 			// get all attributes
 			var attributes = GetAttributes(context);
@@ -49,7 +49,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Stack
 		/// <param name="context">The request context.</param>
 		/// <param name="attributes">The attributes of this tag.</param>
 		/// <returns>Returns the result.</returns>
-		protected abstract IPropertyBag Get(MansionContext context, IPropertyBag attributes);
+		protected abstract IPropertyBag Get(IMansionContext context, IPropertyBag attributes);
 		#endregion
 	}
 }

@@ -15,7 +15,7 @@ namespace Premotion.Mansion.Repository.SqlServer.ScriptFunctions
 		/// <param name="context"></param>
 		/// <param name="input"></param>
 		/// <returns></returns>
-		public string Evaluate(MansionContext context, string input)
+		public string Evaluate(IMansionContext context, string input)
 		{
 			// validate arguments
 			if (input == null)

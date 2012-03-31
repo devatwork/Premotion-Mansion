@@ -17,7 +17,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.JSon
 		/// <param name="context"></param>
 		/// <param name="dataspace"></param>
 		/// <returns></returns>
-		public string Evaluate(MansionContext context, IPropertyBag dataspace)
+		public string Evaluate(IMansionContext context, IPropertyBag dataspace)
 		{
 			// validate arguments
 			if (context == null)

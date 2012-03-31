@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
+
+	<!-- bootstrap the dispatcher and dispatch the request  -->
+	<openTemplate path="/Cms/Cms.htm">
+	<openScript path="/Dispatcher/Dispatcher.xinclude">
+		<invokeProcedure procedureName="Dispatch" defaultArea="Cms" defaultController="Cms" defaultAction="Home" />
+	</openScript>
+	</openTemplate>
+
+</mansion>

@@ -19,9 +19,11 @@ namespace Premotion.Mansion.Web.Http
 			if (context == null)
 				throw new ArgumentNullException("context");
 
+			// get the request context
+			var requestContext = ContextFactoryHttpModule.RequestContext;
+
 			// create the request context
-			using (var mansionContext = MansionWebContext.Create(context))
-				ProcessRequest(mansionContext);
+			ProcessRequest(requestContext);
 		}
 		/// <summary>
 		/// Gets a value indicating whether another request can use the <see cref="T:System.Web.IHttpHandler"/> instance.
@@ -36,8 +38,8 @@ namespace Premotion.Mansion.Web.Http
 		/// <summary>
 		/// Enables processing of HTTP Web requests by a custom HttpHandler that implements the <see cref="T:System.Web.IHttpHandler"/> interface.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/> constructed for handling the current request.</param>
-		protected abstract void ProcessRequest(MansionWebContext context);
+		/// <param name="context">The <see cref="IMansionWebContext"/> constructed for handling the current request.</param>
+		protected abstract void ProcessRequest(IMansionWebContext context);
 		#endregion
 	}
 }

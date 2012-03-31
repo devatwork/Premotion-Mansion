@@ -1,14 +1,14 @@
 ﻿using System;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.ScriptTags.Stack;
+using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Core.ScriptTags.String
 {
 	/// <summary>
 	/// Opens a template.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "splitText")]
+	[ScriptTag(Constants.NamespaceUri, "splitText")]
 	public class SplitTextTag : GetDatasetBaseTag
 	{
 		/// <summary>
@@ -17,7 +17,7 @@ namespace Premotion.Mansion.Core.ScriptTags.String
 		/// <param name="context">The request context.</param>
 		/// <param name="attributes">The attributes of this tag.</param>
 		/// <returns>Returns the result.</returns>
-		protected override Dataset Get(MansionContext context, IPropertyBag attributes)
+		protected override Dataset Get(IMansionContext context, IPropertyBag attributes)
 		{
 			// get the attributes
 			var input = GetAttribute(context, "input", string.Empty) ?? string.Empty;

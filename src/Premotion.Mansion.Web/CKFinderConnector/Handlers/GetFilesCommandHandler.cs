@@ -13,11 +13,11 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// <summary>
 		/// Handels the incomming CKFinder command.
 		/// </summary>
-		/// <param name="context">The incoming <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The incoming <see cref="IMansionWebContext"/>.</param>
 		/// <param name="connectorNode">The <see cref="XElement"/> of the connector node.</param>
 		/// <param name="currentFolderElement">The <see cref="XElement"/> of the current folder node.</param>
 		/// <exception cref="ConnectorException">Thrown when an error occured while handling the command.</exception>
-		protected override void DoHandle(MansionWebContext context, XElement connectorNode, XElement currentFolderElement)
+		protected override void DoHandle(IMansionWebContext context, XElement connectorNode, XElement currentFolderElement)
 		{
 			// create the files element
 			var filesElement = connectorNode.Append(new XElement("Files"));

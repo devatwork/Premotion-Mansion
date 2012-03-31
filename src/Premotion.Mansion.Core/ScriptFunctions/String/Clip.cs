@@ -15,7 +15,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.String
 		/// <param name="input"></param>
 		/// <param name="length"></param>
 		/// <returns></returns>
-		public string Evaluate(MansionContext context, string input, int length)
+		public string Evaluate(IMansionContext context, string input, int length)
 		{
 			return Evaluate(context, input, length, @" &hellip;");
 		}
@@ -26,7 +26,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.String
 		/// <param name="length"></param>
 		/// <param name="clipSymbol"></param>
 		/// <returns></returns>
-		public string Evaluate(MansionContext context, string input, int length, string clipSymbol)
+		public string Evaluate(IMansionContext context, string input, int length, string clipSymbol)
 		{
 			// validate arguments
 			if (context == null)

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Types;
@@ -12,15 +11,31 @@ namespace Premotion.Mansion.Repository.SqlServer.ScriptTags
 	/// <summary>
 	/// Syncs the nodes table to other tables.
 	/// </summary>
-	[Named(Constants.TagNamespaceUri, "syncTables")]
+	[ScriptTag(Constants.TagNamespaceUri, "syncTables")]
 	public class SyncTablesTag : ScriptTag
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="typeService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public SyncTablesTag(ITypeService typeService)
+		{
+			// validate arguments
+			if (typeService == null)
+				throw new ArgumentNullException("typeService");
+
+			// set values
+			this.typeService = typeService;
+		}
+		#endregion
 		#region Overrides of ScriptTag
 		/// <summary>
 		/// Executes this tag.
 		/// </summary>
 		/// <param name="context">The application context.</param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
 			// get the SQL Server repo
 			var repository = context.GetUnwrappedRepository() as SqlServerRepository;
@@ -31,7 +46,6 @@ namespace Premotion.Mansion.Repository.SqlServer.ScriptTags
 			repository.BulkOperation(bulkContext =>
 			                         {
 			                         	// loop over all the types
-			                         	var typeService = context.Nucleus.Get<ITypeService>(context);
 			                         	foreach (var type in typeService.LoadAll(context))
 			                         	{
 			                         		// get the schema for this type
@@ -59,6 +73,9 @@ namespace Premotion.Mansion.Repository.SqlServer.ScriptTags
 			                         	}
 			                         });
 		}
+		#endregion
+		#region Private Fields
+		private readonly ITypeService typeService;
 		#endregion
 	}
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Web.Cms.Descriptors;
 using Premotion.Mansion.Web.Cms.Model;
@@ -24,10 +24,10 @@ namespace Premotion.Mansion.Web.Controls.Providers.Datasets
 			/// <summary>
 			/// Gets the <see cref="ITypeDefinition"/>s which to provide.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
 			/// <param name="typeService">The <see cref="ITypeService"/> from which to load the types.</param>
 			/// <returns>Returns the types which to provide.</returns>
-			protected override IEnumerable<ITypeDefinition> DoGet(MansionContext context, ITypeService typeService)
+			protected override IEnumerable<ITypeDefinition> DoGet(IMansionContext context, ITypeService typeService)
 			{
 				return typeService.LoadAll(context);
 			}
@@ -55,10 +55,10 @@ namespace Premotion.Mansion.Web.Controls.Providers.Datasets
 			/// <summary>
 			/// Creates a <see cref="ChildTypesLoadStrategy"/> strategy.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
 			/// <param name="parentType">The <see cref="ITypeDefinition"/> for which to load the child types.</param>
 			/// <returns>Returns the <see cref="ChildTypesLoadStrategy"/> instance.</returns>
-			public static ChildTypesLoadStrategy Create(MansionContext context, ITypeDefinition parentType)
+			public static ChildTypesLoadStrategy Create(IMansionContext context, ITypeDefinition parentType)
 			{
 				// validate arguments
 				if (context == null)
@@ -80,10 +80,10 @@ namespace Premotion.Mansion.Web.Controls.Providers.Datasets
 			/// <summary>
 			/// Gets the <see cref="ITypeDefinition"/>s which to provide.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
 			/// <param name="typeService">The <see cref="ITypeService"/> from which to load the types.</param>
 			/// <returns>Returns the types which to provide.</returns>
-			protected override IEnumerable<ITypeDefinition> DoGet(MansionContext context, ITypeService typeService)
+			protected override IEnumerable<ITypeDefinition> DoGet(IMansionContext context, ITypeService typeService)
 			{
 				return behavior.GetAllowedChildTypes(context);
 			}
@@ -102,10 +102,10 @@ namespace Premotion.Mansion.Web.Controls.Providers.Datasets
 			/// <summary>
 			/// Gets the <see cref="ITypeDefinition"/>s which to provide.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
 			/// <param name="typeService">The <see cref="ITypeService"/> from which to load the types.</param>
 			/// <returns>Returns the types which to provide.</returns>
-			public IEnumerable<ITypeDefinition> Get(MansionContext context, ITypeService typeService)
+			public IEnumerable<ITypeDefinition> Get(IMansionContext context, ITypeService typeService)
 			{
 				// validate arguments
 				if (context == null)
@@ -117,26 +117,26 @@ namespace Premotion.Mansion.Web.Controls.Providers.Datasets
 			/// <summary>
 			/// Gets the <see cref="ITypeDefinition"/>s which to provide.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
 			/// <param name="typeService">The <see cref="ITypeService"/> from which to load the types.</param>
 			/// <returns>Returns the types which to provide.</returns>
-			protected abstract IEnumerable<ITypeDefinition> DoGet(MansionContext context, ITypeService typeService);
+			protected abstract IEnumerable<ITypeDefinition> DoGet(IMansionContext context, ITypeService typeService);
 		}
 		#endregion
 		#region Nested type: TypeDefinitionDatasetProviderFactoryTag
 		/// <summary>
 		/// Creates <see cref="TypeDefinitionDatasetProvider"/>s.
 		/// </summary>
-		[Named(Constants.DataProviderTagNamespaceUri, "typeDefinitionDatasetProvider")]
+		[ScriptTag(Constants.DataProviderTagNamespaceUri, "typeDefinitionDatasetProvider")]
 		public class TypeDefinitionDatasetProviderFactoryTag : DatasetProviderFactoryTag<DatasetProvider>
 		{
 			#region Overrides of DataProviderFactoryTag
 			/// <summary>
 			/// Creates the data provider.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <returns>Returns the created data provider.</returns>
-			protected override DatasetProvider Create(MansionWebContext context)
+			protected override DatasetProvider Create(IMansionWebContext context)
 			{
 				// choose the proper loading strategy
 				LoadStrategy strategy;
@@ -176,15 +176,15 @@ namespace Premotion.Mansion.Web.Controls.Providers.Datasets
 		/// <summary>
 		/// Retrieves the data from this provider.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the retrieve data.</returns>
-		protected override Dataset DoRetrieve(MansionContext context)
+		protected override Dataset DoRetrieve(IMansionContext context)
 		{
 			// create the dataset
 			var dataset = new Dataset();
 
 			// loop over all the types
-			var typeService = context.Nucleus.Get<ITypeService>(context);
+			var typeService = context.Nucleus.ResolveSingle<ITypeService>();
 			foreach (var type in strategy.Get(context, typeService))
 			{
 				CmsBehaviorDescriptor cmsDescriptor;

@@ -15,7 +15,7 @@ namespace Premotion.Mansion.Core.Templating
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="context"></param>
-		public FieldNotFoundException(string name, MansionContext context)
+		public FieldNotFoundException(string name, IMansionContext context)
 		{
 			// validate arguments
 			if (string.IsNullOrEmpty(name))

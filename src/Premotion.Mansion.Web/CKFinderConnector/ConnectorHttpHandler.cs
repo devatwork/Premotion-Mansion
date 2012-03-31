@@ -16,8 +16,8 @@ namespace Premotion.Mansion.Web.CKFinderConnector
 		/// <summary>
 		/// Enables processing of HTTP Web requests by a custom HttpHandler that implements the <see cref="T:System.Web.IHttpHandler"/> interface.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/> constructed for handling the current request.</param>
-		protected override void ProcessRequest(MansionWebContext context)
+		/// <param name="context">The <see cref="IMansionWebContext"/> constructed for handling the current request.</param>
+		protected override void ProcessRequest(IMansionWebContext context)
 		{
 			// get the command name
 			var commandName = context.HttpContext.Request.QueryString["command"];

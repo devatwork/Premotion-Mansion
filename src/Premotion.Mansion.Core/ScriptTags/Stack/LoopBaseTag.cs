@@ -12,7 +12,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Stack
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
 			// get arguments
 			var targetDataspace = GetRequiredAttribute<string>(context, "target");
@@ -43,6 +43,6 @@ namespace Premotion.Mansion.Core.ScriptTags.Stack
 		/// </summary>
 		/// <param name="context">The request context.</param>
 		/// <returns>Returns the <see cref="Dataset"/> on which to loop.</returns>
-		protected abstract Dataset GetLoopset(MansionContext context);
+		protected abstract Dataset GetLoopset(IMansionContext context);
 	}
 }

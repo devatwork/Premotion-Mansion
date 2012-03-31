@@ -13,7 +13,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 		/// <param name="context"></param>
 		/// <param name="input"></param>
 		/// <returns></returns>
-		public bool Evaluate(MansionContext context, string input)
+		public bool Evaluate(IMansionContext context, string input)
 		{
 			return string.IsNullOrEmpty(input);
 		}

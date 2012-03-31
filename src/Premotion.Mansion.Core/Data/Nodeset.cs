@@ -14,10 +14,10 @@ namespace Premotion.Mansion.Core.Data
 		/// <summary>
 		/// Creates a filled nodeset.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="nodes"></param>
 		/// <param name="properties"></param>
-		public Nodeset(IContext context, IEnumerable<Node> nodes, IPropertyBag properties) : base(properties)
+		public Nodeset(IMansionContext context, IEnumerable<Node> nodes, IPropertyBag properties) : base(properties)
 		{
 			// validate arguments
 			if (nodes == null)

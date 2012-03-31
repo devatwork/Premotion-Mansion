@@ -7,24 +7,37 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.IO;
-using Premotion.Mansion.Core.Nucleus;
-using Premotion.Mansion.Core.Nucleus.Facilities.Dependencies;
-using Premotion.Mansion.Core.Nucleus.Facilities.Lifecycle;
 
 namespace Premotion.Mansion.Web.Assets
 {
 	/// <summary>
 	/// Provides a default implementation of <see cref="IAssetService"/>.
 	/// </summary>
-	public class AssetService : ManagedLifecycleService, IAssetService, IServiceWithDependencies
+	public class AssetService : IAssetService
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="contentResourceService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public AssetService(IContentResourceService contentResourceService)
+		{
+			// validate arguments
+			if (contentResourceService == null)
+				throw new ArgumentNullException("contentResourceService");
+
+			// set values
+			this.contentResourceService = contentResourceService;
+		}
+		#endregion
 		#region Implementation of IAssetService
 		/// <summary>
 		/// Retrieves all the asset types known by this service.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns all the asset types.</returns>
-		public IEnumerable<AssetType> RetrieveAssetTypes(MansionContext context)
+		public IEnumerable<AssetType> RetrieveAssetTypes(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -42,10 +55,10 @@ namespace Premotion.Mansion.Web.Assets
 		/// <summary>
 		/// Parses the resource type.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="typeName">The name of the resource type.</param>
 		/// <returns>Returns the resource type.</returns>
-		public AssetType ParseResourceType(MansionContext context, string typeName)
+		public AssetType ParseResourceType(IMansionContext context, string typeName)
 		{
 			// validate arguments
 			if (context == null)
@@ -68,10 +81,10 @@ namespace Premotion.Mansion.Web.Assets
 		/// <summary>
 		/// Retrieves all the <see cref="AssetFolder"/>s underneath the <paramref name="folder"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="folder">The <see cref="AssetFolder"/> from which to get the children.</param>
 		/// <returns>Returns all the <see cref="AssetFolder"/>s.</returns>
-		public IEnumerable<AssetFolder> RetrieveFolders(MansionContext context, AssetFolder folder)
+		public IEnumerable<AssetFolder> RetrieveFolders(IMansionContext context, AssetFolder folder)
 		{
 			// validate arguments
 			if (context == null)
@@ -88,11 +101,11 @@ namespace Premotion.Mansion.Web.Assets
 		/// <summary>
 		/// Parses the <paramref name="path"/> into a <see cref="AssetFolder"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="assetType">The <see cref="AssetType"/>.</param>
 		/// <param name="path">The path which to parse.</param>
 		/// <returns>Returns the <see cref="AssetFolder"/>.</returns>
-		public AssetFolder ParseFolder(MansionContext context, AssetType assetType, string path)
+		public AssetFolder ParseFolder(IMansionContext context, AssetType assetType, string path)
 		{
 			// validate arguments
 			if (context == null)
@@ -120,11 +133,11 @@ namespace Premotion.Mansion.Web.Assets
 		/// <summary>
 		/// Creates an <see cref="AssetFolder"/> with <paramref name="folderName"/> under <paramref name="parentFolder"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="parentFolder">The <see cref="AssetFolder"/>.</param>
 		/// <param name="folderName">The name of the folder.</param>
 		/// <returns>Returns the created <see cref="AssetFolder"/>.</returns>
-		public AssetFolder CreateFolder(MansionContext context, AssetFolder parentFolder, string folderName)
+		public AssetFolder CreateFolder(IMansionContext context, AssetFolder parentFolder, string folderName)
 		{
 			// validate arguments
 			if (context == null)
@@ -148,10 +161,10 @@ namespace Premotion.Mansion.Web.Assets
 		/// <summary>
 		/// Retrieves the <see cref="AssetEntry"/>s of the specified <paramref name="folder"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="folder">The <see cref="AssetFolder"/> from which to retrieve the <see cref="AssetEntry"/>s.</param>
 		/// <returns>Returns all the <see cref="AssetEntry"/>s.</returns>
-		public IEnumerable<AssetEntry> RetrieveEntries(MansionContext context, AssetFolder folder)
+		public IEnumerable<AssetEntry> RetrieveEntries(IMansionContext context, AssetFolder folder)
 		{
 			// validate arguments
 			if (context == null)
@@ -168,12 +181,12 @@ namespace Premotion.Mansion.Web.Assets
 		/// <summary>
 		/// Stores the resource in the specified <paramref name="folder"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.MansionContext</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.IMansionContext</param>
 		/// <param name="folder">The <see cref="AssetFolder"/> in which to store the resource.</param>
 		/// <param name="filename">The filename of the resource.</param>
 		/// <param name="inputStream">The input <see cref="Stream"/> containg the content of the resource.</param>
 		/// <returns>Returns the stored <see cref="AssetEntry"/>.</returns>
-		public AssetEntry StoreResource(MansionContext context, AssetFolder folder, string filename, Stream inputStream)
+		public AssetEntry StoreResource(IMansionContext context, AssetFolder folder, string filename, Stream inputStream)
 		{
 			// validate arguments
 			if (context == null)
@@ -244,7 +257,7 @@ namespace Premotion.Mansion.Web.Assets
 		/// </summary>
 		/// <param name="context"></param>
 		/// <returns></returns>
-		private static Node RetrieveRootNode(MansionContext context)
+		private static Node RetrieveRootNode(IMansionContext context)
 		{
 			return context.Repository.RetrieveSingle(context, new PropertyBag {{"id", 1}});
 		}
@@ -253,7 +266,7 @@ namespace Premotion.Mansion.Web.Assets
 		/// </summary>
 		/// <param name="context"></param>
 		/// <returns></returns>
-		private static Node RetrieveAssetIndexNode(MansionContext context)
+		private static Node RetrieveAssetIndexNode(IMansionContext context)
 		{
 			var rootNode = RetrieveRootNode(context);
 
@@ -284,7 +297,7 @@ namespace Premotion.Mansion.Web.Assets
 		/// <param name="context"></param>
 		/// <param name="indexNode"></param>
 		/// <returns></returns>
-		private static Nodeset RetrieveAssetTypeNodeset(MansionContext context, Node indexNode)
+		private static Nodeset RetrieveAssetTypeNodeset(IMansionContext context, Node indexNode)
 		{
 			return context.Repository.Retrieve(context, new PropertyBag
 			                                            {
@@ -299,7 +312,7 @@ namespace Premotion.Mansion.Web.Assets
 		/// <param name="context"></param>
 		/// <param name="indexNode"></param>
 		/// <returns></returns>
-		private Nodeset RetrieveFolderNodeset(MansionContext context, Node indexNode)
+		private Nodeset RetrieveFolderNodeset(IMansionContext context, Node indexNode)
 		{
 			return context.Repository.Retrieve(context, new PropertyBag
 			                                            {
@@ -314,7 +327,7 @@ namespace Premotion.Mansion.Web.Assets
 		/// <param name="context"></param>
 		/// <param name="indexNode"></param>
 		/// <returns></returns>
-		private Nodeset RetrieveEntryNodeset(MansionContext context, Node indexNode)
+		private Nodeset RetrieveEntryNodeset(IMansionContext context, Node indexNode)
 		{
 			return context.Repository.Retrieve(context, new PropertyBag
 			                                            {
@@ -330,7 +343,7 @@ namespace Premotion.Mansion.Web.Assets
 		/// <param name="indexNode"></param>
 		/// <param name="path"></param>
 		/// <returns></returns>
-		private Node RetrieveFolderByNameNode(MansionContext context, Node indexNode, IEnumerable<string> path)
+		private Node RetrieveFolderByNameNode(IMansionContext context, Node indexNode, IEnumerable<string> path)
 		{
 			var folderIndexNode = indexNode;
 			var repository = context.Repository;
@@ -359,7 +372,7 @@ namespace Premotion.Mansion.Web.Assets
 		/// <param name="parentNode"></param>
 		/// <param name="folderName"></param>
 		/// <returns></returns>
-		private Node CreateFolderNode(MansionContext context, Node parentNode, string folderName)
+		private Node CreateFolderNode(IMansionContext context, Node parentNode, string folderName)
 		{
 			return context.Repository.Create(context, parentNode, new PropertyBag
 			                                                      {
@@ -377,7 +390,7 @@ namespace Premotion.Mansion.Web.Assets
 		/// <param name="path"></param>
 		/// <param name="size"> </param>
 		/// <returns></returns>
-		private Node CreateEntryNode(MansionContext context, Node parentNode, string filename, string path, long size)
+		private Node CreateEntryNode(IMansionContext context, Node parentNode, string filename, string path, long size)
 		{
 			if (path == null)
 				throw new ArgumentNullException("path");
@@ -391,32 +404,9 @@ namespace Premotion.Mansion.Web.Assets
 			                                                      });
 		}
 		#endregion
-		#region Overrides of ManagedLifecycleService
-		/// <summary>
-		/// Invoked just before this service is used for the first time.
-		/// </summary>
-		/// <param name="context">The <see cref="NucleusContext"/>.</param>
-		protected override void DoStart(INucleusAwareContext context)
-		{
-			base.DoStart(context);
-
-			// get the content resource service
-			contentResourceService = context.Nucleus.Get<IContentResourceService>(context);
-		}
-		#endregion
-		#region Implementation of IServiceWithDependencies
-		/// <summary>
-		/// Gets the <see cref="DependencyModel"/> of this service.
-		/// </summary>
-		public DependencyModel Dependencies
-		{
-			get { return dependencies; }
-		}
-		#endregion
 		#region Private Fields
 		private static readonly Regex nameSanitiserRegex = new Regex(@"\W", RegexOptions.Compiled);
-		private readonly DependencyModel dependencies = new DependencyModel().Add<IContentResourceService>();
-		private IContentResourceService contentResourceService;
+		private readonly IContentResourceService contentResourceService;
 		#endregion
 	}
 }

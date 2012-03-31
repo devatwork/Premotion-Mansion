@@ -12,12 +12,29 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 	[ScriptFunction("GetTypeDefinitionLabel")]
 	public class GetTypeDefinitionLabel : FunctionExpression
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="typeService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public GetTypeDefinitionLabel(ITypeService typeService)
+		{
+			// validate arguments
+			if (typeService == null)
+				throw new ArgumentNullException("typeService");
+
+			// set values
+			this.typeService = typeService;
+		}
+		#endregion
+		#region Evaluate Methods
 		/// <summary>
 		/// Gets the label of a particular <paramref name="typeName"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="typeName">The <see cref="ITypeDefinition"/> for which to get the label.</param>
-		public string Evaluate(MansionContext context, string typeName)
+		public string Evaluate(IMansionContext context, string typeName)
 		{
 			// validate arguments
 			if (context == null)
@@ -26,7 +43,6 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 				throw new ArgumentNullException("typeName");
 
 			// try to find the type
-			var typeService = context.Nucleus.Get<ITypeService>(context);
 			ITypeDefinition type;
 			if (!typeService.TryLoad(context, typeName, out type))
 				return typeName;
@@ -39,5 +55,9 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 			// return the friendly name
 			return cmsDescriptor.GetBehavior(context).Label;
 		}
+		#endregion
+		#region Private Fields
+		private readonly ITypeService typeService;
+		#endregion
 	}
 }

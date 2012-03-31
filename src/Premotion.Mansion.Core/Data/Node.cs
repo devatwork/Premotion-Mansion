@@ -12,10 +12,10 @@ namespace Premotion.Mansion.Core.Data
 		/// <summary>
 		/// Constructs a new node with the specified pointer.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node.</param>
 		/// <param name="extendedProperties"></param>
-		public Node(MansionContext context, NodePointer pointer, IPropertyBag extendedProperties) : base(extendedProperties)
+		public Node(IMansionContext context, NodePointer pointer, IPropertyBag extendedProperties) : base(extendedProperties)
 		{
 			// validate arguments
 			if (context == null)

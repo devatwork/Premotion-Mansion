@@ -46,8 +46,8 @@ namespace Premotion.Mansion.Core.Templating
 		/// <summary>
 		/// Finializes the rendering of the active section.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
-		public void FinalizeRendering(MansionContext context)
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		public void FinalizeRendering(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)

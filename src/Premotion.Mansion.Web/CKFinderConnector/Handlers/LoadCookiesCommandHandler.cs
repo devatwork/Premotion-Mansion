@@ -12,10 +12,10 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// <summary>
 		/// Handels the incomming CKFinder command.
 		/// </summary>
-		/// <param name="context">The incoming <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The incoming <see cref="IMansionWebContext"/>.</param>
 		/// <param name="connectorNode">The <see cref="XElement"/> of the connector node.</param>
 		/// <exception cref="ConnectorException">Thrown when an error occured while handling the command.</exception>
-		protected override void DoHandle(MansionWebContext context, XElement connectorNode)
+		protected override void DoHandle(IMansionWebContext context, XElement connectorNode)
 		{
 			// create the cookies element
 			var cookiesElement = connectorNode.Append(new XElement("Cookies"));

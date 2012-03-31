@@ -13,7 +13,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Date
 		/// </summary>
 		/// <param name="context"></param>
 		/// <returns></returns>
-		public DateTime Evaluate(MansionContext context)
+		public DateTime Evaluate(IMansionContext context)
 		{
 			return DateTime.Today;
 		}

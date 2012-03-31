@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.IO;
 using Premotion.Mansion.Core.Scripting.TagScript;
@@ -11,17 +10,34 @@ namespace Premotion.Mansion.Web.ScriptTags
 	/// <summary>
 	/// Saves an uploaded file.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "saveUploadedFile")]
+	[ScriptTag(Constants.NamespaceUri, "saveUploadedFile")]
 	public class SaveUploadedFileTag : ScriptTag
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="contentResourceService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public SaveUploadedFileTag(IContentResourceService contentResourceService)
+		{
+			// validate arguments
+			if (contentResourceService == null)
+				throw new ArgumentNullException("contentResourceService");
+
+			// set values
+			this.contentResourceService = contentResourceService;
+		}
+		#endregion
+		#region Evaluate Methods
 		/// <summary>
 		/// Executes this tag.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
-		protected override void DoExecute(MansionContext context)
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		protected override void DoExecute(IMansionContext context)
 		{
 			// get the web context
-			var webContext = context.Cast<MansionWebContext>();
+			var webContext = context.Cast<IMansionWebContext>();
 
 			// check if there is exactly one uploaded file
 			if (webContext.HttpContext.Request.Files.Count != 1)
@@ -31,7 +47,6 @@ namespace Premotion.Mansion.Web.ScriptTags
 			var uploadedFile = webContext.HttpContext.Request.Files[0];
 
 			// store the file
-			var contentResourceService = context.Nucleus.Get<IContentResourceService>(context);
 			var resourcePath = contentResourceService.ParsePath(context, new PropertyBag
 			                                                             {
 			                                                             	{"fileName", uploadedFile.FileName},
@@ -53,5 +68,9 @@ namespace Premotion.Mansion.Web.ScriptTags
 			using (context.Stack.Push(GetRequiredAttribute<string>(context, "target"), uploadedFileProperties, GetAttribute(context, "global", false)))
 				ExecuteChildTags(context);
 		}
+		#endregion
+		#region Private Fields
+		private readonly IContentResourceService contentResourceService;
+		#endregion
 	}
 }

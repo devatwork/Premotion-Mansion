@@ -44,9 +44,9 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// <summary>
 		/// Executes this script.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <exception cref="ScriptExecutionException">Thrown when an exception occured while executing this script.</exception>
-		public void Execute(MansionContext context)
+		public void Execute(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -60,10 +60,10 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// Executes this script.
 		/// </summary>
 		/// <typeparam name="TResult">The result type.</typeparam>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the result of this script expression.</returns>
 		/// <exception cref="ScriptExecutionException">Thrown when an exception occured while executing this script.</exception>
-		public TResult Execute<TResult>(MansionContext context)
+		public TResult Execute<TResult>(IMansionContext context)
 		{
 			throw new NotSupportedException();
 		}
@@ -72,8 +72,8 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// <summary>
 		/// Initializes this script.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
-		public void Initialize(MansionContext context)
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		public void Initialize(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -85,10 +85,10 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// <summary>
 		/// Registers a procedure.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="procedureName">The name of the procedure which to register.</param>
 		/// <param name="tag">The script tag implementing the procedure.</param>
-		public void RegisterProcedure(MansionContext context, string procedureName, ScriptTag tag)
+		public void RegisterProcedure(IMansionContext context, string procedureName, ScriptTag tag)
 		{
 			// validate arguments
 			if (context == null)
@@ -105,10 +105,10 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// <summary>
 		/// Registers an event handler.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="eventName">The name of the event to which the handler is attached.</param>
 		/// <param name="tag">The script tag implementing the procedure.</param>
-		public void RegisterEventHandler(MansionContext context, string eventName, ScriptTag tag)
+		public void RegisterEventHandler(IMansionContext context, string eventName, ScriptTag tag)
 		{
 			// validate arguments
 			if (context == null)

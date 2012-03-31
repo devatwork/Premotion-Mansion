@@ -5,9 +5,6 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Caching;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
-using Premotion.Mansion.Core.IO;
-using Premotion.Mansion.Core.Nucleus.Facilities.Dependencies;
-using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Templating;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Web.Portal.Descriptors;
@@ -17,7 +14,7 @@ namespace Premotion.Mansion.Web.Portal.Service
 	/// <summary>
 	/// Provides the default implementation of <see cref="IPortalService"/>.
 	/// </summary>
-	public class PortalService : IServiceWithDependencies, IPortalService
+	public class PortalService : IPortalService
 	{
 		#region Nested Class: TemplatePageMapCachedObject
 		/// <summary>
@@ -35,16 +32,36 @@ namespace Premotion.Mansion.Web.Portal.Service
 			#endregion
 		}
 		#endregion
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cachingService"></param>
+		/// <param name="templateService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public PortalService(ICachingService cachingService, ITemplateService templateService)
+		{
+			// validaet arguments
+			if (cachingService == null)
+				throw new ArgumentNullException("cachingService");
+			if (templateService == null)
+				throw new ArgumentNullException("templateService");
+
+			// set values
+			this.cachingService = cachingService;
+			this.templateService = templateService;
+		}
+		#endregion
 		#region Template Page Methods
 		/// <summary>
 		/// Resolves the template page for an particual content node..
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="siteNode">The site <see cref="Node"/>.</param>
 		/// <param name="contentNode">The content <see cref="Node"/>.</param>
 		/// <param name="templatePageNode">When found, the template page <see cref="Node"/>.</param>
 		/// <returns>Returns true when the template page could be resolved, otherwise false.</returns>
-		public bool TryResolveTemplatePage(MansionContext context, Node siteNode, Node contentNode, out Node templatePageNode)
+		public bool TryResolveTemplatePage(IMansionContext context, Node siteNode, Node contentNode, out Node templatePageNode)
 		{
 			// validate arguments
 			if (context == null)
@@ -58,7 +75,6 @@ namespace Premotion.Mansion.Web.Portal.Service
 			var cacheKey = string.Format("{0}TemplatePageMap_{1}", cacheKeyPrefix, siteNode.Pointer.Id);
 
 			// get the template page map for this site
-			var cachingService = context.Nucleus.Get<ICachingService>(context);
 			var templatePageMap = cachingService.GetOrAdd(context, (StringCacheKey) cacheKey, () =>
 			                                                                                  {
 			                                                                                  	// retrieve all the template pages
@@ -108,12 +124,12 @@ namespace Premotion.Mansion.Web.Portal.Service
 		/// <summary>
 		/// Renders a column with the specified <paramref name="columnName"/> to the output pipe.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="columnName">The name of the column which to render.</param>
 		/// <param name="ownerProperties">The <see cref="IPropertyBag"/> to which the column belongs.</param>
 		/// <param name="blockDataset">The <see cref="Dataset"/> containing the all blocks of the <paramref name="ownerProperties"/>.</param>
 		/// <param name="targetField">The name of the field to which to render.</param>
-		public void RenderColumn(MansionContext context, string columnName, IPropertyBag ownerProperties, Dataset blockDataset, string targetField)
+		public void RenderColumn(IMansionContext context, string columnName, IPropertyBag ownerProperties, Dataset blockDataset, string targetField)
 		{
 			// validate arguments
 			if (context == null)
@@ -126,9 +142,6 @@ namespace Premotion.Mansion.Web.Portal.Service
 				throw new ArgumentNullException("blockDataset");
 			if (string.IsNullOrEmpty(targetField))
 				throw new ArgumentNullException("targetField");
-
-			// get the services
-			var templateService = context.Nucleus.Get<ITemplateService>(context);
 
 			// render the column section
 			using (context.Stack.Push("OwnerNode", ownerProperties))
@@ -151,10 +164,10 @@ namespace Premotion.Mansion.Web.Portal.Service
 		/// <summary>
 		/// Gets a <see cref="Dataset"/> containing all the columns available for the specified <paramref name="type"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="type">The <see cref="ITypeDefinition"/> for which to get the column <see cref="Dataset"/>.</param>
 		/// <returns>Returns a <see cref="Dataset"/> containing all the columns.</returns>
-		public Dataset GetColumnDataset(MansionContext context, ITypeDefinition type)
+		public Dataset GetColumnDataset(IMansionContext context, ITypeDefinition type)
 		{
 			// validate arguments
 			if (context == null)
@@ -185,10 +198,10 @@ namespace Premotion.Mansion.Web.Portal.Service
 		/// <summary>
 		/// Renders the specified <paramref name="blockProperties"/> to the output pipe.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="blockProperties">The <see cref="IPropertyBag"/> of the block which to render.</param>
 		/// <param name="targetField">The name of the field to which to render.</param>
-		public void RenderBlock(MansionContext context, IPropertyBag blockProperties, string targetField)
+		public void RenderBlock(IMansionContext context, IPropertyBag blockProperties, string targetField)
 		{
 			// validate arguments
 			if (context == null)
@@ -208,21 +221,13 @@ namespace Premotion.Mansion.Web.Portal.Service
 			behavior.Render(context, blockProperties, targetField);
 		}
 		#endregion
-		#region Implementation of IServiceWithDependencies
-		/// <summary>
-		/// Gets the <see cref="DependencyModel"/> of this service.
-		/// </summary>
-		DependencyModel IServiceWithDependencies.Dependencies
-		{
-			get { return dependencies; }
-		}
-		#endregion
 		#region Private Fields
-		private static readonly DependencyModel dependencies = new DependencyModel().Add<ICachingService>().Add<IApplicationResourceService>().Add<ITemplateService>().Add<ITagScriptService>().Add<ITypeService>();
 		/// <summary>
 		/// This prefix uniquely identifies this response template tag. different tags with the same cacheKey will yield different results.
 		/// </summary>
 		private readonly string cacheKeyPrefix = "PortalService" + "_" + Guid.NewGuid() + "_";
+		private readonly ICachingService cachingService;
+		private readonly ITemplateService templateService;
 		#endregion
 	}
 }

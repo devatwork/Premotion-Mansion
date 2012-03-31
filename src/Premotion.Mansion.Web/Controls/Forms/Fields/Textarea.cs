@@ -1,4 +1,4 @@
-﻿using Premotion.Mansion.Core.Attributes;
+﻿using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Fields
 {
@@ -11,16 +11,16 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// This tag creates a <see cref="Textarea"/>.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "textarea")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "textarea")]
 		public class TextareaFactoryTag : FieldFactoryTag<Textarea>
 		{
 			#region Overrides of FieldFactoryTag<Textbox>
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override Textarea Create(MansionWebContext context, ControlDefinition definition)
+			protected override Textarea Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				return new Textarea(definition);
 			}

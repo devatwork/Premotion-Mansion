@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.ScriptTags.Repository;
+using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Types;
 
 namespace Premotion.Mansion.Web.Portal.ScriptTags
@@ -12,9 +12,26 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 	/// <summary>
 	/// Retrieves the layout node for the specified source node.
 	/// </summary>
-	[Named(Constants.TagNamespaceUri, "retrieveLayoutNode")]
+	[ScriptTag(Constants.TagNamespaceUri, "retrieveLayoutNode")]
 	public class RetrieveLayoutNodeTag : RetrieveNodeBaseTag
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="typeService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public RetrieveLayoutNodeTag(ITypeService typeService)
+		{
+			// validate arguments
+			if (typeService == null)
+				throw new ArgumentNullException("typeService");
+
+			// set values
+			this.typeService = typeService;
+		}
+		#endregion
+		#region Overrides of RetrieveNodeBaseTag
 		/// <summary>
 		/// Builds and executes the query.
 		/// </summary>
@@ -22,13 +39,10 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 		/// <param name="arguments">The arguments from which to build the query.</param>
 		/// <param name="repository"></param>
 		/// <returns>Returns the result.</returns>
-		protected override Node Retrieve(MansionContext context, IPropertyBag arguments, IRepository repository)
+		protected override Node Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository)
 		{
 			// get the node
 			var contentNode = GetRequiredAttribute<Node>(context, "source");
-
-			//  get the type service
-			var typeService = context.Nucleus.Get<ITypeService>(context);
 
 			//  get the page type
 			var pageType = typeService.Load(context, "Page");
@@ -41,5 +55,9 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 			// retrieve and return the parent node
 			return repository.RetrieveSingle(context, new PropertyBag {{"id", pageNodePointer.Id}});
 		}
+		#endregion
+		#region Private Fields
+		private readonly ITypeService typeService;
+		#endregion
 	}
 }

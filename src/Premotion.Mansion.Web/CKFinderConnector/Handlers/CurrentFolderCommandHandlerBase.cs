@@ -12,10 +12,10 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// <summary>
 		/// Handels the incomming CKFinder command.
 		/// </summary>
-		/// <param name="context">The incoming <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The incoming <see cref="IMansionWebContext"/>.</param>
 		/// <param name="connectorNode">The <see cref="XElement"/> of the connector node.</param>
 		/// <exception cref="ConnectorException">Thrown when an error occured while handling the command.</exception>
-		protected override sealed void DoHandle(MansionWebContext context, XElement connectorNode)
+		protected override sealed void DoHandle(IMansionWebContext context, XElement connectorNode)
 		{
 			// set the resource type attribtute
 			connectorNode.SetAttributeValue("resourceType", AssetType.Label);
@@ -32,11 +32,11 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// <summary>
 		/// Handels the incomming CKFinder command.
 		/// </summary>
-		/// <param name="context">The incoming <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The incoming <see cref="IMansionWebContext"/>.</param>
 		/// <param name="connectorNode">The <see cref="XElement"/> of the connector node.</param>
 		/// <param name="currentFolderElement">The <see cref="XElement"/> of the current folder node.</param>
 		/// <exception cref="ConnectorException">Thrown when an error occured while handling the command.</exception>
-		protected abstract void DoHandle(MansionWebContext context, XElement connectorNode, XElement currentFolderElement);
+		protected abstract void DoHandle(IMansionWebContext context, XElement connectorNode, XElement currentFolderElement);
 		#endregion
 	}
 }

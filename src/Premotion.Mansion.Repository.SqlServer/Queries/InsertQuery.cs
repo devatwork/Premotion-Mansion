@@ -5,7 +5,6 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Patterns;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
-using log4net;
 
 namespace Premotion.Mansion.Repository.SqlServer.Queries
 {
@@ -39,7 +38,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <param name="parent"></param>
 		/// <param name="newProperties"></param>
 		/// <returns></returns>
-		public static InsertQuery Prepare(MansionContext context, SqlConnection connection, SqlTransaction transaction, SchemaProvider schemaProvider, NodePointer parent, IPropertyBag newProperties)
+		public static InsertQuery Prepare(IMansionContext context, SqlConnection connection, SqlTransaction transaction, SchemaProvider schemaProvider, NodePointer parent, IPropertyBag newProperties)
 		{
 			// validate arguments
 			if (connection == null)
@@ -96,7 +95,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <returns>Returns the ID of the inserted record.</returns>
 		public int Execute()
 		{
-			log.Info("Executing insert query: " + insertCommand.CommandText);
 			return Convert.ToInt32(insertCommand.ExecuteScalar());
 		}
 		#endregion
@@ -115,8 +113,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			insertCommand.Dispose();
 		}
 		#endregion
-		#region Private Fields
-		private static readonly ILog log = LogManager.GetLogger(typeof (InsertQuery));
+		#region Private Fieldse
 		private readonly IDbCommand insertCommand;
 		#endregion
 	}

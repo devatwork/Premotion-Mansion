@@ -4,10 +4,6 @@ using System.Linq;
 using Premotion.Mansion.Core.Caching;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.IO;
-using Premotion.Mansion.Core.Nucleus;
-using Premotion.Mansion.Core.Nucleus.Facilities.Dependencies;
-using Premotion.Mansion.Core.Nucleus.Facilities.Lifecycle;
-using Premotion.Mansion.Core.Nucleus.Facilities.Reflection;
 using Premotion.Mansion.Core.Patterns.Tokenizing;
 using Premotion.Mansion.Core.Patterns.Voting;
 
@@ -16,16 +12,35 @@ namespace Premotion.Mansion.Core.Templating.Html
 	///<summary>
 	/// Implements <see cref="ITemplateService"/> for HTML template.
 	///</summary>
-	public class HtmlTemplateService : ManagedLifecycleService, ITemplateServiceInternal, IServiceWithDependencies
+	public class HtmlTemplateService : ITemplateServiceInternal
 	{
+		#region Constructors
+		/// <summary>
+		/// Constructs the HTML template serivce.
+		/// </summary>
+		/// <param name="interpreters">The <see cref="IEnumerable{T}"/>s.</param>
+		/// <param name="cachingService">The <see cref="ICachingService"/>.</param>
+		public HtmlTemplateService(IEnumerable<SectionInterpreter> interpreters, ICachingService cachingService)
+		{
+			// validate arguments
+			if (interpreters == null)
+				throw new ArgumentNullException("interpreters");
+			if (cachingService == null)
+				throw new ArgumentNullException("cachingService");
+
+			// set values
+			this.interpreters = interpreters;
+			this.cachingService = cachingService;
+		}
+		#endregion
 		#region Open Methods
 		/// <summary>
 		/// Opens a template.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="resources">The resources which to open.</param>
 		/// <returns>Returns a marker which will close the template automatically.</returns>
-		public IDisposable Open(MansionContext context, IEnumerable<IResource> resources)
+		public IDisposable Open(IMansionContext context, IEnumerable<IResource> resources)
 		{
 			// validate arguments
 			if (context == null)
@@ -45,10 +60,10 @@ namespace Premotion.Mansion.Core.Templating.Html
 		/// <summary>
 		/// Opens a template.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="resource">The resource which to open.</param>
 		/// <returns>Returns a marker which will close the template automatically.</returns>
-		public IDisposable Open(MansionContext context, IResource resource)
+		public IDisposable Open(IMansionContext context, IResource resource)
 		{
 			// validate arguments
 			if (context == null)
@@ -56,12 +71,9 @@ namespace Premotion.Mansion.Core.Templating.Html
 			if (resource == null)
 				throw new ArgumentNullException("resource");
 
-			// get the cache service
-			var cacheKey = ResourceCacheKey.Create(resource);
-			var cacheService = context.Nucleus.Get<ICachingService>(context);
-
 			// open the template
-			var template = cacheService.GetOrAdd(
+			var cacheKey = ResourceCacheKey.Create(resource);
+			var template = cachingService.GetOrAdd(
 				context,
 				cacheKey,
 				() =>
@@ -74,7 +86,7 @@ namespace Premotion.Mansion.Core.Templating.Html
 
 					// loop through all the sections
 					var sections = (from rawSection in sectionTokenizer.Tokenize(context, rawTemplate)
-					                let interpreter = Election<MansionContext, SectionInterpreter, string>.Elect(context, interpreters, rawSection)
+					                let interpreter = Election<IMansionContext, SectionInterpreter, string>.Elect(context, interpreters, rawSection)
 					                select interpreter.Interpret(context, rawSection)
 					               ).ToList();
 
@@ -93,21 +105,21 @@ namespace Premotion.Mansion.Core.Templating.Html
 		/// <summary>
 		/// Renders the section with the specified name.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="sectionName">The name of the section which to render.</param>
 		/// <returns>Returns a marker which will close the active section automatically.</returns>
-		public IDisposable Render(MansionContext context, string sectionName)
+		public IDisposable Render(IMansionContext context, string sectionName)
 		{
 			return Render(context, sectionName, null);
 		}
 		/// <summary>
 		/// Renders the section with the specified name.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="sectionName">The name of the section which to render.</param>
 		/// <param name="targetField">The name of the field to which to render.</param>
 		/// <returns>Returns a marker which will close the active section automatically.</returns>
-		public IDisposable Render(MansionContext context, string sectionName, string targetField)
+		public IDisposable Render(IMansionContext context, string sectionName, string targetField)
 		{
 			// validate arguments
 			if (context == null)
@@ -130,10 +142,10 @@ namespace Premotion.Mansion.Core.Templating.Html
 		/// <summary>
 		/// Renders <paramref name="content"/> directory to the <paramref name="targetField"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="content">The content which to write.</param>
 		/// <param name="targetField">The field to which to render.</param>
-		public void RenderContent(MansionContext context, string content, string targetField)
+		public void RenderContent(IMansionContext context, string content, string targetField)
 		{
 			// validate arguments
 			if (context == null)
@@ -154,10 +166,10 @@ namespace Premotion.Mansion.Core.Templating.Html
 		/// <summary>
 		/// Renders the section as a string.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="sectionName">The name of the section which to render.</param>
 		/// <returns>Returns the rendered content of the section.</returns>
-		public string RenderToString(MansionContext context, string sectionName)
+		public string RenderToString(IMansionContext context, string sectionName)
 		{
 			// validate arguments
 			if (context == null)
@@ -187,9 +199,9 @@ namespace Premotion.Mansion.Core.Templating.Html
 		/// <summary>
 		/// Finds a section on the template context stack.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="sectionName"></param>
-		private static ISection FindSection(MansionContext context, string sectionName)
+		private static ISection FindSection(IMansionContext context, string sectionName)
 		{
 			// validate arguments
 			if (context == null)
@@ -210,10 +222,10 @@ namespace Premotion.Mansion.Core.Templating.Html
 		/// <summary>
 		/// Gets the target field by it's name.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="targetField">The target field.</param>
 		/// <returns>Returns the target field.</returns>
-		private static IField FindTargetField(MansionContext context, string targetField)
+		private static IField FindTargetField(IMansionContext context, string targetField)
 		{
 			// validate arguments
 			if (context == null)
@@ -232,11 +244,11 @@ namespace Premotion.Mansion.Core.Templating.Html
 			throw new FieldNotFoundException(targetField, context);
 		}
 		/// <summary>
-		/// Gets a flag indicating whether this template engine is writing to the top-most <see cref="MansionContext.OutputPipe"/> or not.
+		/// Gets a flag indicating whether this template engine is writing to the top-most <see cref="IMansionContext.OutputPipe"/> or not.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
-		/// <returns>Returns true when this template engine is writing to the top-most <see cref="MansionContext.OutputPipe"/>, otherwise false.</returns>
-		private static bool IsWritingToTopMostOutputPipe(MansionContext context)
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <returns>Returns true when this template engine is writing to the top-most <see cref="IMansionContext.OutputPipe"/>, otherwise false.</returns>
+		private static bool IsWritingToTopMostOutputPipe(IMansionContext context)
 		{
 			// find the top most OutputPipeTargetField
 			var topMostOutputPipeTargetField = (OutputPipeTargetField) context.ActiveSectionStack.Select(x => x.TargetField).FirstOrDefault(x => x is OutputPipeTargetField);
@@ -245,37 +257,9 @@ namespace Premotion.Mansion.Core.Templating.Html
 			return topMostOutputPipeTargetField != null && ReferenceEquals(topMostOutputPipeTargetField.OutputPipe, context.OutputPipe);
 		}
 		#endregion
-		#region Implementation of IStartableService
-		/// <summary>
-		/// Starts this service.
-		/// </summary>
-		/// <param name="context">The <see cref="INucleusAwareContext"/> in which this service is started.</param>
-		protected override void DoStart(INucleusAwareContext context)
-		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
-
-			// get the services
-			var namingService = context.Nucleus.Get<ITypeDirectoryService>(context);
-			var objectFactoryService = context.Nucleus.Get<IObjectFactoryService>(context);
-
-			// get the section interpreters
-			interpreters.AddRange(objectFactoryService.Create<SectionInterpreter>(namingService.Lookup<SectionInterpreter>()));
-		}
-		#endregion
-		#region Implementation of IServiceWithDependencies
-		/// <summary>
-		/// Gets the <see cref="DependencyModel"/> of this service.
-		/// </summary>
-		public DependencyModel Dependencies
-		{
-			get { return dependencies; }
-		}
-		#endregion
 		#region Private Fields
-		private static readonly DependencyModel dependencies = new DependencyModel().Add<ICachingService>().Add<ITypeDirectoryService>().Add<IObjectFactoryService>();
-		private readonly List<SectionInterpreter> interpreters = new List<SectionInterpreter>();
+		private readonly ICachingService cachingService;
+		private readonly IEnumerable<SectionInterpreter> interpreters;
 		private readonly ITokenizer<string, string> sectionTokenizer = new HtmlTemplateTokenizer();
 		#endregion
 	}

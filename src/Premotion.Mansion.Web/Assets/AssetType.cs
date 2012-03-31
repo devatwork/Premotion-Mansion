@@ -13,10 +13,10 @@ namespace Premotion.Mansion.Web.Assets
 		/// <summary>
 		/// Creates an instance of <see cref="AssetType"/> from <paramref name="node"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The <see cref="Node"/>.</param>
 		/// <returns>Returns the created <see cref="AssetType"/>.</returns>
-		public static AssetType Create(MansionContext context, Node node)
+		public static AssetType Create(IMansionContext context, Node node)
 		{
 			// validate arguments
 			if (context == null)

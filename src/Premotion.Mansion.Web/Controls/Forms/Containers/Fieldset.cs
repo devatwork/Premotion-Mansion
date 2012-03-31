@@ -1,4 +1,4 @@
-﻿using Premotion.Mansion.Core.Attributes;
+﻿using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Containers
 {
@@ -11,16 +11,16 @@ namespace Premotion.Mansion.Web.Controls.Forms.Containers
 		/// <summary>
 		/// This tags creates <see cref="Fieldset"/>s.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "fieldset")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "fieldset")]
 		public class FieldsetFactoryTag : FormControlFactoryTag<Fieldset>
 		{
 			#region Overrides of ControlFactoryTag<Step>
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override Fieldset Create(MansionWebContext context, ControlDefinition definition)
+			protected override Fieldset Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				return new Fieldset(definition);
 			}

@@ -12,23 +12,23 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The input value.</param>
 		/// <param name="sourceType">The actual type of the source.</param>
 		/// <returns>Returns the converted value.</returns>
-		protected override NodePointer DoConvert(IContext context, string source, Type sourceType)
+		protected override NodePointer DoConvert(IMansionContext context, string source, Type sourceType)
 		{
 			return NodePointer.Parse(source);
 		}
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The input value.</param>
 		/// <param name="sourceType">The actual type of the source.</param>
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns>Returns the converted value.</returns>
-		protected override NodePointer DoConvert(IContext context, string source, Type sourceType, NodePointer defaultValue)
+		protected override NodePointer DoConvert(IMansionContext context, string source, Type sourceType, NodePointer defaultValue)
 		{
 			// try to convert
 			try

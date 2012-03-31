@@ -6,7 +6,6 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Patterns;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
-using log4net;
 
 namespace Premotion.Mansion.Repository.SqlServer.Queries
 {
@@ -40,7 +39,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <param name="pointer"></param>
 		/// <param name="newParentPointer"></param>
 		/// <returns></returns>
-		public static MoveQuery Prepare(MansionContext context, SqlConnection connection, SqlTransaction transaction, SchemaProvider schemaProvider, NodePointer pointer, NodePointer newParentPointer)
+		public static MoveQuery Prepare(IMansionContext context, SqlConnection connection, SqlTransaction transaction, SchemaProvider schemaProvider, NodePointer pointer, NodePointer newParentPointer)
 		{
 			// validate arguments
 			if (connection == null)
@@ -106,7 +105,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// </summary>
 		public void Execute()
 		{
-			log.Info("Executing move query: " + moveCommand.CommandText);
 			moveCommand.ExecuteNonQuery();
 		}
 		#endregion
@@ -126,7 +124,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		}
 		#endregion
 		#region Private Fields
-		private static readonly ILog log = LogManager.GetLogger(typeof (DeleteQuery));
 		private readonly IDbCommand moveCommand;
 		#endregion
 	}

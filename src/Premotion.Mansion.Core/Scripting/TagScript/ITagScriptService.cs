@@ -13,10 +13,10 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// <summary>
 		/// Opens a series of scripts.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="resources">The resources which to open.</param>
 		/// <returns>Returns a marker which will close the scripts automatically.</returns>
-		IDisposable Open(MansionContext context, IEnumerable<IResource> resources);
+		IDisposable Open(IMansionContext context, IEnumerable<IResource> resources);
 		#endregion
 	}
 }

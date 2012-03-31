@@ -94,7 +94,6 @@ namespace Premotion.Mansion.Repository.SqlServer
 			if (wheres.Length > 0)
 				wheres.Append(" AND ");
 
-			
 			wheres.Append("(");
 			wheres.Append(clause);
 			wheres.Append(")");

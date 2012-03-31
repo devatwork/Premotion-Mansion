@@ -38,7 +38,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="newPointer"></param>
 		/// <param name="properties"></param>
-		protected override void DoToInsertStatement(MansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
+		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
 		{
 			queryBuilder.AddColumnValue("name", newPointer.Name.Trim(), DbType.String);
 			queryBuilder.AddColumnValue("type", newPointer.Type.Trim(), DbType.String);
@@ -56,7 +56,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="node"></param>
 		/// <param name="modifiedProperties"></param>
-		protected override void DoToUpdateStatement(MansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
 		{
 			// make sure the relational intgrety is not comprimised
 			if (modifiedProperties.Names.Any(x => x.Equals("depth", StringComparison.OrdinalIgnoreCase) || x.Equals("parentId", StringComparison.OrdinalIgnoreCase) || x.Equals("parentPath", StringComparison.OrdinalIgnoreCase) || x.Equals("parentStructure", StringComparison.OrdinalIgnoreCase)))

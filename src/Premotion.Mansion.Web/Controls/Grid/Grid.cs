@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Templating;
 
 namespace Premotion.Mansion.Web.Controls.Grid
@@ -50,16 +50,16 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		/// <summary>
 		/// Constructs <see cref="Grid"/>s.
 		/// </summary>
-		[Named(Constants.ControlTagNamespaceUri, "grid")]
+		[ScriptTag(Constants.ControlTagNamespaceUri, "grid")]
 		public class GridFactoryTag : ControlFactoryTag<Grid>
 		{
 			#region Overrides of ControlFactoryTag<Grid>
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override Grid Create(MansionWebContext context, ControlDefinition definition)
+			protected override Grid Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				IFormControl control;
 				return context.TryFindControl(out control) ? new EmbeddedGrid(definition) : (Grid) new FormGrid(definition);
@@ -80,9 +80,9 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		/// <summary>
 		/// Render this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		protected override void DoRender(MansionWebContext context, ITemplateService templateService)
+		protected override void DoRender(IMansionWebContext context, ITemplateService templateService)
 		{
 			// retrieve the data
 			var data = Retrieve(context);

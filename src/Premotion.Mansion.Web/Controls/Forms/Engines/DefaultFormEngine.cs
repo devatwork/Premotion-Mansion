@@ -26,10 +26,10 @@ namespace Premotion.Mansion.Web.Controls.Forms.Engines
 		/// <summary>
 		/// Loads the <see cref="FormState"/> of a particular <paramref name="form"/> from the <paramref name="context"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> for which to load the state.</param>
 		/// <returns>Returns the loaded <see cref="FormState"/>.</returns>
-		protected override FormState DoLoadState(MansionWebContext context, Form form)
+		protected override FormState DoLoadState(IMansionWebContext context, Form form)
 		{
 			// load the properties from the data source
 			var fieldProperties = new PropertyBag();
@@ -69,20 +69,20 @@ namespace Premotion.Mansion.Web.Controls.Forms.Engines
 		/// <summary>
 		/// Stores the <see cref="FormState"/> of a particular <paramref name="form"/> in the <paramref name="context"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> for which to store the state.</param>
 		/// <param name="state">The <see cref="FormState"/> which to save.</param>
-		protected override void DoStoreState(MansionWebContext context, Form form, FormState state)
+		protected override void DoStoreState(IMansionWebContext context, Form form, FormState state)
 		{
 			// do nothing
 		}
 		/// <summary>
 		/// Advances the <paramref name="form"/> to the <paramref name="step"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> being advanced.</param>
 		/// <param name="step">The <see cref="Step"/> to which to advance.</param>
-		protected override void DoAdvanceTo(MansionWebContext context, Form form, Step step)
+		protected override void DoAdvanceTo(IMansionWebContext context, Form form, Step step)
 		{
 			// build the new URL
 			var url = new ParameterizedUri(context.HttpContext.Request.Url).SetParameter(form.Prefix + "current-step", (form.Steps.ToList().IndexOf(step)).ToString(CultureInfo.InvariantCulture));

@@ -14,8 +14,8 @@ namespace Premotion.Mansion.Web
 		/// <summary>
 		/// Disables the output cache of the current request.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
-		public static void DisableOutputCache(MansionContext context)
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		public static void DisableOutputCache(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -33,7 +33,7 @@ namespace Premotion.Mansion.Web
 		/// Executes this tag.
 		/// </summary>
 		/// <param name="context">The application context.</param>
-		public static void DisableResponseTemplateCache(MansionContext context)
+		public static void DisableResponseTemplateCache(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -48,13 +48,13 @@ namespace Premotion.Mansion.Web
 		/// <summary>
 		/// Redirects the request to the target <paramref name="url"/>. Disables the response and output caches and halts the script execution.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="url">The <see cref="Uri"/> to which to redirect.</param>
 		/// <param name="permanent">Flag indicating whether the redirect is permanent or not.</param>
-		public static void RedirectRequest(MansionContext context, Uri url, bool permanent = false)
+		public static void RedirectRequest(IMansionContext context, Uri url, bool permanent = false)
 		{
 			// get the web context
-			var webContext = context.Cast<MansionWebContext>();
+			var webContext = context.Cast<IMansionWebContext>();
 
 			// disable the caches
 			DisableOutputCache(context);

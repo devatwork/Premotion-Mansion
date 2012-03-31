@@ -1,5 +1,4 @@
-﻿using Premotion.Mansion.Core.Attributes;
-using Premotion.Mansion.Core.Data;
+﻿using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Core.ScriptTags.Repository
@@ -7,14 +6,14 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 	/// <summary>
 	/// Moves a node in the top most repository.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "moveNode")]
+	[ScriptTag(Constants.NamespaceUri, "moveNode")]
 	public class MoveNodeTag : ScriptTag
 	{
 		/// <summary>
 		/// Moves a node in the top most repository.
 		/// </summary>
 		/// <param name="context"></param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
 			// get the dataspaces
 			var source = GetRequiredAttribute<Node>(context, "source");

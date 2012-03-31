@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<type inherits="DefaultIndex" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd">
+	
+	<!-- specify cms behavior -->
+	<cms:behavior label="Shared content">
+		<cms:childType baseType="ContentIndex" />
+		<cms:childType baseType="Taxonomy" />
+		<cms:childType baseType="TagIndex" />
+		<cms:childType baseType="RegistrationIndex" />
+	</cms:behavior>
+	
+</type>

@@ -15,7 +15,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 		/// <param name="context">The request context.</param>
 		/// <param name="attributes">The attributes of this tag.</param>
 		/// <returns>Returns the result.</returns>
-		protected override IPropertyBag Get(MansionContext context, IPropertyBag attributes)
+		protected override IPropertyBag Get(IMansionContext context, IPropertyBag attributes)
 		{
 			return Retrieve(context, attributes, context.Repository);
 		}
@@ -26,7 +26,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 		/// <param name="arguments">The arguments from which to build the query.</param>
 		/// <param name="repository"></param>
 		/// <returns>Returns the result.</returns>
-		protected abstract Node Retrieve(MansionContext context, IPropertyBag arguments, IRepository repository);
+		protected abstract Node Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository);
 		#endregion
 	}
 }

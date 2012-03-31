@@ -29,9 +29,9 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// <summary>
 		/// Executes this script.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <exception cref="ScriptExecutionException">Thrown when an exception occured while executing this script.</exception>
-		public void Execute(MansionContext context)
+		public void Execute(IMansionContext context)
 		{
 			Execute<object>(context);
 		}
@@ -39,10 +39,10 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// Executes this script.
 		/// </summary>
 		/// <typeparam name="TResult">The result type.</typeparam>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the result of this script expression.</returns>
 		/// <exception cref="ScriptExecutionException">Thrown when an exception occured while executing this script.</exception>
-		public TResult Execute<TResult>(MansionContext context)
+		public TResult Execute<TResult>(IMansionContext context)
 		{
 			// validate argument
 			if (context == null)
@@ -58,7 +58,7 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 				buffer.Append(expression.Execute<string>(context));
 
 			// return the converted values
-			return context.Nucleus.Get<IConversionService>(context).Convert<TResult>(context, buffer.ToString());
+			return context.Nucleus.ResolveSingle<IConversionService>().Convert<TResult>(context, buffer.ToString());
 		}
 		#endregion
 		#region Properties

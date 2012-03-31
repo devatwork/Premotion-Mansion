@@ -9,10 +9,10 @@
 		/// <summary>
 		/// Renders the section as a string.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="sectionName">The name of the section which to render.</param>
 		/// <returns>Returns the rendered content of the section.</returns>
-		string RenderToString(MansionContext context, string sectionName);
+		string RenderToString(IMansionContext context, string sectionName);
 		#endregion
 	}
 }

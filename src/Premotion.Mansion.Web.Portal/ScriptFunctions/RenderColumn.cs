@@ -15,15 +15,32 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 	[ScriptFunction("renderColumn")]
 	public class RenderColumn : FunctionExpression
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="portalService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public RenderColumn(IPortalService portalService)
+		{
+			// validate arguments
+			if (portalService == null)
+				throw new ArgumentNullException("portalService");
+
+			// set values
+			this.portalService = portalService;
+		}
+		#endregion
+		#region Evaluate Methods
 		/// <summary>
 		/// Renders a column with the specified <paramref name="columnName"/> to the output pipe.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="columnName">The name of the column which to render.</param>
 		/// <param name="ownerProperties">The <see cref="IPropertyBag"/> to which the column belongs.</param>
 		/// <param name="blockDataset">The <see cref="Dataset"/> containing the all blocks of the <paramref name="ownerProperties"/>.</param>
 		/// <returns>Returns the HTML for this column.</returns>
-		public string Evaluate(MansionContext context, string columnName, IPropertyBag ownerProperties, Dataset blockDataset)
+		public string Evaluate(IMansionContext context, string columnName, IPropertyBag ownerProperties, Dataset blockDataset)
 		{
 			// validate arguments
 			if (context == null)
@@ -35,9 +52,6 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 			if (blockDataset == null)
 				throw new ArgumentNullException("blockDataset");
 
-			// get the services
-			var portalService = context.Nucleus.Get<IPortalService>(context);
-
 			// render the column
 			var buffer = new StringBuilder();
 			using (var pipe = new StringOutputPipe(buffer))
@@ -47,5 +61,9 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 			// return the bufferred content
 			return buffer.ToString();
 		}
+		#endregion
+		#region Private Fields
+		private readonly IPortalService portalService;
+		#endregion
 	}
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
+using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Templating;
 
 namespace Premotion.Mansion.Web.Controls.Forms
@@ -14,18 +14,18 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// This tags creates <see cref="RenderScript"/>s.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "renderScript")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "renderScript")]
 		public class RenderScriptFactoryTag : FormControlFactoryTag<RenderScript>
 		{
 			#region Overrides of ControlFactoryTag<RenderScript>
 			/// <summary>
 			/// Executes this tag.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionContext"/>.</param>
-			protected override void DoExecute(Core.MansionContext context)
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
+			protected override void DoExecute(Core.IMansionContext context)
 			{
 				// get the mansion web context
-				var webContext = context.Cast<MansionWebContext>();
+				var webContext = context.Cast<IMansionWebContext>();
 
 				// get the id of this control
 				var id = webContext.GetNextControlId();
@@ -48,9 +48,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override RenderScript Create(MansionWebContext context, ControlDefinition definition)
+			protected override RenderScript Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				return new RenderScript(definition, ExecuteChildTags);
 			}
@@ -63,7 +63,7 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// </summary>
 		/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
 		/// <param name="executeChildrenCallback"></param>
-		public RenderScript(ControlDefinition definition, Action<MansionContext> executeChildrenCallback) : base(definition)
+		public RenderScript(ControlDefinition definition, Action<IMansionContext> executeChildrenCallback) : base(definition)
 		{
 			//  validate arguments
 			if (executeChildrenCallback == null)
@@ -77,9 +77,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Render this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		protected override void DoRender(MansionWebContext context, ITemplateService templateService)
+		protected override void DoRender(IMansionWebContext context, ITemplateService templateService)
 		{
 			// loop over all the controls and render them
 			using (templateService.Render(context, GetType().Name + "Control"))
@@ -87,7 +87,7 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		}
 		#endregion
 		#region Private Fields
-		private readonly Action<MansionContext> executeChildrenCallback;
+		private readonly Action<IMansionContext> executeChildrenCallback;
 		#endregion
 	}
 }

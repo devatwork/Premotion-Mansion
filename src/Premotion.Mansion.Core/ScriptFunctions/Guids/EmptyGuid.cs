@@ -12,9 +12,9 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Guids
 		/// <summary>
 		/// Returns <see cref="Guid.Empty"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns></returns>
-		public Guid Evaluate(MansionContext context)
+		public Guid Evaluate(IMansionContext context)
 		{
 			return Guid.Empty;
 		}

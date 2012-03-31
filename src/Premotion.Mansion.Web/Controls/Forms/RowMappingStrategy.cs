@@ -11,10 +11,10 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Maps the properties of the row.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="row">The row which to map.</param>
 		/// <returns>Returns the mapped result.</returns>
-		public IPropertyBag Map(MansionWebContext context, IPropertyBag row)
+		public IPropertyBag Map(IMansionWebContext context, IPropertyBag row)
 		{
 			// validate arguments
 			if (context == null)
@@ -26,9 +26,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Maps the properties of the row.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="row">The row which to map.</param>
 		/// <returns>Returns the mapped result.</returns>
-		protected abstract IPropertyBag DoMapRowProperties(MansionWebContext context, IPropertyBag row);
+		protected abstract IPropertyBag DoMapRowProperties(IMansionWebContext context, IPropertyBag row);
 	}
 }

@@ -25,16 +25,16 @@ namespace Premotion.Mansion.Web.Mail.ScriptTags
 		/// Executes this tag.
 		/// </summary>
 		/// <param name="context">The application context.</param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
-			var webContext = context.Cast<MansionWebContext>();
+			var webContext = context.Cast<IMansionWebContext>();
 
 			// invoke template method
 			var content = GetContent(webContext);
 
 			// check if the body is not set already
 			var message = webContext.Message;
-			if (message.Body == null)
+			if (string.IsNullOrEmpty(message.Body))
 			{
 				// set the body
 				message.Body = content;
@@ -50,9 +50,9 @@ namespace Premotion.Mansion.Web.Mail.ScriptTags
 		/// <summary>
 		/// Gets the content which to add to the message.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <returns>Returns the content.</returns>
-		protected abstract string GetContent(MansionWebContext context);
+		protected abstract string GetContent(IMansionWebContext context);
 		#endregion
 		#region Private Fields
 		private readonly Encoding encoding = Encoding.UTF8;

@@ -21,11 +21,11 @@ namespace Premotion.Mansion.Web.Controls.Grid
 			/// <summary>
 			/// Executes this tag.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionContext"/>.</param>
-			protected override void DoExecute(MansionContext context)
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
+			protected override void DoExecute(IMansionContext context)
 			{
 				// get the web context
-				var webContext = context.Cast<MansionWebContext>();
+				var webContext = context.Cast<IMansionWebContext>();
 
 				// get the grid control from the stack
 				Grid grid;
@@ -45,9 +45,9 @@ namespace Premotion.Mansion.Web.Controls.Grid
 			/// <summary>
 			/// Create a <see cref="Column"/> instance.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <returns>Returns the created <see cref="Column"/>.</returns>
-			protected abstract Column Create(MansionWebContext context);
+			protected abstract Column Create(IMansionWebContext context);
 			#endregion
 		}
 		#endregion
@@ -70,10 +70,10 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		/// <summary>
 		/// Renders the header of this column.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
 		/// <param name="data">The <see cref="Dataset"/> rendered in this column.</param>
-		public void RenderHeaderFilter(MansionWebContext context, ITemplateService templateService, Dataset data)
+		public void RenderHeaderFilter(IMansionWebContext context, ITemplateService templateService, Dataset data)
 		{
 			// validate arguments
 			if (context == null)
@@ -89,10 +89,10 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		/// <summary>
 		/// Renders the header of this column.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
 		/// <param name="data">The <see cref="Dataset"/> rendered in this column.</param>
-		public void RenderHeader(MansionWebContext context, ITemplateService templateService, Dataset data)
+		public void RenderHeader(IMansionWebContext context, ITemplateService templateService, Dataset data)
 		{
 			// validate arguments
 			if (context == null)
@@ -108,11 +108,11 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		/// <summary>
 		/// Renders a cell of this column.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
 		/// <param name="data">The <see cref="Dataset"/> rendered in this column.</param>
 		/// <param name="row">The being rendered.</param>
-		public void RenderCell(MansionWebContext context, ITemplateService templateService, Dataset data, IPropertyBag row)
+		public void RenderCell(IMansionWebContext context, ITemplateService templateService, Dataset data, IPropertyBag row)
 		{
 			// validate arguments
 			if (context == null)
@@ -131,11 +131,11 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		/// <summary>
 		/// Renders a cell of this column.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
 		/// <param name="data">The <see cref="Dataset"/> rendered in this column.</param>
 		/// <param name="row">The being rendered.</param>
-		protected abstract void DoRenderCell(MansionWebContext context, ITemplateService templateService, Dataset data, IPropertyBag row);
+		protected abstract void DoRenderCell(IMansionWebContext context, ITemplateService templateService, Dataset data, IPropertyBag row);
 		#endregion
 		#region Column Property Methods
 		/// <summary>

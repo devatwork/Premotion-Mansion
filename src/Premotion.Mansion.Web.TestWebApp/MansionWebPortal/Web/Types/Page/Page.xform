@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd">
+
+	<!-- Renders the xForm content -->
+	<declareProcedure procedureName="RenderXFormContent">
+		<invokeProcedure procedureName="RenderGroupPageProperties" />
+		<invokeProcedure procedureName="RenderGroupLookAndFeelGroup" />
+		<invokeProcedure procedureName="RenderGroupSeo"/>
+		<invokeProcedure procedureName="RenderGroupPublication"/>
+		<invokeProcedure procedureName="RenderGroupIdentity"/>
+		<invokeProcedure procedureName="RenderGroupSecurity"/>
+	</declareProcedure>
+
+	<!-- template methods: put page specific properties here -->
+	<declareProcedure procedureName="RenderGroupPageProperties">
+		<forms:fieldset label="General">
+			<forms:textbox name="name" label="Name">
+				<forms:requiredFieldValidator/>
+			</forms:textbox>
+		</forms:fieldset>
+	</declareProcedure>
+
+	<!-- renders the look and feel group -->
+	<declareProcedure procedureName="RenderGroupLookAndFeelGroup">
+		<forms:fieldset label="Look and Feel">
+			<forms:selectbox name="theme" label="Kies een thema">
+				<providers:scriptedDatasetProvider>
+
+					<!-- include the inherit parent value -->
+					<if condition="{Not( IsAssignable( TargetProperties.type, 'Site'  ))}">
+						<setProperties dataspaceName="Option" value="" label="[Inherit]">
+							<addRowToSet source="{$Option}" target="{$Dataset}" />
+						</setProperties>
+						<else>
+							<forms:requiredFieldValidator />
+						</else>
+					</if>
+
+					<!-- get all the themes -->
+					<splitText input="{GetSubTypes( 'Theme' )}" separator="," target="ThemeSet">
+						<loopDataset source="{$ThemeSet}" target="ThemeOption">
+							<setProperties dataspaceName="Option" value="{ThemeOption.value}" label="{GetTypeDefinitionLabel( ThemeOption.value )}">
+								<addRowToSet source="{$Option}" target="{$Dataset}" />
+							</setProperties>
+						</loopDataset>
+					</splitText>
+
+				</providers:scriptedDatasetProvider>
+			</forms:selectbox>
+
+			<forms:selectbox name="layout" label="Kies een layout">
+				<providers:scriptedDatasetProvider>
+
+					<!-- get all the layouts -->
+					<splitText input="{GetSubTypes( 'Layout' )}" separator="," target="LayoutSet">
+						<loopDataset source="{$LayoutSet}" target="LayoutOption">
+							<setProperties dataspaceName="Option" value="{LayoutOption.value}" label="{GetTypeDefinitionLabel( LayoutOption.value )}">
+								<addRowToSet source="{$Option}" target="{$Dataset}" />
+							</setProperties>
+						</loopDataset>
+					</splitText>
+
+				</providers:scriptedDatasetProvider>
+				<forms:requiredFieldValidator />
+			</forms:selectbox>
+		</forms:fieldset>
+	</declareProcedure>
+
+
+
+	<!-- action buttons for pages -->
+	<declareProcedure procedureName="IncludeActionButtons">
+		<invokeProcedure procedureName="IncludeActionPreviewPageButton"/>
+		<invokeProcedure procedureName="IncludeActionAddChildButton"/>
+		<invokeProcedure procedureName="IncludeActionChangeNodeOrderButton"/>
+		<invokeProcedure procedureName="IncludeActionMoveNodeButton"/>
+		<invokeProcedure procedureName="IncludeActionCopyNodeButton"/>
+		<invokeProcedure procedureName="IncludeActionDeleteNodeButton"/>
+	</declareProcedure>
+	
+	<declareProcedure procedureName="IncludeActionPreviewPageButton">
+		<forms:linkButton action="{MakeAbsoluteUrl( NodeUrl( $FormSourceNode ) )}" label="Preview" cssClass="cms-preview preview" />
+	</declareProcedure>
+
+</mansion>

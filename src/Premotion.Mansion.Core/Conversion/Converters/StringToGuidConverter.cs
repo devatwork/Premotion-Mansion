@@ -11,11 +11,11 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The input value.</param>
 		/// <param name="sourceType">The actual type of the source.</param>
 		/// <returns>Returns the converted value.</returns>
-		protected override Guid DoConvert(IContext context, string source, Type sourceType)
+		protected override Guid DoConvert(IMansionContext context, string source, Type sourceType)
 		{
 			Guid result;
 			if (!Guid.TryParse(source, out result))
@@ -25,12 +25,12 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The input value.</param>
 		/// <param name="sourceType">The actual type of the source.</param>
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns>Returns the converted value.</returns>
-		protected override Guid DoConvert(IContext context, string source, Type sourceType, Guid defaultValue)
+		protected override Guid DoConvert(IMansionContext context, string source, Type sourceType, Guid defaultValue)
 		{
 			Guid guid;
 			if (Guid.TryParse(source, out guid))

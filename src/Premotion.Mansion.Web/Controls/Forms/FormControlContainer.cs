@@ -50,9 +50,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Initializes this form control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> to which this control belongs.</param>
-		protected override void DoInitialize(MansionWebContext context, Form form)
+		protected override void DoInitialize(IMansionWebContext context, Form form)
 		{
 			// loop over all the controls
 			foreach (var control in FormControls)
@@ -61,10 +61,10 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Validates the state of this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> to which this control belongs.</param>
 		/// <param name="results">The <see cref="ValidationResults"/> in which the validation results are stored.</param>
-		protected override void DoValidate(MansionWebContext context, Form form, ValidationResults results)
+		protected override void DoValidate(IMansionWebContext context, Form form, ValidationResults results)
 		{
 			// loop over all the controls
 			foreach (var control in FormControls)

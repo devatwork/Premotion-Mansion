@@ -1,7 +1,6 @@
 ﻿using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
-using Premotion.Mansion.Web.Http;
 
 namespace Premotion.Mansion.Web.ScriptFunctions
 {
@@ -17,7 +16,7 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 		/// <param name="context">The request context.</param>
 		/// <param name="relativePath">The relative path to the resource.</param>
 		/// <returns>The <see cref="Uri"/> ot the static content.</returns>
-		public Uri Evaluate(MansionContext context, string relativePath)
+		public Uri Evaluate(IMansionContext context, string relativePath)
 		{
 			// validate arguments
 			if (context == null)
@@ -26,13 +25,13 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 				return null;
 
 			// get the web context
-			var webContext = context.Cast<MansionWebContext>();
+			var webContext = context.Cast<IMansionWebContext>();
 
 			// create the relative path
-			var prefixedRelativePath = HttpUtilities.CombineIntoRelativeUrl(webContext.HttpContext.Request.ApplicationPath, PathRewriterModule.StaticContentPrefix, relativePath);
+			var prefixedRelativePath = HttpUtilities.CombineIntoRelativeUrl(webContext.HttpContext.Request.ApplicationPath, Constants.StaticContentPrefix, relativePath);
 
 			// create the uri
-			return new Uri(webContext.HttpContext.Request.ApplicationBaseUri, prefixedRelativePath);
+			return new Uri(webContext.ApplicationBaseUri, prefixedRelativePath);
 		}
 	}
 }

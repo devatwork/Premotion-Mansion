@@ -1,16 +1,16 @@
 ﻿using System.Linq;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.ScriptTags.Repository;
+using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Portal.ScriptTags
 {
 	/// <summary>
 	/// Retrieves the theme node for the specified source node.
 	/// </summary>
-	[Named(Constants.TagNamespaceUri, "retrieveThemeNode")]
+	[ScriptTag(Constants.TagNamespaceUri, "retrieveThemeNode")]
 	public class RetrieveThemeNodeTag : RetrieveNodeBaseTag
 	{
 		/// <summary>
@@ -20,7 +20,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 		/// <param name="arguments">The arguments from which to build the query.</param>
 		/// <param name="repository"></param>
 		/// <returns>Returns the result.</returns>
-		protected override Node Retrieve(MansionContext context, IPropertyBag arguments, IRepository repository)
+		protected override Node Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository)
 		{
 			// get the node
 			var contentNode = GetRequiredAttribute<Node>(context, "source");

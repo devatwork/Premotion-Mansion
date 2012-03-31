@@ -73,10 +73,10 @@ namespace Premotion.Mansion.Core.Types
 		/// <summary>
 		/// Requests this voter to cast a vote.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="subject">The subject.</param>
 		/// <returns>Returns the result of the vote.</returns>
-		protected override VoteResult DoVote(IContext context, IPropertyBag subject)
+		protected override VoteResult DoVote(IMansionContext context, IPropertyBag subject)
 		{
 			// check if a path is specified
 			string type;
@@ -87,10 +87,10 @@ namespace Premotion.Mansion.Core.Types
 		/// <summary>
 		/// Interprets the input..
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="input">The input which to interpret.</param>
 		/// <returns>Returns the interpreted result.</returns>
-		protected override IResourcePath DoInterpret(IContext context, IPropertyBag input)
+		protected override IResourcePath DoInterpret(IMansionContext context, IPropertyBag input)
 		{
 			// get the path
 			var type = input.Get<ITypeDefinition>(context, "type");

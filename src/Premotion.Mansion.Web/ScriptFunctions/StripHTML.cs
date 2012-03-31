@@ -13,9 +13,9 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 		/// <summary>
 		/// Strips all HTML from the input string.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="input">The string which to strip.</param>
-		public string Evaluate(MansionContext context, string input)
+		public string Evaluate(IMansionContext context, string input)
 		{
 			// validate arguments
 			if (context == null)

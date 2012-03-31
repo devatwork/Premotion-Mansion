@@ -1,14 +1,14 @@
-﻿using Premotion.Mansion.Core.Attributes;
-using Premotion.Mansion.Core.Collections;
+﻿using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.ScriptTags.Stack;
+using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Core.ScriptTags.Repository
 {
 	/// <summary>
 	/// Retrieves a child nodes from the repository.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "loopNodeset")]
+	[ScriptTag(Constants.NamespaceUri, "loopNodeset")]
 	public class LoopNodesetTag : LoopBaseTag
 	{
 		/// <summary>
@@ -16,7 +16,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 		/// </summary>
 		/// <param name="context">The request context.</param>
 		/// <returns>Returns the <see cref="Dataset"/> on which to loop.</returns>
-		protected override Dataset GetLoopset(MansionContext context)
+		protected override Dataset GetLoopset(IMansionContext context)
 		{
 			return GetRequiredAttribute<Nodeset>(context, "source");
 		}

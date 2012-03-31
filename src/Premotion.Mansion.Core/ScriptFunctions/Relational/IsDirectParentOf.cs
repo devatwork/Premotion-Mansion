@@ -16,7 +16,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Relational
 		/// <param name="candidateParent"></param>
 		/// <param name="childPointer"></param>
 		/// <returns></returns>
-		public bool Evaluate(MansionContext context, NodePointer candidateParent, NodePointer childPointer)
+		public bool Evaluate(IMansionContext context, NodePointer candidateParent, NodePointer childPointer)
 		{
 			// validate arguments
 			if (context == null)

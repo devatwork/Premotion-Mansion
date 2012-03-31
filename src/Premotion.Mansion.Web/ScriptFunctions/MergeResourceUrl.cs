@@ -1,7 +1,6 @@
 ﻿using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
-using Premotion.Mansion.Web.Http;
 
 namespace Premotion.Mansion.Web.ScriptFunctions
 {
@@ -14,10 +13,10 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 		/// <summary>
 		/// Generates a path for dynamic resources.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="relativePath">The relative path to the resource.</param>
 		/// <returns>The <see cref="Uri"/> ot the merged resource.</returns>
-		public Uri Evaluate(MansionContext context, string relativePath)
+		public Uri Evaluate(IMansionContext context, string relativePath)
 		{
 			// validate arguments
 			if (context == null)
@@ -26,13 +25,13 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 				throw new ArgumentNullException("relativePath");
 
 			// get the web context
-			var webContext = context.Cast<MansionWebContext>();
+			var webContext = context.Cast<IMansionWebContext>();
 
 			// create the relative path
-			var prefixedRelativePath = HttpUtilities.CombineIntoRelativeUrl(webContext.HttpContext.Request.ApplicationPath, PathRewriterModule.MergeResourcesPrefix, relativePath);
+			var prefixedRelativePath = HttpUtilities.CombineIntoRelativeUrl(webContext.HttpContext.Request.ApplicationPath, Constants.MergeResourcesPrefix, relativePath);
 
 			// create the uri
-			return new Uri(webContext.HttpContext.Request.ApplicationBaseUri, prefixedRelativePath);
+			return new Uri(webContext.ApplicationBaseUri, prefixedRelativePath);
 		}
 	}
 }

@@ -24,9 +24,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Gets a flag indicating whether this field has a value.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns true when the field is considered to have value, otherwise false.</returns>
-		public abstract bool HasValue(IContext context);
+		public abstract bool HasValue(IMansionContext context);
 		#endregion
 	}
 	/// <summary>
@@ -57,8 +57,8 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Initializes this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
-		protected override void DoInitialize(MansionWebContext context)
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+		protected override void DoInitialize(IMansionWebContext context)
 		{
 			base.DoInitialize(context);
 
@@ -81,9 +81,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Render this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		protected override void DoRender(MansionWebContext context, ITemplateService templateService)
+		protected override void DoRender(IMansionWebContext context, ITemplateService templateService)
 		{
 			// set the field value
 			Definition.Properties.Set("Value", GetValue(context));
@@ -96,9 +96,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Initializes this form control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> to which this control belongs.</param>
-		protected override void DoInitialize(MansionWebContext context, Form form)
+		protected override void DoInitialize(IMansionWebContext context, Form form)
 		{
 			OwnerForm = form;
 
@@ -167,9 +167,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Gets the value of this field.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the value.</returns>
-		public TValue GetValue(IContext context)
+		public TValue GetValue(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -194,9 +194,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Gets a flag indicating whether this field has a value.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns true when the field is considered to have value, otherwise false.</returns>
-		public override bool HasValue(IContext context)
+		public override bool HasValue(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)

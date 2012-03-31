@@ -1,6 +1,5 @@
 using System;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Types;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas.Descriptors
@@ -8,20 +7,9 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas.Descriptors
 	/// <summary>
 	/// Describes a column.
 	/// </summary>
-	[Named(Constants.DescriptorNamespaceUri, "column")]
+	[TypeDescriptor(Constants.DescriptorNamespaceUri, "column")]
 	public class ColumnDescriptor : TypeDescriptor
 	{
-		#region Constructors
-		/// <summary>
-		/// </summary>
-		/// <param name="namespaceUri">The namespace.</param>
-		/// <param name="name">The name of this descriptor.</param>
-		/// <param name="properties">The properties.</param>
-		/// <param name="typeDefinition">The <see cref="ITypeDefinition"/> to which this descriptor is applied.</param>
-		public ColumnDescriptor(string namespaceUri, string name, IPropertyBag properties, ITypeDefinition typeDefinition) : base(namespaceUri, name, properties, typeDefinition)
-		{
-		}
-		#endregion
 		#region Factory Methods
 		/// <summary>
 		/// Creates the column as described.
@@ -29,7 +17,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas.Descriptors
 		/// <param name="context"></param>
 		/// <param name="propertyName"></param>
 		/// <returns></returns>
-		public virtual Column Create(MansionContext context, string propertyName)
+		public virtual Column Create(IMansionContext context, string propertyName)
 		{
 			// validate arguments
 			if (context == null)

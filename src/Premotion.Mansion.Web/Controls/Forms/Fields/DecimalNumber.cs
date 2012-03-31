@@ -1,5 +1,5 @@
 ﻿using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
+using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Fields
 {
@@ -12,16 +12,16 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// This tag creates a <see cref="Number"/>.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "decimalNumber")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "decimalNumber")]
 		public class DecimalNumberTag : FieldFactoryTag<DecimalNumber>
 		{
 			#region Overrides of FieldFactoryTag<Number>
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override DecimalNumber Create(MansionWebContext context, ControlDefinition definition)
+			protected override DecimalNumber Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				return new DecimalNumber(definition);
 			}
@@ -41,9 +41,9 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// Gets a flag indicating whether this field has a value.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns true when the field is considered to have value, otherwise false.</returns>
-		public override bool HasValue(IContext context)
+		public override bool HasValue(IMansionContext context)
 		{
 			return true;
 		}

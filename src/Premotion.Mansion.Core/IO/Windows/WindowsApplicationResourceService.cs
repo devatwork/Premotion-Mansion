@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Premotion.Mansion.Core.Caching;
-using Premotion.Mansion.Core.Nucleus;
-using Premotion.Mansion.Core.Nucleus.Facilities.Dependencies;
-using Premotion.Mansion.Core.Nucleus.Facilities.Lifecycle;
-using Premotion.Mansion.Core.Nucleus.Facilities.Reflection;
+using Premotion.Mansion.Core.Patterns;
 using Premotion.Mansion.Core.Patterns.Voting;
 
 namespace Premotion.Mansion.Core.IO.Windows
@@ -14,7 +11,7 @@ namespace Premotion.Mansion.Core.IO.Windows
 	/// <summary>
 	/// Implements <see cref="IApplicationResourceService"/> for windows applications.
 	/// </summary>
-	public class WindowsApplicationResourceService : ManagedLifecycleService, IApplicationResourceService, IServiceWithDependencies
+	public class WindowsApplicationResourceService : DisposableBase, IApplicationResourceService
 	{
 		#region Constructors
 		/// <summary>
@@ -22,51 +19,93 @@ namespace Premotion.Mansion.Core.IO.Windows
 		/// </summary>
 		/// <param name="physicalBasePath">The physical base path of th application.</param>
 		/// <param name="resourceSubFolder">The subfolder in which the application paths live.</param>
-		public WindowsApplicationResourceService(string physicalBasePath, string resourceSubFolder)
+		/// <param name="assemblyRootPaths">The root paths.</param>
+		/// <param name="pathInterpreters">The <see cref="IEnumerable{T}"/>s.</param>
+		/// <param name="cachingService">The <see cref="ICachingService"/>.</param>
+		public WindowsApplicationResourceService(string physicalBasePath, string resourceSubFolder, IEnumerable<string> assemblyRootPaths, IEnumerable<ResourcePathInterpreter> pathInterpreters, ICachingService cachingService)
 		{
 			// validate arguments
 			if (string.IsNullOrEmpty(physicalBasePath))
 				throw new ArgumentNullException("physicalBasePath");
+			if (assemblyRootPaths == null)
+				throw new ArgumentNullException("assemblyRootPaths");
+			if (pathInterpreters == null)
+				throw new ArgumentNullException("pathInterpreters");
+			if (cachingService == null)
+				throw new ArgumentNullException("cachingService");
 
 			// get the directory info
 			var physicalBaseDirectory = new DirectoryInfo(physicalBasePath);
 			if (!physicalBaseDirectory.Exists)
 				throw new InvalidOperationException(string.Format("Physical path '{0}' does not exist", physicalBasePath));
 
-			// set the value
+			// set the values
 			this.physicalBasePath = physicalBaseDirectory.FullName;
-			this.resourceSubFolder = resourceSubFolder;
+			this.pathInterpreters = pathInterpreters;
+
+			foreach (var rootPath in assemblyRootPaths.Select(rootPath => rootPath.Trim(new[] {Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar})))
+			{
+				// make sure the path is only added once
+				if (rootPaths.Contains(rootPath))
+					throw new InvalidOperationException(string.Format("The root path '{0}' is already added", rootPath));
+
+				// make sure the directoy exists
+				var rootPathDirectory = Path.Combine(physicalBasePath, Path.Combine(rootPath, resourceSubFolder));
+				if (!Directory.Exists(rootPathDirectory))
+					throw new InvalidOperationException(string.Format("Resource path '{0}' does not exist", rootPathDirectory));
+
+				// add the root path
+				rootPaths.Add(rootPathDirectory);
+				rootPathsReverse.Insert(0, rootPathDirectory);
+			}
+
+			// add file system watchers
+			foreach (var watcher in rootPaths.Select(rootPath => new FileSystemWatcher(rootPath)
+			                                                     {
+			                                                     	EnableRaisingEvents = true,
+			                                                     	IncludeSubdirectories = true
+			                                                     }))
+			{
+				watcher.Changed += (sender, e) =>
+				                   {
+				                   	// clear the cache when this object is not yet disposed
+				                   	if (IsNotDisposed)
+				                   		cachingService.ClearAll();
+				                   };
+				watchers.Add(watcher);
+			}
 		}
 		#endregion
 		#region Implementation of IApplicationResourceService
 		/// <summary>
 		/// Checks whether a resource exists at the specified paths.
 		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="path">The path to the resource.</param>
 		/// <returns>Returns true when a resource exists, otherwise false.</returns>
-		public bool Exists(IResourcePath path)
+		public bool Exists(IMansionContext context, IResourcePath path)
 		{
 			return TryLocate(path).Any();
 		}
 		/// <summary>
 		/// Gets the resource from it's path.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="path">The path to the resource.</param>
 		/// <returns>Returns the resource.</returns>
 		/// <exception cref="ResourceNotFoundException">Thrown when a resource can not be resolved from it's path.</exception>
-		public IResource GetSingle(IContext context, IResourcePath path)
+		public IResource GetSingle(IMansionContext context, IResourcePath path)
 		{
 			return Get(context, path).Single();
 		}
 		/// <summary>
 		/// Gets the resources from their path.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="path">The path to the resources.</param>
 		/// <returns>Returns the resources.</returns>
 		/// <exception cref="ResourceNotFoundException">Thrown when a resource can not be resolved from it's path.</exception>
-		public IEnumerable<IResource> Get(IContext context, IResourcePath path)
+		public IEnumerable<IResource> Get(IMansionContext context, IResourcePath path)
 		{
 			// validate arguments
 			if (context == null)
@@ -92,11 +131,11 @@ namespace Premotion.Mansion.Core.IO.Windows
 		/// <summary>
 		/// Tries to get resources based on the path. When not resource is found no exception is thrown.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="path">The path to the resources.</param>
 		/// <param name="resources">The resources found.</param>
 		/// <returns>Returns true when a resource was found, otherwise false.</returns>
-		public bool TryGet(IContext context, IResourcePath path, out IEnumerable<IResource> resources)
+		public bool TryGet(IMansionContext context, IResourcePath path, out IEnumerable<IResource> resources)
 		{
 			// validate arguments
 			if (context == null)
@@ -115,10 +154,10 @@ namespace Premotion.Mansion.Core.IO.Windows
 		/// <summary>
 		/// Enumerates the folders of a particular path
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="path">The path which to enumerate.</param>
 		/// <returns>Returns the names of the folders.</returns>
-		public IEnumerable<string> EnumeratorFolders(IContext context, string path)
+		public IEnumerable<string> EnumeratorFolders(IMansionContext context, string path)
 		{
 			// validate arguments
 			if (context == null)
@@ -134,17 +173,19 @@ namespace Premotion.Mansion.Core.IO.Windows
 			       where directoryInfo.Exists
 			       from directory in directoryInfo.EnumerateDirectories()
 			       where (directory.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden && (directory.Attributes & FileAttributes.System) != FileAttributes.System
-			       select directory.Name;
+			       group directory by directory.Name.ToLower()
+			       into directoryGroup
+			       select directoryGroup.First().Name;
 		}
 		#endregion
 		#region Implementation of IResourceService
 		/// <summary>
 		/// Parses the properties into a resource path.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="properties">The properties which to parse.</param>
 		/// <returns>Returns the parsed resource path.</returns>
-		public IResourcePath ParsePath(IContext context, IPropertyBag properties)
+		public IResourcePath ParsePath(IMansionContext context, IPropertyBag properties)
 		{
 			// validate arguments
 			if (context == null)
@@ -158,10 +199,10 @@ namespace Premotion.Mansion.Core.IO.Windows
 		/// <summary>
 		/// Gets the first and most important relative path of <paramref name="resourcePath"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="resourcePath">The <see cref="IResourcePath"/>.</param>
 		/// <returns>Returns a string version of the most important relative path.</returns>
-		public string GetFirstRelativePath(IContext context, IResourcePath resourcePath)
+		public string GetFirstRelativePath(IMansionContext context, IResourcePath resourcePath)
 		{
 			// validate arguments
 			if (context == null)
@@ -171,62 +212,6 @@ namespace Premotion.Mansion.Core.IO.Windows
 			CheckDisposed();
 
 			return TryLocate(resourcePath).First().FullName.Substring(physicalBasePath.Length);
-		}
-		#endregion
-		#region Implementation of IStartableService
-		/// <summary>
-		/// Starts this service.
-		/// </summary>
-		/// <param name="context">The <see cref="INucleusAwareContext"/> in which this service is started.</param>
-		protected override void DoStart(INucleusAwareContext context)
-		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
-
-			// loop over all the registerd assemblies to see if they define a path
-			var assemblyRegistrationService = context.Nucleus.Get<IAssemblyRegistrationService>(context);
-			foreach (var rootPath in assemblyRegistrationService.RegisteredAssemblies.Select(assemblyModel => ResourceUtils.Combine(physicalBasePath, assemblyModel.Name, resourceSubFolder)).Where(Directory.Exists))
-			{
-				// make sure the path is only added once
-				if (rootPaths.Contains(rootPath))
-					throw new InvalidOperationException(string.Format("The root path '{0}' is already added", rootPath));
-
-				// add the root path
-				rootPaths.Add(rootPath);
-				rootPathsReverse.Insert(0, rootPath);
-			}
-
-			// get all the path interpreters
-			var namingService = context.Nucleus.Get<ITypeDirectoryService>(context);
-			var objectFactoryService = context.Nucleus.Get<IObjectFactoryService>(context);
-			pathInterpreters.AddRange(objectFactoryService.Create<ResourcePathInterpreter>(namingService.Lookup<ResourcePathInterpreter>()));
-
-			// add file system watchers
-			var cacheService = context.Nucleus.Get<ICachingService>(context);
-			foreach (var watcher in rootPaths.Select(rootPath => new FileSystemWatcher(rootPath)
-			                                                     {
-			                                                     	EnableRaisingEvents = true,
-			                                                     	IncludeSubdirectories = true
-			                                                     }))
-			{
-				watcher.Changed += (sender, e) =>
-				                   {
-				                   	// clear the cache when this object is not yet disposed
-				                   	if (IsNotDisposed)
-				                   		cacheService.ClearAll();
-				                   };
-				watchers.Add(watcher);
-			}
-		}
-		#endregion
-		#region Implementation of IServiceWithDependencies
-		/// <summary>
-		/// Gets the <see cref="DependencyModel"/> of this service.
-		/// </summary>
-		public DependencyModel Dependencies
-		{
-			get { return dependencies; }
 		}
 		#endregion
 		#region Overrides of DisposableBase
@@ -277,10 +262,8 @@ namespace Premotion.Mansion.Core.IO.Windows
 		}
 		#endregion
 		#region Private Fields
-		private static readonly DependencyModel dependencies = new DependencyModel().Add<ITypeDirectoryService>().Add<IObjectFactoryService>().Add<ICachingService>();
-		private readonly List<ResourcePathInterpreter> pathInterpreters = new List<ResourcePathInterpreter>();
+		private readonly IEnumerable<ResourcePathInterpreter> pathInterpreters;
 		private readonly string physicalBasePath;
-		private readonly string resourceSubFolder;
 		private readonly List<string> rootPaths = new List<string>();
 		private readonly List<string> rootPathsReverse = new List<string>();
 		private readonly List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();

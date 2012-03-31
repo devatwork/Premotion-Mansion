@@ -1,6 +1,5 @@
 ﻿using System.Net.Mail;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Mail.ScriptTags
@@ -8,15 +7,15 @@ namespace Premotion.Mansion.Web.Mail.ScriptTags
 	/// <summary>
 	/// Sends a e-mail message to the recipients.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "sendMail")]
+	[ScriptTag(Constants.NamespaceUri, "sendMail")]
 	public class SendMailTag : ScriptTag
 	{
 		#region Overrides of ScriptTag
 		/// <summary>
 		/// Executes this tag.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
-		protected override void DoExecute(MansionContext context)
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		protected override void DoExecute(IMansionContext context)
 		{
 			// get the values
 			var recipients = GetRequiredAttribute<string>(context, "recipients");
@@ -34,7 +33,7 @@ namespace Premotion.Mansion.Web.Mail.ScriptTags
 			var subject = GetRequiredAttribute<string>(context, "subject");
 
 			// construct the message
-			var mailService = context.Nucleus.Get<IMailService>(context);
+			var mailService = context.Nucleus.ResolveSingle<IMailService>();
 			using (var message = mailService.CreateMessage())
 			{
 				// set the properties
@@ -48,7 +47,7 @@ namespace Premotion.Mansion.Web.Mail.ScriptTags
 				message.ReplyToList.Add(replyTos, replyToNames);
 
 				// allow childrern to modify the envelope
-				using (context.Cast<MansionWebContext>().MessageStack.Push(message))
+				using (context.Cast<IMansionWebContext>().MessageStack.Push(message))
 					ExecuteChildTags(context);
 
 				// send the mail

@@ -15,9 +15,9 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 		/// <summary>
 		/// Gets the label of a particular <paramref name="typeDefinition"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="typeDefinition">The <see cref="ITypeDefinition"/> for which to get the label.</param>
-		public bool Evaluate(MansionContext context, ITypeDefinition typeDefinition)
+		public bool Evaluate(IMansionContext context, ITypeDefinition typeDefinition)
 		{
 			// validate arguments
 			if (context == null)

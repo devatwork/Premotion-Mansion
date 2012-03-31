@@ -5,7 +5,6 @@ using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Patterns;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
-using log4net;
 
 namespace Premotion.Mansion.Repository.SqlServer.Queries
 {
@@ -45,7 +44,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <param name="sourceNode"></param>
 		/// <param name="targetParentNode"></param>
 		/// <returns></returns>
-		public static CopyQuery Prepare(MansionContext context, SqlConnection connection, SqlTransaction transaction, SchemaProvider schemaProvider, Node sourceNode, Node targetParentNode)
+		public static CopyQuery Prepare(IMansionContext context, SqlConnection connection, SqlTransaction transaction, SchemaProvider schemaProvider, Node sourceNode, Node targetParentNode)
 		{
 			// validate arguments
 			if (connection == null)
@@ -85,7 +84,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// </summary>
 		public int Execute()
 		{
-			log.Info("Executing query");
 			return insertQuery.Execute();
 		}
 		#endregion
@@ -105,7 +103,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		}
 		#endregion
 		#region Private Fields
-		private static readonly ILog log = LogManager.GetLogger(typeof (DeleteQuery));
 		private readonly InsertQuery insertQuery;
 		#endregion
 	}

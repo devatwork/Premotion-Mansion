@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+	
+	<!-- retrieve commonly used nodes -->
+	<declareEventHandler eventName="InitializeXForm">
+		<retrieveNode id="1" target="RootNode" global="true" />
+		<retrieveChildNode parentSource="{$RootNode}" type="ContentIndexRoot" target="ContentIndexRootNode" global="true" />
+		<retrieveChildNodeset parentSource="{$RootNode}" baseType="Site" target="SiteNodeset" global="true" />
+	</declareEventHandler>
+
+	
+	
+	<!-- render the SEO tab -->
+	<declareProcedure procedureName="RenderGroupSeo">
+		<forms:fieldset label="Search Engine Optimization">
+			<forms:textbox name="seoTitle" label="Title" />
+			<forms:textarea name="seoDescription" label="Description" />
+			<forms:textarea name="seoKeywords" label="Keywords" />
+			<forms:checkbox name="seoNoIndex" label="No index" />
+			<forms:checkbox name="seoNoFollow" label="No follow" />
+			<forms:checkbox name="seoNoCache" label="No cache" />
+		</forms:fieldset>
+	</declareProcedure>
+	
+</mansion>

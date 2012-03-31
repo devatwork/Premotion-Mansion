@@ -1,15 +1,15 @@
 ﻿using System;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.ScriptTags.Stack;
+using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 {
 	/// <summary>
 	/// Parses a route.
 	/// </summary>
-	[Named(Constants.TagNamespaceUri, "parseRoute")]
+	[ScriptTag(Constants.TagNamespaceUri, "parseRoute")]
 	public class ParseRouteTag : GetRowBaseTag
 	{
 		/// <summary>
@@ -18,10 +18,10 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 		/// <param name="context">The request context.</param>
 		/// <param name="attributes">The attributes of this tag.</param>
 		/// <returns>Returns the result.</returns>
-		protected override IPropertyBag Get(MansionContext context, IPropertyBag attributes)
+		protected override IPropertyBag Get(IMansionContext context, IPropertyBag attributes)
 		{
 			// get the web request context
-			var webRequest = context.Cast<MansionWebContext>();
+			var webRequest = context.Cast<IMansionWebContext>();
 
 			// get the url
 			Uri url;

@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <configuration>
-	<configSections>
-		<section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net" />
-	</configSections>
 	<system.web>
 		<compilation debug="true" targetFramework="4.0" />
 		<customErrors mode="Off" />
@@ -11,49 +8,37 @@
 		<sessionState mode="InProc" cookieless="false" timeout="240" />
 		<identity impersonate="false" />
 	</system.web>
-	<log4net debug="true">
-		<root>
-			<level value="WARN" />
-			<appender-ref ref="LeAppender" />
-		</root>
-		<appender name="LeAppender" type="log4net.Appender.LeAppender, LeLog4net">
-			<Key value="6b421e41-7cbb-4016-a92b-7de9ab608c74" />
-			<Location value="AppHarbor/LoesRandazzo" />
-			<Debug value="true" />
-			<layout type="log4net.Layout.PatternLayout">
-				<param name="ConversionPattern" value="%d{ddd MMM dd HH:mm:ss zzz yyyy} %logger %: %level%, %m" />
-			</layout>
-		</appender>
-	</log4net>
 	<appSettings>
 		<add key="APPLICATION_IS_LIVE" value="false" />
 		<add key="REPOSITORY_NAMESPACE" value="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.xsd" />
-		<add key="SQLSERVER_CONNECTION_STRING" value="Server=TRILOBYTE-02\SQLEXPRESS;Database=LoesRandazzoWebsite;User ID=sa;Password=sqlpw1" />
-		<add key="AWS_ACCESS_KEY" value="AKIAIW3LOR45TOGMIXWA" />
-		<add key="AWS_ACCESS_SECRET" value="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" />
-		<add key="AWS_BUCKET_NAME" value="premotion-test-bucket" />
+		<add key="SQLSERVER_CONNECTION_STRING" value="TODO" />
+		<add key="AWS_ACCESS_KEY" value="TODO" />
+		<add key="AWS_ACCESS_SECRET" value="TODO" />
+		<add key="AWS_BUCKET_NAME" value="TODO" />
 	</appSettings>
 	<system.webServer>
 		<modules>
-			<remove name="MansionOutputCacheModule" />
-			<remove name="MansionReWriteModule" />
-			<add name="MansionOutputCacheModule" type="Premotion.Mansion.Web.Http.HttpOutputCacheModule, Premotion.Mansion.Web" />
-			<add name="MansionReWriteModule" type="Premotion.Mansion.Web.Http.PathRewriterModule, Premotion.Mansion.Web" />
+			<remove name="ContextFactoryModule" />
+			<add name="ContextFactoryModule" type="Premotion.Mansion.Web.Http.ContextFactoryHttpModule, Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral" />
+			<remove name="OutputCacheModule" />
+			<add name="OutputCacheModule" type="Premotion.Mansion.Web.Http.OutputCacheHttpModule, Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral" />
+			<remove name="PathRewriterModule" />
+			<add name="PathRewriterModule" type="Premotion.Mansion.Web.Http.PathRewriterHttpModule, Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral" />
 		</modules>
 		<handlers>
 			<remove name="MansionScriptHandler" />
+			<add name="MansionScriptHandler" path="*.xts" verb="*" type="Premotion.Mansion.Web.Http.ScriptHttpHttpHandler, Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral" />
 			<remove name="MansionStaticResourceHandler" />
+			<add name="MansionStaticResourceHandler" path="Static.Application.Resource" verb="GET" type="Premotion.Mansion.Web.Http.StaticResourceHttpHandler, Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral" />
 			<remove name="MansionDynamicResourceHandler" />
+			<add name="MansionDynamicResourceHandler" path="Dynamic.Application.Resource" verb="GET" type="Premotion.Mansion.Web.Http.DynamicResourceHttpHandler, Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral" />
 			<remove name="MansionMergeResourceHandler" />
+			<add name="MansionMergeResourceHandler" path="Merge.Application.Resource" verb="GET" type="Premotion.Mansion.Web.Http.MergeResourceHttpHandler, Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral" />
 			<remove name="MansionStaticContentHandler" />
+			<add name="MansionStaticContentHandler" path="Static.Content" verb="GET" type="Premotion.Mansion.Web.Http.StaticContentHttpHandler, Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral" />
 			<remove name="MansionStreamingStaticContentHandler" />
-			<remove name="MansionCKFinderConnectorHttpHandler" />
-			<add name="MansionScriptHandler" path="*.xts" verb="*" type="Premotion.Mansion.Web.Http.MansionScriptHttpHandler, Premotion.Mansion.Web" />
-			<add name="MansionStaticResourceHandler" path="Static.Application.Resource" verb="GET" type="Premotion.Mansion.Web.Http.StaticResourceHttpHandler, Premotion.Mansion.Web" />
-			<add name="MansionDynamicResourceHandler" path="Dynamic.Application.Resource" verb="GET" type="Premotion.Mansion.Web.Http.DynamicResourceHttpHandler, Premotion.Mansion.Web" />
-			<add name="MansionMergeResourceHandler" path="Merge.Application.Resource" verb="GET" type="Premotion.Mansion.Web.Http.MergeResourceHttpHandler, Premotion.Mansion.Web" />
-			<add name="MansionStaticContentHandler" path="Static.Content" verb="GET" type="Premotion.Mansion.Web.Http.StaticContentHttpHandler, Premotion.Mansion.Web" />
 			<add name="MansionStreamingStaticContentHandler" path="Streaming.Static.Content" verb="GET" type="Premotion.Mansion.Web.Http.StreamingStaticContentHttpHandler, Premotion.Mansion.Web" />
+			<remove name="MansionCKFinderConnectorHttpHandler" />
 			<add name="MansionCKFinderConnectorHttpHandler" path="CKFinder.Connector" verb="GET,POST" type="Premotion.Mansion.Web.CKFinderConnector.ConnectorHttpHandler, Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral" />
 		</handlers>
 		<httpErrors>

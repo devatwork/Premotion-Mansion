@@ -16,7 +16,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 		/// <param name="orginalType"></param>
 		/// <param name="targetType"></param>
 		/// <returns></returns>
-		public bool Evaluate(MansionContext context, ITypeDefinition orginalType, ITypeDefinition targetType)
+		public bool Evaluate(IMansionContext context, ITypeDefinition orginalType, ITypeDefinition targetType)
 		{
 			// valdidate arguments
 			if (context == null)

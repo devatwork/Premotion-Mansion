@@ -1,10 +1,10 @@
 ﻿using System;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.IO.Memory;
 using Premotion.Mansion.Core.Scripting;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
+using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Templating;
 
 namespace Premotion.Mansion.Web.Controls.Grid
@@ -18,27 +18,45 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		/// <summary>
 		/// Constructs <see cref="ExpressionColumn"/>s/
 		/// </summary>
-		[Named(Constants.ControlTagNamespaceUri, "expressionColumn")]
+		[ScriptTag(Constants.ControlTagNamespaceUri, "expressionColumn")]
 		public class ExpressionColumnFactoryTag : ColumnFactoryTag
 		{
+			#region Constructors
+			/// <summary>
+			/// 
+			/// </summary>
+			/// <param name="expressionScriptService"></param>
+			/// <exception cref="ArgumentNullException"></exception>
+			public ExpressionColumnFactoryTag(IExpressionScriptService expressionScriptService)
+			{
+				// validate arguments
+				if (expressionScriptService == null)
+					throw new ArgumentNullException("expressionScriptService");
+
+				//set values
+				this.expressionScriptService = expressionScriptService;
+			}
+			#endregion
 			#region Overrides of ColumnFactoryTag
 			/// <summary>
 			/// Create a <see cref="Column"/> instance.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <returns>Returns the created <see cref="Column"/>.</returns>
-			protected override Column Create(MansionWebContext context)
+			protected override Column Create(IMansionWebContext context)
 			{
 				// get the column properties
 				var properties = GetAttributes(context);
 
 				// parse into an expression
-				var expressionService = context.Nucleus.Get<IExpressionScriptService>(context);
-				var expression = expressionService.Parse(context, new LiteralResource(GetRequiredAttribute<string>(context, "expression")));
+				var expression = expressionScriptService.Parse(context, new LiteralResource(GetRequiredAttribute<string>(context, "expression")));
 
 				// create the column))
 				return new ExpressionColumn(properties, expression);
 			}
+			#endregion
+			#region Private Fields
+			private readonly IExpressionScriptService expressionScriptService;
 			#endregion
 		}
 		#endregion
@@ -62,11 +80,11 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		/// <summary>
 		/// Renders a cell of this column.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
 		/// <param name="data">The <see cref="Dataset"/> rendered in this column.</param>
 		/// <param name="row">The being rendered.</param>
-		protected override void DoRenderCell(MansionWebContext context, ITemplateService templateService, Dataset data, IPropertyBag row)
+		protected override void DoRenderCell(IMansionWebContext context, ITemplateService templateService, Dataset data, IPropertyBag row)
 		{
 			// create the cell properties
 			var cellProperties = new PropertyBag

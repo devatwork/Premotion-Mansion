@@ -23,7 +23,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Converters
 		/// <param name="command"></param>
 		/// <param name="queryBuilder"></param>
 		/// <param name="clause">The clause.</param>
-		protected override void Map(IContext context, Schema schema, SqlCommand command, SqlStringBuilder queryBuilder, BaseTypeClause clause)
+		protected override void Map(IMansionContext context, Schema schema, SqlCommand command, SqlStringBuilder queryBuilder, BaseTypeClause clause)
 		{
 			// loop through all the types
 			var buffer = new StringBuilder();

@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
+using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Templating;
 using Premotion.Mansion.Web.Controls.Forms.Engines;
 
@@ -17,16 +17,16 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Factory for <see cref="Form"/>s.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "form")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "form")]
 		public class FormFactoryTag : FormControlFactoryTag<Form>
 		{
 			#region Overrides of ControlFactoryTag<Form>
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override Form Create(MansionWebContext context, ControlDefinition definition)
+			protected override Form Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				// validate required attributes
 				GetRequiredAttribute<string>(context, "name");
@@ -63,8 +63,8 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Manages the lifecycle of this form and renders itself.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
-		protected override void DoProcess(MansionWebContext context)
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+		protected override void DoProcess(IMansionWebContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -124,8 +124,8 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Initializes this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
-		protected override void DoInitialize(MansionWebContext context)
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+		protected override void DoInitialize(IMansionWebContext context)
 		{
 			base.DoInitialize(context);
 
@@ -143,9 +143,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Render this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		protected override void DoRender(MansionWebContext context, ITemplateService templateService)
+		protected override void DoRender(IMansionWebContext context, ITemplateService templateService)
 		{
 			// only render active step
 			using (templateService.Render(context, GetType().Name + "Control"))
@@ -165,10 +165,10 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Validates the state of this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> to which this control belongs.</param>
 		/// <param name="results">The <see cref="ValidationResults"/> in which the validation results are stored.</param>
-		protected override void DoValidate(MansionWebContext context, Form form, ValidationResults results)
+		protected override void DoValidate(IMansionWebContext context, Form form, ValidationResults results)
 		{
 			// loop over all the controls
 			form.State.CurrentStep.Validate(context, form, results);
@@ -182,9 +182,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Sets the next <paramref name="step"/> on this form.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="step">The <see cref="Step"/> which to set;</param>
-		public void SetNextStep(MansionWebContext context, Step step)
+		public void SetNextStep(IMansionWebContext context, Step step)
 		{
 			// validate arguments
 			if (context == null)

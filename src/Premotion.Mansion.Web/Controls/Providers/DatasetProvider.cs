@@ -43,9 +43,9 @@ namespace Premotion.Mansion.Web.Controls.Providers
 				/// <summary>
 				/// Retrieves the data from this provider.
 				/// </summary>
-				/// <param name="context">The <see cref="MansionContext"/>.</param>
+				/// <param name="context">The <see cref="IMansionContext"/>.</param>
 				/// <returns>Returns the retrieve data.</returns>
-				protected override Dataset DoRetrieve(MansionContext context)
+				protected override Dataset DoRetrieve(IMansionContext context)
 				{
 					return provider.DoRetrieve(context);
 				}
@@ -59,9 +59,9 @@ namespace Premotion.Mansion.Web.Controls.Providers
 			/// <summary>
 			/// Ibjects the <paramref name="provider"/> into the proper consumer.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="provider">The <typeparamref name="TProviderType"/>.</param>
-			protected override void InjectProviderInConsumer(MansionWebContext context, TProviderType provider)
+			protected override void InjectProviderInConsumer(IMansionWebContext context, TProviderType provider)
 			{
 				// try to inject using the native format
 				IDataConsumerControl<TProviderType, TDatasetType> nativeConsumer;

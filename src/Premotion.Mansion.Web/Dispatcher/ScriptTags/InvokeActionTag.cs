@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.IO;
 using Premotion.Mansion.Core.Scripting;
@@ -13,15 +12,39 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 	/// <summary>
 	/// Invokes an action on a controllers.
 	/// </summary>
-	[Named(Constants.TagNamespaceUri, "invokeAction")]
+	[ScriptTag(Constants.TagNamespaceUri, "invokeAction")]
 	public class InvokeActionTag : ScriptTag
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="applicationResourceService"></param>
+		/// <param name="tagScriptService"></param>
+		/// <param name="templateService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public InvokeActionTag(IApplicationResourceService applicationResourceService, ITagScriptService tagScriptService, ITemplateService templateService)
+		{
+			// validate arguments
+			if (applicationResourceService == null)
+				throw new ArgumentNullException("applicationResourceService");
+			if (tagScriptService == null)
+				throw new ArgumentNullException("tagScriptService");
+			if (templateService == null)
+				throw new ArgumentNullException("templateService");
+
+			// set values
+			this.applicationResourceService = applicationResourceService;
+			this.tagScriptService = tagScriptService;
+			this.templateService = templateService;
+		}
+		#endregion
 		#region Overrides of ScriptTag
 		/// <summary>
 		/// Executes this tag.
 		/// </summary>
 		/// <param name="context">The <see cref="MansionContext"/>.</param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
 			// get the parameters
 			var route = GetRequiredAttribute<IPropertyBag>(context, "route");
@@ -49,7 +72,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 		/// <param name="areaName">The name of the area in which the controller lives.</param>
 		/// <param name="controllerName">The name of the controller.</param>
 		/// <param name="actionName">The name of the action which to invoke.</param>
-		private static void RouteToControllerAction(MansionContext context, IPropertyBag route, string areaName, string controllerName, string actionName)
+		private void RouteToControllerAction(IMansionContext context, IPropertyBag route, string areaName, string controllerName, string actionName)
 		{
 			// validate arguments
 			if (context == null)
@@ -68,36 +91,31 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 			route.Set("controller", controllerName);
 			route.Set("action", actionName);
 
-			// get the services
-			var resourceService = context.Nucleus.Get<IApplicationResourceService>(context);
-			var scriptService = context.Nucleus.Get<ITagScriptService>(context);
-			var templateService = context.Nucleus.Get<ITemplateService>(context);
-
 			// get the paths
-			var scriptResourcePath = resourceService.ParsePath(context, new PropertyBag
-			                                                            {
-			                                                            	{"path", areaName + "/" + controllerName + "Controller.xinclude"},
-			                                                            	{"overridable", true}
-			                                                            });
-			var templateResourcePath = resourceService.ParsePath(context, new PropertyBag
-			                                                              {
-			                                                              	{"path", areaName + "/" + controllerName + "Controller.htm"},
-			                                                              	{"overridable", true}
-			                                                              });
+			var scriptResourcePath = applicationResourceService.ParsePath(context, new PropertyBag
+			                                                                       {
+			                                                                       	{"path", areaName + "/" + controllerName + "Controller.xinclude"},
+			                                                                       	{"overridable", true}
+			                                                                       });
+			var templateResourcePath = applicationResourceService.ParsePath(context, new PropertyBag
+			                                                                         {
+			                                                                         	{"path", areaName + "/" + controllerName + "Controller.htm"},
+			                                                                         	{"overridable", true}
+			                                                                         });
 
 			// get the resources and check if controller does not exist
 			IEnumerable<IResource> scriptResources;
-			if (!resourceService.TryGet(context, scriptResourcePath, out scriptResources))
+			if (!applicationResourceService.TryGet(context, scriptResourcePath, out scriptResources))
 			{
 				// controller script not found
 				RouteTo404Controller(context, route, string.Empty, "404", "NotFound");
 				return;
 			}
 			IEnumerable<IResource> templateResources;
-			resourceService.TryGet(context, templateResourcePath, out templateResources);
+			applicationResourceService.TryGet(context, templateResourcePath, out templateResources);
 
 			// open the resources
-			using (scriptService.Open(context, scriptResources))
+			using (tagScriptService.Open(context, scriptResources))
 			using (templateService.Open(context, templateResources))
 			{
 				// check if action does not exist
@@ -133,7 +151,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 		/// <param name="areaName">The name of the area in which the controller lives.</param>
 		/// <param name="controllerName">The name of the controller.</param>
 		/// <param name="actionName">The name of the action which to invoke.</param>
-		private static void RouteTo404Controller(MansionContext context, IPropertyBag route, string areaName, string controllerName, string actionName)
+		private void RouteTo404Controller(IMansionContext context, IPropertyBag route, string areaName, string controllerName, string actionName)
 		{
 			// validate arguments
 			if (context == null)
@@ -150,7 +168,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 			// guard against endless routing
 			if ("404".Equals(controllerName))
 			{
-				var webContext = context.Cast<MansionWebContext>();
+				var webContext = context.Cast<IMansionWebContext>();
 				webContext.HttpContext.Response.StatusCode = 404;
 				context.BreakExecution = true;
 				return;
@@ -159,6 +177,11 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 			// route to controller
 			RouteToControllerAction(context, route, string.Empty, "404", "NotFound");
 		}
+		#endregion
+		#region Private Fields
+		private readonly IApplicationResourceService applicationResourceService;
+		private readonly ITagScriptService tagScriptService;
+		private readonly ITemplateService templateService;
 		#endregion
 	}
 }

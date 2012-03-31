@@ -15,7 +15,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Date
 		/// <returns></returns>
 		/// <param name="timeSpan"></param>
 		/// <param name="part"></param>
-		public double Evaluate(MansionContext context, TimeSpan timeSpan, string part)
+		public double Evaluate(IMansionContext context, TimeSpan timeSpan, string part)
 		{
 			// validate arguments
 			if (context == null)

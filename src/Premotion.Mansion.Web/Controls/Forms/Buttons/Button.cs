@@ -1,4 +1,4 @@
-﻿using Premotion.Mansion.Core.Attributes;
+﻿using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Buttons
 {
@@ -11,16 +11,16 @@ namespace Premotion.Mansion.Web.Controls.Forms.Buttons
 		/// <summary>
 		/// Factory for <see cref="Button"/>s.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "button")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "button")]
 		public class ButtonFactoryTag : FormControlFactoryTag<Button>
 		{
 			#region Overrides of ControlFactoryTag<Form>
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override Button Create(MansionWebContext context, ControlDefinition definition)
+			protected override Button Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				// check required values
 				GetRequiredAttribute<string>(context, "action");

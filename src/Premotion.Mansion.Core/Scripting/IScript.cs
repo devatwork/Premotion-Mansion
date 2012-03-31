@@ -9,17 +9,17 @@
 		/// <summary>
 		/// Executes this script.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <exception cref="ScriptExecutionException">Thrown when an exception occured while executing this script.</exception>
-		void Execute(MansionContext context);
+		void Execute(IMansionContext context);
 		/// <summary>
 		/// Executes this script.
 		/// </summary>
 		/// <typeparam name="TResult">The result type.</typeparam>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the result of this script expression.</returns>
 		/// <exception cref="ScriptExecutionException">Thrown when an exception occured while executing this script.</exception>
-		TResult Execute<TResult>(MansionContext context);
+		TResult Execute<TResult>(IMansionContext context);
 		#endregion
 	}
 }

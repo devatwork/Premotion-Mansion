@@ -17,7 +17,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Date
 		/// <param name="years"></param>
 		/// <param name="months"></param>
 		/// <param name="days"></param>
-		public DateTime Evaluate(MansionContext context, DateTime input, int years, int months, int days)
+		public DateTime Evaluate(IMansionContext context, DateTime input, int years, int months, int days)
 		{
 			// validate arguments
 			if (context == null)

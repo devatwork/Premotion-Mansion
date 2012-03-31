@@ -13,11 +13,11 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 		/// <summary>
 		/// Changes the value of an attribute in the query string.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="url">The <see cref="Uri"/> which to change.</param>
 		/// <param name="dataspace">The <see cref="IPropertyBag"/> which to add to the query string.</param>
 		/// <returns>The <see cref="Uri"/> with the modified query string.</returns>
-		public Uri Evaluate(MansionContext context, Uri url, IPropertyBag dataspace)
+		public Uri Evaluate(IMansionContext context, Uri url, IPropertyBag dataspace)
 		{
 			// validate arguments
 			if (context == null)

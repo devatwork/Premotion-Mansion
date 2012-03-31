@@ -47,8 +47,8 @@ namespace Premotion.Mansion.Core.Templating
 		/// <summary>
 		/// Gets the name of this section.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
-		public string GetName(IContext context)
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		public string GetName(IMansionContext context)
 		{
 			// validate argument
 			if (context == null)
@@ -60,8 +60,8 @@ namespace Premotion.Mansion.Core.Templating
 		/// <summary>
 		/// Gets the target field to which this section is rendered.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
-		public string GetTargetField(IContext context)
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		public string GetTargetField(IMansionContext context)
 		{
 			// validate argument
 			if (context == null)
@@ -73,9 +73,9 @@ namespace Premotion.Mansion.Core.Templating
 		/// <summary>
 		/// Checks whether this section is required or not.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns true when this section is required, otherwise false.</returns>
-		public bool AreRequirementsSatified(MansionContext context)
+		public bool AreRequirementsSatified(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -87,7 +87,7 @@ namespace Premotion.Mansion.Core.Templating
 				return true;
 
 			// assemble the expression
-			var expressionService = context.Nucleus.Get<IExpressionScriptService>(context);
+			var expressionService = context.Nucleus.ResolveSingle<IExpressionScriptService>();
 			var requiresExpression = expressionService.Parse(context, new LiteralResource(requiresExpressionString));
 
 			// execute the expression

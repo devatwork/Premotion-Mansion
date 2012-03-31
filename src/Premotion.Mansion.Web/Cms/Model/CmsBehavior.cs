@@ -24,10 +24,10 @@ namespace Premotion.Mansion.Web.Cms.Model
 		/// <summary>
 		/// Creates an instance of <see cref="CmsBehavior"/> from the <paramref name="descriptor"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="descriptor">The <see cref="CmsBehaviorDescriptor"/> from which to extract the behavoir.</param>
 		/// <returns>Returns the <see cref="CmsBehavior"/> instance.</returns>
-		public static CmsBehavior Create(MansionContext context, CmsBehaviorDescriptor descriptor)
+		public static CmsBehavior Create(IMansionContext context, CmsBehaviorDescriptor descriptor)
 		{
 			// validate arguments
 			if (context == null)
@@ -66,9 +66,9 @@ namespace Premotion.Mansion.Web.Cms.Model
 		/// <summary>
 		/// Gets the allowed child <see cref="ITypeDefinition"/> based on the <paramref name="context"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the allowed child <see cref="ITypeDefinition"/>.</returns>
-		public IEnumerable<ITypeDefinition> GetAllowedChildTypes(MansionContext context)
+		public IEnumerable<ITypeDefinition> GetAllowedChildTypes(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)

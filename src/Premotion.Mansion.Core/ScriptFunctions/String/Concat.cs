@@ -15,7 +15,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.String
 		/// <param name="one"></param>
 		/// <param name="two"></param>
 		/// <returns></returns>
-		public string Evaluate(MansionContext context, string one, string two)
+		public string Evaluate(IMansionContext context, string one, string two)
 		{
 			// validate arguments
 			if (context == null)
@@ -30,7 +30,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.String
 		/// <param name="two"></param>
 		/// <param name="three"></param>
 		/// <returns></returns>
-		public string Evaluate(MansionContext context, string one, string two, string three)
+		public string Evaluate(IMansionContext context, string one, string two, string three)
 		{
 			// validate arguments
 			if (context == null)

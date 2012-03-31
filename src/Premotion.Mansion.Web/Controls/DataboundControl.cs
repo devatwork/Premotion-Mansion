@@ -37,9 +37,9 @@ namespace Premotion.Mansion.Web.Controls
 		/// <summary>
 		/// Gets the data bound to this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the data in form of <typeparamref name="TDataType"/>.</returns>
-		protected TDataType Retrieve(MansionContext context)
+		protected TDataType Retrieve(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)

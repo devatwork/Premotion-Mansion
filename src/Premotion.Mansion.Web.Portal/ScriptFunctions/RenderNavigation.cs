@@ -19,6 +19,26 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 	[ScriptFunction("renderNavigation")]
 	public class RenderNavigation : FunctionExpression
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="applicationResourceService"></param>
+		/// <param name="templateService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public RenderNavigation(IApplicationResourceService applicationResourceService, ITemplateService templateService)
+		{
+			//  validate arguments
+			if (applicationResourceService == null)
+				throw new ArgumentNullException("applicationResourceService");
+			if (templateService == null)
+				throw new ArgumentNullException("templateService");
+
+			// set values
+			this.applicationResourceService = applicationResourceService;
+			this.templateService = templateService;
+		}
+		#endregion
 		#region Nested Type: Leaf
 		/// <summary>
 		/// Represents a leaf within the navigation tree.
@@ -44,7 +64,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 			/// <param name="navigationNode"></param>
 			/// <param name="parentLeaf"></param>
 			/// <returns></returns>
-			public static Leaf Create(MansionContext context, Node navigationNode, Leaf parentLeaf = null)
+			public static Leaf Create(IMansionContext context, Node navigationNode, Leaf parentLeaf = null)
 			{
 				// validate arguments
 				if (context == null)
@@ -141,10 +161,10 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 		/// <summary>
 		/// Renders a navigation tree.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="navigationNode">Root <see cref="Node"/> of the navigation tree.</param>
 		/// <returns>Returns the HTML of the navigation tree.</returns>
-		public string Evaluate(MansionContext context, Node navigationNode)
+		public string Evaluate(IMansionContext context, Node navigationNode)
 		{
 			// validate arguments
 			if (context == null)
@@ -172,7 +192,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 		/// <param name="context"></param>
 		/// <param name="navigationNode"></param>
 		/// <returns></returns>
-		private static Nodeset RetrieveNavigationItemNodeset(MansionContext context, Node navigationNode)
+		private static Nodeset RetrieveNavigationItemNodeset(IMansionContext context, Node navigationNode)
 		{
 			var repository = context.Repository;
 			var navigationItemQuery = repository.ParseQuery(context, new PropertyBag
@@ -195,7 +215,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 		/// <param name="navigationItemNodeset"></param>
 		/// <param name="currentPagePointer"></param>
 		/// <returns></returns>
-		private Leaf BuildTreeStructure(MansionContext context, Node navigationNode, Nodeset navigationItemNodeset, NodePointer currentPagePointer)
+		private Leaf BuildTreeStructure(IMansionContext context, Node navigationNode, Nodeset navigationItemNodeset, NodePointer currentPagePointer)
 		{
 			// first sort the set by depth ASC, than order ASC
 			var sortedSet = navigationItemNodeset.Nodes.OrderBy(x => x, new ComparisonComparer<Node>((x, y) =>
@@ -245,29 +265,23 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 		/// <param name="context"></param>
 		/// <param name="navigationTree"></param>
 		/// <returns></returns>
-		private string RenderNavigationTree(MansionContext context, Leaf navigationTree)
+		private string RenderNavigationTree(IMansionContext context, Leaf navigationTree)
 		{
 			// create a buffer in which to store the output
 			var templateBuffer = new StringBuilder();
 			using (var templateBufferPipe = new StringOutputPipe(templateBuffer))
 			using (context.OutputPipeStack.Push(templateBufferPipe))
-			{
-				// get the template service
-				var templateService = context.Nucleus.Get<ITemplateService>(context);
-				var resourceService = context.Nucleus.Get<IApplicationResourceService>(context);
-
 				// render the main navigation section
-				using (context.Stack.Push("NavigationNode", navigationTree.Node, false))
-				using (templateService.Open(context, resourceService.Get(context, resourceService.ParsePath(context, new PropertyBag
-				                                                                                                     {
-				                                                                                                     	{"type", navigationTree.Node.Pointer.Type},
-				                                                                                                     	{"extension", TemplateServiceConstants.DefaultTemplateExtension}
-				                                                                                                     }))))
-				using (templateService.Render(context, "NavigationRoot", TemplateServiceConstants.OutputTargetField))
-				{
-					// render the leafs recursively
-					RenderLeafs(context, templateService, resourceService, navigationTree.Children);
-				}
+			using (context.Stack.Push("NavigationNode", navigationTree.Node, false))
+			using (templateService.Open(context, applicationResourceService.Get(context, applicationResourceService.ParsePath(context, new PropertyBag
+			                                                                                                                           {
+			                                                                                                                           	{"type", navigationTree.Node.Pointer.Type},
+			                                                                                                                           	{"extension", TemplateServiceConstants.DefaultTemplateExtension}
+			                                                                                                                           }))))
+			using (templateService.Render(context, "NavigationRoot", TemplateServiceConstants.OutputTargetField))
+			{
+				// render the leafs recursively
+				RenderLeafs(context, navigationTree.Children);
 			}
 
 			// return the contents of the buffer
@@ -277,10 +291,8 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 		/// Renders the leaf recursively.
 		/// </summary>
 		/// <param name="context"></param>
-		/// <param name="templateService"></param>
-		/// <param name="resourceService"></param>
 		/// <param name="leafs"></param>
-		private void RenderLeafs(MansionContext context, ITemplateService templateService, IApplicationResourceService resourceService, IEnumerable<Leaf> leafs)
+		private void RenderLeafs(IMansionContext context, IEnumerable<Leaf> leafs)
 		{
 			// loop over all the leafs
 			foreach (var leaf in leafs)
@@ -288,11 +300,11 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 				// render the sections
 				using (context.Stack.Push("NavigationItemNode", leaf.Node, false))
 				using (context.Stack.Push("NavigationItemProperties", PropertyBagAdapterFactory.Adapt(context, leaf), false))
-				using (templateService.Open(context, resourceService.Get(context, resourceService.ParsePath(context, new PropertyBag
-				                                                                                                     {
-				                                                                                                     	{"type", leaf.Node.Pointer.Type},
-				                                                                                                     	{"extension", TemplateServiceConstants.DefaultTemplateExtension}
-				                                                                                                     }))))
+				using (templateService.Open(context, applicationResourceService.Get(context, applicationResourceService.ParsePath(context, new PropertyBag
+				                                                                                                                           {
+				                                                                                                                           	{"type", leaf.Node.Pointer.Type},
+				                                                                                                                           	{"extension", TemplateServiceConstants.DefaultTemplateExtension}
+				                                                                                                                           }))))
 				using (templateService.Render(context, "NavigationItem"))
 				{
 					// if the leaf has children of it's own render them
@@ -301,12 +313,16 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 						using (templateService.Render(context, "SubNavigationItem"))
 						{
 							// render the leafs recursively
-							RenderLeafs(context, templateService, resourceService, leaf.Children);
+							RenderLeafs(context, leaf.Children);
 						}
 					}
 				}
 			}
 		}
+		#endregion
+		#region Private Fields
+		private readonly IApplicationResourceService applicationResourceService;
+		private readonly ITemplateService templateService;
 		#endregion
 	}
 }

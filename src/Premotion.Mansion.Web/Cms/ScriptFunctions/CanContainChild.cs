@@ -16,10 +16,10 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 		/// <summary>
 		/// Gets the label of a particular <paramref name="parentType"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="parentType">The <see cref="ITypeDefinition"/> which to check for.</param>
 		/// <param name="childType">The <see cref="ITypeDefinition"/> which to check on.</param>
-		public bool Evaluate(MansionContext context, ITypeDefinition parentType, ITypeDefinition childType)
+		public bool Evaluate(IMansionContext context, ITypeDefinition parentType, ITypeDefinition childType)
 		{
 			// validate arguments
 			if (context == null)

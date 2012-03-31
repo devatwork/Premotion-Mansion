@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
+
+	<!-- main entry method for blocks -->
+	<declareProcedure procedureName="RenderBlock">
+		<renderSection name="{BlockProperties.type}" />
+	</declareProcedure>
+	
+</mansion>

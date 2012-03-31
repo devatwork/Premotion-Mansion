@@ -10,7 +10,7 @@ namespace Premotion.Mansion.Web.Mail
 	public static class Extensions
 	{
 		#region Constants
-		private static readonly char[] addressSeparators = new[] {',', ';'};
+		private static readonly char[] AddressSeparators = new[] {',', ';'};
 		#endregion
 		#region MailAddressCollection Extensions
 		/// <summary>
@@ -34,8 +34,8 @@ namespace Premotion.Mansion.Web.Mail
 				return;
 
 			// split the addresses and display names
-			var addresses = addressString.Split(addressSeparators).Select(x => x.Trim()).ToArray();
-			var displayNames = displayNameString.Split(addressSeparators).Select(x => x.Trim()).ToArray();
+			var addresses = addressString.Split(AddressSeparators).Select(x => x.Trim()).ToArray();
+			var displayNames = displayNameString.Split(AddressSeparators).Select(x => x.Trim()).ToArray();
 
 			// generate empty display names when no display names are provided
 			if (displayNames.Length == 0 || addresses.Length > 0)

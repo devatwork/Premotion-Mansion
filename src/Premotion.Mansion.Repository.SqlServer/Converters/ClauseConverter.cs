@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data.SqlClient;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Patterns.Voting;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
 
@@ -12,7 +12,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Converters
 	/// Base class for all converters.
 	///</summary>
 	/// <typeparam name="TClauseType">The type of clause.</typeparam>
-	[Exported]
+	[Exported(typeof (IClauseConverter))]
 	public abstract class ClauseConverter<TClauseType> : IClauseConverter where TClauseType : NodeQueryClause
 	{
 		#region Vote Methods
@@ -22,7 +22,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Converters
 		/// <param name="applicationContext">The application context.</param>
 		/// <param name="subject">The subject.</param>
 		/// <returns>Returns the result of the vote.</returns>
-		public VoteResult Vote(IContext applicationContext, NodeQueryClause subject)
+		public VoteResult Vote(IMansionContext applicationContext, NodeQueryClause subject)
 		{
 			// validate arguments
 			if (applicationContext == null)
@@ -43,7 +43,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Converters
 		/// <param name="command"></param>
 		/// <param name="queryBuilder"></param>
 		/// <param name="clause">The clause.</param>
-		public void Map(IContext context, Schema schema, SqlCommand command, SqlStringBuilder queryBuilder, NodeQueryClause clause)
+		public void Map(IMansionContext context, Schema schema, SqlCommand command, SqlStringBuilder queryBuilder, NodeQueryClause clause)
 		{
 			// validate arguments
 			if (context == null)
@@ -71,7 +71,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Converters
 		/// <param name="command"></param>
 		/// <param name="queryBuilder"></param>
 		/// <param name="clause">The clause.</param>
-		protected abstract void Map(IContext context, Schema schema, SqlCommand command, SqlStringBuilder queryBuilder, TClauseType clause);
+		protected abstract void Map(IMansionContext context, Schema schema, SqlCommand command, SqlStringBuilder queryBuilder, TClauseType clause);
 		#endregion
 	}
 }

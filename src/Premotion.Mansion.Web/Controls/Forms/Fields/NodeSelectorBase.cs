@@ -24,9 +24,9 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override NodeSelectorBase Create(MansionWebContext context, ControlDefinition definition)
+			protected override NodeSelectorBase Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				// make sure the value property is set
 				string valueProperty;
@@ -57,9 +57,9 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected abstract NodeSelectorBase DoCreate(MansionWebContext context, ControlDefinition definition);
+			protected abstract NodeSelectorBase DoCreate(IMansionWebContext context, ControlDefinition definition);
 			#endregion
 		}
 		#endregion
@@ -76,9 +76,9 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// Initializes this form control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> to which this control belongs.</param>
-		protected override void DoInitialize(MansionWebContext context, Form form)
+		protected override void DoInitialize(IMansionWebContext context, Form form)
 		{
 			//  first allow base to initialize
 			base.DoInitialize(context, form);
@@ -111,9 +111,9 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// Render this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		protected override void DoRender(MansionWebContext context, ITemplateService templateService)
+		protected override void DoRender(IMansionWebContext context, ITemplateService templateService)
 		{
 			// create the selector properties
 			var selectorProperties = new PropertyBag(Definition.Properties.Where(x => x.Value != null && !propertyBlacklist.Contains(x.Key, StringComparer.OrdinalIgnoreCase)));

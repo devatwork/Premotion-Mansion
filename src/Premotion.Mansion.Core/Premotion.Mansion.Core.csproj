@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{06B62F70-9B04-4640-8D65-42D6A5CA230F}</ProjectGuid>
+    <ProjectGuid>{95DFBC37-6549-4BC0-AB9F-0F5D22D35926}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Premotion.Mansion.Core</RootNamespace>
@@ -20,24 +20,28 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Premotion.Mansion.Core.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Premotion.Mansion.Core.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE;bin\</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Premotion.Mansion.Core.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dynamo.Ioc">
+      <HintPath>..\packages\Dynamo.Ioc.1.0\lib\Dynamo.Ioc.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.1\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,8 +49,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\ExportedAttribute.cs" />
-    <Compile Include="Attributes\NamedAttribute.cs" />
     <Compile Include="Caching\CacheDependency.cs" />
     <Compile Include="Caching\CachedObject.cs" />
     <Compile Include="Caching\CacheKey.cs" />
@@ -67,9 +69,10 @@
     <Compile Include="Collections\PropertyBag.cs" />
     <Compile Include="Collections\PropertyBagAdapterFactory.cs" />
     <Compile Include="Collections\Sort.cs" />
-    <Compile Include="Context.cs" />
-    <Compile Include="ContextExtension.cs" />
-    <Compile Include="ContextExtensionNotFoundException.cs" />
+    <Compile Include="MansionContext.cs" />
+    <Compile Include="MansionContextDecorator.cs" />
+    <Compile Include="MansionContextExtensionNotFoundException.cs" />
+    <Compile Include="MansionContextExtension.cs" />
     <Compile Include="Conversion\ComparerBase.cs" />
     <Compile Include="Conversion\Comparers\ObjectComparer.cs" />
     <Compile Include="Conversion\Comparers\UriComparer.cs" />
@@ -140,7 +143,7 @@
     <Compile Include="Data\RepositoryDecorator.cs" />
     <Compile Include="Data\RepositoryUtil.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="IContext.cs" />
+    <Compile Include="IMansionContext.cs" />
     <Compile Include="IO\Csv\CsvFormat.cs" />
     <Compile Include="IO\Csv\CsvOutputFormat.cs" />
     <Compile Include="IO\Csv\CsvOutputPipe.cs" />
@@ -168,43 +171,22 @@
     <Compile Include="IO\Windows\WindowsContentResourceService.cs" />
     <Compile Include="IO\Xml\XmlOutputPipe.cs" />
     <Compile Include="IPropertyBag.cs" />
-    <Compile Include="MansionApplicationContext.cs" />
-    <Compile Include="MansionContext.cs" />
-    <Compile Include="Nucleus\AmbiguousServiceFoundException.cs" />
-    <Compile Include="Nucleus\Configuration\IConfigurableNucleus.cs" />
-    <Compile Include="Nucleus\Extension\IExtendedNucleus.cs" />
-    <Compile Include="Nucleus\Extension\IFacility.cs" />
-    <Compile Include="Nucleus\Extension\IServiceModel.cs" />
-    <Compile Include="Nucleus\Facilities\Dependencies\Dependency.cs" />
-    <Compile Include="Nucleus\Facilities\Dependencies\DependencyCheckerFacility.cs" />
-    <Compile Include="Nucleus\Facilities\Dependencies\DependencyModel.cs" />
-    <Compile Include="Nucleus\Facilities\Dependencies\IServiceWithDependencies.cs" />
-    <Compile Include="Nucleus\Facilities\Dependencies\MissingDependencyException.cs" />
-    <Compile Include="Nucleus\Facilities\FacilityBase.cs" />
-    <Compile Include="Nucleus\Facilities\Lifecycle\IManagedLifecycleService.cs" />
-    <Compile Include="Nucleus\Facilities\Lifecycle\ManagedLifecycleService.cs" />
-    <Compile Include="Nucleus\Facilities\Lifecycle\ServiceLifecycleManagementFacility.cs" />
-    <Compile Include="Nucleus\Facilities\Reflection\AssemblyModel.cs" />
-    <Compile Include="Nucleus\Facilities\Reflection\IAssemblyRegistrationService.cs" />
-    <Compile Include="Nucleus\Facilities\Reflection\IObjectFactoryService.cs" />
-    <Compile Include="Nucleus\Facilities\Reflection\ITypeDirectoryService.cs" />
-    <Compile Include="Nucleus\Facilities\Reflection\ReflectionFacility.cs" />
-    <Compile Include="Nucleus\Implementation\DefaultNucleus.cs" />
-    <Compile Include="Nucleus\Implementation\ServiceModel.cs" />
+    <Compile Include="Nucleus\AssemblyScanner.cs" />
+    <Compile Include="Nucleus\Dynamo\DynamoNucleusAdapter.cs" />
+    <Compile Include="Nucleus\ExportedAttribute.cs" />
+    <Compile Include="Nucleus\ApplicationBootstrapperBase.cs" />
+    <Compile Include="Nucleus\IConfigurableNucleus.cs" />
     <Compile Include="Nucleus\INucleus.cs" />
-    <Compile Include="Nucleus\INucleusAwareContext.cs" />
-    <Compile Include="Nucleus\InvalidServiceStateException.cs" />
-    <Compile Include="Nucleus\IOwnedNuclues.cs" />
-    <Compile Include="Nucleus\IService.cs" />
-    <Compile Include="Nucleus\NoServiceFoundException.cs" />
-    <Compile Include="Nucleus\NucleusContext.cs" />
-    <Compile Include="Nucleus\ServiceActivationException.cs" />
+    <Compile Include="Nucleus\NamedAttribute.cs" />
+    <Compile Include="Nucleus\StrongNameGenerator.cs" />
+    <Compile Include="Nucleus\NucleusBase.cs" />
     <Compile Include="Patterns\ComparisonComparer.cs" />
     <Compile Include="Patterns\Descriptors\DescripteeBase.cs" />
     <Compile Include="Patterns\Descriptors\Descriptor.cs" />
     <Compile Include="Patterns\Descriptors\DescriptorNotFoundException.cs" />
     <Compile Include="Patterns\Descriptors\IDescriptee.cs" />
     <Compile Include="Patterns\Descriptors\IDescriptor.cs" />
+    <Compile Include="Patterns\Descriptors\DescriptorAttribute.cs" />
     <Compile Include="Patterns\Descriptors\XmlDescriptorFactory.cs" />
     <Compile Include="Patterns\DisposableAction.cs" />
     <Compile Include="Patterns\DisposableBase.cs" />
@@ -309,6 +291,7 @@
     <Compile Include="Scripting\TagScript\AttributeNullException.cs" />
     <Compile Include="Scripting\TagScript\ITagScript.cs" />
     <Compile Include="Scripting\TagScript\ITagScriptService.cs" />
+    <Compile Include="Scripting\TagScript\ScriptTagAttribute.cs" />
     <Compile Include="Scripting\TagScript\ScriptTag.cs" />
     <Compile Include="Scripting\TagScript\ScriptTagException.cs" />
     <Compile Include="Scripting\TagScript\TagInfo.cs" />
@@ -425,7 +408,7 @@
     <Compile Include="Templating\StringBufferField.cs" />
     <Compile Include="Templating\Template.cs" />
     <Compile Include="Templating\TemplateServiceConstants.cs" />
-    <Compile Include="Types\Extensions.cs" />
+    <Compile Include="Types\TypeDescriptorAttribute.cs" />
     <Compile Include="Types\IPropertyDefinition.cs" />
     <Compile Include="Types\ITypeDefinition.cs" />
     <Compile Include="Types\ITypeService.cs" />
@@ -440,27 +423,22 @@
     <Compile Include="Types\Xml\XmlTypeService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Caching\Caching.cd" />
-    <None Include="Collections\Collections.cd" />
-    <None Include="Conversion\Conversion.cd" />
-    <None Include="Data\Data.cd" />
+    <None Include="Caching\Mansion.Core.Caching.cd" />
+    <None Include="Collections\Mansion.Core.Collections.cd" />
+    <None Include="Conversion\Mansion.Core.Conversion.cd" />
+    <None Include="Data\Mansion.Core.Data.cd" />
     <None Include="Data\Listeners\data.listeners.descriptors.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Data\Listeners\Listeners.cd" />
-    <None Include="IO\Resources.cd" />
-    <None Include="Nucleus\Configuration\Configuration.cd" />
-    <None Include="Nucleus\Extension\Extension.cd" />
-    <None Include="Nucleus\Facilities\Dependencies\Dependencies.cd" />
-    <None Include="Nucleus\Facilities\Lifecycle\Lifecycle.cd" />
-    <None Include="Nucleus\Facilities\Reflection\Reflection.cd" />
-    <None Include="Nucleus\Implementation\Implementation.cd" />
-    <None Include="Nucleus\Nucleus.cd" />
+    <None Include="Data\Listeners\Mansion.Core.Data.Listeners.cd" />
+    <None Include="IO\Mansoin.Core.IO.cd" />
+    <None Include="Mansion.Core.cd" />
+    <None Include="Nucleus\Mansion.Core.Nucleus.cd" />
     <None Include="packages.config" />
     <None Include="Premotion.Mansion.Core.nuspec" />
-    <None Include="Scripting\ExpressionScript\Expression Script.cd" />
-    <None Include="Scripting\Scripting.cd" />
-    <None Include="Scripting\TagScript\Tag Script.cd" />
+    <None Include="Scripting\ExpressionScript\Mansion.Core.ExpressionScript.cd" />
+    <None Include="Scripting\Mansion.Core.Scripting.cd" />
+    <None Include="Scripting\TagScript\Mansion.Core.TagScript.cd" />
     <None Include="ScriptTags\Boolean\stl.boolean.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -497,16 +475,14 @@
     <None Include="Security\Descriptors\security.descriptors.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Security\Security.cd" />
-    <None Include="Templating\Templating.cd" />
-    <None Include="Types\Types.cd" />
+    <None Include="Security\Mansion.Core.Security.cd" />
+    <None Include="Templating\Mansion.Core.Templating.cd" />
+    <None Include="Types\Mansion.Core.Types.cd" />
     <None Include="Types\Xml\type.definition.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Changelog.txt" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

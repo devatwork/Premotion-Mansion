@@ -34,10 +34,10 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Execute the <see cref="Action"/>s on this object..
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/>.</param>
 		/// <param name="step">The <see cref="Step"/>.</param>
-		protected static void ExecuteActions(MansionWebContext context, Form form, Step step)
+		protected static void ExecuteActions(IMansionWebContext context, Form form, Step step)
 		{
 			// validate arguments
 			if (context == null)
@@ -54,10 +54,10 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Execute the <see cref="Action"/>s on this object..
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/>.</param>
 		/// <param name="step">The <see cref="Step"/>.</param>
-		private void DoExecuteActions(MansionWebContext context, Form form, Step step)
+		private void DoExecuteActions(IMansionWebContext context, Form form, Step step)
 		{
 			// execute all actions
 			foreach (var action in actions)

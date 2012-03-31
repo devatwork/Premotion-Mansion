@@ -1,6 +1,5 @@
 ﻿using System;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Caching;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Web.Cms.Model;
@@ -10,43 +9,32 @@ namespace Premotion.Mansion.Web.Cms.Descriptors
 	/// <summary>
 	/// Describes the behavior of this type in the CMS.
 	/// </summary>
-	[Named(Constants.DescriptorNamespaceUri, "behavior")]
+	[TypeDescriptor(Constants.DescriptorNamespaceUri, "behavior")]
 	public class CmsBehaviorDescriptor : NestedTypeDescriptor
 	{
 		#region Constants
 		/// <summary>
 		/// Prefix for cache keys.
 		/// </summary>
-		private static readonly string cacheKeyPrefix = "ResponseTemplate_" + Guid.NewGuid() + "_";
-		#endregion
-		#region Constructors
-		/// <summary>
-		/// </summary>
-		/// <param name="namespaceUri">The namespace.</param>
-		/// <param name="name">The name of this descriptor.</param>
-		/// <param name="properties">The properties.</param>
-		/// <param name="typeDefinition">The <see cref="ITypeDefinition"/> to which this descriptor is applied.</param>
-		public CmsBehaviorDescriptor(string namespaceUri, string name, IPropertyBag properties, ITypeDefinition typeDefinition) : base(namespaceUri, name, properties, typeDefinition)
-		{
-		}
+		private static readonly string CacheKeyPrefix = "ResponseTemplate_" + Guid.NewGuid() + "_";
 		#endregion
 		#region Properties
 		/// <summary>
 		/// Gets the <see cref="CmsBehavior"/> of this descriptor.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the <see cref="CmsBehavior"/> of this descriptor.</returns>
-		public CmsBehavior GetBehavior(MansionContext context)
+		public CmsBehavior GetBehavior(IMansionContext context)
 		{
 			// validate argument
 			if (context == null)
 				throw new ArgumentNullException("context");
 
 			// create the cache key
-			var cacheKey = cacheKeyPrefix + TypeDefinition.Name;
+			var cacheKey = CacheKeyPrefix + TypeDefinition.Name;
 
 			// get the behavior from the cache or add it
-			var cachingService = context.Nucleus.Get<ICachingService>(context);
+			var cachingService = context.Nucleus.ResolveSingle<ICachingService>();
 			return cachingService.GetOrAdd(context, (StringCacheKey) cacheKey, () =>
 			                                                                   {
 			                                                                   	// get the behavior

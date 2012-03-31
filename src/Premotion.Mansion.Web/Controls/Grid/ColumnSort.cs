@@ -21,11 +21,11 @@ namespace Premotion.Mansion.Web.Controls.Grid
 			/// <summary>
 			/// Executes this tag.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionContext"/>.</param>
-			protected override void DoExecute(MansionContext context)
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
+			protected override void DoExecute(IMansionContext context)
 			{
 				// get the web context
-				var webContext = context.Cast<MansionWebContext>();
+				var webContext = context.Cast<IMansionWebContext>();
 
 				// get the column
 				Column column;
@@ -44,11 +44,11 @@ namespace Premotion.Mansion.Web.Controls.Grid
 			/// <summary>
 			/// Creates a <see cref="ColumnSort"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="column">The <see cref="Column"/> to which the sort is applied.</param>
 			/// <param name="properties">The properties of the filter.</param>
 			/// <returns>Returns the created <see cref="ColumnSort"/>.</returns>
-			protected abstract ColumnSort Create(MansionContext context, Column column, IPropertyBag properties);
+			protected abstract ColumnSort Create(IMansionContext context, Column column, IPropertyBag properties);
 			#endregion
 		}
 		#endregion
@@ -71,10 +71,10 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		/// <summary>
 		/// Renders this column sort.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
 		/// <param name="data">The <see cref="Dataset"/>.</param>
-		public void Render(MansionWebContext context, ITemplateService templateService, Dataset data)
+		public void Render(IMansionWebContext context, ITemplateService templateService, Dataset data)
 		{
 			// validate arguments
 			if (context == null)
@@ -90,10 +90,10 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		/// <summary>
 		/// Renders this column sort.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
 		/// <param name="data">The <see cref="Dataset"/>.</param>
-		protected abstract void DoRender(MansionWebContext context, ITemplateService templateService, Dataset data);
+		protected abstract void DoRender(IMansionWebContext context, ITemplateService templateService, Dataset data);
 		#endregion
 		#region Properties
 		/// <summary>

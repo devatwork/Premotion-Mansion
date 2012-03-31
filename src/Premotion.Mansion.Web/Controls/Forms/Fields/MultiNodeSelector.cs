@@ -1,5 +1,5 @@
-﻿using Premotion.Mansion.Core.Attributes;
-using Premotion.Mansion.Core.Data;
+﻿using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Fields
 {
@@ -12,16 +12,16 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// Constructs <see cref="MultiNodeSelector"/>s.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "multiNodeSelector")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "multiNodeSelector")]
 		public class NodeSelectorFactoryTag : NodeSelectorBaseFactoryTag
 		{
 			#region Overrides of NodeSelectorBaseFactoryTag
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override NodeSelectorBase DoCreate(MansionWebContext context, ControlDefinition definition)
+			protected override NodeSelectorBase DoCreate(IMansionWebContext context, ControlDefinition definition)
 			{
 				return new MultiNodeSelector(definition);
 			}

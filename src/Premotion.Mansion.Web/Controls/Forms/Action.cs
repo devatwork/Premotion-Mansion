@@ -19,11 +19,11 @@ namespace Premotion.Mansion.Web.Controls.Forms
 			/// <summary>
 			/// Executes this tag.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionContext"/>.</param>
-			protected override void DoExecute(MansionContext context)
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
+			protected override void DoExecute(IMansionContext context)
 			{
 				// get the mansion web context
-				var webContext = context.Cast<MansionWebContext>();
+				var webContext = context.Cast<IMansionWebContext>();
 
 				// get the properties of this control
 				var properties = GetAttributes(context);
@@ -42,10 +42,10 @@ namespace Premotion.Mansion.Web.Controls.Forms
 			/// <summary>
 			/// Creates an instance of the <see cref="Action"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="properties">The properties of the action.</param>
 			/// <returns>Returns the created <see cref="Action"/>.</returns>
-			protected abstract TAction Create(MansionWebContext context, IPropertyBag properties);
+			protected abstract TAction Create(IMansionWebContext context, IPropertyBag properties);
 			#endregion
 		}
 		#endregion
@@ -53,10 +53,10 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Executes this action.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/>.</param>
 		/// <param name="step">The <see cref="Step"/>.</param>
-		public void Execute(MansionWebContext context, Form form, Step step)
+		public void Execute(IMansionWebContext context, Form form, Step step)
 		{
 			// validate arguments
 			if (context == null)
@@ -75,20 +75,20 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Prepares the <paramref name="step"/> before the <paramref name="form"/> is rendered.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/>.</param>
 		/// <param name="step">The <see cref="Step"/>.</param>
-		protected virtual void Prepare(MansionWebContext context, Form form, Step step)
+		protected virtual void Prepare(IMansionWebContext context, Form form, Step step)
 		{
 			// do nothing
 		}
 		/// <summary>
 		/// Processes the <paramref name="step"/> after the <paramref name="form"/> is submitted back to the server with valid data.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/>.</param>
 		/// <param name="step">The <see cref="Step"/>.</param>
-		protected virtual void Process(MansionWebContext context, Form form, Step step)
+		protected virtual void Process(IMansionWebContext context, Form form, Step step)
 		{
 			// do nothing
 		}

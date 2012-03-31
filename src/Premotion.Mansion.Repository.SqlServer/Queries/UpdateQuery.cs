@@ -5,7 +5,6 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Patterns;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
-using log4net;
 
 namespace Premotion.Mansion.Repository.SqlServer.Queries
 {
@@ -39,7 +38,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <param name="node"></param>
 		/// <param name="modifiedProperties"></param>
 		/// <returns></returns>
-		public static UpdateQuery Prepare(MansionContext context, SqlConnection connection, SqlTransaction transaction, SchemaProvider schemaProvider, Node node, IPropertyBag modifiedProperties)
+		public static UpdateQuery Prepare(IMansionContext context, SqlConnection connection, SqlTransaction transaction, SchemaProvider schemaProvider, Node node, IPropertyBag modifiedProperties)
 		{
 			// validate arguments
 			if (connection == null)
@@ -84,7 +83,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// </summary>
 		public void Execute()
 		{
-			log.Info("Executing update query: " + updateCommand.CommandText);
 			updateCommand.ExecuteNonQuery();
 		}
 		#endregion
@@ -104,7 +102,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		}
 		#endregion
 		#region Private Fields
-		private static readonly ILog log = LogManager.GetLogger(typeof (UpdateQuery));
 		private readonly IDbCommand updateCommand;
 		#endregion
 	}

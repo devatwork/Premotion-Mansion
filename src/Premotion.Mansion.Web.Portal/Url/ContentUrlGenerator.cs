@@ -12,15 +12,31 @@ namespace Premotion.Mansion.Web.Portal.Url
 	/// </summary>
 	public class ContentUrlGenerator : NodeUrlGenerator
 	{
+		#region Constructors
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="portalService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public ContentUrlGenerator(IPortalService portalService)
+		{
+			// validate arguments
+			if (portalService == null)
+				throw new ArgumentNullException("portalService");
+
+			// set values
+			this.portalService = portalService;
+		}
+		#endregion
 		#region Generate Methods
 		/// <summary>
 		/// Generates an URL for the <paramref name="node"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="node">The <see cref="Node"/> for which to generate the URL.</param>
 		/// <param name="nodeType">The <see cref="ITypeDefinition"/> of the node.</param>
 		/// <param name="uriBuilder">The <see cref="UriBuilder"/> which to use to build the url.</param>
-		protected override void DoGenerate(MansionWebContext context, Node node, ITypeDefinition nodeType, UriBuilder uriBuilder)
+		protected override void DoGenerate(IMansionWebContext context, Node node, ITypeDefinition nodeType, UriBuilder uriBuilder)
 		{
 			// get the site node from the stack
 			Node siteNode;
@@ -28,7 +44,6 @@ namespace Premotion.Mansion.Web.Portal.Url
 				throw new InvalidOperationException("Could not find sitenode on the stack, please check application configuration.");
 
 			// resolve the template page for this node
-			var portalService = context.Nucleus.Get<IPortalService>(context);
 			Node templatePageNode;
 			if (!portalService.TryResolveTemplatePage(context, siteNode, node, out templatePageNode))
 				throw new InvalidOperationException(string.Format("Could not find template page for node {0} ({1})", node.Pointer.PathString, node.Pointer.PointerString));
@@ -41,6 +56,9 @@ namespace Premotion.Mansion.Web.Portal.Url
 			uriBuilder.Query = string.Empty;
 			uriBuilder.Fragment = string.Empty;
 		}
+		#endregion
+		#region Private Fields
+		private readonly IPortalService portalService;
 		#endregion
 	}
 }

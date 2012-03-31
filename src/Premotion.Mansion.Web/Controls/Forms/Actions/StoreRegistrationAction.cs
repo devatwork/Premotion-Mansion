@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Scripting;
+using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Actions
 {
@@ -17,17 +17,17 @@ namespace Premotion.Mansion.Web.Controls.Forms.Actions
 		/// <summary>
 		/// Constructs <see cref="StoreRegistrationAction"/>.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "storeRegistrationAction")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "storeRegistrationAction")]
 		public class StoreRegistrationActionFactoryTag : ActionFactoryTag<StoreRegistrationAction>
 		{
 			#region Overrides of ActionFactoryTag<StoreRegistrationAction>
 			/// <summary>
 			/// Creates an instance of the <see cref="Action"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="properties">The properties of the action.</param>
 			/// <returns>Returns the created <see cref="Action"/>.</returns>
-			protected override StoreRegistrationAction Create(MansionWebContext context, IPropertyBag properties)
+			protected override StoreRegistrationAction Create(IMansionWebContext context, IPropertyBag properties)
 			{
 				// get the values
 				var supportedActions = GetAttribute(context, "supportedActions", string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
@@ -67,10 +67,10 @@ namespace Premotion.Mansion.Web.Controls.Forms.Actions
 		/// <summary>
 		/// Processes the <paramref name="step"/> after the <paramref name="form"/> is submitted back to the server with valid data.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/>.</param>
 		/// <param name="step">The <see cref="Step"/>.</param>
-		protected override void Process(MansionWebContext context, Form form, Step step)
+		protected override void Process(IMansionWebContext context, Form form, Step step)
 		{
 			// check if this action requires a valid form
 			if (requiresValidForm && !form.ValidationResults.IsValid)

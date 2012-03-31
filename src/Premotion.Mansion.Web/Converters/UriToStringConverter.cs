@@ -22,11 +22,11 @@ namespace Premotion.Mansion.Web.Converters
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The input value.</param>
 		/// <param name="sourceType">The actual type of the source.</param>
 		/// <returns>Returns the converted value.</returns>
-		protected override string DoConvert(IContext context, Uri source, Type sourceType)
+		protected override string DoConvert(IMansionContext context, Uri source, Type sourceType)
 		{
 			// return the full url when the hostname changed, otherwise the relative url
 			return WebUtilities.StripPort(source).ToString();
@@ -34,12 +34,12 @@ namespace Premotion.Mansion.Web.Converters
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The input value.</param>
 		/// <param name="sourceType">The actual type of the source.</param>
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns>Returns the converted value.</returns>
-		protected override string DoConvert(IContext context, Uri source, Type sourceType, string defaultValue)
+		protected override string DoConvert(IMansionContext context, Uri source, Type sourceType, string defaultValue)
 		{
 			return DoConvert(context, source, sourceType);
 		}

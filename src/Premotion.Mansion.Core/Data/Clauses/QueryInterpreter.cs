@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Premotion.Mansion.Core.Attributes;
+using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Patterns.Interpreting;
 
 namespace Premotion.Mansion.Core.Data.Clauses
@@ -8,8 +8,8 @@ namespace Premotion.Mansion.Core.Data.Clauses
 	/// <summary>
 	/// 	Implements the base class for all  node query interpreters.
 	/// </summary>
-	[Exported]
-	public abstract class QueryInterpreter : IInterpreter<MansionContext, IPropertyBag, IEnumerable<NodeQueryClause>>
+	[Exported(typeof (QueryInterpreter))]
+	public abstract class QueryInterpreter : IInterpreter<IMansionContext, IPropertyBag, IEnumerable<NodeQueryClause>>
 	{
 		#region Constructors
 		/// <summary>
@@ -25,10 +25,10 @@ namespace Premotion.Mansion.Core.Data.Clauses
 		/// <summary>
 		/// 	Interprets the input.
 		/// </summary>
-		/// <param name = "context">The <see cref = "MansionContext" />.</param>
+		/// <param name = "context">The <see cref = "IMansionContext" />.</param>
 		/// <param name = "input">The input which to interpret.</param>
 		/// <returns>Returns the interpreted result.</returns>
-		public IEnumerable<NodeQueryClause> Interpret(MansionContext context, IPropertyBag input)
+		public IEnumerable<NodeQueryClause> Interpret(IMansionContext context, IPropertyBag input)
 		{
 			// validate arguments
 			if (context == null)
@@ -42,10 +42,10 @@ namespace Premotion.Mansion.Core.Data.Clauses
 		/// <summary>
 		/// 	Interprets the input.
 		/// </summary>
-		/// <param name = "context">The <see cref = "MansionContext" />.</param>
+		/// <param name = "context">The <see cref = "IMansionContext" />.</param>
 		/// <param name = "input">The input which to interpret.</param>
 		/// <returns>Returns the interpreted result.</returns>
-		protected abstract IEnumerable<NodeQueryClause> DoInterpret(MansionContext context, IPropertyBag input);
+		protected abstract IEnumerable<NodeQueryClause> DoInterpret(IMansionContext context, IPropertyBag input);
 		#endregion
 		#region Properties
 		/// <summary>

@@ -35,15 +35,15 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 			/// Evaluates this expression.
 			/// </summary>
 			/// <typeparam name="TTarget">The target type.</typeparam>
-			/// <param name="context">The <see cref="MansionContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
 			/// <returns>Returns the result of the evaluation.</returns>
-			public override TTarget Execute<TTarget>(MansionContext context)
+			public override TTarget Execute<TTarget>(IMansionContext context)
 			{
 				// validate arguments
 				if (context == null)
 					throw new ArgumentNullException("context");
 
-				return context.Nucleus.Get<IConversionService>(context).Convert<TTarget>(context, content);
+				return context.Nucleus.ResolveSingle<IConversionService>().Convert<TTarget>(context, content);
 			}
 			#endregion
 			#region Private Fields
@@ -55,10 +55,10 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// <summary>
 		/// Asks a voter to cast a vote on the subject.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="subject">The subject.</param>
 		/// <returns>Returns the result of the vote.</returns>
-		protected override VoteResult DoVote(MansionContext context, string subject)
+		protected override VoteResult DoVote(IMansionContext context, string subject)
 		{
 			// check
 			var isExpression = subject.Length > 2 && subject[0] == '{' && subject[subject.Length - 1] == '}';
@@ -71,10 +71,10 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// <summary>
 		/// Interprets the input.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="input">The input which to interpret.</param>
 		/// <returns>Returns the interpreted result.</returns>
-		protected override IExpressionScript DoInterpret(MansionContext context, string input)
+		protected override IExpressionScript DoInterpret(IMansionContext context, string input)
 		{
 			// generate the literal
 			return new LiteralExpression(input);

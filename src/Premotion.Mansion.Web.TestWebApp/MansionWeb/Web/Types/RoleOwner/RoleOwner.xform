@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd" xmlns:portal="http://schemas.premotion.nl/mansion/1.0/web/portal/tags.xsd">
+
+	<!-- render the role selection interface -->
+	<declareProcedure procedureName="RenderRoleOwnerGroup">
+		<forms:hidden name="foreignId" value="{NotEmpty( FormSourceNode.foreignId, FormSourceNode.guid )}" />
+		<forms:multiselect name="assignedRoleGuids" label="Assigned Roles" valueProperty="guid" labelProperty="name">
+			<providers:retrieveChildNodesetProvider parentPointer="1" baseType="Role" depth="any" />
+		</forms:multiselect>
+	</declareProcedure>
+
+</mansion>

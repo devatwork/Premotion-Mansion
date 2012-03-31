@@ -20,10 +20,10 @@ namespace Premotion.Mansion.Web.Security
 		/// <summary>
 		/// Creates the new <paramref name="permission"/> on the <paramref name="role"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="role">The <see cref="Role"/>.</param>
 		/// <param name="permission">The <see cref="Permission"/>.</param>
-		public void CreatePermission(MansionContext context, Role role, Permission permission)
+		public void CreatePermission(IMansionContext context, Role role, Permission permission)
 		{
 			// validate arguments
 			if (context == null)
@@ -50,9 +50,9 @@ namespace Premotion.Mansion.Web.Security
 		/// <summary>
 		/// Updates an existing <paramref name="permission"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="permission">The <see cref="Permission"/>.</param>
-		public void UpdatePermission(MansionContext context, Permission permission)
+		public void UpdatePermission(IMansionContext context, Permission permission)
 		{
 			// validate arguments
 			if (context == null)
@@ -65,10 +65,10 @@ namespace Premotion.Mansion.Web.Security
 		/// <summary>
 		/// Deletes the <paramref name="permission"/> from the <paramref name="role"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="role">The <see cref="Role"/>.</param>
 		/// <param name="permission">The <see cref="Permission"/>.</param>
-		public void DeletePermission(MansionContext context, Role role, Permission permission)
+		public void DeletePermission(IMansionContext context, Role role, Permission permission)
 		{
 			// validate arguments
 			if (context == null)
@@ -81,10 +81,10 @@ namespace Premotion.Mansion.Web.Security
 		/// <summary>
 		/// Adds a <paramref name="role"/> to the <paramref name="owner"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="owner">The <see cref="RoleOwner"/>.</param>
 		/// <param name="role">The <see cref="Role"/>.</param>
-		public void AssignRole(MansionContext context, RoleOwner owner, Role role)
+		public void AssignRole(IMansionContext context, RoleOwner owner, Role role)
 		{
 			// validate arguments
 			if (context == null)
@@ -110,10 +110,10 @@ namespace Premotion.Mansion.Web.Security
 		/// <summary>
 		/// Removes a <paramref name="role"/> from the <paramref name="owner"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="owner">The <see cref="RoleOwner"/>.</param>
 		/// <param name="role">The <see cref="Role"/>.</param>
-		public void RemoveRole(MansionContext context, RoleOwner owner, Role role)
+		public void RemoveRole(IMansionContext context, RoleOwner owner, Role role)
 		{
 			// validate arguments
 			if (context == null)
@@ -143,10 +143,10 @@ namespace Premotion.Mansion.Web.Security
 		/// <summary>
 		/// Adds the <paramref name="user"/> to the <paramref name="group"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="user">The <see cref="User"/> which to add.</param>
 		/// <param name="group">The <see cref="UserGroup"/> to which to add the user.</param>
-		public void AddGroupMembership(MansionContext context, User user, UserGroup group)
+		public void AddGroupMembership(IMansionContext context, User user, UserGroup group)
 		{
 			// validate arguments
 			if (context == null)
@@ -172,10 +172,10 @@ namespace Premotion.Mansion.Web.Security
 		/// <summary>
 		/// Removes the <paramref name="user"/> from the <paramref name="group"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="user">The <see cref="User"/> which to remove.</param>
 		/// <param name="group">The <see cref="UserGroup"/> from which to remove the user.</param>
-		public void RemoveGroupMembership(MansionContext context, User user, UserGroup group)
+		public void RemoveGroupMembership(IMansionContext context, User user, UserGroup group)
 		{
 			// validate arguments
 			if (context == null)
@@ -205,10 +205,10 @@ namespace Premotion.Mansion.Web.Security
 		/// <summary>
 		/// Retrieves a <see cref="User"/> by it's ID.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/></param>
+		/// <param name="context">The <see cref="IMansionContext"/></param>
 		/// <param name="id">The ID of the <see cref="User"/>.</param>
 		/// <returns>Returns the loaded <see cref="User"/>.</returns>
-		public User RetrieveUser(MansionContext context, string id)
+		public User RetrieveUser(IMansionContext context, string id)
 		{
 			// validate arguments
 			if (context == null)
@@ -252,7 +252,7 @@ namespace Premotion.Mansion.Web.Security
 		/// <param name="owner"></param>
 		/// <param name="repository"></param>
 		/// <returns></returns>
-		private static Node RetrieveRoleOwnerNode(MansionContext context, RoleOwner owner, IRepository repository)
+		private static Node RetrieveRoleOwnerNode(IMansionContext context, RoleOwner owner, IRepository repository)
 		{
 			var nodeQuery = repository.ParseQuery(context, new PropertyBag
 			                                               {
@@ -272,7 +272,7 @@ namespace Premotion.Mansion.Web.Security
 		/// <param name="roleGuids"></param>
 		/// <param name="repository"></param>
 		/// <returns></returns>
-		private Nodeset RetrieveRoleNodes(MansionContext context, IEnumerable<string> roleGuids, IRepository repository)
+		private Nodeset RetrieveRoleNodes(IMansionContext context, IEnumerable<string> roleGuids, IRepository repository)
 		{
 			var nodeQuery = repository.ParseQuery(context, new PropertyBag
 			                                               {
@@ -289,7 +289,7 @@ namespace Premotion.Mansion.Web.Security
 		/// <param name="role"></param>
 		/// <param name="repository"></param>
 		/// <returns></returns>
-		private static Node RetrieveRoleNode(MansionContext context, Role role, IRepository repository)
+		private static Node RetrieveRoleNode(IMansionContext context, Role role, IRepository repository)
 		{
 			var nodeQuery = repository.ParseQuery(context, new PropertyBag
 			                                               {
@@ -309,7 +309,7 @@ namespace Premotion.Mansion.Web.Security
 		/// <param name="userNode"></param>
 		/// <param name="repository"></param>
 		/// <returns></returns>
-		private Nodeset RetrieveUserGroupNodes(MansionContext context, Node userNode, IRepository repository)
+		private Nodeset RetrieveUserGroupNodes(IMansionContext context, Node userNode, IRepository repository)
 		{
 			var nodeQuery = repository.ParseQuery(context, new PropertyBag
 			                                               {
@@ -327,7 +327,7 @@ namespace Premotion.Mansion.Web.Security
 		/// <param name="context"></param>
 		/// <param name="roleNode"></param>
 		/// <returns></returns>
-		private Role MapRole(MansionContext context, Node roleNode)
+		private Role MapRole(IMansionContext context, Node roleNode)
 		{
 			// create the role
 			var role = new Role(roleNode.PermanentId.ToString());

@@ -5,19 +5,18 @@
 	/// </summary>
 	public interface IDescriptor
 	{
+		#region Methods
+		/// <summary>
+		/// Initializes this descriptor.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		void Initialize(IMansionContext context);
+		#endregion
 		#region Properties
-		/// <summary>
-		/// Gets the namespace of this descriptor.
-		/// </summary>
-		string NamespaceUri { get; }
-		/// <summary>
-		/// Gets the name of this descriptor.
-		/// </summary>
-		string Name { get; }
 		/// <summary>
 		/// Gets the properties of this descriptor.
 		/// </summary>
-		IPropertyBag Properties { get; }
+		IPropertyBag Properties { get; set; }
 		#endregion
 	}
 }

@@ -22,11 +22,11 @@ namespace Premotion.Mansion.Web.Controls
 			/// <summary>
 			/// Executes this tag.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionContext"/>.</param>
-			protected override void DoExecute(MansionContext context)
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
+			protected override void DoExecute(IMansionContext context)
 			{
 				// get the mansion web context
-				var webContext = context.Cast<MansionWebContext>();
+				var webContext = context.Cast<IMansionWebContext>();
 
 				// get the id of this control
 				var id = webContext.GetNextControlId();
@@ -53,15 +53,15 @@ namespace Premotion.Mansion.Web.Controls
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected abstract TControl Create(MansionWebContext context, ControlDefinition definition);
+			protected abstract TControl Create(IMansionWebContext context, ControlDefinition definition);
 			/// <summary>
 			/// Executes the created <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="control">The control which to execute.</param>
-			protected virtual void Execute(MansionWebContext context, TControl control)
+			protected virtual void Execute(IMansionWebContext context, TControl control)
 			{
 				// add completely initialized control to the top most control container if any otherwise process it
 				Container container;
@@ -104,8 +104,8 @@ namespace Premotion.Mansion.Web.Controls
 		/// <summary>
 		/// Initializes this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
-		public void Initialize(MansionWebContext context)
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+		public void Initialize(IMansionWebContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -117,8 +117,8 @@ namespace Premotion.Mansion.Web.Controls
 		/// <summary>
 		/// Initializes this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
-		protected virtual void DoInitialize(MansionWebContext context)
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+		protected virtual void DoInitialize(IMansionWebContext context)
 		{
 			// store id
 			Definition.Properties.Set("id", Definition.Id);
@@ -128,16 +128,16 @@ namespace Premotion.Mansion.Web.Controls
 		/// <summary>
 		/// Processes this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
-		private void Process(MansionWebContext context)
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+		private void Process(IMansionWebContext context)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 
 			// get the services
-			var applicationResourceService = context.Nucleus.Get<IApplicationResourceService>(context);
-			var templateService = context.Nucleus.Get<ITemplateService>(context);
+			var applicationResourceService = context.Nucleus.ResolveSingle<IApplicationResourceService>();
+			var templateService = context.Nucleus.ResolveSingle<ITemplateService>();
 
 			// open the control template
 			var controlTemplateResourcePath = applicationResourceService.ParsePath(context, ControlTemplatePathProperties);
@@ -148,8 +148,8 @@ namespace Premotion.Mansion.Web.Controls
 		/// <summary>
 		/// Processes this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
-		protected virtual void DoProcess(MansionWebContext context)
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+		protected virtual void DoProcess(IMansionWebContext context)
 		{
 			// render the control
 			Render(context);
@@ -159,15 +159,15 @@ namespace Premotion.Mansion.Web.Controls
 		/// <summary>
 		/// Render this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
-		protected void Render(MansionWebContext context)
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+		protected void Render(IMansionWebContext context)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 
 			// render the control template
-			var templateService = context.Nucleus.Get<ITemplateService>(context);
+			var templateService = context.Nucleus.ResolveSingle<ITemplateService>();
 			using (templateService.Render(context, "ControlContainer", Definition.Properties.Get(context, "targetField", "Control")))
 			{
 				// render the control
@@ -177,9 +177,9 @@ namespace Premotion.Mansion.Web.Controls
 		/// <summary>
 		/// Render this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		public void Render(MansionWebContext context, ITemplateService templateService)
+		public void Render(IMansionWebContext context, ITemplateService templateService)
 		{
 			// push the control properties to the stack)
 			using (context.ControlStack.Push(this))
@@ -190,9 +190,9 @@ namespace Premotion.Mansion.Web.Controls
 		/// <summary>
 		/// Render this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		protected virtual void DoRender(MansionWebContext context, ITemplateService templateService)
+		protected virtual void DoRender(IMansionWebContext context, ITemplateService templateService)
 		{
 			templateService.Render(context, GetType().Name + "Control").Dispose();
 		}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
@@ -12,36 +13,52 @@ namespace Premotion.Mansion.Web.Security
 	/// </summary>
 	public class WebSecurityService : SecurityServiceBase
 	{
+		#region Constructors
+		/// <summary>
+		/// Constructs the web security service.
+		/// </summary>
+		/// <param name="conversionService">The <see cref="IConversionService"/>.</param>
+		/// <param name="authenticationProviders">The <see cref="IEnumerable{T}"/>s.</param>
+		public WebSecurityService(IConversionService conversionService, IEnumerable<AuthenticationProvider> authenticationProviders) : base(authenticationProviders)
+		{
+			//validate arguments
+			if (conversionService == null)
+				throw new ArgumentNullException("conversionService");
+
+			// set values
+			this.conversionService = conversionService;
+		}
+		#endregion
 		#region Initialize Methods
 		/// <summary>
 		/// Initializes the frontoffice user.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the initialized user.</returns>
-		protected override UserState InitializeFrontofficeUser(MansionContext context)
+		protected override UserState InitializeFrontofficeUser(IMansionContext context)
 		{
 			return InitializeUserFromCookie(context, Constants.FrontofficeUserRevivalDataCookieName) ?? UserState.AnonymousUser;
 		}
 		/// <summary>
 		/// Initializes the backoffice user.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the initialized user.</returns>
-		protected override UserState InitializeBackofficeUser(MansionContext context)
+		protected override UserState InitializeBackofficeUser(IMansionContext context)
 		{
 			return InitializeUserFromCookie(context, Constants.BackofficeUserRevivalDataCookieName) ?? UserState.AnonymousUser;
 		}
 		/// <summary>
 		/// Tries to revive the user from cookie.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="cookieName">The name of the cookie from which to revive the user.</param>
 		/// <returns>Returns the revived user or null.</returns>
-		private UserState InitializeUserFromCookie(MansionContext context, string cookieName)
+		private UserState InitializeUserFromCookie(IMansionContext context, string cookieName)
 		{
 			// get the web request context
-			var httpContext = context.Cast<MansionWebContext>().HttpContext;
-			if (!httpContext.HasSession)
+			var httpContext = context.Cast<IMansionWebContext>().HttpContext;
+			if (!httpContext.HasSession())
 				return null;
 
 			// check sesssion
@@ -55,7 +72,6 @@ namespace Premotion.Mansion.Web.Security
 				return null;
 
 			// deserialize the properties, TODO: add proper decryption, TODO: check for cookie theft
-			var conversionService = context.Nucleus.Get<IConversionService>(context);
 			var revivalProperties = conversionService.Convert<IPropertyBag>(context, revivalCookie.Value, new PropertyBag());
 
 			// get the authentication provider
@@ -83,11 +99,11 @@ namespace Premotion.Mansion.Web.Security
 		/// <summary>
 		/// Authenticates the user.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="authenicationProvider">The authentication provider which to use.</param>
 		/// <param name="parameters">The parameters used for authentication.</param>
 		/// <returns>Returns the authenticated <see cref="UserState"/> or null.</returns>
-		protected override UserState DoAuthenticate(MansionContext context, AuthenticationProvider authenicationProvider, IPropertyBag parameters)
+		protected override UserState DoAuthenticate(IMansionContext context, AuthenticationProvider authenicationProvider, IPropertyBag parameters)
 		{
 			// authenticate
 			var user = authenicationProvider.Authenticate(context, parameters);
@@ -95,10 +111,10 @@ namespace Premotion.Mansion.Web.Security
 				return null;
 
 			// get the web request context
-			var httpContext = context.Cast<MansionWebContext>().HttpContext;
+			var httpContext = context.Cast<IMansionWebContext>().HttpContext;
 
 			// store this user in the session
-			if (!httpContext.HasSession)
+			if (!httpContext.HasSession())
 				return null;
 			httpContext.Session.Add(GetRevivalCookieName(context), user);
 
@@ -114,7 +130,6 @@ namespace Premotion.Mansion.Web.Security
 					revivalData.Set("authenticationProviderName", authenicationProvider.Name);
 
 					// encrypt it, TODO: add proper encryption
-					var conversionService = context.Nucleus.Get<IConversionService>(context);
 					var encryptedRevivalData = conversionService.Convert<string>(context, revivalData);
 
 					// store it in a cookie
@@ -134,18 +149,18 @@ namespace Premotion.Mansion.Web.Security
 		/// <summary>
 		/// Logs the user of from the current request context.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="authenicationProvider">The authentication provider which to use.</param>
-		protected override void DoLogoff(MansionContext context, AuthenticationProvider authenicationProvider)
+		protected override void DoLogoff(IMansionContext context, AuthenticationProvider authenicationProvider)
 		{
 			// authenticate
 			authenicationProvider.Logoff(context);
 
 			// get the web request context
-			var httpContext = context.Cast<MansionWebContext>().HttpContext;
+			var httpContext = context.Cast<IMansionWebContext>().HttpContext;
 
 			// clear the user from the session
-			if (httpContext.HasSession)
+			if (httpContext.HasSession())
 				httpContext.Session.Remove(GetRevivalCookieName(context));
 
 			// delete any revival cookies
@@ -156,12 +171,15 @@ namespace Premotion.Mansion.Web.Security
 		/// <summary>
 		/// Gets the name of the revival cookie based on the context.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the name.</returns>
-		private static string GetRevivalCookieName(MansionContext context)
+		private static string GetRevivalCookieName(IMansionContext context)
 		{
 			return context.IsBackoffice ? Constants.BackofficeUserRevivalDataCookieName : Constants.FrontofficeUserRevivalDataCookieName;
 		}
+		#endregion
+		#region Private Fields
+		private readonly IConversionService conversionService;
 		#endregion
 	}
 }

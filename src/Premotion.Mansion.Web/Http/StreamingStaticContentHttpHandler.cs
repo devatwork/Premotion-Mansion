@@ -2,6 +2,7 @@
 using System.IO;
 using System.Web;
 using System.Web.SessionState;
+using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.IO;
 
@@ -16,20 +17,20 @@ namespace Premotion.Mansion.Web.Http
 		/// <summary>
 		/// Enables processing of HTTP Web requests by a custom HttpHandler that implements the <see cref="T:System.Web.IHttpHandler"/> interface.
 		/// </summary>
-		/// <param name="context">Tjhe <see cref="MansionWebContext"/> constructed for handling the current request.</param>
-		protected override void ProcessRequest(MansionWebContext context)
+		/// <param name="context">Tjhe <see cref="IMansionWebContext"/> constructed for handling the current request.</param>
+		protected override void ProcessRequest(IMansionWebContext context)
 		{
 			// create the request context
 			var response = context.HttpContext.Response;
 
 			// retrieve the resource
-			var originalResourcePath = PathRewriterModule.GetOriginalMappedPath(context.HttpContext);
+			var originalResourcePath = PathRewriterHttpModule.GetOriginalMappedPath(context.HttpContext);
 
 			// split the path
 			var pathParts = originalResourcePath.Split(new[] {'/', '\\'}, StringSplitOptions.RemoveEmptyEntries);
 
 			// parse the path
-			var contentService = context.Nucleus.Get<IContentResourceService>(context);
+			var contentService = context.Nucleus.ResolveSingle<IContentResourceService>();
 			var contentPath = contentService.ParsePath(context, new PropertyBag
 			                                                    {
 			                                                    	{"category", pathParts[0]},
@@ -37,7 +38,7 @@ namespace Premotion.Mansion.Web.Http
 			                                                    });
 
 			// if the resource exist process it otherwise 404
-			if (!contentService.Exists(contentPath))
+			if (!contentService.Exists(context, contentPath))
 			{
 				// send 404
 				response.StatusCode = 404;

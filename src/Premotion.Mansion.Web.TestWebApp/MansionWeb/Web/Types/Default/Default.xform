@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd">
+
+	<!-- renders the xform of a particular node								-->
+	<!-- arguments:																	-->
+	<!--   source, the node source												-->
+	<!--   targetType, the type of node being edited or created			-->
+	<!--   mode, the mode in which to show the form (create/update)	-->
+	<declareProcedure procedureName="RenderXForm">
+		
+		<!-- fire initialize xForm event -->
+		<fireEvent eventName="InitializeXForm" />
+
+		<!-- check if the node type is equal to the target node -->
+		<setProperties dataspaceName="TargetProperties" type="{Arguments.targetType}">
+		<switch condition="{Arguments.mode}">
+			<case value="update">
+				<fetchNode source="{Arguments.source}" target="FormSourceNode">
+					<invokeProcedure procedureName="RenderInlineUpdateForm" />
+
+					<notFound>
+						<throw message="Could not find source node, please check method invocation." />
+					</notFound>
+				</fetchNode>
+			</case>
+			<!-- node is created -->
+			<case value="create">
+				<fetchNode source="{Arguments.source}" target="ParentNode">
+					<invokeProcedure procedureName="RenderInlineCreateForm" />
+
+					<notFound>
+						<throw message="Could not find parent node, please check method invocation." />
+					</notFound>
+				</fetchNode>
+			</case>
+			<default>
+				<throw message="Unknown XForm mode '{Arguments.mode}'"/>
+			</default>
+		</switch>
+		</setProperties>
+
+	</declareProcedure>
+
+
+
+	<!-- renders the create node form -->
+	<declareProcedure procedureName="RenderInlineCreateForm">
+		<forms:form name="node">
+			<forms:step label="New {GetTypeDefinitionLabel( TargetProperties.type )}" headerCssClasses="background header-footer">
+				<forms:validationSummary/>
+
+				<!-- delegate to inherited types -->
+				<invokeProcedure procedureName="RenderXFormContent" />
+
+				<!-- hidden field -->
+				<forms:hidden name="type" value="{TargetProperties.type}" />
+
+				<forms:buttonBar cssClass="background grey cms-toolbar bottom right">
+					<forms:button action="cancel" label="Cancel" cssClass="cancel" />
+					<forms:button action="store" label="Save" cssClass="ok" />
+				</forms:buttonBar>
+
+				<!-- handle cancel click -->
+				<forms:processScriptAction supportedActions="cancel" requiresValidForm="false">
+					<invokeProcedure procedureName="OnCancel" />
+				</forms:processScriptAction>
+
+				<!-- handle store action -->
+				<forms:processScriptAction supportedActions="store">
+					<addNode parentSource="{$ParentNode}" target="NewNode" global="true">
+						<copyProperties source="{$FieldProperties}" target="{$NewProperties}" />
+						<fireEvent eventName="OnCreating" />
+					</addNode>
+					<invokeProcedure procedureName="OnCreated" />
+				</forms:processScriptAction>
+
+			</forms:step>
+		</forms:form>
+	</declareProcedure>
+
+
+
+	<!-- renders the update node form -->
+	<declareProcedure procedureName="RenderInlineUpdateForm">
+		<forms:form name="node" dataSource="{$FormSourceNode}">
+			<forms:step label="{FormSourceNode.name} ({GetTypeDefinitionLabel( TargetProperties.type )})" headerCssClasses="background header-footer">
+				<forms:validationSummary/>
+
+				<!-- delegate to inherited types -->
+				<invokeProcedure procedureName="RenderXFormContent" />
+
+				<forms:buttonBar cssClass="background grey cms-toolbar bottom right">
+					<invokeProcedure procedureName="IncludeActionButtons" />
+					<forms:button action="cancel" label="Cancel" cssClass="cancel" />
+					<forms:button action="store" label="Save" cssClass="ok" />
+				</forms:buttonBar>
+
+				<!-- handle cancel click -->
+				<forms:processScriptAction supportedActions="cancel" requiresValidForm="false">
+					<invokeProcedure procedureName="OnCancel" />
+				</forms:processScriptAction>
+
+				<!-- handle store action -->
+				<forms:processScriptAction supportedActions="store">
+					<editNode source="{$FormSourceNode}">
+						<copyProperties source="{$FieldProperties}" target="{$EditProperties}" />
+						<fireEvent eventName="OnUpdating" />
+					</editNode>
+					<invokeProcedure procedureName="OnUpdated" />
+				</forms:processScriptAction>
+
+			</forms:step>
+		</forms:form>
+	</declareProcedure>
+
+
+
+	<!-- default properties -->
+	<declareProcedure procedureName="RenderXFormContent">
+		<forms:fieldset label="General">
+			<forms:textbox name="name" label="Name" />
+		</forms:fieldset>
+		<invokeProcedure procedureName="RenderGroupPublication"/>
+		<invokeProcedure procedureName="RenderGroupIdentity"/>
+		<invokeProcedure procedureName="RenderGroupSecurity"/>
+	</declareProcedure>
+
+	<declareProcedure procedureName="RenderGroupPublication">
+		<forms:fieldset label="Publication">
+			<forms:checkbox name="approved" label="Approved" defaultValue="true" />
+			<forms:checkbox name="archived" label="Archived" />
+			<forms:date name="publicationDate" label="Publication date" defaultValue="{Now()}" />
+			<forms:date name="expirationDate" label="Expiration date" defaultValue="{MaxSqlDate()}" />
+		</forms:fieldset>
+	</declareProcedure>
+
+	<declareProcedure procedureName="RenderGroupIdentity">
+		<forms:fieldset label="Identity">
+			<forms:textbox name="guid" label="Permanent Identifier" readonly="true" />
+			<forms:textbox name="pointer" label="Pointer" readonly="true" />
+			<forms:textbox name="path" label="Path" readonly="true" />
+			<forms:textbox name="structure" label="Structure" readonly="true" />
+			<forms:textbox name="key" label="Key" />
+		</forms:fieldset>
+	</declareProcedure>
+
+	<declareProcedure procedureName="RenderGroupSecurity">
+		<forms:fieldset label="Security">
+			<forms:multiselect name="allowedRoleGuids" label="Allowed roles" valueProperty="guid" labelProperty="name" defaultValue="{ParentNode.allowedRoleGuids}">
+				<providers:retrieveChildNodesetProvider parentPointer="1" baseType="Role" depth="any" />
+			</forms:multiselect>
+			<forms:checkbox name="_propagateAllowedRoleGuids" label="Propagate" />
+		</forms:fieldset>
+	</declareProcedure>
+
+
+	<!-- renders the new-child, change order, etc. action buttons -->
+	<declareProcedure procedureName="IncludeActionButtons">
+		<invokeProcedure procedureName="IncludeActionAddChildButton"/>
+		<invokeProcedure procedureName="IncludeActionChangeNodeOrderButton"/>
+		<invokeProcedure procedureName="IncludeActionMoveNodeButton"/>
+		<invokeProcedure procedureName="IncludeActionCopyNodeButton"/>
+		<invokeProcedure procedureName="IncludeActionDeleteNodeButton"/>
+	</declareProcedure>
+
+	<declareProcedure procedureName="IncludeActionAddChildButton">
+		<if condition="{HasChildTypes( $FormSourceNode )}">
+			<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'AddChildToNode', UrlNode.id )}" label="Add new child" cssClass="cms-dialog add-child" />
+		</if>
+	</declareProcedure>
+
+	<declareProcedure procedureName="IncludeActionChangeNodeOrderButton">
+		<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'ChangeOrder', UrlNode.id )}" label="Change order" cssClass="cms-dialog change-order" />
+	</declareProcedure>
+
+	<declareProcedure procedureName="IncludeActionMoveNodeButton">
+		<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'MoveNode', UrlNode.id )}" label="Move" cssClass="cms-dialog move" />
+	</declareProcedure>
+
+	<declareProcedure procedureName="IncludeActionCopyNodeButton">
+		<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'CopyNode', UrlNode.id )}" label="Copy" cssClass="cms-dialog copy" />
+	</declareProcedure>
+
+	<declareProcedure procedureName="IncludeActionDeleteNodeButton">
+		<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'DeleteNode', UrlNode.id )}" label="Delete" cssClass="cms-dialog delete" />
+	</declareProcedure>
+
+</mansion>

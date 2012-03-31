@@ -16,9 +16,9 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// <summary>
 		/// Handels the incomming CKFinder command.
 		/// </summary>
-		/// <param name="context">The incoming <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The incoming <see cref="IMansionWebContext"/>.</param>
 		/// <exception cref="ConnectorException">Thrown when an error occured while handling the command.</exception>
-		protected override void DoHandle(MansionWebContext context)
+		protected override void DoHandle(IMansionWebContext context)
 		{
 			// always send xml encoded in UTF-8
 			Response.ContentEncoding = Encoding.UTF8;
@@ -66,10 +66,10 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// <summary>
 		/// Handels the incomming CKFinder command.
 		/// </summary>
-		/// <param name="context">The incoming <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The incoming <see cref="IMansionWebContext"/>.</param>
 		/// <param name="connectorNode">The <see cref="XElement"/> of the connector node.</param>
 		/// <exception cref="ConnectorException">Thrown when an error occured while handling the command.</exception>
-		protected abstract void DoHandle(MansionWebContext context, XElement connectorNode);
+		protected abstract void DoHandle(IMansionWebContext context, XElement connectorNode);
 		#endregion
 	}
 }

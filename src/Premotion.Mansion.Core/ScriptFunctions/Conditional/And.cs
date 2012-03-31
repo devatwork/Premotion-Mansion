@@ -14,7 +14,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 		/// <param name="one"></param>
 		/// <param name="other"></param>
 		/// <returns></returns>
-		public bool Evaluate(MansionContext context, bool one, bool other)
+		public bool Evaluate(IMansionContext context, bool one, bool other)
 		{
 			return one && other;
 		}

@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Premotion.Mansion.Core.Patterns;
 
 namespace Premotion.Mansion.Core.IO.Windows
 {
 	/// <summary>
 	/// Implements <see cref="IContentResourceService"/> for Windows based applications.
 	/// </summary>
-	public class WindowsContentResourceService : DisposableBase, IContentResourceService
+	public class WindowsContentResourceService : IContentResourceService
 	{
 		#region Constructors
 		/// <summary>
@@ -85,17 +84,16 @@ namespace Premotion.Mansion.Core.IO.Windows
 		/// <summary>
 		/// Opens the resource using the specified path. This will create the resource if it does not already exist.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="path">The <see cref="IResourcePath"/> identifying the resource.</param>
 		/// <returns>Returns the <see cref="IResource"/>.</returns>
-		public IResource GetResource(IContext context, IResourcePath path)
+		public IResource GetResource(IMansionContext context, IResourcePath path)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (path == null)
 				throw new ArgumentNullException("path");
-			CheckDisposed();
 
 			return new FileResource(new FileInfo(ResourceUtils.Combine(physicalBasePath, relativeBasePath, path.Paths.Single())), path);
 		}
@@ -104,31 +102,32 @@ namespace Premotion.Mansion.Core.IO.Windows
 		/// <summary>
 		/// Checks whether a resource exists at the specified paths.
 		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="path">The path to the resource.</param>
 		/// <returns>Returns true when a resource exists, otherwise false.</returns>
-		public bool Exists(IResourcePath path)
+		public bool Exists(IMansionContext context, IResourcePath path)
 		{
 			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
 			if (path == null)
 				throw new ArgumentNullException("path");
-			CheckDisposed();
 
 			return File.Exists(ResourceUtils.Combine(physicalBasePath, relativeBasePath, path.Paths.Single()));
 		}
 		/// <summary>
 		/// Parses the <paramref name="properties"/> into a <see cref="IResourcePath"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="properties">The properties which to parse.</param>
 		/// <returns>Returns the parsed <see cref="IResourcePath"/>.</returns>
-		public IResourcePath ParsePath(IContext context, IPropertyBag properties)
+		public IResourcePath ParsePath(IMansionContext context, IPropertyBag properties)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (properties == null)
 				throw new ArgumentNullException("properties");
-			CheckDisposed();
 
 			// get the resource base path
 			var categoryBasePath = properties.Get(context, "category", "Temp");
@@ -164,31 +163,19 @@ namespace Premotion.Mansion.Core.IO.Windows
 		/// <summary>
 		/// Gets the first and most important relative path of <paramref name="resourcePath"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="resourcePath">The <see cref="IResourcePath"/>.</param>
 		/// <returns>Returns a string version of the most important relative path.</returns>
-		public string GetFirstRelativePath(IContext context, IResourcePath resourcePath)
+		public string GetFirstRelativePath(IMansionContext context, IResourcePath resourcePath)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (resourcePath == null)
 				throw new ArgumentNullException("resourcePath");
-			CheckDisposed();
 
 			// just return the first path
 			return resourcePath.Paths.First();
-		}
-		#endregion
-		#region Overrides of DisposableBase
-		/// <summary>
-		/// Dispose resources. Override this method in derived classes. Unmanaged resources should always be released
-		/// when this method is called. Managed resources may only be disposed of if disposeManagedResources is true.
-		/// </summary>
-		/// <param name="disposeManagedResources">A value which indicates whether managed resources may be disposed of.</param>
-		protected override void DisposeResources(bool disposeManagedResources)
-		{
-			// do nothing
 		}
 		#endregion
 		#region Private Fields

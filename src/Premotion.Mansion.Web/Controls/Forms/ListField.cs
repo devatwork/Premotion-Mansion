@@ -24,9 +24,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override TField Create(MansionWebContext context, ControlDefinition definition)
+			protected override TField Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				// determine the mapping strategy
 				var mappingStrategy = GetMappingStrategy(context);
@@ -37,9 +37,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 			/// <summary>
 			/// Determines the <see cref="RowMappingStrategy"/> used by this list field.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <returns>Returns the mapping strategy.</returns>
-			private RowMappingStrategy GetMappingStrategy(MansionWebContext context)
+			private RowMappingStrategy GetMappingStrategy(IMansionWebContext context)
 			{
 				var valueProperty = GetAttribute(context, "valueProperty", string.Empty);
 				var labelProperty = GetAttribute(context, "labelProperty", string.Empty);
@@ -52,10 +52,10 @@ namespace Premotion.Mansion.Web.Controls.Forms
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
 			/// <param name="mappingStrategy">The <see cref="RowMappingStrategy"/> used by the list field.</param>
-			protected abstract TField Create(MansionWebContext context, ControlDefinition definition, RowMappingStrategy mappingStrategy);
+			protected abstract TField Create(IMansionWebContext context, ControlDefinition definition, RowMappingStrategy mappingStrategy);
 			#endregion
 		}
 		#endregion
@@ -94,9 +94,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Gets the data bound to this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the data.</returns>
-		private Dataset Retrieve(MansionContext context)
+		private Dataset Retrieve(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -114,9 +114,9 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Render this control.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		protected override void DoRender(MansionWebContext context, ITemplateService templateService)
+		protected override void DoRender(IMansionWebContext context, ITemplateService templateService)
 		{
 			using (templateService.Render(context, GetType().Name + "Control"))
 			{

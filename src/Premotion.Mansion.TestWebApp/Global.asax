@@ -1,1 +1,0 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Premotion.Mansion.TestWebApp.Global" Language="C#" %>

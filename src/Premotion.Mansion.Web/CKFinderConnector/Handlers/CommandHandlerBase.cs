@@ -2,6 +2,8 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using System.Web;
+using Premotion.Mansion.Core;
 using Premotion.Mansion.Web.Assets;
 
 namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
@@ -15,9 +17,9 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// <summary>
 		/// Handels the incomming CKFinder command.
 		/// </summary>
-		/// <param name="context">The incoming <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The incoming <see cref="IMansionWebContext"/>.</param>
 		/// <exception cref="ConnectorException">Thrown when an error occured while handling the command.</exception>
-		public void Handle(MansionWebContext context)
+		public void Handle(IMansionWebContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -30,7 +32,7 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 				Response = context.HttpContext.Response;
 
 				// get the upload service
-				AssetService = context.Nucleus.Get<IAssetService>(context);
+				AssetService = context.Nucleus.ResolveSingle<IAssetService>();
 
 				// get the asset type
 				var request = context.HttpContext.Request;
@@ -54,9 +56,9 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// <summary>
 		/// Handels the incomming CKFinder command.
 		/// </summary>
-		/// <param name="context">The incoming <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The incoming <see cref="IMansionWebContext"/>.</param>
 		/// <exception cref="ConnectorException">Thrown when an error occured while handling the command.</exception>
-		protected abstract void DoHandle(MansionWebContext context);
+		protected abstract void DoHandle(IMansionWebContext context);
 		#endregion
 		#region ACL Methods
 		/// <summary>
@@ -137,13 +139,13 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// </summary>
 		protected IAssetService AssetService { get; private set; }
 		/// <summary>
-		/// Gets the <see cref="IHttpRequest"/> of the current request.
+		/// Gets the <see cref="HttpRequestBase"/> of the current request.
 		/// </summary>
-		protected IHttpRequest Request { get; private set; }
+		protected HttpRequestBase Request { get; private set; }
 		/// <summary>
-		/// Gets the <see cref="IHttpResponse"/> of the current request.
+		/// Gets the <see cref="HttpResponseBase"/> of the current request.
 		/// </summary>
-		protected IHttpResponse Response { get; private set; }
+		protected HttpResponseBase Response { get; private set; }
 		#endregion
 	}
 }

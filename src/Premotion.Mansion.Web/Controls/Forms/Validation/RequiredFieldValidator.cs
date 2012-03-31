@@ -1,5 +1,5 @@
 ﻿using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
+using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Validation
 {
@@ -12,17 +12,17 @@ namespace Premotion.Mansion.Web.Controls.Forms.Validation
 		/// <summary>
 		/// Constructs <see cref="RequiredFieldValidator"/>s.
 		/// </summary>
-		[Named(Constants.FormTagNamespaceUri, "requiredFieldValidator")]
+		[ScriptTag(Constants.FormTagNamespaceUri, "requiredFieldValidator")]
 		public class RequiredFieldValidatorFactory : ValidationRuleFactoryTag
 		{
 			#region Overrides of ValidationRuleFactoryTag
 			/// <summary>
 			/// Create the validation rule.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="properties">The <see cref="IPropertyBag"/> of the rule properties.</param>
 			/// <returns>Returns the created rule.</returns>
-			protected override ValidationRule Create(MansionWebContext context, IPropertyBag properties)
+			protected override ValidationRule Create(IMansionWebContext context, IPropertyBag properties)
 			{
 				return new RequiredFieldValidator(properties);
 			}
@@ -42,11 +42,11 @@ namespace Premotion.Mansion.Web.Controls.Forms.Validation
 		/// <summary>
 		/// Executes the validation rule.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="form">The <see cref="Form"/> being validated.</param>
 		/// <param name="control">The actual <see cref="FormControl"/> being validated.</param>
 		/// <param name="results">The <see cref="ValidationResults"/> containing the validation results.</param>
-		protected override void DoValidate(MansionWebContext context, Form form, Field control, ValidationResults results)
+		protected override void DoValidate(IMansionWebContext context, Form form, Field control, ValidationResults results)
 		{
 			// if the field has a value do nothing
 			if (control.HasValue(context))

@@ -20,11 +20,11 @@ namespace Premotion.Mansion.Web.Controls.Providers
 			/// <summary>
 			/// Executes this tag.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionContext"/>.</param>
-			protected override void DoExecute(MansionContext context)
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
+			protected override void DoExecute(IMansionContext context)
 			{
 				// get the web context
-				var webContext = context.Cast<MansionWebContext>();
+				var webContext = context.Cast<IMansionWebContext>();
 
 				// create the provider
 				var provider = Create(webContext);
@@ -37,9 +37,9 @@ namespace Premotion.Mansion.Web.Controls.Providers
 			/// <summary>
 			/// Ibjects the <paramref name="provider"/> into the proper consumer.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="provider">The <typeparamref name="TProviderType"/>.</param>
-			protected virtual void InjectProviderInConsumer(MansionWebContext context, TProviderType provider)
+			protected virtual void InjectProviderInConsumer(IMansionWebContext context, TProviderType provider)
 			{
 				// get the top-most data provider consumer control
 				IDataConsumerControl<TProviderType, TDataType> consumer;
@@ -52,9 +52,9 @@ namespace Premotion.Mansion.Web.Controls.Providers
 			/// <summary>
 			/// Creates the data provider.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <returns>Returns the created data provider.</returns>
-			protected abstract TProviderType Create(MansionWebContext context);
+			protected abstract TProviderType Create(IMansionWebContext context);
 			#endregion
 		}
 		#endregion
@@ -62,9 +62,9 @@ namespace Premotion.Mansion.Web.Controls.Providers
 		/// <summary>
 		/// Retrieves the data from this provider.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the <typeparamref name="TDataType"/>.</returns>
-		public TDataType Retrieve(MansionContext context)
+		public TDataType Retrieve(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -76,9 +76,9 @@ namespace Premotion.Mansion.Web.Controls.Providers
 		/// <summary>
 		/// Retrieves the data from this provider.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the retrieve data.</returns>
-		protected abstract TDataType DoRetrieve(MansionContext context);
+		protected abstract TDataType DoRetrieve(IMansionContext context);
 		#endregion
 	}
 }

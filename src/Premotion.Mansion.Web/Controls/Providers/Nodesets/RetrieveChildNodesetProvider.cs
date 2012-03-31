@@ -1,8 +1,8 @@
 ﻿using System;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Clauses;
+using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Providers.Nodesets
 {
@@ -15,16 +15,16 @@ namespace Premotion.Mansion.Web.Controls.Providers.Nodesets
 		/// <summary>
 		/// Creates <see cref="RetrieveChildNodesetProvider"/>s.
 		/// </summary>
-		[Named(Constants.DataProviderTagNamespaceUri, "retrieveChildNodesetProvider")]
+		[ScriptTag(Constants.DataProviderTagNamespaceUri, "retrieveChildNodesetProvider")]
 		public class RetrieveChildNodesetProviderFactoryTag : DatasetProviderFactoryTag<NodesetProvider>
 		{
 			#region Overrides of DataProviderFactoryTag
 			/// <summary>
 			/// Creates the data provider.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <returns>Returns the created data provider.</returns>
-			protected override NodesetProvider Create(MansionWebContext context)
+			protected override NodesetProvider Create(IMansionWebContext context)
 			{
 				return new RetrieveChildNodesetProvider(GetAttributes(context));
 			}
@@ -49,9 +49,9 @@ namespace Premotion.Mansion.Web.Controls.Providers.Nodesets
 		/// <summary>
 		/// Retrieves the data from this provider.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the retrieve data.</returns>
-		protected override Nodeset DoRetrieve(MansionContext context)
+		protected override Nodeset DoRetrieve(IMansionContext context)
 		{
 			// get the repository
 			var repository = context.Repository;

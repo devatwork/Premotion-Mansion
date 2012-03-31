@@ -6,11 +6,9 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Clauses;
-using Premotion.Mansion.Core.Nucleus.Facilities.Reflection;
 using Premotion.Mansion.Repository.SqlServer.Converters;
 using Premotion.Mansion.Repository.SqlServer.Queries;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
-using log4net;
 
 namespace Premotion.Mansion.Repository.SqlServer
 {
@@ -23,34 +21,36 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <summary>
 		/// Constructs an instance of the SQL Server Repository with the specified connection string.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="connectionString">The connection string.</param>
-		public SqlServerRepository(MansionContext context, string connectionString)
+		/// <param name="converters"> </param>
+		/// <param name="interpreters"> </param>
+		public SqlServerRepository(IMansionContext context, string connectionString, IEnumerable<IClauseConverter> converters, IEnumerable<QueryInterpreter> interpreters)
 		{
 			// valiate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (string.IsNullOrEmpty(connectionString))
 				throw new ArgumentNullException("connectionString");
+			if (converters == null)
+				throw new ArgumentNullException("converters");
+			if (interpreters == null)
+				throw new ArgumentNullException("interpreters");
 
 			// set values
 			this.connectionString = connectionString;
-
-			// get the required type instances
-			var typeDirectoryService = context.Nucleus.Get<ITypeDirectoryService>(context);
-			var objectFactoryService = context.Nucleus.Get<IObjectFactoryService>(context);
-			converters.AddRange(objectFactoryService.Create<IClauseConverter>(typeDirectoryService.Lookup<IClauseConverter>()));
-			interpreters.AddRange(objectFactoryService.Create<QueryInterpreter>(typeDirectoryService.Lookup<QueryInterpreter>()));
+			this.converters = converters.ToArray();
+			this.interpreters = interpreters.ToArray();
 		}
 		#endregion
 		#region Implementation of IRepository
 		/// <summary>
 		/// Retrieves a single node from this repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="query">The query on the node.</param>
 		/// <returns>Returns the node.</returns>
-		protected override Node DoRetrieveSingle(MansionContext context, NodeQuery query)
+		protected override Node DoRetrieveSingle(IMansionContext context, NodeQuery query)
 		{
 			// build the query
 			using (var connection = CreateConnection())
@@ -63,10 +63,10 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <summary>
 		/// Retrieves multiple nodes from this repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="query">The query on the node.</param>
 		/// <returns></returns>
-		protected override Nodeset DoRetrieve(MansionContext context, NodeQuery query)
+		protected override Nodeset DoRetrieve(IMansionContext context, NodeQuery query)
 		{
 			// build the query
 			using (var connection = CreateConnection())
@@ -79,11 +79,11 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <summary>
 		/// Creates a new node in this repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="parent">The parent node.</param>
 		/// <param name="newProperties">The properties of the node which to create.</param>
 		/// <returns>Returns the created nodes.</returns>
-		protected override Node DoCreate(MansionContext context, Node parent, IPropertyBag newProperties)
+		protected override Node DoCreate(IMansionContext context, Node parent, IPropertyBag newProperties)
 		{
 			// create a query to retrieve the new node
 			var selectQuery = new NodeQuery();
@@ -103,17 +103,10 @@ namespace Premotion.Mansion.Repository.SqlServer
 					// woohoo it worked!
 					transaction.Commit();
 				}
-				catch (Exception e)
+				catch (Exception)
 				{
 					// something terrible happened, revert everything
-					try
-					{
-						transaction.Rollback();
-					}
-					catch (Exception)
-					{
-						log.Error("Failed to rollback transaction", e);
-					}
+					transaction.Rollback();
 					throw;
 				}
 			}
@@ -124,10 +117,10 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <summary>
 		/// Updates an existing node in this repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The node which will be updated.</param>
 		/// <param name="modifiedProperties">The properties which to update.</param>
-		protected override void DoUpdate(MansionContext context, Node node, IPropertyBag modifiedProperties)
+		protected override void DoUpdate(IMansionContext context, Node node, IPropertyBag modifiedProperties)
 		{
 			// get the modified properties
 			modifiedProperties = PropertyBag.GetModifiedProperties(context, node, modifiedProperties);
@@ -147,17 +140,10 @@ namespace Premotion.Mansion.Repository.SqlServer
 					// woohoo it worked!
 					transaction.Commit();
 				}
-				catch (Exception e)
+				catch (Exception)
 				{
 					// something terrible happened, revert everything
-					try
-					{
-						transaction.Rollback();
-					}
-					catch (Exception)
-					{
-						log.Error("Failed to rollback transaction", e);
-					}
+					transaction.Rollback();
 					throw;
 				}
 			}
@@ -168,9 +154,9 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <summary>
 		/// Deletes an existing node from this repository.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node which will be deleted.</param>
-		protected override void DoDelete(MansionContext context, NodePointer pointer)
+		protected override void DoDelete(IMansionContext context, NodePointer pointer)
 		{
 			// build the query
 			using (var connection = CreateConnection())
@@ -185,17 +171,10 @@ namespace Premotion.Mansion.Repository.SqlServer
 					// woohoo it worked!
 					transaction.Commit();
 				}
-				catch (Exception e)
+				catch (Exception)
 				{
 					// something terrible happened, revert everything
-					try
-					{
-						transaction.Rollback();
-					}
-					catch (Exception)
-					{
-						log.Error("Failed to rollback transaction", e);
-					}
+					transaction.Rollback();
 					throw;
 				}
 			}
@@ -203,11 +182,11 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <summary>
 		/// Moves an existing node in this repository to a new parent node.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node which will be moved.</param>
 		/// <param name="newParentPointer">The pointer to the parent to which the node is moved.</param>
 		/// <returns>Returns the moved node.</returns>m
-		protected override Node DoMove(MansionContext context, NodePointer pointer, NodePointer newParentPointer)
+		protected override Node DoMove(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
 		{
 			// build the query
 			using (var connection = CreateConnection())
@@ -222,17 +201,10 @@ namespace Premotion.Mansion.Repository.SqlServer
 					// woohoo it worked!
 					transaction.Commit();
 				}
-				catch (Exception e)
+				catch (Exception)
 				{
 					// something terrible happened, revert everything
-					try
-					{
-						transaction.Rollback();
-					}
-					catch (Exception)
-					{
-						log.Error("Failed to rollback transaction", e);
-					}
+					transaction.Rollback();
 					throw;
 				}
 			}
@@ -244,11 +216,11 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <summary>
 		/// Copies an existing node in this repository to a new node.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node which will be copied.</param>
 		/// <param name="targetParentPointer">The pointer to the parent to which the copied node is added.</param>
 		/// <returns>Returns the copied node.</returns>
-		protected override Node DoCopy(MansionContext context, NodePointer pointer, NodePointer targetParentPointer)
+		protected override Node DoCopy(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer)
 		{
 			// create a query to retrieve the new node
 			var selectQuery = new NodeQuery();
@@ -279,17 +251,10 @@ namespace Premotion.Mansion.Repository.SqlServer
 						// woohoo it worked!
 						transaction.Commit();
 					}
-					catch (Exception e)
+					catch (Exception)
 					{
 						// something terrible happened, revert everything
-						try
-						{
-							transaction.Rollback();
-						}
-						catch (Exception)
-						{
-							log.Error("Failed to rollback transaction", e);
-						}
+						transaction.Rollback();
 						throw;
 					}
 				}
@@ -301,10 +266,10 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <summary>
 		/// Parses <paramref name="arguments" /> into a <see cref="NodeQuery" />.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="arguments">The arguments which to parse.</param>
 		/// <returns>Returns the parsed query.</returns>
-		protected override NodeQuery DoParseQuery(MansionContext context, IPropertyBag arguments)
+		protected override NodeQuery DoParseQuery(IMansionContext context, IPropertyBag arguments)
 		{
 			// interpret all the clauses and return the query
 			var query = new NodeQuery();
@@ -314,8 +279,8 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <summary>
 		/// Starts this object. This methods must be called after the object has been created and before it is used.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
-		protected override void DoStart(MansionContext context)
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		protected override void DoStart(IMansionContext context)
 		{
 		}
 		#endregion
@@ -358,17 +323,10 @@ namespace Premotion.Mansion.Repository.SqlServer
 					// woohoo it worked!
 					transaction.Commit();
 				}
-				catch (Exception e)
+				catch (Exception)
 				{
 					// something terrible happened, revert everything
-					try
-					{
-						transaction.Rollback();
-					}
-					catch (Exception)
-					{
-						log.Error("Failed to rollback transaction", e);
-					}
+					transaction.Rollback();
 					throw;
 				}
 			}
@@ -391,10 +349,9 @@ namespace Premotion.Mansion.Repository.SqlServer
 		}
 		#endregion
 		#region Private Fields
-		private static readonly ILog log = LogManager.GetLogger(typeof (SqlServerRepository));
 		private readonly string connectionString;
-		private readonly List<IClauseConverter> converters = new List<IClauseConverter>();
-		private readonly List<QueryInterpreter> interpreters = new List<QueryInterpreter>();
+		private readonly IEnumerable<IClauseConverter> converters;
+		private readonly IEnumerable<QueryInterpreter> interpreters;
 		private readonly SchemaProvider schemaProvider = new SchemaProvider();
 		#endregion
 	}

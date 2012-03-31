@@ -20,10 +20,10 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Maps the properties of the row.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="row">The row which to map.</param>
 		/// <returns>Returns the mapped result.</returns>
-		protected override IPropertyBag DoMapRowProperties(MansionWebContext context, IPropertyBag row)
+		protected override IPropertyBag DoMapRowProperties(IMansionWebContext context, IPropertyBag row)
 		{
 			return row;
 		}

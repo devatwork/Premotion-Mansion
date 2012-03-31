@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Premotion.Mansion.Core.Caching;
-using Premotion.Mansion.Core.Nucleus;
 
 namespace Premotion.Mansion.Core.Collections
 {
@@ -39,10 +38,10 @@ namespace Premotion.Mansion.Core.Collections
 			/// <summary>
 			/// Creates a <see cref="AdapterFactory{TObjects}"/>.
 			/// </summary>
-			/// <param name="context">The <see cref="IContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
 			/// <param name="type">The type for which to create the adapter factory.</param>
 			/// <returns>Returns the created factory.</returns>
-			public static AdapterFactory<TObject> Create(IContext context, Type type)
+			public static AdapterFactory<TObject> Create(IMansionContext context, Type type)
 			{
 				// validate arguments
 				if (context == null)
@@ -99,10 +98,10 @@ namespace Premotion.Mansion.Core.Collections
 		/// Adapts any <see cref="object"/> to <see cref="IPropertyBag"/>, all public properties of the object are available in the <see cref="IPropertyBag"/>.
 		/// </summary>
 		/// <typeparam name="TObject"></typeparam>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="obj">The object which to wrap.</param>
 		/// <returns>Return the property bag.</returns>
-		public static IPropertyBag Adapt<TObject>(IContext context, TObject obj) where TObject : class
+		public static IPropertyBag Adapt<TObject>(IMansionContext context, TObject obj) where TObject : class
 		{
 			return Adapt(context, typeof (TObject), obj);
 		}
@@ -110,11 +109,11 @@ namespace Premotion.Mansion.Core.Collections
 		/// Adapts any <see cref="object"/> to <see cref="IPropertyBag"/>, all public properties of the object are available in the <see cref="IPropertyBag"/>.
 		/// </summary>
 		/// <typeparam name="TObject"></typeparam>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="type">The actual <see cref="Type"/> for which to create the adapter, <paramref name="obj"/> must be assignable from this <paramref name="type"/>.</param>
 		/// <param name="obj">The object which to wrap.</param>
 		/// <returns>Return the property bag.</returns>
-		public static IPropertyBag Adapt<TObject>(IContext context, Type type, TObject obj) where TObject : class
+		public static IPropertyBag Adapt<TObject>(IMansionContext context, Type type, TObject obj) where TObject : class
 		{
 			// validate arguments
 			if (context == null)
@@ -125,18 +124,18 @@ namespace Premotion.Mansion.Core.Collections
 				throw new ArgumentNullException("type");
 
 			// load the adapter from cache or create it
-			return context.Cast<INucleusAwareContext>().Nucleus.Get<ICachingService>(context).GetOrAdd(context, (StringCacheKey) (CacheKeyPrefix + type), () =>
-			                                                                                                                                              {
-			                                                                                                                                              	// check if the 
-			                                                                                                                                              	if (!type.IsAssignableFrom(obj.GetType()))
-			                                                                                                                                              		throw new InvalidOperationException("The type must be assignable from obj");
+			return context.Nucleus.ResolveSingle<ICachingService>().GetOrAdd(context, (StringCacheKey) (CacheKeyPrefix + type), () =>
+			                                                                                                                    {
+			                                                                                                                    	// check if the 
+			                                                                                                                    	if (!type.IsAssignableFrom(obj.GetType()))
+			                                                                                                                    		throw new InvalidOperationException("The type must be assignable from obj");
 
-			                                                                                                                                              	// create the factory
-			                                                                                                                                              	var adapterFactory = AdapterFactory<TObject>.Create(context, type);
+			                                                                                                                    	// create the factory
+			                                                                                                                    	var adapterFactory = AdapterFactory<TObject>.Create(context, type);
 
-			                                                                                                                                              	// make it cachable
-			                                                                                                                                              	return new CachedAdapterFactory<TObject>(adapterFactory);
-			                                                                                                                                              }).CreateInstance(obj);
+			                                                                                                                    	// make it cachable
+			                                                                                                                    	return new CachedAdapterFactory<TObject>(adapterFactory);
+			                                                                                                                    }).CreateInstance(obj);
 		}
 		/// <summary>
 		/// Unwraps an object of type <typeparamref name="TObject"/> to it's original form.

@@ -13,7 +13,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 		/// </summary>
 		/// <param name="context"></param>
 		/// <returns></returns>
-		public bool Evaluate(MansionContext context)
+		public bool Evaluate(IMansionContext context)
 		{
 			return context.Stack.Peek<Loop>("Loop").IsLast;
 		}

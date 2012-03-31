@@ -47,7 +47,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="newPointer"></param>
 		/// <param name="newProperties"></param>
-		public void ToInsertStatement(MansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag newProperties)
+		public void ToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag newProperties)
 		{
 			// validate arguments
 			if (context == null)
@@ -69,7 +69,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="newPointer"></param>
 		/// <param name="newProperties"></param>
-		protected abstract void DoToInsertStatement(MansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag newProperties);
+		protected abstract void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag newProperties);
 		/// <summary>
 		/// Generates the update statement for this table.
 		/// </summary>
@@ -77,7 +77,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="node"></param>
 		/// <param name="modifiedProperties"></param>
-		public void ToUpdateStatement(MansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		public void ToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
 		{
 			// validate arguments
 			if (context == null)
@@ -99,14 +99,14 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="node"></param>
 		/// <param name="modifiedProperties"></param>
-		protected abstract void DoToUpdateStatement(MansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties);
+		protected abstract void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties);
 		/// <summary>
 		/// Generates an table sync statement for this table.
 		/// </summary>
 		/// <param name="context">The request context.</param>
 		/// <param name="bulkContext"></param>
 		/// <param name="nodes"></param>
-		public void ToSyncStatement(MansionContext context, BulkOperationContext bulkContext, List<Node> nodes)
+		public void ToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Node> nodes)
 		{
 			// validate arguments
 			if (context == null)
@@ -125,7 +125,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="context">The request context.</param>
 		/// <param name="bulkContext"></param>
 		/// <param name="nodes"></param>
-		protected abstract void DoToSyncStatement(MansionContext context, BulkOperationContext bulkContext, List<Node> nodes);
+		protected abstract void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Node> nodes);
 		#endregion
 		#region Properties
 		/// <summary>

@@ -13,38 +13,38 @@ namespace Premotion.Mansion.Core
 		/// Gets the value for a specific property.
 		/// </summary>
 		/// <typeparam name="TValue">The value type.</typeparam>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="propertyName">The name of the property which to get.</param>
 		/// <returns>Returns the value.</returns>
 		/// <exception cref="PropertyNotFoundException">Thrown when the property can not be found in this bag.</exception>
-		TValue Get<TValue>(IContext context, string propertyName);
+		TValue Get<TValue>(IMansionContext context, string propertyName);
 		/// <summary>
 		/// Gets the value for a specific property.
 		/// </summary>
 		/// <typeparam name="TValue">The value type.</typeparam>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="propertyName">The name of the property which to get.</param>
 		/// <param name="defaultValue">The default value when the property can not be found or cast.</param>
 		/// <returns>Returns the value.</returns>
-		TValue Get<TValue>(IContext context, string propertyName, TValue defaultValue);
+		TValue Get<TValue>(IMansionContext context, string propertyName, TValue defaultValue);
 		/// <summary>
 		/// Tries to get the value from this bag.
 		/// </summary>
 		/// <typeparam name="TValue">The type of value.</typeparam>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="propertyName">The name of the property.</param>
 		/// <param name="target">The target.</param>
 		/// <returns>Returns true when the property could be retrieved otherwise false.</returns>
-		bool TryGet<TValue>(IContext context, string propertyName, out TValue target);
+		bool TryGet<TValue>(IMansionContext context, string propertyName, out TValue target);
 		/// <summary>
 		/// Tries to get the value from this bag and remove it.
 		/// </summary>
 		/// <typeparam name="TValue">The type of value.</typeparam>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="propertyName">The name of the property.</param>
 		/// <param name="target">The target.</param>
 		/// <returns>Returns true when the property could be retrieved otherwise false.</returns>
-		bool TryGetAndRemove<TValue>(IContext context, string propertyName, out TValue target);
+		bool TryGetAndRemove<TValue>(IMansionContext context, string propertyName, out TValue target);
 		/// <summary>
 		/// Sets a new property in the bag with the name <paramref name="propertyName"/> and the value <paramref name="value"/>. Overwrites any value.
 		/// </summary>

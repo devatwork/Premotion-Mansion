@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Premotion.Mansion.Core.Attributes;
 using Premotion.Mansion.Core.IO;
 using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Templating;
@@ -10,21 +9,38 @@ namespace Premotion.Mansion.Core.ScriptTags.Rendering
 	/// <summary>
 	/// Opens a template.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "openTemplate")]
+	[ScriptTag(Constants.NamespaceUri, "openTemplate")]
 	public class OpenTemplateTag : ScriptTag
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="applicationResourceService"></param>
+		/// <param name="templateService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public OpenTemplateTag(IApplicationResourceService applicationResourceService, ITemplateService templateService)
+		{
+			// validate arguments
+			if (applicationResourceService == null)
+				throw new ArgumentNullException("applicationResourceService");
+			if (templateService == null)
+				throw new ArgumentNullException("templateService");
+
+			//set values
+			this.applicationResourceService = applicationResourceService;
+			this.templateService = templateService;
+		}
+		#endregion
+		#region Overrides of ScriptTag
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
-
-			// get the services
-			var resourceService = context.Nucleus.Get<IApplicationResourceService>(context);
-			var templateService = context.Nucleus.Get<ITemplateService>(context);
 
 			// get the attributes
 			var attributes = GetAttributes(context);
@@ -33,18 +49,23 @@ namespace Premotion.Mansion.Core.ScriptTags.Rendering
 				attributes.Set("extension", TemplateServiceConstants.DefaultTemplateExtension);
 
 			// get the resource paths
-			var resourcePath = resourceService.ParsePath(context, attributes);
+			var resourcePath = applicationResourceService.ParsePath(context, attributes);
 
 			// get the resources
 			IEnumerable<IResource> resources;
 			if (GetAttribute(context, "checkExists", true))
-				resources = resourceService.Get(context, resourcePath);
+				resources = applicationResourceService.Get(context, resourcePath);
 			else
-				resourceService.TryGet(context, resourcePath, out resources);
+				applicationResourceService.TryGet(context, resourcePath, out resources);
 
 			// open the templates and executes child tags);
 			using (templateService.Open(context, resources))
 				ExecuteChildTags(context);
 		}
+		#endregion
+		#region Private Fields
+		private readonly IApplicationResourceService applicationResourceService;
+		private readonly ITemplateService templateService;
+		#endregion
 	}
 }

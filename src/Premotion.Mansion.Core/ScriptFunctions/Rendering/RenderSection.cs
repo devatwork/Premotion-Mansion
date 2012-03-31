@@ -12,13 +12,30 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Rendering
 	[ScriptFunction("RenderSection")]
 	public class RenderSection : FunctionExpression
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="templateService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public RenderSection(ITemplateService templateService)
+		{
+			// validaet arguments
+			if (templateService == null)
+				throw new ArgumentNullException("templateService");
+
+			// set values
+			this.templateService = templateService;
+		}
+		#endregion
+		#region Evaluate Methods
 		/// <summary>
 		/// Renders a section and returns it's content.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="sectionName">The name of the section which to render..</param>
 		/// <returns></returns>
-		public string Evaluate(MansionContext context, string sectionName)
+		public string Evaluate(IMansionContext context, string sectionName)
 		{
 			// validate arguments
 			if (context == null)
@@ -30,10 +47,14 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Rendering
 			var buffer = new StringBuilder();
 			using (var pipe = new StringOutputPipe(buffer))
 			using (context.OutputPipeStack.Push(pipe))
-				context.Nucleus.Get<ITemplateService>(context).Render(context, sectionName, TemplateServiceConstants.OutputTargetField).Dispose();
+				templateService.Render(context, sectionName, TemplateServiceConstants.OutputTargetField).Dispose();
 
 			// return the buffer
 			return buffer.ToString();
 		}
+		#endregion
+		#region Private Fields
+		private readonly ITemplateService templateService;
+		#endregion
 	}
 }

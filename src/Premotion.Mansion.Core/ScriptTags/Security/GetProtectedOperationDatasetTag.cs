@@ -1,6 +1,6 @@
-﻿using Premotion.Mansion.Core.Attributes;
-using Premotion.Mansion.Core.Collections;
+﻿using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.ScriptTags.Stack;
+using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Security;
 
 namespace Premotion.Mansion.Core.ScriptTags.Security
@@ -8,7 +8,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Security
 	/// <summary>
 	/// Gets a <see cref="Dataset"/> containing all the <see cref="ProtectedOperation"/>s. 
 	/// </summary>
-	[Named(Constants.NamespaceUri, "getProtectedOperationDataset")]
+	[ScriptTag(Constants.NamespaceUri, "getProtectedOperationDataset")]
 	public class GetProtectedOperationDatasetTag : GetDatasetBaseTag
 	{
 		#region Overrides of GetDatasetBaseTag
@@ -18,7 +18,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Security
 		/// <param name="context">The request context.</param>
 		/// <param name="attributes">The attributes of this tag.</param>
 		/// <returns>Returns the result.</returns>
-		protected override Dataset Get(MansionContext context, IPropertyBag attributes)
+		protected override Dataset Get(IMansionContext context, IPropertyBag attributes)
 		{
 			// get the resource properties
 			var resource = GetRequiredAttribute<ProtectedResource>(context, "source");

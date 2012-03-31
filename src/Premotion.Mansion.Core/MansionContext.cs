@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Globalization;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.IO;
 using Premotion.Mansion.Core.Nucleus;
+using Premotion.Mansion.Core.Patterns;
 using Premotion.Mansion.Core.Scripting;
 using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Security;
@@ -14,7 +16,7 @@ namespace Premotion.Mansion.Core
 	/// <summary>
 	/// Represents the context for mansion applications.
 	/// </summary>
-	public class MansionContext : Context, INucleusAwareContext
+	public class MansionContext : DisposableBase, IMansionContext
 	{
 		#region Constructors
 		/// <summary>
@@ -33,27 +35,49 @@ namespace Premotion.Mansion.Core
 			UserInterfaceCulture = CultureInfo.CurrentUICulture;
 		}
 		#endregion
-		#region Repository Methods
+		#region Implementation of IMansionContext
 		/// <summary>
-		/// Gets the unwrapped <see cref="IRepository"/> which is stripped from all decorators.
+		/// Extends this context.
 		/// </summary>
-		/// <returns>Returns the unwrapped <see cref="IRepository"/>.</returns>
-		public IRepository GetUnwrappedRepository()
+		/// <typeparam name="TContextExtension">The type of extension, must have a default constructor and inherit from <see cref="MansionContextExtension"/>.</typeparam>
+		/// <returns>Returns the extions.</returns>
+		/// <exception cref="MansionContextExtensionNotFoundException">Thrown when the extension is not found.</exception>
+		public TContextExtension Extend<TContextExtension>() where TContextExtension : MansionContextExtension
 		{
-			// get the current repository
-			var repository = Repository;
-
-			// unwrap the decorators
-			while (repository is IRepositoryDecorator)
-			{
-				// unwrap it
-				repository = ((IRepositoryDecorator) repository).DecoratedRepository;
-			}
-
-			return repository;
+			MansionContextExtension extension;
+			if (!extensions.TryGetValue(typeof (TContextExtension), out extension))
+				throw new MansionContextExtensionNotFoundException(typeof (TContextExtension));
+			return (TContextExtension) extension;
 		}
-		#endregion
-		#region Control Flow Properties
+		/// <summary>
+		/// Extends this context.
+		/// </summary>
+		/// <typeparam name="TContextExtension">The type of extension, must have a default constructor and inherit from <see cref="MansionContextExtension"/>.</typeparam>
+		/// <param name="factory">The <see cref="Func{IContext,TContextExtension}"/> creating the context when needed.</param>
+		/// <returns>Returns the extions.</returns>
+		public TContextExtension Extend<TContextExtension>(Func<IMansionContext, TContextExtension> factory) where TContextExtension : MansionContextExtension
+		{
+			// validate arguments
+			if (factory == null)
+				throw new ArgumentNullException("factory");
+
+			return (TContextExtension) extensions.GetOrAdd(typeof (TContextExtension), type => factory(this));
+		}
+		/// <summary>
+		/// Tries to cast this context into another form..
+		/// </summary>
+		/// <typeparam name="TContext">The type of context, must implement <see cref="IMansionContext"/>.</typeparam>
+		/// <returns>Returns context.</returns>
+		/// <exception cref="InvalidCastException">Thrown when this context can not be cast into the desired context type.</exception>
+		public TContext Cast<TContext>() where TContext : class, IMansionContext
+		{
+			// check type
+			if (!typeof (TContext).IsAssignableFrom(GetType()))
+				throw new InvalidCastException(string.Format("Can not cast '{0}' into '{1}'", GetType(), typeof (TContext)));
+
+			// cast
+			return this as TContext;
+		}
 		/// <summary>
 		/// Gets a flag indicating whether the execution of this script should stop.
 		/// </summary>
@@ -69,8 +93,6 @@ namespace Premotion.Mansion.Core
 		/// Sets a flag indicating whether the execution of the current procedure should be stopped.
 		/// </summary>
 		public bool BreakTopMostProcedure { private get; set; }
-		#endregion
-		#region User Methods
 		/// <summary>
 		/// Sets the current user.
 		/// </summary>
@@ -109,8 +131,6 @@ namespace Premotion.Mansion.Core
 				throw new ArgumentNullException("authenticatedUser");
 			backofficeUser = authenticatedUser;
 		}
-		#endregion
-		#region Properties
 		/// <summary>
 		/// Gets the stack of this context.
 		/// </summary>
@@ -225,7 +245,7 @@ namespace Premotion.Mansion.Core
 			}
 		}
 		/// <summary>
-		/// Gets the user for the current context determined by <see cref="IsBackoffice"/>
+		/// Gets the user for the current context determined by <see cref="IMansionContext.IsBackoffice"/>
 		/// </summary>
 		public UserState CurrentUserState
 		{
@@ -267,9 +287,27 @@ namespace Premotion.Mansion.Core
 			get { return nucleus; }
 		}
 		#endregion
+		#region Overrides of DisposableBase
+		/// <summary>
+		/// Dispose resources. Override this method in derived classes. Unmanaged resources should always be released
+		/// when this method is called. Managed resources may only be disposed of if disposeManagedResources is true.
+		/// </summary>
+		/// <param name="disposeManagedResources">A value which indicates whether managed resources may be disposed of.</param>
+		protected override void DisposeResources(bool disposeManagedResources)
+		{
+			// check for managed resource disposal
+			if (!disposeManagedResources)
+				return;
+
+			// dispose all the extensions
+			foreach (var extension in extensions)
+				extension.Value.Dispose();
+		}
+		#endregion
 		#region Private fields
 		private readonly IAutoPopStack<ActiveSection> activeSectionStack = new AutoPopStack<ActiveSection>();
 		private readonly IAutoPopDictionaryStack<string, IScript> eventHandlerStack = new AutoPopDictionaryStack<string, IScript>(StringComparer.OrdinalIgnoreCase);
+		private readonly ConcurrentDictionary<Type, MansionContextExtension> extensions = new ConcurrentDictionary<Type, MansionContextExtension>();
 		private readonly IAutoPopStack<IInputPipe> inputPipeStack = new AutoPopStack<IInputPipe>();
 		private readonly INucleus nucleus;
 		private readonly IAutoPopStack<IOutputPipe> outputPipeStack = new AutoPopStack<IOutputPipe>();

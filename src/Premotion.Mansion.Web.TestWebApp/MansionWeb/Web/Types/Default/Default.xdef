@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<type xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd" xmlns:webdescriptors="http://schemas.premotion.nl/mansion/1.0/web/descriptors.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:listeners="http://schemas.premotion.nl/mansion/1.0/data.listeners.descriptors.xsd">
+	
+	<!-- define identity properties -->
+	<property name="key">
+		<sqlserver:column allowNullValue="true" />
+	</property>
+	<property name="created">
+		<sqlserver:dateTimeColumn defaultValue="{Now()}" />
+	</property>
+	<property name="modified">
+		<sqlserver:dateTimeColumn expression="{NotNull( Column.value, Now() )}" />
+	</property>
+	
+	<!-- define status properties -->
+	<property name="approved">
+		<sqlserver:booleanColumn defaultValue="true" />
+	</property>
+	<property name="publicationDate">
+		<sqlserver:dateTimeColumn expression="{NotNull( Column.value, Now() )}" />
+	</property>
+	<property name="expirationDate">
+		<sqlserver:dateTimeColumn expression="{NotNull( Column.value, MaxSqlDate() )}" />
+	</property>
+	<property name="archived">
+		<sqlserver:booleanColumn defaultValue="false" />
+	</property>
+	
+	<!-- role Ids -->
+	<property name="allowedRoleGuids">
+		<sqlserver:singleValuePropertyTable tableName="NodeAllowedRoleGuids"/>
+	</property>
+	
+	<!-- tags -->
+	<property name="tagGuids">
+		<sqlserver:singleValuePropertyTable tableName="NodeTagGuids" />
+	</property>
+	
+	<!-- tables -->
+	<sqlserver:rootTypeTable tableName="Nodes" />
+	
+	<!-- url generator -->
+	<webdescriptors:nodeUrlGenerator type="Premotion.Mansion.Web.Url.NamedUrlGenerator,Premotion.Mansion.Web" />
+
+	<!-- cms behavior -->
+	<cms:behavior label="Root" abstract="true" icon="Types/Default/Default.png" />
+	
+	<!-- listeners -->
+	<listeners:register type="Premotion.Mansion.Web.Web.Types.Default.PropagateListener, Premotion.Mansion.Web" />
+	<listeners:register type="Premotion.Mansion.Web.Web.Types.Default.TagListener, Premotion.Mansion.Web" />
+	
+</type>

@@ -16,7 +16,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.String
 		/// <param name="csv"></param>
 		/// <param name="value"></param>
 		/// <returns></returns>
-		public string Evaluate(MansionContext context, string csv, string value)
+		public string Evaluate(IMansionContext context, string csv, string value)
 		{
 			// validate arguments
 			if (context == null)

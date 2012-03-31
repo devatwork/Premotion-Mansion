@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using System.Text;
-using ICSharpCode.SharpZipLib.GZip;
-using ICSharpCode.SharpZipLib.Zip.Compression;
-using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
+using System.Web;
 using Premotion.Mansion.Core.IO;
 using Premotion.Mansion.Core.Patterns;
-using Yahoo.Yui.Compressor;
 
 namespace Premotion.Mansion.Web
 {
@@ -21,7 +17,7 @@ namespace Premotion.Mansion.Web
 		/// Constructs a web output pipe.
 		/// </summary>
 		/// <param name="httpContext">The responce stream.</param>
-		public WebOutputPipe(IHttpContext httpContext)
+		public WebOutputPipe(HttpContextBase httpContext)
 		{
 			// validate arguments
 			if (httpContext == null)
@@ -83,9 +79,9 @@ namespace Premotion.Mansion.Web
 		/// <summary>
 		/// Flushes this pipe to the response output.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionWebContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <returns>Returns the content of the response in a byte array.</returns>
-		public byte[] Flush(MansionWebContext context)
+		public byte[] Flush(IMansionWebContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -98,24 +94,8 @@ namespace Premotion.Mansion.Web
 			buffer.Position = 0;
 			buffer.Read(contentBytes, 0, contentBytes.Length);
 
-			// check if there is minification to do
-			if (ContentType.Equals("text/css") || ContentType.Equals("application/x-javascript"))
-			{
-				// get the content string
-				var content = Encoding.GetString(contentBytes);
-
-				// minify css
-				content = ContentType.Equals("text/css") ? CssCompressor.Compress(content) : JavaScriptCompressor.Compress(content, false, true, false, false, -1, Encoding, CultureInfo.InvariantCulture);
-
-				// write back the bytes
-				contentBytes = Encoding.GetBytes(content);
-			}
-
-			// compress the content when needed
-			var compressedContentBytes = Compress(contentBytes);
-
 			// return the content in bytes
-			return compressedContentBytes;
+			return contentBytes;
 		}
 		#endregion
 		#region Response Methods
@@ -134,70 +114,6 @@ namespace Premotion.Mansion.Web
 
 			// set the header
 			httpContext.Response.AddHeader(name, value);
-		}
-		#endregion
-		#region Compress Methods
-		/// <summary>
-		/// Compresses the content before writing it to the client.
-		/// </summary>
-		/// <param name="contentBytes">The encoded bytes.</param>
-		/// <returns>Returns the compressed bytes.</returns>
-		private byte[] Compress(byte[] contentBytes)
-		{
-			// validate arguments
-			if (contentBytes == null)
-				throw new ArgumentNullException("contentBytes");
-
-			// get the accept encoding from the request header
-			var acceptEncoding = httpContext.Request.GetAcceptEncodingHeader();
-
-			// check if browser accepts gzip
-			if (HttpContextAdapter.GZip.Equals(acceptEncoding))
-			{
-				// set the header
-				httpContext.Response.AddHeader("Content-encoding", HttpContextAdapter.GZip);
-
-				// compress
-				using (var bufferStream = new MemoryStream())
-				{
-					using (var compressorStream = new GZipOutputStream(bufferStream))
-					{
-						// set level to 1 indicating the fastest compression
-						compressorStream.SetLevel(1);
-
-						// write the content
-						compressorStream.Write(contentBytes, 0, contentBytes.Length);
-						compressorStream.Flush();
-					}
-
-					// return the compressed bytes
-					return bufferStream.ToArray();
-				}
-			}
-
-			// check if browser accepts deflate
-			if (HttpContextAdapter.Deflate.Equals(acceptEncoding))
-			{
-				// set the header
-				httpContext.Response.AddHeader("Content-encoding", HttpContextAdapter.Deflate);
-
-				// compress
-				using (var bufferStream = new MemoryStream())
-				{
-					using (var compressorStream = new DeflaterOutputStream(bufferStream, new Deflater(Deflater.BEST_SPEED, true)))
-					{
-						// write the content
-						compressorStream.Write(contentBytes, 0, contentBytes.Length);
-						compressorStream.Flush();
-					}
-
-					// return the compressed bytes
-					return bufferStream.ToArray();
-				}
-			}
-
-			// no compression method found, do not compress
-			return contentBytes;
 		}
 		#endregion
 		#region Overrides of DisposableBase
@@ -233,7 +149,7 @@ namespace Premotion.Mansion.Web
 		#region Private Fields
 		private readonly MemoryStream buffer = new MemoryStream();
 		private readonly StreamWriter bufferedWriter;
-		private readonly IHttpContext httpContext;
+		private readonly HttpContextBase httpContext;
 		#endregion
 	}
 }

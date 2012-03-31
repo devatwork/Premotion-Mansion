@@ -11,23 +11,23 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The input value.</param>
 		/// <param name="sourceType">The actual type of the source.</param>
 		/// <returns>Returns the converted value.</returns>
-		protected override Int32 DoConvert(IContext context, Int64 source, Type sourceType)
+		protected override Int32 DoConvert(IMansionContext context, Int64 source, Type sourceType)
 		{
 			return System.Convert.ToInt32(source);
 		}
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="source">The input value.</param>
 		/// <param name="sourceType">The actual type of the source.</param>
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns>Returns the converted value.</returns>
-		protected override Int32 DoConvert(IContext context, Int64 source, Type sourceType, Int32 defaultValue)
+		protected override Int32 DoConvert(IMansionContext context, Int64 source, Type sourceType, Int32 defaultValue)
 		{
 			return System.Convert.ToInt32(source);
 		}

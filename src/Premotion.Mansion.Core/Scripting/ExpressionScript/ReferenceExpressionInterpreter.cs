@@ -35,9 +35,9 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 			/// <summary>
 			/// Evaluates this expression.
 			/// </summary>
-			/// <param name="context">The <see cref="MansionContext"/>.</param>
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
 			/// <returns>Returns the result of the evaluation.</returns>
-			public override TTarget Execute<TTarget>(MansionContext context)
+			public override TTarget Execute<TTarget>(IMansionContext context)
 			{
 				// validate argument
 				if (context == null)
@@ -53,7 +53,7 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 					return PropertyBagAdapterFactory.GetOriginalObject<TTarget>(reference);
 
 				// do nothing
-				return context.Nucleus.Get<IConversionService>(context).Convert<TTarget>(context, reference);
+				return context.Nucleus.ResolveSingle<IConversionService>().Convert<TTarget>(context, reference);
 			}
 			#endregion
 			#region Private Fields
@@ -65,10 +65,10 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// <summary>
 		/// Asks a voter to cast a vote on the subject.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="subject">The subject.</param>
 		/// <returns>Returns the result of the vote.</returns>
-		protected override VoteResult DoVote(MansionContext context, string subject)
+		protected override VoteResult DoVote(IMansionContext context, string subject)
 		{
 			// alway refrain from voting
 			return subject.Length > 4 && subject[0] == '{' && subject[1] == '$' && subject[subject.Length - 1] == '}' ? VoteResult.MediumInterest : VoteResult.Refrain;
@@ -78,10 +78,10 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// <summary>
 		/// Interprets the input.
 		/// </summary>
-		/// <param name="context">The <see cref="MansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="input">The input which to interpret.</param>
 		/// <returns>Returns the interpreted result.</returns>
-		protected override IExpressionScript DoInterpret(MansionContext context, string input)
+		protected override IExpressionScript DoInterpret(IMansionContext context, string input)
 		{
 			// get the values
 			var referenceName = input.Substring(2, input.Length - 3).Trim();

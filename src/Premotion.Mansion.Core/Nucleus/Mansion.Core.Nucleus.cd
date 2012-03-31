@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Premotion.Mansion.Core.Nucleus.NucleusBase">
+    <Position X="7.75" Y="3.75" Width="5.25" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAkAECAAACQAAAAAAAAEAABAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Nucleus\NucleusBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Nucleus.ApplicationBootstrapperBase" Collapsed="true">
+    <Position X="9" Y="1" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Nucleus\ApplicationBootstrapperBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Nucleus.AssemblyScanner" Collapsed="true">
+    <Position X="11.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Nucleus\AssemblyScanner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Nucleus.ExportedAttribute" Collapsed="true">
+    <Position X="6.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Nucleus\ExportedAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Nucleus.NamedAttribute" Collapsed="true">
+    <Position X="6.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAQAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Nucleus\NamedAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Premotion.Mansion.Core.Nucleus.INucleus">
+    <Position X="0.5" Y="0.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Nucleus\INucleus.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Premotion.Mansion.Core.Nucleus.IConfigurableNucleus">
+    <Position X="0.5" Y="3.75" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Nucleus\IConfigurableNucleus.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

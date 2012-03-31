@@ -1,6 +1,7 @@
-﻿using Premotion.Mansion.Core.Attributes;
+﻿using System;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.ScriptTags.Stack;
+using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Security;
 using Premotion.Mansion.Core.Security.Descriptors;
 using Premotion.Mansion.Core.Types;
@@ -10,9 +11,25 @@ namespace Premotion.Mansion.Core.ScriptTags.Security
 	/// <summary>
 	/// Gets a <see cref="Dataset"/> containing all the <see cref="ProtectedResource"/>s. 
 	/// </summary>
-	[Named(Constants.NamespaceUri, "getProtectedResourceDataset")]
+	[ScriptTag(Constants.NamespaceUri, "getProtectedResourceDataset")]
 	public class GetProtectedResourceDatasetTag : GetDatasetBaseTag
 	{
+		#region Constructors
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="typeService"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public GetProtectedResourceDatasetTag(ITypeService typeService)
+		{
+			// validate arguments
+			if (typeService == null)
+				throw new ArgumentNullException("typeService");
+
+			// set values
+			this.typeService = typeService;
+		}
+		#endregion
 		#region Overrides of GetDatasetBaseTag
 		/// <summary>
 		/// Gets the dataset.
@@ -20,11 +37,8 @@ namespace Premotion.Mansion.Core.ScriptTags.Security
 		/// <param name="context">The request context.</param>
 		/// <param name="attributes">The attributes of this tag.</param>
 		/// <returns>Returns the result.</returns>
-		protected override Dataset Get(MansionContext context, IPropertyBag attributes)
+		protected override Dataset Get(IMansionContext context, IPropertyBag attributes)
 		{
-			// get the type service
-			var typeService = context.Nucleus.Get<ITypeService>(context);
-
 			// create the dataset
 			var dataset = new Dataset();
 
@@ -46,6 +60,9 @@ namespace Premotion.Mansion.Core.ScriptTags.Security
 			// return the set
 			return dataset;
 		}
+		#endregion
+		#region Private Fields
+		private readonly ITypeService typeService;
 		#endregion
 	}
 }

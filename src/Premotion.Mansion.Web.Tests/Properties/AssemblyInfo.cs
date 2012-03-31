@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("Premotion.Mansion.Web.Tests")]
-[assembly: AssemblyDescription("Tests for Premotion.Mansion.Web")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Premotion Software Solutions")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Premotion.Mansion.Web.Tests")]
-[assembly: AssemblyCopyright("Copyright © Premotion Software Solutions 2012")]
+[assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
-[assembly: Guid("91b28bb3-6c6c-4129-9523-2a71cf93314a")]
+[assembly: Guid("fe7edd93-b405-4572-a042-400815292c84")]
 
 // Version information for an assembly consists of the following four values:
 //

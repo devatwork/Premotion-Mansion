@@ -1,5 +1,4 @@
-﻿using Premotion.Mansion.Core.Attributes;
-using Premotion.Mansion.Core.Data;
+﻿using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Core.ScriptTags.Repository
@@ -7,7 +6,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 	/// <summary>
 	/// Opens a connection to a repository.
 	/// </summary>
-	[Named(Constants.NamespaceUri, "openRepository")]
+	[ScriptTag(Constants.NamespaceUri, "openRepository")]
 	public class OpenRepositoryTag : ScriptTag
 	{
 		#region Overrides of ScriptTag
@@ -15,7 +14,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 		/// Executes this tag.
 		/// </summary>
 		/// <param name="context">The application context.</param>
-		protected override void DoExecute(MansionContext context)
+		protected override void DoExecute(IMansionContext context)
 		{
 			// get the attributes
 			var repositoryNamespace = GetRequiredAttribute<string>(context, "repositoryNamespace");
