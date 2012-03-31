@@ -5,8 +5,10 @@ using System.Net.Mail;
 using System.Web;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Patterns;
+using Premotion.Mansion.Core.Security;
 using Premotion.Mansion.Web.Controls;
 using Premotion.Mansion.Web.Controls.Forms;
 
@@ -69,6 +71,22 @@ namespace Premotion.Mansion.Web.Http
 
 				// set context location flag
 				IsBackoffice = HttpContext.Request.Path.IndexOf(@"/cms/", HttpContext.Request.ApplicationPath.Length, StringComparison.OrdinalIgnoreCase) != -1;
+
+				// initialize the context
+				IPropertyBag applicationSettings;
+				if (!Stack.TryPeek(ApplicationSettingsConstants.DataspaceName, out applicationSettings))
+					return;
+
+				// initialize the repository, when possible
+				var repositoryNamespace = applicationSettings.Get(this, ApplicationSettingsConstants.RepositoryNamespace, string.Empty);
+				if (!string.IsNullOrEmpty(repositoryNamespace))
+				{
+					// open the repository
+					repositoryDisposable = RepositoryUtil.Open(this, repositoryNamespace, applicationSettings);
+				}
+
+				// initialize the security context
+				Nucleus.ResolveSingle<ISecurityService>().InitializeSecurityContext(this);
 			}
 			#endregion
 			#region Factory Methods
@@ -201,12 +219,28 @@ namespace Premotion.Mansion.Web.Http
 				}
 			}
 			#endregion
+			#region Overrides of MansionContext
+			/// <summary>
+			/// Dispose resources. Override this method in derived classes. Unmanaged resources should always be released
+			/// when this method is called. Managed resources may only be disposed of if disposeManagedResources is true.
+			/// </summary>
+			/// <param name="disposeManagedResources">A value which indicates whether managed resources may be disposed of.</param>
+			protected override void DisposeResources(bool disposeManagedResources)
+			{
+				base.DisposeResources(disposeManagedResources);
+				if (!disposeManagedResources)
+					return;
+
+				repositoryDisposable.Dispose();
+			}
+			#endregion
 			#region Private Fields
 			private readonly Uri applicationBaseUri;
 			private readonly IAutoPopStack<IControl> controlStack = new AutoPopStack<IControl>();
 			private readonly IAutoPopStack<Form> formStack = new AutoPopStack<Form>();
 			private readonly HttpContextBase httpContext;
 			private readonly IAutoPopStack<MailMessage> messageStack = new AutoPopStack<MailMessage>();
+			private readonly IDisposable repositoryDisposable;
 			private int controlIdGenerator;
 			#endregion
 		}
