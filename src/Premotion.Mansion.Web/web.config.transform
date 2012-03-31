@@ -19,27 +19,27 @@
 	<system.webServer>
 		<modules>
 			<remove name="ContextFactoryModule" />
-			<add name="ContextFactoryModule" type="Premotion.Mansion.Web.Http.ContextFactoryHttpModule, Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral" />
+			<add name="ContextFactoryModule" type="Premotion.Mansion.Web.Http.ContextFactoryHttpModule, Premotion.Mansion.Web" />
 			<remove name="OutputCacheModule" />
-			<add name="OutputCacheModule" type="Premotion.Mansion.Web.Http.OutputCacheHttpModule, Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral" />
+			<add name="OutputCacheModule" type="Premotion.Mansion.Web.Http.OutputCacheHttpModule, Premotion.Mansion.Web" />
 			<remove name="PathRewriterModule" />
-			<add name="PathRewriterModule" type="Premotion.Mansion.Web.Http.PathRewriterHttpModule, Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral" />
+			<add name="PathRewriterModule" type="Premotion.Mansion.Web.Http.PathRewriterHttpModule, Premotion.Mansion.Web" />
 		</modules>
 		<handlers>
 			<remove name="MansionScriptHandler" />
-			<add name="MansionScriptHandler" path="*.xts" verb="*" type="Premotion.Mansion.Web.Http.ScriptHttpHttpHandler, Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral" />
+			<add name="MansionScriptHandler" path="*.xts" verb="*" type="Premotion.Mansion.Web.Http.ScriptHttpHttpHandler, Premotion.Mansion.Web" />
 			<remove name="MansionStaticResourceHandler" />
-			<add name="MansionStaticResourceHandler" path="Static.Application.Resource" verb="GET" type="Premotion.Mansion.Web.Http.StaticResourceHttpHandler, Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral" />
+			<add name="MansionStaticResourceHandler" path="Static.Application.Resource" verb="GET" type="Premotion.Mansion.Web.Http.StaticResourceHttpHandler, Premotion.Mansion.Web" />
 			<remove name="MansionDynamicResourceHandler" />
-			<add name="MansionDynamicResourceHandler" path="Dynamic.Application.Resource" verb="GET" type="Premotion.Mansion.Web.Http.DynamicResourceHttpHandler, Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral" />
+			<add name="MansionDynamicResourceHandler" path="Dynamic.Application.Resource" verb="GET" type="Premotion.Mansion.Web.Http.DynamicResourceHttpHandler, Premotion.Mansion.Web" />
 			<remove name="MansionMergeResourceHandler" />
-			<add name="MansionMergeResourceHandler" path="Merge.Application.Resource" verb="GET" type="Premotion.Mansion.Web.Http.MergeResourceHttpHandler, Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral" />
+			<add name="MansionMergeResourceHandler" path="Merge.Application.Resource" verb="GET" type="Premotion.Mansion.Web.Http.MergeResourceHttpHandler, Premotion.Mansion.Web" />
 			<remove name="MansionStaticContentHandler" />
-			<add name="MansionStaticContentHandler" path="Static.Content" verb="GET" type="Premotion.Mansion.Web.Http.StaticContentHttpHandler, Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral" />
+			<add name="MansionStaticContentHandler" path="Static.Content" verb="GET" type="Premotion.Mansion.Web.Http.StaticContentHttpHandler, Premotion.Mansion.Web" />
 			<remove name="MansionStreamingStaticContentHandler" />
 			<add name="MansionStreamingStaticContentHandler" path="Streaming.Static.Content" verb="GET" type="Premotion.Mansion.Web.Http.StreamingStaticContentHttpHandler, Premotion.Mansion.Web" />
 			<remove name="MansionCKFinderConnectorHttpHandler" />
-			<add name="MansionCKFinderConnectorHttpHandler" path="CKFinder.Connector" verb="GET,POST" type="Premotion.Mansion.Web.CKFinderConnector.ConnectorHttpHandler, Premotion.Mansion.Web, Version=1.0.0.0, Culture=neutral" />
+			<add name="MansionCKFinderConnectorHttpHandler" path="CKFinder.Connector" verb="GET,POST" type="Premotion.Mansion.Web.CKFinderConnector.ConnectorHttpHandler, Premotion.Mansion.Web" />
 		</handlers>
 		<httpErrors>
 			<remove statusCode="404" subStatusCode="-1" />
