@@ -18,11 +18,8 @@
 		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
 		<copyright>Copyright 2012</copyright>
 		<dependencies>
-			<dependency id="log4net" />
 			<dependency id="Premotion.Mansion.Core" />
 			<dependency id="Premotion.Mansion.Web" />
-			<dependency id="SharpZipLib" />
-			<dependency id="YUICompressor.NET" />
 		</dependencies> 
 		<tags>Premotion Mansion Web Portal</tags>
 	</metadata>

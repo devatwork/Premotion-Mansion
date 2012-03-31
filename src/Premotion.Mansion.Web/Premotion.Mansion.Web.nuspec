@@ -20,7 +20,6 @@
 		<copyright>Copyright 2012</copyright>
 		<dependencies>
 			<dependency id="Premotion.Mansion.Core" />
-			<dependency id="Microsoft.Web.Infrastructure" />
 		</dependencies> 
 		<tags>Premotion Mansion Web</tags>
 	</metadata>
