@@ -28,6 +28,7 @@ namespace Premotion.Mansion.Core.Data
 			// set values
 			foreach (var node in nodes)
 				RowCollection.Add(node);
+			Set("count", RowCollection.Count);
 
 			// check for paging
 			var totalRowCount = properties.Get(context, "totalCount", -1);
