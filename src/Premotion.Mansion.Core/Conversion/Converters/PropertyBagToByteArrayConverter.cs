@@ -24,7 +24,7 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 			using (var writer = new BsonWriter(bufferStream))
 			{
 				serializer.Serialize(writer, source);
-				return bufferStream.GetBuffer();
+				return bufferStream.ToArray();
 			}
 		}
 		/// <summary>
