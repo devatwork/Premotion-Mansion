@@ -37,6 +37,7 @@ namespace Premotion.Mansion.Core.Collections
 				throw new ArgumentNullException("row");
 
 			RowCollection.Add(row);
+			Set("count", RowCollection.Count);
 		}
 		/// <summary>
 		/// Removes a row from this set.
@@ -49,6 +50,7 @@ namespace Premotion.Mansion.Core.Collections
 				throw new ArgumentNullException("row");
 
 			RowCollection.Remove(row);
+			Set("count", RowCollection.Count);
 		}
 		/// <summary>
 		/// Gets the row at the specified index.
@@ -123,16 +125,21 @@ namespace Premotion.Mansion.Core.Collections
 		/// <summary>
 		/// Sets paging for this dataset.
 		/// </summary>
-		/// <param name="totalRowCount">The total number of rows in the complete set.</param>
+		/// <param name="totalCount">The total number of rows in the complete set.</param>
 		/// <param name="pageNumber">The current page this dataset displays.</param>
 		/// <param name="rowsPerPage">The number of rows per page.</param>
-		protected void SetPaging(int totalRowCount, int pageNumber, int rowsPerPage)
+		protected void SetPaging(int totalCount, int pageNumber, int rowsPerPage)
 		{
 			IsPaged = true;
 			currentPage = pageNumber;
 			pageSize = rowsPerPage;
-			pageCount = (int) Math.Ceiling(totalRowCount/(double) rowsPerPage);
-			totalSize = totalRowCount;
+			pageCount = (int) Math.Ceiling(totalCount/(double) rowsPerPage);
+			totalSize = totalCount;
+
+			Set("totalCount", totalCount);
+			Set("pageNumber", pageNumber);
+			Set("pageSize", pageSize);
+			Set("pageCount", pageCount);
 		}
 		#endregion
 		#region Paging Properties

@@ -73,6 +73,10 @@ namespace Premotion.Mansion.Core.Data
 			if (row == null)
 				throw new ArgumentNullException("row");
 
+			// make sure the row is a node
+			if (! (row is Node))
+				throw new InvalidOperationException("The row must be a node.");
+
 			RowCollection.Remove(row);
 			Set("count", RowCollection.Count);
 		}
