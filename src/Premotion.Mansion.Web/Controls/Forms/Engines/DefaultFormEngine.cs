@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Conversion;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Engines
 {
@@ -31,11 +32,38 @@ namespace Premotion.Mansion.Web.Controls.Forms.Engines
 		/// <returns>Returns the loaded <see cref="FormState"/>.</returns>
 		protected override FormState DoLoadState(IMansionWebContext context, Form form)
 		{
-			// load the properties from the data source
+			// get the GET and POST propertybags
+			var getProperties = context.Stack.Peek<IPropertyBag>("Get");
+			var postProperties = context.Stack.Peek<IPropertyBag>("Post");
 			var fieldProperties = new PropertyBag();
 			var formProperties = new PropertyBag();
 			var action = string.Empty;
-			foreach (var candidate in context.Stack.Peek<IPropertyBag>("Post").Where(candidate => candidate.Key.StartsWith(form.Prefix, StringComparison.OrdinalIgnoreCase)))
+
+			// if the form has more than one step, try to load the state
+			var stateLossDetected = false;
+			if (form.Steps.Count > 1)
+			{
+				// try to load the state
+				string stateString;
+				var stateKey = form.Prefix + "state";
+				if (!postProperties.TryGet(context, stateKey, out stateString) || string.IsNullOrEmpty(stateString))
+					stateString = getProperties.Get<string>(context, stateKey, null);
+
+				// dehydrate the field properties, if there is state
+				if (!string.IsNullOrEmpty(stateString))
+				{
+					// dehydrate the field properties
+					var dehydratedFieldProperties = context.Nucleus.ResolveSingle<IConversionService>().Convert<IPropertyBag>(context, stateString);
+
+					// merge them with the current properties
+					fieldProperties.Merge(dehydratedFieldProperties);
+				}
+				else
+					stateLossDetected = true;
+			}
+
+			// load the properties from the data source
+			foreach (var candidate in postProperties.Where(candidate => candidate.Key.StartsWith(form.Prefix, StringComparison.OrdinalIgnoreCase)))
 			{
 				// check for field property
 				if (candidate.Key.StartsWith(form.FieldPrefix, StringComparison.OrdinalIgnoreCase))
@@ -48,8 +76,12 @@ namespace Premotion.Mansion.Web.Controls.Forms.Engines
 			}
 
 			// determine the current step
-			var currentStepId = formProperties.Get(context, "current-step", context.Stack.Peek<IPropertyBag>("Get").Get(context, form.Prefix + "current-step", 0));
+			var currentStepId = formProperties.Get(context, "current-step", getProperties.Get(context, form.Prefix + "current-step", 0));
 			var currentStep = form.Steps.ElementAtOrDefault(currentStepId) ?? form.Steps.First();
+
+			// always go to the first step on multi step forms when the state has been lost
+			if (form.Steps.Count > 1 && stateLossDetected)
+				currentStep = form.Steps.First();
 
 			// determine the next set
 			var nextStep = form.Steps.ElementAtOrDefault(currentStepId + 1) ?? form.Steps.Last();
@@ -90,6 +122,9 @@ namespace Premotion.Mansion.Web.Controls.Forms.Engines
 			// copy all non form field properties to the query string
 			foreach (var parameter in context.Stack.Peek<IPropertyBag>("Post").Where(candidate => !candidate.Key.StartsWith(form.Prefix, StringComparison.OrdinalIgnoreCase)))
 				url.SetParameter(parameter.Key, parameter.Value != null ? parameter.Value.ToString() : string.Empty);
+
+			// set the form state
+			url.SetParameter(form.Prefix + "state", context.Nucleus.ResolveSingle<IConversionService>().Convert<string>(context, form.State.FieldProperties));
 
 			// set redirect
 			WebUtilities.RedirectRequest(context, url);

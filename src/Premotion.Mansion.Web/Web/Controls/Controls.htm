@@ -19,8 +19,9 @@
 			</ol>
 			{Hidden}
 			<input type="hidden" name="{FormProperties.prefix}current-step" value="{FormProperties.currentStepId}">
-			<input type="submit" value="updateui" class="updateui visuallyhidden">
+			<input type="hidden" name="{FormProperties.prefix}state" value="{$FieldProperties}">
 			<input type="hidden" name="{FormProperties.actionPrefix}" class="action" value="">
+			<input type="submit" value="updateui" class="updateui visuallyhidden">
 		</form>
 	</li>
 </tpl:section>
