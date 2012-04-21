@@ -49,15 +49,30 @@ namespace Premotion.Mansion.Core.Data
 			var expirationDate = extendedProperties.Get<DateTime>(context, "expirationDate");
 			var isArchived = extendedProperties.Get<bool>(context, "archived");
 			if (isArchived)
+			{
 				status = NodeStatus.Archived;
+				Set("status", "archived");
+			}
 			else if (!isApproved)
+			{
 				status = NodeStatus.Draft;
+				Set("status", "draft");
+			}
 			else if (expirationDate < DateTime.Now)
+			{
 				status = NodeStatus.Expired;
+				Set("status", "expired");
+			}
 			else if (publicationDate > DateTime.Now)
+			{
 				status = NodeStatus.Staged;
+				Set("status", "staged");
+			}
 			else
+			{
 				status = NodeStatus.Published;
+				Set("status", "published");
+			}
 
 			// set misc properties
 			order = extendedProperties.Get<long>(context, "order");
