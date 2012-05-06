@@ -6,17 +6,48 @@ using System.Reflection;
 namespace Premotion.Mansion.Core.Nucleus
 {
 	/// <summary>
-	/// Scans assemblies and registers their type.
+	/// Implements the <see cref="IReflectionService"/>.
 	/// </summary>
-	public static class AssemblyScanner
+	public class ReflectionService : IReflectionService
 	{
+		#region Implementation of IReflectionService
+		/// <summary>
+		/// Initializes the reflection service, which registers all the exported types with the given <paramref name="assemblies"/>.
+		/// </summary>
+		/// <param name="nucleus">The <see cref="IConfigurableNucleus"/>.</param>
+		/// <param name="assemblies">The ordered set of <see cref="Assembly"/>s.</param>
+		public void Initialize(IConfigurableNucleus nucleus, IEnumerable<Assembly> assemblies)
+		{
+			// validate arguments
+			if (nucleus == null)
+				throw new ArgumentNullException("nucleus");
+			if (assemblies == null)
+				throw new ArgumentNullException("assemblies");
+
+			// set values
+			assemblies = assemblies.ToArray();
+			Assemblies = new Stack<Assembly>(assemblies);
+			AssembliesReversed = new Stack<Assembly>(assemblies);
+
+			// scan all the assemblies and register the types in them
+			Scan(nucleus, Assemblies);
+		}
+		/// <summary>
+		/// Gets all the assemblies loaded by this application in a bottom-to-top order. The top assembly is the most specific assembly.
+		/// </summary>
+		public IEnumerable<Assembly> Assemblies { get; private set; }
+		/// <summary>
+		/// Gets all the assemblies loaded by this application in a top-to-bottom order. The top assembly is the most specific assembly.
+		/// </summary>
+		public IEnumerable<Assembly> AssembliesReversed { get; private set; }
+		#endregion
 		#region Scan Methods
 		/// <summary>
 		/// Scans the given <paramref name="assemblies"/> and register all the type marked with <see cref="ExportedAttribute"/> within the <paramref name="nucleus"/>.
 		/// </summary>
 		/// <param name="nucleus">The <see cref="IConfigurableNucleus"/> in which to register the types.</param>
 		/// <param name="assemblies">The <see cref="Assembly"/>s which to scan for types.</param>
-		public static void Scan(IConfigurableNucleus nucleus, IEnumerable<Assembly> assemblies)
+		private static void Scan(IConfigurableNucleus nucleus, IEnumerable<Assembly> assemblies)
 		{
 			// validate arguments
 			if (nucleus == null)

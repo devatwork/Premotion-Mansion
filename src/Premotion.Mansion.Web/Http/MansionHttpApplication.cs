@@ -34,14 +34,12 @@ namespace Premotion.Mansion.Web.Http
 			if (!HostingEnvironment.IsHosted)
 				throw new InvalidOperationException("Premotion Mansion Web framework can only run within a hosted environment");
 
-			// get an ordered list of assemblies
-			var assemblies = LoadOrderedAssemblyList().ToList();
-
 			// create a nucleus
 			nucleus = new DynamoNucleusAdapter();
+			nucleus.Register<IReflectionService>(t => new ReflectionService());
 
 			// register all the types within the assembly
-			AssemblyScanner.Scan(nucleus, assemblies);
+			nucleus.ResolveSingle<IReflectionService>().Initialize(nucleus, LoadOrderedAssemblyList());
 
 			// get all the application bootstrappers from the nucleus
 			foreach (var bootstrapper in nucleus.Resolve<ApplicationBootstrapperBase>())

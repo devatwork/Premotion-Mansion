@@ -15,26 +15,34 @@
       <FileName>Nucleus\ApplicationBootstrapperBase.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Premotion.Mansion.Core.Nucleus.AssemblyScanner" Collapsed="true">
-    <Position X="11.25" Y="1" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Nucleus\AssemblyScanner.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Premotion.Mansion.Core.Nucleus.ExportedAttribute" Collapsed="true">
     <Position X="6.5" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
       <FileName>Nucleus\ExportedAttribute.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Core.Nucleus.NamedAttribute" Collapsed="true">
     <Position X="6.5" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAAQAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Nucleus\NamedAttribute.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Nucleus.StrongNameGenerator" Collapsed="true">
+    <Position X="12.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Nucleus\StrongNameGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Nucleus.ReflectionService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAQABAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Nucleus\ReflectionService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Interface Name="Premotion.Mansion.Core.Nucleus.INucleus">
     <Position X="0.5" Y="0.5" Width="4" />
@@ -48,6 +56,13 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Nucleus\IConfigurableNucleus.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Premotion.Mansion.Core.Nucleus.IReflectionService" Collapsed="true">
+    <Position X="9.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQABAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Nucleus\IReflectionService.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />
