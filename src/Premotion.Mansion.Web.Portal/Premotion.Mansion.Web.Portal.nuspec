@@ -28,7 +28,5 @@
 		<file src="bin\Premotion.Mansion.Web.Portal.pdb" target="lib\net40" />
 		<file src="bin\Premotion.Mansion.Web.Portal.XML" target="lib\net40" />
 		<file src="**\*.cs" target="src" />
-		<file src="**\*.pp" target="content" />
-		<file src="\Web\**\*" target="content\MansionWebPortal\Web" exclude="**\*.cs" />
 	</files>
 </package>

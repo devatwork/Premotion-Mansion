@@ -47,7 +47,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Web\Default.xts" />
+    <EmbeddedResource Include="Web\Default.xts" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
