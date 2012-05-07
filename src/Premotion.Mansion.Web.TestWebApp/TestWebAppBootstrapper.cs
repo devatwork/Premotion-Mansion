@@ -1,9 +1,8 @@
-﻿using System.Web;
-using Premotion.Mansion.Core;
+﻿using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Caching;
 using Premotion.Mansion.Core.Conversion;
 using Premotion.Mansion.Core.IO;
-using Premotion.Mansion.Core.IO.Windows;
+using Premotion.Mansion.Core.IO.EmbeddedResources;
 using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
 using Premotion.Mansion.Core.Scripting.TagScript;
@@ -45,8 +44,9 @@ namespace Premotion.Mansion.Web.TestWebApp
 			nucleus.Register<IExpressionScriptService>(resolver => new ExpressionScriptService(resolver.Resolve<ExpressionPartInterpreter>(), resolver.ResolveSingle<ICachingService>()));
 			nucleus.Register<IMailService>(resolver => new StandardMailService());
 			nucleus.Register<INodeUrlService>(resolver => new NodeUrlService(resolver, resolver.ResolveSingle<ITypeService>()));
-			nucleus.Register<IApplicationResourceService>(resolver => new WindowsApplicationResourceService(HttpRuntime.AppDomainAppPath, "Web", new[] {"/MansionWeb", "/MansionWebPortal", "/"}, resolver.Resolve<ResourcePathInterpreter>(), resolver.ResolveSingle<ICachingService>()));
+			//nucleus.Register<IApplicationResourceService>(resolver => new WindowsApplicationResourceService(HttpRuntime.AppDomainAppPath, "Web", new[] {"/MansionWeb", "/MansionWebPortal", "/"}, resolver.Resolve<ResourcePathInterpreter>(), resolver.ResolveSingle<ICachingService>()));
 			nucleus.Register<IPortalService>(resolver => new PortalService(resolver.ResolveSingle<ICachingService>(), resolver.ResolveSingle<ITemplateService>()));
+			nucleus.Register<IApplicationResourceService>(resolver => new EmbeddedApplicationResourceService("Web", resolver.Resolve<ResourcePathInterpreter>(), resolver.ResolveSingle<IReflectionService>()));
 		}
 		#endregion
 	}

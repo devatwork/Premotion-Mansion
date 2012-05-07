@@ -69,6 +69,8 @@
     <Compile Include="Collections\PropertyBag.cs" />
     <Compile Include="Collections\PropertyBagAdapterFactory.cs" />
     <Compile Include="Collections\Sort.cs" />
+    <Compile Include="IO\EmbeddedResources\EmbeddedApplicationResourceService.cs" />
+    <Compile Include="IO\EmbeddedResources\EmbeddedResource.cs" />
     <Compile Include="MansionContext.cs" />
     <Compile Include="MansionContextDecorator.cs" />
     <Compile Include="MansionContextExtensionNotFoundException.cs" />
