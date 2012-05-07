@@ -23,12 +23,12 @@
 		/// <returns>Returns the parsed resource path.</returns>
 		IResourcePath ParsePath(IMansionContext context, IPropertyBag properties);
 		/// <summary>
-		/// Gets the first and most important relative path of <paramref name="resourcePath"/>.
+		/// Gets the first and most important relative path of <paramref name="path"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="resourcePath">The <see cref="IResourcePath"/>.</param>
+		/// <param name="path">The <see cref="IResourcePath"/>.</param>
 		/// <returns>Returns a string version of the most important relative path.</returns>
-		string GetFirstRelativePath(IMansionContext context, IResourcePath resourcePath);
+		string GetFirstRelativePath(IMansionContext context, IResourcePath path);
 		#endregion
 	}
 }

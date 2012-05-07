@@ -388,25 +388,25 @@ namespace Premotion.Mansion.Amazon.S3
 			throw new NotImplementedException();
 		}
 		/// <summary>
-		/// Gets the first and most important relative path of <paramref name="resourcePath"/>.
+		/// Gets the first and most important relative path of <paramref name="path"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="resourcePath">The <see cref="IResourcePath"/>.</param>
+		/// <param name="path">The <see cref="IResourcePath"/>.</param>
 		/// <returns>Returns a string version of the most important relative path.</returns>
-		public string GetFirstRelativePath(IMansionContext context, IResourcePath resourcePath)
+		public string GetFirstRelativePath(IMansionContext context, IResourcePath path)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
-			if (resourcePath == null)
-				throw new ArgumentNullException("resourcePath");
+			if (path == null)
+				throw new ArgumentNullException("path");
 			CheckDisposed();
 
 			// initialize
 			Initialize(context);
 
 			// just return the first path
-			return resourcePath.Paths.First();
+			return path.Paths.First();
 		}
 		/// <summary>
 		/// Opens the resource using the specified path. This will create the resource if it does not already exist.

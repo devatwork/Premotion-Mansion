@@ -197,21 +197,21 @@ namespace Premotion.Mansion.Core.IO.Windows
 			return Election<ResourcePathInterpreter, IPropertyBag>.Elect(context, pathInterpreters, properties).Interpret(context, properties);
 		}
 		/// <summary>
-		/// Gets the first and most important relative path of <paramref name="resourcePath"/>.
+		/// Gets the first and most important relative path of <paramref name="path"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="resourcePath">The <see cref="IResourcePath"/>.</param>
+		/// <param name="path">The <see cref="IResourcePath"/>.</param>
 		/// <returns>Returns a string version of the most important relative path.</returns>
-		public string GetFirstRelativePath(IMansionContext context, IResourcePath resourcePath)
+		public string GetFirstRelativePath(IMansionContext context, IResourcePath path)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
-			if (resourcePath == null)
-				throw new ArgumentNullException("resourcePath");
+			if (path == null)
+				throw new ArgumentNullException("path");
 			CheckDisposed();
 
-			return TryLocate(resourcePath).First().FullName.Substring(physicalBasePath.Length);
+			return TryLocate(path).First().FullName.Substring(physicalBasePath.Length);
 		}
 		#endregion
 		#region Overrides of DisposableBase
