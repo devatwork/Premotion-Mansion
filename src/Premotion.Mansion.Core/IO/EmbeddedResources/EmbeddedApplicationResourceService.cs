@@ -44,7 +44,7 @@ namespace Premotion.Mansion.Core.IO.EmbeddedResources
 
 			                                                                       	// remove the assembly name from each resource.
 			                                                                       	var assemblyNameLength = assembly.GetName().Name.Length + 1 + this.resourceSubFolder.Length + 1;
-			                                                                       	var normalizedResourceNames = resourceNames.Select(resourceName => resourceName.Substring(assemblyNameLength));
+			                                                                       	var normalizedResourceNames = resourceNames.Where(resourceName => resourceName.Length > assemblyNameLength).Select(resourceName => resourceName.Substring(assemblyNameLength));
 
 			                                                                       	// return the assembly and the normalized resource name
 			                                                                       	return normalizedResourceNames.Select(resourceName => new
