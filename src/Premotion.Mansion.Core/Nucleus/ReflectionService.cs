@@ -26,7 +26,7 @@ namespace Premotion.Mansion.Core.Nucleus
 
 			// set values
 			assemblies = assemblies.ToArray();
-			Assemblies = new Stack<Assembly>(assemblies);
+			Assemblies = new Queue<Assembly>(assemblies);
 			AssembliesReversed = new Stack<Assembly>(assemblies);
 
 			// scan all the assemblies and register the types in them

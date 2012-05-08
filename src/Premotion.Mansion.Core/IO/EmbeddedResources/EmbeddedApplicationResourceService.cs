@@ -37,22 +37,22 @@ namespace Premotion.Mansion.Core.IO.EmbeddedResources
 			this.resourceSubFolder = TranslatePath(resourceSubFolder);
 
 			// first select all the resource names from all assemblies
-			var allResourceNames = reflectionService.AssembliesReversed.SelectMany(assembly =>
-			                                                                       {
-			                                                                       	// get all the resources in this assembly
-			                                                                       	var resourceNames = assembly.GetManifestResourceNames();
+			var allResourceNames = reflectionService.Assemblies.SelectMany(assembly =>
+			                                                               {
+			                                                               	// get all the resources in this assembly
+			                                                               	var resourceNames = assembly.GetManifestResourceNames();
 
-			                                                                       	// remove the assembly name from each resource.
-			                                                                       	var assemblyNameLength = assembly.GetName().Name.Length + 1 + this.resourceSubFolder.Length + 1;
-			                                                                       	var normalizedResourceNames = resourceNames.Where(resourceName => resourceName.Length > assemblyNameLength).Select(resourceName => resourceName.Substring(assemblyNameLength));
+			                                                               	// remove the assembly name from each resource.
+			                                                               	var assemblyNameLength = assembly.GetName().Name.Length + 1 + this.resourceSubFolder.Length + 1;
+			                                                               	var normalizedResourceNames = resourceNames.Where(resourceName => resourceName.Length > assemblyNameLength).Select(resourceName => resourceName.Substring(assemblyNameLength));
 
-			                                                                       	// return the assembly and the normalized resource name
-			                                                                       	return normalizedResourceNames.Select(resourceName => new
-			                                                                       	                                                      {
-			                                                                       	                                                      	Assembly = assembly,
-			                                                                       	                                                      	ResourceName = resourceName
-			                                                                       	                                                      });
-			                                                                       }
+			                                                               	// return the assembly and the normalized resource name
+			                                                               	return normalizedResourceNames.Select(resourceName => new
+			                                                               	                                                      {
+			                                                               	                                                      	Assembly = assembly,
+			                                                               	                                                      	ResourceName = resourceName
+			                                                               	                                                      });
+			                                                               }
 				);
 
 			// group all the assemblies by the common resource names

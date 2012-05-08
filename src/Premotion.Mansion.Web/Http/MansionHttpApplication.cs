@@ -101,10 +101,11 @@ namespace Premotion.Mansion.Web.Http
 			// load the assemblies
 			var assemblies = Directory.GetFiles(binDirectory, "*.dll").Select(Assembly.LoadFrom);
 
-			// TODO: order them
+			// order them by priority
+			var orderedAssemblies = assemblies.Where(candidate => candidate.GetCustomAttributes(typeof (ScanAssemblyAttribute), false).Length > 0).OrderBy(assembly => ((ScanAssemblyAttribute) assembly.GetCustomAttributes(typeof (ScanAssemblyAttribute), false)[0]).Priority);
 
 			// return the order list
-			return assemblies;
+			return orderedAssemblies;
 		}
 		#endregion
 		#region Initialize Methods

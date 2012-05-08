@@ -57,6 +57,10 @@
     <Compile Include="TestWebAppBootstrapper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Premotion.Mansion.Amazon\Premotion.Mansion.Amazon.csproj">
+      <Project>{FFC98D45-85FF-4B6A-8E47-8BEE1EEF340D}</Project>
+      <Name>Premotion.Mansion.Amazon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Premotion.Mansion.Core\Premotion.Mansion.Core.csproj">
       <Project>{95DFBC37-6549-4BC0-AB9F-0F5D22D35926}</Project>
       <Name>Premotion.Mansion.Core</Name>
