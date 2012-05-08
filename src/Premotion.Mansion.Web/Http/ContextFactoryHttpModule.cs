@@ -84,9 +84,6 @@ namespace Premotion.Mansion.Web.Http
 					// open the repository
 					repositoryDisposable = RepositoryUtil.Open(this, repositoryNamespace, applicationSettings);
 				}
-
-				// initialize the security context
-				Nucleus.ResolveSingle<ISecurityService>().InitializeSecurityContext(this);
 			}
 			#endregion
 			#region Factory Methods
@@ -268,6 +265,16 @@ namespace Premotion.Mansion.Web.Http
 			                        	// store it in the request
 			                        	httpContext.Items[RequestContextKey] = requestContext;
 			                        };
+			context.PostAcquireRequestState += (sender, args) =>
+			                                   {
+			                                   	// get the mansion web request
+			                                   	var requestContext = RequestContext as MansionWebContext;
+			                                   	if (requestContext == null)
+			                                   		throw new InvalidOperationException("The request context was not found on the http context, please make sure the mansion http module is the first module");
+
+			                                   	// initialize the security context
+			                                   	requestContext.Nucleus.ResolveSingle<ISecurityService>().InitializeSecurityContext(requestContext);
+			                                   };
 			context.EndRequest += (sender, args) =>
 			                      {
 			                      	// get the mansion web request
