@@ -293,7 +293,7 @@ namespace Premotion.Mansion.Web.Security
 		{
 			var nodeQuery = repository.ParseQuery(context, new PropertyBag
 			                                               {
-			                                               	{"baseType", "RoleOwner"},
+			                                               	{"baseType", "Role"},
 			                                               	{"guid", role.Id},
 			                                               	{"bypassAuthorization", true}
 			                                               });
