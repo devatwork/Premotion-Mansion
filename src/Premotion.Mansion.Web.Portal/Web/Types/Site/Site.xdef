@@ -8,6 +8,7 @@
 	
 	<!-- specify cms behavior -->
 	<cms:behavior label="Website" icon="Types/Site/Site.png">
+		<cms:childType baseType="PageIndex" />
 		<cms:childType baseType="Page" />
 		<cms:childType baseType="Block" />
 		<cms:childType baseType="NavigationIndex" />
