@@ -153,7 +153,7 @@
     <EmbeddedResource Include="Web\Types\OneColumnLayout\OneColumnLayout.xdef" />
     <EmbeddedResource Include="Web\Types\OneColumnLayout\OneColumnLayout.xinclude" />
     <EmbeddedResource Include="Web\Types\PageIndex\PageIndex.xdef" />
-    <EmbeddedResource Include="Web\Types\Page\page.png" />
+    <EmbeddedResource Include="Web\Types\Page\Page.png" />
     <EmbeddedResource Include="Web\Types\Page\Page.xdef" />
     <EmbeddedResource Include="Web\Types\Page\Page.xform" />
     <EmbeddedResource Include="Web\Types\Root\Root.xdef" />
