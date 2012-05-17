@@ -52,9 +52,6 @@
 				<!-- delegate to inherited types -->
 				<invokeProcedure procedureName="RenderXFormContent" />
 
-				<!-- hidden field -->
-				<forms:hidden name="type" value="{TargetProperties.type}" />
-
 				<forms:buttonBar cssClass="background grey cms-toolbar bottom right">
 					<forms:button action="cancel" label="Cancel" cssClass="cancel" />
 					<forms:button action="store" label="Save" cssClass="ok" />
@@ -137,6 +134,10 @@
 	<declareProcedure procedureName="RenderGroupIdentity">
 		<forms:fieldset label="Identity">
 			<forms:textbox name="guid" label="Permanent Identifier" readonly="true" />
+			<forms:selectbox name="type" label="Permanent Identifier" defaultValue="{TargetProperties.type}">
+				<providers:typeDefinitionDatasetProvider type="{NotEmpty( FormSourceNode.type, TargetProperties.type )}" />
+				<forms:requiredFieldValidator message="Vul een type in" />
+			</forms:selectbox>
 			<forms:textbox name="pointer" label="Pointer" readonly="true" />
 			<forms:textbox name="path" label="Path" readonly="true" />
 			<forms:textbox name="structure" label="Structure" readonly="true" />
