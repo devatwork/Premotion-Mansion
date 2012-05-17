@@ -189,7 +189,6 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="HttpUtilities.cs" />
     <Compile Include="Http\DynamicResourceHttpHandler.cs" />
-    <Compile Include="Http\MansionHttpApplication.cs" />
     <Compile Include="Http\OutputCacheHttpModule.cs" />
     <Compile Include="Http\MansionHttpHandlerBase.cs" />
     <Compile Include="Http\ContextFactoryHttpModule.cs" />
@@ -244,6 +243,7 @@
     <Compile Include="Url\NodeUrlGenerator.cs" />
     <Compile Include="Url\NodeUrlService.cs" />
     <Compile Include="Url\SiteUrlGenerator.cs" />
+    <Compile Include="WebApplicationBootstrapperBase.cs" />
     <Compile Include="WebOutputPipe.cs" />
     <Compile Include="WebUtilities.cs" />
     <Compile Include="Web\Types\Default\PropagateListener.cs" />

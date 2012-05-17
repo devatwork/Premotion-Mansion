@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using System.Reflection;
 using System.Web;
+using System.Web.Hosting;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Nucleus;
+using Premotion.Mansion.Core.Nucleus.Dynamo;
 using Premotion.Mansion.Core.Patterns;
 using Premotion.Mansion.Core.Security;
 using Premotion.Mansion.Web.Controls;
@@ -19,6 +23,88 @@ namespace Premotion.Mansion.Web.Http
 	/// </summary>
 	public class ContextFactoryHttpModule : DisposableBase, IHttpModule
 	{
+		#region Static Constructors
+		private static readonly IConfigurableNucleus nucleus;
+		private static readonly MansionContext applicationContext;
+		/// <summary>
+		/// Initializes the application.
+		/// </summary>
+		static ContextFactoryHttpModule()
+		{
+			// make sure there is an hosted environment
+			if (!HostingEnvironment.IsHosted)
+				throw new InvalidOperationException("Premotion Mansion Web framework can only run within a hosted environment");
+
+			// create a nucleus
+			nucleus = new DynamoNucleusAdapter();
+			nucleus.Register<IReflectionService>(t => new ReflectionService());
+
+			// create the application context
+			applicationContext = new MansionContext(nucleus);
+
+			// register all the types within the assembly
+			nucleus.ResolveSingle<IReflectionService>().Initialize(nucleus, LoadOrderedAssemblyList());
+
+			// get all the application bootstrappers from the nucleus
+			foreach (var bootstrapper in nucleus.Resolve<ApplicationBootstrapperBase>())
+				bootstrapper.Initialize(nucleus);
+
+			// compile the nucleus for ultra fast performance
+			nucleus.Optimize();
+		}
+		/// <summary>
+		/// Gets the <see cref="IMansionWebContext"/> of the current request.
+		/// </summary>
+		/// <value> </value>
+		/// <exception cref="InvalidOperationException"></exception>
+		public static INucleus Nucleus
+		{
+			get
+			{
+				// guard
+				if (nucleus == null)
+					throw new InvalidOperationException("Could not get the nucleus, make sure the ContextFactoryHttpModule is registered");
+
+				return nucleus;
+			}
+		}
+		/// <summary>
+		/// Gets the <see cref="IMansionWebContext"/> of the current request.
+		/// </summary>
+		/// <value> </value>
+		/// <exception cref="InvalidOperationException"></exception>
+		public static IMansionContext ApplicationContext
+		{
+			get
+			{
+				// guard
+				if (applicationContext == null)
+					throw new InvalidOperationException("Could not get the applicationContext, make sure the ContextFactoryHttpModule is registered");
+
+				return applicationContext;
+			}
+		}
+		/// <summary>
+		/// Loads an ordered list of assemblies.
+		/// </summary>
+		/// <returns>Returns the ordered list.</returns>
+		private static IEnumerable<Assembly> LoadOrderedAssemblyList()
+		{
+			// find the directory containing the assemblies
+			var binDirectory = HostingEnvironment.IsHosted ? HttpRuntime.BinDirectory : Path.GetDirectoryName(typeof (ContextFactoryHttpModule).Assembly.Location);
+			if (String.IsNullOrEmpty(binDirectory))
+				throw new InvalidOperationException("Could not find bin directory containing the assemblies");
+
+			// load the assemblies
+			var assemblies = Directory.GetFiles(binDirectory, "*.dll").Select(Assembly.LoadFrom);
+
+			// order them by priority
+			var orderedAssemblies = assemblies.Where(candidate => candidate.GetCustomAttributes(typeof (ScanAssemblyAttribute), false).Length > 0).OrderBy(assembly => ((ScanAssemblyAttribute) assembly.GetCustomAttributes(typeof (ScanAssemblyAttribute), false)[0]).Priority);
+
+			// return the order list
+			return orderedAssemblies;
+		}
+		#endregion
 		#region Constants
 		/// <summary>
 		/// Key under which the <see cref="IMansionWebContext"/> is stored in the <see cref="HttpContextBase.Items"/> collection.
@@ -260,7 +346,7 @@ namespace Premotion.Mansion.Web.Http
 			                        	var httpContext = new HttpContextWrapper(HttpContext.Current);
 
 			                        	// initialize the mansion web context
-			                        	var requestContext = MansionWebContext.Create(MansionHttpApplication.ApplicationContext, httpContext);
+			                        	var requestContext = MansionWebContext.Create(ApplicationContext, httpContext);
 
 			                        	// store it in the request
 			                        	httpContext.Items[RequestContextKey] = requestContext;

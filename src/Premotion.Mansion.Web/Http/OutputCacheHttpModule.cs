@@ -144,7 +144,7 @@ namespace Premotion.Mansion.Web.Http
 				throw new ArgumentNullException("context");
 
 			// get the caching service reference
-			cachingService = MansionHttpApplication.Nucleus.ResolveSingle<ICachingService>();
+			cachingService = ContextFactoryHttpModule.Nucleus.ResolveSingle<ICachingService>();
 
 			// listen to begin request
 			context.PostAcquireRequestState += PostAcquireRequestState;

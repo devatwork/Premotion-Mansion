@@ -1,63 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Web;
-using System.Web.Hosting;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.IO;
 using Premotion.Mansion.Core.Nucleus;
-using Premotion.Mansion.Core.Nucleus.Dynamo;
 using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Security;
+using Premotion.Mansion.Web.Http;
 
-namespace Premotion.Mansion.Web.Http
+namespace Premotion.Mansion.Web
 {
 	/// <summary>
-	/// Base type for <see cref="HttpApplication"/>s.
+	/// Base class for web <see cref="ApplicationBootstrapperBase"/>.
 	/// </summary>
-	public abstract class MansionHttpApplication : HttpApplication
+	public abstract class WebApplicationBootstrapperBase : ApplicationBootstrapperBase
 	{
-		#region Constants
-		private const string NucleusApplicationKey = "__MansionHttpApplication__nucleus";
-		private const string ApplicationContextApplicationKey = "__MansionHttpApplication__nucleus";
-		#endregion
-		#region Application Events
+		#region Overrides of ApplicationBootstrapperBase
 		/// <summary>
-		/// Event fired when application is loaded for the first time.
+		/// Initializes the application using the <paramref name="nucleus"/>.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		protected void Application_Start(object sender, EventArgs e)
+		/// <param name="nucleus">The <see cref="IConfigurableNucleus"/> from which to configure the application.</param>
+		protected override void DoInitialize(IConfigurableNucleus nucleus)
 		{
-			// make sure there is an hosted environment
-			if (!HostingEnvironment.IsHosted)
-				throw new InvalidOperationException("Premotion Mansion Web framework can only run within a hosted environment");
-
-			// create a nucleus
-			var nucleus = new DynamoNucleusAdapter();
-			Application[NucleusApplicationKey] = nucleus;
-			nucleus.Register<IReflectionService>(t => new ReflectionService());
-
-			// register all the types within the assembly
-			nucleus.ResolveSingle<IReflectionService>().Initialize(nucleus, LoadOrderedAssemblyList());
-
-			// get all the application bootstrappers from the nucleus
-			foreach (var bootstrapper in nucleus.Resolve<ApplicationBootstrapperBase>())
-				bootstrapper.Initialize(nucleus);
-
-			// compile the nucleus for ultra fast performance
-			nucleus.Optimize();
-
-			// create the application context
-			var applicationContext = new MansionContext(nucleus);
-			Application[ApplicationContextApplicationKey] = applicationContext;
+			// allow for DI configuration
+			RegisterServices(nucleus);
 
 			// create the applicationd dataspace
+			var applicationContext = ContextFactoryHttpModule.ApplicationContext;
 			var applicationSettings = new PropertyBag
 			                          {
 			                          	{ApplicationSettingsConstants.IsLiveApplicationSetting, false}
@@ -79,47 +49,17 @@ namespace Premotion.Mansion.Web.Http
 			InitializeRepository(applicationContext, applicationSettings);
 		}
 		/// <summary>
-		/// Event fired when application is ended.
+		/// Initializes the application using the <paramref name="nucleus"/>.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		protected void Application_End(object sender, EventArgs e)
-		{
-			// nothing to do yet
-			((MansionContext) ApplicationContext).Dispose();
-
-			// dispose the nucleus
-			((IConfigurableNucleus) Nucleus).Dispose();
-		}
-		#endregion
-		#region Configuration Methods
-		/// <summary>
-		/// Loads an ordered list of assemblies.
-		/// </summary>
-		/// <returns>Returns the ordered list.</returns>
-		private static IEnumerable<Assembly> LoadOrderedAssemblyList()
-		{
-			// find the directory containing the assemblies
-			var binDirectory = HostingEnvironment.IsHosted ? HttpRuntime.BinDirectory : Path.GetDirectoryName(typeof (MansionHttpApplication).Assembly.Location);
-			if (String.IsNullOrEmpty(binDirectory))
-				throw new InvalidOperationException("Could not find bin directory containing the assemblies");
-
-			// load the assemblies
-			var assemblies = Directory.GetFiles(binDirectory, "*.dll").Select(Assembly.LoadFrom);
-
-			// order them by priority
-			var orderedAssemblies = assemblies.Where(candidate => candidate.GetCustomAttributes(typeof (ScanAssemblyAttribute), false).Length > 0).OrderBy(assembly => ((ScanAssemblyAttribute) assembly.GetCustomAttributes(typeof (ScanAssemblyAttribute), false)[0]).Priority);
-
-			// return the order list
-			return orderedAssemblies;
-		}
+		/// <param name="nucleus">The <see cref="IConfigurableNucleus"/> from which to configure the application.</param>
+		protected abstract void RegisterServices(IConfigurableNucleus nucleus);
 		#endregion
 		#region Initialize Methods
 		/// <summary>
 		/// Loads the settings from the app.config/web.config.
 		/// </summary>
 		/// <param name="applicationSettings">The <see cref="IPropertyBag"/> containing the application settings.</param>
-		private static void LoadSettingsFromApplicationConfiguration(IPropertyBag applicationSettings)
+		protected virtual void LoadSettingsFromApplicationConfiguration(IPropertyBag applicationSettings)
 		{
 			// get all the configuration keys
 			foreach (var key in ConfigurationManager.AppSettings.AllKeys)
@@ -129,7 +69,7 @@ namespace Premotion.Mansion.Web.Http
 		/// Tries to load settings from the global settings file.
 		/// </summary>
 		/// <param name="context">The <see cref="MansionContext"/>.</param>
-		private static void TryLoadSettingsFromGlobal(IMansionContext context)
+		protected virtual void TryLoadSettingsFromGlobal(IMansionContext context)
 		{
 			var scriptService = context.Nucleus.ResolveSingle<ITagScriptService>();
 			var resourceService = context.Nucleus.ResolveSingle<IApplicationResourceService>();
@@ -149,7 +89,7 @@ namespace Premotion.Mansion.Web.Http
 		/// Tries to load settings from the environment specific settings file.
 		/// </summary>
 		/// <param name="context">The <see cref="MansionContext"/>.</param>
-		private static void TryLoadSettingsFromEnvironment(IMansionContext context)
+		protected virtual void TryLoadSettingsFromEnvironment(IMansionContext context)
 		{
 			var scriptService = context.Nucleus.ResolveSingle<ITagScriptService>();
 			var resourceService = context.Nucleus.ResolveSingle<IApplicationResourceService>();
@@ -171,7 +111,7 @@ namespace Premotion.Mansion.Web.Http
 		/// </summary>
 		/// <param name="context">The <see cref="MansionContext"/>.</param>
 		/// <param name="applicationSettings">The <see cref="IPropertyBag"/> containing the application settings.</param>
-		private static void InitializeRepository(IMansionContext context, IPropertyBag applicationSettings)
+		protected virtual void InitializeRepository(IMansionContext context, IPropertyBag applicationSettings)
 		{
 			var repositoryNamespace = applicationSettings.Get(context, ApplicationSettingsConstants.RepositoryNamespace, String.Empty);
 
@@ -271,42 +211,6 @@ namespace Premotion.Mansion.Web.Http
 
 				// add cms permission to the admin user
 				context.Nucleus.ResolveSingle<ISecurityModelService>().AssignPermission(context, new Role(adminRoleNode.PermanentId.ToString()), ProtectedOperation.Create(context, "Cms", "use"));
-			}
-		}
-		#endregion
-		#region Accessor Properties
-		/// <summary>
-		/// Gets the <see cref="IMansionWebContext"/> of the current request.
-		/// </summary>
-		/// <value> </value>
-		/// <exception cref="InvalidOperationException"></exception>
-		public static INucleus Nucleus
-		{
-			get
-			{
-				// guard
-				var nucleus = HttpContext.Current.Application[NucleusApplicationKey] as INucleus;
-				if (nucleus == null)
-					throw new InvalidOperationException("Could not get the nucleus from HTTP application, make sure your global.asax is set up correctly");
-
-				return nucleus;
-			}
-		}
-		/// <summary>
-		/// Gets the <see cref="IMansionWebContext"/> of the current request.
-		/// </summary>
-		/// <value> </value>
-		/// <exception cref="InvalidOperationException"></exception>
-		public static IMansionContext ApplicationContext
-		{
-			get
-			{
-				// guard
-				var applicationContext = HttpContext.Current.Application[ApplicationContextApplicationKey] as IMansionContext;
-				if (applicationContext == null)
-					throw new InvalidOperationException("Could not get the applicationContext from HTTP application, make sure your global.asax is set up correctly");
-
-				return applicationContext;
 			}
 		}
 		#endregion

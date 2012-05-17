@@ -24,14 +24,14 @@ namespace Premotion.Mansion.Web.TestWebApp
 	/// Implements the <see cref="ApplicationBootstrapperBase"/> for the test web app.
 	/// </summary>
 	[Exported(typeof (ApplicationBootstrapperBase))]
-	public class TestWebAppBootstrapper : ApplicationBootstrapperBase
+	public class TestWebAppBootstrapper : WebApplicationBootstrapperBase
 	{
-		#region Overrides of ApplicationBootstrapperBase
+		#region Overrides of WebApplicationBootstrapperBase
 		/// <summary>
 		/// Initializes the application using the <paramref name="nucleus"/>.
 		/// </summary>
 		/// <param name="nucleus">The <see cref="IConfigurableNucleus"/> from which to configure the application.</param>
-		protected override void DoInitialize(IConfigurableNucleus nucleus)
+		protected override void RegisterServices(IConfigurableNucleus nucleus)
 		{
 			nucleus.Register<ICachingService>(resolver => new HttpCachingService());
 			nucleus.Register<IConversionService>(resolver => new ConversionService(resolver.Resolve<IConverter>(), resolver.Resolve<IComparer>()));
