@@ -99,7 +99,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 			                                                                       });
 			var templateResourcePath = applicationResourceService.ParsePath(context, new PropertyBag
 			                                                                         {
-			                                                                         	{"path", areaName + "/" + controllerName + "Controller.htm"},
+			                                                                         	{"path", areaName + "/" + controllerName + "Controller.tpl"},
 			                                                                         	{"overridable", true}
 			                                                                         });
 

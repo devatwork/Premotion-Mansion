@@ -82,7 +82,7 @@ namespace Premotion.Mansion.Web.Controls
 		/// </summary>
 		public static readonly IPropertyBag ControlTemplatePathProperties = new PropertyBag
 		                                                                    {
-		                                                                    	{"path", "/Controls/Controls.htm"}
+		                                                                    	{"path", "/Controls/Controls.tpl"}
 		                                                                    };
 		#endregion
 		#region Constructors

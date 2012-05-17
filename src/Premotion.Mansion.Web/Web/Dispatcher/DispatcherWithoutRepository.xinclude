@@ -10,7 +10,7 @@
 		
 		<!-- include the application scripts and templates -->
 		<openScript path="Application.xinclude" checkExists="false">
-		<openTemplate path="Application.htm" checkExists="false">
+		<openTemplate path="Application.tpl" checkExists="false">
 			
 			<!-- initialize the request, could be used to retrieve common nodes etc. -->
 			<fireEvent eventName="InitializeRequest" />

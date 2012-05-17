@@ -27,9 +27,9 @@
 
 						<!-- render content of dialog-->
 						<openScript type="{UrlNode.type}" extension=".Dialog.xform" checkExists="false">
-						<openTemplate type="{UrlNode.type}" extension=".Dialog.htm" checkExists="false">
+						<openTemplate type="{UrlNode.type}" extension=".Dialog.tpl" checkExists="false">
 							<openScript type="{UrlNode.type}" extension=".{Route.originalAction}.Dialog.xform">
-							<openTemplate type="{UrlNode.type}" extension=".{Route.originalAction}.Dialog.htm" checkExists="false">
+							<openTemplate type="{UrlNode.type}" extension=".{Route.originalAction}.Dialog.tpl" checkExists="false">
 								<invokeProcedure procedureName="RenderForm" />
 							</openTemplate>
 							</openScript>
