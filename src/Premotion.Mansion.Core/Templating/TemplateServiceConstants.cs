@@ -13,7 +13,7 @@
 		/// <summary>
 		/// Specifies the default template extension.
 		/// </summary>
-		public const string DefaultTemplateExtension = "htm";
+		public const string DefaultTemplateExtension = "tpl";
 		#endregion
 	}
 }
