@@ -32,7 +32,7 @@ namespace Premotion.Mansion.Web.Portal.Descriptors
 			var templateResourcePath = resourceService.ParsePath(context, new PropertyBag
 			                                                              {
 			                                                              	{"type", blockProperties.Get<string>(context, "type")},
-			                                                              	{"extension", "htm"}
+			                                                              	{"extension", TemplateServiceConstants.DefaultTemplateExtension}
 			                                                              });
 			var scriptResourcePath = resourceService.ParsePath(context, new PropertyBag
 			                                                            {
