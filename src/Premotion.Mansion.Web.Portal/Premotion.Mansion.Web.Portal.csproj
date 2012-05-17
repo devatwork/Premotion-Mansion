@@ -81,6 +81,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Premotion.Mansion.Web.Portal.symbols.nuspec" />
     <None Include="Descriptors\portal.descriptors.xsd">
       <SubType>Designer</SubType>
     </None>

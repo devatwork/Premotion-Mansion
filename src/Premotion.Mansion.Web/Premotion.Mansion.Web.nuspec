@@ -25,9 +25,7 @@
 	</metadata>
 	<files>
 		<file src="bin\Premotion.Mansion.Web.dll" target="lib\net40" />
-		<file src="bin\Premotion.Mansion.Web.pdb" target="lib\net40" />
 		<file src="bin\Premotion.Mansion.Web.XML" target="lib\net40" />
-		<file src="**\*.cs" target="src" />
 		<file src="web.config.transform" target="content" />
 	</files>
 </package>

@@ -430,6 +430,7 @@
     <None Include="Caching\Mansion.Core.Caching.cd" />
     <None Include="Collections\Mansion.Core.Collections.cd" />
     <None Include="Conversion\Mansion.Core.Conversion.cd" />
+    <None Include="Premotion.Mansion.Core.symbols.nuspec" />
     <None Include="Data\Mansion.Core.Data.cd" />
     <None Include="Data\Listeners\data.listeners.descriptors.xsd">
       <SubType>Designer</SubType>

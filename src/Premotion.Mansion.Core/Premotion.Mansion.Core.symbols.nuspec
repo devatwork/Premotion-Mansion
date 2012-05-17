@@ -4,26 +4,28 @@
 		<version>1.1.1</version>
 		<authors>Premotion Software Solutions</authors>
 		<owners>Premotion Software Solutions</owners>
-		<id>Premotion.Mansion.Repository.SqlServer</id>
-		<title>Premotion Mansion Repository SqlServer</title>
+		<id>Premotion.Mansion.Core</id>
+		<title>Premotion Mansion Framewok Core</title>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<description>Implements a Premotion Mansion repository using SQL Server</description>
+		<description>Contains the Premotion Mansion Framework core types.</description>
 		<frameworkAssemblies>
 			<frameworkAssembly assemblyName="System" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
-			<frameworkAssembly assemblyName="System.Data" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Xml" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net40" />
 		</frameworkAssemblies>
 		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
 		<copyright>Copyright 2012</copyright>
 		<dependencies>
-			<dependency id="Premotion.Mansion.Core" />
+			<dependency id="Newtonsoft.Json" />
+			<dependency id="Dynamo.Ioc" />
 		</dependencies>
-		<tags>Premotion Mansion Repository SQLServer</tags>
+		<tags>Premotion Mansion</tags>
 	</metadata>
 	<files>
-		<file src="bin\Premotion.Mansion.Repository.SqlServer.dll" target="lib\net40\Premotion.Mansion.Repository.SqlServer.dll" />
-		<file src="bin\Premotion.Mansion.Repository.SqlServer.XML" target="lib\net40\Premotion.Mansion.Repository.SqlServer.XML" />
+		<file src="bin\Premotion.Mansion.Core.dll" target="lib\net40\Premotion.Mansion.Core.dll" />
+		<file src="bin\Premotion.Mansion.Core.pdb" target="lib\net40\Premotion.Mansion.Core.pdb" />
+		<file src="bin\Premotion.Mansion.Core.XML" target="lib\net40\Premotion.Mansion.Core.XML" />
+		<file src="**\*.cs" target="src" />
 	</files>
 </package>

@@ -4,14 +4,14 @@
 		<version>1.1.1</version>
 		<authors>Premotion Software Solutions</authors>
 		<owners>Premotion Software Solutions</owners>
-		<id>Premotion.Mansion.Repository.SqlServer</id>
-		<title>Premotion Mansion Repository SqlServer</title>
+		<id>Premotion.Mansion.Web.Portal</id>
+		<title>Premotion Mansion Web Portal Framework</title>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<description>Implements a Premotion Mansion repository using SQL Server</description>
+		<description>Contains the Premotion Mansion Framework core types.</description>
 		<frameworkAssemblies>
 			<frameworkAssembly assemblyName="System" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
-			<frameworkAssembly assemblyName="System.Data" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Web" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Xml" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net40" />
 		</frameworkAssemblies>
@@ -19,11 +19,14 @@
 		<copyright>Copyright 2012</copyright>
 		<dependencies>
 			<dependency id="Premotion.Mansion.Core" />
-		</dependencies>
-		<tags>Premotion Mansion Repository SQLServer</tags>
+			<dependency id="Premotion.Mansion.Web" />
+		</dependencies> 
+		<tags>Premotion Mansion Web Portal</tags>
 	</metadata>
 	<files>
-		<file src="bin\Premotion.Mansion.Repository.SqlServer.dll" target="lib\net40\Premotion.Mansion.Repository.SqlServer.dll" />
-		<file src="bin\Premotion.Mansion.Repository.SqlServer.XML" target="lib\net40\Premotion.Mansion.Repository.SqlServer.XML" />
+		<file src="bin\Premotion.Mansion.Web.Portal.dll" target="lib\net40" />
+		<file src="bin\Premotion.Mansion.Web.Portal.pdb" target="lib\net40" />
+		<file src="bin\Premotion.Mansion.Web.Portal.XML" target="lib\net40" />
+		<file src="**\*.cs" target="src" />
 	</files>
 </package>

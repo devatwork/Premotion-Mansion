@@ -24,8 +24,6 @@
 	</metadata>
 	<files>
 		<file src="bin\Premotion.Mansion.Amazon.dll" target="lib\net40\Premotion.Mansion.Amazon.dll" />
-		<file src="bin\Premotion.Mansion.Amazon.pdb" target="lib\net40\Premotion.Mansion.Amazon.pdb" />
 		<file src="bin\Premotion.Mansion.Amazon.XML" target="lib\net40\Premotion.Mansion.Amazon.XML" />
-		<file src="**\*.cs" target="src" />
 	</files>
 </package>

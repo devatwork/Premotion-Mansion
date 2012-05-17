@@ -24,6 +24,8 @@
 	</metadata>
 	<files>
 		<file src="bin\Premotion.Mansion.Repository.SqlServer.dll" target="lib\net40\Premotion.Mansion.Repository.SqlServer.dll" />
+		<file src="bin\Premotion.Mansion.Repository.SqlServer.pdb" target="lib\net40\Premotion.Mansion.Repository.SqlServer.pdb" />
 		<file src="bin\Premotion.Mansion.Repository.SqlServer.XML" target="lib\net40\Premotion.Mansion.Repository.SqlServer.XML" />
+		<file src="**\*.cs" target="src" />
 	</files>
 </package>

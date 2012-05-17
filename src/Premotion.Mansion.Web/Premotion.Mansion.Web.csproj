@@ -273,6 +273,7 @@
     <None Include="Controls\web.controls.tags.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Premotion.Mansion.Web.symbols.nuspec" />
     <None Include="Descriptors\web.descriptors.xsd">
       <SubType>Designer</SubType>
     </None>

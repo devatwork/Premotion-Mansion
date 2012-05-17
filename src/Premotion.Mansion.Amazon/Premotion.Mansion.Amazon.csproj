@@ -58,6 +58,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Premotion.Mansion.Amazon.symbols.nuspec" />
     <None Include="packages.config" />
     <None Include="Premotion.Mansion.Amazon.nuspec" />
   </ItemGroup>
