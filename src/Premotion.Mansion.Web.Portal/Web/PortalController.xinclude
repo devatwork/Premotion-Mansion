@@ -31,13 +31,11 @@
 					<case value="{IsAssignable( UrlNode.type, 'Page' )}">
 						<fetchNode source="{$UrlNode}" target="PageNode" global="true" />
 						<fetchNode source="{$UrlNode}" target="ContentNode" global="true" />
-						<fetchNode source="{$UrlNode}" target="ContentProperties" global="true" />
 					</case>
 
 					<!-- check if the url node type is assignable to type Content -->
 					<case value="{Or( IsAssignable( UrlNode.type, 'Content' ), IsAssignable( UrlNode.type, 'ContentIndex' ) )}">
 						<fetchNode source="{$UrlNode}" target="ContentNode" global="true" />
-						<fetchNode source="{$UrlNode}" target="ContentProperties" global="true" />
 						<portal:retrieveTemplatePageNode source="{$ContentNode}" siteNode="{$SiteNode}" target="PageNode" global="true">
 							<notFound>
 								<throw message="Could not determine template page for node {UrlNode.path} ({UrlNode.pointer}), please check configuration" />
@@ -51,6 +49,8 @@
 					</default>
 
 				</switch>
+				<fetchNode source="{$PageNode}" target="PageProperties" global="true" />
+				<fetchNode source="{$ContentNode}" target="ContentProperties" global="true" />
 				
 				<!-- determine if the url is the proper unique url -->
 				<if condition="{Not( IsEqual( WithoutQueryString( Request.url ), NodeUrl( $ContentNode ) ) )}">

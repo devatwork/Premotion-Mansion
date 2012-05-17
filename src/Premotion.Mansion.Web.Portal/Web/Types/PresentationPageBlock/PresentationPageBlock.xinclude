@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
+
+	<!-- render the content of this list block -->
+	<declareProcedure procedureName="RenderBlock">
+		
+		<!-- render the content -->
+		<renderSection name="PresentationPageBlock">
+			<openTemplate type="{PageProperties.type}">
+			<openScript type="{PageProperties.type}">
+
+				<!-- render the content within the block -->
+				<invokeProcedure procedureName="RenderPageContent"/>
+
+			</openScript>
+			</openTemplate>
+		</renderSection>
+		
+	</declareProcedure>
+	
+</mansion>

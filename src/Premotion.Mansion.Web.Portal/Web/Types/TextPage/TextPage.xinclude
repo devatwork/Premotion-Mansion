@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
+
+	<!-- render the content of this page -->
+	<declareProcedure procedureName="RenderPageContent">
+
+		<!-- render the content -->
+		<renderSection name="Content" />
+		
+	</declareProcedure>
+	
+</mansion>

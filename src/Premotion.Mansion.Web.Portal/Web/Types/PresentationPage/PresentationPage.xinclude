@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
+
+	<!-- render the content of this page -->
+	<declareProcedure procedureName="RenderPageContent">
+
+		<throw message="Override the RenderPageContent procedure in /Types/{PageProperties.type}/{PageProperties.type}.xinclude" />
+		
+	</declareProcedure>
+	
+</mansion>

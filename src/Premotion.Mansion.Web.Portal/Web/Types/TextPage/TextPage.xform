@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd">
+
+	<!-- template methods: put page specific properties here -->
+	<declareProcedure procedureName="RenderGroupPageProperties">
+		<forms:fieldset label="General">
+			<forms:textbox name="name" label="Name">
+				<forms:requiredFieldValidator/>
+			</forms:textbox>
+			<forms:richTextarea name="description" label="Description" />
+			<forms:richTextarea name="body" label="Body" />
+		</forms:fieldset>
+	</declareProcedure>
+	
+</mansion>
