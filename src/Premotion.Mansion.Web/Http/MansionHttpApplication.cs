@@ -22,6 +22,10 @@ namespace Premotion.Mansion.Web.Http
 	/// </summary>
 	public abstract class MansionHttpApplication : HttpApplication
 	{
+		#region Constants
+		private const string NucleusApplicationKey = "__MansionHttpApplication__nucleus";
+		private const string ApplicationContextApplicationKey = "__MansionHttpApplication__nucleus";
+		#endregion
 		#region Application Events
 		/// <summary>
 		/// Event fired when application is loaded for the first time.
@@ -35,7 +39,8 @@ namespace Premotion.Mansion.Web.Http
 				throw new InvalidOperationException("Premotion Mansion Web framework can only run within a hosted environment");
 
 			// create a nucleus
-			nucleus = new DynamoNucleusAdapter();
+			var nucleus = new DynamoNucleusAdapter();
+			Application[NucleusApplicationKey] = nucleus;
 			nucleus.Register<IReflectionService>(t => new ReflectionService());
 
 			// register all the types within the assembly
@@ -49,7 +54,8 @@ namespace Premotion.Mansion.Web.Http
 			nucleus.Optimize();
 
 			// create the application context
-			applicationContext = new MansionContext(nucleus);
+			var applicationContext = new MansionContext(nucleus);
+			Application[ApplicationContextApplicationKey] = applicationContext;
 
 			// create the applicationd dataspace
 			var applicationSettings = new PropertyBag
@@ -80,10 +86,10 @@ namespace Premotion.Mansion.Web.Http
 		protected void Application_End(object sender, EventArgs e)
 		{
 			// nothing to do yet
-			applicationContext.Dispose();
+			((MansionContext) ApplicationContext).Dispose();
 
 			// dispose the nucleus
-			nucleus.Dispose();
+			((IConfigurableNucleus) Nucleus).Dispose();
 		}
 		#endregion
 		#region Configuration Methods
@@ -276,7 +282,15 @@ namespace Premotion.Mansion.Web.Http
 		/// <exception cref="InvalidOperationException"></exception>
 		public static INucleus Nucleus
 		{
-			get { return nucleus; }
+			get
+			{
+				// guard
+				var nucleus = HttpContext.Current.Application[NucleusApplicationKey] as INucleus;
+				if (nucleus == null)
+					throw new InvalidOperationException("Could not get the nucleus from HTTP application, make sure your global.asax is set up correctly");
+
+				return nucleus;
+			}
 		}
 		/// <summary>
 		/// Gets the <see cref="IMansionWebContext"/> of the current request.
@@ -285,12 +299,16 @@ namespace Premotion.Mansion.Web.Http
 		/// <exception cref="InvalidOperationException"></exception>
 		public static IMansionContext ApplicationContext
 		{
-			get { return applicationContext; }
+			get
+			{
+				// guard
+				var applicationContext = HttpContext.Current.Application[ApplicationContextApplicationKey] as IMansionContext;
+				if (applicationContext == null)
+					throw new InvalidOperationException("Could not get the applicationContext from HTTP application, make sure your global.asax is set up correctly");
+
+				return applicationContext;
+			}
 		}
-		#endregion
-		#region Private Fields
-		private static MansionContext applicationContext;
-		private static IConfigurableNucleus nucleus;
 		#endregion
 	}
 }
