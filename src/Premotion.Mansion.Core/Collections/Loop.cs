@@ -47,7 +47,7 @@ namespace Premotion.Mansion.Core.Collections
 			Dataset = dataset;
 			offset = dataset.IsPaged ? (dataset.CurrentPage - 1)*dataset.PageSize : 0;
 			start = 0;
-			end = dataset.RowCount;
+			end = dataset.RowCount - 1;
 		}
 		#endregion
 		#region Properties
@@ -122,7 +122,7 @@ namespace Premotion.Mansion.Core.Collections
 		/// </summary>
 		public bool IsFirst
 		{
-			get { return Current == End; }
+			get { return Current == Start; }
 		}
 		/// <summary>
 		/// Flag indicating whether the current item is the last item.
