@@ -55,6 +55,7 @@
     <Compile Include="ScriptFunctions\RenderBlock.cs" />
     <Compile Include="ScriptFunctions\RenderBlockDelayed.cs" />
     <Compile Include="ScriptFunctions\RenderColumn.cs" />
+    <Compile Include="ScriptFunctions\RenderCrumbTrail.cs" />
     <Compile Include="ScriptFunctions\RenderNavigation.cs" />
     <Compile Include="ScriptFunctions\RenderPageTitle.cs" />
     <Compile Include="ScriptFunctions\RenderSeoMetaTags.cs" />
@@ -142,12 +143,16 @@
     <EmbeddedResource Include="Web\Types\NavigationItemExternalLink\NavigationItemExternalLink.tpl" />
     <EmbeddedResource Include="Web\Types\NavigationItemExternalLink\NavigationItemExternalLink.xdef" />
     <EmbeddedResource Include="Web\Types\NavigationItemExternalLink\NavigationItemExternalLink.xform" />
-    <EmbeddedResource Include="Web\Types\NavigationItemInternalLink\NavigationItemInternalLink.tpl" />
+    <EmbeddedResource Include="Web\Types\NavigationItemInternalLink\NavigationItemInternalLink.tpl">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Web\Types\NavigationItemInternalLink\NavigationItemInternalLink.xdef" />
     <EmbeddedResource Include="Web\Types\NavigationItemInternalLink\NavigationItemInternalLink.xform" />
     <EmbeddedResource Include="Web\Types\NavigationItem\NavigationItem.png" />
     <EmbeddedResource Include="Web\Types\NavigationItem\NavigationItem.xdef" />
-    <EmbeddedResource Include="Web\Types\Navigation\Navigation.tpl" />
+    <EmbeddedResource Include="Web\Types\Navigation\Navigation.tpl">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Web\Types\Navigation\Navigation.png" />
     <EmbeddedResource Include="Web\Types\Navigation\Navigation.xdef" />
     <EmbeddedResource Include="Web\Types\OneColumnLayout\OneColumnLayout.tpl" />

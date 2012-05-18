@@ -28,3 +28,28 @@
 </tpl:section>
 
 <tpl:section name="ColumnAdminParameters" requires="{HasPortalAdminPermission()}"> data-column-name="{BlockColumn.name}" data-column-owner-id="{OwnerNode.id}"</tpl:section>
+
+
+
+<!-- crumb trails -->
+<tpl:section name="CrumbTrail">
+	<ul class="breadcrumb">
+		{CrumbTrailItem}
+	</ul>
+</tpl:section>
+
+<tpl:section name="CrumbTrailItem">
+	<li {If( IsLast(), 'class="active"' )}>
+		{@CrumbTrailHome}
+		{RenderSection( If( And( CrumbProperties.IsLinked, Not( IsLast() ) ), 'CrumbTrailItemLinked', 'CrumbTrailItemLabel' ) )}
+		{@CrumbTrailDivider}
+	</li>
+</tpl:section>
+
+	<tpl:section name="CrumbTrailItemLinked"><a href="{NodeUrl( CrumbProperties.Node )}">{RenderSection( 'CrumbTrailItemLabel' )}</a></tpl:section>
+
+	<tpl:section name="CrumbTrailItemLabel">{CrumbProperties.name}</tpl:section>
+
+	<tpl:section name="CrumbTrailHome" requires="{IsFirst()}"><i class="icon-home"></i></tpl:section>
+
+	<tpl:section name="CrumbTrailDivider" requires="{Not( IsLast() )}"><span class="divider">&raquo;</span></tpl:section>
