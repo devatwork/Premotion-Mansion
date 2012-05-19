@@ -21,6 +21,13 @@
 			<forms:number name="pageSize" label="Number per page" defaultValue="25" />
 		</forms:fieldset>
 		
+		<!-- classification -->
+		<forms:fieldset label="Classification">
+			<forms:instructionMessage>If there is no filter are set, the filters are inherited from the page on which this block is placed.</forms:instructionMessage>
+			<invokeProcedure procedureName="IncludeGroupTaxonomyFilter" />
+			<invokeProcedure procedureName="IncludeGroupTagFilter" />
+		</forms:fieldset>
+		
 		<!-- Sorting -->
 		<forms:fieldset label="Sorting">
 			<forms:selectbox name="sortOn" label="Sort on" defaultValue="normal">

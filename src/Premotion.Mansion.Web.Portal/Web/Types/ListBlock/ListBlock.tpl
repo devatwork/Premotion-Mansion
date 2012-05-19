@@ -19,7 +19,7 @@
 		</li>
 	</tpl:section>
 
-<tpl:section name="NotFoundMessage" field="BlockContent">TODO: not found</tpl:section>
+<tpl:section name="NotFoundMessage" field="Results">TODO: not found</tpl:section>
 
 
 

@@ -4,6 +4,7 @@
 	<!-- Renders the xForm content -->
 	<declareProcedure procedureName="RenderXFormContent">
 		<invokeProcedure procedureName="RenderGroupPageProperties" />
+		<invokeProcedure procedureName="IncludeGroupClassification" />
 		<invokeProcedure procedureName="RenderGroupLookAndFeelGroup" />
 		<invokeProcedure procedureName="RenderGroupSeo"/>
 		<invokeProcedure procedureName="RenderGroupPublication"/>
@@ -63,6 +64,17 @@
 				</providers:scriptedDatasetProvider>
 				<forms:requiredFieldValidator />
 			</forms:selectbox>
+		</forms:fieldset>
+	</declareProcedure>
+
+
+	
+	<!-- Group: Classification -->
+	<declareProcedure procedureName="IncludeGroupClassification">
+		<forms:fieldset label="Classification">
+			<forms:instructionMessage>These filters can be used to automatically filter all content displayed on this page by the given filters.</forms:instructionMessage>
+			<invokeProcedure procedureName="IncludeGroupTaxonomyFilter" />
+			<invokeProcedure procedureName="IncludeGroupTagFilter" />
 		</forms:fieldset>
 	</declareProcedure>
 

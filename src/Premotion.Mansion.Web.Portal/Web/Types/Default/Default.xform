@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?> 
-<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd">
 	
 	<!-- retrieve commonly used nodes -->
 	<declareEventHandler eventName="InitializeXForm">
@@ -19,6 +19,30 @@
 			<forms:checkbox name="seoNoIndex" label="No index" />
 			<forms:checkbox name="seoNoFollow" label="No follow" />
 			<forms:checkbox name="seoNoCache" label="No cache" />
+		</forms:fieldset>
+	</declareProcedure>
+	
+	
+	
+	<!-- Group: Taxonomy Filter -->
+	<declareProcedure procedureName="IncludeGroupTaxonomyFilter">
+		<forms:fieldset label="Taxonomy">
+			<forms:infoMessage>Filter the displayed content by the selected categories.</forms:infoMessage>
+			<forms:nodeTreeSelect name="taxonomyGuids" label="Categories" allowMultiple="true">
+				<setProperties dataspaceName="TaxonomyProperties" valueProperty="guid" labelProperty="name" parentPointer="{ContentIndexRootNode.pointer}" type="Taxonomy" selectableExpression="{\Equal( Row.type, 'TaxonomyItem' )}">
+					<providers:nodeTreeSelectProvider source="{$TaxonomyProperties}" />
+				</setProperties>
+			</forms:nodeTreeSelect>
+		</forms:fieldset>
+	</declareProcedure>
+	
+	
+	
+	<!-- Group: Tag Filter -->
+	<declareProcedure procedureName="IncludeGroupTagFilter">
+		<forms:fieldset label="Tags">
+			<forms:infoMessage>Filter the displayed content by the following tags.</forms:infoMessage>
+			<forms:tagTextbox name="_tagFilter" label="Tags" />
 		</forms:fieldset>
 	</declareProcedure>
 	

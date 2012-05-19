@@ -14,6 +14,8 @@
 				baseType="Content"
 				status="published"
 				siteGuids="{SiteNode.guid}"
+				taxonomyGuids="{NotEmpty( BlockProperties.taxonomyGuids, PageProperties.taxonomyGuids )}"
+				tagGuids="{NotEmpty( BlockProperties.tagGuids, PageProperties.tagGuids )}"
 				limit="{If( IsEqual( BlockProperties.limitType, 'limit' ), BlockProperties.limit )}"
 				pageNumber="{If( IsEqual( BlockProperties.limitType, 'paging' ), GetControlPropertyValue( Concat( 'block-', BlockProperties.id ), 'page-number', '1' ) )}"
 				pageSize="{If( IsEqual( BlockProperties.limitType, 'paging' ), GetControlPropertyValue( Concat( 'block-', BlockProperties.id ), 'page-size', BlockProperties.pageSize ) )}"
@@ -69,7 +71,7 @@
 	<!-- renders the content of the list, can be overloaded to customize rendering -->
 	<declareProcedure procedureName="RenderListContent">
 
-		<fetchDataspace source="{$ResultSet}" target="ResultSet">
+		<if condition="{IsGreaterThan( ResultSet.count, '0' )}">
 			
 			<!-- render the results -->
 			<renderSection name="ListBlock">
@@ -85,10 +87,10 @@
 				</renderSection>
 			</renderSection>
 
-			<notFound>
+			<else>
 				<invokeProcedure procedureName="RenderNotFoundMessage" />
-			</notFound>
-		</fetchDataspace>
+			</else>
+		</if>
 		
 	</declareProcedure>
 	
@@ -107,7 +109,9 @@
 
 		<!-- renders the not found message -->
 		<declareProcedure procedureName="RenderNotFoundMessage">
-			<renderSection name="NotFoundMessage" />
+			<renderSection name="ListBlock">
+				<renderSection name="NotFoundMessage" />
+			</renderSection>
 		</declareProcedure>
 	
 </mansion>
