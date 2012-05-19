@@ -1,6 +1,6 @@
 ﻿<tpl:section name="BlockTitle" requires="{Not( IsTrue( BlockProperties.hideTitle ) )}">
 	<header>
-		<h1>{BlockProperties.name}</h1>
+		<h2>{BlockProperties.name}</h2>
 	</header>
 </tpl:section>
 
