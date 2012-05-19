@@ -147,11 +147,11 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 
 			// retrieve page node parent nodes
 			var pageParentNodeset = context.Repository.Retrieve(context, new PropertyBag
-				                                                            {
-				                                                            {"childSource", pageNode},
-				                                                            {"depth", "any"},
-				                                                            {"sort", "depth asc"},
-				                                                            });
+			                                                             {
+			                                                             	{"childSource", pageNode},
+			                                                             	{"depth", "any"},
+			                                                             	{"sort", "depth asc"},
+			                                                             });
 
 			// start from the sitenode and take while the page node has not been reached
 			foreach (var parentNode in pageParentNodeset.Nodes.SkipWhile(candidate => candidate.Pointer != siteNode.Pointer))
@@ -162,15 +162,15 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 			{
 				// retrieve content node parent nodes
 				var contentParentNodeset = context.Repository.Retrieve(context, new PropertyBag
-																									 {
-			                                                                		{"childSource", contentNode},
-			                                                                		{"depth", "any"},
-			                                                                		{"sort", "depth asc"},
-																									 });
+				                                                                {
+				                                                                	{"childSource", contentNode},
+				                                                                	{"depth", "any"},
+				                                                                	{"sort", "depth asc"},
+				                                                                });
 
 				// start from the content index root node
-				foreach (var parentNode in contentParentNodeset.Nodes.SkipWhile(candidate => candidate.Pointer != contentIndexRootNode.Pointer))
-					crumbSet.AddRow(parentNode);	
+				foreach (var parentNode in contentParentNodeset.Nodes.SkipWhile(candidate => !candidate.Pointer.IsChildOf(contentIndexRootNode.Pointer)))
+					crumbSet.AddRow(parentNode);
 			}
 
 			// finally add the content node itself
