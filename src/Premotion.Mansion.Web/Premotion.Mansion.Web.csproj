@@ -740,7 +740,7 @@
     <EmbeddedResource Include="Web\Types\UserGroup\UserGroup.xform" />
     <EmbeddedResource Include="Web\Types\UserIndex\UserIndex.png" />
     <EmbeddedResource Include="Web\Types\UserIndex\UserIndex.xdef" />
-    <EmbeddedResource Include="Web\Types\User\user.png" />
+    <EmbeddedResource Include="Web\Types\User\User.png" />
     <EmbeddedResource Include="Web\Types\User\User.xdef" />
     <EmbeddedResource Include="Web\Types\User\User.xform" />
   </ItemGroup>
