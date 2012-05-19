@@ -115,7 +115,7 @@ namespace Premotion.Mansion.Core.Data
 				throw new ArgumentNullException("other");
 
 			// first check if the child is not deeper than the parent
-			if (Depth < other.Depth)
+			if (Depth <= other.Depth)
 				return false;
 
 			// check if the child pointer contains the parent ID at the parent Depth
