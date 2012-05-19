@@ -2,8 +2,19 @@
 <mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd" xmlns:portal="http://schemas.premotion.nl/mansion/1.0/web/portal/tags.xsd">
 
 	<declareProcedure procedureName="IncludeBlockConfiguration">
+
+		<invokeProcedure procedureName="IncludeGroupContentSource"/>
+		<invokeProcedure procedureName="IncludeGroupLimitig"/>
+		<invokeProcedure procedureName="IncludeGroupClassification"/>
+		<invokeProcedure procedureName="IncludeGroupSorting"/>
+		<invokeProcedure procedureName="IncludeGroupAppearance"/>
 		
-		<!-- content source -->
+	</declareProcedure>
+	
+	
+	
+	<!-- Group: Content source -->
+	<declareProcedure procedureName="IncludeGroupContentSource">
 		<forms:fieldset label="Content source">
 			<forms:infoMessage>Select the folder from which content is displayed.</forms:infoMessage>
 			<forms:nodeTreeSelect name="contentSourceGuid" label="Folder" defaultValue="{ContentIndexRootNode.pointer}">
@@ -11,8 +22,12 @@
 				<forms:requiredFieldValidator />
 			</forms:nodeTreeSelect>
 		</forms:fieldset>
-		
-		<!-- number of items -->
+	</declareProcedure>
+
+
+	
+	<!-- Group: Limiting -->
+	<declareProcedure procedureName="IncludeGroupLimitig">
 		<forms:fieldset label="Limiting">
 			<forms:selectbox name="limitType" label="Limit type" defaultValue="paging">
 				<providers:csvLabelValuePairProvider csv=",No limit;limit,Limit;paging,Paging" />
@@ -20,15 +35,23 @@
 			<forms:number name="limit" label="Total number of items" defaultValue="25" />
 			<forms:number name="pageSize" label="Number per page" defaultValue="25" />
 		</forms:fieldset>
-		
-		<!-- classification -->
+	</declareProcedure>
+	
+	
+	
+	<!-- Group: Classification -->
+	<declareProcedure procedureName="IncludeGroupClassification">
 		<forms:fieldset label="Classification">
 			<forms:instructionMessage>If there is no filter are set, the filters are inherited from the page on which this block is placed.</forms:instructionMessage>
 			<invokeProcedure procedureName="IncludeGroupTaxonomyFilter" />
 			<invokeProcedure procedureName="IncludeGroupTagFilter" />
 		</forms:fieldset>
-		
-		<!-- Sorting -->
+	</declareProcedure>
+
+	
+	
+	<!-- Group: Sorting -->
+	<declareProcedure procedureName="IncludeGroupSorting">
 		<forms:fieldset label="Sorting">
 			<forms:selectbox name="sortOn" label="Sort on" defaultValue="normal">
 				<providers:csvLabelValuePairProvider csv="publicationDate,Publication date;modified,Modification date;order,CMS order" />
@@ -39,15 +62,18 @@
 				<forms:requiredFieldValidator />
 			</forms:selectbox>
 		</forms:fieldset>
+	</declareProcedure>
 
-		<!-- Appearance -->
+	
+	
+	<!-- Group: Appearance -->
+	<declareProcedure procedureName="IncludeGroupAppearance">
 		<forms:fieldset label="Appearance">
 			<forms:selectbox name="listItemAppearance" label="List item appearance" defaultValue="normal">
 				<providers:csvLabelValuePairProvider csv="compact,Compact;normal,Normal;extensive,Extensive" />
 				<forms:requiredFieldValidator />
 			</forms:selectbox>
 		</forms:fieldset>
-		
 	</declareProcedure>
 
 </mansion>

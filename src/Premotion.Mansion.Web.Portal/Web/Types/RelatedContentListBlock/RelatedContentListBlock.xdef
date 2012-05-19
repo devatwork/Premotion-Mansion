@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<type inherits="ListBlock" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd">
+
+	<!-- specify cms behavior -->
+	<cms:behavior label="Related Content List Block" icon="Types/RelatedContentListBlock/RelatedContentListBlock.png" />
+
+</type>

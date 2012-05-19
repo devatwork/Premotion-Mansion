@@ -169,6 +169,9 @@
     <EmbeddedResource Include="Web\Types\PresentationPage\PresentationPage.xdef" />
     <EmbeddedResource Include="Web\Types\PresentationPage\PresentationPage.xform" />
     <EmbeddedResource Include="Web\Types\PresentationPage\PresentationPage.xinclude" />
+    <EmbeddedResource Include="Web\Types\RelatedContentListBlock\RelatedContentListBlock.xdef" />
+    <EmbeddedResource Include="Web\Types\RelatedContentListBlock\RelatedContentListBlock.xform" />
+    <EmbeddedResource Include="Web\Types\RelatedContentListBlock\RelatedContentListBlock.xinclude" />
     <EmbeddedResource Include="Web\Types\Root\Root.xdef" />
     <EmbeddedResource Include="Web\Types\Site\Site.xdef" />
     <EmbeddedResource Include="Web\Types\Site\Site.xform" />
@@ -204,6 +207,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Types\TextPage\TextPage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Types\RelatedContentListBlock\RelatedContentListBlock.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

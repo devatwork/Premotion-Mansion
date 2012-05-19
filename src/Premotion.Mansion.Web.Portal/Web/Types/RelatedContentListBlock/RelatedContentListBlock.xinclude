@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
+
+
+	<!-- ################################# -->
+	<!-- Overrides of: ListBlock.xinclude	-->
+	<!-- ################################# -->
+
+	<!-- retrieve the results, can be overloaded to customize data retrieval -->
+	<declareProcedure procedureName="RetrieveListContent">
+		
+		<!-- set the proper content type -->
+		<setProperties dataspaceName="Filter" baseType="{BlockProperties.contentType}" />
+		
+		<!-- ask the page node for additional filters -->
+		<openScript type="{ContentProperties.type}">
+			<invokeProcedure procedureName="RetrieveRelated{BlockProperties.contentType}s" />
+		</openScript>
+
+	</declareProcedure>
+
+</mansion>
