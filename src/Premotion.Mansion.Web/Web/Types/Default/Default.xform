@@ -134,7 +134,7 @@
 	<declareProcedure procedureName="RenderGroupIdentity">
 		<forms:fieldset label="Identity">
 			<forms:textbox name="guid" label="Permanent Identifier" readonly="true" />
-			<forms:selectbox name="type" label="Permanent Identifier" defaultValue="{TargetProperties.type}">
+			<forms:selectbox name="type" label="Type" defaultValue="{TargetProperties.type}">
 				<providers:typeDefinitionDatasetProvider type="{NotEmpty( FormSourceNode.type, TargetProperties.type )}" />
 				<forms:requiredFieldValidator message="Vul een type in" />
 			</forms:selectbox>
