@@ -53,11 +53,11 @@
 	<!-- Group: Sorting -->
 	<declareProcedure procedureName="IncludeGroupSorting">
 		<forms:fieldset label="Sorting">
-			<forms:selectbox name="sortOn" label="Sort on" defaultValue="normal">
-				<providers:csvLabelValuePairProvider csv="publicationDate,Publication date;modified,Modification date;order,CMS order" />
+			<forms:selectbox name="sortOn" label="Sort on" defaultValue="publicationDate">
+				<providers:csvLabelValuePairProvider csv="publicationDate,Publication date;modified,Modification date;order,CMS order;name,Name" />
 				<forms:requiredFieldValidator />
 			</forms:selectbox>
-			<forms:selectbox name="sortDirection" label="Direction" defaultValue="normal">
+			<forms:selectbox name="sortDirection" label="Direction" defaultValue="desc">
 				<providers:csvLabelValuePairProvider csv="asc,Ascending;desc,Descending" />
 				<forms:requiredFieldValidator />
 			</forms:selectbox>
