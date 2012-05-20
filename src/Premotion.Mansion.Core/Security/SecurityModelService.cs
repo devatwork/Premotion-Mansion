@@ -8,6 +8,36 @@ namespace Premotion.Mansion.Core.Security
 	/// </summary>
 	public class SecurityModelService : ISecurityModelService
 	{
+		#region Nested type: SecurityContext
+		/// <summary>
+		/// The security context.
+		/// </summary>
+		private class SecurityContext : MansionContextExtension
+		{
+			#region Constructors
+			/// <summary>
+			/// The security context.
+			/// </summary>
+			/// <param name="decoratedContext">The original <see cref="IMansionContext"/>.</param>
+			/// <param name="user">The <see cref="User"/>.</param>
+			public SecurityContext(IMansionContext decoratedContext, User user) : base(decoratedContext)
+			{
+				// validate arguments
+				if (user == null)
+					throw new ArgumentNullException("user");
+
+				// set values
+				User = user;
+			}
+			#endregion
+			#region Properties
+			/// <summary>
+			/// Gets the <see cref="User"/> from this context.
+			/// </summary>
+			public User User { get; private set; }
+			#endregion
+		}
+		#endregion
 		#region Constructors
 		/// <summary>
 		/// Constructs the security model service.
@@ -85,7 +115,18 @@ namespace Premotion.Mansion.Core.Security
 			if (currentUserState == null)
 				throw new ArgumentNullException("currentUserState");
 
-			return persistenceService.RetrieveUser(context, currentUserState.Id);
+			// get the security context
+			var securityContext = context.Extend(ctx => new SecurityContext(ctx, persistenceService.RetrieveUser(ctx, currentUserState.Id)));
+
+			// get the current user
+			var user = securityContext.User;
+
+			// make sure the ID of the user did not change during the request
+			if (user.Id != currentUserState.Id)
+				throw new InvalidOperationException("The user state changed to a different user during the request, this is unexpected");
+
+			// return the user
+			return user;
 		}
 		/// <summary>
 		/// Adds the <paramref name="role"/> to the <paramref name="owner"/>.
