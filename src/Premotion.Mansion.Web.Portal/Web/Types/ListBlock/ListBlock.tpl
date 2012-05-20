@@ -39,7 +39,7 @@
 <tpl:section name="ListItemAppearanceExtensive" field="ListContent">
 	<a href="{NodeUrl( $Row )}" title="{HtmlEncode( Row.name )}">
 		<h4>{Row.name}</h4>
-		<span class="meta">{FormatDate( Row.publicationDate, 'dd-MM-YYYY' )}</span>
+		<span class="meta">{FormatDate( Row.publicationDate, 'dd-MM-yyyy' )}</span>
 		<div class="description">{Row.description}</div>
 	</a>
 </tpl:section>
