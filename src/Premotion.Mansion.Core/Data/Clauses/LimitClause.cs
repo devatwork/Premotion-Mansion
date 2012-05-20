@@ -18,8 +18,14 @@ namespace Premotion.Mansion.Core.Data.Clauses
 			#region Constructors
 			/// <summary>
 			/// </summary>
-			public LimitClauseInterpreter() : base(10)
+			public LimitClauseInterpreter(IConversionService conversionService) : base(10)
 			{
+				// validate arguments
+				if (conversionService == null)
+					throw new ArgumentNullException("conversionService");
+
+				// set values
+				this.conversionService = conversionService;
 			}
 			#endregion
 			#region Interpret Methods
@@ -43,12 +49,14 @@ namespace Premotion.Mansion.Core.Data.Clauses
 					yield break;
 
 				// get the values
-				var conversionService = context.Nucleus.ResolveSingle<IConversionService>();
 				var limit = conversionService.Convert<int>(context, limitString);
 
 				// create the paging clause
 				yield return new LimitClause(limit);
 			}
+			#endregion
+			#region Private Fields
+			private readonly IConversionService conversionService;
 			#endregion
 		}
 		#endregion

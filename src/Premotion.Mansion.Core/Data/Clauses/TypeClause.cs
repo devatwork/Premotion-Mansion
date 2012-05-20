@@ -19,8 +19,14 @@ namespace Premotion.Mansion.Core.Data.Clauses
 			#region Constructors
 			/// <summary>
 			/// </summary>
-			public TypeClauseInterpreter() : base(10)
+			public TypeClauseInterpreter(ITypeService typeService) : base(10)
 			{
+				// validate arguments
+				if (typeService == null)
+					throw new ArgumentNullException("typeService");
+
+				// set values
+				this.typeService = typeService;
 			}
 			#endregion
 			#region Interpret Methods
@@ -43,9 +49,11 @@ namespace Premotion.Mansion.Core.Data.Clauses
 					yield break;
 
 				// get the type
-				var typeService = context.Nucleus.ResolveSingle<ITypeService>();
 				yield return new TypeClause(types.Split(',').Select(x => typeService.Load(context, x)));
 			}
+			#endregion
+			#region Private Fields
+			private readonly ITypeService typeService;
 			#endregion
 		}
 		#endregion

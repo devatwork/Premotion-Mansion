@@ -18,8 +18,14 @@ namespace Premotion.Mansion.Core.Data.Clauses
 			#region Constructors
 			/// <summary>
 			/// </summary>
-			public ParentOfClauseInterpreter() : base(10)
+			public ParentOfClauseInterpreter(IConversionService conversionService) : base(10)
 			{
+				// validate arguments
+				if (conversionService == null)
+					throw new ArgumentNullException("conversionService");
+
+				// set values
+				this.conversionService = conversionService;
 			}
 			#endregion
 			#region Interpret Methods
@@ -52,7 +58,6 @@ namespace Premotion.Mansion.Core.Data.Clauses
 				                                		else
 				                                		{
 				                                			// parse the depth
-				                                			var conversionService = context.Nucleus.ResolveSingle<IConversionService>();
 				                                			depth = conversionService.Convert(context, depthString, 1);
 				                                		}
 				                                	}
@@ -80,6 +85,9 @@ namespace Premotion.Mansion.Core.Data.Clauses
 				if (clauseCounter > 1)
 					throw new InvalidOperationException("Detected an ambigious parent of clause. Remove either childPointer or childSource.");
 			}
+			#endregion
+			#region Private Fields
+			private readonly IConversionService conversionService;
 			#endregion
 		}
 		#endregion

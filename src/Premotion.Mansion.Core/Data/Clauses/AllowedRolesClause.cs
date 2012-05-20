@@ -18,8 +18,14 @@ namespace Premotion.Mansion.Core.Data.Clauses
 			#region Constructors
 			/// <summary>
 			/// </summary>
-			public AllowedRolesClauseInterpreter() : base(10)
+			public AllowedRolesClauseInterpreter(ISecurityModelService securityModelService) : base(10)
 			{
+				// validate arguments
+				if (securityModelService == null)
+					throw new ArgumentNullException("securityModelService");
+
+				// set values
+				this.securityModelService = securityModelService;
 			}
 			#endregion
 			#region Interpret Methods
@@ -42,9 +48,6 @@ namespace Premotion.Mansion.Core.Data.Clauses
 				if (input.TryGetAndRemove(context, "bypassAuthorization", out bypassAuthorization) && bypassAuthorization)
 					yield break;
 
-				// get the security model service
-				var securityModelService = context.Nucleus.ResolveSingle<ISecurityModelService>();
-
 				// retrieve the user
 				var user = securityModelService.RetrieveUser(context, context.CurrentUserState);
 
@@ -54,6 +57,9 @@ namespace Premotion.Mansion.Core.Data.Clauses
 				// create and return the clause
 				yield return new AllowedRolesClause(roleIds);
 			}
+			#endregion
+			#region Private Fields
+			private readonly ISecurityModelService securityModelService;
 			#endregion
 		}
 		#endregion

@@ -18,8 +18,14 @@ namespace Premotion.Mansion.Core.Data.Clauses
 			#region Constructors
 			/// <summary>
 			/// </summary>
-			public PagingClauseInterpreter() : base(10)
+			public PagingClauseInterpreter(IConversionService conversionService) : base(10)
 			{
+				// validate arguments
+				if (conversionService == null)
+					throw new ArgumentNullException("conversionService");
+
+				// set values
+				this.conversionService = conversionService;
 			}
 			#endregion
 			#region Interpret Methods
@@ -46,13 +52,15 @@ namespace Premotion.Mansion.Core.Data.Clauses
 					yield break;
 
 				// get the values
-				var conversionService = context.Nucleus.ResolveSingle<IConversionService>();
 				var pageNumber = conversionService.Convert<int>(context, pageNumberString);
 				var pageSize = conversionService.Convert<int>(context, pageSizeString);
 
 				// create the paging clause
 				yield return new PagingClause(pageNumber, pageSize);
 			}
+			#endregion
+			#region Private Fields
+			private readonly IConversionService conversionService;
 			#endregion
 		}
 		#endregion
