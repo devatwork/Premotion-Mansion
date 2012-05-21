@@ -98,12 +98,14 @@
 		<declareProcedure procedureName="RenderListItemContent">
 			
 			<!-- open the template of the item -->
+			<openScript type="{Row.type}" checkExists="false">
 			<openTemplate type="{Row.type}" checkExists="false">
 				
 				<!-- render the section -->
 				<renderSection name="ListItemAppearance{BlockProperties.listItemAppearance}" />
 				
 			</openTemplate>
+			</openScript>
 			
 		</declareProcedure>
 
