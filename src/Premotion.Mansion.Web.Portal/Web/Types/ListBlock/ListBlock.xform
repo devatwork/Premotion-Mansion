@@ -4,6 +4,7 @@
 	<declareProcedure procedureName="IncludeBlockConfiguration">
 
 		<invokeProcedure procedureName="IncludeGroupContentSource"/>
+		<invokeProcedure procedureName="IncludeGroupContentType"/>
 		<invokeProcedure procedureName="IncludeGroupLimitig"/>
 		<invokeProcedure procedureName="IncludeGroupClassification"/>
 		<invokeProcedure procedureName="IncludeGroupSorting"/>
@@ -21,6 +22,19 @@
 				<providers:nodeTreeProvider rootPointer="{ContentIndexRootNode.pointer}" valueProperty="guid" labelProperty="name" />
 				<forms:requiredFieldValidator />
 			</forms:nodeTreeSelect>
+		</forms:fieldset>
+	</declareProcedure>
+
+
+
+	<!-- Group: ContentType -->
+	<declareProcedure procedureName="IncludeGroupContentType">
+		<forms:fieldset label="Content type">
+			<forms:infoMessage>Select the type of related content which to display.</forms:infoMessage>
+			<forms:selectbox name="contentType" label="" defaultValue="Content">
+				<providers:typeDefinitionDatasetProvider />
+				<forms:requiredFieldValidator />
+			</forms:selectbox>
 		</forms:fieldset>
 	</declareProcedure>
 

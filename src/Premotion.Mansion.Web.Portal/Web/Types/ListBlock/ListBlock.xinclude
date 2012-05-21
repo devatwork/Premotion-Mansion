@@ -11,7 +11,7 @@
 			<copyProperties source="{$BlockProperties}" target="{$Filter}" />
 			<setProperties
 				dataspaceName="Filter"
-				baseType="Content"
+				baseType="{NotEmpty( BlockProperties.contentType, 'Content' )}"
 				status="published"
 				siteGuids="{SiteNode.guid}"
 				taxonomyGuids="{NotEmpty( BlockProperties.taxonomyGuids, PageProperties.taxonomyGuids )}"

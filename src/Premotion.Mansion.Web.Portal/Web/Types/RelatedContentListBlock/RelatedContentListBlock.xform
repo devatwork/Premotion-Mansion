@@ -10,18 +10,5 @@
 		<invokeProcedure procedureName="IncludeGroupAppearance"/>
 
 	</declareProcedure>
-	
-	
-	
-	<!-- Group: ContentType -->
-	<declareProcedure procedureName="IncludeGroupContentType">
-		<forms:fieldset label="Content type">
-			<forms:infoMessage>Select the type of related content which to display.</forms:infoMessage>
-			<forms:selectbox name="contentType" label="">
-				<providers:typeDefinitionDatasetProvider />
-				<forms:requiredFieldValidator />
-			</forms:selectbox>
-		</forms:fieldset>
-	</declareProcedure>
 
 </mansion>
