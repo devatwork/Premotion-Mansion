@@ -1,6 +1,7 @@
 ﻿using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
+using Premotion.Mansion.Web.Url;
 
 namespace Premotion.Mansion.Web.Dispatcher.ScriptFunctions
 {
@@ -8,7 +9,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptFunctions
 	/// Generates a route URL.
 	/// </summary>
 	[ScriptFunction("RouteUrl")]
-	public class RouteUrl : RouteUrlBase
+	public class RouteUrl : FunctionExpression
 	{
 		/// <summary>
 		/// Generates a route URL.
@@ -27,12 +28,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptFunctions
 			if (string.IsNullOrEmpty(action))
 				throw new ArgumentNullException("action");
 
-			// assemble the relative url part
-			var relativeUrl = AssembleRoute(new[] {controller, action});
-
-			// return the uri
-			var webContext = context.Cast<IMansionWebContext>();
-			return new Uri(webContext.ApplicationBaseUri, relativeUrl);
+			return RouteUrlBuilder.BuildRoute(context.Cast<IMansionWebContext>(), controller, action);
 		}
 		/// <summary>
 		/// Generates a route URL.
@@ -52,12 +48,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptFunctions
 			if (string.IsNullOrEmpty(action))
 				throw new ArgumentNullException("action");
 
-			// assemble the relative url part
-			var relativeUrl = AssembleRoute(new[] {controller, action}, null, nodeId);
-
-			// return the uri
-			var webContext = context.Cast<IMansionWebContext>();
-			return new Uri(webContext.ApplicationBaseUri, relativeUrl);
+			return RouteUrlBuilder.BuildRoute(context.Cast<IMansionWebContext>(), controller, action, nodeId);
 		}
 		/// <summary>
 		/// Generates a route URL.
@@ -83,12 +74,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptFunctions
 			if (parameters == null)
 				throw new ArgumentNullException("parameters");
 
-			// assemble the relative url part
-			var relativeUrl = AssembleRoute(new[] {area, controller, action}, parameters, nodeId);
-
-			// return the uri
-			var webContext = context.Cast<IMansionWebContext>();
-			return new Uri(webContext.ApplicationBaseUri, relativeUrl);
+			return RouteUrlBuilder.BuildRoute(context.Cast<IMansionWebContext>(), area, controller, action, nodeId, parameters);
 		}
 	}
 }

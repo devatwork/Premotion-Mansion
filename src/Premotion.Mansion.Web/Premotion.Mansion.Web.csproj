@@ -183,7 +183,6 @@
     <Compile Include="Dispatcher\Constants.cs" />
     <Compile Include="Dispatcher\ScriptFunctions\CommandRouteUrl.cs" />
     <Compile Include="Dispatcher\ScriptFunctions\RouteUrl.cs" />
-    <Compile Include="Dispatcher\ScriptFunctions\RouteUrlBase.cs" />
     <Compile Include="Dispatcher\ScriptTags\InvokeActionTag.cs" />
     <Compile Include="Dispatcher\ScriptTags\ParseRouteTag.cs" />
     <Compile Include="Extensions.cs" />
@@ -238,6 +237,7 @@
     <Compile Include="Security\RepositorySecurityPersistenceService.cs" />
     <Compile Include="Security\WebSecurityService.cs" />
     <Compile Include="TagUtilities.cs" />
+    <Compile Include="Url\RouteUrlBuilder.cs" />
     <Compile Include="Url\INodeUrlService.cs" />
     <Compile Include="Url\NamedUrlGenerator.cs" />
     <Compile Include="Url\NodeUrlGenerator.cs" />

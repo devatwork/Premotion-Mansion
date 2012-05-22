@@ -1,7 +1,7 @@
 ﻿using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
-using Premotion.Mansion.Web.Dispatcher.ScriptFunctions;
+using Premotion.Mansion.Web.Url;
 
 namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 {
@@ -9,7 +9,7 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 	/// Generates a route URL.
 	/// </summary>
 	[ScriptFunction("CmsRouteUrl")]
-	public class CmsRouteUrl : RouteUrlBase
+	public class CmsRouteUrl : FunctionExpression
 	{
 		/// <summary>
 		/// Generates a route URL.
@@ -28,12 +28,7 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 			if (string.IsNullOrEmpty(action))
 				throw new ArgumentNullException("action");
 
-			// assemble the relative url part
-			var relativeUrl = AssembleRoute(new[] {"Cms", controller, action});
-
-			// return the uri
-			var webContext = context.Cast<IMansionWebContext>();
-			return new Uri(webContext.ApplicationBaseUri, relativeUrl);
+			return RouteUrlBuilder.BuildRoute(context.Cast<IMansionWebContext>(), "Cms", controller, action);
 		}
 		/// <summary>
 		/// Generates a route URL.
@@ -56,12 +51,7 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 			if (parameters == null)
 				throw new ArgumentNullException("parameters");
 
-			// assemble the relative url part
-			var relativeUrl = AssembleRoute(new[] {"Cms", controller, action}, parameters, nodeId);
-
-			// return the uri
-			var webContext = context.Cast<IMansionWebContext>();
-			return new Uri(webContext.ApplicationBaseUri, relativeUrl);
+			return RouteUrlBuilder.BuildRoute(context.Cast<IMansionWebContext>(), "Cms", controller, action, nodeId, parameters);
 		}
 	}
 }
