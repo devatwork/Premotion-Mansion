@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+	<metadata>
+		<version>1.1.1</version>
+		<authors>Premotion Software Solutions</authors>
+		<owners>Premotion Software Solutions</owners>
+		<id>Premotion.Mansion.Web.Social</id>
+		<title>Premotion Mansion Web Social Framework</title>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>Contains the Premotion Mansion Framework Social types.</description>
+		<frameworkAssemblies>
+			<frameworkAssembly assemblyName="System" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Web" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Xml" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net40" />
+		</frameworkAssemblies>
+		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+		<copyright>Copyright 2012</copyright>
+		<dependencies>
+			<dependency id="Premotion.Mansion.Core" />
+			<dependency id="Premotion.Mansion.Web" />
+		</dependencies> 
+		<tags>Premotion Mansion Web Social</tags>
+	</metadata>
+	<files>
+		<file src="bin\Premotion.Mansion.Web.Social.dll" target="lib\net40" />
+		<file src="bin\Premotion.Mansion.Web.Social.xml" target="lib\net40" />
+	</files>
+</package>

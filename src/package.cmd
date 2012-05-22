@@ -6,6 +6,7 @@
 .nuget\NuGet.exe pack Premotion.Mansion.Repository.SqlServer\Premotion.Mansion.Repository.SqlServer.nuspec
 .nuget\NuGet.exe pack Premotion.Mansion.Web\Premotion.Mansion.Web.nuspec
 .nuget\NuGet.exe pack Premotion.Mansion.Web.Portal\Premotion.Mansion.Web.Portal.nuspec
+.nuget\NuGet.exe pack Premotion.Mansion.Web.Social\Premotion.Mansion.Web.Social.nuspec
 
 # %windir%\Microsoft.NET\Framework\v4.0.30319\msbuild.exe Premotion.Mansion.sln /t:Clean,Rebuild /p:Configuration=Debug /fileLogger
 # .nuget\NuGet.exe pack Premotion.Mansion.Amazon\Premotion.Mansion.Amazon.symbols.nuspec -Symbols
@@ -13,3 +14,4 @@
 # .nuget\NuGet.exe pack Premotion.Mansion.Repository.SqlServer\Premotion.Mansion.Repository.SqlServer.symbols.nuspec -Symbols
 # .nuget\NuGet.exe pack Premotion.Mansion.Web\Premotion.Mansion.Web.symbols.nuspec -Symbols
 # .nuget\NuGet.exe pack Premotion.Mansion.Web.Portal\Premotion.Mansion.Web.Portal.symbols.nuspec -Symbols
+# .nuget\NuGet.exe pack Premotion.Mansion.Web.Social\Premotion.Mansion.Web.Social.symbols.nuspec -Symbols

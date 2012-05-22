@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Amazon", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Amazon.Tests", "Premotion.Mansion.Amazon.Tests\Premotion.Mansion.Amazon.Tests.csproj", "{C291C29D-2DF0-47B7-948D-9BC5CDBD3A0B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Web.Social", "Premotion.Mansion.Web.Social\Premotion.Mansion.Web.Social.csproj", "{B2234844-646E-4C79-8FF7-5793FDC6D7DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -160,6 +162,16 @@ Global
 		{C291C29D-2DF0-47B7-948D-9BC5CDBD3A0B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C291C29D-2DF0-47B7-948D-9BC5CDBD3A0B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C291C29D-2DF0-47B7-948D-9BC5CDBD3A0B}.Release|x86.ActiveCfg = Release|Any CPU
+		{B2234844-646E-4C79-8FF7-5793FDC6D7DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2234844-646E-4C79-8FF7-5793FDC6D7DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2234844-646E-4C79-8FF7-5793FDC6D7DF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B2234844-646E-4C79-8FF7-5793FDC6D7DF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B2234844-646E-4C79-8FF7-5793FDC6D7DF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B2234844-646E-4C79-8FF7-5793FDC6D7DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2234844-646E-4C79-8FF7-5793FDC6D7DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2234844-646E-4C79-8FF7-5793FDC6D7DF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B2234844-646E-4C79-8FF7-5793FDC6D7DF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B2234844-646E-4C79-8FF7-5793FDC6D7DF}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
