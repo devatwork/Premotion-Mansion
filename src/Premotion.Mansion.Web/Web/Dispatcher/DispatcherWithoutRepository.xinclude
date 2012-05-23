@@ -16,7 +16,7 @@
 			<fireEvent eventName="InitializeRequest" />
 			
 			<!-- parse the route to extract the controller and action -->
-			<dispatcher:parseRoute defaultArea="{Arguments.defaultArea}" defaultController="{NotEmpty( Arguments.defaultController, 'Page' )}" defaultAction="{NotEmpty( Arguments.defaultAction, 'Render' )}" target="Route">
+			<dispatcher:parseRoute defaultArea="{Arguments.defaultArea}" defaultController="{NotEmpty( Arguments.defaultController, 'Page' )}" defaultAction="{NotEmpty( Arguments.defaultAction, 'View' )}" target="Route">
 					
 				<!-- invoke the controller action -->
 				<dispatcher:invokeAction route="{$Route}" />
