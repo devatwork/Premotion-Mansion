@@ -74,7 +74,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptFunctions
 			if (parameters == null)
 				throw new ArgumentNullException("parameters");
 
-			return RouteUrlBuilder.BuildRoute(context.Cast<IMansionWebContext>(), area, controller, action, nodeId, parameters);
+			return RouteUrlBuilder.BuildRouteWithArea(context.Cast<IMansionWebContext>(), area, controller, action, nodeId, parameters);
 		}
 	}
 }

@@ -28,7 +28,7 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 			if (string.IsNullOrEmpty(action))
 				throw new ArgumentNullException("action");
 
-			return RouteUrlBuilder.BuildRoute(context.Cast<IMansionWebContext>(), "Cms", controller, action);
+			return RouteUrlBuilder.BuildRouteWithArea(context.Cast<IMansionWebContext>(), "Cms", controller, action);
 		}
 		/// <summary>
 		/// Generates a route URL.
@@ -51,7 +51,7 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 			if (parameters == null)
 				throw new ArgumentNullException("parameters");
 
-			return RouteUrlBuilder.BuildRoute(context.Cast<IMansionWebContext>(), "Cms", controller, action, nodeId, parameters);
+			return RouteUrlBuilder.BuildRouteWithArea(context.Cast<IMansionWebContext>(), "Cms", controller, action, nodeId, parameters);
 		}
 	}
 }

@@ -34,29 +34,6 @@ namespace Premotion.Mansion.Web.Url
 		/// Constructs a route <see cref="Uri"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
-		/// /// <param name="area">The area.</param>
-		/// <param name="controller">The name of the controller.</param>
-		/// <param name="action">The name of the action.</param>
-		/// <param name="parammeters">The parameters.</param>
-		/// <returns>Returnt the <see cref="Uri"/> for the route.</returns>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/>, <paramref name="area"/>, <paramref name="controller"/> or <paramref name="action"/> is null.</exception>
-		public static Uri BuildRoute(IMansionWebContext context, string area, string controller, string action, params string[] parammeters)
-		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
-			if (string.IsNullOrEmpty(area))
-				throw new ArgumentNullException("area");
-			if (string.IsNullOrEmpty(controller))
-				throw new ArgumentNullException("controller");
-			if (string.IsNullOrEmpty(action))
-				throw new ArgumentNullException("action");
-			return AssembleRoute(context, new[] {area, controller, action}, parammeters);
-		}
-		/// <summary>
-		/// Constructs a route <see cref="Uri"/>.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="controller">The name of the controller.</param>
 		/// <param name="action">The name of the action.</param>
 		/// <param name="nodeId">The node id.</param>
@@ -79,6 +56,29 @@ namespace Premotion.Mansion.Web.Url
 		/// Constructs a route <see cref="Uri"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+		/// /// <param name="area">The area.</param>
+		/// <param name="controller">The name of the controller.</param>
+		/// <param name="action">The name of the action.</param>
+		/// <param name="parammeters">The parameters.</param>
+		/// <returns>Returnt the <see cref="Uri"/> for the route.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/>, <paramref name="area"/>, <paramref name="controller"/> or <paramref name="action"/> is null.</exception>
+		public static Uri BuildRouteWithArea(IMansionWebContext context, string area, string controller, string action, params string[] parammeters)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (string.IsNullOrEmpty(area))
+				throw new ArgumentNullException("area");
+			if (string.IsNullOrEmpty(controller))
+				throw new ArgumentNullException("controller");
+			if (string.IsNullOrEmpty(action))
+				throw new ArgumentNullException("action");
+			return AssembleRoute(context, new[] {area, controller, action}, parammeters);
+		}
+		/// <summary>
+		/// Constructs a route <see cref="Uri"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="area">The area.</param>
 		/// <param name="controller">The name of the controller.</param>
 		/// <param name="action">The name of the action.</param>
@@ -86,7 +86,7 @@ namespace Premotion.Mansion.Web.Url
 		/// <param name="parammeters">The parameters.</param>
 		/// <returns>Returnt the <see cref="Uri"/> for the route.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/>, <paramref name="area"/>, <paramref name="controller"/> or <paramref name="action"/> is null.</exception>
-		public static Uri BuildRoute(IMansionWebContext context, string area, string controller, string action, int nodeId, params string[] parammeters)
+		public static Uri BuildRouteWithArea(IMansionWebContext context, string area, string controller, string action, int nodeId, params string[] parammeters)
 		{
 			// validate arguments
 			if (context == null)

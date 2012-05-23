@@ -71,7 +71,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 			{
 				// set all the parameters
 				for (var paremeterIndex = parameterRouteUrlIndex + 1; paremeterIndex < url.Segments.Length; paremeterIndex++)
-					routeProperties.Set("routeParameter" + (paremeterIndex - parameterRouteUrlIndex), GetSegment(url, paremeterIndex));
+					routeProperties.Set("routeParameter" + ((paremeterIndex - parameterRouteUrlIndex) - 1), GetSegment(url, paremeterIndex));
 			}
 
 			// return the route

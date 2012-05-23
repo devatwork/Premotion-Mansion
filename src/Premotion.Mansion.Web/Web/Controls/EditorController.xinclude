@@ -7,7 +7,7 @@
 			<renderSection name="EditorPage">
 
 				<!-- switch based on type -->
-				<switch condition="{Route.routeParameter1}">
+				<switch condition="{Route.routeParameter0}">
 					<case value="Files">
 						<invokeProcedure procedureName="RenderFilesBrowser"/>
 					</case>
@@ -15,7 +15,7 @@
 						<invokeProcedure procedureName="RenderImagesBrowser"/>
 					</case>
 					<default>
-						<throw message="Unknown resource type '{Route.routeParameter1}'"/>
+						<throw message="Unknown resource type '{Route.routeParameter0}'"/>
 					</default>
 				</switch>
 
@@ -70,7 +70,7 @@
 				<!-- TODO: validates the filename & extension -->
 				
 				<!-- safe the file -->
-				<web:saveUploadedFile category="{Route.routeParameter1}" target="File">
+				<web:saveUploadedFile category="{Route.routeParameter0}" target="File">
 					<renderSection name="SendFileToEditor" />
 				</web:saveUploadedFile>
 				

@@ -77,7 +77,7 @@
 					<renderSection name="Content">
 						
 						<!-- determine the xform which to display -->
-						<setProperties dataspaceName="NodeInfo" type="{Route.routeParameter1}">
+						<setProperties dataspaceName="NodeInfo" type="{Route.routeParameter0}">
 							
 							<!-- if the type does not exist show the default form -->
 							<if condition="{Not( TypeExists( NodeInfo.type ) )}">
