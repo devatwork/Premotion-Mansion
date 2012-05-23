@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Net;
 using Premotion.Mansion.Core.Conversion;
 using RestSharp;
@@ -19,21 +20,17 @@ namespace Premotion.Mansion.Web.Social.Facebook
 		/// <summary>
 		/// Construct the Facebook social service.
 		/// </summary>
-		/// <param name="clientId">The client ID.</param>
-		/// <param name="clientSecret">The client secret.</param>
 		/// <param name="conversionService">The <see cref="IConversionService"/>.</param>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="clientId"/> or <paramref name="clientSecret"/> is null.</exception>
-		public FacebookSocialService(string clientId, string clientSecret, IConversionService conversionService) : base(Constants.ProviderName, conversionService)
+		public FacebookSocialService(IConversionService conversionService) : base(Constants.ProviderName, conversionService)
 		{
-			// validate arguments
-			if (string.IsNullOrEmpty(clientId))
-				throw new ArgumentNullException("clientId");
-			if (string.IsNullOrEmpty(clientSecret))
-				throw new ArgumentNullException("clientSecret");
-
 			// set values
-			this.clientId = clientId;
-			this.clientSecret = clientSecret;
+			var appSettings = ConfigurationManager.AppSettings;
+			clientId = appSettings[Constants.AppIdApplicationSettingKey];
+			clientSecret = appSettings[Constants.AppSecretApplicationSettingKey];
+			if (string.IsNullOrEmpty(clientId))
+				throw new InvalidOperationException("No valid value found in application settings for key " + Constants.AppIdApplicationSettingKey);
+			if (string.IsNullOrEmpty(clientSecret))
+				throw new InvalidOperationException("No valid value found in application settings for key " + Constants.AppSecretApplicationSettingKey);
 		}
 		#endregion
 		#region Implementation of SocialServiceBase
@@ -191,7 +188,8 @@ namespace Premotion.Mansion.Web.Social.Facebook
 			var request = new RestRequest()
 				.AddParameter("client_id", clientId)
 				.AddParameter("redirect_uri", BuildExchangeTokenRedirectUri(context).ToString())
-				.AddParameter("state", state.ToString());
+				.AddParameter("state", state.ToString())
+				.AddParameter("display", "popup");
 
 			// add the scope when there is one
 			if (scope != null)
