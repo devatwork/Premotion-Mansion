@@ -18,6 +18,7 @@
 		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
 		<copyright>Copyright 2012</copyright>
 		<dependencies>
+			<dependency id="RestSharp" />
 			<dependency id="Premotion.Mansion.Core" />
 			<dependency id="Premotion.Mansion.Web" />
 		</dependencies> 
