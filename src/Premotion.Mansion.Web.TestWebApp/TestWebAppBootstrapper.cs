@@ -16,6 +16,8 @@ using Premotion.Mansion.Web.Mail;
 using Premotion.Mansion.Web.Mail.Standard;
 using Premotion.Mansion.Web.Portal.Service;
 using Premotion.Mansion.Web.Security;
+using Premotion.Mansion.Web.Social;
+using Premotion.Mansion.Web.Social.Facebook;
 using Premotion.Mansion.Web.Url;
 
 namespace Premotion.Mansion.Web.TestWebApp
@@ -47,6 +49,10 @@ namespace Premotion.Mansion.Web.TestWebApp
 			//nucleus.Register<IApplicationResourceService>(resolver => new WindowsApplicationResourceService(HttpRuntime.AppDomainAppPath, "Web", new[] {"/MansionWeb", "/MansionWebPortal", "/"}, resolver.Resolve<ResourcePathInterpreter>(), resolver.ResolveSingle<ICachingService>()));
 			nucleus.Register<IPortalService>(resolver => new PortalService(resolver.ResolveSingle<ICachingService>(), resolver.ResolveSingle<ITemplateService>()));
 			nucleus.Register<IApplicationResourceService>(resolver => new EmbeddedApplicationResourceService("Web", resolver.Resolve<ResourcePathInterpreter>(), resolver.ResolveSingle<IReflectionService>()));
+
+			// register social services
+			nucleus.Register<ISocialService>(resolver => new FacebookSocialService("362530333802905", "c2821c4a7ca2efeb9527806af4ce357e", resolver.ResolveSingle<IConversionService>()));
+			nucleus.Register<ISocialServiceDiscoveryService>(resolver => new SocialServiceDiscoveryService(resolver.Resolve<ISocialService>()));
 		}
 		#endregion
 	}

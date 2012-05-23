@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
-	<renderText>Hello, world</renderText>
-	<renderText>{IsAssignable( 'Site', 'Page' )}</renderText>
+
+	<!-- bootstrap the dispatcher and dispatch the request -->
+	<openScript path="Dispatcher/Dispatcher.xinclude">
+		<invokeProcedure procedureName="Dispatch" />
+	</openScript>
+
 </mansion>

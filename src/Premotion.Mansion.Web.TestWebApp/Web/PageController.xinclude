@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:social="http://schemas.premotion.nl/mansion/1.0/web/social/tags.xsd">
+
+	<!-- retrieve the profile -->
+	<declareProcedure procedureName="HandleView">
+
+		<switch condition="{Get.status}">
+			<case value="failed">
+				<renderText>Failed because {Get.reason}</renderText>
+			</case>
+			<default>
+				<social:retrieveProfile providerName="facebook" target="Profile">
+					<renderText>{Profile.name}</renderText>
+				</social:retrieveProfile>
+			</default>
+		</switch>
+	
+	</declareProcedure>
+	
+</mansion>

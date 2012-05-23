@@ -46,6 +46,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <EmbeddedResource Include="Web\PageController.xinclude" />
     <EmbeddedResource Include="Web\Default.xts" />
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +69,10 @@
     <ProjectReference Include="..\Premotion.Mansion.Web.Portal\Premotion.Mansion.Web.Portal.csproj">
       <Project>{9F72860A-6878-41BE-AF4B-75AF7CADEF1A}</Project>
       <Name>Premotion.Mansion.Web.Portal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Premotion.Mansion.Web.Social\Premotion.Mansion.Web.Social.csproj">
+      <Project>{B2234844-646E-4C79-8FF7-5793FDC6D7DF}</Project>
+      <Name>Premotion.Mansion.Web.Social</Name>
     </ProjectReference>
     <ProjectReference Include="..\Premotion.Mansion.Web\Premotion.Mansion.Web.csproj">
       <Project>{7170BC06-87E5-4BFD-831C-B0A286F93182}</Project>
