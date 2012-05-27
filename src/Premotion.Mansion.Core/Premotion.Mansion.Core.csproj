@@ -448,7 +448,7 @@
     <None Include="ScriptTags\Boolean\stl.boolean.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ScriptTags\Caching\stl.io.xsd">
+    <None Include="ScriptTags\Caching\stl.caching.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="ScriptTags\IO\stl.io.xsd">
