@@ -6,11 +6,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<!-- Le styles -->
-		<link rel="stylesheet" href="{StaticResourceUrl( '/Cms/css/bootstrap.min.css' )}">
+		<link rel="stylesheet" href="{StaticResourceUrl( '/Shared/css/bootstrap/bootstrap.min.css' )}">
 		<link rel="stylesheet" href="{DynamicResourceUrl( '/Controls/Css/Controls.css' )}">
 		<link rel="stylesheet" href="{StaticResourceUrl( '/Shared/css/libs/jquery/jquery-ui.css' )}">
 		<link rel="stylesheet" href="{DynamicResourceUrl( '/Cms/css/cms.css' )}">
-		<link rel="stylesheet" href="{StaticResourceUrl( '/Cms/css/bootstrap-responsive.min.css' )}">
+		<link rel="stylesheet" href="{StaticResourceUrl( '/Shared/css/bootstrap/bootstrap-responsive.min.css' )}">
 		{Header}
 		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
@@ -34,7 +34,7 @@
 		<script src="{StaticResourceUrl( '/Shared/js/libs/jquery.js' )}"></script>
 		<script src="{StaticResourceUrl( '/Shared/js/libs/jquery-ui.js' )}"></script>
 		<script src="{DynamicResourceUrl( '/Controls/Js/Controls.js' )}"></script>
-		<script src="{StaticResourceUrl( '/Cms/js/bootstrap.min.js' )}"></script>
+		<script src="{StaticResourceUrl( '/Shared/js/bootstrap/bootstrap.min.js' )}"></script>
 		<script src="{StaticResourceUrl( '/Cms/js/cms.js' )}"></script>
 		{Footer}
 	</body>
