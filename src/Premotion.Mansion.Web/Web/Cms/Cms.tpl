@@ -8,7 +8,7 @@
 		<!-- Le styles -->
 		<link rel="stylesheet" href="{StaticResourceUrl( '/Shared/css/bootstrap/bootstrap.min.css' )}">
 		<link rel="stylesheet" href="{DynamicResourceUrl( '/Controls/Css/Controls.css' )}">
-		<link rel="stylesheet" href="{StaticResourceUrl( '/Shared/css/libs/jquery/jquery-ui.css' )}">
+		<link rel="stylesheet" href="{StaticResourceUrl( '/Shared/css/jquery/jquery-ui.css' )}">
 		<link rel="stylesheet" href="{DynamicResourceUrl( '/Cms/css/cms.css' )}">
 		<link rel="stylesheet" href="{StaticResourceUrl( '/Shared/css/bootstrap/bootstrap-responsive.min.css' )}">
 		{Header}
@@ -31,8 +31,8 @@
 		<!-- Le javascript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
-		<script src="{StaticResourceUrl( '/Shared/js/libs/jquery.js' )}"></script>
-		<script src="{StaticResourceUrl( '/Shared/js/libs/jquery-ui.js' )}"></script>
+		<script src="{StaticResourceUrl( '/Shared/js/jquery/jquery.js' )}"></script>
+		<script src="{StaticResourceUrl( '/Shared/js/jquery/jquery-ui.js' )}"></script>
 		<script src="{DynamicResourceUrl( '/Controls/Js/Controls.js' )}"></script>
 		<script src="{StaticResourceUrl( '/Shared/js/bootstrap/bootstrap.min.js' )}"></script>
 		<script src="{StaticResourceUrl( '/Cms/js/cms.js' )}"></script>

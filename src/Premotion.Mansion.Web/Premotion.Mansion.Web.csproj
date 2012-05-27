@@ -314,7 +314,7 @@
     <EmbeddedResource Include="Web\Controls\Js\Controls.js" />
     <EmbeddedResource Include="Web\Dispatcher\Dispatcher.xinclude" />
     <EmbeddedResource Include="Web\Dispatcher\DispatcherWithoutRepository.xinclude" />
-    <EmbeddedResource Include="Web\Shared\css\libs\jquery\jquery-ui.css" />
+    <EmbeddedResource Include="Web\Shared\css\jquery\jquery-ui.css" />
     <EmbeddedResource Include="Web\Shared\js\libs\ckeditor\adapters\jquery.js" />
     <EmbeddedResource Include="Web\Shared\js\libs\ckeditor\ckeditor.js" />
     <EmbeddedResource Include="Web\Shared\js\libs\ckeditor\ckeditor_basic.js" />
@@ -629,8 +629,8 @@
     <EmbeddedResource Include="Web\Shared\js\libs\ckfinder\skins\kama\richcombo.css" />
     <EmbeddedResource Include="Web\Shared\js\libs\ckfinder\skins\kama\skin.js" />
     <EmbeddedResource Include="Web\Shared\js\libs\ckfinder\skins\kama\uipanel.css" />
-    <EmbeddedResource Include="Web\Shared\js\libs\jquery-ui.js" />
-    <EmbeddedResource Include="Web\Shared\js\libs\jquery.js" />
+    <EmbeddedResource Include="Web\Shared\js\jquery\jquery-ui.js" />
+    <EmbeddedResource Include="Web\Shared\js\jquery\jquery.js" />
     <EmbeddedResource Include="Web\Types\AssetEntry\AssetEntry.xdef" />
     <EmbeddedResource Include="Web\Types\AssetFolder\AssetFolder.xdef" />
     <EmbeddedResource Include="Web\Types\AssetTypeIndex\AssetTypeIndex.xdef" />
@@ -696,20 +696,20 @@
     <EmbeddedResource Include="Web\Cms\js\cms.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Web\Shared\css\libs\jquery\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
-    <EmbeddedResource Include="Web\Shared\css\libs\jquery\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
-    <EmbeddedResource Include="Web\Shared\css\libs\jquery\images\ui-bg_flat_10_000000_40x100.png" />
-    <EmbeddedResource Include="Web\Shared\css\libs\jquery\images\ui-bg_glass_100_f6f6f6_1x400.png" />
-    <EmbeddedResource Include="Web\Shared\css\libs\jquery\images\ui-bg_glass_100_fdf5ce_1x400.png" />
-    <EmbeddedResource Include="Web\Shared\css\libs\jquery\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <EmbeddedResource Include="Web\Shared\css\libs\jquery\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
-    <EmbeddedResource Include="Web\Shared\css\libs\jquery\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
-    <EmbeddedResource Include="Web\Shared\css\libs\jquery\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
-    <EmbeddedResource Include="Web\Shared\css\libs\jquery\images\ui-icons_222222_256x240.png" />
-    <EmbeddedResource Include="Web\Shared\css\libs\jquery\images\ui-icons_228ef1_256x240.png" />
-    <EmbeddedResource Include="Web\Shared\css\libs\jquery\images\ui-icons_ef8c08_256x240.png" />
-    <EmbeddedResource Include="Web\Shared\css\libs\jquery\images\ui-icons_ffd27a_256x240.png" />
-    <EmbeddedResource Include="Web\Shared\css\libs\jquery\images\ui-icons_ffffff_256x240.png" />
+    <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-bg_flat_10_000000_40x100.png" />
+    <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-icons_222222_256x240.png" />
+    <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-icons_228ef1_256x240.png" />
+    <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-icons_ef8c08_256x240.png" />
+    <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-icons_ffd27a_256x240.png" />
+    <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-icons_ffffff_256x240.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Controls\Images\Treeview\treeview-default.gif" />
