@@ -52,9 +52,9 @@
 				<!-- delegate to inherited types -->
 				<invokeProcedure procedureName="RenderXFormContent" />
 
-				<forms:buttonBar cssClass="background grey cms-toolbar bottom right">
-					<forms:button action="cancel" label="Cancel" cssClass="cancel" />
-					<forms:button action="store" label="Save" cssClass="ok" />
+				<forms:buttonBar>
+					<forms:button action="cancel" label="Cancel" cssClass="btn-warning" />
+					<forms:button action="store" label="Save" cssClass="btn-success" />
 				</forms:buttonBar>
 
 				<!-- handle cancel click -->
@@ -86,10 +86,10 @@
 				<!-- delegate to inherited types -->
 				<invokeProcedure procedureName="RenderXFormContent" />
 
-				<forms:buttonBar cssClass="background grey cms-toolbar bottom right">
+				<forms:buttonBar>
 					<invokeProcedure procedureName="IncludeActionButtons" />
-					<forms:button action="cancel" label="Cancel" cssClass="cancel" />
-					<forms:button action="store" label="Save" cssClass="ok" />
+					<forms:button action="cancel" label="Cancel" cssClass="btn-warning" />
+					<forms:button action="store" label="Save" cssClass="btn-success" />
 				</forms:buttonBar>
 
 				<!-- handle cancel click -->
@@ -135,7 +135,7 @@
 		<forms:fieldset label="Identity">
 			<forms:textbox name="guid" label="Permanent Identifier" readonly="true" />
 			<forms:selectbox name="type" label="Type" defaultValue="{TargetProperties.type}">
-				<providers:typeDefinitionDatasetProvider type="{UrlNode.type}" />
+				<providers:typeDefinitionDatasetProvider type="{CurrentNode.type}" />
 				<forms:requiredFieldValidator message="Vul een type in" />
 			</forms:selectbox>
 			<forms:textbox name="pointer" label="Pointer" readonly="true" />
@@ -166,24 +166,24 @@
 
 	<declareProcedure procedureName="IncludeActionAddChildButton">
 		<if condition="{HasChildTypes( $FormSourceNode )}">
-			<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'AddChildToNode', UrlNode.id )}" label="Add new child" cssClass="cms-dialog add-child" />
+			<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'AddChildToNode', CurrentNode.id )}" label="Add new child" cssClass="cms-dialog btn-info" />
 		</if>
 	</declareProcedure>
 
 	<declareProcedure procedureName="IncludeActionChangeNodeOrderButton">
-		<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'ChangeOrder', UrlNode.id )}" label="Change order" cssClass="cms-dialog change-order" />
+		<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'ChangeOrder', CurrentNode.id )}" label="Change order" cssClass="cms-dialog btn-info" />
 	</declareProcedure>
 
 	<declareProcedure procedureName="IncludeActionMoveNodeButton">
-		<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'MoveNode', UrlNode.id )}" label="Move" cssClass="cms-dialog move" />
+		<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'MoveNode', CurrentNode.id )}" label="Move" cssClass="cms-dialog btn-info" />
 	</declareProcedure>
 
 	<declareProcedure procedureName="IncludeActionCopyNodeButton">
-		<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'CopyNode', UrlNode.id )}" label="Copy" cssClass="cms-dialog copy" />
+		<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'CopyNode', CurrentNode.id )}" label="Copy" cssClass="cms-dialog btn-info" />
 	</declareProcedure>
 
 	<declareProcedure procedureName="IncludeActionDeleteNodeButton">
-		<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'DeleteNode', UrlNode.id )}" label="Delete" cssClass="cms-dialog delete" />
+		<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'DeleteNode', CurrentNode.id )}" label="Delete" cssClass="cms-dialog btn-danger" />
 	</declareProcedure>
 
 </mansion>

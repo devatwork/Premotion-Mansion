@@ -89,7 +89,8 @@ namespace Premotion.Mansion.Web.Controls.Forms
 			Definition.Properties.Set("Value", GetValue(context));
 
 			// render the field);)
-			base.DoRender(context, templateService);
+			using (templateService.Render(context, "FieldContainer"))
+				base.DoRender(context, templateService);
 		}
 		#endregion
 		#region Overrides of FormControl

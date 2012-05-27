@@ -52,7 +52,7 @@
 				<remove name="X-UA-Compatible" />
 				<add name="X-UA-Compatible" value="IE=edge,chrome=1" />
 				<remove name="X-Frame-Options" />
-				<add name="X-Frame-Options" value="DENY" />
+				<add name="X-Frame-Options" value="SAMEORIGIN" />
 			</customHeaders>
 		</httpProtocol>
 		<staticContent>

@@ -1,1 +1,0 @@
-﻿{IncludeStaticResource( '/Shared/Js/Libs/modernizr.js' )}

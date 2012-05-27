@@ -5,7 +5,7 @@
 	<declareProcedure procedureName="RenderForm">
 		
 		<forms:form name="newnode">
-			<forms:step label="New Child" headerCssClasses="background header-footer">
+			<forms:step label="New Child" headerCssClasses="modal-header" bodyCssClasses="modal-body">
 				<forms:validationSummary/>
 				
 				<!-- essential properties -->
@@ -14,9 +14,9 @@
 					<forms:requiredFieldValidator message="Vul een type in" />
 				</forms:selectbox>
 
-				<forms:buttonBar cssClass="background grey cms-toolbar bottom right">
-					<forms:button action="cancel" label="Cancel" cssClass="cancel" />
-					<forms:button action="create" label="Create" cssClass="ok" />
+				<forms:buttonBar cssClass="modal-footer">
+					<forms:button action="cancel" label="Cancel" />
+					<forms:button action="create" label="Create" cssClass="btn-success" isDefault="true" />
 				</forms:buttonBar>
 				
 				<!-- processes the form actions -->
@@ -26,8 +26,7 @@
 				</forms:processScriptAction>
 				
 				<forms:processScriptAction supportedActions="create">
-					<ctrls:invokeDialogParentTrigger action="cms.browser.navigate" url="{RouteUrl( 'Cms', 'Node', 'New', UrlNode.id, FieldProperties.type )}" />
-					<ctrls:invokeDialogParentTrigger action="cms.dialog.close" />
+					<ctrls:invokeDialogParentTrigger action="cms.navigate" url="{CmsRouteUrl( 'Cms', 'View', CurrentNode.id )}?type={FieldProperties.type}&amp;mode=create" />
 					<breakExecution />
 				</forms:processScriptAction>
 				

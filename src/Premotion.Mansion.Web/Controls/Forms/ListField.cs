@@ -118,6 +118,7 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
 		protected override void DoRender(IMansionWebContext context, ITemplateService templateService)
 		{
+			using (templateService.Render(context, "FieldContainer"))
 			using (templateService.Render(context, GetType().Name + "Control"))
 			{
 				// get the data

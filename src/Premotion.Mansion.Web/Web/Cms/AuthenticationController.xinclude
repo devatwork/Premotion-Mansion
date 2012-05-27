@@ -12,40 +12,40 @@
 
 			<!-- render the form -->
 			<renderSection name="CmsPage">
-			<renderSection name="Content">
-			<renderSection name="LoginBlock">
+				<renderSection name="CmsHeader" />
+				<renderSection name="CmsFooter" />
+				<renderSection name="Content">
 
-				<forms:form name="Login">
-					<forms:step label="Login">
-						<forms:validationSummary />
-						<forms:textbox name="username" label="Username">
-							<forms:requiredFieldValidator/>
-						</forms:textbox>
-						<forms:password name="password" label="Password">
-							<forms:requiredFieldValidator/>
-						</forms:password>
-						<forms:checkbox name="rememberByCookie" label="Remember me" />
-						<forms:buttonBar>
-							<forms:button action="login" label="Login" cssClass="ok" />
-						</forms:buttonBar>
+					<forms:form name="Login">
+						<forms:step label="Login">
+							<forms:validationSummary />
+							<forms:textbox name="username" label="Username">
+								<forms:requiredFieldValidator/>
+							</forms:textbox>
+							<forms:password name="password" label="Password">
+								<forms:requiredFieldValidator/>
+							</forms:password>
+							<forms:checkbox name="rememberByCookie" label="Remember me" />
+							<forms:buttonBar>
+								<forms:button action="login" label="Login" cssClass="btn-success" />
+							</forms:buttonBar>
 
-						<!-- authentication action -->
-						<forms:processScriptAction supportedActions="login" requiresValidForm="true">
+							<!-- authentication action -->
+							<forms:processScriptAction supportedActions="login" requiresValidForm="true">
 
-							<authenticateUser authenticationProvider="RepositoryAuthenticationProvider" username="{FieldProperties.username}" password="{FieldProperties.password}" allowRevival="{FieldProperties.rememberByCookie}">
+								<authenticateUser authenticationProvider="RepositoryAuthenticationProvider" username="{FieldProperties.username}" password="{FieldProperties.password}" allowRevival="{FieldProperties.rememberByCookie}">
 
-								<!-- redirect to cms home -->
-								<web:redirectRequest url="{CmsRouteUrl( 'Cms', 'Home' )}"/>
+									<!-- redirect to cms home -->
+									<web:redirectRequest url="{CmsRouteUrl( 'Cms', 'Home' )}"/>
 
-							</authenticateUser>
+								</authenticateUser>
 
-						</forms:processScriptAction>
+							</forms:processScriptAction>
 
-					</forms:step>
-				</forms:form>
+						</forms:step>
+					</forms:form>
 
-			</renderSection>
-			</renderSection>
+				</renderSection>
 			</renderSection>
 
 		</web:respondDocument>

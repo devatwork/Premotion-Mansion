@@ -11,32 +11,30 @@
 			<web:disableOutputCache />
 
 			<!-- render the tree -->
-			<web:retrieveNodeByUrl target="UrlNode">
+			<web:retrieveNodeByUrl target="CurrentNode">
+				
+				<!-- check security -->
+				<if condition="{Not( And( IsAuthenticated(), HasPermission( 'Cms', 'use' ) ) )}">
+					<ctrls:invokeDialogParentTrigger action="cms.refresh" />
+					<breakExecution />
+				</if>
 
 				<!-- render content -->
 				<renderSection name="CmsPage">
+				<renderSection name="Dialog">
 
-					<!-- check security -->
-					<if condition="{Not( And( IsAuthenticated(), HasPermission( 'Cms', 'use' ) ) )}">
-						<ctrls:invokeDialogParentTrigger action="cms.refresh" />
-						<breakExecution />
-					</if>
-
-					<!-- render the content-->
-					<renderSection name="Content">
-
-						<!-- render content of dialog-->
-						<openScript type="{UrlNode.type}" extension=".Dialog.xform" checkExists="false">
-						<openTemplate type="{UrlNode.type}" extension=".Dialog.tpl" checkExists="false">
-							<openScript type="{UrlNode.type}" extension=".{Route.originalAction}.Dialog.xform">
-							<openTemplate type="{UrlNode.type}" extension=".{Route.originalAction}.Dialog.tpl" checkExists="false">
-								<invokeProcedure procedureName="RenderForm" />
-							</openTemplate>
-							</openScript>
+					<!-- render content of dialog-->
+					<openScript type="{CurrentNode.type}" extension=".Dialog.xform" checkExists="false">
+					<openTemplate type="{CurrentNode.type}" extension=".Dialog.tpl" checkExists="false">
+						<openScript type="{CurrentNode.type}" extension=".{Route.originalAction}.Dialog.xform">
+						<openTemplate type="{CurrentNode.type}" extension=".{Route.originalAction}.Dialog.tpl" checkExists="false">
+							<invokeProcedure procedureName="RenderForm" />
 						</openTemplate>
 						</openScript>
-						
-					</renderSection>
+					</openTemplate>
+					</openScript>
+
+				</renderSection>
 				</renderSection>
 
 				<notFound>

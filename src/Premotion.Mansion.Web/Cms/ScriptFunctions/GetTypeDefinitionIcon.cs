@@ -61,7 +61,7 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 			var imageUrl = new Uri(webContext.ApplicationBaseUri, prefixedRelativePath);
 
 			// build the icon html
-			return string.Format("<img class=\"icon\" src=\"{0}\" alt=\"{1}\">", imageUrl, behavior.Label ?? string.Empty);
+			return string.Format("<i><img class=\"icon\" src=\"{0}\" alt=\"{1}\"></i>", imageUrl, behavior.Label ?? string.Empty);
 		}
 		#endregion
 		#region Private Fields

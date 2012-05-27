@@ -5,13 +5,13 @@
 	<declareProcedure procedureName="RenderForm">
 		
 		<forms:form name="deletenode">
-			<forms:step label="Delete {UrlNode.name}" headerCssClasses="background header-footer">
+			<forms:step label="Delete {UrlNode.name}" headerCssClasses="modal-header" bodyCssClasses="modal-body">
 
 				<forms:warningMessage>Are you sure you want to delete '{UrlNode.name}'? This action can not be undone.</forms:warningMessage>
 
-				<forms:buttonBar cssClass="background grey cms-toolbar bottom right">
-					<forms:button action="cancel" label="Cancel" cssClass="cancel" />
-					<forms:button action="delete" label="Delete" cssClass="ok" />
+				<forms:buttonBar cssClass="modal-footer">
+					<forms:button action="cancel" label="Cancel" cssClass="cancel" isDefault="true" />
+					<forms:button action="delete" label="Delete" cssClass="btn-danger" />
 				</forms:buttonBar>
 				
 				<!-- processes the form actions -->
@@ -23,9 +23,7 @@
 				<forms:processScriptAction supportedActions="delete">
 					<retrieveParentNode childSource="{$UrlNode}" target="ParentNode">
 						<deleteNode source="{$UrlNode}" />
-						<ctrls:invokeDialogParentTrigger action="cms.tree.navigate" url="{RouteUrl( 'Cms', 'Tree', 'View', ParentNode.id )}" />
-						<ctrls:invokeDialogParentTrigger action="cms.browser.navigate" url="{RouteUrl( 'Cms', 'Node', 'Edit', ParentNode.id )}" />
-						<ctrls:invokeDialogParentTrigger action="cms.dialog.close" />
+						<ctrls:invokeDialogParentTrigger action="cms.navigate" url="{CmsRouteUrl( 'Cms', 'View', ParentNode.id )}" />
 					</retrieveParentNode>
 					<breakExecution />
 				</forms:processScriptAction>

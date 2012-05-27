@@ -5,7 +5,7 @@
 	<declareProcedure procedureName="RenderForm">
 		
 		<forms:form name="copynode">
-			<forms:step label="Copy {UrlNode.name}" headerCssClasses="background header-footer">
+			<forms:step label="Copy {UrlNode.name}" headerCssClasses="modal-header" bodyCssClasses="modal-body">
 				<forms:validationSummary/>
 
 				<forms:nodeTreeSelect name="newParentId" label="Select a new parent" defaultValue="{UrlNode.parentId}">
@@ -13,9 +13,9 @@
 					<forms:requiredFieldValidator message="Select a new parent"/>
 				</forms:nodeTreeSelect>
 
-				<forms:buttonBar cssClass="background grey cms-toolbar bottom right">
-					<forms:button action="cancel" label="Cancel" cssClass="cancel" />
-					<forms:button action="copy" label="Copy" cssClass="ok" />
+				<forms:buttonBar cssClass="modal-footer">
+					<forms:button action="cancel" label="Cancel" isDefault="true" />
+					<forms:button action="copy" label="Copy" cssClass="btn-warning" />
 				</forms:buttonBar>
 				
 				<!-- processes the form actions -->
@@ -27,9 +27,7 @@
 				<forms:processScriptAction supportedActions="copy">
 					<retrieveNode id="{FieldProperties.newParentId}" target="NewParentNode">
 						<copyNode source="{$UrlNode}" newParent="{$NewParentNode}" target="CopiedNode">
-							<ctrls:invokeDialogParentTrigger action="cms.tree.navigate" url="{RouteUrl( 'Cms', 'Tree', 'View', CopiedNode.id )}" />
-							<ctrls:invokeDialogParentTrigger action="cms.browser.navigate" url="{RouteUrl( 'Cms', 'Node', 'Edit', CopiedNode.id )}" />
-							<ctrls:invokeDialogParentTrigger action="cms.dialog.close" />
+							<ctrls:invokeDialogParentTrigger action="cms.navigate" url="{CmsRouteUrl( 'Cms', 'View', CopiedNode.id )}" />
 						</copyNode>
 					</retrieveNode>
 					<breakExecution />

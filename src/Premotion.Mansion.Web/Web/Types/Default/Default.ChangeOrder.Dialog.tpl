@@ -1,5 +1,5 @@
 ﻿<tpl:section name="Siblings" field="Content">
-	<ol>
+	<ol class="unstyled">
 		{Sibling}
 	</ol>
 </tpl:section>

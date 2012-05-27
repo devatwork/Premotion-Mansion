@@ -4,8 +4,8 @@
 	<!-- renders the node selector dialog -->
 	<declareProcedure procedureName="RenderNodeSelectorDialog">
 		<setProperties dataspaceName="DataSource" value="{Get.value}">
-			<forms:form name="selectnode" dataSource="{$Get}">
-				<forms:step label="Select a node" headerCssClasses="background header-footer">
+			<forms:form name="selectnode" dataSource="{$Get}" headerCssClasses="modal-header" bodyCssClasses="modal-body">
+				<forms:step label="Select a node">
 					<forms:validationSummary/>
 
 					<forms:nodeTreeSelect name="items" label="">
@@ -13,9 +13,9 @@
 						<forms:requiredFieldValidator />
 					</forms:nodeTreeSelect>
 
-					<forms:buttonBar cssClass="background grey cms-toolbar bottom right">
-						<forms:button action="cancel" label="Cancel" cssClass="cancel" />
-						<forms:button action="store" label="Update" cssClass="ok" isDefault="true" />
+					<forms:buttonBar cssClass="modal-footer">
+						<forms:button action="cancel" label="Cancel" />
+						<forms:button action="store" label="Update" cssClass="btn-success" isDefault="true" />
 					</forms:buttonBar>
 				</forms:step>
 

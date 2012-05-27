@@ -5,7 +5,7 @@
 	<declareProcedure procedureName="RenderForm">
 		
 		<forms:form name="changeorder" dataSource="{$UrlNode}">
-			<forms:step label="Change position of {UrlNode.name}" headerCssClasses="background header-footer">
+			<forms:step label="Change position of {UrlNode.name}" headerCssClasses="modal-header" bodyCssClasses="modal-body">
 				<forms:validationSummary/>
 
 				<forms:fieldset label="">
@@ -30,9 +30,9 @@
 					</retrieveParentNode>
 				</forms:renderScript>
 
-				<forms:buttonBar cssClass="background grey cms-toolbar bottom right">
-					<forms:button action="cancel" label="Cancel" cssClass="cancel" />
-					<forms:button action="change" label="Change" cssClass="ok" />
+				<forms:buttonBar cssClass="modal-footer">
+					<forms:button action="cancel" label="Cancel" />
+					<forms:button action="change" label="Change" cssClass="btn-success" isDefault="true" />
 				</forms:buttonBar>
 				
 				<!-- processes the form actions -->
@@ -43,8 +43,7 @@
 				
 				<forms:processScriptAction supportedActions="change">
 					<editNode source="{$UrlNode}" order="{FieldProperties.order}"/>
-					<ctrls:invokeDialogParentTrigger action="cms.refresh.frames" />
-					<ctrls:invokeDialogParentTrigger action="cms.dialog.close" />
+					<ctrls:invokeDialogParentTrigger action="cms.refresh" />
 					<breakExecution />
 				</forms:processScriptAction>
 				

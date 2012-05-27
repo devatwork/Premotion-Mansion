@@ -5,15 +5,15 @@
 	<declareProcedure procedureName="RenderUpdateXForm">
 		<fetchNode source="{Arguments.source}" target="FormSourceNode">
 			<forms:form name="createnode" dataSource="{$FormSourceNode}">
-				<forms:step label="{Arguments.label}">
+				<forms:step label="{Arguments.label}" headerCssClasses="modal-header" bodyCssClasses="modal-body">
 					<forms:validationSummary/>
 
 					<!-- delegate to inherited types -->
 					<invokeProcedure procedureName="RenderXFormContent" />
 
-					<forms:buttonBar>
+					<forms:buttonBar cssClass="modal-footer">
 						<forms:button action="cancel" label="Cancel" />
-						<forms:button action="store" label="Update" />
+						<forms:button action="store" label="Update" cssClass="btn-success" isDefault="true" />
 					</forms:buttonBar>
 				</forms:step>
 

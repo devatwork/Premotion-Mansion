@@ -82,6 +82,7 @@ namespace Premotion.Mansion.Web.Controls.Forms
 			// set the field value
 			Definition.Properties.Set("Value", GetValue(context));
 
+			using (templateService.Render(context, "FieldContainer"))
 			using (templateService.Render(context, GetType().Name + "Control"))
 			{
 				// get the root leaf

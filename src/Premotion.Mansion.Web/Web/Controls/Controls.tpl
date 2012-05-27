@@ -2,9 +2,7 @@
 <tpl:section name="ControlId">{ControlProperties.id}</tpl:section>
 
 <tpl:section name="ControlContainer" field="Control">
-	<ol class="control-container">
-		{Control}
-	</ol>
+	{Control}
 </tpl:section>
 
 
@@ -12,142 +10,115 @@
 <tpl:section name="FormControlName">{FormProperties.prefix}</tpl:section>
 	
 <tpl:section name="FormControl" field="Control">
-	<li class="clearfix">
-		<form method="post" action="{Request.url}" id="{@ControlId}" name="{@FormControlName}" class="form inline-form {ControlProperties.cssClass}" accept-charset="utf-8" enctype="multipart/form-data">
-			<ol class="form-content">
-				{Control}
-			</ol>
-			{Hidden}
-			<input type="hidden" name="{FormProperties.prefix}current-step" value="{FormProperties.currentStepId}">
-			<input type="hidden" name="{FormProperties.prefix}state" value="{$FieldProperties}">
-			<input type="hidden" name="{FormProperties.actionPrefix}" class="action" value="">
-			<input type="submit" value="updateui" class="updateui visuallyhidden">
-		</form>
-	</li>
+	<form method="post" action="{Request.url}" id="{@ControlId}" name="{@FormControlName}" class="form form-horizontal {ControlProperties.cssClass}" accept-charset="utf-8" enctype="multipart/form-data">
+		{Control}
+		{Hidden}
+		<input type="hidden" name="{FormProperties.prefix}current-step" value="{FormProperties.currentStepId}">
+		<input type="hidden" name="{FormProperties.prefix}state" value="{$FieldProperties}">
+		<input type="hidden" name="{FormProperties.actionPrefix}" class="action" value="">
+	</form>
 </tpl:section>
 
 
 
 <!-- step control sections -->
 <tpl:section name="StepControl" field="Control">
-	<li class="clearfix step {ControlProperties.cssClass}">
-		<fieldset id="{@ControlId}">
-			<legend class="step-title {ControlProperties.headerCssClasses}"><span>{StepProperties.label}</span></legend>
-			<ol class="step-content">
-				{Control}
-			</ol>
-			{CommandBar}
-		</fieldset>
-	</li>
+	<fieldset id="{@ControlId}">
+		<legend class="step-title {ControlProperties.headerCssClasses}">{StepProperties.label}</legend>
+		<div class="{ControlProperties.bodyCssClasses}">
+			{Control}
+		</div>
+		{CommandBar}
+	</fieldset>
 </tpl:section>
 
 
 
 <!-- render script control -->
 <tpl:section name="RenderScriptControl" field="Control">
-	<li class="clearfix {ControlProperties.cssClass}">
+	<div class="{ControlProperties.cssClass}">
 		{Content}
-	</li>
+	</div>
 </tpl:section>
 
 
 
-<!-- field control sections -->
+<!-- field control container sections -->
 <tpl:section name="FieldName">{FormProperties.fieldPrefix}{ControlProperties.name}</tpl:section>
 
-<tpl:section name="FieldLabel"><label for="{@ControlId}">{ControlProperties.label}{@FieldRequired}:</label></tpl:section>
+<tpl:section name="FieldContainer" field="Control">
+	<div class="control-group">
+		{@FieldLabel}
+		<div class="controls">
+			{Field}
+			{@FieldExplanation}
+		</div>
+	</div>
+</tpl:section>
 
-<tpl:section name="FieldRequired" requires="{IsTrue( ControlProperties.isRequired )}"><em>*</em></tpl:section>
+<tpl:section name="FieldLabel">
+	<label class="control-label" for="{@ControlId}">{ControlProperties.label}{@FieldRequired}:</label>
+</tpl:section>
 
-<tpl:section name="FieldExplanation" requires="{Not( IsEmpty( ControlProperties.explanation ) )}"><span class="field-postfix field-explanation" title="{HtmlEncode( ControlProperties.explanation )}">?</span></tpl:section>
+<tpl:section name="FieldRequired" requires="{IsTrue( ControlProperties.isRequired )}">
+	<em>*</em>
+</tpl:section>
+
+<tpl:section name="FieldExplanation" requires="{Not( IsEmpty( ControlProperties.explanation ) )}">
+	<div class="help-block">{ControlProperties.explanation}</div>
+</tpl:section>
+
+<tpl:section name="FieldReadonlyAttribute">{If( IsTrue( ControlProperties.readonly ), 'disabled' )}</tpl:section>
+
+
+<!-- Field controls sections -->
 
 <tpl:section name="HiddenControl" field="Hidden">
 	<input type="hidden" id="{@ControlId}" name="{@FieldName}" class="field hidden" value="{ControlProperties.Value}">
 </tpl:section>
 
-<tpl:section name="ReadonlyControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<input type="text" id="{@ControlId}" name="{@FieldName}" class="field readonly" value="{FieldProperties.Value}" disabled>
-		{@FieldExplanation}
-	</li>
+<tpl:section name="ReadonlyControl" field="Field">
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge readonly" value="{FieldProperties.Value}" disabled>
 </tpl:section>
 
-<tpl:section name="TextboxControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<input type="text" id="{@ControlId}" name="{@FieldName}" class="field text {ControlProperties.cssClass}" value="{ControlProperties.value}" {If( IsTrue( ControlProperties.readonly ), 'disabled' )}>
-		{@FieldExplanation}
-	</li>
+<tpl:section name="TextboxControl" field="Field">
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
-<tpl:section name="PasswordControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<input type="password" id="{@ControlId}" name="{@FieldName}" class="field text password {ControlProperties.cssClass}" value="{ControlProperties.value}">
-	</li>
+<tpl:section name="PasswordControl" field="Field">
+	<input type="password" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text password {ControlProperties.cssClass}" value="{ControlProperties.value}">
 </tpl:section>
 
-<tpl:section name="TextareaControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<textarea id="{@ControlId}" name="{@FieldName}" class="field textarea {ControlProperties.cssClass}" {If( IsTrue( ControlProperties.readonly ), 'disabled' )}>{ControlProperties.Value}</textarea>
-		{@FieldExplanation}
-	</li>
+<tpl:section name="TextareaControl" field="Field">
+	<textarea id="{@ControlId}" name="{@FieldName}" class="field input-xlarge textarea {ControlProperties.cssClass}" {@FieldReadonlyAttribute}>{ControlProperties.Value}</textarea>
 </tpl:section>
 
-<tpl:section name="EmailControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<input type="email" id="{@ControlId}" name="{@FieldName}" class="field text email {ControlProperties.cssClass}" value="{ControlProperties.value}" {If( IsTrue( ControlProperties.readonly ), 'disabled' )}>
-		{@FieldExplanation}
-	</li>
+<tpl:section name="EmailControl" field="Field">
+	<input type="email" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text email {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
-<tpl:section name="UrlControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<input type="url" id="{@ControlId}" name="{@FieldName}" class="field text url {ControlProperties.cssClass}" value="{ControlProperties.value}" {If( IsTrue( ControlProperties.readonly ), 'disabled' )}>
-		{@FieldExplanation}
-	</li>
+<tpl:section name="UrlControl" field="Field">
+	<input type="url" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text url {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
-<tpl:section name="RichTextAreaControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<div class="field">
-			<textarea id="{@ControlId}" name="{@FieldName}" class="rich-text {ControlProperties.cssClass}" {If( IsTrue( ControlProperties.readonly ), 'disabled' )}>{ControlProperties.Value}</textarea>
-		</div>
-		{@FieldExplanation}
-	</li>
+<tpl:section name="RichTextAreaControl" field="Field">
+	<textarea id="{@ControlId}" name="{@FieldName}" class="field input-xlarge rich-text {ControlProperties.cssClass}" {@FieldReadonlyAttribute}>{ControlProperties.Value}</textarea>
 </tpl:section>
 
 
-<tpl:section name="TagTextboxControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<input type="text" id="{@ControlId}" name="{@FieldName}" class="field text tags {ControlProperties.cssClass}" value="{ControlProperties.value}" {If( IsTrue( ControlProperties.readonly ), 'disabled' )} data-autocomplete-url="{RouteUrl( 'Controls', 'Async', 'AutoComplete', TagIndexNode.id )}">
-		{@FieldExplanation}
-	</li>
+<tpl:section name="TagTextboxControl" field="Field">
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text tags {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute} data-autocomplete-url="{RouteUrl( 'Controls', 'Async', 'AutoComplete', TagIndexNode.id )}">
 </tpl:section>
 
-<tpl:section name="CheckboxControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<input type="checkbox" id="{@ControlId}" name="{@FieldName}" class="small-field checkbox {ControlProperties.cssClass}" {If( IsTrue( ControlProperties.value ), 'checked' )} {If( IsTrue( ControlProperties.readonly ), 'disabled' )}>
-		{@FieldExplanation}
-	</li>
+<tpl:section name="CheckboxControl" field="Field">
+	<input type="checkbox" id="{@ControlId}" name="{@FieldName}" class="input-small checkbox {ControlProperties.cssClass}" {If( IsTrue( ControlProperties.value ), 'checked' )} {@FieldReadonlyAttribute}>
 </tpl:section>
 
-<tpl:section name="SelectboxControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<select id="{@ControlId}" name="{@FieldName}" class="field selectbox {ControlProperties.cssClass}" {If( IsTrue( ControlProperties.readonly ), 'disabled' )}>
-			{@SelectboxControlDefaultOption}
-			{SelectboxControlOption}
-		</select>
-		{@FieldExplanation}
-	</li>
+<tpl:section name="SelectboxControl" field="Field">
+	<select id="{@ControlId}" name="{@FieldName}" class="field input-xlarge selectbox {ControlProperties.cssClass}" {@FieldReadonlyAttribute}>
+		{@SelectboxControlDefaultOption}
+		{SelectboxControlOption}
+	</select>
 </tpl:section>
 
 	<tpl:section name="SelectboxControlDefaultOption" requires="{Not( IsTrue( ControlProperties.isRequired ) )}">
@@ -158,77 +129,65 @@
 		<option value="{HtmlEncode( OptionProperties.value )}" {If( InList( OptionProperties.value, GetStackValue( 'FieldProperties', ControlProperties.name, '' ) ), 'selected')}>{OptionProperties.label}</option>
 	</tpl:section>
 
-<tpl:section name="MultiSelectControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<select id="{@ControlId}" name="{@FieldName}" class="field multiselect {ControlProperties.cssClass}" {If( IsTrue( ControlProperties.readonly ), 'disabled' )} multiple="multiple">
-			{MultiSelectControlOption}
-		</select>
-		{@FieldExplanation}
-	</li>
+<tpl:section name="MultiSelectControl" field="Field">
+	<select id="{@ControlId}" name="{@FieldName}" class="field input-xlarge multiselect {ControlProperties.cssClass}" {@FieldReadonlyAttribute} multiple="multiple">
+		{MultiSelectControlOption}
+	</select>
 </tpl:section>
 
 	<tpl:section name="MultiSelectControlOption">
 		<option value="{HtmlEncode( OptionProperties.value )}" {If( InList( OptionProperties.value, GetStackValue( 'FieldProperties', ControlProperties.name, '' ) ), 'selected')}>{OptionProperties.label}</option>
 	</tpl:section>
 
-<tpl:section name="CheckboxListControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<div id="{@ControlId}" class="field checkbox-list {ControlProperties.cssClass}">
-			{CheckboxListControlOption}
-		</div>
-		{@FieldExplanation}
-	</li>
+<tpl:section name="CheckboxListControl" field="Field">
+	<div id="{@ControlId}" class="field input-xlarge checkbox-list {ControlProperties.cssClass}">
+		{CheckboxListControlOption}
+	</div>
 </tpl:section>
 
 	<tpl:section name="CheckboxListControlOption">
-		<div class="clearfix">
-			<input type="checkbox" id="{@ControlId}-{Loop.current}" name="{@FieldName}" value="{HtmlEncode( OptionProperties.value )}" {If( IsTrue( ControlProperties.readonly ), 'disabled' )} {If( InList( OptionProperties.value, GetStackValue( 'FieldProperties', ControlProperties.name, '' ) ), 'checked')}>
-			<label for="{@ControlId}-{Loop.current}">{OptionProperties.label}</label>
-		</div>
+		<label for="{@ControlId}-{Loop.current}">
+			<input type="checkbox" id="{@ControlId}-{Loop.current}" name="{@FieldName}" value="{HtmlEncode( OptionProperties.value )}" {@FieldReadonlyAttribute} {If( InList( OptionProperties.value, GetStackValue( 'FieldProperties', ControlProperties.name, '' ) ), 'checked')}>
+			{OptionProperties.label}
+		</label>
 	</tpl:section>
 
-<tpl:section name="SingleNodeSelectorControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<div id="{@ControlId}" class="field node-selector single-node-selector">
-			<div id="{@ControlId}-label" class="label">{ControlProperties.displayValue}</div>
-			<a id="{@ControlId}-select" class="button dialog select-button" href="{DataspaceToQueryString( RouteUrl( 'Dialog', 'Dialog', 'NodeSelector', '1', 'single' ), $SelectorProperties )}">Select</a>
-			<a id="{@ControlId}-clear" class="button clear-button" href="#">Clear</a>
-			<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" class="field hidden" value="{ControlProperties.value}">
-		</div>
-		{@FieldExplanation}
-	</li>
+<tpl:section name="SingleNodeSelectorControl" field="Field">
+	<div id="{@ControlId}" class="field input-xlarge node-selector single-node-selector">
+		<div id="{@ControlId}-label" class="label">{ControlProperties.displayValue}</div>
+		<a id="{@ControlId}-select" class="button dialog select-button" href="{DataspaceToQueryString( RouteUrl( 'Dialog', 'Dialog', 'NodeSelector', '1', 'single' ), $SelectorProperties )}">Select</a>
+		<a id="{@ControlId}-clear" class="button clear-button" href="#">Clear</a>
+		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" class="field hidden" value="{ControlProperties.value}">
+	</div>
 </tpl:section>
 
-<tpl:section name="MultiNodeSelectorControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<div id="{@ControlId}" class="field node-selector multi-node-selector">
-			<div id="{@ControlId}-label" class="label">{ControlProperties.displayValue}</div>
-			<a id="{@ControlId}-select" class="button dialog select-button" href="{DataspaceToQueryString( RouteUrl( 'Dialog', 'Dialog', 'NodeSelector', '1', 'multi' ), $SelectorProperties )}">Select</a>
-			<a id="{@ControlId}-clear" class="button clear-button" href="#">Clear</a>
-			<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" class="field hidden" value="{ControlProperties.value}">
-		</div>
-		{@FieldExplanation}
-	</li>
+<tpl:section name="MultiNodeSelectorControl" field="Field">
+	<div id="{@ControlId}" class="field input-xlarge node-selector multi-node-selector">
+		<div id="{@ControlId}-label" class="label">{ControlProperties.displayValue}</div>
+		<a id="{@ControlId}-select" class="button dialog select-button" href="{DataspaceToQueryString( RouteUrl( 'Dialog', 'Dialog', 'NodeSelector', '1', 'multi' ), $SelectorProperties )}">Select</a>
+		<a id="{@ControlId}-clear" class="button clear-button" href="#">Clear</a>
+		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" class="field hidden" value="{ControlProperties.value}">
+	</div>
 </tpl:section>
 
 <tpl:section name="NodeTreeSelectControl" field="Control">
-	<li>
+	<div class="control-group">
 		{@FieldLabel}
-		<ul id="{@ControlId}" class="field tree-select node-tree">
-			{Leaf}
-		</ul>
-		{@FieldExplanation}
-	</li>
+		<div class="controls">
+			<ul class="field tree-select node-tree">
+				{Leaf}
+			</ul>
+			{@FieldExplanation}
+		</div>
+	</div>
 </tpl:section>
 	
 	<tpl:section name="NodeTreeSelectControlLeaf" field="Leaf">
-		<li class="clearfix">
-			{@NodeTreeSelectControlLeafButton}
-			<label for="{@FieldName}-{LeafProperties.id}">{LeafProperties.label}</label>
+		<li>
+			<label for="{@FieldName}-{LeafProperties.id}">
+				{@NodeTreeSelectControlLeafButton}
+				{LeafProperties.label}
+			</label>
 			{Children}
 		</li>
 	</tpl:section>
@@ -241,24 +200,16 @@
 		</ul>
 	</tpl:section>
 
-<tpl:section name="DateControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<input type="text" id="{@ControlId}" name="{@FieldName}" class="field small-field date {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy' )}" {If( IsTrue( ControlProperties.readonly ), 'disabled' )}>
-		{@FieldExplanation}
-	</li>
+<tpl:section name="DateControl" field="Field">
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge date {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy' )}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
-<tpl:section name="UploadControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<div id="{@ControlId}" class="field small-field upload {ControlProperties.cssClass}">
-			{@UploadControlPreview}
-			<input type="file" id="{@ControlId}-upload" name="{@FieldName}-upload" {If( IsTrue( ControlProperties.readonly ), 'disabled' )}>
-			<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">
-		</div>
-		{@FieldExplanation}
-	</li>
+<tpl:section name="UploadControl" field="Field">
+	<div id="{@ControlId}" class="field input-small upload {ControlProperties.cssClass}">
+		{@UploadControlPreview}
+		<input type="file" id="{@ControlId}-upload" name="{@FieldName}-upload" {@FieldReadonlyAttribute}>
+		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">
+	</div>
 </tpl:section>
 
 	<tpl:section name="UploadControlPreview" requires="{Not( IsEmpty( ControlProperties.value ) )}">
@@ -268,16 +219,12 @@
 	
 
 
-<tpl:section name="ImageUploadControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<div id="{@ControlId}" class="field small-field image-upload {ControlProperties.cssClass}">
-			{@ImageUploadControlPreview}
-			<input type="file" id="{@ControlId}-upload" name="{@FieldName}-upload" {If( IsTrue( ControlProperties.readonly ), 'disabled' )} value="{ControlProperties.value}">
-			<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">
-		</div>
-		{@FieldExplanation}
-	</li>
+<tpl:section name="ImageUploadControl" field="Field">
+	<div id="{@ControlId}" class="field input-small image-upload {ControlProperties.cssClass}">
+		{@ImageUploadControlPreview}
+		<input type="file" id="{@ControlId}-upload" name="{@FieldName}-upload" {@FieldReadonlyAttribute} value="{ControlProperties.value}">
+		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">
+	</div>
 </tpl:section>
 
 	<tpl:section name="ImageUploadControlPreview" requires="{Not( IsEmpty( ControlProperties.value ) )}">
@@ -285,50 +232,30 @@
 		<a href="#" id="{@ControlId}-clear" name="{@FieldName}-clear">Remove</a>
 	</tpl:section>
 
-<tpl:section name="NumberControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<input type="number" id="{@ControlId}" name="{@FieldName}" class="field small-field number {ControlProperties.cssClass}" value="{ControlProperties.value}" {If( Not( IsEmpty( ControlProperties.min ) ), Concat( ' min="', ControlProperties.min, '"'  ) )} {If( Not( IsEmpty( ControlProperties.max ) ), Concat( ' max="', ControlProperties.max, '"'  ) )} {If( IsTrue( ControlProperties.readonly ), 'disabled' )}>
-		{@FieldExplanation}
-	</li>
+<tpl:section name="NumberControl" field="Field">
+	<input type="number" id="{@ControlId}" name="{@FieldName}" class="field input-small number {ControlProperties.cssClass}" value="{ControlProperties.value}" {If( Not( IsEmpty( ControlProperties.min ) ), Concat( ' min="', ControlProperties.min, '"'  ) )} {If( Not( IsEmpty( ControlProperties.max ) ), Concat( ' max="', ControlProperties.max, '"'  ) )} {@FieldReadonlyAttribute}>
 </tpl:section>
 
-<tpl:section name="DecimalNumberControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<input type="number" id="{@ControlId}" name="{@FieldName}" class="field small-field number decimal {ControlProperties.cssClass}" value="{ControlProperties.value}" {If( Not( IsEmpty( ControlProperties.min ) ), Concat( ' min="', ControlProperties.min, '"'  ) )} {If( Not( IsEmpty( ControlProperties.max ) ), Concat( ' max="', ControlProperties.max, '"'  ) )} {If( IsTrue( ControlProperties.readonly ), 'disabled' )}>
-		{@FieldExplanation}
-	</li>
+<tpl:section name="DecimalNumberControl" field="Field">
+	<input type="number" id="{@ControlId}" name="{@FieldName}" class="field input-small number decimal {ControlProperties.cssClass}" value="{ControlProperties.value}" {If( Not( IsEmpty( ControlProperties.min ) ), Concat( ' min="', ControlProperties.min, '"'  ) )} {If( Not( IsEmpty( ControlProperties.max ) ), Concat( ' max="', ControlProperties.max, '"'  ) )} {@FieldReadonlyAttribute}>
 </tpl:section>
 
-<tpl:section name="RangeControl" field="Control">
-	<li class="clearfix">
-		{@FieldLabel}
-		<input type="range" id="{@ControlId}" name="{@FieldName}" class="field small-field range {ControlProperties.cssClass}" value="{ControlProperties.value}" {If( Not( IsEmpty( ControlProperties.min ) ), Concat( ' min="', ControlProperties.min, '"'  ) )} {If( Not( IsEmpty( ControlProperties.max ) ), Concat( ' max="', ControlProperties.max, '"'  ) )} {If( IsTrue( ControlProperties.readonly ), 'disabled' )}>
-		{@FieldExplanation}
-	</li>
+<tpl:section name="RangeControl" field="Field">
+	<input type="range" id="{@ControlId}" name="{@FieldName}" class="field input-small range {ControlProperties.cssClass}" value="{ControlProperties.value}" {If( Not( IsEmpty( ControlProperties.min ) ), Concat( ' min="', ControlProperties.min, '"'  ) )} {If( Not( IsEmpty( ControlProperties.max ) ), Concat( ' max="', ControlProperties.max, '"'  ) )} {@FieldReadonlyAttribute}>
 </tpl:section>
 
 <tpl:section name="FieldsetControl" field="Control">
-	<li>
-		<fieldset id="{@ControlId}" class="clearfix group {ControlProperties.cssClass}">
-			<legend><span>{ControlProperties.label}</span></legend>
-			<ol>
-				{Control}
-			</ol>
-		</fieldset>
-	</li>
+	<fieldset id="{@ControlId}" class="clearfix group {ControlProperties.cssClass}">
+		<legend>{ControlProperties.label}</legend>
+		{Control}
+	</fieldset>
 </tpl:section>
 
 <tpl:section name="CollapsibleFieldsetControl" field="Control">
-	<li>
-		<fieldset id="{@ControlId}" class="clearfix group collapsible {ControlProperties.cssClass}">
-			<legend><span>{ControlProperties.label}</span></legend>
-			<ol>
-				{Control}
-			</ol>
-		</fieldset>
-	</li>
+	<fieldset id="{@ControlId}" class="clearfix group collapsible {ControlProperties.cssClass}">
+		<legend>{ControlProperties.label}</legend>
+		{Control}
+	</fieldset>
 </tpl:section>
 
 
@@ -337,29 +264,29 @@
 <tpl:section name="ButtonName">{FormProperties.actionPrefix}{ControlProperties.action}</tpl:section>
 
 <tpl:section name="ButtonBarControl" field="CommandBar">
-	<div class="clearfix button-bar {ControlProperties.cssClass}">
+	<div class="clearfix form-actions {ControlProperties.cssClass}">
 		{Control}
 	</div>
 </tpl:section>
 
 <tpl:section name="ButtonControl" field="Control">
-	<a href="#" id="{@ControlId}" class="button submit-button {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}" data-action="{ControlProperties.action}"><span class="icon"></span><span class="text">{ControlProperties.label}</span></a>
+	<a href="#" id="{@ControlId}" class="btn {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}" data-action="{ControlProperties.action}">{ControlProperties.label}</a>&nbsp;
 </tpl:section>
 
 <tpl:section name="LinkButtonControl" field="Control">
-	<a href="{ControlProperties.action}" id="{@ControlId}" class="button {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}"><span class="icon"></span><span class="text">{ControlProperties.label}</span></a>
+	<a href="{ControlProperties.action}" id="{@ControlId}" class="btn {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}">{ControlProperties.label}</a>&nbsp;
 </tpl:section>
 
 
 
 <!-- validation -->
 <tpl:section name="ValidationSummaryControl" field="Control">
-	<li class="validation-summary">
+	<div class="validation-summary">
 		<strong>Error:</strong>
 		<ul>
 			{ValidationResult}
 		</ul>
-	</li>
+	</div>
 </tpl:section>
 
 <tpl:section name="ValidationResult">
@@ -372,33 +299,23 @@
 
 <!-- messages -->
 <tpl:section name="InfoMessageControl" field="Control">
-	<li>
-		<div class="message info">{ControlProperties.message}</div>
-	</li>
+	<div class="alert alert-info">{ControlProperties.message}</div>
 </tpl:section>
 
 <tpl:section name="InstructionMessageControl" field="Control">
-	<li>
-		<div class="message instruction">{ControlProperties.message}</div>
-	</li>
+	<div class="alert alert-info">{ControlProperties.message}</div>
 </tpl:section>
 
 <tpl:section name="WarningMessageControl" field="Control">
-	<li>
-		<div class="message warning">{ControlProperties.message}</div>
-	</li>
+	<div class="alert alert-warning">{ControlProperties.message}</div>
 </tpl:section>
 
 <tpl:section name="SuccessMessageControl" field="Control">
-	<li>
-		<div class="message success">{ControlProperties.message}</div>
-	</li>
+	<div class="alert alert-success">{ControlProperties.message}</div>
 </tpl:section>
 
 <tpl:section name="ErrorMessageControl" field="Control">
-	<li>
-		<div class="message error">{ControlProperties.message}</div>
-	</li>
+	<div class="alert alert-error">{ControlProperties.message}</div>
 </tpl:section>
 
 
@@ -584,12 +501,8 @@
 
 <!-- group sections -->
 <tpl:section name="GroupControl" field="Control">
-	<li>
-		<fieldset id="{@ControlId}" class="clearfix group {ControlProperties.cssClass}">
-			<legend><span>{ControlProperties.label}</span></legend>
-			<ol>
-				{Control}
-			</ol>
-		</fieldset>
-	</li>
+	<fieldset id="{@ControlId}" class="clearfix group {ControlProperties.cssClass}">
+		<legend>{ControlProperties.label}</legend>
+		{Control}
+	</fieldset>
 </tpl:section>

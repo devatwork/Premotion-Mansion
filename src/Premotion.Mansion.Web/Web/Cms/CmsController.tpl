@@ -1,42 +1,95 @@
-﻿<tpl:section name="Content">
-	<div id="container">
-		<header class="background header-footer">
-			<section class="background grey authenticated-user">
-				<span>Welcome {User.name}. <a href="{CmsRouteUrl( 'Authentication', 'Logoff' )}">Sign out</a>.</span>
-			</section>
-			<h1>Premotion Software Solutions CMS</h1>
-		</header>
-		<div id="cms-content">
-			<div id="cms-tabs">
-				<ul>
-					<li><a href="#cms-tab-1">Cms</a></li>
-					{@PreviewTabHeader}
-				</ul>
-				<div id="cms-tab-1" class="cms-tab">
-					<div class="clearfix cms-layout cms-twocolumns-left">
-						<div class="cms-layout-column">
-							<iframe id="cms-tree-frame" name="cms-tree-frame" src="{CmsRouteUrl( 'Tree', 'View', '1' )}" scrolling="auto" frameborder="no"></iframe>
-						</div>
-						<div class="cms-layout-column">
-							<iframe id="cms-browser-frame" name="cms-browser-frame" src="{CmsRouteUrl( 'Node', 'Edit', '1' )}" scrolling="auto" frameborder="no"></iframe>
-						</div>
-					</div>
-				</div>
-				{@PreviewTab}
-			</div>
+﻿<!-- header section -->
+<tpl:section name="ProfileButton">
+	<div class="btn-group pull-right">
+		<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+			<i class="icon-user"></i> Welcome {User.name}
+			<span class="caret"></span>
+		</a>
+		<ul class="dropdown-menu">
+			<li>
+				<a href="{CmsRouteUrl( 'Authentication', 'Logoff' )}">Sign out</a>
+			</li>
+		</ul>
+	</div>
+</tpl:section>
+
+
+
+<!-- content sections -->
+<tpl:section name="Content">
+	<div class="row-fluid">
+		<div class="span3">
+         {Tree}
 		</div>
-		<footer class="background header-footer">
-			<p>&copy; {FormatDate( Now(), 'yyyy' )} <a href="http://www.premotion.nl" title="Premotion Software Solutions" target="_blank">Premotion Software Solutions</a></p>
-		</footer>
+		
+		<div class="span9">
+			{Browser}
+		</div>
 	</div>
 </tpl:section>
 
-<tpl:section name="PreviewTabHeader" requires="{Not( IsNull( $SiteNode ) )}">
-	<li><a href="#cms-tab-2">Preview</a></li>
+
+
+<!-- node tree sections -->
+<tpl:section name="NodeNavigationTree" field="Tree">
+	<div class="well sidebar-nav">
+		<ul class="nav nav-list">
+			<li class="nav-header">Browse</li>
+			{NodeNavigationTreeLeaf}
+		</ul>
+	</div>
+	<!--/.well -->
 </tpl:section>
 
-<tpl:section name="PreviewTab" requires="{Not( IsNull( $SiteNode ) )}">
-	<div id="cms-tab-2" class="cms-tab">
-		<iframe id="cms-preview-frame" name="cms-preview-frame" src="{MakeAbsoluteUrl( NodeURL( $SiteNode ) )}" scrolling="auto" frameborder="no"></iframe>
+	<tpl:section name="NodeNavigationTreeLeaf">
+		<li>
+			<a href="{CmsRouteUrl( 'Cms', 'View', LeafNode.id )}">{GetTypeDefinitionIcon( LeafNode.type )} {LeafNode.name}</a>
+			{NodeNavigationTreeBranch}
+		</li>
+	</tpl:section>
+
+	<tpl:section name="NodeNavigationTreeBranch">
+		<ul class="unstyled">
+			{NodeNavigationTreeLeaf}
+		</ul>
+	</tpl:section>
+
+
+
+<!-- browser sections -->
+<tpl:section name="NodeViewer" field="Browser">
+	{NodeCrumbPath}
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="#edit-node" data-toggle="tab"><i class="icon-edit"></i> Edit</a>
+		</li>
+		<li>
+			<a href="#preview-node" data-toggle="tab"><i class=" icon-zoom-in"></i> Preview</a>
+		</li>
+	</ul>
+	<div class="tab-content">
+		<div id="edit-node" class="tab-pane fade active in">
+			{Control}
+		</div>
+		<div id="preview-node" class="tab-pane fade">
+			
+		</div>
 	</div>
 </tpl:section>
+
+	<tpl:section name="NodeCrumbPath">
+		<ul class="breadcrumb">
+			{NodeCrumb}
+		</ul>
+	</tpl:section>
+
+	<tpl:section name="NodeParentCrumb" field="NodeCrumb">
+		<li>
+			<a	href="{CmsRouteUrl( 'Cms', 'View', ParentNode.id )}">{GetTypeDefinitionIcon( ParentNode.type )} {ParentNode.name}</a>
+			<span class="divider">/</span>
+		</li>
+	</tpl:section>
+
+	<tpl:section name="NodeActiveCrumb" field="NodeCrumb">
+		<li class="active">{GetTypeDefinitionIcon( CurrentNode.type )} {CurrentNode.name}</li>
+	</tpl:section>

@@ -1,28 +1,69 @@
-﻿<tpl:section name="CmsPage"><!doctype html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js" lang="en">
-<!--<![endif]-->
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<base href="{Request.baseUrl}/">
-	<title>Premotion Mansion CMS</title>
-	<link rel="stylesheet" href="{StaticResourceUrl( '/Shared/Css/Libs/JQuery/jquery-ui.start.css' )}">
-	<link rel="stylesheet" href="{MergeResourceUrl( '/Cms/Css/Cms.Style.css' )}">
-	<script src="{MergeResourceUrl( '/Cms/Js/Cms.Header.js' )}"></script>
-	{Header}
-</head>
-<body>
-	{Content}
-	<script defer src="{MergeResourceUrl( '/Cms/Js/Cms.Footer.js' )}"></script>
-	{Footer}
+﻿<tpl:section name="CmsPage"><!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Premotion Mansion CMS</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<!--[if lt IE 7 ]>
-	<script src="../Shared/Js/Libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
-	<script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
-	<![endif]-->
-</body>
+		<!-- Le styles -->
+		<link rel="stylesheet" href="{StaticResourceUrl( '/Cms/css/bootstrap.min.css' )}">
+		<link rel="stylesheet" href="{DynamicResourceUrl( '/Controls/Css/Controls.css' )}">
+		<link rel="stylesheet" href="{StaticResourceUrl( '/Shared/css/libs/jquery/jquery-ui.css' )}">
+		<link rel="stylesheet" href="{DynamicResourceUrl( '/Cms/css/cms.css' )}">
+		<link rel="stylesheet" href="{StaticResourceUrl( '/Cms/css/bootstrap-responsive.min.css' )}">
+		{Header}
+		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+	</head>
+
+	<body class="{@PageBodyClasses}">
+		{CmsHeader}
+		<div class="container-fluid">
+			{Content}
+			{CmsFooter}
+		</div>
+
+		<!-- Le modal -->
+		<div class="modal fade hide" id="modal-popup"></div>
+
+		<!-- Le javascript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="{StaticResourceUrl( '/Shared/js/libs/jquery.js' )}"></script>
+		<script src="{StaticResourceUrl( '/Shared/js/libs/jquery-ui.js' )}"></script>
+		<script src="{DynamicResourceUrl( '/Controls/Js/Controls.js' )}"></script>
+		<script src="{StaticResourceUrl( '/Cms/js/bootstrap.min.js' )}"></script>
+		<script src="{StaticResourceUrl( '/Cms/js/cms.js' )}"></script>
+		{Footer}
+	</body>
 </html></tpl:section>
+
+<tpl:section name="PageBodyClasses">cms</tpl:section>
+
+<tpl:section name="CmsHeader">
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<span class="brand">Premotion Mansion CMS</span>
+				{ProfileButton}
+				{Navigation}
+			</div>
+		</div>
+	</div>
+</tpl:section>
+
+<tpl:section name="CmsFooter">
+	<hr>
+	<footer>
+		<p>
+			&copy; <a href="http://www.premotion.nl/" title="Premotion Software Solutions">Premotion Software Solutions</a> 2010 - {FormatDate( Now(), 'yyyy' )}
+		</p>
+	</footer>
+</tpl:section>

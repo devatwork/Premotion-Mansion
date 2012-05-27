@@ -266,6 +266,11 @@
 							<xs:documentation>Specifies the CSS classes for the header.</xs:documentation>
 						</xs:annotation>
 					</xs:attribute>
+					<xs:attribute name="bodyCssClasses" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>Specifies the CSS classes for the body.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
 
 				</xs:extension>
 			</xs:complexContent>
