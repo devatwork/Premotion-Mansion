@@ -56,7 +56,7 @@
 	</div>
 </tpl:section>
 
-<tpl:section name="FieldLabel">
+<tpl:section name="FieldLabel" requires="{Not( IsEmpty( ControlProperties.label ) )}">
 	<label class="control-label" for="{@ControlId}">{ControlProperties.label}{@FieldRequired}:</label>
 </tpl:section>
 
@@ -170,16 +170,10 @@
 	</div>
 </tpl:section>
 
-<tpl:section name="NodeTreeSelectControl" field="Control">
-	<div class="control-group">
-		{@FieldLabel}
-		<div class="controls">
-			<ul class="field tree-select node-tree">
-				{Leaf}
-			</ul>
-			{@FieldExplanation}
-		</div>
-	</div>
+<tpl:section name="NodeTreeSelectControl" field="Field">
+	<ul class="field tree-select node-tree">
+		{Leaf}
+	</ul>
 </tpl:section>
 	
 	<tpl:section name="NodeTreeSelectControlLeaf" field="Leaf">
