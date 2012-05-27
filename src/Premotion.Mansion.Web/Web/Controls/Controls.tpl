@@ -23,7 +23,7 @@
 
 <!-- step control sections -->
 <tpl:section name="StepControl" field="Control">
-	<fieldset id="{@ControlId}">
+	<fieldset id="{@ControlId}" class="step {ControlProperties.cssClass}">
 		<legend class="step-title {ControlProperties.headerCssClasses}">{StepProperties.label}</legend>
 		<div class="{ControlProperties.bodyCssClasses}">
 			{Control}
@@ -275,8 +275,8 @@
 
 <!-- validation -->
 <tpl:section name="ValidationSummaryControl" field="Control">
-	<div class="validation-summary">
-		<strong>Error:</strong>
+	<div class="controls alert alert-block alert-error">
+		<h4 class="alert-heading">Error</h4>
 		<ul>
 			{ValidationResult}
 		</ul>
@@ -285,7 +285,7 @@
 
 <tpl:section name="ValidationResult">
 	<li>
-		<span class="control-name">{NotEmpty( ValidatedControlProperties.label, ValidatedControlProperties.name )}:</span> {MessageProperties.message}
+		<strong>{NotEmpty( ValidatedControlProperties.label, ValidatedControlProperties.name )}:</strong> {MessageProperties.message}
 	</li>
 </tpl:section>
 
