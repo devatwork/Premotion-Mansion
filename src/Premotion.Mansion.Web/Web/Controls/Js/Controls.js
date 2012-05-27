@@ -26,9 +26,9 @@
 
 /* CKeditor */
 var CKEDITOR_BASEPATH = "{Request.baseUrl}/static-resources/Shared/js/libs/ckeditor/";
-{IncludeStaticResource( '/Shared/js/libs/ckeditor/ckeditor.js' )}
-{IncludeStaticResource( '/Shared/js/libs/ckeditor/adapters/jquery.js' )}
-{IncludeStaticResource( '/Shared/js/libs/ckfinder/ckfinder.js' )}
+{IncludeStaticResource( '/Shared/js/ckeditor/ckeditor.js' )}
+{IncludeStaticResource( '/Shared/js/ckeditor/adapters/jquery.js' )}
+{IncludeStaticResource( '/Shared/js/ckfinder/ckfinder.js' )}
 
 /*
 
