@@ -12,7 +12,7 @@
 		/// <returns>Returns the mapped <see cref="Profile"/>.</returns>
 		public Profile Map()
 		{
-			return new Profile(new SocialId(Id, Constants.ProviderName), Name, FirstName, LastName, Email, Username);
+			return new Profile(new SocialId(Id, Constants.ProviderName), Name, FirstName, MiddleName, LastName, Email, Username).Normalize();
 		}
 		#endregion
 		#region Properties
@@ -28,6 +28,10 @@
 		/// Gets the first name of the profile.
 		/// </summary>
 		public string FirstName { get; set; }
+		/// <summary>
+		/// Gets the middle name of the profile.
+		/// </summary>
+		public string MiddleName { get; set; }
 		/// <summary>
 		/// Gets the first name of the profile.
 		/// </summary>
