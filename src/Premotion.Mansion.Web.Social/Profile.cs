@@ -35,7 +35,7 @@ namespace Premotion.Mansion.Web.Social
 				throw new ArgumentNullException("id");
 
 			// set values
-			this.id = id;
+			this.id = id.ToString();
 			Name = name ?? string.Empty;
 			FirstName = firstName ?? string.Empty;
 			LastNamePrefix = lastNamePrefix ?? string.Empty;
@@ -90,7 +90,7 @@ namespace Premotion.Mansion.Web.Social
 		/// <summary>
 		/// The user's social service provider id.
 		/// </summary>
-		public SocialId Id
+		public String Id
 		{
 			get { return id; }
 		}
@@ -131,7 +131,7 @@ namespace Premotion.Mansion.Web.Social
 		#endregion
 		#region Private Fields
 		private readonly string email;
-		private readonly SocialId id;
+		private readonly string id;
 		private readonly string username;
 		#endregion
 	}
