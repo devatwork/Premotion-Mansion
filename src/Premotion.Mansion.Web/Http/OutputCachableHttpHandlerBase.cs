@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web;
+﻿using System.Web;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Caching;
 
@@ -39,7 +38,7 @@ namespace Premotion.Mansion.Web.Http
 			                                               		var cacheContainer = OutputCacheHttpModule.CachableWebResponse.CreateCachedWebResponse(context.HttpContext.Response, contentBytes);
 
 			                                               		// do not cache requests other than GET request, check if the output pipe can be cached
-			                                               		cacheContainer.IsCachable = "GET".Equals(context.HttpContext.Request.HttpMethod, StringComparison.OrdinalIgnoreCase) && outputPipe.OutputCacheEnabled;
+			                                               		cacheContainer.IsCachable = OutputCacheHttpModule.IsCachableRequest(context) && outputPipe.OutputCacheEnabled;
 
 			                                               		// if the response is cacheable set the cache parameters
 			                                               		if (cacheContainer.IsCachable)

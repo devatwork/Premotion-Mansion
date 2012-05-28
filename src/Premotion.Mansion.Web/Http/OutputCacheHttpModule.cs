@@ -147,76 +147,66 @@ namespace Premotion.Mansion.Web.Http
 			cachingService = ContextFactoryHttpModule.Nucleus.ResolveSingle<ICachingService>();
 
 			// listen to begin request
-			context.PostAcquireRequestState += PostAcquireRequestState;
-		}
-		#endregion
-		#region Http Module Event Handlers
-		/// <summary>
-		/// Fired at the beginning of each request.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void PostAcquireRequestState(object sender, EventArgs e)
-		{
-			// validate arguments
-			if (sender == null)
-				throw new ArgumentNullException("sender");
-			if (e == null)
-				throw new ArgumentNullException("e");
+			context.PostAcquireRequestState += (sender, e) =>
+			                                   {
+			                                   	// get variables
+			                                   	var webContext = ContextFactoryHttpModule.RequestContext.Cast<IMansionWebContext>();
+			                                   	var httpContext = webContext.HttpContext;
+			                                   	var httpRequestContext = httpContext.Request;
 
-			// get variables
-			var httpContext = new HttpContextWrapper(HttpContext.Current);
-			var httpRequestContext = httpContext.Request;
+			                                   	// never cache requests for backoffice users
+			                                   	if (webContext.BackofficeUserState.IsAuthenticated)
+			                                   		return;
 
-			// Only get request can be cached because other types are state modifying
-			if (!"GET".Equals(httpRequestContext.HttpMethod, StringComparison.OrdinalIgnoreCase))
-				return;
+			                                   	// Only get request can be cached because other types are state modifying
+			                                   	if (!"GET".Equals(httpRequestContext.HttpMethod, StringComparison.OrdinalIgnoreCase))
+			                                   		return;
 
-			// check if the browser requests a hard refresh
-			if (httpRequestContext.Headers["Cache-Control"] != null && httpRequestContext.Headers["Cache-Control"].IndexOf("no-cache", StringComparison.OrdinalIgnoreCase) > -1)
-				return;
+			                                   	// check if the browser requests a hard refresh
+			                                   	if (httpRequestContext.Headers["Cache-Control"] != null && httpRequestContext.Headers["Cache-Control"].IndexOf("no-cache", StringComparison.OrdinalIgnoreCase) > -1)
+			                                   		return;
 
-			// check if the If-Modified-Since request header is not set
-			DateTime modifiedSince;
-			var ifModifiedSinceHeader = httpRequestContext.Headers["If-Modified-Since"];
-			if (string.IsNullOrEmpty(ifModifiedSinceHeader) || !DateTime.TryParse(ifModifiedSinceHeader, out modifiedSince))
-				return;
+			                                   	// check if the If-Modified-Since request header is not set
+			                                   	DateTime modifiedSince;
+			                                   	var ifModifiedSinceHeader = httpRequestContext.Headers["If-Modified-Since"];
+			                                   	if (string.IsNullOrEmpty(ifModifiedSinceHeader) || !DateTime.TryParse(ifModifiedSinceHeader, out modifiedSince))
+			                                   		return;
 
-			// check if the If-None-Match header request header is not set
-			var eTag = httpRequestContext.Headers["If-None-Match"];
-			if (string.IsNullOrEmpty(eTag))
-				return;
+			                                   	// check if the If-None-Match header request header is not set
+			                                   	var eTag = httpRequestContext.Headers["If-None-Match"];
+			                                   	if (string.IsNullOrEmpty(eTag))
+			                                   		return;
 
-			// generate a cache key for this request
-			var cacheKey = GenerateCacheKeyForRequest(httpContext);
+			                                   	// generate a cache key for this request
+			                                   	var cacheKey = GenerateCacheKeyForRequest(httpContext);
 
-			// try to get the cached response for this request
-			var context = ContextFactoryHttpModule.RequestContext;
-			CachedObject<CachableWebResponse> cachedResponseContainer;
-			if (!cachingService.TryGet(context, cacheKey, out cachedResponseContainer))
-				return;
-			var cachedResponse = cachedResponseContainer.Object;
+			                                   	// try to get the cached response for this request
+			                                   	CachedObject<CachableWebResponse> cachedResponseContainer;
+			                                   	if (!cachingService.TryGet(webContext, cacheKey, out cachedResponseContainer))
+			                                   		return;
+			                                   	var cachedResponse = cachedResponseContainer.Object;
 
-			// make sure the request is cached properly by the browser
-			var response = httpContext.Response;
-			SetCacheControlProperties(response, cachedResponse);
+			                                   	// make sure the request is cached properly by the browser
+			                                   	var response = httpContext.Response;
+			                                   	SetCacheControlProperties(response, cachedResponse);
 
-			// check if the ETag and LastModified date match
-			if (eTag.Equals(cachedResponse.ETag, StringComparison.OrdinalIgnoreCase) && modifiedSince.AddSeconds(1) >= cachedResponse.LastModified)
-			{
-				// no changes have been made to the resource since last visit, return 304
-				response.StatusCode = 304;
-				response.StatusDescription = "Not Modified";
-				response.AddHeader("Content-Length", "0"); //set to 0 to prevent client waiting for data
-			}
-			else
-			{
-				// flush the cached response to the browser
-				cachedResponse.Flush(response);
-			}
+			                                   	// check if the ETag and LastModified date match
+			                                   	if (eTag.Equals(cachedResponse.ETag, StringComparison.OrdinalIgnoreCase) && modifiedSince.AddSeconds(1) >= cachedResponse.LastModified)
+			                                   	{
+			                                   		// no changes have been made to the resource since last visit, return 304
+			                                   		response.StatusCode = 304;
+			                                   		response.StatusDescription = "Not Modified";
+			                                   		response.AddHeader("Content-Length", "0"); //set to 0 to prevent client waiting for data
+			                                   	}
+			                                   	else
+			                                   	{
+			                                   		// flush the cached response to the browser
+			                                   		cachedResponse.Flush(response);
+			                                   	}
 
-			// finish request, bypass all modules except EndRequest event
-			httpContext.ApplicationInstance.CompleteRequest();
+			                                   	// finish request, bypass all modules except EndRequest event
+			                                   	httpContext.ApplicationInstance.CompleteRequest();
+			                                   };
 		}
 		#endregion
 		#region Overrides of DisposableBase
@@ -242,13 +232,30 @@ namespace Premotion.Mansion.Web.Http
 				throw new ArgumentNullException("httpContext");
 
 			// build de cache key
-			return (StringCacheKey) string.Format("host={0}&port={1}&path={2}&get={3}&backoffice-user-authenticated={4}",
+			return (StringCacheKey) string.Format("host={0}&port={1}&path={2}&get={3}",
 			                                      httpContext.Request["HTTP_HOST"],
 			                                      httpContext.Request["SERVER_PORT"],
 			                                      PathRewriterHttpModule.GetOriginalRawPath(httpContext),
-			                                      httpContext.Request["QUERY_STRING"],
-			                                      httpContext.HasSession() && (httpContext.Session[Constants.BackofficeUserRevivalDataCookieName] != null)
-			                        	);
+			                                      httpContext.Request["QUERY_STRING"]);
+		}
+		/// <summary>
+		/// Gets a flag indicating wether this request is cachable.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+		/// <returns>Returns true when the request is cachable, otherwise false.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> is null.</exception>
+		public static bool IsCachableRequest(IMansionWebContext context)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+
+			// never cache requests for backoffice users
+			if (context.BackofficeUserState.IsAuthenticated)
+				return false;
+
+			// only GET request can be cached
+			return "GET".Equals(context.HttpContext.Request.HttpMethod, StringComparison.OrdinalIgnoreCase);
 		}
 		/// <summary>
 		/// Set the cache control properties.
