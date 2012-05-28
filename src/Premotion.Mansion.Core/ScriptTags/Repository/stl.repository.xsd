@@ -38,6 +38,11 @@
 					<xs:documentation>This node is marked as archived.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
+			<xs:enumeration value="any">
+				<xs:annotation>
+					<xs:documentation>The status is not defined.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
 	
