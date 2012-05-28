@@ -12,7 +12,7 @@
 		/// <returns>Returns the mapped <see cref="Profile"/>.</returns>
 		public Profile Map()
 		{
-			return new Profile(new SocialId(Id, Constants.ProviderName), Name, FirstName, MiddleName, LastName, Email, Username).Normalize();
+			return new Profile(new SocialId(Id, Constants.ProviderName), Name, FirstName, MiddleName, LastName, Gender, Email, Username).Normalize();
 		}
 		#endregion
 		#region Properties
@@ -20,6 +20,10 @@
 		/// Gets the ID of the profile.
 		/// </summary>
 		public string Id { get; set; }
+		/// <summary>
+		/// Gets the gender of the profile. Either male or female.
+		/// </summary>
+		public string Gender { get; set; }
 		/// <summary>
 		/// Gets the name of the profile.
 		/// </summary>

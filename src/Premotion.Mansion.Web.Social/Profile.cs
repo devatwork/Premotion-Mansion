@@ -25,9 +25,10 @@ namespace Premotion.Mansion.Web.Social
 		/// <param name="firstName">optional: The user's registered first name.</param>
 		/// <param name="lastNamePrefix">optional: the user's registered last name prefix.</param>
 		/// <param name="lastName">optional: The user's registered last name.</param>
+		/// <param name="gender">optional: The user's gender. </param>
 		/// <param name="email">optional: The user's registered e-mail address.</param>
 		/// <param name="username">optional: The user's registered username.</param>
-		public Profile(SocialId id, string name = null, string firstName = null, string lastNamePrefix = null, string lastName = null, string email = null, string username = null)
+		public Profile(SocialId id, string name = null, string firstName = null, string lastNamePrefix = null, string lastName = null, string gender = null, string email = null, string username = null)
 		{
 			// validate arguments
 			if (id == null)
@@ -39,6 +40,7 @@ namespace Premotion.Mansion.Web.Social
 			FirstName = firstName ?? string.Empty;
 			LastNamePrefix = lastNamePrefix ?? string.Empty;
 			LastName = lastName ?? string.Empty;
+			Gender = Gender ?? "unknown";
 			this.email = email ?? string.Empty;
 			this.username = username ?? string.Empty;
 		}
@@ -108,6 +110,10 @@ namespace Premotion.Mansion.Web.Social
 		/// The user's registered last name.
 		/// </summary>
 		public string LastName { get; private set; }
+		/// <summary>
+		/// The user's gender. Either unknown, male or female.
+		/// </summary>
+		public string Gender { get; private set; }
 		/// <summary>
 		/// The user's registered e-mail address.
 		/// </summary>
