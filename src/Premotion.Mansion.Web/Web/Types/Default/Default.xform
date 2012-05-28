@@ -123,16 +123,16 @@
 	</declareProcedure>
 
 	<declareProcedure procedureName="RenderGroupPublication">
-		<forms:fieldset label="Publication">
+		<forms:collapsibleFieldset label="Publication">
 			<forms:checkbox name="approved" label="Approved" defaultValue="true" />
 			<forms:checkbox name="archived" label="Archived" />
 			<forms:date name="publicationDate" label="Publication date" defaultValue="{Now()}" />
 			<forms:date name="expirationDate" label="Expiration date" defaultValue="{MaxSqlDate()}" />
-		</forms:fieldset>
+		</forms:collapsibleFieldset>
 	</declareProcedure>
 
 	<declareProcedure procedureName="RenderGroupIdentity">
-		<forms:fieldset label="Identity">
+		<forms:collapsibleFieldset label="Identity">
 			<forms:textbox name="guid" label="Permanent Identifier" readonly="true" />
 			<forms:selectbox name="type" label="Type" defaultValue="{TargetProperties.type}">
 				<providers:typeDefinitionDatasetProvider type="{CurrentNode.type}" />
@@ -142,16 +142,16 @@
 			<forms:textbox name="path" label="Path" readonly="true" />
 			<forms:textbox name="structure" label="Structure" readonly="true" />
 			<forms:textbox name="key" label="Key" />
-		</forms:fieldset>
+		</forms:collapsibleFieldset>
 	</declareProcedure>
 
 	<declareProcedure procedureName="RenderGroupSecurity">
-		<forms:fieldset label="Security">
+		<forms:collapsibleFieldset label="Security">
 			<forms:multiselect name="allowedRoleGuids" label="Allowed roles" valueProperty="guid" labelProperty="name" defaultValue="{ParentNode.allowedRoleGuids}">
 				<providers:retrieveChildNodesetProvider parentPointer="1" baseType="Role" depth="any" />
 			</forms:multiselect>
 			<forms:checkbox name="_propagateAllowedRoleGuids" label="Propagate" />
-		</forms:fieldset>
+		</forms:collapsibleFieldset>
 	</declareProcedure>
 
 

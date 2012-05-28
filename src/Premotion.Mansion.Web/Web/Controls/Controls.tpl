@@ -24,7 +24,9 @@
 <!-- step control sections -->
 <tpl:section name="StepControl" field="Control">
 	<fieldset id="{@ControlId}" class="step {ControlProperties.cssClass}">
-		<legend class="step-title {ControlProperties.headerCssClasses}">{StepProperties.label}</legend>
+		<legend>
+			<h3 class="step-title {ControlProperties.headerCssClasses}">{StepProperties.label}</h3>
+		</legend>
 		<div class="{ControlProperties.bodyCssClasses}">
 			{Control}
 		</div>
@@ -239,16 +241,24 @@
 </tpl:section>
 
 <tpl:section name="FieldsetControl" field="Control">
-	<fieldset id="{@ControlId}" class="clearfix group {ControlProperties.cssClass}">
-		<legend>{ControlProperties.label}</legend>
-		{Control}
+	<fieldset id="{@ControlId}" class="group {ControlProperties.cssClass}">
+		<legend>
+			<h4 class="{ControlProperties.headerCssClasses}">{ControlProperties.label}</h4>
+		</legend>
+		<div class="{ControlProperties.bodyCssClasses}">
+			{Control}
+		</div>
 	</fieldset>
 </tpl:section>
 
 <tpl:section name="CollapsibleFieldsetControl" field="Control">
-	<fieldset id="{@ControlId}" class="clearfix group collapsible {ControlProperties.cssClass}">
-		<legend>{ControlProperties.label}</legend>
-		{Control}
+	<fieldset id="{@ControlId}" class="group collapsible {ControlProperties.cssClass}">
+		<legend>
+			<h4 class="{ControlProperties.headerCssClasses}" data-toggle="collapse" data-target="#{@ControlId}-toggle"><i class="icon-resize-vertical"></i>{ControlProperties.label}</h4>
+		</legend>
+		<div id="{@ControlId}-toggle" class="collapse {ControlProperties.bodyCssClasses}">
+			{Control}
+		</div>
 	</fieldset>
 </tpl:section>
 
