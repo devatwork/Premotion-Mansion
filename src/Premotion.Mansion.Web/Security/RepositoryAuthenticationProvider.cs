@@ -37,16 +37,15 @@ namespace Premotion.Mansion.Web.Security
 				return null;
 
 			// perform a query
-			var repository = context.Repository;
-			var userNodeQuery = repository.ParseQuery(context, new PropertyBag
-			                                                   {
-			                                                   	{"baseType", "User"},
-			                                                   	{"login", username},
-			                                                   	{"password", password},
-			                                                   	{"bypassAuthorization", true},
-			                                                   	{"cache", false}
-			                                                   });
-			var userNode = repository.RetrieveSingle(context, userNodeQuery);
+			var userNode = context.Repository.RetrieveSingle(context, new PropertyBag
+			                                                          {
+			                                                          	{"baseType", "User"},
+			                                                          	{"login", username},
+			                                                          	{"password", password},
+			                                                          	{"status", "any"},
+			                                                          	{"bypassAuthorization", true},
+			                                                          	{"cache", false}
+			                                                          });
 			if (userNode == null)
 				return null;
 
@@ -107,14 +106,14 @@ namespace Premotion.Mansion.Web.Security
 				return null;
 
 			// retrieve the user by guid
-			var repository = context.Repository;
-			var userNodeQuery = repository.ParseQuery(context, new PropertyBag
-			                                                   {
-			                                                   	{"baseType", "User"},
-			                                                   	{"guid", id},
-			                                                   	{"cache", false}
-			                                                   });
-			var userNode = repository.RetrieveSingle(context, userNodeQuery);
+			var userNode = context.Repository.RetrieveSingle(context, new PropertyBag
+			                                                          {
+			                                                          	{"baseType", "User"},
+			                                                          	{"guid", id},
+			                                                          	{"status", "any"},
+			                                                          	{"bypassAuthorization", true},
+			                                                          	{"cache", false}
+			                                                          });
 			if (userNode == null)
 				return null;
 
