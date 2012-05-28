@@ -38,7 +38,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Security
 					do
 					{
 						rngCsp.GetBytes(randomBytes);
-					} while (randomBytes[0] >= 0 && randomBytes[0] < AllowedChars.Length);
+					} while (!(randomBytes[0] >= 0 && randomBytes[0] < AllowedChars.Length));
 
 					// get the character
 					chars[i] = AllowedChars[randomBytes[0]];
