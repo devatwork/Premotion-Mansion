@@ -49,6 +49,9 @@ namespace Premotion.Mansion.Web.Portal.Descriptors
 			if (string.IsNullOrEmpty(targetField))
 				throw new ArgumentNullException("targetField");
 
+			// disable the output cache
+			WebUtilities.DisableOutputCache(context);
+
 			// perform rendering as normal
 			base.DoRender(context, blockProperties, targetField);
 		}

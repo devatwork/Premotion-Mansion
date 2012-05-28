@@ -9,11 +9,6 @@
 
 		<!-- the page rendering starts there, the response template contains the raw page which is personalized -->
 		<web:respondDocument contentType="text/html" encoding="UTF-8" cache="true">
-			<!-- disable caching for user logged in to the backoffice -->
-			<if condition="{Or( IsBackofficeUserAuthenticated(), IsFrontofficeUserAuthenticated() )}">
-				<web:disableOutputCache />
-			</if>
-
 			<!-- check if the site node exists -->
 			<if condition="{Not( IsNode( $SiteNode ) )}">
 				<throw message="No site node found for hostheader '{Request.url}', please check configuration" />
@@ -45,7 +40,7 @@
 			<portal:retrieveBlockNodeset source="{$PageNode}" target="PageBlockNodeset" global="true" />
 			<portal:retrieveBlockNodeset source="{$ThemeNode}" target="ThemeBlockNodeset" global="true" />
 			
-			<responseTemplate cacheKey="{Request.url}&amp;is-admin={HasPortalAdminPermission()}" enabled="true">
+			<responseTemplate cacheKey="{Request.url}" enabled="true">
 				<!-- disable caching for user logged in to the backoffice -->
 				<if condition="{IsBackofficeUserAuthenticated()}">
 					<disableResponseTemplateCache />
