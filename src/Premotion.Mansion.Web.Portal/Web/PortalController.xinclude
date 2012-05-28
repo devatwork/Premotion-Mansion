@@ -10,7 +10,7 @@
 		<!-- the page rendering starts there, the response template contains the raw page which is personalized -->
 		<web:respondDocument contentType="text/html" encoding="UTF-8" cache="true">
 			<!-- disable caching for user logged in to the backoffice -->
-			<if condition="{IsBackofficeUserAuthenticated()}">
+			<if condition="{Or( IsBackofficeUserAuthenticated(), IsFrontofficeUserAuthenticated() )}">
 				<web:disableOutputCache />
 			</if>
 
