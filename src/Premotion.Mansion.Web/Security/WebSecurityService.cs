@@ -82,7 +82,7 @@ namespace Premotion.Mansion.Web.Security
 				return null;
 			}
 			AuthenticationProvider authenticationProvider;
-			if (TryResolveAuthenticationProvider(context, authenticationProviderName, out authenticationProvider))
+			if (!TryResolveAuthenticationProvider(context, authenticationProviderName, out authenticationProvider))
 			{
 				httpContext.DeleteCookie(cookieName);
 				return null;
