@@ -8,45 +8,48 @@
 		<retrieveChildNode parentPointer="1" type="ContentIndexRoot" target="ContentIndexRootNode" global="true" />
 
 		<!-- the page rendering starts there, the response template contains the raw page which is personalized -->
-		<web:respondDocument contentType="text/html" encoding="UTF-8">
-			<responseTemplate cacheKey="{Request.url}&amp;is-admin={HasPortalAdminPermission()}">
-				
+		<web:respondDocument contentType="text/html" encoding="UTF-8" cache="true">
+			<!-- disable caching for user logged in to the backoffice -->
+			<if condition="{IsBackofficeUserAuthenticated()}">
+				<web:disableOutputCache />
+			</if>
+
+			<!-- check if the site node exists -->
+			<if condition="{Not( IsNode( $SiteNode ) )}">
+				<throw message="No site node found for hostheader '{Request.url}', please check configuration" />
+			</if>
+
+			<!-- check if the url node exists -->
+			<if condition="{Not( IsNode( $UrlNode ) )}">
+				<fetchNode source="{$SiteNode}" target="UrlNode" global="true" />
+			</if>
+
+			<!-- determine the PageNode and the ContentNode -->
+			<invokeProcedure procedureName="SelectContentAndPageNodes" />
+			<fetchNode source="{$PageNode}" target="PageProperties" global="true" />
+			<fetchNode source="{$ContentNode}" target="ContentProperties" global="true" />
+
+			<!-- determine if the url is the proper unique url -->
+			<if condition="{Not( IsEqual( WithoutQueryString( Request.url ), NodeUrl( $ContentNode ) ) )}">
+				<web:redirectRequest url="{CopyQueryString( Request.url, NodeUrl( $ContentNode ) )}" permanent="true" />
+			</if>
+
+			<!-- next step is the theme which to render, one of the nodes between PageNode and SiteNode determines the theme -->
+			<portal:retrieveThemeNode source="{$PageNode}" target="ThemeNode" global="true">
+				<notFound>
+					<throw message="Could not determine theme for page, please check configuration" />
+				</notFound>
+			</portal:retrieveThemeNode>
+
+			<!-- retrieve the block sets -->
+			<portal:retrieveBlockNodeset source="{$PageNode}" target="PageBlockNodeset" global="true" />
+			<portal:retrieveBlockNodeset source="{$ThemeNode}" target="ThemeBlockNodeset" global="true" />
+			
+			<responseTemplate cacheKey="{Request.url}&amp;is-admin={HasPortalAdminPermission()}" enabled="true">
 				<!-- disable caching for user logged in to the backoffice -->
 				<if condition="{IsBackofficeUserAuthenticated()}">
 					<disableResponseTemplateCache />
-					<web:disableOutputCache />
 				</if>
-
-				<!-- check if the site node exists -->
-				<if condition="{Not( IsNode( $SiteNode ) )}">
-					<throw message="No site node found for hostheader '{Request.url}', please check configuration" />
-				</if>
-
-				<!-- check if the url node exists -->
-				<if condition="{Not( IsNode( $UrlNode ) )}">
-					<fetchNode source="{$SiteNode}" target="UrlNode" global="true" />
-				</if>
-
-				<!-- determine the PageNode and the ContentNode -->
-				<invokeProcedure procedureName="SelectContentAndPageNodes" />
-				<fetchNode source="{$PageNode}" target="PageProperties" global="true" />
-				<fetchNode source="{$ContentNode}" target="ContentProperties" global="true" />
-				
-				<!-- determine if the url is the proper unique url -->
-				<if condition="{Not( IsEqual( WithoutQueryString( Request.url ), NodeUrl( $ContentNode ) ) )}">
-					<web:redirectRequest url="{CopyQueryString( Request.url, NodeUrl( $ContentNode ) )}" permanent="true" />
-				</if>
-				
-				<!-- next step is the theme which to render, one of the nodes between PageNode and SiteNode determines the theme -->
-				<portal:retrieveThemeNode source="{$PageNode}" target="ThemeNode" global="true">
-					<notFound>
-						<throw message="Could not determine theme for page, please check configuration" />
-					</notFound>
-				</portal:retrieveThemeNode>
-
-				<!-- retrieve the block sets -->
-				<portal:retrieveBlockNodeset source="{$PageNode}" target="PageBlockNodeset" global="true" />
-				<portal:retrieveBlockNodeset source="{$ThemeNode}" target="ThemeBlockNodeset" global="true" />
 
 				<!-- start the rendering the theme -->
 				<openTemplate type="{ThemeNode.theme}">
