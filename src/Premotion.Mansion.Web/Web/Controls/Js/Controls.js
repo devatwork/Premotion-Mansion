@@ -164,7 +164,7 @@ var CKEDITOR_BASEPATH = "{Request.baseUrl}/static-resources/Shared/js/ckeditor/"
 		],
 		extraPlugins: "internpage",
 		internpage: {
-			pageArrayUrl: "{RouteUrl( 'Controls', 'Async', 'GetPages', '1' )}",
+			pageArrayUrl: "{RouteUrlWithArea( 'Controls', 'Async', 'GetPages', '1' )}",
 			baseUrl: "{Request.baseUrl}/"
 		}
 	});

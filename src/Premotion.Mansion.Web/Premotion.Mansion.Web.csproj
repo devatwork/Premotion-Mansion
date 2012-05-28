@@ -182,6 +182,7 @@
     <Compile Include="Descriptors\NodeUrlGeneratorDescriptor.cs" />
     <Compile Include="Dispatcher\Constants.cs" />
     <Compile Include="Dispatcher\ScriptFunctions\CommandRouteUrl.cs" />
+    <Compile Include="Dispatcher\ScriptFunctions\RouteUrlWithArea.cs" />
     <Compile Include="Dispatcher\ScriptFunctions\RouteUrl.cs" />
     <Compile Include="Dispatcher\ScriptTags\InvokeActionTag.cs" />
     <Compile Include="Dispatcher\ScriptTags\ParseRouteTag.cs" />

@@ -109,7 +109,7 @@
 
 
 <tpl:section name="TagTextboxControl" field="Field">
-	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text tags {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute} data-autocomplete-url="{RouteUrl( 'Controls', 'Async', 'AutoComplete', TagIndexNode.id )}">
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text tags {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute} data-autocomplete-url="{RouteUrlWithArea( 'Controls', 'Async', 'AutoComplete', TagIndexNode.id )}">
 </tpl:section>
 
 <tpl:section name="CheckboxControl" field="Field">
@@ -157,7 +157,7 @@
 <tpl:section name="SingleNodeSelectorControl" field="Field">
 	<div id="{@ControlId}" class="field input-xlarge node-selector single-node-selector">
 		<div id="{@ControlId}-label" class="label">{ControlProperties.displayValue}</div>
-		<a id="{@ControlId}-select" class="button dialog select-button" href="{DataspaceToQueryString( RouteUrl( 'Dialog', 'Dialog', 'NodeSelector', '1', 'single' ), $SelectorProperties )}">Select</a>
+		<a id="{@ControlId}-select" class="button dialog select-button" href="{DataspaceToQueryString( RouteUrlWithArea( 'Dialog', 'Dialog', 'NodeSelector', '1', 'single' ), $SelectorProperties )}">Select</a>
 		<a id="{@ControlId}-clear" class="button clear-button" href="#">Clear</a>
 		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" class="field hidden" value="{ControlProperties.value}">
 	</div>
@@ -166,7 +166,7 @@
 <tpl:section name="MultiNodeSelectorControl" field="Field">
 	<div id="{@ControlId}" class="field input-xlarge node-selector multi-node-selector">
 		<div id="{@ControlId}-label" class="label">{ControlProperties.displayValue}</div>
-		<a id="{@ControlId}-select" class="button dialog select-button" href="{DataspaceToQueryString( RouteUrl( 'Dialog', 'Dialog', 'NodeSelector', '1', 'multi' ), $SelectorProperties )}">Select</a>
+		<a id="{@ControlId}-select" class="button dialog select-button" href="{DataspaceToQueryString( RouteUrlWithArea( 'Dialog', 'Dialog', 'NodeSelector', '1', 'multi' ), $SelectorProperties )}">Select</a>
 		<a id="{@ControlId}-clear" class="button clear-button" href="#">Clear</a>
 		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" class="field hidden" value="{ControlProperties.value}">
 	</div>
