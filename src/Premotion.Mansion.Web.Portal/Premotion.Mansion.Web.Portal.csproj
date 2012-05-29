@@ -114,6 +114,7 @@
     <EmbeddedResource Include="Web\Types\Block\Block.xdef" />
     <EmbeddedResource Include="Web\Types\Block\Block.xform" />
     <EmbeddedResource Include="Web\Types\Block\Block.xinclude" />
+    <EmbeddedResource Include="Web\Types\ConfigurationPanel\ConfigurationPanel.xdef" />
     <EmbeddedResource Include="Web\Types\ContentDetailBlock\ContentDetailBlock.tpl" />
     <EmbeddedResource Include="Web\Types\ContentDetailBlock\ContentDetailBlock.xdef" />
     <EmbeddedResource Include="Web\Types\ContentDetailBlock\ContentDetailBlock.xinclude" />
@@ -128,6 +129,7 @@
     <EmbeddedResource Include="Web\Types\Content\Content.xdef" />
     <EmbeddedResource Include="Web\Types\Content\Content.xform" />
     <EmbeddedResource Include="Web\Types\Content\Content.xinclude" />
+    <EmbeddedResource Include="Web\Types\ConfigurationPanelEntry\ConfigurationPanelEntry.xdef" />
     <EmbeddedResource Include="Web\Types\Default\Default.xform" />
     <EmbeddedResource Include="Web\Types\EditorialBlock\EditorialBlock.tpl" />
     <EmbeddedResource Include="Web\Types\EditorialBlock\EditorialBlock.xdef" />
@@ -210,6 +212,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Types\RelatedContentListBlock\RelatedContentListBlock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Types\ConfigurationPanelEntry\ConfigurationPanelEntry.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Types\ConfigurationPanel\ConfigurationPanel.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

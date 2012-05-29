@@ -2,11 +2,6 @@
 <type inherits="DefaultIndex" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd">
 	
 	<!-- specify cms behavior -->
-	<cms:behavior label="Root" abstract="true" icon="Types/Root/Root.png">
-		<cms:childType baseType="Site" />
-		<cms:childType type="SecurityIndex" />
-		<cms:childType type="ContentIndexRoot" />
-		<cms:childType type="ConfigurationPanel" />
-	</cms:behavior>
+	<cms:behavior label="Configuration panel entry" abstract="true" icon="Types/ConfigurationPanelEntryt/ConfigurationPanelEntry.png" />
 	
 </type>
