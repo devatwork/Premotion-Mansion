@@ -1,4 +1,5 @@
 ﻿using System.Net.Mail;
+using System.Net.Mime;
 using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Scripting.TagScript;
@@ -34,18 +35,12 @@ namespace Premotion.Mansion.Web.Mail.ScriptTags
 
 			// check if the body is not set already
 			var message = webContext.Message;
-			if (string.IsNullOrEmpty(message.Body))
-			{
-				// set the body
-				message.Body = content;
-				message.IsBodyHtml = isContentHtml;
-				message.BodyEncoding = encoding;
-			}
-			else
-			{
-				// create the alternative view
-				message.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(content, encoding, isContentHtml ? "text/html" : "text/plain"));
-			}
+
+			// create the view
+			var alternateView = AlternateView.CreateAlternateViewFromString(content, encoding, isContentHtml ? MediaTypeNames.Text.Html : MediaTypeNames.Text.Plain);
+
+			// add the alternate view to the message
+			message.AlternateViews.Add(alternateView);
 		}
 		/// <summary>
 		/// Gets the content which to add to the message.
