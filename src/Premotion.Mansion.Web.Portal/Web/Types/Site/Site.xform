@@ -12,6 +12,7 @@
 		<invokeProcedure procedureName="RenderGroupHostHeaders"/>
 		<invokeProcedure procedureName="RenderGroupLookAndFeelGroup" />
 		<invokeProcedure procedureName="RenderGroupSeo"/>
+		<invokeProcedure procedureName="IncludeGroupDefaultMailSettings"/>
 		<invokeProcedure procedureName="RenderGoogleApplicationSettings"/>
 		<invokeProcedure procedureName="RenderGroupPublication"/>
 		<invokeProcedure procedureName="RenderGroupIdentity"/>
@@ -25,6 +26,18 @@
 		<forms:fieldset label="Google Application Settings">
 			<forms:textbox name="googleAnalyticsTrackingCode" label="Google Analytics Tracking Code" />
 			<forms:textbox name="googleSiteVerification" label="Google Webmaster Verification Code" />
+		</forms:fieldset>
+	</declareProcedure>
+
+	
+	
+	<!-- The settings for e-mail -->
+	<declareProcedure procedureName="IncludeGroupDefaultMailSettings">
+		<forms:fieldset label="E-Mail Settings">
+			<forms:email name="sender" label="Default e-mail address for e-mail being send">
+				<forms:requiredFieldValidator />
+			</forms:email>
+			<forms:textbox name="senderName" label="Default name of the sender for e-mail being send" />
 		</forms:fieldset>
 	</declareProcedure>
 	
