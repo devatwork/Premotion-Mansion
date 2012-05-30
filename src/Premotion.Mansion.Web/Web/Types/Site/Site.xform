@@ -7,13 +7,13 @@
 				<forms:requiredFieldValidator />
 			</forms:textbox>
 		</forms:fieldset>
-		<invokeProcedure procedureName="RenderGroupHostHeaders"/>
-		<invokeProcedure procedureName="RenderGroupPublication"/>
-		<invokeProcedure procedureName="RenderGroupIdentity"/>
-		<invokeProcedure procedureName="RenderGroupSecurity"/>
+		<invokeProcedure procedureName="IncludeGroupHostHeaders"/>
+		<invokeProcedure procedureName="IncludeGroupPublication"/>
+		<invokeProcedure procedureName="IncludeGroupIdentity"/>
+		<invokeProcedure procedureName="IncludeGroupSecurity"/>
 	</declareProcedure>
 
-	<declareProcedure procedureName="RenderGroupHostHeaders">
+	<declareProcedure procedureName="IncludeGroupHostHeaders">
 		<forms:fieldset label="Hostheaders">
 			<forms:textbox name="preferedHostheader" label="Preffered hostheader" />
 			<forms:textbox name="hostHeaders" label="Hostheaders">

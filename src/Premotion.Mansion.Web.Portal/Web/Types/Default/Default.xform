@@ -11,7 +11,7 @@
 	
 	
 	<!-- render the SEO tab -->
-	<declareProcedure procedureName="RenderGroupSeo">
+	<declareProcedure procedureName="IncludeGroupSeo">
 		<forms:fieldset label="Search Engine Optimization">
 			<forms:textbox name="seoTitle" label="Title" />
 			<forms:textarea name="seoDescription" label="Description" />

@@ -3,17 +3,17 @@
 
 	<!-- Renders the xForm content -->
 	<declareProcedure procedureName="RenderXFormContent">
-		<invokeProcedure procedureName="RenderGroupPageProperties" />
+		<invokeProcedure procedureName="IncludeGroupPageProperties" />
 		<invokeProcedure procedureName="IncludeGroupClassification" />
-		<invokeProcedure procedureName="RenderGroupLookAndFeelGroup" />
-		<invokeProcedure procedureName="RenderGroupSeo"/>
-		<invokeProcedure procedureName="RenderGroupPublication"/>
-		<invokeProcedure procedureName="RenderGroupIdentity"/>
-		<invokeProcedure procedureName="RenderGroupSecurity"/>
+		<invokeProcedure procedureName="IncludeGroupLookAndFeel" />
+		<invokeProcedure procedureName="IncludeGroupSeo"/>
+		<invokeProcedure procedureName="IncludeGroupPublication"/>
+		<invokeProcedure procedureName="IncludeGroupIdentity"/>
+		<invokeProcedure procedureName="IncludeGroupSecurity"/>
 	</declareProcedure>
 
 	<!-- template methods: put page specific properties here -->
-	<declareProcedure procedureName="RenderGroupPageProperties">
+	<declareProcedure procedureName="IncludeGroupPageProperties">
 		<forms:fieldset label="General">
 			<forms:textbox name="name" label="Name">
 				<forms:requiredFieldValidator/>
@@ -22,7 +22,7 @@
 	</declareProcedure>
 
 	<!-- renders the look and feel group -->
-	<declareProcedure procedureName="RenderGroupLookAndFeelGroup">
+	<declareProcedure procedureName="IncludeGroupLookAndFeel">
 		<forms:fieldset label="Look and Feel">
 			<forms:selectbox name="theme" label="Kies een thema">
 				<providers:scriptedDatasetProvider>

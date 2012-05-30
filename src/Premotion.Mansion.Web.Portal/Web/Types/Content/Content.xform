@@ -3,16 +3,16 @@
 
 	<declareProcedure procedureName="RenderXFormContent">
 
-		<invokeProcedure procedureName="RenderPropertiesGroup" />
-		<invokeProcedure procedureName="RenderClassificationGroup" />
-		<invokeProcedure procedureName="RenderGroupSeo" />
-		<invokeProcedure procedureName="RenderGroupPublication" />
-		<invokeProcedure procedureName="RenderGroupIdentity"/>
-		<invokeProcedure procedureName="RenderGroupSecurity"/>
+		<invokeProcedure procedureName="IncludeGroupProperties" />
+		<invokeProcedure procedureName="IncludeGroupClassification" />
+		<invokeProcedure procedureName="IncludeGroupSeo" />
+		<invokeProcedure procedureName="IncludeGroupPublication" />
+		<invokeProcedure procedureName="IncludeGroupIdentity"/>
+		<invokeProcedure procedureName="IncludeGroupSecurity"/>
 
 	</declareProcedure>
 
-	<declareProcedure procedureName="RenderPropertiesGroup">
+	<declareProcedure procedureName="IncludeGroupProperties">
 		<forms:fieldset label="Content">
 			<forms:textbox name="name" label="Title">
 				<forms:requiredFieldValidator/>
@@ -20,7 +20,7 @@
 		</forms:fieldset>
 	</declareProcedure>
 
-	<declareProcedure procedureName="RenderClassificationGroup">
+	<declareProcedure procedureName="IncludeGroupClassification">
 		<forms:fieldset label="Classification">
 
 			<!-- siteGuids -->

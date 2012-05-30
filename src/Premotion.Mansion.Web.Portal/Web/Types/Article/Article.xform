@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?> 
 <mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd">
 
-	<declareProcedure procedureName="RenderPropertiesGroup">
+	<declareProcedure procedureName="IncludeGroupProperties">
 		<forms:fieldset label="Content">
 			<forms:textbox name="name" label="Title">
 				<forms:requiredFieldValidator/>

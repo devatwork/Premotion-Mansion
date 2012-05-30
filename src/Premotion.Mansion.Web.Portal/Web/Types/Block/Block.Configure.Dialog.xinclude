@@ -10,7 +10,7 @@
 	<!-- render the content of the dialog -->
 	<declareProcedure procedureName="RenderXFormContent">
 		<openScript type="{UrlNode.type}" extension=".xform">
-			<invokeProcedure procedureName="RenderGroupBlockProperties" />
+			<invokeProcedure procedureName="IncludeGroupBlockProperties" />
 		</openScript>
 	</declareProcedure>
 

@@ -11,10 +11,10 @@
 				<providers:retrieveChildNodesetProvider parentPointer="1" baseType="User" depth="any" />
 			</forms:multiselect>
 		</forms:fieldset>
-		<invokeProcedure procedureName="RenderRoleOwnerGroup"/>
-		<invokeProcedure procedureName="RenderGroupPublication"/>
-		<invokeProcedure procedureName="RenderGroupIdentity"/>
-		<invokeProcedure procedureName="RenderGroupSecurity"/>
+		<invokeProcedure procedureName="IncludeGroupRoleOwner"/>
+		<invokeProcedure procedureName="IncludeGroupPublication"/>
+		<invokeProcedure procedureName="IncludeGroupIdentity"/>
+		<invokeProcedure procedureName="IncludeGroupSecurity"/>
 	</declareProcedure>
 
 </mansion>

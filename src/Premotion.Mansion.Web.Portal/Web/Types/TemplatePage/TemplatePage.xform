@@ -3,18 +3,18 @@
 
 	<!-- Renders the xForm content -->
 	<declareProcedure procedureName="RenderXFormContent">
-		<invokeProcedure procedureName="RenderGroupPageProperties" />
-		<invokeProcedure procedureName="RenderGroupContentPointer" />
-		<invokeProcedure procedureName="RenderGroupLookAndFeelGroup" />
-		<invokeProcedure procedureName="RenderGroupPublication"/>
-		<invokeProcedure procedureName="RenderGroupIdentity"/>
-		<invokeProcedure procedureName="RenderGroupSecurity"/>
+		<invokeProcedure procedureName="IncludeGroupPageProperties" />
+		<invokeProcedure procedureName="IncludeGroupContentPointer" />
+		<invokeProcedure procedureName="IncludeGroupLookAndFeel" />
+		<invokeProcedure procedureName="IncludeGroupPublication"/>
+		<invokeProcedure procedureName="IncludeGroupIdentity"/>
+		<invokeProcedure procedureName="IncludeGroupSecurity"/>
 	</declareProcedure>
 
 
 	
 	<!-- Renders the group which allows the user to select the sourc -->
-	<declareProcedure procedureName="RenderGroupContentPointer">
+	<declareProcedure procedureName="IncludeGroupContentPointer">
 		<forms:fieldset label="Content source">
 			<forms:instructionMessage><![CDATA[Select the folder in which the content, displayed by this template page, resides.]]></forms:instructionMessage>
 			<forms:nodeTreeSelect name="contentSourceGuid" label="Folder" defaultValue="{ContentIndexRootNode.pointer}">

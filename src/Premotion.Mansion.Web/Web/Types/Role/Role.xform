@@ -8,15 +8,15 @@
 				<forms:requiredFieldValidator />
 			</forms:textbox>
 		</forms:fieldset>
-		<invokeProcedure procedureName="RenderPermissionsGroup"/>
-		<invokeProcedure procedureName="RenderGroupPublication"/>
-		<invokeProcedure procedureName="RenderGroupIdentity"/>
-		<invokeProcedure procedureName="RenderGroupSecurity"/>
+		<invokeProcedure procedureName="IncludeGroupPermissions"/>
+		<invokeProcedure procedureName="IncludeGroupPublication"/>
+		<invokeProcedure procedureName="IncludeGroupIdentity"/>
+		<invokeProcedure procedureName="IncludeGroupSecurity"/>
 	</declareProcedure>
 
 
 	<!-- renders the which can be configured on this role permissions -->
-	<declareProcedure procedureName="RenderPermissionsGroup">
+	<declareProcedure procedureName="IncludeGroupPermissions">
 		<forms:fieldset label="Permissions">
 
 			<!-- loop over all the protected resources -->

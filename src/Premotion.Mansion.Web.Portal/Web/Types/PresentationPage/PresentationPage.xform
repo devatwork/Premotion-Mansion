@@ -3,11 +3,11 @@
 
 	<!-- Renders the xForm content -->
 	<declareProcedure procedureName="RenderXFormContent">
-		<invokeProcedure procedureName="RenderGroupPageProperties" />
-		<invokeProcedure procedureName="RenderGroupLookAndFeelGroup" />
-		<invokeProcedure procedureName="RenderGroupPublication"/>
-		<invokeProcedure procedureName="RenderGroupIdentity"/>
-		<invokeProcedure procedureName="RenderGroupSecurity"/>
+		<invokeProcedure procedureName="IncludeGroupPageProperties" />
+		<invokeProcedure procedureName="IncludeGroupLookAndFeel" />
+		<invokeProcedure procedureName="IncludeGroupPublication"/>
+		<invokeProcedure procedureName="IncludeGroupIdentity"/>
+		<invokeProcedure procedureName="IncludeGroupSecurity"/>
 	</declareProcedure>
 	
 </mansion>

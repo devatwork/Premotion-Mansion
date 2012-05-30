@@ -3,17 +3,17 @@
 
 	<!-- Renders the xForm content -->
 	<declareProcedure procedureName="RenderXFormContent">
-		<invokeProcedure procedureName="RenderGroupBlockProperties" />
-		<invokeProcedure procedureName="RenderGroupColumn" />
-		<invokeProcedure procedureName="RenderGroupPublication"/>
-		<invokeProcedure procedureName="RenderGroupIdentity"/>
-		<invokeProcedure procedureName="RenderGroupSecurity"/>
+		<invokeProcedure procedureName="IncludeGroupBlockProperties" />
+		<invokeProcedure procedureName="IncludeGroupColumn" />
+		<invokeProcedure procedureName="IncludeGroupPublication"/>
+		<invokeProcedure procedureName="IncludeGroupIdentity"/>
+		<invokeProcedure procedureName="IncludeGroupSecurity"/>
 	</declareProcedure>
 
 	
 	
 	<!-- render the properties of this block -->
-	<declareProcedure procedureName="RenderGroupBlockProperties">
+	<declareProcedure procedureName="IncludeGroupBlockProperties">
 		<forms:fieldset label="Configuration">
 			<forms:textbox name="name" label="Name">
 				<forms:requiredFieldValidator />
@@ -65,7 +65,7 @@
 	
 	
 	<!-- render the column in which this block is shown -->
-	<declareProcedure procedureName="RenderGroupColumn">
+	<declareProcedure procedureName="IncludeGroupColumn">
 		<forms:fieldset label="Column">
 			<forms:selectbox name="column" label="Column">
 

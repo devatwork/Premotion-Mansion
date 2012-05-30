@@ -117,12 +117,12 @@
 		<forms:fieldset label="General">
 			<forms:textbox name="name" label="Name" />
 		</forms:fieldset>
-		<invokeProcedure procedureName="RenderGroupPublication"/>
-		<invokeProcedure procedureName="RenderGroupIdentity"/>
-		<invokeProcedure procedureName="RenderGroupSecurity"/>
+		<invokeProcedure procedureName="IncludeGroupPublication"/>
+		<invokeProcedure procedureName="IncludeGroupIdentity"/>
+		<invokeProcedure procedureName="IncludeGroupSecurity"/>
 	</declareProcedure>
 
-	<declareProcedure procedureName="RenderGroupPublication">
+	<declareProcedure procedureName="IncludeGroupPublication">
 		<forms:collapsibleFieldset label="Publication">
 			<forms:checkbox name="approved" label="Approved" defaultValue="true" />
 			<forms:checkbox name="archived" label="Archived" />
@@ -131,7 +131,7 @@
 		</forms:collapsibleFieldset>
 	</declareProcedure>
 
-	<declareProcedure procedureName="RenderGroupIdentity">
+	<declareProcedure procedureName="IncludeGroupIdentity">
 		<forms:collapsibleFieldset label="Identity">
 			<forms:textbox name="guid" label="Permanent Identifier" readonly="true" />
 			<forms:selectbox name="type" label="Type" defaultValue="{TargetProperties.type}">
@@ -145,7 +145,7 @@
 		</forms:collapsibleFieldset>
 	</declareProcedure>
 
-	<declareProcedure procedureName="RenderGroupSecurity">
+	<declareProcedure procedureName="IncludeGroupSecurity">
 		<forms:collapsibleFieldset label="Security">
 			<forms:multiselect name="allowedRoleGuids" label="Allowed roles" valueProperty="guid" labelProperty="name" defaultValue="{ParentNode.allowedRoleGuids}">
 				<providers:retrieveChildNodesetProvider parentPointer="1" baseType="Role" depth="any" />
