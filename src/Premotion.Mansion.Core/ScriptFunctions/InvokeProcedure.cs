@@ -11,8 +11,8 @@ namespace Premotion.Mansion.Core.ScriptFunctions
 	/// <summary>
 	/// Invokes a procedure and returns it output.
 	/// </summary>
-	[ScriptFunction("CallProcedure")]
-	public class CallProcedure : FunctionExpression
+	[ScriptFunction("InvokeProcedure")]
+	public class InvokeProcedure : FunctionExpression
 	{
 		#region Evaluate Methods
 		/// <summary>

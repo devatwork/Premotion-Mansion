@@ -205,7 +205,7 @@
     <Compile Include="PropertyNotFoundException.cs" />
     <Compile Include="Nucleus\IReflectionService.cs" />
     <Compile Include="Nucleus\ReflectionService.cs" />
-    <Compile Include="ScriptFunctions\CallProcedure.cs" />
+    <Compile Include="ScriptFunctions\InvokeProcedure.cs" />
     <Compile Include="ScriptFunctions\Conditional\And.cs" />
     <Compile Include="ScriptFunctions\Conditional\Contains.cs" />
     <Compile Include="ScriptFunctions\Conditional\Equal.cs" />
