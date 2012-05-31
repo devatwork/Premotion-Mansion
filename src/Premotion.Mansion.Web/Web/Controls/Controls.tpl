@@ -200,6 +200,10 @@
 	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge date {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy' )}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
+<tpl:section name="DateTimeFieldControl" field="Field">
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge datetime {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy HH:mm' )}" {@FieldReadonlyAttribute}>
+</tpl:section>
+
 <tpl:section name="UploadControl" field="Field">
 	<div id="{@ControlId}" class="field input-small upload {ControlProperties.cssClass}">
 		{@UploadControlPreview}

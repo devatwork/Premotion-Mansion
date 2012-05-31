@@ -126,8 +126,8 @@
 		<forms:collapsibleFieldset label="Publication">
 			<forms:checkbox name="approved" label="Approved" defaultValue="true" />
 			<forms:checkbox name="archived" label="Archived" />
-			<forms:date name="publicationDate" label="Publication date" defaultValue="{Now()}" />
-			<forms:date name="expirationDate" label="Expiration date" defaultValue="{MaxSqlDate()}" />
+			<forms:dateTime name="publicationDate" label="Publication date" defaultValue="{Now()}" />
+			<forms:dateTime name="expirationDate" label="Expiration date" defaultValue="{MaxSqlDate()}" />
 		</forms:collapsibleFieldset>
 	</declareProcedure>
 

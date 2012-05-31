@@ -439,6 +439,18 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="dateTime" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Represents a date-time control.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fieldBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
 	<xs:element name="selectbox" substitutionGroup="stl:scriptTag">
 		<xs:annotation>
 			<xs:documentation>Represents a selectbox control.</xs:documentation>

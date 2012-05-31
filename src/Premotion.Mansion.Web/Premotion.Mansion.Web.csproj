@@ -97,6 +97,7 @@
     <Compile Include="Controls\Forms\Field.cs" />
     <Compile Include="Controls\Forms\Fields\Checkbox.cs" />
     <Compile Include="Controls\Forms\Fields\CheckboxList.cs" />
+    <Compile Include="Controls\Forms\Fields\DateTimeField.cs" />
     <Compile Include="Controls\Forms\Fields\Date.cs" />
     <Compile Include="Controls\Forms\Fields\DecimalNumber.cs" />
     <Compile Include="Controls\Forms\Fields\Email.cs" />
