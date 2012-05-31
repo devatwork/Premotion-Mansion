@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd">
+
+	<!-- Renders the xForm content -->
+	<declareProcedure procedureName="RenderXFormContent">
+		<forms:fieldset label="General">
+			<forms:textbox name="name" label="Configuration name">
+				<forms:requiredFieldValidator/>
+			</forms:textbox>
+		</forms:fieldset>
+		<invokeProcedure procedureName="IncludeConfigurationGroups"/>
+		<invokeProcedure procedureName="IncludeGroupIdentity"/>
+	</declareProcedure>
+
+	
+	
+	<!-- this method must be overridden in inheriting types -->
+	<declareProcedure procedureName="IncludeConfigurationGroups">
+		<throw message="The IncludeConfigurationGroups should be overriden in {TargetProperties.type}"/>
+	</declareProcedure>
+
+</mansion>

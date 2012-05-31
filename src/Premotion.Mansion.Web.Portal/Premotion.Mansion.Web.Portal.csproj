@@ -113,6 +113,7 @@
     <EmbeddedResource Include="Web\Types\Block\Block.xdef" />
     <EmbeddedResource Include="Web\Types\Block\Block.xform" />
     <EmbeddedResource Include="Web\Types\Block\Block.xinclude" />
+    <EmbeddedResource Include="Web\Types\ConfigurationPanelEntry\ConfigurationPanelEntry.xform" />
     <EmbeddedResource Include="Web\Types\ConfigurationPanel\ConfigurationPanel.xdef" />
     <EmbeddedResource Include="Web\Types\ContentDetailBlock\ContentDetailBlock.tpl" />
     <EmbeddedResource Include="Web\Types\ContentDetailBlock\ContentDetailBlock.xdef" />
