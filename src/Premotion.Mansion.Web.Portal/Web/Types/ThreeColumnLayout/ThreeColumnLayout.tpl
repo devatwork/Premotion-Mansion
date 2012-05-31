@@ -1,8 +1,12 @@
 ﻿<tpl:section name="ThreeColumnLayout" field="Layout">
-	<div class="layout layout-threecolumns" role="main">
-		<div class="clearfix column-row">
+	<div class="row">
+		<div class="column span4">
 			{RenderColumn( 'primary-column', $PageNode, $PageBlockNodeset )}
+		</div>
+		<div class="column span4">
 			{RenderColumn( 'secondary-column', $PageNode, $PageBlockNodeset )}
+		</div>
+		<div class="column span4">
 			{RenderColumn( 'tertiary-column', $PageNode, $PageBlockNodeset )}
 		</div>
 	</div>

@@ -1,6 +1,6 @@
 ﻿<tpl:section name="OneColumnLayout" field="Layout">
-	<div class="layout layout-onecolumn clearfix" role="main">
-		<div class="column-row">
+	<div class="row">
+		<div class="column span12">
 			{RenderColumn( 'primary-column', $PageNode, $PageBlockNodeset )}
 		</div>
 	</div>
