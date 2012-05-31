@@ -64,7 +64,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Rendering
 		protected override void DoExecute(IMansionContext context)
 		{
 			// get the parameters
-			var cacheKey = cacheKeyPrefix + GetRequiredAttribute<string>(context, "cacheKey");
+			var cacheKey = cacheKeyPrefix + GetRequiredAttribute<string>(context, "cacheKey") + "_backoffice-user=" + context.BackofficeUserState.IsAuthenticated;
 
 			// load the expression
 			var expression = cachingService.GetOrAdd(
