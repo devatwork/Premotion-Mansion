@@ -1,119 +1,61 @@
 ﻿/* ==|== Portal --------=====================================================
 	Author: Premotion
 	========================================================================== */
-/* Layouts */
-.layout
-{
+	
+/* columns */
+.column > .column-content {
+	border: 1px solid transparent;
+	height: 100%;
+}
+
+.column > .column-content.droptarget {
+	border: 1px dotted #f09;
+	height: 350px;
+}
+.column > .column-content.hover {
+	border: 1px dashed #0f9;
+	min-height: 250px;
+}
+
+/* Block toolbar */
+.block { position: relative; }
+.block > .block-toolbar {
+	border: 1px solid #333;
+	background-color: rgb(128, 128, 128);
+	background-color: rgba(0, 0, 0, 0.5);
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	display: none;
+	z-index: 9999;
+}
+	
+	.block > .block-toolbar .command	{
+		height: 16px;
+		width: 16px;
+		margin: 1px 2px;
+		float: left;
+	}
+		
+		.block > .block-toolbar .command.configure { background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Images/Icons/configure-block.png' ) )}'); }
+		.block > .block-toolbar .command.move {	background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Images/Icons/move-block.png' ) )}'); cursor: move; }
+		.block > .block-toolbar .command.remove { background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Images/Icons/remove-block.png' ) )}'); }
+		.block > .block-toolbar .command.style { background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Images/Icons/style-block.png' ) )}'); }
+			
+			
+
+.blockghost {
+	border: 1px solid #fcefa1;
+	background-color: #fbf9ee;
+	margin: 20px;
+	padding: 20px;
+	color: #363636;
+}
+
+#portal-modal-popup .seamless {
+	border: none;
+	overflow: hidden;
 	width: 100%;
 }
-	.layout > .column-row
-	{
-		width: 100%;
-	}
-
-	.layout > .column-row > .column > .column-content
-	{
-		border: 1px solid transparent;
-		height: 100%;
-	}
-
-	.layout > .column-row > .column > .column-content.droptarget
-	{
-		border: 1px dotted #f09;
-		height: 350px;
-	}
-	.layout > .column-row > .column > .column-content.hover
-	{
-		border: 1px dashed #0f9;
-		min-height: 250px;
-	}
-
-	/* One column */
-	.layout-onecolumn .column { width: 100%; }
-
-	/* Two columns */
-	.layout-twocolumns .column { width: 50%; }
-
-	/* Two columns left & right */
-	.layout-twocolumns-left .column:first-child,
-	.layout-twocolumns-right .column:last-child { width: 66.666%; float: left; }
-	.layout-twocolumns-left .column:last-child,
-	.layout-twocolumns-right .column:first-child { width: 33.333%; float: left; }
-	
-	/* Three columns */
-	.layout-threecolumns .column { width: 33.333%; float: left; }
-
-
-
-/* Block styles */
-.block
-{
-	position: relative;
-}
-
-	/* Block header */
-	.block > header { }
-	
-		.block > header h1 { }
-	
-	/* Block footer */
-	.block  > footer { }
-	
-	/* Block toolbar */
-	.block > .block-toolbar
-	{
-		border: 1px solid #333;
-		background-color: rgb(128, 128, 128);
-		background-color: rgba(0, 0, 0, 0.5);
-		position: absolute;
-		top: 0;
-		right: 0;
-		margin: 0;
-		padding: 0;
-		display: none;
-		z-index: 9999;
-	}
-	
-		.block > .block-toolbar .command
-		{
-			height: 16px;
-			width: 16px;
-			margin: 1px 2px;
-			float: left;
-		}
-		
-			.block > .block-toolbar .command.configure { background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Images/Icons/configure-block.png' ) )}'); }
-			.block > .block-toolbar .command.move {	background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Images/Icons/move-block.png' ) )}'); cursor: move; }
-			.block > .block-toolbar .command.remove { background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Images/Icons/remove-block.png' ) )}'); }
-			.block > .block-toolbar .command.style { background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Images/Icons/style-block.png' ) )}'); }
-			
-			
-
-	.blockghost
-	{
-		border: 1px solid #fcefa1;
-		background-color: #fbf9ee;
-		margin: 20px;
-		padding: 20px;
-		color: #363636;
-	}
-			
-			
-
-/* Block index  */
-.block.index
-{
-}
-
-	.block.index article header h1
-	{
-		margin: 0;
-	}
-	
-	.block.index > ul,
-	.block.index > ol
-	{
-		list-style: none outside none;
-		margin: 0;
-		padding: 0;
-	}

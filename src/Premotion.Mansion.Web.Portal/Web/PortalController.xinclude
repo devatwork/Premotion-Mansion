@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:portal="http://schemas.premotion.nl/mansion/1.0/web/portal/tags.xsd">
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:portal="http://schemas.premotion.nl/mansion/1.0/web/portal/tags.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:ctrls="http://schemas.premotion.nl/mansion/1.0/web.controls.tags.xsd">
 
 	<!-- Invoked by the dispatcher when the application is bootstrapped -->
 	<declareProcedure procedureName="HandleView">
@@ -40,7 +40,7 @@
 			<portal:retrieveBlockNodeset source="{$PageNode}" target="PageBlockNodeset" global="true" />
 			<portal:retrieveBlockNodeset source="{$ThemeNode}" target="ThemeBlockNodeset" global="true" />
 			
-			<responseTemplate cacheKey="{Request.url}" enabled="true">
+			<responseTemplate cacheKey="{Request.url}" enabled="false">
 				<!-- disable caching for user logged in to the backoffice -->
 				<if condition="{IsBackofficeUserAuthenticated()}">
 					<disableResponseTemplateCache />
@@ -91,6 +91,27 @@
 	
 	
 	
+	<!-- ######################################################### -->
+	<!-- Portal admin handlers                                     -->
+	<!-- ######################################################### -->
+	
+	<!-- handler for block configuration -->
+	<declareProcedure procedureName="HandleConfigureBlock">
+		<!-- first check permission -->
+		<if condition="{Not( HasPortalAdminPermission() )}">
+			<web:setStatusCode code="401" description="You do not have enough permission to execute this request" />
+			<exitProcedure />
+		</if>
+
+		<!-- start dialog rendering -->
+		<web:respondDocument contentType="text/html" encoding="UTF-8" cache="false">
+			<renderSection name="PortalAdminDialog">
+
+			</renderSection>
+		</web:respondDocument>
+		
+	</declareProcedure>
+	
 	<!-- callback from the move block -->
 	<declareProcedure procedureName="HandleUpdateBlockPosition">
 		<!-- first check permission -->
@@ -120,6 +141,49 @@
 		
 		<!-- update block properties -->
 		<editNode source="{$BlockNode}" order="{Get.order}" column="{Get.columnName}" />
+		
+	</declareProcedure>
+
+	<!-- handler for block configuration -->
+	<declareProcedure procedureName="HandleRemoveBlock">
+		<!-- first check permission -->
+		<if condition="{Not( HasPortalAdminPermission() )}">
+			<web:setStatusCode code="401" description="You do not have enough permission to execute this request" />
+			<exitProcedure />
+		</if>
+		
+		<!-- start dialog rendering -->
+		<web:respondDocument contentType="text/html" encoding="UTF-8" cache="false">
+			<renderSection name="PortalAdminDialog">
+				
+				<!-- create the delete node form -->
+				<forms:form name="delete-block" targetField="Content">
+					<forms:step label="Remove block '{UrlNode.name}' from page" headerCssClasses="modal-header" bodyCssClasses="modal-body">
+						<forms:errorMessage>Are you sure you want to remove block '{UrlNode.name}' from this page? This action can not be undone.</forms:errorMessage>
+						<forms:buttonBar cssClass="modal-footer">
+							<forms:button action="cancel" label="Cancel" cssClass="cancel" isDefault="true" />
+							<forms:button action="delete" label="Delete" cssClass="btn-danger" />
+						</forms:buttonBar>
+
+						<!-- processes the form actions -->
+						<forms:processScriptAction supportedActions="cancel" requiresValidForm="false">
+							<ctrls:invokeDialogParentTrigger action="portal.dialog.close" />
+							<breakExecution />
+						</forms:processScriptAction>
+
+						<forms:processScriptAction supportedActions="delete">
+							<retrieveParentNode childSource="{$UrlNode}" target="ParentNode">
+								<deleteNode source="{$UrlNode}" />
+								<ctrls:invokeDialogParentTrigger action="portal.navigate" url="{NodeUrl( $ParentNode )}" />
+							</retrieveParentNode>
+							<breakExecution />
+						</forms:processScriptAction>
+
+					</forms:step>
+				</forms:form>
+				
+			</renderSection>
+		</web:respondDocument>
 		
 	</declareProcedure>
 	

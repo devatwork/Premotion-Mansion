@@ -97,7 +97,6 @@
     <EmbeddedResource Include="Web\Images\Icons\move-block.png" />
     <EmbeddedResource Include="Web\Images\Icons\remove-block.png" />
     <EmbeddedResource Include="Web\Images\Icons\style-block.png" />
-    <EmbeddedResource Include="Web\Js\Portal.js" />
     <EmbeddedResource Include="Web\Js\PortalAdmin.js" />
     <EmbeddedResource Include="Web\PortalController.tpl" />
     <EmbeddedResource Include="Web\PortalController.xinclude" />
