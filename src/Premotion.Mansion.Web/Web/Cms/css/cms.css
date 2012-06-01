@@ -1,9 +1,9 @@
-body.cms {
+.cms {
 	padding-top: 60px;
 	padding-bottom: 40px;
 }
 
-iframe.seamless {
+.seamless {
 	border: none;
 	overflow: hidden;
 	width: 100%;
@@ -20,7 +20,7 @@ iframe.seamless {
 
 
 /* dialog styles */
-body.dialog,
+.dialog,
 .dialog .container-fluid {
 	padding: 0;
 	overflow: hidden;
