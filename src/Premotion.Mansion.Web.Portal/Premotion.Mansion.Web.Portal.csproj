@@ -133,7 +133,7 @@
     <EmbeddedResource Include="Web\Types\EditorialBlock\EditorialBlock.tpl" />
     <EmbeddedResource Include="Web\Types\EditorialBlock\EditorialBlock.xdef" />
     <EmbeddedResource Include="Web\Types\EditorialBlock\EditorialBlock.xform" />
-    <EmbeddedResource Include="Web\Types\Layout\layout.png" />
+    <EmbeddedResource Include="Web\Types\Layout\Layout.png" />
     <EmbeddedResource Include="Web\Types\Layout\Layout.xdef" />
     <EmbeddedResource Include="Web\Types\ListBlock\ListBlock.tpl" />
     <EmbeddedResource Include="Web\Types\ListBlock\ListBlock.png" />
