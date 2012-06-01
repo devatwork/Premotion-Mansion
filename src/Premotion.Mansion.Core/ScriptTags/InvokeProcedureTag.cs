@@ -21,7 +21,7 @@ namespace Premotion.Mansion.Core.ScriptTags
 			// get the name of the procedure
 			string procedureName;
 			if (!procedureArguments.TryGetAndRemove(context, "procedureName", out procedureName) || string.IsNullOrEmpty(procedureName))
-				throw new InvalidOperationException("The attribute procedureName must behave a valide procedure name.");
+				throw new InvalidOperationException("The attribute procedureName must contain a valide procedure name.");
 			bool checkExists;
 			if (!procedureArguments.TryGetAndRemove(context, "checkExists", out checkExists))
 				checkExists = true;
