@@ -104,11 +104,8 @@
     <EmbeddedResource Include="Web\Types\Article\Article.png" />
     <EmbeddedResource Include="Web\Types\Article\Article.xdef" />
     <EmbeddedResource Include="Web\Types\Article\Article.xform" />
-    <EmbeddedResource Include="Web\Types\Block\Block.Configure.Dialog.xinclude" />
-    <EmbeddedResource Include="Web\Types\Block\Block.Dialog.xinclude" />
     <EmbeddedResource Include="Web\Types\Block\Block.tpl" />
     <EmbeddedResource Include="Web\Types\Block\Block.png" />
-    <EmbeddedResource Include="Web\Types\Block\Block.Remove.Dialog.xinclude" />
     <EmbeddedResource Include="Web\Types\Block\Block.xdef" />
     <EmbeddedResource Include="Web\Types\Block\Block.xform" />
     <EmbeddedResource Include="Web\Types\Block\Block.xinclude" />

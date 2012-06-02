@@ -107,6 +107,40 @@
 		<web:respondDocument contentType="text/html" encoding="UTF-8" cache="false">
 			<renderSection name="PortalAdminDialog">
 
+				<fetchNode source="{$UrlNode}" target="FormSourceNode">
+					<forms:form name="edit-block" dataSource="{$UrlNode}" targetField="Content">
+						<forms:step label="Edit block '{FormSourceNode.name}'" headerCssClasses="modal-header" bodyCssClasses="modal-body">
+							<forms:validationSummary/>
+
+							<!-- delegate to inherited types -->
+							<openScript type="{FormSourceNode.type}" extension="xform" checkExists="true">
+								<invokeProcedure procedureName="RenderXFormContent" />
+							</openScript>
+
+							<forms:buttonBar cssClass="modal-footer">
+								<forms:button action="cancel" label="Cancel" cssClass="btn-warning" />
+								<forms:button action="store" label="Save" cssClass="btn-success" />
+							</forms:buttonBar>
+
+							<!-- processes the form actions -->
+							<forms:processScriptAction supportedActions="cancel" requiresValidForm="false">
+								<ctrls:invokeDialogParentTrigger action="portal.dialog.close" />
+								<breakExecution />
+							</forms:processScriptAction>
+							<forms:processScriptAction supportedActions="store">
+								<retrieveParentNode childSource="{$FormSourceNode}" target="ParentNode">
+									<editNode source="{$FormSourceNode}">
+										<copyProperties source="{$FieldProperties}" target="{$EditProperties}" />
+									</editNode>
+									<ctrls:invokeDialogParentTrigger action="portal.navigate" url="{NodeUrl( $ParentNode )}" />
+								</retrieveParentNode>
+								<breakExecution />
+							</forms:processScriptAction>
+
+						</forms:step>
+					</forms:form>
+				</fetchNode>
+
 			</renderSection>
 		</web:respondDocument>
 		
@@ -170,7 +204,6 @@
 							<ctrls:invokeDialogParentTrigger action="portal.dialog.close" />
 							<breakExecution />
 						</forms:processScriptAction>
-
 						<forms:processScriptAction supportedActions="delete">
 							<retrieveParentNode childSource="{$UrlNode}" target="ParentNode">
 								<deleteNode source="{$UrlNode}" />
