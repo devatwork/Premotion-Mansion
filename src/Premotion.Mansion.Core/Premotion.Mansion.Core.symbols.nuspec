@@ -23,9 +23,9 @@
 		<tags>Premotion Mansion</tags>
 	</metadata>
 	<files>
-		<file src="bin\Premotion.Mansion.Core.dll" target="lib\net40\Premotion.Mansion.Core.dll" />
-		<file src="bin\Premotion.Mansion.Core.pdb" target="lib\net40\Premotion.Mansion.Core.pdb" />
-		<file src="bin\Premotion.Mansion.Core.XML" target="lib\net40\Premotion.Mansion.Core.XML" />
+		<file src="bin\Premotion.Mansion.Core.dll" target="lib\net40" />
+		<file src="bin\Premotion.Mansion.Core.pdb" target="lib\net40" />
+		<file src="bin\Premotion.Mansion.Core.xml" target="lib\net40" />
 		<file src="**\*.cs" target="src" />
 	</files>
 </package>

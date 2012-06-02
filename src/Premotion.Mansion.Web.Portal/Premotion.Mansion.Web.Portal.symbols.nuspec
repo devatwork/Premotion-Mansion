@@ -26,7 +26,7 @@
 	<files>
 		<file src="bin\Premotion.Mansion.Web.Portal.dll" target="lib\net40" />
 		<file src="bin\Premotion.Mansion.Web.Portal.pdb" target="lib\net40" />
-		<file src="bin\Premotion.Mansion.Web.Portal.XML" target="lib\net40" />
+		<file src="bin\Premotion.Mansion.Web.Portal.xml" target="lib\net40" />
 		<file src="**\*.cs" target="src" />
 	</files>
 </package>

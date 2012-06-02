@@ -23,8 +23,8 @@
 		<tags>Premotion Mansion</tags>
 	</metadata>
 	<files>
-		<file src="bin\Premotion.Mansion.Amazon.dll" target="lib\net40\Premotion.Mansion.Amazon.dll" />
-		<file src="bin\Premotion.Mansion.Amazon.xml" target="lib\net40\Premotion.Mansion.Amazon.xml" />
+		<file src="bin\Premotion.Mansion.Amazon.dll" target="lib\net40" />
+		<file src="bin\Premotion.Mansion.Amazon.xml" target="lib\net40" />
 		<file src="web.config.transform" target="content" />
 	</files>
 </package>
