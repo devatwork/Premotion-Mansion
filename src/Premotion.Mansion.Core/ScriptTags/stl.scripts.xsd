@@ -3,7 +3,7 @@
 <xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/stl.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	
 	<!-- imports -->
-	<xs:include schemaLocation="../stl.xsd" />
+	<xs:include schemaLocation="stl.xsd" />
 	
 	<!-- elements -->
 	<xs:element name="openScript" substitutionGroup="scriptTag">

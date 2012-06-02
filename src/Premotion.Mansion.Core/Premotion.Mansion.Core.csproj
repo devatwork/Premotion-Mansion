@@ -447,37 +447,37 @@
     <None Include="Scripting\ExpressionScript\Mansion.Core.ExpressionScript.cd" />
     <None Include="Scripting\Mansion.Core.Scripting.cd" />
     <None Include="Scripting\TagScript\Mansion.Core.TagScript.cd" />
-    <None Include="ScriptTags\Boolean\stl.boolean.xsd">
+    <None Include="ScriptTags\stl.boolean.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ScriptTags\Caching\stl.caching.xsd">
+    <None Include="ScriptTags\stl.caching.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ScriptTags\IO\stl.io.xsd">
+    <None Include="ScriptTags\stl.io.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ScriptTags\Media\stl.media.xsd">
+    <None Include="ScriptTags\stl.media.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ScriptTags\Rendering\stl.rendering.xsd">
+    <None Include="ScriptTags\stl.rendering.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ScriptTags\Repository\stl.repository.xsd">
+    <None Include="ScriptTags\stl.repository.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ScriptTags\Scripts\stl.scripts.xsd">
+    <None Include="ScriptTags\stl.scripts.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ScriptTags\Security\stl.security.xsd">
+    <None Include="ScriptTags\stl.security.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ScriptTags\Stack\stl.stack.xsd">
+    <None Include="ScriptTags\stl.stack.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="ScriptTags\stl.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ScriptTags\String\stl.string.xsd">
+    <None Include="ScriptTags\stl.string.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Security\Descriptors\security.descriptors.xsd">
