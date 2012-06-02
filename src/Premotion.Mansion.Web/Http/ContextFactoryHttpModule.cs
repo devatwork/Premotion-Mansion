@@ -45,12 +45,16 @@ namespace Premotion.Mansion.Web.Http
 			// register all the types within the assembly
 			nucleus.ResolveSingle<IReflectionService>().Initialize(nucleus, LoadOrderedAssemblyList());
 
-			// get all the application bootstrappers from the nucleus
-			foreach (var bootstrapper in nucleus.Resolve<ApplicationBootstrapperBase>())
-				bootstrapper.Initialize(nucleus);
+			// get all the application bootstrappers from the nucleus and allow them to bootstrap the application
+			foreach (var bootstrapper in nucleus.Resolve<ApplicationBootstrapper>().OrderBy(bootstrapper => bootstrapper.Weight))
+				bootstrapper.Bootstrap(nucleus);
 
 			// compile the nucleus for ultra fast performance
 			nucleus.Optimize();
+
+			// get all the application initializers from the nucleus and allow them to initialize the application
+			foreach (var initializer in nucleus.Resolve<ApplicationInitializer>().OrderBy(initializer => initializer.Weight))
+				initializer.Initialize(applicationContext);
 		}
 		/// <summary>
 		/// Gets the <see cref="IMansionWebContext"/> of the current request.

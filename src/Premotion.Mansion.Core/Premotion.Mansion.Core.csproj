@@ -173,9 +173,10 @@
     <Compile Include="IO\Windows\WindowsContentResourceService.cs" />
     <Compile Include="IO\Xml\XmlOutputPipe.cs" />
     <Compile Include="IPropertyBag.cs" />
+    <Compile Include="Nucleus\ApplicationInitializer.cs" />
     <Compile Include="Nucleus\Dynamo\DynamoNucleusAdapter.cs" />
     <Compile Include="Nucleus\ExportedAttribute.cs" />
-    <Compile Include="Nucleus\ApplicationBootstrapperBase.cs" />
+    <Compile Include="Nucleus\ApplicationBootstrapper.cs" />
     <Compile Include="Nucleus\IConfigurableNucleus.cs" />
     <Compile Include="Nucleus\INucleus.cs" />
     <Compile Include="Nucleus\NamedAttribute.cs" />

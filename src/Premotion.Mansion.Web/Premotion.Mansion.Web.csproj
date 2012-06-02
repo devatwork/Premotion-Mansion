@@ -75,6 +75,7 @@
     <Compile Include="Cms\ScriptFunctions\GetTypeDefinitionIcon.cs" />
     <Compile Include="Cms\ScriptFunctions\GetTypeDefinitionLabel.cs" />
     <Compile Include="Cms\ScriptFunctions\HasChildTypes.cs" />
+    <Compile Include="ConfigurationSettingsApplicationInitializer.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controls\Container.cs" />
     <Compile Include="Controls\Containers\Group.cs" />
@@ -244,7 +245,7 @@
     <Compile Include="Url\NodeUrlGenerator.cs" />
     <Compile Include="Url\NodeUrlService.cs" />
     <Compile Include="Url\SiteUrlGenerator.cs" />
-    <Compile Include="WebApplicationBootstrapperBase.cs" />
+    <Compile Include="RepositoryApplicationInitializer.cs" />
     <Compile Include="WebOutputPipe.cs" />
     <Compile Include="WebUtilities.cs" />
     <Compile Include="Web\Types\Default\PropagateListener.cs" />

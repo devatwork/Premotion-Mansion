@@ -23,16 +23,24 @@ using Premotion.Mansion.Web.Url;
 namespace Premotion.Mansion.Web.TestWebApp
 {
 	/// <summary>
-	/// Implements the <see cref="ApplicationBootstrapperBase"/> for the test web app.
+	/// Implements the <see cref="ApplicationBootstrapper"/> for the test web app.
 	/// </summary>
-	public class TestWebAppBootstrapper : WebApplicationBootstrapperBase
+	public class TestWebAppBootstrapper : ApplicationBootstrapper
 	{
-		#region Overrides of WebApplicationBootstrapperBase
+		#region Constructors
 		/// <summary>
-		/// Initializes the application using the <paramref name="nucleus"/>.
+		/// 
 		/// </summary>
-		/// <param name="nucleus">The <see cref="IConfigurableNucleus"/> from which to configure the application.</param>
-		protected override void RegisterServices(IConfigurableNucleus nucleus)
+		public TestWebAppBootstrapper() : base(100)
+		{
+		}
+		#endregion
+		#region Overrides of ApplicationBootstrapper
+		/// <summary>
+		/// Registers all the services used by the application in the <paramref name="nucleus"/>.
+		/// </summary>
+		/// <param name="nucleus">The <see cref="IConfigurableNucleus"/> in which to register the services used by the application.</param>
+		protected override void DoBoostrap(IConfigurableNucleus nucleus)
 		{
 			nucleus.Register<ICachingService>(resolver => new HttpCachingService());
 			nucleus.Register<IConversionService>(resolver => new ConversionService(resolver.Resolve<IConverter>(), resolver.Resolve<IComparer>()));
