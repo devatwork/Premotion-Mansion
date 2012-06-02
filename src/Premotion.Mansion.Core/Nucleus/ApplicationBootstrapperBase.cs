@@ -5,6 +5,7 @@ namespace Premotion.Mansion.Core.Nucleus
 	/// <summary>
 	/// Bootstrappers configure the application before it is started.
 	/// </summary>
+	[Exported(typeof (ApplicationBootstrapperBase))]
 	public abstract class ApplicationBootstrapperBase
 	{
 		#region Initialize Methods

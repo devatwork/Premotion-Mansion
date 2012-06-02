@@ -25,7 +25,6 @@ namespace Premotion.Mansion.Web.TestWebApp
 	/// <summary>
 	/// Implements the <see cref="ApplicationBootstrapperBase"/> for the test web app.
 	/// </summary>
-	[Exported(typeof (ApplicationBootstrapperBase))]
 	public class TestWebAppBootstrapper : WebApplicationBootstrapperBase
 	{
 		#region Overrides of WebApplicationBootstrapperBase
