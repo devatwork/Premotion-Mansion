@@ -296,6 +296,7 @@
     <None Include="Web\Shared\js\ckeditor\.htaccess" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Web\Default.xts.pp" />
     <EmbeddedResource Include="Web\Cms\AuthenticationController.tpl">
       <SubType>Designer</SubType>
     </EmbeddedResource>
