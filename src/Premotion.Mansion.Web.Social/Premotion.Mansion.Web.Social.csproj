@@ -44,6 +44,8 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
@@ -51,6 +53,7 @@
     <Compile Include="Facebook\Error.cs" />
     <Compile Include="Facebook\FacebookProfile.cs" />
     <Compile Include="Facebook\FacebookSocialService.cs" />
+    <Compile Include="Facebook\IFacebookSocialService.cs" />
     <Compile Include="Facebook\ModelBase.cs" />
     <Compile Include="Profile.cs" />
     <Compile Include="Result.cs" />
@@ -63,6 +66,7 @@
     <Compile Include="SocialId.cs" />
     <Compile Include="SocialServiceBase.cs" />
     <Compile Include="SocialServiceDiscoveryService.cs" />
+    <Compile Include="SocialServicesApplicationBootstrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Premotion.Mansion.Core\Premotion.Mansion.Core.csproj">

@@ -9,7 +9,7 @@ namespace Premotion.Mansion.Web.Social.Facebook
 	/// <summary>
 	/// Implements the <see cref="ISocialService"/> for Facebook.
 	/// </summary>
-	public class FacebookSocialService : SocialServiceBase
+	public class FacebookSocialService : SocialServiceBase, IFacebookSocialService
 	{
 		#region Constants
 		private const string OAathDialogEndpoint = "https://www.facebook.com/dialog/oauth";

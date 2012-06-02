@@ -56,10 +56,6 @@ namespace Premotion.Mansion.Web.TestWebApp
 			//nucleus.Register<IApplicationResourceService>(resolver => new WindowsApplicationResourceService(HttpRuntime.AppDomainAppPath, "Web", new[] {"/MansionWeb", "/MansionWebPortal", "/"}, resolver.Resolve<ResourcePathInterpreter>(), resolver.ResolveSingle<ICachingService>()));
 			nucleus.Register<IPortalService>(resolver => new PortalService(resolver.ResolveSingle<ICachingService>(), resolver.ResolveSingle<ITemplateService>()));
 			nucleus.Register<IApplicationResourceService>(resolver => new EmbeddedApplicationResourceService("Web", resolver.Resolve<ResourcePathInterpreter>(), resolver.ResolveSingle<IReflectionService>()));
-
-			// register social services
-			nucleus.Register<ISocialService>(resolver => new FacebookSocialService(resolver.ResolveSingle<IConversionService>()));
-			nucleus.Register<ISocialServiceDiscoveryService>(resolver => new SocialServiceDiscoveryService(resolver.Resolve<ISocialService>()));
 		}
 		#endregion
 	}
