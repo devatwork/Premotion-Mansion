@@ -240,6 +240,7 @@
     <Compile Include="Security\RepositorySecurityPersistenceService.cs" />
     <Compile Include="Security\WebSecurityService.cs" />
     <Compile Include="TagUtilities.cs" />
+    <None Include="MyApplicationBootstrapper.cs.pp" />
     <Compile Include="Url\RouteUrlBuilder.cs" />
     <Compile Include="Url\INodeUrlService.cs" />
     <Compile Include="Url\NamedUrlGenerator.cs" />

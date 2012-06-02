@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config.transform" />
+    <None Include="web.config.transform" />
     <None Include="Premotion.Mansion.Repository.SqlServer.symbols.nuspec" />
     <None Include="Premotion.Mansion.Repository.SqlServer.nuspec" />
     <None Include="Descriptors\repository.mssql.descriptors.xsd">

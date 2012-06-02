@@ -432,7 +432,6 @@
     <Compile Include="Types\Xml\XmlTypeService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config.transform" />
     <None Include="Caching\Mansion.Core.Caching.cd" />
     <None Include="Collections\Mansion.Core.Collections.cd" />
     <None Include="Conversion\Mansion.Core.Conversion.cd" />

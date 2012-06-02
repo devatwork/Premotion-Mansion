@@ -75,13 +75,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config.transform" />
     <None Include="packages.config" />
     <None Include="Premotion.Mansion.Web.Social.nuspec" />
     <None Include="Premotion.Mansion.Web.Social.symbols.nuspec" />
     <None Include="ScriptTags\web.social.tags.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="app.config.transform" />
+    <None Include="web.config.transform" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

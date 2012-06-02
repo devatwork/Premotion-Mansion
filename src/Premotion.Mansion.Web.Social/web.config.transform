@@ -2,6 +2,7 @@
 
 <configuration>
 	<appSettings>
-		<add key="APPLICATION_IS_LIVE" value="false" />
+		<add key="FACEBOOK_APP_ID" value="TODO" />
+		<add key="FACEBOOK_APP_SECRET" value="TODO" />
 	</appSettings>
 </configuration>

@@ -5,6 +5,10 @@
 		<compilation targetFramework="4.0" />
 		<httpRuntime requestValidationMode="2.0" requestPathInvalidCharacters="" />
 	</system.web>
+	<appSettings>
+		<add key="APPLICATION_IS_LIVE" value="false" />
+		
+	</appSettings>
 	<system.webServer>
 		<modules>
 			<remove name="ContextFactoryModule" />

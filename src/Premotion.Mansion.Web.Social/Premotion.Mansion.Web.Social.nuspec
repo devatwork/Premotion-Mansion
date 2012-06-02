@@ -30,5 +30,6 @@
 		<file src="bin\Premotion.Mansion.Web.Social.xml" target="lib\net40" />
 		<file src="**\*.xsd" target="content\Schemas" />
 		<file src="app.config.transform" target="content" />
+		<file src="web.config.transform" target="content" />
 	</files>
 </package>
