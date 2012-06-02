@@ -9,9 +9,6 @@
 		<add key="APPLICATION_IS_LIVE" value="false" />
 		<add key="REPOSITORY_NAMESPACE" value="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.xsd" />
 		<add key="SQLSERVER_CONNECTION_STRING" value="TODO" />
-		<add key="AWS_ACCESS_KEY" value="TODO" />
-		<add key="AWS_ACCESS_SECRET" value="TODO" />
-		<add key="AWS_BUCKET_NAME" value="TODO" />
 	</appSettings>
 	<system.webServer>
 		<modules>

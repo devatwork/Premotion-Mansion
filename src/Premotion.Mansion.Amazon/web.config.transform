@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+	<appSettings>
+		<add key="AWS_ACCESS_KEY" value="TODO" />
+		<add key="AWS_ACCESS_SECRET" value="TODO" />
+		<add key="AWS_BUCKET_NAME" value="TODO" />
+	</appSettings>
+</configuration>
