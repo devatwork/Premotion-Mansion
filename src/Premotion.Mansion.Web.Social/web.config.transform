@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+	<appSettings>
+		<add key="FACEBOOK_APP_ID" value="TODO" />
+		<add key="FACEBOOK_APP_SECRET" value="TODO" />
+	</appSettings>
+</configuration>
