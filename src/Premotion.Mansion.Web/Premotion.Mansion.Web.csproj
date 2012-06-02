@@ -126,6 +126,7 @@
     <Compile Include="Controls\Forms\FormEngine.cs" />
     <Compile Include="Controls\Forms\FormState.cs" />
     <Compile Include="Controls\Forms\ListField.cs" />
+    <Compile Include="Controls\Forms\Messages\AddValidationMessageTag.cs" />
     <Compile Include="Controls\Forms\Messages\ErrorMessage.cs" />
     <Compile Include="Controls\Forms\Messages\InfoMessage.cs" />
     <Compile Include="Controls\Forms\Messages\InstructionMessage.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Controls\Forms\PropertyRowMappingStrategy.cs" />
     <Compile Include="Controls\Forms\RenderScript.cs" />
     <Compile Include="Controls\Forms\RowMappingStrategy.cs" />
+    <Compile Include="Controls\Forms\ScriptFunctions\IsInValidationError.cs" />
     <Compile Include="Controls\Forms\Step.cs" />
     <Compile Include="Controls\Forms\TreeField.cs" />
     <Compile Include="Controls\Forms\ValidationResult.cs" />

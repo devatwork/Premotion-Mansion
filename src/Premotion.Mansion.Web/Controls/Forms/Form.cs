@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Templating;
 using Premotion.Mansion.Web.Controls.Forms.Engines;
@@ -148,6 +149,7 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		protected override void DoRender(IMansionWebContext context, ITemplateService templateService)
 		{
 			// only render active step
+			using (context.Stack.Push("FormControl", PropertyBagAdapterFactory.Adapt(context, this)))
 			using (templateService.Render(context, GetType().Name + "Control"))
 				State.CurrentStep.Render(context, templateService);
 		}

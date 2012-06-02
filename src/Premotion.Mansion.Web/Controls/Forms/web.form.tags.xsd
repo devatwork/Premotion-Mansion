@@ -869,4 +869,24 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="addValidationMessage" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Adds a validation error message to the current form.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attribute name="controlName" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The name of the control for which to show the validation message.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="message" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The content of the validation message.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
 </xs:schema>

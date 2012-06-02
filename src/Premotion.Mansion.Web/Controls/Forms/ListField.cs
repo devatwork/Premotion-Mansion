@@ -118,6 +118,7 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
 		protected override void DoRender(IMansionWebContext context, ITemplateService templateService)
 		{
+			using (context.Stack.Push("FieldControl", PropertyBagAdapterFactory.Adapt<Field>(context, this)))
 			using (templateService.Render(context, "FieldContainer"))
 			using (templateService.Render(context, GetType().Name + "Control"))
 			{
@@ -126,11 +127,11 @@ namespace Premotion.Mansion.Web.Controls.Forms
 
 				//  create the loop and psuh  it to the stack
 				var loop = new Loop(dataset);
-				using (context.Stack.Push("Loop", loop, false))
+				using (context.Stack.Push("Loop", loop))
 				{
 					foreach (var row in loop.Rows)
 					{
-						using (context.Stack.Push("OptionProperties", mappingStrategy.Map(context, row), false))
+						using (context.Stack.Push("OptionProperties", mappingStrategy.Map(context, row)))
 							templateService.Render(context, GetType().Name + "ControlOption").Dispose();
 					}
 				}

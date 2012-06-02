@@ -19,7 +19,7 @@
 					<forms:form name="Login">
 						<forms:step label="Login">
 							<forms:validationSummary />
-							<forms:textbox name="username" label="Username">
+							<forms:textbox name="login" label="E-mail">
 								<forms:requiredFieldValidator/>
 							</forms:textbox>
 							<forms:password name="password" label="Password">
@@ -33,11 +33,15 @@
 							<!-- authentication action -->
 							<forms:processScriptAction supportedActions="login" requiresValidForm="true">
 
-								<authenticateUser authenticationProvider="RepositoryAuthenticationProvider" username="{FieldProperties.username}" password="{FieldProperties.password}" allowRevival="{FieldProperties.rememberByCookie}">
+								<authenticateUser authenticationProvider="RepositoryAuthenticationProvider" username="{FieldProperties.login}" password="{FieldProperties.password}" allowRevival="{FieldProperties.rememberByCookie}">
 
 									<!-- redirect to cms home -->
 									<web:redirectRequest url="{CmsRouteUrl( 'Cms', 'Home' )}"/>
 
+									<failed>
+										<!-- show validation message -->
+										<forms:addValidationMessage controlName="login" message="Invalid login/password combination" />
+									</failed>
 								</authenticateUser>
 
 							</forms:processScriptAction>

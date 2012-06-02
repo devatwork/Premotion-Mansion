@@ -1,4 +1,5 @@
-﻿using Premotion.Mansion.Core.Scripting.TagScript;
+﻿using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Templating;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Validation
@@ -59,8 +60,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Validation
 				foreach (var result in results.Results)
 				{
 					// push control and message properties to the stack
-					using (context.Stack.Push("ValidatedControlProperties", result.Control.Definition.Properties, false))
-					using (context.Stack.Push("MessageProperties", result.Rule.Properties, false))
+					using (context.Stack.Push("ValidationResult", PropertyBagAdapterFactory.Adapt(context, result)))
 						templateService.Render(context, "ValidationResult").Dispose();
 				}
 			}

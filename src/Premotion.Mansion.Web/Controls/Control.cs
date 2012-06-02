@@ -197,6 +197,38 @@ namespace Premotion.Mansion.Web.Controls
 			templateService.Render(context, GetType().Name + "Control").Dispose();
 		}
 		#endregion
+		#region Find Methods
+		/// <summary>
+		/// Finds the <see cref="Control"/> with the specified <paramref name="name"/>;
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/></param>
+		/// <param name="name">The ID of the control.</param>
+		/// <param name="control">The <see cref="Control"/> if found.</param>
+		/// <returns>Returns true if the control is found, otherwise false.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="name"/> is null or empty.</exception>
+		public virtual bool TryFindControlByName(IMansionContext context, string name, out Control control)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException("name");
+
+			// get the name of this control
+			var controlName = Definition.Properties.Get(context, "name", string.Empty);
+
+			// check of the ID matches this control
+			if (name.Equals(controlName, StringComparison.OrdinalIgnoreCase))
+			{
+				control = this;
+				return true;
+			}
+
+			// control not found
+			control = null;
+			return false;
+		}
+		#endregion
 		#region Properties
 		/// <summary>
 		/// Gets the properties of this control.

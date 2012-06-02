@@ -17,7 +17,7 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		{
 		}
 		#endregion
-		#region Add Control Methods
+		#region Control Methods
 		/// <summary>
 		/// Adds a <paramref name="control"/> to this container.
 		/// </summary>

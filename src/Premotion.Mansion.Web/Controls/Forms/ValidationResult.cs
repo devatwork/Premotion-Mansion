@@ -1,4 +1,5 @@
 ﻿using System;
+using Premotion.Mansion.Core;
 
 namespace Premotion.Mansion.Web.Controls.Forms
 {
@@ -11,30 +12,33 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="rule"></param>
+		/// <param name="context"> </param>
+		/// <param name="message"></param>
 		/// <param name="control"></param>
-		public ValidationResult(ValidationRule rule, FormControl control)
+		public ValidationResult(IMansionContext context, string message, Control control)
 		{
 			// validate arguments
-			if (rule == null)
-				throw new ArgumentNullException("rule");
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (string.IsNullOrEmpty(message))
+				throw new ArgumentNullException("message");
 			if (control == null)
 				throw new ArgumentNullException("control");
 
 			// set values
-			Rule = rule;
-			Control = control;
+			ControlName = control.Definition.Properties.Get(context, "label", control.Definition.Properties.Get<string>(context, "name"));
+			Message = message;
 		}
 		#endregion
 		#region Properties
 		/// <summary>
-		/// Gets the <see cref="ValidationRule"/> which caused this result.
+		/// Gets the name of the control.
 		/// </summary>
-		public ValidationRule Rule { get; private set; }
+		public string ControlName { get; private set; }
 		/// <summary>
-		/// Gets the <see cref="FormControl"/> in which the validation was performed.
+		/// Gets the message.
 		/// </summary>
-		public FormControl Control { get; private set; }
+		public string Message { get; private set; }
 		#endregion
 	}
 }

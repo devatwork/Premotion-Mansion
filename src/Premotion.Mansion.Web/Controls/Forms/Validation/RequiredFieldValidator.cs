@@ -1,4 +1,5 @@
-﻿using Premotion.Mansion.Core;
+﻿using System.Collections.Generic;
+using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Validation
@@ -34,7 +35,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Validation
 		/// Constructs the validation rule.
 		/// </summary>
 		/// <param name="properties">The properties of this rule.</param>
-		public RequiredFieldValidator(IPropertyBag properties) : base(properties)
+		public RequiredFieldValidator(IEnumerable<KeyValuePair<string, object>> properties) : base(properties, "Is a required field")
 		{
 		}
 		#endregion
@@ -53,16 +54,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Validation
 				return;
 
 			// add the result
-			results.AddResult(this, control);
-		}
-		#endregion
-		#region Overrides of ValidationRule
-		/// <summary>
-		/// Gets the default validation message of this rule.
-		/// </summary>
-		protected override string DefaultValidationMessage
-		{
-			get { return "Is a required field"; }
+			results.AddResult(context, GetFormattedMessage(context), control);
 		}
 		#endregion
 	}

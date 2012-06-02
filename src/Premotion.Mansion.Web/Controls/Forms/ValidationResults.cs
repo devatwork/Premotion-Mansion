@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Premotion.Mansion.Core;
 
 namespace Premotion.Mansion.Web.Controls.Forms
 {
@@ -12,18 +13,21 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <summary>
 		/// Adds a validation result to this summary.
 		/// </summary>
-		/// <param name="rule">The <see cref="ValidationRule"/> which caused the result.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="message">The message.</param>
 		/// <param name="control">The <see cref="FormControl"/> which caused the result.</param>
-		public void AddResult(ValidationRule rule, FormControl control)
+		public void AddResult(IMansionContext context, string message, Control control)
 		{
 			// validate arguments
-			if (rule == null)
-				throw new ArgumentNullException("rule");
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (string.IsNullOrEmpty(message))
+				throw new ArgumentNullException("message");
 			if (control == null)
 				throw new ArgumentNullException("control");
 
 			// create the result
-			results.Add(new ValidationResult(rule, control));
+			results.Add(new ValidationResult(context, message, control));
 		}
 		/// <summary>
 		/// Clears the validation results.

@@ -49,7 +49,7 @@
 <tpl:section name="FieldName">{FormProperties.fieldPrefix}{ControlProperties.name}</tpl:section>
 
 <tpl:section name="FieldContainer" field="Control">
-	<div class="control-group">
+	<div class="control-group {If( IsInValidationError( $FormControl, $FieldControl ), 'error' )}">
 		{@FieldLabel}
 		<div class="controls">
 			{Field}
@@ -299,7 +299,7 @@
 
 <tpl:section name="ValidationResult">
 	<li>
-		<strong>{NotEmpty( ValidatedControlProperties.label, ValidatedControlProperties.name )}:</strong> {MessageProperties.message}
+		<strong>{ValidationResult.controlName}:</strong> {ValidationResult.message}
 	</li>
 </tpl:section>
 

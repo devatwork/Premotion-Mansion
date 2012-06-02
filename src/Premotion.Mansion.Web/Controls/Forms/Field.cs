@@ -1,5 +1,6 @@
 ﻿using System;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Templating;
 using Premotion.Mansion.Web.Controls.Forms.Validation;
@@ -88,7 +89,8 @@ namespace Premotion.Mansion.Web.Controls.Forms
 			// set the field value
 			Definition.Properties.Set("Value", GetValue(context));
 
-			// render the field);)
+			// render the field
+			using (context.Stack.Push("FieldControl", PropertyBagAdapterFactory.Adapt<Field>(context, this)))
 			using (templateService.Render(context, "FieldContainer"))
 				base.DoRender(context, templateService);
 		}

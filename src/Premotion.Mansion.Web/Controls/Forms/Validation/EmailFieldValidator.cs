@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
@@ -41,9 +42,8 @@ namespace Premotion.Mansion.Web.Controls.Forms.Validation
 		/// Constructs the validation rule.
 		/// </summary>
 		/// <param name="properties">The properties of this rule.</param>
-		public EmailFieldValidator(IPropertyBag properties) : base(properties)
+		public EmailFieldValidator(IEnumerable<KeyValuePair<string, object>> properties) : base(properties, "Does not contain a valid e-mail address.")
 		{
-			Properties.TrySet("message", DefaultValidationMessage);
 		}
 		#endregion
 		#region Overrides of ValidationRule<Field<string>>
@@ -62,16 +62,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Validation
 
 			// add the result
 			if (!emailRegularExpression.IsMatch(control.GetValue(context)))
-				results.AddResult(this, control);
-		}
-		#endregion
-		#region Overrides of ValidationRule
-		/// <summary>
-		/// Gets the default validation message of this rule.
-		/// </summary>
-		protected override sealed string DefaultValidationMessage
-		{
-			get { return "Does not contain a valid e-mail address."; }
+				results.AddResult(context, GetFormattedMessage(context), control);
 		}
 		#endregion
 	}

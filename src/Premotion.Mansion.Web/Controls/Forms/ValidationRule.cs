@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Forms
@@ -54,14 +56,23 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// Constructs the validation rule.
 		/// </summary>
 		/// <param name="properties">The properties of this rule.</param>
-		protected ValidationRule(IPropertyBag properties)
+		/// <param name="defaultMessage">The default validation message.</param>
+		protected ValidationRule(IEnumerable<KeyValuePair<string, object>> properties, string defaultMessage)
 		{
 			// validate arguments
 			if (properties == null)
 				throw new ArgumentNullException("properties");
+			if (string.IsNullOrEmpty(defaultMessage))
+				throw new ArgumentNullException("defaultMessage");
 
-			// set values
-			this.properties = properties;
+			// create a new property bag
+			this.properties = new PropertyBag
+			                  {
+			                  	{"message", defaultMessage}
+			                  };
+
+			// merge the other properties
+			this.properties.Merge(properties);
 		}
 		#endregion
 		#region Validation Methods
@@ -84,9 +95,7 @@ namespace Premotion.Mansion.Web.Controls.Forms
 			if (results == null)
 				throw new ArgumentNullException("results");
 
-			// set the default validation message when empty
-			Properties.TrySet("message", DefaultValidationMessage);
-
+			// invoke template method
 			DoValidate(context, form, control, results);
 		}
 		/// <summary>
@@ -98,18 +107,16 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// <param name="results">The <see cref="ValidationResults"/> containing the validation results.</param>
 		protected abstract void DoValidate(IMansionWebContext context, Form form, FormControl control, ValidationResults results);
 		#endregion
-		#region Properties
+		#region Message Methods
 		/// <summary>
-		/// Gets the properties of this rule.
+		/// Gets the message.
 		/// </summary>
-		public IPropertyBag Properties
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <returns>Returns the validation error message.</returns>
+		protected string GetFormattedMessage(IMansionContext context)
 		{
-			get { return properties; }
+			return properties.Get<string>(context, "message");
 		}
-		/// <summary>
-		/// Gets the default validation message of this rule.
-		/// </summary>
-		protected abstract string DefaultValidationMessage { get; }
 		#endregion
 		#region Private Fields
 		private readonly IPropertyBag properties;
@@ -126,7 +133,8 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// Constructs the validation rule.
 		/// </summary>
 		/// <param name="properties">The properties of this rule.</param>
-		protected ValidationRule(IPropertyBag properties) : base(properties)
+		/// <param name="defaultMessage">The default validation message.</param>
+		protected ValidationRule(IEnumerable<KeyValuePair<string, object>> properties, string defaultMessage) : base(properties, defaultMessage)
 		{
 		}
 		#endregion
