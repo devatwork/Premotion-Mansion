@@ -1,4 +1,4 @@
-namespace Premotion.Mansion.Web
+namespace Premotion.Mansion.Core
 {
 	/// <summary>
 	/// Defines constants for the application settings.

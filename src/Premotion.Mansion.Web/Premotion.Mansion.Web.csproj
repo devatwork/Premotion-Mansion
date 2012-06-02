@@ -44,7 +44,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationSettingsConstants.cs" />
     <Compile Include="Assets\AssetEntry.cs" />
     <Compile Include="Assets\AssetFolder.cs" />
     <Compile Include="Assets\AssetService.cs" />
