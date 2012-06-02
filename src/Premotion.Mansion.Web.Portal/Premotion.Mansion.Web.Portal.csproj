@@ -65,6 +65,7 @@
     <Compile Include="ScriptTags\RetrieveThemeNodeTag.cs" />
     <Compile Include="Service\IPortalService.cs" />
     <Compile Include="Service\PortalService.cs" />
+    <Compile Include="PortalApplicationBootstrapper.cs" />
     <Compile Include="Url\ContentUrlGenerator.cs" />
     <Compile Include="Web\Types\Page\PageLayoutChangeListener.cs" />
     <Compile Include="Web\Types\Page\PageThemeChangeListener.cs" />

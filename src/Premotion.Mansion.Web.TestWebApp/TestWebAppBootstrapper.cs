@@ -14,10 +14,7 @@ using Premotion.Mansion.Core.Types.Xml;
 using Premotion.Mansion.Web.Caching;
 using Premotion.Mansion.Web.Mail;
 using Premotion.Mansion.Web.Mail.Standard;
-using Premotion.Mansion.Web.Portal.Service;
 using Premotion.Mansion.Web.Security;
-using Premotion.Mansion.Web.Social;
-using Premotion.Mansion.Web.Social.Facebook;
 using Premotion.Mansion.Web.Url;
 
 namespace Premotion.Mansion.Web.TestWebApp
@@ -53,8 +50,6 @@ namespace Premotion.Mansion.Web.TestWebApp
 			nucleus.Register<IExpressionScriptService>(resolver => new ExpressionScriptService(resolver.Resolve<ExpressionPartInterpreter>(), resolver.ResolveSingle<ICachingService>()));
 			nucleus.Register<IMailService>(resolver => new StandardMailService());
 			nucleus.Register<INodeUrlService>(resolver => new NodeUrlService(resolver, resolver.ResolveSingle<ITypeService>()));
-			//nucleus.Register<IApplicationResourceService>(resolver => new WindowsApplicationResourceService(HttpRuntime.AppDomainAppPath, "Web", new[] {"/MansionWeb", "/MansionWebPortal", "/"}, resolver.Resolve<ResourcePathInterpreter>(), resolver.ResolveSingle<ICachingService>()));
-			nucleus.Register<IPortalService>(resolver => new PortalService(resolver.ResolveSingle<ICachingService>(), resolver.ResolveSingle<ITemplateService>()));
 			nucleus.Register<IApplicationResourceService>(resolver => new EmbeddedApplicationResourceService("Web", resolver.Resolve<ResourcePathInterpreter>(), resolver.ResolveSingle<IReflectionService>()));
 		}
 		#endregion
