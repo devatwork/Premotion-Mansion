@@ -5,11 +5,6 @@
 		<compilation targetFramework="4.0" />
 		<httpRuntime requestValidationMode="2.0" requestPathInvalidCharacters="" />
 	</system.web>
-	<appSettings>
-		<add key="APPLICATION_IS_LIVE" value="false" />
-		<add key="REPOSITORY_NAMESPACE" value="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.xsd" />
-		<add key="SQLSERVER_CONNECTION_STRING" value="TODO" />
-	</appSettings>
 	<system.webServer>
 		<modules>
 			<remove name="ContextFactoryModule" />

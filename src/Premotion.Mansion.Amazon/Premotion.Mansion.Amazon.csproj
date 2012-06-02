@@ -61,7 +61,7 @@
     <None Include="Premotion.Mansion.Amazon.symbols.nuspec" />
     <None Include="packages.config" />
     <None Include="Premotion.Mansion.Amazon.nuspec" />
-    <None Include="web.config.transform" />
+    <None Include="app.config.transform" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
