@@ -4,7 +4,7 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Clauses;
 using Premotion.Mansion.Core.Types;
-using Premotion.Mansion.Repository.SqlServer.Schemas.Descriptors;
+using Premotion.Mansion.Repository.SqlServer.Descriptors;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas
 {

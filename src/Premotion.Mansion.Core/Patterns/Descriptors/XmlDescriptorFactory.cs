@@ -54,6 +54,9 @@ namespace Premotion.Mansion.Core.Patterns.Descriptors
 				foreach (XmlAttribute attribute in element.Attributes)
 					properties.Set(attribute.LocalName, attribute.Value);
 			}
+			// get the content if any
+			if (element.HasChildNodes)
+				properties.Set("content", element.FirstChild.NodeType == XmlNodeType.CDATA ? element.FirstChild.InnerText : element.InnerText);
 
 			// create the descriptor instance
 			var descriptor = context.Nucleus.ResolveSingle<TDescriptor>(element.NamespaceURI, element.LocalName);

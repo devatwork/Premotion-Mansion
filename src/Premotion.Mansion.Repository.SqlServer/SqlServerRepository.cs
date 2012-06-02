@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using Premotion.Mansion.Core;
@@ -319,6 +320,48 @@ namespace Premotion.Mansion.Repository.SqlServer
 
 					// execute the bulk operation
 					bulkContext.Execute();
+
+					// woohoo it worked!
+					transaction.Commit();
+				}
+				catch (Exception)
+				{
+					// something terrible happened, revert everything
+					transaction.Rollback();
+					throw;
+				}
+			}
+		}
+		#endregion
+		#region Execute Methods
+		/// <summary>
+		/// Executes the <paramref name="query"/> within a transaction.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The query wich to execute.</param>
+		public void ExecuteWithTransaction(IMansionContext context, string query)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (string.IsNullOrEmpty(query))
+				throw new ArgumentNullException("query");
+
+			// create the connection and the transaction
+			using (var connection = CreateConnection())
+			using (var transaction = connection.BeginTransaction())
+			using (var command = connection.CreateCommand())
+			{
+				// prepare the command
+				command.Connection = connection;
+				command.Transaction = transaction;
+				command.CommandText = query;
+				command.CommandType = CommandType.Text;
+
+				// execute the command
+				try
+				{
+					command.ExecuteNonQuery();
 
 					// woohoo it worked!
 					transaction.Commit();

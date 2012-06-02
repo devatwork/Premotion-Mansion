@@ -16,5 +16,24 @@
 
 	<!-- url generator -->
 	<webdescriptors:nodeUrlGenerator type="Premotion.Mansion.Web.Url.SiteUrlGenerator,Premotion.Mansion.Web" />
+
+
+
+	<!-- database schema -->
+	<sqlserver:schema>
+		<![CDATA[-- NodesHostHeaders
+IF NOT EXISTS ( SELECT [name] FROM [sysobjects] WHERE [name] = 'NodesHostHeaders' AND [xtype] = 'U' )
+BEGIN
+	-- Create table
+	CREATE TABLE [dbo].[NodesHostHeaders] (
+		[id] [int] NOT NULL
+			CONSTRAINT [PK_NodesHostHeaders.id] PRIMARY KEY CLUSTERED([id],[value])
+			CONSTRAINT [FK_NodesHostHeaders_Nodes] FOREIGN KEY([id]) REFERENCES [dbo].[Nodes] ([id])
+				ON UPDATE CASCADE
+				ON DELETE CASCADE,
+		[value] [nvarchar](255) NOT NULL
+	);
+END]]>
+	</sqlserver:schema>
 	
 </type>

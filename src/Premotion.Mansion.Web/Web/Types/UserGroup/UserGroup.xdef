@@ -8,5 +8,24 @@
 	
 	<!-- specify cms behavior -->
 	<cms:behavior label="Group" icon="Types/UserGroup/UserGroup.png" />
+
+
+
+	<!-- database schema -->
+	<sqlserver:schema>
+		<![CDATA[-- NodesAssignedUserGuids
+IF NOT EXISTS ( SELECT [name] FROM [sysobjects] WHERE [name] = 'NodesAssignedUserGuids' AND [xtype] = 'U' )
+BEGIN
+	-- Create table
+	CREATE TABLE [dbo].[NodesAssignedUserGuids] (
+		[id] [int] NOT NULL
+			CONSTRAINT [PK_NodesAssignedUserGuids.id] PRIMARY KEY CLUSTERED([id],[value])
+			CONSTRAINT [FK_NodesAssignedUserGuids_Nodes] FOREIGN KEY([id]) REFERENCES [dbo].[Nodes] ([id])
+				ON UPDATE CASCADE
+				ON DELETE CASCADE,
+		[value] [uniqueidentifier] NOT NULL
+	);
+END]]>
+	</sqlserver:schema>
 	
 </type>

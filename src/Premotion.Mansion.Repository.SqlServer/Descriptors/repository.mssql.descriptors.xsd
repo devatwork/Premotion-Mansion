@@ -164,5 +164,14 @@
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
+	
+	
+	
+	<!-- schema descriptor -->
+	<xs:element name="schema" substitutionGroup="def:typeDescriptor" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>Describes the schema of the current type. The content of this descriptor is executed on EVERY application startup. Use it to create tables and indices.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 
 </xs:schema>

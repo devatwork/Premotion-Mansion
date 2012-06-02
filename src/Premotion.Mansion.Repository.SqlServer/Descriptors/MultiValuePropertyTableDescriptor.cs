@@ -2,14 +2,15 @@ using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Types;
+using Premotion.Mansion.Repository.SqlServer.Schemas;
 
-namespace Premotion.Mansion.Repository.SqlServer.Schemas.Descriptors
+namespace Premotion.Mansion.Repository.SqlServer.Descriptors
 {
 	/// <summary>
-	/// Describes a property table.
+	/// Describes a multi-value property table.
 	/// </summary>
-	[Named(typeof (TypeDescriptor), Constants.DescriptorNamespaceUri, "singleValuePropertyTable")]
-	public class SingleValuePropertyTableDescriptor : PropertyTableDescriptor
+	[Named(typeof (TypeDescriptor), Constants.DescriptorNamespaceUri, "multiValuePropertyTable")]
+	public class MultiValuePropertyTableDescriptor : PropertyTableDescriptor
 	{
 		#region Factory Methods
 		/// <summary>
@@ -32,7 +33,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas.Descriptors
 
 			// create or update the table
 			var tableName = Properties.Get<string>(context, "tableName");
-			schema.AddOrUpdateTable(tableName, () => new SingleValuePropertyTable(tableName, propertyName), table => { throw new InvalidOperationException(string.Format("Single value property tables can only be used once, see {0}.{1}", TypeDefinition.Name, propertyName)); }, isOwner);
+			schema.AddOrUpdateTable(tableName, () => new MultiValuePropertyTable(tableName).AddProperty(propertyName), table => table.AddProperty(propertyName), isOwner);
 		}
 		#endregion
 	}

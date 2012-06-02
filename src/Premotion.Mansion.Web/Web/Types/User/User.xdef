@@ -15,4 +15,25 @@
 	<!-- specify cms behavior -->
 	<cms:behavior label="User" icon="Types/User/User.png" />
 	
+	
+	
+	<!-- database schema -->
+	<sqlserver:schema>
+		<![CDATA[-- UserNodes
+IF NOT EXISTS ( SELECT [name] FROM [sysobjects] WHERE [name] = 'UserNodes' AND [xtype] = 'U' )
+BEGIN
+	-- Create table
+	CREATE TABLE [dbo].[UserNodes] (
+		[id] [int] NOT NULL
+			CONSTRAINT [PK_UserNodes.id] PRIMARY KEY CLUSTERED
+			CONSTRAINT [FK_UserNodes_Nodes] FOREIGN KEY( [id] ) REFERENCES [dbo].[Nodes] ([id])
+				ON UPDATE CASCADE
+				ON DELETE CASCADE,
+		[login] [nvarchar](255) NULL,
+		[password] [nvarchar](255) NULL,
+	);
+	-- Create indices
+	CREATE NONCLUSTERED INDEX [IX_UserNodes_authenticate] ON [dbo].[UserNodes] ([login],[password]);
+END]]></sqlserver:schema>
+	
 </type>

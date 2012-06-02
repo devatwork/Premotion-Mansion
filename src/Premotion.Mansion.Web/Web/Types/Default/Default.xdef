@@ -49,4 +49,92 @@
 	<listeners:register type="Premotion.Mansion.Web.Web.Types.Default.PropagateListener, Premotion.Mansion.Web" />
 	<listeners:register type="Premotion.Mansion.Web.Web.Types.Default.TagListener, Premotion.Mansion.Web" />
 	
+	
+	
+	<!-- schema -->
+	<sqlserver:schema>
+		<![CDATA[
+-- Nodes table		
+IF NOT EXISTS ( SELECT [name] FROM [sysobjects] WHERE [name] = 'Nodes' AND [xtype] = 'U' )
+BEGIN
+	-- Create table
+	CREATE TABLE [dbo].[Nodes]
+	(
+		[id] [int] IDENTITY(1,1) NOT NULL
+			CONSTRAINT [PK_Nodes.id] PRIMARY KEY CLUSTERED,
+		[guid] [uniqueidentifier] NOT NULL
+			CONSTRAINT [DF_Nodes.guid] DEFAULT newid()
+			CONSTRAINT [IX_Nodes_guid] UNIQUE NONCLUSTERED,
+		[name] [nvarchar](255) NOT NULL,
+		[type] [nvarchar](50) NOT NULL,
+		[parentId] [int] NULL,
+		[parentPointer] [nvarchar](255) NULL,
+		[parentPath] [varchar](max) NULL,
+		[parentStructure] [nvarchar](max) NULL,
+		[depth] [int] NOT NULL,
+		[order] [bigint] NOT NULL
+			CONSTRAINT [DF_Nodes_order] DEFAULT ((1)),
+		[created] [datetime] NOT NULL
+			CONSTRAINT [DF_Nodes_created] DEFAULT (getdate()),
+		[modified] [datetime] NOT NULL
+			CONSTRAINT [DF_Nodes_modified] DEFAULT (getdate()),
+		[key] [nvarchar](255) NULL,
+		[approved] [int] NOT NULL
+			CONSTRAINT [DF_Nodes_approved] DEFAULT ((1)),
+		[publicationDate] [datetime] NOT NULL
+			CONSTRAINT [DF_Nodes_publicationDate] DEFAULT (getdate()),
+		[expirationDate] [datetime] NOT NULL
+			CONSTRAINT [DF_Nodes_expirationDate] DEFAULT (dateadd(year,(10),getdate())),
+		[archived] [int] NOT NULL
+			CONSTRAINT [DF_Nodes_archived] DEFAULT ((0)),
+		[extendedProperties] [image] NULL
+	);
+	-- Create indices
+	CREATE NONCLUSTERED INDEX [IX_Nodes_name] ON [dbo].[Nodes] ([name]);
+	CREATE NONCLUSTERED INDEX [IX_Nodes_type] ON [dbo].[Nodes] ([type]);
+	CREATE NONCLUSTERED INDEX [IX_Nodes_childOf] ON [dbo].[Nodes] ([parentId],[parentPointer],[depth]);
+	CREATE NONCLUSTERED INDEX [IX_Nodes_parentId] ON [dbo].[Nodes] ([parentId]);
+	CREATE NONCLUSTERED INDEX [IX_Nodes_parentPointer] ON [dbo].[Nodes] ([parentPointer]);
+	CREATE NONCLUSTERED INDEX [IX_Nodes_depth] ON [dbo].[Nodes] ([depth]);
+	CREATE NONCLUSTERED INDEX [IX_Nodes_order] ON [dbo].[Nodes] ([order]);
+	CREATE NONCLUSTERED INDEX [IX_Nodes_key] ON [dbo].[Nodes] ([key]);
+	CREATE NONCLUSTERED INDEX [IX_Nodes_publicationStatus] ON [dbo].[Nodes] ([approved],[publicationDate],[expirationDate],[archived]);
+	CREATE NONCLUSTERED INDEX [IX_Nodes_approved] ON [dbo].[Nodes] ([approved]);
+	CREATE NONCLUSTERED INDEX [IX_Nodes_publicationDate] ON [dbo].[Nodes] ([publicationDate]);
+	CREATE NONCLUSTERED INDEX [IX_Nodes_expirationDate] ON [dbo].[Nodes] ([expirationDate]);
+	CREATE NONCLUSTERED INDEX [IX_Nodes_archived] ON [dbo].[Nodes] ([archived]);
+	-- Insert root node
+	SET IDENTITY_INSERT [dbo].[Nodes] ON;
+	INSERT INTO [dbo].[Nodes] ([id],[name],[type],[depth]) VALUES ('1', 'Root', 'root', '1');
+	SET IDENTITY_INSERT [dbo].[Nodes] OFF;
+END
+
+-- NodeAllowedRoleGuids
+IF NOT EXISTS ( SELECT [name] FROM [sysobjects] WHERE [name] = 'NodeAllowedRoleGuids' AND [xtype] = 'U' )
+BEGIN
+	-- Create table
+	CREATE TABLE [dbo].[NodeAllowedRoleGuids] (
+		[id] [int] NOT NULL
+			CONSTRAINT [PK_NodeAllowedRoleGuids.id] PRIMARY KEY CLUSTERED([id],[value])
+			CONSTRAINT [FK_NodeAllowedRoleGuids_Nodes] FOREIGN KEY([id]) REFERENCES [dbo].[Nodes] ([id])
+				ON UPDATE CASCADE
+				ON DELETE CASCADE,
+		[value] [uniqueidentifier] NOT NULL
+	);
+END
+
+-- NodeTagGuids
+IF NOT EXISTS ( SELECT [name] FROM [sysobjects] WHERE [name] = 'NodeTagGuids' AND [xtype] = 'U' )
+BEGIN
+	-- Create table
+	CREATE TABLE [dbo].[NodeTagGuids] (
+		[id] [int] NOT NULL
+			CONSTRAINT [PK_NodeTagGuids.id] PRIMARY KEY CLUSTERED([id],[value])
+			CONSTRAINT [FK_NodeTagGuids_Nodes] FOREIGN KEY([id]) REFERENCES [dbo].[Nodes] ([id])
+				ON UPDATE CASCADE
+				ON DELETE CASCADE,
+		[value] [uniqueidentifier] NOT NULL
+	);
+END]]></sqlserver:schema>
+	
 </type>

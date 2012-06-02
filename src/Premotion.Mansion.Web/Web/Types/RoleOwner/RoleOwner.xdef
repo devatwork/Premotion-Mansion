@@ -14,5 +14,40 @@
 	
 	<!-- specify cms behavior -->
 	<cms:behavior label="Role Owner" abstract="true" />
+
+
+
+	<!-- database schema -->
+	<sqlserver:schema>
+		<![CDATA[-- RoleOwnerNodes
+IF NOT EXISTS ( SELECT [name] FROM [sysobjects] WHERE [name] = 'RoleOwnerNodes' AND [xtype] = 'U' )
+BEGIN
+	-- Create table
+	CREATE TABLE [dbo].[RoleOwnerNodes] (
+		[id] [int] NOT NULL
+			CONSTRAINT [PK_RoleOwnerNodes.id] PRIMARY KEY CLUSTERED
+			CONSTRAINT [FK_RoleOwnerNodes_Nodes] FOREIGN KEY( [id] ) REFERENCES [dbo].[Nodes] ([id])
+				ON UPDATE CASCADE
+				ON DELETE CASCADE,
+		[foreignId] [nvarchar](255) NULL
+	);
+	-- Create indices
+	CREATE NONCLUSTERED INDEX [IX_RoleOwnerNodes_foreignId] ON [dbo].[RoleOwnerNodes] ([foreignId]);
+END
+
+-- NodesAssignedRoleGuids
+IF NOT EXISTS ( SELECT [name] FROM [sysobjects] WHERE [name] = 'NodesAssignedRoleGuids' AND [xtype] = 'U' )
+BEGIN
+	-- Create table
+	CREATE TABLE [dbo].[NodesAssignedRoleGuids] (
+		[id] [int] NOT NULL
+			CONSTRAINT [PK_NodesAssignedRoleGuids.id] PRIMARY KEY CLUSTERED([id],[value])
+			CONSTRAINT [FK_NodesAssignedRoleGuids_Nodes] FOREIGN KEY([id]) REFERENCES [dbo].[Nodes] ([id])
+				ON UPDATE CASCADE
+				ON DELETE CASCADE,
+		[value] [uniqueidentifier] NOT NULL
+	);
+END]]>
+	</sqlserver:schema>
 	
 </type>

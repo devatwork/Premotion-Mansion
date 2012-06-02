@@ -17,5 +17,24 @@
 
 	<!-- url generator -->
 	<webdescriptors:nodeUrlGenerator type="Premotion.Mansion.Web.Portal.Url.ContentUrlGenerator,Premotion.Mansion.Web.Portal" />
+
+
+
+	<!-- database schema -->
+	<sqlserver:schema>
+		<![CDATA[-- NodesAssociations
+IF NOT EXISTS ( SELECT [name] FROM [sysobjects] WHERE [name] = 'NodesAssociations' AND [xtype] = 'U' )
+BEGIN
+	-- Create table
+	CREATE TABLE [dbo].[NodesAssociations] (
+		[id] [int] NOT NULL
+			CONSTRAINT [PK_NodesAssociations.id] PRIMARY KEY CLUSTERED([id],[value])
+			CONSTRAINT [FK_NodesAssociations_Nodes] FOREIGN KEY([id]) REFERENCES [dbo].[Nodes] ([id])
+				ON UPDATE CASCADE
+				ON DELETE CASCADE,
+		[value] [uniqueidentifier] NOT NULL
+	);
+END]]>
+	</sqlserver:schema>
 	
 </type>

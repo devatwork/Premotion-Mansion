@@ -60,6 +60,7 @@
     <Compile Include="Converters\StatusClauseConverter.cs" />
     <Compile Include="Converters\TypeClauseConverter.cs" />
     <Compile Include="Converters\WhereClauseConverter.cs" />
+    <Compile Include="Descriptors\SchemaDescriptor.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="ModificationQueryBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,17 +70,18 @@
     <Compile Include="Queries\MoveQuery.cs" />
     <Compile Include="Queries\SelectQuery.cs" />
     <Compile Include="Queries\UpdateQuery.cs" />
+    <Compile Include="SchemaCreatorApplicationInitializer.cs" />
     <Compile Include="Schemas\BooleanPropertyColumn.cs" />
     <Compile Include="Schemas\Column.cs" />
     <Compile Include="Schemas\DateTimePropertyColumn.cs" />
-    <Compile Include="Schemas\Descriptors\BooleanColumnDescriptor.cs" />
-    <Compile Include="Schemas\Descriptors\ColumnDescriptor.cs" />
-    <Compile Include="Schemas\Descriptors\DateTimeColumnDescriptor.cs" />
-    <Compile Include="Schemas\Descriptors\MultiValuePropertyTableDescriptor.cs" />
-    <Compile Include="Schemas\Descriptors\PropertyTableDescriptor.cs" />
-    <Compile Include="Schemas\Descriptors\RootTypeTableDescriptor.cs" />
-    <Compile Include="Schemas\Descriptors\SingleValuePropertyTableDescriptor.cs" />
-    <Compile Include="Schemas\Descriptors\TypeTableDescriptor.cs" />
+    <Compile Include="Descriptors\BooleanColumnDescriptor.cs" />
+    <Compile Include="Descriptors\ColumnDescriptor.cs" />
+    <Compile Include="Descriptors\DateTimeColumnDescriptor.cs" />
+    <Compile Include="Descriptors\MultiValuePropertyTableDescriptor.cs" />
+    <Compile Include="Descriptors\PropertyTableDescriptor.cs" />
+    <Compile Include="Descriptors\RootTypeTableDescriptor.cs" />
+    <Compile Include="Descriptors\SingleValuePropertyTableDescriptor.cs" />
+    <Compile Include="Descriptors\TypeTableDescriptor.cs" />
     <Compile Include="Schemas\DummyColumn.cs" />
     <Compile Include="Schemas\ExtendedPropertiesColumn.cs" />
     <Compile Include="Schemas\IdentityColumn.cs" />
@@ -110,7 +112,7 @@
   <ItemGroup>
     <None Include="Premotion.Mansion.Repository.SqlServer.symbols.nuspec" />
     <None Include="Premotion.Mansion.Repository.SqlServer.nuspec" />
-    <None Include="Schemas\Descriptors\repository.mssql.descriptors.xsd">
+    <None Include="Descriptors\repository.mssql.descriptors.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Schemas\Schemas.cd" />

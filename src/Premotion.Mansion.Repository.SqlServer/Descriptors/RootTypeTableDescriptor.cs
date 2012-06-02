@@ -1,14 +1,15 @@
 using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Types;
+using Premotion.Mansion.Repository.SqlServer.Schemas;
 
-namespace Premotion.Mansion.Repository.SqlServer.Schemas.Descriptors
+namespace Premotion.Mansion.Repository.SqlServer.Descriptors
 {
 	/// <summary>
-	/// Describes a type table.
+	/// Describes the root type table.
 	/// </summary>
-	[TypeDescriptor(Constants.DescriptorNamespaceUri, "typeTable")]
-	public class TypeTableDescriptor : TypeDescriptor
+	[TypeDescriptor(Constants.DescriptorNamespaceUri, "rootTypeTable")]
+	public class RootTypeTableDescriptor : TypeTableDescriptor
 	{
 		#region Factory Methods
 		/// <summary>
@@ -17,7 +18,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas.Descriptors
 		/// <param name="context"></param>
 		/// <param name="schema"></param>
 		/// <returns></returns>
-		public virtual Table Create(IMansionContext context, Schema schema)
+		public override Table Create(IMansionContext context, Schema schema)
 		{
 			// validate arguments
 			if (context == null)
@@ -27,7 +28,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas.Descriptors
 
 			// create the type table
 			var tableName = Properties.Get<string>(context, "tableName");
-			return new TypeTable(tableName);
+			return new RootTable(tableName);
 		}
 		#endregion
 	}
