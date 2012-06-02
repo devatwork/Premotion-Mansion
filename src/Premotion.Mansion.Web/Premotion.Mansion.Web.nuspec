@@ -26,6 +26,7 @@
 	<files>
 		<file src="bin\Premotion.Mansion.Web.dll" target="lib\net40" />
 		<file src="bin\Premotion.Mansion.Web.xml" target="lib\net40" />
+		<file src="**\*.xsd" target="content\Schemas" />
 		<file src="web.config.transform" target="content" />
 	</files>
 </package>
