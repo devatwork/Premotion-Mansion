@@ -16,10 +16,20 @@
 				siteGuids="{SiteNode.guid}"
 				taxonomyGuids="{NotEmpty( BlockProperties.taxonomyGuids, PageProperties.taxonomyGuids )}"
 				tagGuids="{NotEmpty( BlockProperties.tagGuids, PageProperties.tagGuids )}"
-				limit="{If( IsEqual( BlockProperties.limitType, 'limit' ), BlockProperties.limit )}"
-				pageNumber="{If( IsEqual( BlockProperties.limitType, 'paging' ), GetControlPropertyValue( Concat( 'block-', BlockProperties.id ), 'page-number', '1' ) )}"
-				pageSize="{If( IsEqual( BlockProperties.limitType, 'paging' ), GetControlPropertyValue( Concat( 'block-', BlockProperties.id ), 'page-size', BlockProperties.pageSize ) )}"
-				/>
+				limit="{If( IsEqual( BlockProperties.limitType, 'limit' ), BlockProperties.limit )}" />
+			
+			<!-- determine limit -->
+			<switch condition="{BlockProperties.limitType}">
+				<case value="limit">
+					<setProperties dataspaceName="Filter" limit="{BlockProperties.limit}" />
+				</case>
+				<case value="paging">
+					<setProperties
+						dataspaceName="Filter"
+						pageNumber="{If( IsEqual( BlockProperties.limitType, 'paging' ), GetControlPropertyValue( Concat( 'block-', BlockProperties.id ), 'page-number', '1' ) )}"
+						pageSize="{If( IsEqual( BlockProperties.limitType, 'paging' ), GetControlPropertyValue( Concat( 'block-', BlockProperties.id ), 'page-size', BlockProperties.pageSize ) )}" />
+				</case>
+			</switch>
 			
 			<!-- allow derived blocks to add additional filters-->
 			<invokeProcedure procedureName="PrepareFilter" checkExists="false" />
