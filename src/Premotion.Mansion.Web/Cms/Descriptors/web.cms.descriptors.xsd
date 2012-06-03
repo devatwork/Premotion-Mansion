@@ -25,7 +25,7 @@
 		</xs:attribute>
 		<xs:attribute name="allowedExpression" type="xs:string" use="optional">
 			<xs:annotation>
-				<xs:documentation>Optional epxression to check at runtime whether this type is allowed. Default is allowed.</xs:documentation>
+				<xs:documentation>Optional epxression to check at runtime whether the candidate type is allowed or not. The candidate type is available in the Candidate.type property.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>

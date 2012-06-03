@@ -1,5 +1,6 @@
 using System;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.IO.Memory;
 using Premotion.Mansion.Core.Scripting;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
@@ -100,7 +101,11 @@ namespace Premotion.Mansion.Web.Cms.Model
 				return true;
 
 			// execute the expression
-			return IsAllowedExpression.Execute<bool>(context);
+			using (context.Stack.Push("Candidate", new PropertyBag
+			                                       {
+			                                       	{"type", Type}
+			                                       }))
+				return IsAllowedExpression.Execute<bool>(context);
 		}
 		#endregion
 		#region Properties
