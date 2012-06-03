@@ -10,7 +10,7 @@
 
 
 <!-- maintenance toolbars -->
-<tpl:section name="BlockToolbar" requires="{HasPortalAdminPermission()}">
+<tpl:section name="BlockToolbar" requires="{And( HasPortalAdminPermission(), Not( IsTrue( BlockProperties._readonly ) ) )}">
 	<div class="block-toolbar">
 		<a href="{RouteUrl( 'Portal', 'ConfigureBlock', BlockProperties.id )}" class="hide-text command configure" title="Configure this block">Configure</a>
 		<span class="hide-text command move" title="Move this block">Move</span>
