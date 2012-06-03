@@ -10,7 +10,7 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 	public class StringToDateTimeConverter : ConverterBase<string, DateTime>
 	{
 		#region Constants
-		private static readonly string[] formats = new[] {"r", "U", "f", "F", "d", "D", "yyyy-MM-dd", "yyyy/MM/dd", "dd-MM-yyyy", "d MMMM yyyy"};
+		private static readonly string[] formats = new[] {"r", "U", "f", "F", "d", "D", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy/MM/dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM/dd", "dd-MM-yyyy HH:mm:ss", "dd-MM-yyyy HH:mm", "dd-MM-yyyy", "d MMMM yyyy HH:mm:ss", "d MMMM yyyy HH:mm", "d MMMM yyyy"};
 		#endregion
 		#region Overrides of ConverterBase<string,DateTime>
 		/// <summary>
