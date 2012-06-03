@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<type inherits="Block" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:portal="http://schemas.premotion.nl/mansion/1.0/web/portal/descriptors.xsd">
+
+	<!-- specify cms behavior -->
+	<cms:behavior label="Shared block display" icon="Types/Block/Block.png" />
+	
+	<!-- specify the block behavior -->
+	<portal:sharedBlockDisplayBehavior />
+
+</type>

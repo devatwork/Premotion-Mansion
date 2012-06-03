@@ -4,6 +4,7 @@
 	<!-- Renders the xForm content -->
 	<declareProcedure procedureName="RenderXFormContent">
 		<invokeProcedure procedureName="IncludeGroupBlockProperties" />
+		<invokeProcedure procedureName="IncludeGroupLookAndFeel" />
 		<invokeProcedure procedureName="IncludeGroupColumn" />
 		<invokeProcedure procedureName="IncludeGroupPublication"/>
 		<invokeProcedure procedureName="IncludeGroupIdentity"/>
@@ -20,7 +21,12 @@
 			</forms:textbox>
 			<invokeProcedure procedureName="IncludeBlockConfiguration" checkExists="false" />
 		</forms:fieldset>
+	</declareProcedure>
 
+	
+	
+	<!-- Renders the look and feel properties of this block -->
+	<declareProcedure procedureName="IncludeGroupLookAndFeel">
 		<!-- Look & feel of the block -->
 		<forms:fieldset label="Look &amp; Feel">
 			<forms:selectbox name="borderStyle" label="Border type">
@@ -36,7 +42,6 @@
 				<forms:requiredFieldValidator/>
 			</forms:selectbox>
 		</forms:fieldset>
-		
 	</declareProcedure>
 	
 		<!-- Get the border options for this block -->

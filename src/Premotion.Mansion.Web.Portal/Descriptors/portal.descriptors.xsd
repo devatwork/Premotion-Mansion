@@ -21,28 +21,22 @@
 		</xs:complexType>
 	</xs:element>
 
-	
-	
-	<!-- default block behavior descriptor -->
 	<xs:element name="defaultBlockBehavior" substitutionGroup="def:typeDescriptor">
 		<xs:annotation>
 			<xs:documentation>Defines the default behavior of this block. Only applicable for types inheriting from Block.</xs:documentation>
 		</xs:annotation>
-
-		<xs:complexType>
-			<!-- attributes -->
-		</xs:complexType>
 	</xs:element>
 
-	<!-- delayed rendering block behavior descriptor -->
 	<xs:element name="delayedRenderingBlockBehavior" substitutionGroup="def:typeDescriptor">
 		<xs:annotation>
 			<xs:documentation>Defines the delayed rendering behavior of this block. Use for personalized blocks. Only applicable for types inheriting from Block.</xs:documentation>
 		</xs:annotation>
+	</xs:element>
 
-		<xs:complexType>
-			<!-- attributes -->
-		</xs:complexType>
+	<xs:element name="sharedBlockDisplayBehavior" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>Specifies the shared block display behavior on this block. This behavior merges the block properties with a target block. Do not use this behavior directly.</xs:documentation>
+		</xs:annotation>
 	</xs:element>
 
 </xs:schema>

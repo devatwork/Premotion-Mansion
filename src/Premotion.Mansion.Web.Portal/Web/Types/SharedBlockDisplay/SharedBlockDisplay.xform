@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd" xmlns:portal="http://schemas.premotion.nl/mansion/1.0/web/portal/tags.xsd">
+
+	<!-- block configuration -->
+	<declareProcedure procedureName="IncludeBlockConfiguration">
+		<invokeProcedure procedureName="IncludeGroupSelectBlock" />
+	</declareProcedure>
+	
+		<!-- Group: Content source -->
+		<declareProcedure procedureName="IncludeGroupSelectBlock">
+			<forms:fieldset label="Display block">
+				<forms:infoMessage>Select the block which to display.</forms:infoMessage>
+				<forms:nodeTreeSelect name="blockGuid" label="Block">
+					<retrieveChildNode parentSource="{$ContentIndexRootNode}" baseType="SharedBlockIndex" target="SharedBlockIndexNode">
+						<providers:nodeTreeProvider rootPointer="{SharedBlockIndexNode.pointer}" valueProperty="guid" labelProperty="name" />
+					</retrieveChildNode>
+					<forms:requiredFieldValidator />
+				</forms:nodeTreeSelect>
+			</forms:fieldset>
+		</declareProcedure>
+
+</mansion>

@@ -7,6 +7,7 @@
 		<cms:childType baseType="Taxonomy" />
 		<cms:childType baseType="TagIndex" />
 		<cms:childType baseType="RegistrationIndex" />
+		<cms:childType baseType="SharedBlockIndex" />
 	</cms:behavior>
 	
 </type>

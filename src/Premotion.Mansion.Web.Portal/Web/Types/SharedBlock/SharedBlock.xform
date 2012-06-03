@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd" xmlns:portal="http://schemas.premotion.nl/mansion/1.0/web/portal/tags.xsd">
+
+	<!-- block configuration -->
+	<declareProcedure procedureName="IncludeBlockConfiguration">
+		<invokeProcedure procedureName="IncludeGroupSelectBlock" />
+	</declareProcedure>
+	
+		<!-- Group: Content source -->
+		<declareProcedure procedureName="IncludeGroupSelectBlock">
+			<forms:fieldset label="Display block">
+				<forms:infoMessage>Select the block which to display.</forms:infoMessage>
+				<forms:nodeTreeSelect name="blockGuid" label="Block">
+					<retrieveChildNode parentSource="{$ContentIndexRootNode}" baseType="SharedBlockIndex" target="SharedBlockIndexNode">
+						<providers:nodeTreeProvider rootPointer="{SharedBlockIndexNode.pointer}" valueProperty="guid" labelProperty="name" disabledExpression="{\Not( IsAssignable( Node.type, 'SharedBlock' ) )}" />
+					</retrieveChildNode>
+					<forms:requiredFieldValidator />
+				</forms:nodeTreeSelect>
+			</forms:fieldset>
+		</declareProcedure>
+	
+	<!-- Override of Block.xform: IncludeGroupColumn -->
+	<declareProcedure procedureName="IncludeGroupColumn">
+		<!-- shared blocks do not have a column -->
+	</declareProcedure>
+	
+	<!-- Override of Block.xform: IncludeGroupLookAndFeel -->
+	<declareProcedure procedureName="IncludeGroupLookAndFeel">
+		<!-- shared blocks do not have look or feel -->
+	</declareProcedure>
+
+</mansion>

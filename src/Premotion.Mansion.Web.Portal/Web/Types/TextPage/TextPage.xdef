@@ -3,7 +3,7 @@
 
 	<!-- specify cms behavior -->
 	<cms:behavior label="Tekstpagina" icon="Types/TextPage/TextPage.png">
-		<cms:childType baseType="Block" />
+		<cms:childType baseType="Block" allowedExpression="{Not( IsAssignable( Candidate.type, 'SharedBlock' ) )}" />
 	</cms:behavior>
 	
 </type>

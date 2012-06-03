@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<type inherits="DefaultIndex" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd">
+	
+	<!-- specify cms behavior -->
+	<cms:behavior label="Shared blocks">
+		<cms:childType baseType="SharedBlockIndex" />
+		<cms:childType baseType="SharedBlock" />
+	</cms:behavior>
+	
+</type>

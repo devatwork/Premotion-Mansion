@@ -49,6 +49,7 @@
     <Compile Include="Descriptors\ColumnSchemaDescriptor.cs" />
     <Compile Include="Descriptors\DefaultBlockBehaviorDescriptor.cs" />
     <Compile Include="Descriptors\DelayedRenderingBlockBehaviorDescriptor.cs" />
+    <Compile Include="Descriptors\SharedBlockDisplayBehaviorDescriptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptFunctions\HasPortalAdminPermission.cs" />
     <Compile Include="ScriptFunctions\RenderBlock.cs" />
@@ -172,6 +173,11 @@
     <EmbeddedResource Include="Web\Types\RelatedContentListBlock\RelatedContentListBlock.xform" />
     <EmbeddedResource Include="Web\Types\RelatedContentListBlock\RelatedContentListBlock.xinclude" />
     <EmbeddedResource Include="Web\Types\Root\Root.xdef" />
+    <EmbeddedResource Include="Web\Types\SharedBlockDisplay\SharedBlockDisplay.xform" />
+    <EmbeddedResource Include="Web\Types\SharedBlockIndex\SharedBlockIndex.xdef" />
+    <EmbeddedResource Include="Web\Types\SharedBlockDisplay\SharedBlockDisplay.xdef" />
+    <EmbeddedResource Include="Web\Types\SharedBlock\SharedBlock.xdef" />
+    <EmbeddedResource Include="Web\Types\SharedBlock\SharedBlock.xform" />
     <EmbeddedResource Include="Web\Types\Site\Site.xdef" />
     <EmbeddedResource Include="Web\Types\Site\Site.xform" />
     <EmbeddedResource Include="Web\Types\TaxonomyCategory\TaxonomyCategory.png" />
@@ -216,6 +222,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Web\Types\ConfigurationPanel\ConfigurationPanel.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
