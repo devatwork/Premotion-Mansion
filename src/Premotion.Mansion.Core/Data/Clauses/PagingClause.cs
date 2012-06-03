@@ -45,10 +45,10 @@ namespace Premotion.Mansion.Core.Data.Clauses
 
 				// check the input
 				string pageNumberString;
-				if (!input.TryGetAndRemove(context, "pageNumber", out pageNumberString) || string.IsNullOrEmpty(pageNumberString) || !pageNumberString.IsNumber())
-					yield break;
+				var hasPageNumber = !(input.TryGetAndRemove(context, "pageNumber", out pageNumberString) || string.IsNullOrEmpty(pageNumberString) || !pageNumberString.IsNumber());
 				string pageSizeString;
-				if (!input.TryGetAndRemove(context, "pageSize", out pageSizeString) || string.IsNullOrEmpty(pageSizeString) || !pageSizeString.IsNumber())
+				var hasPageSize = !(input.TryGetAndRemove(context, "pageSize", out pageSizeString) || string.IsNullOrEmpty(pageSizeString) || !pageSizeString.IsNumber());
+				if (!(hasPageNumber && hasPageSize))
 					yield break;
 
 				// get the values
