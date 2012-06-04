@@ -698,6 +698,21 @@
     <EmbeddedResource Include="Web\Cms\js\cms.js" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Web\Controls\Images\Treeview\treeview-default.gif" />
+    <EmbeddedResource Include="Web\Controls\Images\Treeview\treeview-default-line.gif" />
+    <EmbeddedResource Include="Web\Controls\Images\Treeview\ajax-loader.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap-responsive.css" />
+    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap-responsive.min.css" />
+    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap.css" />
+    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap.min.css" />
+    <EmbeddedResource Include="Web\Shared\css\img\glyphicons-halflings-white.png" />
+    <EmbeddedResource Include="Web\Shared\css\img\glyphicons-halflings.png" />
+    <EmbeddedResource Include="Web\Shared\js\bootstrap\bootstrap.js" />
+    <EmbeddedResource Include="Web\Shared\js\bootstrap\bootstrap.min.js" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
     <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
     <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-bg_flat_10_000000_40x100.png" />
@@ -712,21 +727,6 @@
     <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-icons_ef8c08_256x240.png" />
     <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-icons_ffd27a_256x240.png" />
     <EmbeddedResource Include="Web\Shared\css\jquery\images\ui-icons_ffffff_256x240.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Web\Controls\Images\Treeview\treeview-default.gif" />
-    <EmbeddedResource Include="Web\Controls\Images\Treeview\treeview-default-line.gif" />
-    <EmbeddedResource Include="Web\Controls\Images\Treeview\ajax-loader.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap-responsive.css" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap-responsive.min.css" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap.css" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap.min.css" />
-    <EmbeddedResource Include="Web\Shared\css\img\glyphicons-halflings-white.png" />
-    <EmbeddedResource Include="Web\Shared\css\img\glyphicons-halflings.png" />
-    <EmbeddedResource Include="Web\Shared\js\bootstrap\bootstrap.js" />
-    <EmbeddedResource Include="Web\Shared\js\bootstrap\bootstrap.min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
