@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+
+	<!-- render the theme -->
+	<declareProcedure procedureName="RenderTheme">
+
+		<!-- render the theme -->
+		<renderSection name="Theme">
+
+			<!-- render the layout -->
+			<invokeProcedure procedureName="RenderLayout" />
+
+		</renderSection>
+
+	</declareProcedure>
+
+</mansion>

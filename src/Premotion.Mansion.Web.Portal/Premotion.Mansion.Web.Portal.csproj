@@ -128,6 +128,9 @@
     <EmbeddedResource Include="Web\Types\Content\Content.xform" />
     <EmbeddedResource Include="Web\Types\Content\Content.xinclude" />
     <EmbeddedResource Include="Web\Types\ConfigurationPanelEntry\ConfigurationPanelEntry.xdef" />
+    <EmbeddedResource Include="Web\Types\DefaultTheme\DefaultTheme.tpl" />
+    <EmbeddedResource Include="Web\Types\DefaultTheme\DefaultTheme.xdef" />
+    <EmbeddedResource Include="Web\Types\DefaultTheme\DefaultTheme.xinclude" />
     <EmbeddedResource Include="Web\Types\Default\Default.xform" />
     <EmbeddedResource Include="Web\Types\EditorialBlock\EditorialBlock.tpl" />
     <EmbeddedResource Include="Web\Types\EditorialBlock\EditorialBlock.xdef" />
@@ -222,7 +225,10 @@
   <ItemGroup>
     <EmbeddedResource Include="Web\Types\ConfigurationPanel\ConfigurationPanel.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Web\Types\DefaultTheme\css\theme.css" />
+    <Content Include="Web\Types\DefaultTheme\js\script.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
