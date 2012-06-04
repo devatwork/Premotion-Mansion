@@ -2,7 +2,7 @@
  * CKFinder
  * ========
  * http://ckfinder.com
- * Copyright (C) 2007-2011, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (C) 2007-2012, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file, and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -153,6 +153,7 @@ CKFinder.lang['lv'] =
 	UploadLabel			: 'Files to Upload', // MISSING
 	UploadTotalFiles	: 'Total Files:', // MISSING
 	UploadTotalSize		: 'Total Size:', // MISSING
+	UploadSend			: 'Augšupielādēt',
 	UploadAddFiles		: 'Add Files', // MISSING
 	UploadClearFiles	: 'Clear Files', // MISSING
 	UploadCancel		: 'Cancel Upload', // MISSING
@@ -174,6 +175,7 @@ CKFinder.lang['lv'] =
 	SetSortName		: 'pēc Faila Nosaukuma',
 	SetSortDate		: 'pēc Datuma',
 	SetSortSize		: 'pēc Izmēra',
+	SetSortExtension		: 'by Extension', // MISSING
 
 	// Status Bar
 	FilesCountEmpty : '<Tukša mape>',
@@ -181,8 +183,10 @@ CKFinder.lang['lv'] =
 	FilesCountMany	: '%1 faili',
 
 	// Size and Speed
-	Kb				: '%1 kB',
-	KbPerSecond		: '%1 kB/s',
+	Kb				: '%1 KB',
+	Mb				: '%1 MB',
+	Gb				: '%1 GB',
+	SizePerSecond	: '%1/s',
 
 	// Connector Error Messages.
 	ErrorUnknown	: 'Nebija iespējams pabeigt pieprasījumu. (Kļūda %1)',
@@ -268,5 +272,10 @@ CKFinder.lang['lv'] =
 	{
 		maximize : 'Maximize', // MISSING
 		minimize : 'Minimize' // MISSING
+	},
+
+	Gallery :
+	{
+		current : 'Image {current} of {total}' // MISSING
 	}
 };

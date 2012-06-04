@@ -2,7 +2,7 @@
  * CKFinder
  * ========
  * http://ckfinder.com
- * Copyright (C) 2007-2011, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (C) 2007-2012, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file, and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -13,10 +13,9 @@
 
 /**
  * @fileOverview Defines the {@link CKFinder.lang} object, for the Turkish
- *		language. This is the base file for all translations.
+ *		language.
  *
- *	Turkish translation by Abdullah M CEYLAN a.k.a. Kenan Balamir.
- * Last updated: 26-07-2011
+ *	Turkish translation by Abdullah M CEYLAN a.k.a. Kenan Balamir. Updated.
  */
 
 /**
@@ -153,16 +152,17 @@ CKFinder.lang['tr'] =
 	UploadExtIncorrect	: 'Bu dosya uzantısına, bu klasörde izin verilmiyor.',
 
 	// Flash Uploads
-	UploadLabel			: 'Files to Upload', // MISSING
-	UploadTotalFiles	: 'Total Files:', // MISSING
-	UploadTotalSize		: 'Total Size:', // MISSING
-	UploadAddFiles		: 'Add Files', // MISSING
-	UploadClearFiles	: 'Clear Files', // MISSING
-	UploadCancel		: 'Cancel Upload', // MISSING
-	UploadRemove		: 'Remove', // MISSING
-	UploadRemoveTip		: 'Remove !f', // MISSING
-	UploadUploaded		: 'Uploaded !n%', // MISSING
-	UploadProcessing	: 'Processing...', // MISSING
+	UploadLabel			: 'Gönderilecek Dosyalar',
+	UploadTotalFiles	: 'Toplam Dosyalar:',
+	UploadTotalSize		: 'Toplam Büyüklük:',
+	UploadSend			: 'Yükle',
+	UploadAddFiles		: 'Dosyaları Ekle',
+	UploadClearFiles	: 'Dosyaları Temizle',
+	UploadCancel		: 'Göndermeyi İptal Et',
+	UploadRemove		: 'Sil',
+	UploadRemoveTip		: '!f sil',
+	UploadUploaded		: '!n% gönderildi',
+	UploadProcessing	: 'Gönderiliyor...',
 
 	// Settings Panel
 	SetTitle		: 'Ayarlar',
@@ -177,6 +177,7 @@ CKFinder.lang['tr'] =
 	SetSortName		: 'Dosya adına göre',
 	SetSortDate		: 'Tarihe göre',
 	SetSortSize		: 'Boyuta göre',
+	SetSortExtension		: 'Uzantısına göre',
 
 	// Status Bar
 	FilesCountEmpty : '<Klasörde Dosya Yok>',
@@ -184,8 +185,10 @@ CKFinder.lang['tr'] =
 	FilesCountMany	: '%1 dosya',
 
 	// Size and Speed
-	Kb				: '%1 kB',
-	KbPerSecond		: '%1 kB/s',
+	Kb				: '%1 KB',
+	Mb				: '%1 MB',
+	Gb				: '%1 GB',
+	SizePerSecond	: '%1/sn',
 
 	// Connector Error Messages.
 	ErrorUnknown	: 'İsteğinizi yerine getirmek mümkün değil. (Hata %1)',
@@ -228,9 +231,9 @@ CKFinder.lang['tr'] =
 		FolderInvChar	: 'Klasör adının içermesi mümkün olmayan karakterler: \n\\ / : * ? " < > |',
 
 		PopupBlockView	: 'Dosyayı yeni pencerede açmak için, tarayıcı ayarlarından bu sitenin açılır pencerelerine izin vermeniz gerekiyor.',
-		XmlError		: 'It was not possible to properly load the XML response from the web server.', // MISSING
-		XmlEmpty		: 'It was not possible to load the XML response from the web server. The server returned an empty response.', // MISSING
-		XmlRawResponse	: 'Raw response from the server: %s' // MISSING
+		XmlError		: 'Web sunucusundan XML yanıtı düzgün bir şekilde yüklenemedi.',
+		XmlEmpty		: 'Web sunucusundan XML yanıtı düzgün bir şekilde yüklenemedi. Sunucudan boş cevap döndü.',
+		XmlRawResponse	: 'Sunucudan gelen ham mesaj: %s'
 	},
 
 	// Imageresize plugin
@@ -253,8 +256,8 @@ CKFinder.lang['tr'] =
 		noExtensionChange : 'Dosya uzantısı değiştirilemedi.',
 		imageSmall		: 'Kaynak resim çok küçük',
 		contextMenuName	: 'Boyutlandır',
-		lockRatio		: 'Lock ratio', // MISSING
-		resetSize		: 'Reset size' // MISSING
+		lockRatio		: 'Oranı kilitle',
+		resetSize		: 'Büyüklüğü sıfırla'
 	},
 
 	// Fileeditor plugin
@@ -269,7 +272,12 @@ CKFinder.lang['tr'] =
 
 	Maximize :
 	{
-		maximize : 'Maximize', // MISSING
-		minimize : 'Minimize' // MISSING
+		maximize : 'Büyült',
+		minimize : 'Küçült'
+	},
+
+	Gallery :
+	{
+		current : '{current} / {total} resim'
 	}
 };

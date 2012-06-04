@@ -2,7 +2,7 @@
  * CKFinder
  * ========
  * http://ckfinder.com
- * Copyright (C) 2007-2011, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (C) 2007-2012, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file, and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -153,6 +153,7 @@ CKFinder.lang['et'] =
 	UploadLabel			: 'Üleslaaditavad failid',
 	UploadTotalFiles	: 'Faile kokku:',
 	UploadTotalSize		: 'Kogusuurus:',
+	UploadSend			: 'Laadi üles',
 	UploadAddFiles		: 'Lisa faile',
 	UploadClearFiles	: 'Eemalda failid',
 	UploadCancel		: 'Katkesta üleslaadimine',
@@ -174,6 +175,7 @@ CKFinder.lang['et'] =
 	SetSortName		: 'faili nime järgi',
 	SetSortDate		: 'kuupäeva järgi',
 	SetSortSize		: 'suuruse järgi',
+	SetSortExtension		: 'laiendi järgi',
 
 	// Status Bar
 	FilesCountEmpty : '<tühi kaust>',
@@ -181,8 +183,10 @@ CKFinder.lang['et'] =
 	FilesCountMany	: '%1 faili',
 
 	// Size and Speed
-	Kb				: '%1 kB',
-	KbPerSecond		: '%1 kB/s',
+	Kb				: '%1 KB',
+	Mb				: '%1 MB',
+	Gb				: '%1 GB',
+	SizePerSecond	: '%1/s',
 
 	// Connector Error Messages.
 	ErrorUnknown	: 'Päringu täitmine ei olnud võimalik. (Viga %1)',
@@ -268,5 +272,10 @@ CKFinder.lang['et'] =
 	{
 		maximize : 'Maksimeeri',
 		minimize : 'Minimeeri'
+	},
+
+	Gallery :
+	{
+		current : 'Pilt {current}, kokku {total}'
 	}
 };

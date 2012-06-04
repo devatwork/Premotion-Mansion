@@ -2,7 +2,7 @@
  * CKFinder
  * ========
  * http://ckfinder.com
- * Copyright (C) 2007-2011, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (C) 2007-2012, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file, and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -153,6 +153,7 @@ CKFinder.lang['es-mx'] =
 	UploadLabel			: 'Archivos a subir',
 	UploadTotalFiles	: 'Total de archivos:',
 	UploadTotalSize		: 'Tamaño total:',
+	UploadSend			: 'Añadir',
 	UploadAddFiles		: 'Añadir archivos',
 	UploadClearFiles	: 'Borrar archivos',
 	UploadCancel		: 'Cancelar subida',
@@ -174,6 +175,7 @@ CKFinder.lang['es-mx'] =
 	SetSortName		: 'por Nombre',
 	SetSortDate		: 'por Fecha',
 	SetSortSize		: 'por Tamaño',
+	SetSortExtension		: 'por Extensión',
 
 	// Status Bar
 	FilesCountEmpty : '<Carpeta vacía>',
@@ -181,8 +183,10 @@ CKFinder.lang['es-mx'] =
 	FilesCountMany	: '%1 archivos',
 
 	// Size and Speed
-	Kb				: '%1 kB',
-	KbPerSecond		: '%1 kB/s',
+	Kb				: '%1 KB',
+	Mb				: '%1 MB',
+	Gb				: '%1 GB',
+	SizePerSecond	: '%1/s',
 
 	// Connector Error Messages.
 	ErrorUnknown	: 'No ha sido posible completar la solicitud. (Error %1)',
@@ -268,5 +272,10 @@ CKFinder.lang['es-mx'] =
 	{
 		maximize : 'Maximizar',
 		minimize : 'Minimizar'
+	},
+
+	Gallery :
+	{
+		current : 'Imagen {current} de {total}'
 	}
 };

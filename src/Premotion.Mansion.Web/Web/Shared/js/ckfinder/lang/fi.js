@@ -2,7 +2,7 @@
  * CKFinder
  * ========
  * http://ckfinder.com
- * Copyright (C) 2007-2011, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (C) 2007-2012, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file, and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -154,6 +154,7 @@ CKFinder.lang['fi'] =
 	UploadLabel			: 'Ladattavat tiedostot',
 	UploadTotalFiles	: 'Tiedostoja yhteensä:',
 	UploadTotalSize		: 'Yhteenlaskettu tiedostokoko:',
+	UploadSend			: 'Lataa palvelimelle',
 	UploadAddFiles		: 'Lisää tiedostoja',
 	UploadClearFiles	: 'Poista tiedostot',
 	UploadCancel		: 'Peru lataus',
@@ -175,6 +176,7 @@ CKFinder.lang['fi'] =
 	SetSortName		: 'aakkosjärjestykseen',
 	SetSortDate		: 'päivämäärän mukaan',
 	SetSortSize		: 'tiedostokoon mukaan',
+	SetSortExtension		: 'tiedostopäätteen mukaan',
 
 	// Status Bar
 	FilesCountEmpty : '<Tyhjä kansio>',
@@ -183,7 +185,9 @@ CKFinder.lang['fi'] =
 
 	// Size and Speed
 	Kb				: '%1 kt',
-	KbPerSecond		: '%1 kt/s',
+	Mb				: '%1 Mt',
+	Gb				: '%1 Gt',
+	SizePerSecond	: '%1/s',
 
 	// Connector Error Messages.
 	ErrorUnknown	: 'Pyyntöä ei voitu suorittaa. (Virhe %1)',
@@ -226,9 +230,9 @@ CKFinder.lang['fi'] =
 		FolderInvChar	: 'Kansionimi ei voi sisältää seuraavia merkkejä: \n\\ / : * ? " < > |',
 
 		PopupBlockView	: 'Tiedostoa ei voitu avata uuteen ikkunaan. Salli selaimesi asetuksissa ponnahdusikkunat tälle sivulle.',
-		XmlError		: 'It was not possible to properly load the XML response from the web server.', // MISSING
-		XmlEmpty		: 'It was not possible to load the XML response from the web server. The server returned an empty response.', // MISSING
-		XmlRawResponse	: 'Raw response from the server: %s' // MISSING
+		XmlError		: 'Web-palvelimen XML-vastausta ei pystytty kunnolla lataamaan.',
+		XmlEmpty		: 'Web-palvelimen XML vastausta ei pystytty lataamaan. Palvelin palautti tyhjän vastauksen.',
+		XmlRawResponse	: 'Palvelimen käsittelemätön vastaus: %s'
 	},
 
 	// Imageresize plugin
@@ -269,5 +273,10 @@ CKFinder.lang['fi'] =
 	{
 		maximize : 'Suurenna',
 		minimize : 'Pienennä'
+	},
+
+	Gallery :
+	{
+		current : 'Kuva {current} / {total}'
 	}
 };

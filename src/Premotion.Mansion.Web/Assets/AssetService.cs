@@ -284,12 +284,25 @@ namespace Premotion.Mansion.Web.Assets
 				return indexNode;
 
 			// create the node
-			return repository.Create(context, rootNode, new PropertyBag
+			indexNode = repository.Create(context, rootNode, new PropertyBag
 			                                            {
 			                                            	{"name", "Assets"},
 			                                            	{"type", "AssetTypeIndex"},
 			                                            	{"approved", true},
 			                                            });
+			repository.Create(context, indexNode, new PropertyBag
+			                                            {
+			                                            	{"name", "Images"},
+			                                            	{"type", "AssetType"},
+			                                            	{"approved", true},
+			                                            });
+			repository.Create(context, indexNode, new PropertyBag
+			                                            {
+			                                            	{"name", "Files"},
+			                                            	{"type", "AssetType"},
+			                                            	{"approved", true},
+			                                            });
+			return indexNode;
 		}
 		/// <summary>
 		/// Retrieves the assset type nodes.

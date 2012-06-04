@@ -2,7 +2,7 @@
  * CKFinder
  * ========
  * http://ckfinder.com
- * Copyright (C) 2007-2011, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (C) 2007-2012, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file, and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -150,16 +150,17 @@ CKFinder.lang['sl'] =
 	UploadExtIncorrect	: 'V tej mapi ta vrsta datoteke ni dovoljena.',
 
 	// Flash Uploads
-	UploadLabel			: 'Files to Upload', // MISSING
-	UploadTotalFiles	: 'Total Files:', // MISSING
-	UploadTotalSize		: 'Total Size:', // MISSING
-	UploadAddFiles		: 'Add Files', // MISSING
-	UploadClearFiles	: 'Clear Files', // MISSING
-	UploadCancel		: 'Cancel Upload', // MISSING
-	UploadRemove		: 'Remove', // MISSING
-	UploadRemoveTip		: 'Remove !f', // MISSING
-	UploadUploaded		: 'Uploaded !n%', // MISSING
-	UploadProcessing	: 'Processing...', // MISSING
+	UploadLabel			: 'Datoteke za prenos',
+	UploadTotalFiles	: 'Skupaj datotek:',
+	UploadTotalSize		: 'Skupaj velikost:',
+	UploadSend			: 'Naloži na strežnik',
+	UploadAddFiles		: 'Dodaj datoteke',
+	UploadClearFiles	: 'Počisti datoteke',
+	UploadCancel		: 'Prekliči prenos',
+	UploadRemove		: 'Odstrani',
+	UploadRemoveTip		: 'Odstrani !f',
+	UploadUploaded		: 'Prenešeno !n%',
+	UploadProcessing	: 'Delam...',
 
 	// Settings Panel
 	SetTitle		: 'Nastavitve',
@@ -174,6 +175,7 @@ CKFinder.lang['sl'] =
 	SetSortName		: 'po imenu datoteke',
 	SetSortDate		: 'po datumu',
 	SetSortSize		: 'po velikosti',
+	SetSortExtension		: 'po končnici',
 
 	// Status Bar
 	FilesCountEmpty : '<Prazna mapa>',
@@ -181,8 +183,10 @@ CKFinder.lang['sl'] =
 	FilesCountMany	: '%1 datotek(e)',
 
 	// Size and Speed
-	Kb				: '%1 kB',
-	KbPerSecond		: '%1 kB/sek',
+	Kb				: '%1 KB',
+	Mb				: '%1 MB',
+	Gb				: '%1 GB',
+	SizePerSecond	: '%1/s',
 
 	// Connector Error Messages.
 	ErrorUnknown	: 'Prišlo je do napake. (Napaka %1)',
@@ -225,9 +229,9 @@ CKFinder.lang['sl'] =
 		FolderInvChar	: 'Ime mape ne sme vsebovati naslednjih znakov: \n\\ / : * ? " < > |',
 
 		PopupBlockView	: 'Datoteke ni možno odpreti v novem oknu. Prosimo nastavite svoj brskalnik tako, da bo dopuščal odpiranje oken (popups) oz. izklopite filtre za blokado odpiranja oken.',
-		XmlError		: 'It was not possible to properly load the XML response from the web server.', // MISSING
-		XmlEmpty		: 'It was not possible to load the XML response from the web server. The server returned an empty response.', // MISSING
-		XmlRawResponse	: 'Raw response from the server: %s' // MISSING
+		XmlError		: 'Nalaganje XML odgovora iz strežnika ni uspelo.',
+		XmlEmpty		: 'Nalaganje XML odgovora iz strežnika ni uspelo. Strežnik je vrnil prazno sporočilo.',
+		XmlRawResponse	: 'Surov odgovor iz strežnika je: %s'
 	},
 
 	// Imageresize plugin
@@ -268,5 +272,10 @@ CKFinder.lang['sl'] =
 	{
 		maximize : 'Maksimiraj',
 		minimize : 'Minimiraj'
+	},
+
+	Gallery :
+	{
+		current : 'Slika {current} od {total}'
 	}
 };

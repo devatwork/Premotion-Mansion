@@ -2,7 +2,7 @@
  * CKFinder
  * ========
  * http://ckfinder.com
- * Copyright (C) 2007-2011, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (C) 2007-2012, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file, and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -153,6 +153,7 @@ CKFinder.lang['es'] =
 	UploadLabel			: 'Ficheros a subir',
 	UploadTotalFiles	: 'Total de ficheros:',
 	UploadTotalSize		: 'Tamaño total:',
+	UploadSend			: 'Añadir',
 	UploadAddFiles		: 'Añadir ficheros',
 	UploadClearFiles	: 'Borrar ficheros',
 	UploadCancel		: 'Cancelar subida',
@@ -169,11 +170,12 @@ CKFinder.lang['es'] =
 	SetDisplay		: 'Mostrar:',
 	SetDisplayName	: 'Nombre de fichero',
 	SetDisplayDate	: 'Fecha',
-	SetDisplaySize	: 'Peso del fichero',
+	SetDisplaySize	: 'Tamaño del fichero',
 	SetSort			: 'Ordenar:',
 	SetSortName		: 'por Nombre',
 	SetSortDate		: 'por Fecha',
-	SetSortSize		: 'por Peso',
+	SetSortSize		: 'por Tamaño',
+	SetSortExtension		: 'por Extensión',
 
 	// Status Bar
 	FilesCountEmpty : '<Carpeta vacía>',
@@ -181,8 +183,10 @@ CKFinder.lang['es'] =
 	FilesCountMany	: '%1 ficheros',
 
 	// Size and Speed
-	Kb				: '%1 kB',
-	KbPerSecond		: '%1 kB/s',
+	Kb				: '%1 KB',
+	Mb				: '%1 MB',
+	Gb				: '%1 GB',
+	SizePerSecond	: '%1/s',
 
 	// Connector Error Messages.
 	ErrorUnknown	: 'No ha sido posible completar la solicitud. (Error %1)',
@@ -268,5 +272,10 @@ CKFinder.lang['es'] =
 	{
 		maximize : 'Maximizar',
 		minimize : 'Minimizar'
+	},
+
+	Gallery :
+	{
+		current : 'Imagen {current} de {total}'
 	}
 };

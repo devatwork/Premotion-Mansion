@@ -2,7 +2,7 @@
  * CKFinder
  * ========
  * http://ckfinder.com
- * Copyright (C) 2007-2011, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (C) 2007-2012, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file, and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -153,12 +153,13 @@ CKFinder.lang['pl'] =
 	UploadLabel			: 'Pliki do wysłania',
 	UploadTotalFiles	: 'Ilość razem:',
 	UploadTotalSize		: 'Rozmiar razem:',
+	UploadSend			: 'Wyślij',
 	UploadAddFiles		: 'Dodaj pliki',
 	UploadClearFiles	: 'Wyczyść wszystko',
 	UploadCancel		: 'Anuluj wysyłanie',
 	UploadRemove		: 'Usuń',
 	UploadRemoveTip		: 'Usuń !f',
-	UploadUploaded		: 'Wysłano: !n',
+	UploadUploaded		: 'Wysłano: !n%',
 	UploadProcessing	: 'Przetwarzanie...',
 
 	// Settings Panel
@@ -174,6 +175,7 @@ CKFinder.lang['pl'] =
 	SetSortName		: 'wg nazwy pliku',
 	SetSortDate		: 'wg daty',
 	SetSortSize		: 'wg rozmiaru',
+	SetSortExtension		: 'wg rozszerzenia',
 
 	// Status Bar
 	FilesCountEmpty : '<Pusty folder>',
@@ -181,8 +183,10 @@ CKFinder.lang['pl'] =
 	FilesCountMany	: 'Ilość plików: %1',
 
 	// Size and Speed
-	Kb				: '%1 kB',
-	KbPerSecond		: '%1 kB/s',
+	Kb				: '%1 KB',
+	Mb				: '%1 MB',
+	Gb				: '%1 GB',
+	SizePerSecond	: '%1/s',
 
 	// Connector Error Messages.
 	ErrorUnknown	: 'Wykonanie operacji zakończyło się niepowodzeniem. (Błąd %1)',
@@ -268,5 +272,10 @@ CKFinder.lang['pl'] =
 	{
 		maximize : 'Maksymalizuj',
 		minimize : 'Minimalizuj'
+	},
+
+	Gallery :
+	{
+		current : 'Obrazek {current} z {total}'
 	}
 };

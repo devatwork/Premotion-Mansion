@@ -2,7 +2,7 @@
  * CKFinder
  * ========
  * http://ckfinder.com
- * Copyright (C) 2007-2011, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (C) 2007-2012, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file, and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -14,7 +14,7 @@
 /**
  * @fileOverview Defines the {@link CKFinder.lang} object for the Russian
  *		language.
-*/
+ */
 
 /**
  * Contains the dictionary of language entries.
@@ -102,10 +102,10 @@ CKFinder.lang['ru'] =
 	BasketPasteCopySuccess	: 'Файлы скопированы: %s',
 
 	// Toolbar Buttons (some used elsewhere)
-	Upload		: 'Загрузка',
+	Upload		: 'Загрузить файл',
 	UploadTip	: 'Загрузить новый файл',
-	Refresh		: 'Обновить',
-	Settings	: 'Установки',
+	Refresh		: 'Обновить список',
+	Settings	: 'Настройка',
 	Help		: 'Помощь',
 	HelpTip		: 'Помощь',
 
@@ -144,29 +144,30 @@ CKFinder.lang['ru'] =
 	UploadBtnCancel		: 'Отмена',
 
 	UploadNoFileMsg		: 'Пожалуйста, выберите файл на вашем компьютере.',
-	UploadNoFolder		: 'Пожалуйста, выберите папку, в которую вы хотите закачать файл.',
+	UploadNoFolder		: 'Пожалуйста, выберите папку, в которую вы хотите загрузить файл.',
 	UploadNoPerms		: 'Загрузка файлов запрещена.',
 	UploadUnknError		: 'Ошибка при передаче файла.',
-	UploadExtIncorrect	: 'В эту папку нельзя закачивать файлы с таким расширением.',
+	UploadExtIncorrect	: 'В эту папку нельзя загружать файлы с таким расширением.',
 
 	// Flash Uploads
-	UploadLabel			: 'Files to Upload', // MISSING
-	UploadTotalFiles	: 'Total Files:', // MISSING
-	UploadTotalSize		: 'Total Size:', // MISSING
-	UploadAddFiles		: 'Add Files', // MISSING
-	UploadClearFiles	: 'Clear Files', // MISSING
-	UploadCancel		: 'Cancel Upload', // MISSING
-	UploadRemove		: 'Remove', // MISSING
-	UploadRemoveTip		: 'Remove !f', // MISSING
-	UploadUploaded		: 'Uploaded !n%', // MISSING
-	UploadProcessing	: 'Processing...', // MISSING
+	UploadLabel			: 'Файлы для загрузки',
+	UploadTotalFiles	: 'Всего файлов:',
+	UploadTotalSize		: 'Общий размер:',
+	UploadSend			: 'Загрузить файл',
+	UploadAddFiles		: 'Добавить файлы',
+	UploadClearFiles	: 'Очистить',
+	UploadCancel		: 'Отменить загрузку',
+	UploadRemove		: 'Убрать',
+	UploadRemoveTip		: 'Убрать !f',
+	UploadUploaded		: 'Загружено !n%',
+	UploadProcessing	: 'Загружаю...',
 
 	// Settings Panel
-	SetTitle		: 'Установки',
-	SetView			: 'Просмотр:',
+	SetTitle		: 'Настройка',
+	SetView			: 'Внешний вид:',
 	SetViewThumb	: 'Миниатюры',
 	SetViewList		: 'Список',
-	SetDisplay		: 'Отобразить:',
+	SetDisplay		: 'Показывать:',
 	SetDisplayName	: 'Имя файла',
 	SetDisplayDate	: 'Дата',
 	SetDisplaySize	: 'Размер файла',
@@ -174,6 +175,7 @@ CKFinder.lang['ru'] =
 	SetSortName		: 'по имени файла',
 	SetSortDate		: 'по дате',
 	SetSortSize		: 'по размеру',
+	SetSortExtension		: 'по расширению',
 
 	// Status Bar
 	FilesCountEmpty : '<Пустая папка>',
@@ -181,8 +183,10 @@ CKFinder.lang['ru'] =
 	FilesCountMany	: '%1 файлов',
 
 	// Size and Speed
-	Kb				: '%1 кБ',
-	KbPerSecond		: '%1 кБ/с',
+	Kb				: '%1 KБ',
+	Mb				: '%1 MB', // MISSING
+	Gb				: '%1 GB', // MISSING
+	SizePerSecond	: '%1/s', // MISSING
 
 	// Connector Error Messages.
 	ErrorUnknown	: 'Невозможно завершить запрос. (Ошибка %1)',
@@ -224,10 +228,10 @@ CKFinder.lang['ru'] =
 		FileInvChar		: 'Имя файла не может содержать любой из перечисленных символов: \n\\ / : * ? " < > |',
 		FolderInvChar	: 'Имя папки не может содержать любой из перечисленных символов: \n\\ / : * ? " < > |',
 
-		PopupBlockView	: 'Невозможно открыть файл в новом окне. Пожалуйста, проверьте настройки браузера и отключите все блокировки всплывающих окон для этого сайта.',
-		XmlError		: 'It was not possible to properly load the XML response from the web server.', // MISSING
-		XmlEmpty		: 'It was not possible to load the XML response from the web server. The server returned an empty response.', // MISSING
-		XmlRawResponse	: 'Raw response from the server: %s' // MISSING
+		PopupBlockView	: 'Невозможно открыть файл в новом окне. Пожалуйста, проверьте настройки браузера и отключите блокировку всплывающих окон для этого сайта.',
+		XmlError		: 'Ошибка при разборе XML-ответа сервера.',
+		XmlEmpty		: 'Невозможно прочитать XML-ответ сервера, получена пустая строка.',
+		XmlRawResponse	: 'Необработанный ответ сервера: %s'
 	},
 
 	// Imageresize plugin
@@ -268,5 +272,10 @@ CKFinder.lang['ru'] =
 	{
 		maximize : 'Развернуть',
 		minimize : 'Свернуть'
+	},
+
+	Gallery :
+	{
+		current : 'Image {current} of {total}' // MISSING
 	}
 };

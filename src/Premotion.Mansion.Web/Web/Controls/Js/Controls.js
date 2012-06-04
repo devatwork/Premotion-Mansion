@@ -169,7 +169,7 @@ var CKEDITOR_BASEPATH = "{Request.baseUrl}/static-resources/Shared/js/ckeditor/"
 			{ name: "links", items : [ "Link","Unlink","Anchor" ] },
 			{ name: "insert", items : [ "Image","Flash","Table","HorizontalRule","Smiley","SpecialChar","PageBreak","Iframe" ] },
 			{ name: "colors", items : [ "TextColor","BGColor" ] },
-			{ name: "tools", items : [ "Maximize", "ShowBlocks" ] }
+			{ name: "tools", items : [ "Source", "Maximize", "ShowBlocks" ] }
 		],
 		extraPlugins: "internpage",
 		internpage: {
@@ -178,7 +178,8 @@ var CKEDITOR_BASEPATH = "{Request.baseUrl}/static-resources/Shared/js/ckeditor/"
 		}
 	});
 	CKFinder.setupCKEditor( null, {
-		basePath: "{StaticResourcePathUrl( 'Shared/Js/Libs/ckfinder' )}"
+		basePath: "{StaticResourcePathUrl( 'Shared/js/ckfinder' )}",
+		connectorPath: "{MakeAbsoluteUrl( 'CKFinder.Connector' )}"
 	});
 	
 })(window.jQuery);

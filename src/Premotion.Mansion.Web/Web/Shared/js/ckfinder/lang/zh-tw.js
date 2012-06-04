@@ -2,7 +2,7 @@
  * CKFinder
  * ========
  * http://ckfinder.com
- * Copyright (C) 2007-2011, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (C) 2007-2012, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file, and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -153,6 +153,7 @@ CKFinder.lang['zh-tw'] =
 	UploadLabel			: 'Files to Upload', // MISSING
 	UploadTotalFiles	: 'Total Files:', // MISSING
 	UploadTotalSize		: 'Total Size:', // MISSING
+	UploadSend			: '上傳檔案',
 	UploadAddFiles		: 'Add Files', // MISSING
 	UploadClearFiles	: 'Clear Files', // MISSING
 	UploadCancel		: 'Cancel Upload', // MISSING
@@ -174,6 +175,7 @@ CKFinder.lang['zh-tw'] =
 	SetSortName		: '依 檔案名稱',
 	SetSortDate		: '依 檔案日期',
 	SetSortSize		: '依 檔案大小',
+	SetSortExtension		: 'by Extension', // MISSING
 
 	// Status Bar
 	FilesCountEmpty : '<此目錄沒有任何檔案>',
@@ -181,8 +183,10 @@ CKFinder.lang['zh-tw'] =
 	FilesCountMany	: '%1 個檔案',
 
 	// Size and Speed
-	Kb				: '%1 kB',
-	KbPerSecond		: '%1 kB/s',
+	Kb				: '%1 KB',
+	Mb				: '%1 MB', // MISSING
+	Gb				: '%1 GB', // MISSING
+	SizePerSecond	: '%1/s', // MISSING
 
 	// Connector Error Messages.
 	ErrorUnknown	: '無法連接到伺服器 ! (錯誤代碼 %1)',
@@ -268,5 +272,10 @@ CKFinder.lang['zh-tw'] =
 	{
 		maximize : 'Maximize', // MISSING
 		minimize : 'Minimize' // MISSING
+	},
+
+	Gallery :
+	{
+		current : 'Image {current} of {total}' // MISSING
 	}
 };

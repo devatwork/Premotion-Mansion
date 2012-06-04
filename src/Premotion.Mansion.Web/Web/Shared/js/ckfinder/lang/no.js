@@ -2,7 +2,7 @@
  * CKFinder
  * ========
  * http://ckfinder.com
- * Copyright (C) 2007-2011, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (C) 2007-2012, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file, and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -13,7 +13,7 @@
 
 /**
  * @fileOverview Defines the {@link CKFinder.lang} object for the Norwegian
- *		Nynorsk language.
+ *		Bokmål language.
  */
 
 /**
@@ -32,15 +32,15 @@ CKFinder.lang['no'] =
 		confirmCancel	: 'Noen av valgene har blitt endret. Er du sikker på at du vil lukke dialogen?',
 		ok				: 'OK',
 		cancel			: 'Avbryt',
-		confirmationTitle	: 'Confirmation', // MISSING
-		messageTitle	: 'Information', // MISSING
-		inputTitle		: 'Question', // MISSING
+		confirmationTitle	: 'Bekreftelse',
+		messageTitle	: 'Informasjon',
+		inputTitle		: 'Spørsmål',
 		undo			: 'Angre',
 		redo			: 'Gjør om',
-		skip			: 'Skip', // MISSING
-		skipAll			: 'Skip all', // MISSING
-		makeDecision	: 'What action should be taken?', // MISSING
-		rememberDecision: 'Remember my decision' // MISSING
+		skip			: 'Hopp over',
+		skipAll			: 'Hopp over alle',
+		makeDecision	: 'Hvilken handling skal utføres?',
+		rememberDecision: 'Husk mitt valg'
 	},
 
 
@@ -82,24 +82,24 @@ CKFinder.lang['no'] =
 	FileRenaming	: 'Endrer filnavn...',
 	FileDelete		: 'Er du sikker på at du vil slette denne filen "%1"?',
 	FilesLoading	: 'Laster...',
-	FilesEmpty		: 'The folder is empty.', // MISSING
-	FilesMoved		: 'File %1 moved to %2:%3.', // MISSING
-	FilesCopied		: 'File %1 copied to %2:%3.', // MISSING
+	FilesEmpty		: 'Denne katalogen er tom.',
+	FilesMoved		: 'Filen %1 flyttet til %2:%3.',
+	FilesCopied		: 'Filen %1 kopiert til %2:%3.',
 
 	// Basket
-	BasketFolder		: 'Basket', // MISSING
-	BasketClear			: 'Clear Basket', // MISSING
-	BasketRemove		: 'Remove from Basket', // MISSING
-	BasketOpenFolder	: 'Open Parent Folder', // MISSING
-	BasketTruncateConfirm : 'Do you really want to remove all files from the basket?', // MISSING
-	BasketRemoveConfirm	: 'Do you really want to remove the file "%1" from the basket?', // MISSING
-	BasketEmpty			: 'No files in the basket, drag and drop some.', // MISSING
-	BasketCopyFilesHere	: 'Copy Files from Basket', // MISSING
-	BasketMoveFilesHere	: 'Move Files from Basket', // MISSING
+	BasketFolder		: 'Kurv',
+	BasketClear			: 'Tøm kurv',
+	BasketRemove		: 'Fjern fra kurv',
+	BasketOpenFolder	: 'Åpne foreldremappen',
+	BasketTruncateConfirm : 'Vil du virkelig fjerne alle filer fra kurven?',
+	BasketRemoveConfirm	: 'Vil du virkelig fjerne filen "%1" fra kurven?',
+	BasketEmpty			: 'Ingen filer i kurven, dra og slipp noen.',
+	BasketCopyFilesHere	: 'Kopier filer fra kurven',
+	BasketMoveFilesHere	: 'Flytt filer fra kurven',
 
-	BasketPasteErrorOther	: 'File %s error: %e', // MISSING
-	BasketPasteMoveSuccess	: 'The following files were moved: %s', // MISSING
-	BasketPasteCopySuccess	: 'The following files were copied: %s', // MISSING
+	BasketPasteErrorOther	: 'Fil %s feil: %e',
+	BasketPasteMoveSuccess	: 'Følgende filer ble flyttet: %s',
+	BasketPasteCopySuccess	: 'Følgende filer ble kopiert: %s',
 
 	// Toolbar Buttons (some used elsewhere)
 	Upload		: 'Last opp',
@@ -111,25 +111,25 @@ CKFinder.lang['no'] =
 
 	// Context Menus
 	Select			: 'Velg',
-	SelectThumbnail : 'Velg Miniatyr',
+	SelectThumbnail : 'Velg miniatyr',
 	View			: 'Vis fullversjon',
 	Download		: 'Last ned',
 
-	NewSubFolder	: 'Ny Undermappe',
+	NewSubFolder	: 'Ny undermappe',
 	Rename			: 'Endre navn',
 	Delete			: 'Slett',
 
-	CopyDragDrop	: 'Copy File Here', // MISSING
-	MoveDragDrop	: 'Move File Here', // MISSING
+	CopyDragDrop	: 'Kopier filen hit',
+	MoveDragDrop	: 'Flytt filen hit',
 
 	// Dialogs
-	RenameDlgTitle		: 'Rename', // MISSING
-	NewNameDlgTitle		: 'New Name', // MISSING
-	FileExistsDlgTitle	: 'File Already Exists', // MISSING
-	SysErrorDlgTitle : 'System Error', // MISSING
+	RenameDlgTitle		: 'Gi nytt navn',
+	NewNameDlgTitle		: 'Nytt navn',
+	FileExistsDlgTitle	: 'Filen finnes allerede',
+	SysErrorDlgTitle : 'Systemfeil',
 
-	FileOverwrite	: 'Overwrite', // MISSING
-	FileAutorename	: 'Auto-rename', // MISSING
+	FileOverwrite	: 'Overskriv',
+	FileAutorename	: 'Gi nytt navn automatisk',
 
 	// Generic
 	OkBtn		: 'OK',
@@ -144,22 +144,23 @@ CKFinder.lang['no'] =
 	UploadBtnCancel		: 'Avbryt',
 
 	UploadNoFileMsg		: 'Du må velge en fil fra din datamaskin',
-	UploadNoFolder		: 'Please select a folder before uploading.', // MISSING
-	UploadNoPerms		: 'File upload not allowed.', // MISSING
-	UploadUnknError		: 'Error sending the file.', // MISSING
-	UploadExtIncorrect	: 'File extension not allowed in this folder.', // MISSING
+	UploadNoFolder		: 'Vennligst velg en mappe før du laster opp.',
+	UploadNoPerms		: 'Filopplastning er ikke tillatt.',
+	UploadUnknError		: 'Feil ved sending av fil.',
+	UploadExtIncorrect	: 'Filtypen er ikke tillatt i denne mappen.',
 
 	// Flash Uploads
-	UploadLabel			: 'Files to Upload', // MISSING
-	UploadTotalFiles	: 'Total Files:', // MISSING
-	UploadTotalSize		: 'Total Size:', // MISSING
-	UploadAddFiles		: 'Add Files', // MISSING
-	UploadClearFiles	: 'Clear Files', // MISSING
-	UploadCancel		: 'Cancel Upload', // MISSING
-	UploadRemove		: 'Remove', // MISSING
-	UploadRemoveTip		: 'Remove !f', // MISSING
-	UploadUploaded		: 'Uploaded !n%', // MISSING
-	UploadProcessing	: 'Processing...', // MISSING
+	UploadLabel			: 'Filer for opplastning',
+	UploadTotalFiles	: 'Totalt antall filer:',
+	UploadTotalSize		: 'Total størrelse:',
+	UploadSend			: 'Last opp',
+	UploadAddFiles		: 'Legg til filer',
+	UploadClearFiles	: 'Tøm filer',
+	UploadCancel		: 'Avbryt opplastning',
+	UploadRemove		: 'Fjern',
+	UploadRemoveTip		: 'Fjern !f',
+	UploadUploaded		: 'Lastet opp !n%',
+	UploadProcessing	: 'Behandler...',
 
 	// Settings Panel
 	SetTitle		: 'Innstillinger',
@@ -174,6 +175,7 @@ CKFinder.lang['no'] =
 	SetSortName		: 'Filnavn',
 	SetSortDate		: 'Dato',
 	SetSortSize		: 'Størrelse',
+	SetSortExtension		: 'Filetternavn',
 
 	// Status Bar
 	FilesCountEmpty : '<Tom Mappe>',
@@ -181,8 +183,10 @@ CKFinder.lang['no'] =
 	FilesCountMany	: '%1 filer',
 
 	// Size and Speed
-	Kb				: '%1 kB',
-	KbPerSecond		: '%1 kB/s',
+	Kb				: '%1 KB',
+	Mb				: '%1 MB',
+	Gb				: '%1 GB',
+	SizePerSecond	: '%1/s',
 
 	// Connector Error Messages.
 	ErrorUnknown	: 'Det var ikke mulig å utføre forespørselen. (Feil %1)',
@@ -200,7 +204,7 @@ CKFinder.lang['no'] =
 	115 : 'Det finnes allerede en fil eller mappe med dette navnet.',
 	116 : 'Kunne ikke finne mappen. Oppdater vinduet og prøv igjen.',
 	117 : 'Kunne ikke finne filen. Oppdater vinduet og prøv igjen.',
-	118 : 'Source and target paths are equal.', // MISSING
+	118 : 'Kilde- og mål-bane er like.',
 	201 : 'Det fantes allerede en fil med dette navnet. Den opplastede filens navn har blitt endret til "%1".',
 	202 : 'Ugyldig fil.',
 	203 : 'Ugyldig fil. Filen er for stor.',
@@ -208,8 +212,8 @@ CKFinder.lang['no'] =
 	205 : 'Det finnes ingen midlertidig mappe for filopplastinger.',
 	206 : 'Opplastingen ble avbrutt av sikkerhetshensyn. Filen inneholder HTML-aktig data.',
 	207 : 'Den opplastede filens navn har blitt endret til "%1".',
-	300 : 'Moving file(s) failed.', // MISSING
-	301 : 'Copying file(s) failed.', // MISSING
+	300 : 'Klarte ikke å flytte fil(er).',
+	301 : 'Klarte ikke å kopiere fil(er).',
 	500 : 'Filvelgeren ikke tilgjengelig av sikkerhetshensyn. Kontakt systemansvarlig og be han sjekke CKFinder\'s konfigurasjonsfil.',
 	501 : 'Funksjon for minityrbilder er skrudd av.'
 	},
@@ -218,38 +222,38 @@ CKFinder.lang['no'] =
 	ErrorMsg :
 	{
 		FileEmpty		: 'Filnavnet kan ikke være tomt.',
-		FileExists		: 'File %s already exists.', // MISSING
+		FileExists		: 'Filen %s finnes alt.',
 		FolderEmpty		: 'Mappenavnet kan ikke være tomt.',
 
 		FileInvChar		: 'Filnavnet kan ikke inneholde følgende tegn: \n\\ / : * ? " < > |',
 		FolderInvChar	: 'Mappenavnet kan ikke inneholde følgende tegn: \n\\ / : * ? " < > |',
 
 		PopupBlockView	: 'Du må skru av popup-blockeren for å se bildet i nytt vindu.',
-		XmlError		: 'It was not possible to properly load the XML response from the web server.', // MISSING
-		XmlEmpty		: 'It was not possible to load the XML response from the web server. The server returned an empty response.', // MISSING
-		XmlRawResponse	: 'Raw response from the server: %s' // MISSING
+		XmlError		: 'Det var ikke mulig å laste XML-dataene i svaret fra serveren.',
+		XmlEmpty		: 'Det var ikke mulig å laste XML-dataene fra serverne, svaret var tomt.',
+		XmlRawResponse	: 'Rått datasvar fra serveren: %s'
 	},
 
 	// Imageresize plugin
 	Imageresize :
 	{
-		dialogTitle		: 'Resize %s', // MISSING
-		sizeTooBig		: 'Cannot set image height or width to a value bigger than the original size (%size).', // MISSING
-		resizeSuccess	: 'Image resized successfully.', // MISSING
-		thumbnailNew	: 'Create a new thumbnail', // MISSING
-		thumbnailSmall	: 'Small (%s)', // MISSING
-		thumbnailMedium	: 'Medium (%s)', // MISSING
-		thumbnailLarge	: 'Large (%s)', // MISSING
-		newSize			: 'Set a new size', // MISSING
+		dialogTitle		: 'Endre størrelse %s',
+		sizeTooBig		: 'Kan ikke sette høyde og bredde til større enn orginalstørrelse (%size).',
+		resizeSuccess	: 'Endring av bildestørrelse var vellykket.',
+		thumbnailNew	: 'Lag ett nytt miniatyrbilde',
+		thumbnailSmall	: 'Liten (%s)',
+		thumbnailMedium	: 'Medium (%s)',
+		thumbnailLarge	: 'Stor (%s)',
+		newSize			: 'Sett en ny størrelse',
 		width			: 'Bredde',
 		height			: 'Høyde',
-		invalidHeight	: 'Invalid height.', // MISSING
-		invalidWidth	: 'Invalid width.', // MISSING
-		invalidName		: 'Invalid file name.', // MISSING
-		newImage		: 'Create a new image', // MISSING
-		noExtensionChange : 'File extension cannot be changed.', // MISSING
-		imageSmall		: 'Source image is too small.', // MISSING
-		contextMenuName	: 'Resize', // MISSING
+		invalidHeight	: 'Ugyldig høyde.',
+		invalidWidth	: 'Ugyldig bredde.',
+		invalidName		: 'Ugyldig filnavn.',
+		newImage		: 'Lag ett nytt bilde',
+		noExtensionChange : 'Filendelsen kan ikke endres.',
+		imageSmall		: 'Kildebildet er for lite.',
+		contextMenuName	: 'Endre størrelse',
 		lockRatio		: 'Lås forhold',
 		resetSize		: 'Tilbakestill størrelse'
 	},
@@ -258,15 +262,20 @@ CKFinder.lang['no'] =
 	Fileeditor :
 	{
 		save			: 'Lagre',
-		fileOpenError	: 'Unable to open file.', // MISSING
-		fileSaveSuccess	: 'File saved successfully.', // MISSING
-		contextMenuName	: 'Edit', // MISSING
-		loadingFile		: 'Loading file, please wait...' // MISSING
+		fileOpenError	: 'Klarte ikke å åpne filen.',
+		fileSaveSuccess	: 'Fillagring var vellykket.',
+		contextMenuName	: 'Rediger',
+		loadingFile		: 'Laster fil, vennligst vent...'
 	},
 
 	Maximize :
 	{
 		maximize : 'Maksimer',
 		minimize : 'Minimer'
+	},
+
+	Gallery :
+	{
+		current : 'Bilde {current} av {total}'
 	}
 };

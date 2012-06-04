@@ -2,7 +2,7 @@
  * CKFinder
  * ========
  * http://ckfinder.com
- * Copyright (C) 2007-2011, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (C) 2007-2012, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file, and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -153,6 +153,7 @@ CKFinder.lang['hu'] =
 	UploadLabel			: 'Files to Upload', // MISSING
 	UploadTotalFiles	: 'Total Files:', // MISSING
 	UploadTotalSize		: 'Total Size:', // MISSING
+	UploadSend			: 'Feltöltés',
 	UploadAddFiles		: 'Add Files', // MISSING
 	UploadClearFiles	: 'Clear Files', // MISSING
 	UploadCancel		: 'Cancel Upload', // MISSING
@@ -174,6 +175,7 @@ CKFinder.lang['hu'] =
 	SetSortName		: 'fájlnév',
 	SetSortDate		: 'dátum',
 	SetSortSize		: 'méret',
+	SetSortExtension		: 'by Extension', // MISSING
 
 	// Status Bar
 	FilesCountEmpty : '<üres mappa>',
@@ -181,8 +183,10 @@ CKFinder.lang['hu'] =
 	FilesCountMany	: '%1 fájl',
 
 	// Size and Speed
-	Kb				: '%1 kB',
-	KbPerSecond		: '%1 kB/s',
+	Kb				: '%1 KB',
+	Mb				: '%1 MB',
+	Gb				: '%1 GB',
+	SizePerSecond	: '%1/s',
 
 	// Connector Error Messages.
 	ErrorUnknown	: 'A parancsot nem sikerült végrehajtani. (Hiba: %1)',
@@ -268,5 +272,10 @@ CKFinder.lang['hu'] =
 	{
 		maximize : 'Teljes méret',
 		minimize : 'Kis méret'
+	},
+
+	Gallery :
+	{
+		current : 'Image {current} of {total}' // MISSING
 	}
 };

@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckfinder.com/license
 */
 
@@ -12,6 +12,5 @@ CKFinder.customConfig = function( config )
 	// Sample configuration options:
 	// config.uiColor = '#BDE31E';
 	// config.language = 'fr';
-	config.removePlugins = 'basket';
-	config.connectorPath = "http://localhost/StandardDentistWebsite/CKFinder.Connector";
+	// config.removePlugins = 'basket';
 };

@@ -2,7 +2,7 @@
  * CKFinder
  * ========
  * http://ckfinder.com
- * Copyright (C) 2007-2011, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (C) 2007-2012, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file, and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -12,8 +12,8 @@
  */
 
 /**
- * @fileOverview Defines the {@link CKFinder.lang} object, for the English
- *		language. This is the base file for all translations.
+ * @fileOverview Defines the {@link CKFinder.lang} object for the Hebrew
+ *		language.
  */
 
 /**
@@ -64,7 +64,7 @@ CKFinder.lang['he'] =
 	//		MM   : Minute (padding zero)
 	//		a    : Firt char of AM/PM
 	//		aa   : AM/PM
-	DateTime : 'm/d/yyyy h:MM aa',
+	DateTime : 'd/m/yyyy HH:MM',
 	DateAmPm : ['AM', 'PM'],
 
 	// Folders
@@ -150,15 +150,16 @@ CKFinder.lang['he'] =
 	UploadExtIncorrect	: 'סוג קובץ זה לא מאושר בתיקיה זאת.',
 
 	// Flash Uploads
-	UploadLabel			: 'להעלאה קבצים',
-	UploadTotalFiles	: ':קבצים כמות',
-	UploadTotalSize		: ':סופי גודל',
-	UploadAddFiles		: 'קבצים הוספת',
-	UploadClearFiles	: 'קבצים ניקוי',
-	UploadCancel		: 'העלאה ביטול',
-	UploadRemove		: 'מחיקה',
-	UploadRemoveTip		: '!f הקובץ מחיקת',
-	UploadUploaded		: 'הועלו !n%',
+	UploadLabel			: 'קבצים להעלאה',
+	UploadTotalFiles	: 'כמות קבצים:',
+	UploadTotalSize		: 'גודל סופי:',
+	UploadSend			: 'התחלת העלאה',
+	UploadAddFiles		: 'הוספת קבצים',
+	UploadClearFiles	: 'ניקוי קבצים',
+	UploadCancel		: 'ביטול העלאה',
+	UploadRemove		: 'מחיקה מהרשימה',
+	UploadRemoveTip		: 'מחיקת הקובץ !f',
+	UploadUploaded		: '!n% הועלו',
 	UploadProcessing	: 'מעבד...',
 
 	// Settings Panel
@@ -174,6 +175,7 @@ CKFinder.lang['he'] =
 	SetSortName		: 'לפי שם',
 	SetSortDate		: 'לפי תאריך',
 	SetSortSize		: 'לפי גודל',
+	SetSortExtension		: 'לפי סיומת (Extension)',
 
 	// Status Bar
 	FilesCountEmpty : '<תיקיה ריקה>',
@@ -181,32 +183,34 @@ CKFinder.lang['he'] =
 	FilesCountMany	: '%1 קבצים',
 
 	// Size and Speed
-	Kb				: '%1 kB',
-	KbPerSecond		: '%1 kB/s',
+	Kb				: '%1KB',
+	Mb				: '%1MB',
+	Gb				: '%1GB',
+	SizePerSecond	: '%1/s',
 
 	// Connector Error Messages.
 	ErrorUnknown	: 'לא היה ניתן להשלים את הבקשה. (שגיאה %1)',
 	Errors :
 	{
 	 10 : 'הוראה לא תקינה.',
-	 11 : 'סוג המשאב לא צויין בבקשה.',
+	 11 : 'סוג המשאב לא צויין בבקשה לשרת.',
 	 12 : 'סוג המשאב המצויין לא תקין.',
-	102 : 'שם קובץ או תיקיה לא תקין.',
-	103 : 'לא היה ניתן להשלים את הבקשב בשל הרשאות מוגבלות.',
-	104 : 'לא היה ניתן להשלים את הבקשב בשל הרשאות מערכת קבצים מוגבלות.',
-	105 : 'סיומת קובץ לא תקינה.',
+	102 : 'שם הקובץ או התיקיה לא תקין.',
+	103 : 'לא היה ניתן להשלים את הבקשה בשל הרשאות מוגבלות.',
+	104 : 'לא היה ניתן להשלים את הבקשה בשל הרשאות מערכת קבצים מוגבלות.',
+	105 : 'סיומת הקובץ לא תקינה.',
 	109 : 'בקשה לא תקינה.',
 	110 : 'שגיאה לא ידועה.',
-	115 : 'קובץ או תיקיה באותו שם כבר קיימ/ת.',
+	115 : 'כבר קיים/ת קובץ או תיקיה באותו השם.',
 	116 : 'התיקיה לא נמצאה. נא לרענן ולנסות שוב.',
 	117 : 'הקובץ לא נמצא. נא לרענן ולנסות שוב.',
 	118 : 'כתובות המקור והיעד זהות.',
 	201 : 'קובץ עם אותו השם כבר קיים. שם הקובץ שהועלה שונה ל "%1"',
-	202 : 'קובץ לא תקין',
-	203 : 'קובץ לא תקין. גודל הקובץ גדול מדי.',
+	202 : 'הקובץ לא תקין.',
+	203 : 'הקובץ לא תקין. גודל הקובץ גדול מדי.',
 	204 : 'הקובץ המועלה לא תקין',
-	205 : 'תיקיה זמנית להעלאה לא קיימת בשרת.',
-	206 : 'העלאה בוטלה מסיבות אבטחה. הקובץ מכיל תוכן שדומה ל-HTML.',
+	205 : 'לא קיימת בשרת תיקיה זמנית להעלאת קבצים.',
+	206 : 'ההעלאה בוטלה מסיבות אבטחה. הקובץ מכיל תוכן שדומה ל-HTML.',
 	207 : 'שם הקובץ שהועלה שונה ל "%1"',
 	300 : 'העברת הקבצים נכשלה.',
 	301 : 'העתקת הקבצים נכשלה.',
@@ -268,5 +272,10 @@ CKFinder.lang['he'] =
 	{
 		maximize : 'הגדלה למקסימום',
 		minimize : 'הקטנה למינימום'
+	},
+
+	Gallery :
+	{
+		current : 'תמונה {current} מתוך {total}'
 	}
 };

@@ -2,7 +2,7 @@
  * CKFinder
  * ========
  * http://ckfinder.com
- * Copyright (C) 2007-2011, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (C) 2007-2012, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file, and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -28,19 +28,19 @@ CKFinder.lang['fa'] =
 	common :
 	{
 		// Put the voice-only part of the label in the span.
-		unavailable		: '%1<span class="cke_accessibility">, غیر قابل دسترس</span>',
-		confirmCancel	: 'برخی از گزینهها تغییر یافتهاند. آیا مطمئن هستید که قصد بستن این پنجره را دارید؟',
-		ok				: 'قبول',
+		unavailable		: '%1<span class="cke_accessibility">, عدم دسترسی</span>',
+		confirmCancel	: 'برخی از گزینه ها تغییر کرده است، آیا مایل به بستن این پنجره هستید؟',
+		ok				: 'تائید',
 		cancel			: 'لغو',
-		confirmationTitle	: 'تأییدیه',
+		confirmationTitle	: 'تاییدیه',
 		messageTitle	: 'اطلاعات',
-		inputTitle		: 'پرسش',
-		undo			: 'واچیدن',
-		redo			: 'دوباره چیدن',
-		skip			: 'عبور',
-		skipAll			: 'عبور از همه',
-		makeDecision	: 'چه تصمیمی خواهید گرفت؟',
-		rememberDecision: 'یادآوری تصمیم من'
+		inputTitle		: 'سوال',
+		undo			: 'حالت قبلی',
+		redo			: 'حالت بعدی',
+		skip			: 'نادیده گرفتن',
+		skipAll			: 'نادیده گرفتن همه',
+		makeDecision	: 'چه عملی انجام شود؟',
+		rememberDecision: 'انتخاب من را بیاد داشته باش'
 	},
 
 
@@ -68,10 +68,10 @@ CKFinder.lang['fa'] =
 	DateAmPm : ['ق.ظ', 'ب.ظ'],
 
 	// Folders
-	FoldersTitle	: 'پوشهها',
-	FolderLoading	: 'بارگیری...',
-	FolderNew		: 'لطفا نام پوشه جدید را درج کنید: ',
-	FolderRename	: 'لطفا نام پوشه جدید را درج کنید: ',
+	FoldersTitle	: 'پوشه ها',
+	FolderLoading	: 'بارگذاری...',
+	FolderNew		: 'لطفا نام پوشه جدید را وارد کنید: ',
+	FolderRename	: 'لطفا نام پوشه جدید را وارد کنید: ',
 	FolderDelete	: 'آیا اطمینان دارید که قصد حذف کردن پوشه "%1" را دارید؟',
 	FolderRenaming	: ' (در حال تغییر نام...)',
 	FolderDeleting	: ' (در حال حذف...)',
@@ -81,7 +81,7 @@ CKFinder.lang['fa'] =
 	FileRenameExt	: 'آیا اطمینان دارید که قصد تغییر نام پسوند این فایل را دارید؟ ممکن است فایل غیر قابل استفاده شود',
 	FileRenaming	: 'در حال تغییر نام...',
 	FileDelete		: 'آیا اطمینان دارید که قصد حذف نمودن فایل "%1" را دارید؟',
-	FilesLoading	: 'بارگیری...',
+	FilesLoading	: 'بارگذاری...',
 	FilesEmpty		: 'این پوشه خالی است',
 	FilesMoved		: 'فایل %1 به مسیر %2:%3 منتقل شد.',
 	FilesCopied		: 'فایل %1 در مسیر %2:%3 کپی شد.',
@@ -91,14 +91,14 @@ CKFinder.lang['fa'] =
 	BasketClear			: 'پاک کردن سبد',
 	BasketRemove		: 'حذف از سبد',
 	BasketOpenFolder	: 'باز نمودن پوشه والد',
-	BasketTruncateConfirm : 'آیا واقعا قصد جابجا کردن همه فایلها از سبد را دارید؟',
-	BasketRemoveConfirm	: 'آیا واقعا قصد جابجایی فایل "%1" از سبد را دارید؟',
-	BasketEmpty			: 'هیچ فایلی در سبد نیست، یکی را بکشید و رها کنید.',
+	BasketTruncateConfirm : 'تمام فایل های موجود در سبد حذف شود؟',
+	BasketRemoveConfirm	: 'فایل "%1" از سبد حذف شود؟',
+	BasketEmpty			: 'هیچ فایلی در سبد نیست, برای افزودن فایل را به اینجا بکشید و رها کنید',
 	BasketCopyFilesHere	: 'کپی فایلها از سبد',
-	BasketMoveFilesHere	: 'جابجایی فایلها از سبد',
+	BasketMoveFilesHere	: 'انتقال فایلها از سبد',
 
-	BasketPasteErrorOther	: 'خطای فایل %s: %e',
-	BasketPasteMoveSuccess	: 'فایلهای مقابل جابجا شدند: %s',
+	BasketPasteErrorOther	: 'خطای %e فایل: %s',
+	BasketPasteMoveSuccess	: 'فایلهای مقابل منتقل شدند: %s',
 	BasketPasteCopySuccess	: 'این فایلها کپی شدند: %s',
 
 	// Toolbar Buttons (some used elsewhere)
@@ -111,7 +111,7 @@ CKFinder.lang['fa'] =
 
 	// Context Menus
 	Select			: 'انتخاب',
-	SelectThumbnail : 'انتخاب انگشتی',
+	SelectThumbnail : 'انتخاب تصویر کوچک',
 	View			: 'نمایش',
 	Download		: 'دانلود',
 
@@ -125,46 +125,47 @@ CKFinder.lang['fa'] =
 	// Dialogs
 	RenameDlgTitle		: 'تغییر نام',
 	NewNameDlgTitle		: 'نام جدید',
-	FileExistsDlgTitle	: 'فایل از قبل وجود دارد',
+	FileExistsDlgTitle	: 'فایلی با این نام وجود دارد',
 	SysErrorDlgTitle : 'خطای سیستم',
 
 	FileOverwrite	: 'رونویسی',
 	FileAutorename	: 'تغییر نام خودکار',
 
 	// Generic
-	OkBtn		: 'قبول',
+	OkBtn		: 'تایید',
 	CancelBtn	: 'لغو',
 	CloseBtn	: 'بستن',
 
 	// Upload Panel
 	UploadTitle			: 'آپلود فایل جدید',
 	UploadSelectLbl		: 'انتخاب فابل برای آپلود',
-	UploadProgressLbl	: '(آپلود در حال انجام است، لطفا صبر کنید...)',
-	UploadBtn			: 'آپلود فایل انتخاب شده',
+	UploadProgressLbl	: '(درحال ارسال، لطفا صبر کنید...)',
+	UploadBtn			: 'آپلود فایل',
 	UploadBtnCancel		: 'لغو',
 
-	UploadNoFileMsg		: 'لطفا یک فایل از رایانه خود انتخاب کنید',
-	UploadNoFolder		: 'لطفا پیش از آپلود کردن یک پوشه انتخاب کنید.',
-	UploadNoPerms		: 'آپلود فایل مجاز نیست.',
-	UploadUnknError		: 'در حال ارسال خطای فایل.',
+	UploadNoFileMsg		: 'لطفا یک فایل جهت ارسال انتخاب کنید',
+	UploadNoFolder		: 'لطفا پیش از آپلود، یک پوشه انتخاب کنید.',
+	UploadNoPerms		: 'اجازه ارسال فایل نداده شنده است',
+	UploadUnknError		: 'خطا در ارسال',
 	UploadExtIncorrect	: 'پسوند فایل برای این پوشه مجاز نیست.',
 
 	// Flash Uploads
-	UploadLabel			: 'فایل برای آپلود',
+	UploadLabel			: 'آپلود فایل',
 	UploadTotalFiles	: 'مجموع فایلها:',
 	UploadTotalSize		: 'مجموع حجم:',
+	UploadSend			: 'آپلود فایل',
 	UploadAddFiles		: 'افزودن فایلها',
 	UploadClearFiles	: 'پاک کردن فایلها',
 	UploadCancel		: 'لغو آپلود',
-	UploadRemove		: 'جابجا نمودن',
-	UploadRemoveTip		: '!f جابجایی',
+	UploadRemove		: 'حذف',
+	UploadRemoveTip		: '!f حذف فایل',
 	UploadUploaded		: '!n% آپلود شد',
 	UploadProcessing	: 'در حال پردازش...',
 
 	// Settings Panel
 	SetTitle		: 'تنظیمات',
 	SetView			: 'نمایش:',
-	SetViewThumb	: 'انگشتیها',
+	SetViewThumb	: 'تصویر کوچک',
 	SetViewList		: 'فهرست',
 	SetDisplay		: 'نمایش:',
 	SetDisplayName	: 'نام فایل',
@@ -174,30 +175,33 @@ CKFinder.lang['fa'] =
 	SetSortName		: 'با نام فایل',
 	SetSortDate		: 'با تاریخ',
 	SetSortSize		: 'با اندازه',
+	SetSortExtension		: 'با پسوند',
 
 	// Status Bar
 	FilesCountEmpty : '<پوشه خالی>',
-	FilesCountOne	: '1 فایل',
+	FilesCountOne	: 'یک فایل',
 	FilesCountMany	: '%1 فایل',
 
 	// Size and Speed
-	Kb				: '%1 kB',
-	KbPerSecond		: '%1 kB/s',
+	Kb				: '%1KB',
+	Mb				: '%1MB',
+	Gb				: '%1GB',
+	SizePerSecond	: '%1/s',
 
 	// Connector Error Messages.
-	ErrorUnknown	: 'امکان تکمیل درخواست وجود ندارد. (خطا %1)',
+	ErrorUnknown	: 'امکان تکمیل درخواست فوق وجود ندارد (خطا: %1)',
 	Errors :
 	{
 	 10 : 'دستور نامعتبر.',
 	 11 : 'نوع منبع در درخواست تعریف نشده است.',
 	 12 : 'نوع منبع درخواست شده معتبر نیست.',
 	102 : 'نام فایل یا پوشه نامعتبر است.',
-	103 : 'امکان اجرای درخواست تا زمانیکه محدودیت مجوز وجود دارد، مقدور نیست.',
-	104 : 'امکان اجرای درخواست تا زمانیکه محدودیت مجوز سیستمی فایل وجود دارد،\u200bمقدور نیست.',
-	105 : 'پسوند فایل نامعتبر.',
-	109 : 'درخواست نامعتبر.',
+	103 : 'امکان کامل کردن این درخواست بخاطر محدودیت اختیارات وجود ندارد.',
+	104 : 'امکان کامل کردن این درخواست بخاطر محدودیت دسترسی وجود ندارد.',
+	105 : 'پسوند فایل نامعتبر  است.',
+	109 : 'درخواست نامعتبر است.',
 	110 : 'خطای ناشناخته.',
-	115 : 'یک فایل یا پوشه با همین نام از قبل وجود دارد.',
+	115 : 'فایل یا پوشه ای با این نام وجود دارد',
 	116 : 'پوشه یافت نشد. لطفا بروزرسانی کرده و مجددا تلاش کنید.',
 	117 : 'فایل یافت نشد. لطفا فهرست فایلها را بروزرسانی کرده و مجددا تلاش کنید.',
 	118 : 'منبع و مقصد مسیر یکی است.',
@@ -208,10 +212,10 @@ CKFinder.lang['fa'] =
 	205 : 'هیچ پوشه موقتی برای آپلود فایل در سرور موجود نیست.',
 	206 : 'آپلود به دلایل امنیتی متوقف شد. فایل محتوی اطلاعات HTML است.',
 	207 : 'فایل آپلود شده به "%1" تغییر نام یافت.',
-	300 : 'جابجایی فایل(ها) ناموفق ماند.',
-	301 : 'کپی کردن فایل(ها) ناموفق ماند.',
+	300 : 'انتقال فایل (ها) شکست خورد.',
+	301 : 'کپی فایل (ها) شکست خورد.',
 	500 : 'مرورگر فایل به دلایل امنیتی غیر فعال است. لطفا با مدیر سامانه تماس بگیرید تا تنظیمات این بخش را بررسی نماید.',
-	501 : 'پشتیبانی انگشتیها غیر فعال است.'
+	501 : 'پشتیبانی از تصاویر کوچک غیرفعال شده است'
 	},
 
 	// Other Error Messages.
@@ -221,8 +225,8 @@ CKFinder.lang['fa'] =
 		FileExists		: 'فایل %s از قبل وجود دارد',
 		FolderEmpty		: 'نام پوشه نمیتواند خالی باشد',
 
-		FileInvChar		: 'نام فایل نمیتواند دارای نویسههای مقابل باشد: \n\\ / : * ? " < > |',
-		FolderInvChar	: 'نام پوشه نمیتواند دارای نویسههای مقابل باشد: \n\\ / : * ? " < > |',
+		FileInvChar		: 'نام فایل نباید شامل این کاراکترها باشد: \n\\ / : * ? " < > |',
+		FolderInvChar	: 'نام پوشه نباید شامل این کاراکترها باشد: \n\\ / : * ? " < > |',
 
 		PopupBlockView	: 'امکان بازگشایی فایل در پنجره جدید نیست. لطفا به بخش تنظیمات مرورگر خود مراجعه کنید و امکان بازگشایی پنجرههای بازشور را برای این سایت فعال کنید.',
 		XmlError		: 'امکان بارگیری صحیح پاسخ XML از سرور مقدور نیست.',
@@ -240,14 +244,14 @@ CKFinder.lang['fa'] =
 		thumbnailSmall	: 'کوچک (%s)',
 		thumbnailMedium	: 'متوسط (%s)',
 		thumbnailLarge	: 'بزرگ (%s)',
-		newSize			: 'تنظیم اندازه جدید',
+		newSize			: 'اندازه جدید',
 		width			: 'پهنا',
 		height			: 'ارتفاع',
 		invalidHeight	: 'ارتفاع نامعتبر.',
 		invalidWidth	: 'پهنا نامعتبر.',
 		invalidName		: 'نام فایل نامعتبر.',
 		newImage		: 'ایجاد تصویر جدید',
-		noExtensionChange : 'نام پسوند فایل نمیتواند تغییر کند.',
+		noExtensionChange : 'تغییر پسوند فایل امکان پذیر نیست.',
 		imageSmall		: 'تصویر اصلی خیلی کوچک است',
 		contextMenuName	: 'تغییر اندازه',
 		lockRatio		: 'قفل کردن تناسب.',
@@ -258,15 +262,20 @@ CKFinder.lang['fa'] =
 	Fileeditor :
 	{
 		save			: 'ذخیره',
-		fileOpenError	: 'قادر به گشودن فایل نیست.',
+		fileOpenError	: 'امکان باز کردن فایل نیست',
 		fileSaveSuccess	: 'فایل با موفقیت ذخیره شد.',
 		contextMenuName	: 'ویرایش',
-		loadingFile		: 'در حال بارگیری فایل، لطفا صبر کنید...'
+		loadingFile		: 'بارگذاری فایل، منتظر باشید...'
 	},
 
 	Maximize :
 	{
-		maximize : 'حداکثر نمودن',
-		minimize : 'حداقل نمودن'
+		maximize : 'بیشینه',
+		minimize : 'کمینه'
+	},
+
+	Gallery :
+	{
+		current : 'Image {current} of {total}' // MISSING
 	}
 };
