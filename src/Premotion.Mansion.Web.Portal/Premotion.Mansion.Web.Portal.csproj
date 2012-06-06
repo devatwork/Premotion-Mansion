@@ -51,6 +51,7 @@
     <Compile Include="Descriptors\DelayedRenderingBlockBehaviorDescriptor.cs" />
     <Compile Include="Descriptors\SharedBlockDisplayBehaviorDescriptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PortalRepositoryApplicationInitializer.cs" />
     <Compile Include="ScriptFunctions\HasPortalAdminPermission.cs" />
     <Compile Include="ScriptFunctions\RenderBlock.cs" />
     <Compile Include="ScriptFunctions\RenderBlockDelayed.cs" />
