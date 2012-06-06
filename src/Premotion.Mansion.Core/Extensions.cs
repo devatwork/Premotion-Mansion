@@ -165,7 +165,8 @@ namespace Premotion.Mansion.Core
 			// retrieve the node
 			var rootNode = repository.RetrieveSingle(context, new PropertyBag
 			                                                  {
-			                                                  	{"id", 1}
+			                                                  	{"id", 1},
+			                                                  	{"bypassAuthorization", true}
 			                                                  });
 			if (rootNode == null)
 				throw new InvalidOperationException("Could not find root node, please check repository");

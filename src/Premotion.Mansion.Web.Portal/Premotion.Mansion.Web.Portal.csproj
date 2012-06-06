@@ -50,6 +50,7 @@
     <Compile Include="Descriptors\DefaultBlockBehaviorDescriptor.cs" />
     <Compile Include="Descriptors\DelayedRenderingBlockBehaviorDescriptor.cs" />
     <Compile Include="Descriptors\SharedBlockDisplayBehaviorDescriptor.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PortalRepositoryApplicationInitializer.cs" />
     <Compile Include="ScriptFunctions\HasPortalAdminPermission.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Web\Types\Page\PageLayoutChangeListener.cs" />
     <Compile Include="Web\Types\Page\PageThemeChangeListener.cs" />
     <Compile Include="Web\Types\PresentationPage\PresentationPageListener.cs" />
+    <Compile Include="Web\Types\Site\SiteCreatedListener.cs" />
     <Compile Include="Web\Types\TemplatePage\TemplatePageListener.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -126,7 +128,9 @@
     <EmbeddedResource Include="Web\Types\ContentViewBlock\ContentViewBlock.xinclude" />
     <EmbeddedResource Include="Web\Types\Content\Content.tpl" />
     <EmbeddedResource Include="Web\Types\Content\Content.xdef" />
-    <EmbeddedResource Include="Web\Types\Content\Content.xform" />
+    <EmbeddedResource Include="Web\Types\Content\Content.xform">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Web\Types\Content\Content.xinclude" />
     <EmbeddedResource Include="Web\Types\ConfigurationPanelEntry\ConfigurationPanelEntry.xdef" />
     <EmbeddedResource Include="Web\Types\DefaultTheme\DefaultTheme.tpl" />

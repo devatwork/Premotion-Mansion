@@ -46,33 +46,10 @@ namespace Premotion.Mansion.Web.Portal
 					throw new InvalidOperationException("The root node was not found in the repository, please make sure it exists before initializing");
 
 				// make sure the content index root node exists
-				var contentIndexRootNode = context.Repository.RetrieveSingle(context, new PropertyBag
-				                                                                      {
-				                                                                      	{"parentSource", rootNode},
-				                                                                      	{"type", "ContentIndexRoot"},
-				                                                                      	{"status", "any"},
-				                                                                      	{"bypassAuthorization", true}
-				                                                                      }) ?? context.Repository.Create(context, rootNode, new PropertyBag
-				                                                                                                                         {
-				                                                                                                                         	{"type", "ContentIndexRoot"},
-				                                                                                                                         	{"name", "Shared content"}
-				                                                                                                                         });
+				context.Repository.RetrieveContentIndexRootNode(context);
 
 				// make sure the taxonomy node exists
-				if (context.Repository.RetrieveSingle(context, new PropertyBag
-				                                               {
-				                                               	{"parentSource", contentIndexRootNode},
-				                                               	{"type", "Taxonomy"},
-				                                               	{"status", "any"},
-				                                               	{"bypassAuthorization", true}
-				                                               }) == null)
-				{
-					context.Repository.Create(context, contentIndexRootNode, new PropertyBag
-					                                                         {
-					                                                         	{"type", "Taxonomy"},
-					                                                         	{"name", "Shared content"}
-					                                                         });
-				}
+				context.Repository.RetrieveTaxonomyNode(context);
 			}
 		}
 		#endregion
