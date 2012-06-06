@@ -25,44 +25,21 @@
 	<declareProcedure procedureName="IncludeGroupLookAndFeel">
 		<forms:fieldset label="Look and Feel">
 			<forms:selectbox name="theme" label="Kies een thema">
-				<providers:scriptedDatasetProvider>
-
-					<!-- include the inherit parent value -->
-					<if condition="{Not( IsAssignable( TargetProperties.type, 'Site'  ))}">
-						<setProperties dataspaceName="Option" value="" label="[Inherit]">
-							<addRowToSet source="{$Option}" target="{$Dataset}" />
-						</setProperties>
-						<else>
-							<forms:requiredFieldValidator />
-						</else>
-					</if>
-
-					<!-- get all the themes -->
-					<splitText input="{GetSubTypes( 'Theme' )}" separator="," target="ThemeSet">
-						<loopDataset source="{$ThemeSet}" target="ThemeOption">
-							<setProperties dataspaceName="Option" value="{ThemeOption.value}" label="{GetTypeDefinitionLabel( ThemeOption.value )}">
-								<addRowToSet source="{$Option}" target="{$Dataset}" />
-							</setProperties>
-						</loopDataset>
-					</splitText>
-
-				</providers:scriptedDatasetProvider>
+				<!-- theme is required for sites -->
+				<if condition="{IsAssignable( TargetProperties.type, 'Site' )}">
+					<forms:requiredFieldValidator />
+				</if>
+				
+				<!-- get all the themes -->
+				<providers:inhertingTypesDefinitionDatasetProvider type="Theme" />
 			</forms:selectbox>
 
 			<forms:selectbox name="layout" label="Kies een layout">
-				<providers:scriptedDatasetProvider>
-
-					<!-- get all the layouts -->
-					<splitText input="{GetSubTypes( 'Layout' )}" separator="," target="LayoutSet">
-						<loopDataset source="{$LayoutSet}" target="LayoutOption">
-							<setProperties dataspaceName="Option" value="{LayoutOption.value}" label="{GetTypeDefinitionLabel( LayoutOption.value )}">
-								<addRowToSet source="{$Option}" target="{$Dataset}" />
-							</setProperties>
-						</loopDataset>
-					</splitText>
-
-				</providers:scriptedDatasetProvider>
+				<!-- layout is always required -->
 				<forms:requiredFieldValidator />
+				
+				<!-- get all the layouts -->
+				<providers:inhertingTypesDefinitionDatasetProvider type="Layout" />
 			</forms:selectbox>
 		</forms:fieldset>
 	</declareProcedure>
