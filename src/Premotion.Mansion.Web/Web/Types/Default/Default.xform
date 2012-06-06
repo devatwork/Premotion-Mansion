@@ -135,7 +135,7 @@
 		<forms:collapsibleFieldset label="Identity">
 			<forms:textbox name="guid" label="Permanent Identifier" readonly="true" />
 			<forms:selectbox name="type" label="Type" defaultValue="{TargetProperties.type}">
-				<providers:typeDefinitionDatasetProvider type="{CurrentNode.type}" />
+				<providers:allTypesDefinitionDatasetProvider />
 				<forms:requiredFieldValidator message="Vul een type in" />
 			</forms:selectbox>
 			<forms:textbox name="pointer" label="Pointer" readonly="true" />

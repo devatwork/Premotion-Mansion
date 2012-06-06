@@ -37,7 +37,7 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:element name="typeDefinitionDatasetProvider" substitutionGroup="stl:scriptTag">
+	<xs:element name="allTypesDefinitionDatasetProvider" substitutionGroup="stl:scriptTag">
 		<xs:annotation>
 			<xs:documentation>Provides a dataset containing name/value pairs of all types.</xs:documentation>
 		</xs:annotation>
@@ -45,6 +45,48 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="ctrls:dataProviderBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="childTypeDefinitionDatasetProvider" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Provides a dataset containing name/value pairs of all types.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ctrls:dataProviderBase">
+					<!-- attributes -->
+					<xs:attribute name="type" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>
+								The type for which to get the possible child types. Abstract types are filtered out.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="inhertingTypesDefinitionDatasetProvider" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Provides a dataset containing name/value pairs of types inherting from the specified type.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ctrls:dataProviderBase">
+					<!-- attributes -->
+					<xs:attribute name="type" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>
+								The type for which to get the inheriting types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>

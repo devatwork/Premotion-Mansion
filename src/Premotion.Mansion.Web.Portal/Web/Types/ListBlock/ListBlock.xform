@@ -30,9 +30,9 @@
 	<!-- Group: ContentType -->
 	<declareProcedure procedureName="IncludeGroupContentType">
 		<forms:fieldset label="Content type">
-			<forms:infoMessage>Select the type of related content which to display.</forms:infoMessage>
+			<forms:infoMessage>Select the type of content which to display.</forms:infoMessage>
 			<forms:selectbox name="contentType" label="" defaultValue="Content">
-				<providers:typeDefinitionDatasetProvider />
+				<providers:inhertingTypesDefinitionDatasetProvider type="Content" />
 				<forms:requiredFieldValidator />
 			</forms:selectbox>
 		</forms:fieldset>

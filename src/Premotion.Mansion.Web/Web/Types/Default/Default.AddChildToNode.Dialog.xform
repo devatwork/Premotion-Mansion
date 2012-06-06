@@ -10,7 +10,7 @@
 				
 				<!-- essential properties -->
 				<forms:selectbox name="type" label="Type">
-					<providers:typeDefinitionDatasetProvider type="{UrlNode.type}" displayChildTypesOnly="true" />
+					<providers:childTypeDefinitionDatasetProvider type="{UrlNode.type}" />
 					<forms:requiredFieldValidator message="Vul een type in" />
 				</forms:selectbox>
 

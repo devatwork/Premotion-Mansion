@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Scripting.TagScript;
@@ -14,82 +15,223 @@ namespace Premotion.Mansion.Web.Controls.Providers.Datasets
 	/// </summary>
 	public class TypeDefinitionDatasetProvider : DatasetProvider
 	{
-		#region Nested type: AllTypesLoadStrategy
+		#region Nested type: AllTypesDefinitionDatasetProviderFactoryTag
 		/// <summary>
-		/// Simply provides all the available types.
+		/// Creates <see cref="TypeDefinitionDatasetProvider"/>s.
 		/// </summary>
-		private class AllTypesLoadStrategy : LoadStrategy
+		[ScriptTag(Constants.DataProviderTagNamespaceUri, "allTypesDefinitionDatasetProvider")]
+		public class AllTypesDefinitionDatasetProviderFactoryTag : DatasetProviderFactoryTag<DatasetProvider>
 		{
-			#region Overrides of LoadStrategy
+			#region Nested type: AllTypesLoadStrategy
 			/// <summary>
-			/// Gets the <see cref="ITypeDefinition"/>s which to provide.
+			/// Simply provides all the available types.
 			/// </summary>
-			/// <param name="context">The <see cref="IMansionContext"/>.</param>
-			/// <param name="typeService">The <see cref="ITypeService"/> from which to load the types.</param>
-			/// <returns>Returns the types which to provide.</returns>
-			protected override IEnumerable<ITypeDefinition> DoGet(IMansionContext context, ITypeService typeService)
+			private class AllTypesLoadStrategy : LoadStrategy
 			{
-				return typeService.LoadAll(context);
+				#region Overrides of LoadStrategy
+				/// <summary>
+				/// Gets the <see cref="ITypeDefinition"/>s which to provide.
+				/// </summary>
+				/// <param name="context">The <see cref="IMansionContext"/>.</param>
+				/// <param name="typeService">The <see cref="ITypeService"/> from which to load the types.</param>
+				/// <returns>Returns the types which to provide.</returns>
+				protected override IEnumerable<ITypeDefinition> DoGet(IMansionContext context, ITypeService typeService)
+				{
+					return typeService.LoadAll(context);
+				}
+				#endregion
+			}
+			#endregion
+			#region Overrides of DataProviderFactoryTag
+			/// <summary>
+			/// Creates the data provider.
+			/// </summary>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+			/// <returns>Returns the created data provider.</returns>
+			protected override DatasetProvider Create(IMansionWebContext context)
+			{
+				// choose the proper loading strategy
+				var strategy = new AllTypesLoadStrategy();
+
+				// by default return the all types strategy
+				return new TypeDefinitionDatasetProvider(strategy);
 			}
 			#endregion
 		}
 		#endregion
-		#region Nested type: ChildTypesLoadStrategy
+		#region Nested type: ChildTypeDefinitionDatasetProviderFactoryTag
 		/// <summary>
-		/// Provides a list of all child types.
+		/// Creates <see cref="TypeDefinitionDatasetProvider"/>s.
 		/// </summary>
-		private class ChildTypesLoadStrategy : LoadStrategy
+		[ScriptTag(Constants.DataProviderTagNamespaceUri, "childTypeDefinitionDatasetProvider")]
+		public class ChildTypeDefinitionDatasetProviderFactoryTag : DatasetProviderFactoryTag<DatasetProvider>
 		{
-			#region Constructors
+			#region Nested type: ChildTypesLoadStrategy
 			/// <summary>
-			/// Private constructor, use <see cref="Create"/>.
+			/// Provides a list of all child types.
 			/// </summary>
-			/// <param name="behavior">The <see cref="CmsBehavior"/>.</param>
-			private ChildTypesLoadStrategy(CmsBehavior behavior)
+			private class ChildTypesLoadStrategy : LoadStrategy
 			{
-				// set values
-				this.behavior = behavior;
-			}
-			#endregion
-			#region Factory Methods
-			/// <summary>
-			/// Creates a <see cref="ChildTypesLoadStrategy"/> strategy.
-			/// </summary>
-			/// <param name="context">The <see cref="IMansionContext"/>.</param>
-			/// <param name="parentType">The <see cref="ITypeDefinition"/> for which to load the child types.</param>
-			/// <returns>Returns the <see cref="ChildTypesLoadStrategy"/> instance.</returns>
-			public static ChildTypesLoadStrategy Create(IMansionContext context, ITypeDefinition parentType)
-			{
-				// validate arguments
-				if (context == null)
-					throw new ArgumentNullException("context");
-				if (parentType == null)
-					throw new ArgumentNullException("parentType");
+				#region Constructors
+				/// <summary>
+				/// Private constructor, use <see cref="Create"/>.
+				/// </summary>
+				/// <param name="behavior">The <see cref="CmsBehavior"/>.</param>
+				private ChildTypesLoadStrategy(CmsBehavior behavior)
+				{
+					// set values
+					this.behavior = behavior;
+				}
+				#endregion
+				#region Factory Methods
+				/// <summary>
+				/// Creates a <see cref="ChildTypesLoadStrategy"/> strategy.
+				/// </summary>
+				/// <param name="context">The <see cref="IMansionContext"/>.</param>
+				/// <param name="parentType">The <see cref="ITypeDefinition"/> for which to load the child types.</param>
+				/// <returns>Returns the <see cref="ChildTypesLoadStrategy"/> instance.</returns>
+				public static ChildTypesLoadStrategy Create(IMansionContext context, ITypeDefinition parentType)
+				{
+					// validate arguments
+					if (context == null)
+						throw new ArgumentNullException("context");
+					if (parentType == null)
+						throw new ArgumentNullException("parentType");
 
-				// get the CMS behavoir
-				CmsBehaviorDescriptor cmsDescriptor;
-				if (!parentType.TryFindDescriptorInHierarchy(out cmsDescriptor))
-					throw new InvalidOperationException(string.Format("Could not find cmd behavoir descriptor on type {0}", parentType.Name));
-				var behavior = cmsDescriptor.GetBehavior(context);
+					// get the CMS behavoir
+					CmsBehaviorDescriptor cmsDescriptor;
+					if (!parentType.TryFindDescriptorInHierarchy(out cmsDescriptor))
+						throw new InvalidOperationException(string.Format("Could not find cmd behavoir descriptor on type {0}", parentType.Name));
+					var behavior = cmsDescriptor.GetBehavior(context);
 
-				// create the strategy
-				return new ChildTypesLoadStrategy(behavior);
+					// create the strategy
+					return new ChildTypesLoadStrategy(behavior);
+				}
+				#endregion
+				#region Overrides of LoadStrategy
+				/// <summary>
+				/// Gets the <see cref="ITypeDefinition"/>s which to provide.
+				/// </summary>
+				/// <param name="context">The <see cref="IMansionContext"/>.</param>
+				/// <param name="typeService">The <see cref="ITypeService"/> from which to load the types.</param>
+				/// <returns>Returns the types which to provide.</returns>
+				protected override IEnumerable<ITypeDefinition> DoGet(IMansionContext context, ITypeService typeService)
+				{
+					return behavior.GetAllowedChildTypes(context).Where(candidate =>
+					                                                    {
+					                                                    	CmsBehaviorDescriptor cmsDescriptor;
+					                                                    	if (!candidate.TryFindDescriptorInHierarchy(out cmsDescriptor))
+					                                                    		throw new InvalidOperationException(string.Format("Could not find cmd behavoir descriptor on type {0}", candidate.Name));
+					                                                    	var cmsBehavoir = cmsDescriptor.GetBehavior(context);
+					                                                    	return !cmsBehavoir.IsAbstract;
+					                                                    });
+				}
+				#endregion
+				#region Private Fields
+				private readonly CmsBehavior behavior;
+				#endregion
 			}
 			#endregion
-			#region Overrides of LoadStrategy
+			#region Overrides of DataProviderFactoryTag
 			/// <summary>
-			/// Gets the <see cref="ITypeDefinition"/>s which to provide.
+			/// Creates the data provider.
 			/// </summary>
-			/// <param name="context">The <see cref="IMansionContext"/>.</param>
-			/// <param name="typeService">The <see cref="ITypeService"/> from which to load the types.</param>
-			/// <returns>Returns the types which to provide.</returns>
-			protected override IEnumerable<ITypeDefinition> DoGet(IMansionContext context, ITypeService typeService)
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+			/// <returns>Returns the created data provider.</returns>
+			protected override DatasetProvider Create(IMansionWebContext context)
 			{
-				return behavior.GetAllowedChildTypes(context);
+				// get the type
+				var parentType = GetRequiredAttribute<ITypeDefinition>(context, "type");
+
+				// create the childtypestrategy
+				var strategy = ChildTypesLoadStrategy.Create(context, parentType);
+
+				// by default return the all types strategy
+				return new TypeDefinitionDatasetProvider(strategy);
 			}
 			#endregion
-			#region Private Fields
-			private readonly CmsBehavior behavior;
+		}
+		#endregion
+		#region Nested type: InheritingTypesDefinitionDatasetProviderFactoryTag
+		/// <summary>
+		/// Creates <see cref="TypeDefinitionDatasetProvider"/>s.
+		/// </summary>
+		[ScriptTag(Constants.DataProviderTagNamespaceUri, "inhertingTypesDefinitionDatasetProvider")]
+		public class InheritingTypesDefinitionDatasetProviderFactoryTag : DatasetProviderFactoryTag<DatasetProvider>
+		{
+			#region Nested type: InhertingTypesLoadStrategy
+			/// <summary>
+			/// Provides a list of all child types.
+			/// </summary>
+			private class InhertingTypesLoadStrategy : LoadStrategy
+			{
+				#region Constructors
+				/// <summary>
+				/// Private constructor, use <see cref="Create"/>.
+				/// </summary>
+				/// <param name="inhertingTypes">The <see cref="CmsBehavior"/>.</param>
+				private InhertingTypesLoadStrategy(ICollection<ITypeDefinition> inhertingTypes)
+				{
+					// set values
+					this.inhertingTypes = inhertingTypes;
+				}
+				#endregion
+				#region Factory Methods
+				/// <summary>
+				/// Creates a <see cref="InhertingTypesLoadStrategy"/> strategy.
+				/// </summary>
+				/// <param name="context">The <see cref="IMansionContext"/>.</param>
+				/// <param name="parentType">The <see cref="ITypeDefinition"/> for which to load the child types.</param>
+				/// <returns>Returns the <see cref="InhertingTypesLoadStrategy"/> instance.</returns>
+				public static InhertingTypesLoadStrategy Create(IMansionContext context, ITypeDefinition parentType)
+				{
+					// validate arguments
+					if (context == null)
+						throw new ArgumentNullException("context");
+					if (parentType == null)
+						throw new ArgumentNullException("parentType");
+
+					// set the inheriting types
+					var inhertingTypes = parentType.GetInheritingTypes(context).ToList();
+
+					// create the strategy
+					return new InhertingTypesLoadStrategy(inhertingTypes);
+				}
+				#endregion
+				#region Overrides of LoadStrategy
+				/// <summary>
+				/// Gets the <see cref="ITypeDefinition"/>s which to provide.
+				/// </summary>
+				/// <param name="context">The <see cref="IMansionContext"/>.</param>
+				/// <param name="typeService">The <see cref="ITypeService"/> from which to load the types.</param>
+				/// <returns>Returns the types which to provide.</returns>
+				protected override IEnumerable<ITypeDefinition> DoGet(IMansionContext context, ITypeService typeService)
+				{
+					return inhertingTypes;
+				}
+				#endregion
+				#region Private Fields
+				private readonly ICollection<ITypeDefinition> inhertingTypes;
+				#endregion
+			}
+			#endregion
+			#region Overrides of DataProviderFactoryTag
+			/// <summary>
+			/// Creates the data provider.
+			/// </summary>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+			/// <returns>Returns the created data provider.</returns>
+			protected override DatasetProvider Create(IMansionWebContext context)
+			{
+				// get the type
+				var parentType = GetRequiredAttribute<ITypeDefinition>(context, "type");
+
+				// create the childtypestrategy
+				var strategy = InhertingTypesLoadStrategy.Create(context, parentType);
+
+				// by default return the all types strategy
+				return new TypeDefinitionDatasetProvider(strategy);
+			}
 			#endregion
 		}
 		#endregion
@@ -121,40 +263,6 @@ namespace Premotion.Mansion.Web.Controls.Providers.Datasets
 			/// <param name="typeService">The <see cref="ITypeService"/> from which to load the types.</param>
 			/// <returns>Returns the types which to provide.</returns>
 			protected abstract IEnumerable<ITypeDefinition> DoGet(IMansionContext context, ITypeService typeService);
-		}
-		#endregion
-		#region Nested type: TypeDefinitionDatasetProviderFactoryTag
-		/// <summary>
-		/// Creates <see cref="TypeDefinitionDatasetProvider"/>s.
-		/// </summary>
-		[ScriptTag(Constants.DataProviderTagNamespaceUri, "typeDefinitionDatasetProvider")]
-		public class TypeDefinitionDatasetProviderFactoryTag : DatasetProviderFactoryTag<DatasetProvider>
-		{
-			#region Overrides of DataProviderFactoryTag
-			/// <summary>
-			/// Creates the data provider.
-			/// </summary>
-			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
-			/// <returns>Returns the created data provider.</returns>
-			protected override DatasetProvider Create(IMansionWebContext context)
-			{
-				// choose the proper loading strategy
-				LoadStrategy strategy;
-				if (GetAttribute(context, "displayChildTypesOnly", false))
-				{
-					// get the type
-					var parentType = GetRequiredAttribute<ITypeDefinition>(context, "type");
-
-					// create the childtypestrategy
-					strategy = ChildTypesLoadStrategy.Create(context, parentType);
-				}
-				else
-					strategy = new AllTypesLoadStrategy();
-
-				// by default return the all types strategy
-				return new TypeDefinitionDatasetProvider(strategy);
-			}
-			#endregion
 		}
 		#endregion
 		#region Constructors
@@ -191,10 +299,6 @@ namespace Premotion.Mansion.Web.Controls.Providers.Datasets
 				if (!type.TryFindDescriptorInHierarchy(out cmsDescriptor))
 					throw new InvalidOperationException(string.Format("Could not find cmd behavoir descriptor on type {0}", type.Name));
 				var cmsBehavoir = cmsDescriptor.GetBehavior(context);
-
-				// if the type is abstract do not display it here
-				if (cmsBehavoir.IsAbstract)
-					continue;
 
 				// create a row
 				dataset.AddRow(new PropertyBag

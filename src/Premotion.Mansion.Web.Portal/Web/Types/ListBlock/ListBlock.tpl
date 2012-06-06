@@ -7,14 +7,14 @@
 </tpl:section>
 
 <tpl:section name="Results">
-	<ol class="clearfix content content-list {BlockProperties.listItemAppearance}">
+	<ol class="unstyled list content-list {BlockProperties.listItemAppearance}">
 		{ListItem}
 	</ol>
 	{RenderPagingControl( $ResultSet, Concat( 'block-', BlockProperties.id ) )}
 </tpl:section>
 
 	<tpl:section name="ListItem">
-		<li class="clearfix clickable {ToLower( Row.type )}-item">
+		<li class="clickable {ToLower( Row.type )}-item">
 			{ListContent}
 		</li>
 	</tpl:section>

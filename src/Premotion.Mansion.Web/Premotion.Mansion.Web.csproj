@@ -310,8 +310,12 @@
     <EmbeddedResource Include="Web\Cms\CmsController.xinclude" />
     <EmbeddedResource Include="Web\Cms\DialogController.tpl" />
     <EmbeddedResource Include="Web\Cms\DialogController.xinclude" />
-    <EmbeddedResource Include="Web\Controls\AsyncController.xinclude" />
-    <EmbeddedResource Include="Web\Controls\Controls.tpl" />
+    <EmbeddedResource Include="Web\Controls\AsyncController.xinclude">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Web\Controls\Controls.tpl">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Web\Controls\Css\Controls.css" />
     <EmbeddedResource Include="Web\Controls\EditorController.tpl" />
     <EmbeddedResource Include="Web\Controls\EditorController.xinclude" />
