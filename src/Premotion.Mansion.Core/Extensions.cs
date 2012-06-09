@@ -172,6 +172,50 @@ namespace Premotion.Mansion.Core
 				throw new InvalidOperationException("Could not find root node, please check repository");
 			return rootNode;
 		}
+		/// <summary>
+		/// Retrieves the <see cref="Node"/> by it's <paramref name="id"/>.
+		/// </summary>
+		/// <param name="repository">The <see cref="IRepository"/> from which to retrieve the node.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="id">The ID of the <see cref="Node"/> which to retrieve.</param>
+		/// <returns>Returns the <see cref="Node"/> when found.</returns>
+		public static Node RetrieveSingle(this IRepository repository, IMansionContext context, int id)
+		{
+			// validate arguments
+			if (repository == null)
+				throw new ArgumentNullException("repository");
+			if (context == null)
+				throw new ArgumentNullException("context");
+
+			// retrieve the node
+			return repository.RetrieveSingle(context, new PropertyBag
+			                                          {
+			                                          	{"id", id},
+			                                          	{"bypassAuthorization", true}
+			                                          });
+		}
+		/// <summary>
+		/// Retrieves the <see cref="Node"/> by it's <paramref name="guid"/>.
+		/// </summary>
+		/// <param name="repository">The <see cref="IRepository"/> from which to retrieve the node.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="guid">The <see cref="Guid"/> of the <see cref="Node"/> which to retrieve.</param>
+		/// <returns>Returns the <see cref="Node"/> when found.</returns>
+		public static Node RetrieveSingle(this IRepository repository, IMansionContext context, Guid guid)
+		{
+			// validate arguments
+			if (repository == null)
+				throw new ArgumentNullException("repository");
+			if (context == null)
+				throw new ArgumentNullException("context");
+
+			// retrieve the node
+			return repository.RetrieveSingle(context, new PropertyBag
+			                                          {
+			                                          	{"guid", guid},
+			                                          	{"bypassAuthorization", true}
+			                                          });
+		}
 		#endregion
 		#region INucleus Extensions
 		/// <summary>
