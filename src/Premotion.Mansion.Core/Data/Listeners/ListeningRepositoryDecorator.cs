@@ -179,15 +179,16 @@ namespace Premotion.Mansion.Core.Data.Listeners
 			var nodeListeners = GetListeners(nodeType);
 
 			// fire the on before move
+			var originalParentPointer = pointer.Parent;
 			foreach (var listener in nodeListeners)
-				listener.BeforeMove(context, pointer, newParentPointer);
+				listener.BeforeMove(context, originalParentPointer, newParentPointer, pointer);
 
 			// execute the derived class
 			var node = DecoratedRepository.Move(context, pointer, newParentPointer);
 
 			// fire the on after move
 			foreach (var listener in nodeListeners)
-				listener.AfterMove(context, node);
+				listener.AfterMove(context, originalParentPointer, newParentPointer, node);
 
 			return node;
 		}
@@ -205,15 +206,16 @@ namespace Premotion.Mansion.Core.Data.Listeners
 			var nodeListeners = GetListeners(nodeType);
 
 			// fire the on before copy
+			var originalParentPointer = pointer.Parent;
 			foreach (var listener in nodeListeners)
-				listener.BeforeCopy(context, pointer, targetParentPointer);
+				listener.BeforeCopy(context, originalParentPointer, targetParentPointer, pointer);
 
 			// execute the derived class
 			var node = DecoratedRepository.Copy(context, pointer, targetParentPointer);
 
 			// fire the on after copy
 			foreach (var listener in nodeListeners)
-				listener.AfterCopy(context, node);
+				listener.AfterCopy(context, originalParentPointer, targetParentPointer, node);
 
 			return node;
 		}
