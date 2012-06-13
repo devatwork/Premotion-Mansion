@@ -1,4 +1,7 @@
-﻿using Premotion.Mansion.Core.Patterns.Voting;
+﻿using System;
+using Premotion.Mansion.Core.Conversion;
+using Premotion.Mansion.Core.IO.Memory;
+using Premotion.Mansion.Core.Patterns.Voting;
 
 namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 {
@@ -7,6 +10,51 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 	/// </summary>
 	public class EscapedExpressionInterpreter : ExpressionPartInterpreter
 	{
+		#region Nested type: EscapedExpression
+		/// <summary>
+		/// Implements a literal expression.
+		/// </summary>
+		private class EscapedExpression : PhraseExpression
+		{
+			#region Constructors
+			/// <summary>
+			/// Constructs a literal expression with the content.
+			/// </summary>
+			/// <param name="escapedExpression">The content.</param>
+			public EscapedExpression(IExpressionScript escapedExpression)
+			{
+				// validate arguments
+				if (escapedExpression == null)
+					throw new ArgumentNullException("escapedExpression");
+
+				// set values
+				this.escapedExpression = escapedExpression;
+			}
+			#endregion
+			#region Evaluate Methods
+			/// <summary>
+			/// Evaluates this expression.
+			/// </summary>
+			/// <typeparam name="TTarget">The target type.</typeparam>
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
+			/// <returns>Returns the result of the evaluation.</returns>
+			public override TTarget Execute<TTarget>(IMansionContext context)
+			{
+				// validate arguments
+				if (context == null)
+					throw new ArgumentNullException("context");
+
+				// evaluate to string
+				var parsedContent = escapedExpression.Execute<string>(context);
+
+				return context.Nucleus.ResolveSingle<IConversionService>().Convert<TTarget>(context, "{" + parsedContent + "}");
+			}
+			#endregion
+			#region Private Fields
+			private readonly IExpressionScript escapedExpression;
+			#endregion
+		}
+		#endregion
 		#region Vote Methods
 		/// <summary>
 		/// Asks a voter to cast a vote on the subject.
@@ -32,8 +80,14 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// <returns>Returns the interpreted result.</returns>
 		protected override IExpressionScript DoInterpret(IMansionContext context, string input)
 		{
-			// generate the literal
-			return new LiteralExpressionInterpreter.LiteralExpression("{" + input.Substring(2));
+			// get the exrepssion service
+			var expressionService = context.Nucleus.ResolveSingle<IExpressionScriptService>();
+
+			// parse the expression
+			var escapedExpression = expressionService.Parse(context, new LiteralResource(input.Substring(2, input.Length - 3)));
+
+			// return the literal
+			return new EscapedExpression(escapedExpression);
 		}
 		#endregion
 	}

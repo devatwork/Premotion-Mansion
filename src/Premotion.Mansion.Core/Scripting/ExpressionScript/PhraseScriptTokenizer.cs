@@ -27,50 +27,60 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 
 			// loop through all the charachter in the input
 			var buffer = new StringBuilder();
-			var inSection = false;
+			var inSectionDepth = 0;
 			for (var index = 0; index < input.Length; index++)
 			{
 				// get the character
 				var character = input[index];
 
 				// check if we are in a section
-				if (inSection)
+				if (inSectionDepth > 0)
 				{
 					if (character == '}')
 					{
-						// clear the section flag
-						inSection = false;
+						// decrease the section depth
+						inSectionDepth--;
 
 						// check if the separating token should not be removed
 						buffer.Append(character);
 
 						// check if there is a remainder in the buffer
-						if (buffer.Length > 0)
+						if (inSectionDepth == 0)
 						{
-							yield return buffer.ToString();
-							buffer.Length = 0;
+							if (buffer.Length > 0)
+							{
+								yield return buffer.ToString();
+								buffer.Length = 0;
+							}
 						}
 
 						continue;
 					}
 				}
 					// check for start of a section
-				else if (character == '{' && (index < input.Length - 1 && !char.IsWhiteSpace(input[index + 1])))
+				if (character == '{' && (index < input.Length - 1 && !char.IsWhiteSpace(input[index + 1])))
 				{
-					// set the section flag
-					inSection = true;
-
 					// check if there is a remainder in the buffer
-					if (buffer.Length > 0)
+					if (inSectionDepth == 0)
 					{
-						yield return buffer.ToString();
-						buffer.Length = 0;
+						if (buffer.Length > 0)
+						{
+							yield return buffer.ToString();
+							buffer.Length = 0;
+						}
 					}
+
+					// increase the section depth
+					inSectionDepth++;
 				}
 
 				// add the character to the buffer
 				buffer.Append(character);
 			}
+
+			// Guard against unbalanced section depth
+			if (inSectionDepth != 0)
+				throw new InvalidOperationException(string.Format("Unbalanced script detected: '{0}'", input));
 
 			// check if there is a remainder in the buffer
 			if (buffer.Length > 0)
