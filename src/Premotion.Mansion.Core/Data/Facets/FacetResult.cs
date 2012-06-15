@@ -23,14 +23,27 @@ namespace Premotion.Mansion.Core.Data.Facets
 				throw new ArgumentNullException("values");
 
 			// set the values
-			Values = values.OrderByDescending(value => value.Count).ToList();
+			this.values = values.OrderByDescending(value => value.Count).ToList();
 		}
 		#endregion
 		#region Properties
 		/// <summary>
 		/// Gets the resulting <see cref="FacetValue"/>s.
 		/// </summary>
-		public IEnumerable<FacetValue> Values { get; set; }
+		public IEnumerable<FacetValue> Values
+		{
+			get { return values; }
+		}
+		/// <summary>
+		/// Gets the number of values within this result.
+		/// </summary>
+		public int ValueCount
+		{
+			get { return values.Count; }
+		}
+		#endregion
+		#region Private Fields
+		private readonly ICollection<FacetValue> values;
 		#endregion
 	}
 }

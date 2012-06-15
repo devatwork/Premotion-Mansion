@@ -21,19 +21,29 @@ namespace Premotion.Mansion.Core.Data.Facets
 				throw new ArgumentNullException("value");
 
 			// set values
-			Value = value;
-			Count = count;
+			this.value = value;
+			this.count = count;
 		}
 		#endregion
 		#region Properties
 		/// <summary>
 		/// Gets the value of this facet value.
 		/// </summary>
-		public object Value { get; set; }
+		public object Value
+		{
+			get { return value; }
+		}
 		/// <summary>
 		/// Gets the number of results for this facet value.
 		/// </summary>
-		public int Count { get; set; }
+		public int Count
+		{
+			get { return count; }
+		}
+		#endregion
+		#region Private Fields
+		private readonly int count;
+		private readonly object value;
 		#endregion
 	}
 }

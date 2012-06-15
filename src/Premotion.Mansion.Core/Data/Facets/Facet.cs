@@ -23,8 +23,8 @@ namespace Premotion.Mansion.Core.Data.Facets
 				throw new ArgumentNullException("friendlyName");
 
 			//set values
-			PropertyName = propertyName;
-			FriendlyName = friendlyName;
+			this.propertyName = propertyName;
+			this.friendlyName = friendlyName;
 		}
 		/// <summary>
 		/// Copies the given <paramref name="facet"/>/
@@ -37,19 +37,29 @@ namespace Premotion.Mansion.Core.Data.Facets
 				throw new ArgumentNullException("facet");
 
 			//  set values
-			FriendlyName = facet.FriendlyName;
-			PropertyName = facet.PropertyName;
+			friendlyName = facet.FriendlyName;
+			propertyName = facet.PropertyName;
 		}
 		#endregion
 		#region Properties
 		/// <summary>
 		/// Gets the frienldy name of this facet.
 		/// </summary>
-		public string FriendlyName { get; set; }
+		public string FriendlyName
+		{
+			get { return friendlyName; }
+		}
 		/// <summary>
 		/// Gets the name of the property on which to facet.
 		/// </summary>
-		public string PropertyName { get; set; }
+		public string PropertyName
+		{
+			get { return propertyName; }
+		}
+		#endregion
+		#region Private Fields
+		private readonly string friendlyName;
+		private readonly string propertyName;
 		#endregion
 	}
 }
