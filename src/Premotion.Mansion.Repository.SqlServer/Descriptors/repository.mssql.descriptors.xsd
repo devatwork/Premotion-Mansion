@@ -167,7 +167,26 @@
 	
 	
 	
-	<!-- schema descriptor -->
+	<!-- full text descriptor -->
+	<xs:element name="fullText" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>Describes the full-text settings.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attribute name="properties" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>
+						A csv of all the properties which to index.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	
+	
+	
+	<!-- schema descriptor -->	
 	<xs:element name="schema" substitutionGroup="def:typeDescriptor" type="xs:string">
 		<xs:annotation>
 			<xs:documentation>Describes the schema of the current type. The content of this descriptor is executed on EVERY application startup. Use it to create tables and indices.</xs:documentation>

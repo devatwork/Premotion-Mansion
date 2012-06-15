@@ -36,8 +36,14 @@
 		<sqlserver:singleValuePropertyTable tableName="NodeTagGuids" />
 	</property>
 	
+	<!-- full text-->
+	<property name="fullText">
+		<sqlserver:column allowNullValue="true" />
+	</property>
+	
 	<!-- tables -->
 	<sqlserver:rootTypeTable tableName="Nodes" />
+	<sqlserver:fullText properties="name,description,body" />
 	
 	<!-- url generator -->
 	<webdescriptors:nodeUrlGenerator type="Premotion.Mansion.Web.Url.NamedUrlGenerator,Premotion.Mansion.Web" />
@@ -87,6 +93,7 @@ BEGIN
 			CONSTRAINT [DF_Nodes_expirationDate] DEFAULT (dateadd(year,(10),getdate())),
 		[archived] [int] NOT NULL
 			CONSTRAINT [DF_Nodes_archived] DEFAULT ((0)),
+		[fullText] [nvarchar](max) NULL,
 		[extendedProperties] [image] NULL
 	);
 	-- Create indices
@@ -134,6 +141,20 @@ BEGIN
 				ON UPDATE CASCADE
 				ON DELETE CASCADE,
 		[value] [uniqueidentifier] NOT NULL
+	);
+END
+
+-- Nodes Catalog
+IF NOT EXISTS (SELECT 1 FROM sys.fulltext_catalogs WHERE [name] = 'NodesCatalog')
+BEGIN
+	CREATE FULLTEXT CATALOG [NodesCatalog] WITH ACCENT_SENSITIVITY = OFF
+	AUTHORIZATION [dbo];
+	CREATE FULLTEXT INDEX ON [dbo].[Nodes] (
+		[fullText] Language 1043
+	) KEY INDEX [PK_Nodes]
+	ON [NodesCatalog]
+	WITH (
+		CHANGE_TRACKING = AUTO
 	);
 END]]></sqlserver:schema>
 	

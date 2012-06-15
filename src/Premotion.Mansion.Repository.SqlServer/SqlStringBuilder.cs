@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Premotion.Mansion.Core;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
 
 namespace Premotion.Mansion.Repository.SqlServer
@@ -15,15 +16,15 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// Constructs a SQL string builder.
 		/// </summary>
 		/// <param name="rootTable"></param>
-		public SqlStringBuilder(string rootTable)
+		public SqlStringBuilder(Table rootTable)
 		{
 			// validate arguments
-			if (string.IsNullOrEmpty(rootTable))
+			if (rootTable == null)
 				throw new ArgumentNullException("rootTable");
 
 			// set values
-			tables.AppendFormat("[{0}]", rootTable);
-			includedTables.Add(rootTable);
+			tables.AppendFormat("[{0}]", rootTable.Name);
+			includedTables.Add(rootTable.Name);
 			this.rootTable = rootTable;
 		}
 		#endregion
@@ -31,10 +32,13 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <summary>
 		/// Adds the table to the query.
 		/// </summary>
-		/// <param name="table"></param>
-		public void AddTable(Table table)
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="table">The <see cref="Table"/> which to add.</param>
+		public void AddTable(IMansionContext context, Table table)
 		{
 			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
 			if (table == null)
 				throw new ArgumentNullException("table");
 
@@ -43,7 +47,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 				return;
 			includedTables.Add(table.Name);
 
-			tables.AppendFormat(" INNER JOIN [{0}] ON [{0}].[id] = [{1}].[id]", table.Name, rootTable);
+			tables.Append(" " + table.ToJoinStatement(context, rootTable));
 		}
 		#endregion
 		#region Clause Methods
@@ -203,7 +207,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 				commandText.AppendFormat(" {0}", limit);
 
 			if (columns.Length == 0)
-				commandText.AppendFormat(" [{0}].* FROM {1}", rootTable, tables);
+				commandText.AppendFormat(" [{0}].* FROM {1}", rootTable.Name, tables);
 			else
 				commandText.AppendFormat(" {0} FROM {1}", columns, tables);
 
@@ -246,7 +250,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 				commandText.AppendFormat(" {0}", limit);
 
 			if (columns.Length == 0)
-				commandText.AppendFormat(" [{0}].* FROM {1}", rootTable, tables);
+				commandText.AppendFormat(" [{0}].* FROM {1}", rootTable.Name, tables);
 			else
 				commandText.AppendFormat(" {0} FROM {1}", columns, tables);
 
@@ -276,14 +280,14 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// </summary>
 		public string RootTableName
 		{
-			get { return rootTable; }
+			get { return rootTable.Name; }
 		}
 		#endregion
 		#region Private Fields
 		private readonly StringBuilder columns = new StringBuilder();
 		private readonly ICollection<string> includedTables = new List<string>();
 		private readonly StringBuilder orderBys = new StringBuilder();
-		private readonly string rootTable;
+		private readonly Table rootTable;
 		private readonly StringBuilder tables = new StringBuilder();
 		private readonly StringBuilder wheres = new StringBuilder();
 		private string limit;

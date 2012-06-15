@@ -41,6 +41,35 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		#endregion
 		#region Statement Mapping Methods
 		/// <summary>
+		/// Generates a statement which joins this table to the given <paramref name="rootTable"/>/
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="rootTable">The root <see cref="Table"/> to which to join this table.</param>
+		/// <returns>Returns the join statement.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="rootTable"/> is null.</exception>
+		public string ToJoinStatement(IMansionContext context, Table rootTable)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (rootTable == null)
+				throw new ArgumentNullException("rootTable");
+
+			// invoke template method
+			return DoToJoinStatement(context, rootTable);
+		}
+		/// <summary>
+		/// Generates a statement which joins this table to the given <paramref name="rootTable"/>/
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="rootTable">The root <see cref="Table"/> to which to join this table.</param>
+		/// <returns>Returns the join statement.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="rootTable"/> is null.</exception>
+		protected virtual string DoToJoinStatement(IMansionContext context, Table rootTable)
+		{
+			return string.Format("INNER JOIN [{0}] ON [{0}].[id] = [{1}].[id]", Name, rootTable.Name);
+		}
+		/// <summary>
 		/// Generates the insert statement for this table.
 		/// </summary>
 		/// <param name="context"></param>
@@ -69,7 +98,10 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="newPointer"></param>
 		/// <param name="newProperties"></param>
-		protected abstract void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag newProperties);
+		protected virtual void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag newProperties)
+		{
+			throw new NotSupportedException();
+		}
 		/// <summary>
 		/// Generates the update statement for this table.
 		/// </summary>
@@ -99,7 +131,10 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="queryBuilder"></param>
 		/// <param name="node"></param>
 		/// <param name="modifiedProperties"></param>
-		protected abstract void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties);
+		protected virtual void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		{
+			throw new NotSupportedException();
+		}
 		/// <summary>
 		/// Generates an table sync statement for this table.
 		/// </summary>
@@ -125,7 +160,10 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="context">The request context.</param>
 		/// <param name="bulkContext"></param>
 		/// <param name="nodes"></param>
-		protected abstract void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Node> nodes);
+		protected virtual void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Node> nodes)
+		{
+			throw new NotSupportedException();
+		}
 		#endregion
 		#region Properties
 		/// <summary>

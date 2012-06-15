@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Patterns;
+using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
 
 namespace Premotion.Mansion.Repository.SqlServer.Queries
@@ -55,10 +56,16 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			// set the modified date
 			modifiedProperties.TrySet("modified", DateTime.Now);
 
-			// retrieve the schema
-			var schema = SchemaProvider.Resolve(context, node.Pointer.Type);
+			// retrieve the type
+			var type = context.Nucleus.ResolveSingle<ITypeService>().Load(context, node.Pointer.Type);
 
-			// create the commands
+			// retrieve the schema
+			var schema = SchemaProvider.Resolve(context, type);
+
+			// set the full text property
+			SqlServerUtilities.PopulateFullTextColumn(context, type, modifiedProperties, node);
+
+			// create the commandse
 			var command = connection.CreateCommand();
 			command.CommandType = CommandType.Text;
 			command.Transaction = transaction;

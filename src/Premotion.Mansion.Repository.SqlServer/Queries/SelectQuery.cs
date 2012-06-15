@@ -74,7 +74,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			var schema = SchemaProvider.Resolve(context, query);
 
 			// create the command
-			var queryBuilder = new SqlStringBuilder(schema.RootTable.Name);
+			var queryBuilder = new SqlStringBuilder(schema.RootTable);
 			var command = connection.CreateCommand();
 			command.CommandType = CommandType.Text;
 

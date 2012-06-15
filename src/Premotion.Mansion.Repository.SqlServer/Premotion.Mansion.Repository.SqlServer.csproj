@@ -49,6 +49,7 @@
     <Compile Include="Converters\BaseTypeClauseConverter.cs" />
     <Compile Include="Converters\ChildOfClauseConverter.cs" />
     <Compile Include="Converters\ClauseConverter.cs" />
+    <Compile Include="Converters\FullTextSearchClauseConverter.cs" />
     <Compile Include="Converters\IClauseConverter.cs" />
     <Compile Include="Converters\IdClauseConverter.cs" />
     <Compile Include="Converters\LimitClauseConverter.cs" />
@@ -60,6 +61,8 @@
     <Compile Include="Converters\StatusClauseConverter.cs" />
     <Compile Include="Converters\TypeClauseConverter.cs" />
     <Compile Include="Converters\WhereClauseConverter.cs" />
+    <Compile Include="Data\Clauses\FullTextSearchClause.cs" />
+    <Compile Include="Descriptors\FullTextDescriptor.cs" />
     <Compile Include="Descriptors\SchemaDescriptor.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="ModificationQueryBuilder.cs" />
@@ -69,6 +72,7 @@
     <Compile Include="Queries\InsertQuery.cs" />
     <Compile Include="Queries\MoveQuery.cs" />
     <Compile Include="Queries\SelectQuery.cs" />
+    <Compile Include="SqlServerUtilities.cs" />
     <Compile Include="Queries\UpdateQuery.cs" />
     <Compile Include="SchemaCreatorApplicationInitializer.cs" />
     <Compile Include="Schemas\BooleanPropertyColumn.cs" />

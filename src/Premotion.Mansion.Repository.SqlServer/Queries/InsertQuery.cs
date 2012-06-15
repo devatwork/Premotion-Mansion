@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Patterns;
+using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
 
 namespace Premotion.Mansion.Repository.SqlServer.Queries
@@ -53,18 +54,24 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 				throw new ArgumentNullException("newProperties");
 
 			// get the values
-			var name = newProperties.Get<string>(context, "name");
+			var name = newProperties.Get<string>(context, "name", null);
 			if (string.IsNullOrWhiteSpace(name))
 				throw new InvalidOperationException("The node must have a name");
-			var type = newProperties.Get<string>(context, "type");
-			if (string.IsNullOrWhiteSpace(type))
+			var typeName = newProperties.Get<string>(context, "type", null);
+			if (string.IsNullOrWhiteSpace(typeName))
 				throw new InvalidOperationException("The node must have a type");
+
+			// retrieve the type
+			var type = context.Nucleus.ResolveSingle<ITypeService>().Load(context, typeName);
 
 			// retrieve the schema
 			var schema = SchemaProvider.Resolve(context, type);
 
+			// set the full text property
+			SqlServerUtilities.PopulateFullTextColumn(context, type, newProperties, newProperties);
+
 			// create the new pointer
-			var newPointer = NodePointer.Parse(string.Join(NodePointer.PointerSeparator, new[] {parent.PointerString, 0.ToString()}), string.Join(NodePointer.StructureSeparator, new[] {parent.StructureString, type}), string.Join(NodePointer.PathSeparator, new[] {parent.PathString, name}));
+			var newPointer = NodePointer.Parse(string.Join(NodePointer.PointerSeparator, new[] {parent.PointerString, 0.ToString()}), string.Join(NodePointer.StructureSeparator, new[] {parent.StructureString, type.Name}), string.Join(NodePointer.PathSeparator, new[] {parent.PathString, name}));
 
 			// create the commands
 			var command = connection.CreateCommand();

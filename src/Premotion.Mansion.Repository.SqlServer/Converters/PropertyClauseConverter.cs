@@ -38,7 +38,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Converters
 			else if (pair.Table is MultiValuePropertyTable)
 				MapMultiValuePropertyTable(clause, pair, command, queryBuilder);
 			else
-				MapStandardTable(clause, pair, queryBuilder, command);
+				MapStandardTable(context, clause, pair, queryBuilder, command);
 		}
 		/// <summary>
 		/// Maps the property to a single value property table.
@@ -77,14 +77,15 @@ namespace Premotion.Mansion.Repository.SqlServer.Converters
 		/// <summary>
 		/// Maps the property to a standard table.
 		/// </summary>
+		/// <param name="context"> </param>
 		/// <param name="clause"></param>
 		/// <param name="pair"></param>
 		/// <param name="queryBuilder"></param>
 		/// <param name="command"></param>
-		private static void MapStandardTable(PropertyClause clause, TableColumnPair pair, SqlStringBuilder queryBuilder, SqlCommand command)
+		private static void MapStandardTable(IMansionContext context, PropertyClause clause, TableColumnPair pair, SqlStringBuilder queryBuilder, SqlCommand command)
 		{
 			// add the table to the query
-			queryBuilder.AddTable(pair.Table);
+			queryBuilder.AddTable(context, pair.Table);
 
 			// check for single or multiple values
 			if (clause.Values.Length == 1)
