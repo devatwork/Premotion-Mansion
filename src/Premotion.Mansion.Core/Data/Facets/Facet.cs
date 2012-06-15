@@ -30,7 +30,7 @@ namespace Premotion.Mansion.Core.Data.Facets
 		/// Copies the given <paramref name="facet"/>/
 		/// </summary>
 		/// <param name="facet">The <see cref="Facet"/> which to copy.</param>
-		protected Facet(Facet facet)
+		protected Facet(FacetDefinition facet)
 		{
 			// validate arguments
 			if (facet == null)

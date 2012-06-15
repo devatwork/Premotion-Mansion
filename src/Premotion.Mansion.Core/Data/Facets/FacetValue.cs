@@ -23,6 +23,7 @@ namespace Premotion.Mansion.Core.Data.Facets
 			// set values
 			this.value = value;
 			this.count = count;
+			DisplayValue = value;
 		}
 		#endregion
 		#region Properties
@@ -40,6 +41,10 @@ namespace Premotion.Mansion.Core.Data.Facets
 		{
 			get { return count; }
 		}
+		/// <summary>
+		/// Gets/Sets the display value of this facet value.
+		/// </summary>
+		public object DisplayValue { get; set; }
 		#endregion
 		#region Private Fields
 		private readonly int count;

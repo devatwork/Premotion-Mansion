@@ -1,28 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+<ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Premotion.Mansion.Core.Data.Facets.Facet">
-    <Position X="0.5" Y="0.5" Width="3.5" />
+    <Position X="2" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAQAABAAAA=</HashCode>
       <FileName>Data\Facets\Facet.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Core.Data.Facets.FacetValue">
-    <Position X="13.25" Y="0.5" Width="2.5" />
+    <Position X="6.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAABAAAAAQAAAAAACAAAAAgAAAAAAA=</HashCode>
       <FileName>Data\Facets\FacetValue.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Core.Data.Facets.FacetResult">
-    <Position X="5.75" Y="0.75" Width="4" />
+    <Position X="3.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAAACAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAAAGAAAAAgAAAAAAA=</HashCode>
       <FileName>Data\Facets\FacetResult.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="Values" />
     </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Data.Facets.FacetDefinition">
+    <Position X="1" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Facets\FacetDefinition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Data.Facets.TransformingFacetDefinition">
+    <Position X="0.5" Y="6" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Data\Facets\TransformingFacetDefinition.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

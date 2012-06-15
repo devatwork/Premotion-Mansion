@@ -62,7 +62,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Converters
 			                                                        	}
 
 			                                                        	// create the facet result
-			                                                        	var result = new FacetResult(clause.Facet, facetValues);
+			                                                        	var result = FacetResult.Create(context, clause.Facet, facetValues);
 
 			                                                        	// add the result to the facet set
 			                                                        	nodeset.AddFacet(result);

@@ -38,7 +38,7 @@ namespace Premotion.Mansion.Core.Data.Clauses
 				foreach (var facetPropertyName in facetPropertyNames)
 				{
 					// retrieve the facet from the property
-					Facet facet;
+					FacetDefinition facet;
 					if (!input.TryGetAndRemove(context, facetPropertyName, out facet))
 						throw new InvalidOperationException(string.Format("Property {0} did not contain a valid facet", facetPropertyName));
 
@@ -54,7 +54,7 @@ namespace Premotion.Mansion.Core.Data.Clauses
 		/// Constructs this facet clause with the given <paramref name="facet"/>.
 		/// </summary>
 		/// <param name="facet">The <see cref="Facet"/>.</param>
-		public FacetClause(Facet facet)
+		public FacetClause(FacetDefinition facet)
 		{
 			// validate arguments
 			if (facet == null)
@@ -81,13 +81,13 @@ namespace Premotion.Mansion.Core.Data.Clauses
 		/// <summary>
 		/// Gets the <see cref="Facet"/>.
 		/// </summary>
-		public Facet Facet
+		public FacetDefinition Facet
 		{
 			get { return facet; }
 		}
 		#endregion
 		#region Private Fields
-		private readonly Facet facet;
+		private readonly FacetDefinition facet;
 		#endregion
 	}
 }

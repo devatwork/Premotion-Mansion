@@ -11,19 +11,44 @@ namespace Premotion.Mansion.Core.Data.Facets
 	{
 		#region Constructors
 		/// <summary>
-		/// Constructs a facet result.
 		/// </summary>
-		/// <param name="facet">The <see cref="Facet"/> for which to construct the result.</param>
-		/// <param name="values">The <see cref="FacetValue"/>s.</param>
-		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public FacetResult(Facet facet, IEnumerable<FacetValue> values) : base(facet)
+		/// <param name="propertyName"></param>
+		/// <param name="friendlyName"></param>
+		/// <param name="values"></param>
+		private FacetResult(string propertyName, string friendlyName, IEnumerable<FacetValue> values) : base(propertyName, friendlyName)
 		{
 			// validate arguments
 			if (values == null)
 				throw new ArgumentNullException("values");
 
 			// set the values
-			this.values = values.OrderByDescending(value => value.Count).ToList();
+			this.values = values.ToList();
+		}
+		#endregion
+		#region Factory Methods
+		/// <summary>
+		/// Construcs a <see cref="FacetResult"/> from the given <paramref name="definition"/> and <paramref name="values"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="definition">The <see cref="FacetDefinition"/>.</param>
+		/// <param name="values">The <see cref="FacetValue"/>s.</param>
+		/// <returns>Returns the created <see cref="FacetResult"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public static FacetResult Create(IMansionContext context, FacetDefinition definition, IEnumerable<FacetValue> values)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (definition == null)
+				throw new ArgumentNullException("definition");
+			if (values == null)
+				throw new ArgumentNullException("values");
+
+			// transform the result using the definition
+			var transformedResults = definition.Transform(context, values);
+
+			// create the facet result
+			return new FacetResult(definition.PropertyName, definition.FriendlyName, transformedResults);
 		}
 		#endregion
 		#region Properties

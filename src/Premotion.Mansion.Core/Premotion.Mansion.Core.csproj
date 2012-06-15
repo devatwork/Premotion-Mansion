@@ -73,8 +73,10 @@
     <Compile Include="Conversion\Converters\StringToInt64Converter.cs" />
     <Compile Include="Data\Clauses\FacetClause.cs" />
     <Compile Include="Data\Facets\Facet.cs" />
+    <Compile Include="Data\Facets\FacetDefinition.cs" />
     <Compile Include="Data\Facets\FacetResult.cs" />
     <Compile Include="Data\Facets\FacetValue.cs" />
+    <Compile Include="Data\Facets\TransformingFacetDefinition.cs" />
     <Compile Include="IO\EmbeddedResources\EmbeddedApplicationResourceService.cs" />
     <Compile Include="IO\EmbeddedResources\EmbeddedResource.cs" />
     <Compile Include="MansionContext.cs" />
