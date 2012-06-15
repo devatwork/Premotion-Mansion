@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
 
 namespace Premotion.Mansion.Repository.SqlServer
@@ -11,6 +13,20 @@ namespace Premotion.Mansion.Repository.SqlServer
 	/// </summary>
 	public class SqlStringBuilder
 	{
+		#region Constants
+		/// <summary>
+		/// This value will be replaced with the FROM caluse when the query is turned into a string.
+		/// </summary>
+		public const string FromReplacePlaceholder = "@@@FROM@@@";
+		/// <summary>
+		/// This value will be replaced with the WHERE clause when the query is turned into a string.
+		/// </summary>
+		public const string WhereReplacePlaceholder = "@@@WHERE@@@";
+		/// <summary>
+		/// This value will be replaced with the ORDER BY clause when the query is turned into a string.
+		/// </summary>
+		public const string OrderByReplacePlaceholder = "@@@ORDERBY@@@";
+		#endregion
 		#region Constructors
 		/// <summary>
 		/// Constructs a SQL string builder.
@@ -188,6 +204,35 @@ namespace Premotion.Mansion.Repository.SqlServer
 			postfix = string.Format(clause, parameters);
 		}
 		#endregion
+		#region Additional Query Methods
+		/// <summary>
+		/// Adds an addional query to this query.
+		/// </summary>
+		/// <param name="query">The additional query which to add.</param>
+		/// <param name="mapper">The mapper which to use to map the results to the query.</param>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null or empty.</exception>
+		public void AddAdditionalQuery(string query, Action<Nodeset, IDataReader> mapper)
+		{
+			// validate arguments
+			if (string.IsNullOrEmpty(query))
+				throw new ArgumentNullException("query");
+			if (mapper == null)
+				throw new ArgumentNullException("mapper");
+
+			// add the additional query
+			additionalQueries.Append(query);
+			additionalQueries.AppendLine(";");
+			additionalQueryMappers.Enqueue(mapper);
+		}
+		/// <summary>
+		/// Gets the additional query result mapper.
+		/// </summary>
+		/// <returns>Returns the next addional query result mapper.</returns>
+		public Action<Nodeset, IDataReader> GetAdditionalQueryResultMapper()
+		{
+			return additionalQueryMappers.Dequeue();
+		}
+		#endregion
 		#region ToString Methods
 		/// <summary>
 		/// Converts this query string builder to a string.
@@ -207,14 +252,13 @@ namespace Premotion.Mansion.Repository.SqlServer
 				commandText.AppendFormat(" {0}", limit);
 
 			if (columns.Length == 0)
-				commandText.AppendFormat(" [{0}].* FROM {1}", rootTable.Name, tables);
+				commandText.AppendFormat(" [{0}].* {1}", rootTable.Name, FromReplacePlaceholder);
 			else
-				commandText.AppendFormat(" {0} FROM {1}", columns, tables);
+				commandText.AppendFormat(" {0} {1}", columns, FromReplacePlaceholder);
 
-			if (wheres.Length > 0)
-				commandText.AppendFormat(" WHERE {0}", wheres);
-			if (orderBys.Length > 0 && OrderByEnabled)
-				commandText.AppendFormat(" ORDER BY {0}", orderBys);
+			commandText.AppendFormat(WhereReplacePlaceholder);
+			if (OrderByEnabled)
+				commandText.Append(OrderByReplacePlaceholder);
 
 			// add the prefix
 			if (!string.IsNullOrEmpty(postfix))
@@ -225,12 +269,20 @@ namespace Premotion.Mansion.Repository.SqlServer
 
 			// append the count query
 			commandText.Append("SELECT COUNT(1) AS [TotalCount]");
-			commandText.AppendFormat(" FROM {0}", tables);
-			if (wheres.Length > 0)
-				commandText.AppendFormat(" WHERE {0}", wheres);
+			commandText.Append(FromReplacePlaceholder);
+			commandText.Append(WhereReplacePlaceholder);
+			commandText.AppendLine(";");
+
+			// append the additional queries
+			commandText.Append(additionalQueries);
+
+			// replace values
+			commandText.Replace(FromReplacePlaceholder, string.Format(" FROM {0}", tables));
+			commandText.Replace(WhereReplacePlaceholder, wheres.Length > 0 ? string.Format(" WHERE {0}", wheres) : string.Empty);
+			commandText.Replace(OrderByReplacePlaceholder, orderBys.Length > 0 ? string.Format(" ORDER BY {0}", orderBys) : string.Empty);
 
 			// return the assembled query
-			return commandText.Replace("@orderBy@", orderBys.ToString()).ToString();
+			return commandText.ToString();
 		}
 		/// <summary>
 		/// 
@@ -238,6 +290,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <returns></returns>
 		public string ToSingleNodeQuery()
 		{
+			// construct the buffer
 			var commandText = new StringBuilder();
 
 			// add the prefix
@@ -250,18 +303,22 @@ namespace Premotion.Mansion.Repository.SqlServer
 				commandText.AppendFormat(" {0}", limit);
 
 			if (columns.Length == 0)
-				commandText.AppendFormat(" [{0}].* FROM {1}", rootTable.Name, tables);
+				commandText.AppendFormat(" [{0}].* {1}", rootTable.Name, FromReplacePlaceholder);
 			else
-				commandText.AppendFormat(" {0} FROM {1}", columns, tables);
+				commandText.AppendFormat(" {0} {1}", columns, FromReplacePlaceholder);
 
-			if (wheres.Length > 0)
-				commandText.AppendFormat(" WHERE {0}", wheres);
-			if (orderBys.Length > 0 && OrderByEnabled)
-				commandText.AppendFormat(" ORDER BY {0}", orderBys);
+			commandText.AppendFormat(WhereReplacePlaceholder);
+			if (OrderByEnabled)
+				commandText.Append(OrderByReplacePlaceholder);
 
 			// add the prefix
 			if (!string.IsNullOrEmpty(postfix))
 				commandText.Append(postfix);
+
+			// replace values
+			commandText.Replace(FromReplacePlaceholder, string.Format(" FROM {0}", tables));
+			commandText.Replace(WhereReplacePlaceholder, wheres.Length > 0 ? string.Format(" WHERE {0}", wheres) : string.Empty);
+			commandText.Replace(OrderByReplacePlaceholder, orderBys.Length > 0 ? string.Format(" ORDER BY {0}", orderBys) : string.Empty);
 
 			return commandText.ToString();
 		}
@@ -284,6 +341,8 @@ namespace Premotion.Mansion.Repository.SqlServer
 		}
 		#endregion
 		#region Private Fields
+		private readonly StringBuilder additionalQueries = new StringBuilder();
+		private readonly Queue<Action<Nodeset, IDataReader>> additionalQueryMappers = new Queue<Action<Nodeset, IDataReader>>();
 		private readonly StringBuilder columns = new StringBuilder();
 		private readonly ICollection<string> includedTables = new List<string>();
 		private readonly StringBuilder orderBys = new StringBuilder();

@@ -71,6 +71,10 @@
     <Compile Include="Collections\PropertyBagAdapterFactory.cs" />
     <Compile Include="Collections\Sort.cs" />
     <Compile Include="Conversion\Converters\StringToInt64Converter.cs" />
+    <Compile Include="Data\Clauses\FacetClause.cs" />
+    <Compile Include="Data\Facets\Facet.cs" />
+    <Compile Include="Data\Facets\FacetResult.cs" />
+    <Compile Include="Data\Facets\FacetValue.cs" />
     <Compile Include="IO\EmbeddedResources\EmbeddedApplicationResourceService.cs" />
     <Compile Include="IO\EmbeddedResources\EmbeddedResource.cs" />
     <Compile Include="MansionContext.cs" />
@@ -208,6 +212,7 @@
     <Compile Include="PropertyNotFoundException.cs" />
     <Compile Include="Nucleus\IReflectionService.cs" />
     <Compile Include="Nucleus\ReflectionService.cs" />
+    <Compile Include="ScriptFunctions\Repository\CreateFacet.cs" />
     <Compile Include="ScriptFunctions\InvokeProcedure.cs" />
     <Compile Include="ScriptFunctions\Conditional\And.cs" />
     <Compile Include="ScriptFunctions\Conditional\Contains.cs" />
@@ -315,6 +320,7 @@
     <Compile Include="ScriptTags\Caching\ClearCacheTag.cs" />
     <Compile Include="ScriptTags\CatchTag.cs" />
     <Compile Include="ScriptTags\Constants.cs" />
+    <Compile Include="ScriptTags\Repository\FetchFacetsDatasetTag.cs" />
     <Compile Include="ScriptTags\DeclareEventHandlerTag.cs" />
     <Compile Include="ScriptTags\DeclareProcedureTag.cs" />
     <Compile Include="ScriptTags\ExitProcedureTag.cs" />
@@ -346,6 +352,7 @@
     <Compile Include="ScriptTags\Repository\CopyNodeTag.cs" />
     <Compile Include="ScriptTags\Repository\DeleteNodeTag.cs" />
     <Compile Include="ScriptTags\Repository\EditNodeTag.cs" />
+    <Compile Include="ScriptTags\Repository\FetchFacetValuesDatasetTag.cs" />
     <Compile Include="ScriptTags\Repository\FetchNodeTag.cs" />
     <Compile Include="ScriptTags\Repository\LoopNodesetTag.cs" />
     <Compile Include="ScriptTags\Repository\MoveNodeTag.cs" />
@@ -436,6 +443,7 @@
     <None Include="Caching\Mansion.Core.Caching.cd" />
     <None Include="Collections\Mansion.Core.Collections.cd" />
     <None Include="Conversion\Mansion.Core.Conversion.cd" />
+    <None Include="Data\Facets\Premotion.Mansion.Core.Data.Facets.cd" />
     <None Include="Premotion.Mansion.Core.symbols.nuspec" />
     <None Include="Data\Mansion.Core.Data.cd" />
     <None Include="Data\Listeners\data.listeners.descriptors.xsd">

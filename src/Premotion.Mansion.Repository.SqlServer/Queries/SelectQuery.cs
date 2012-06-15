@@ -109,7 +109,20 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 
 			// execute the command
 			using (var reader = command.ExecuteReader(CommandBehavior.Default))
-				return new Nodeset(context, MapRecords(context, reader), MapSetProperties(reader));
+			{
+				// default mapping
+				var nodeset = new Nodeset(context, MapRecords(context, reader), MapSetProperties(reader));
+
+				// map the result of additional queries
+				while (reader.NextResult())
+				{
+					// get the mapper from the query
+					sqlStringBuilder.GetAdditionalQueryResultMapper()(nodeset, reader);
+				}
+
+				// return the result
+				return nodeset;
+			}
 		}
 		/// <summary>
 		/// Executes this command and returns a single node.

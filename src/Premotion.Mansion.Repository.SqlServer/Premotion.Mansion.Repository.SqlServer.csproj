@@ -49,6 +49,7 @@
     <Compile Include="Converters\BaseTypeClauseConverter.cs" />
     <Compile Include="Converters\ChildOfClauseConverter.cs" />
     <Compile Include="Converters\ClauseConverter.cs" />
+    <Compile Include="Converters\FacetClauseConverter.cs" />
     <Compile Include="Converters\FullTextSearchClauseConverter.cs" />
     <Compile Include="Converters\IClauseConverter.cs" />
     <Compile Include="Converters\IdClauseConverter.cs" />

@@ -421,5 +421,38 @@
 			<xs:anyAttribute processContents="skip" />
 		</xs:complexType>
 	</xs:element>
+	
+	
+	
+	<!-- facet tags -->
+	<xs:element name="fetchFacetsDataset" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Fetches the facet dataset from a given nodeset.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content-->
+			<xs:group ref="notFoundContentGroup" />
+
+			<!-- attributes -->
+			<xs:attributeGroup ref="sourceAttributes" />
+			<xs:attributeGroup ref="targetAttributes" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="fetchFacetValuesDataset" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Fetches the facet values from a given facet.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content-->
+			<xs:group ref="notFoundContentGroup" />
+
+			<!-- attributes -->
+			<xs:attributeGroup ref="sourceAttributes" />
+			<xs:attributeGroup ref="targetAttributes" />
+		</xs:complexType>
+	</xs:element>
 
 </xs:schema>

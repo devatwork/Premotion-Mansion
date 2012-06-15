@@ -31,7 +31,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Converters
 			queryBuilder.OrderByEnabled = false;
 			queryBuilder.SetPrefix("SELECT * FROM ( ");
 			queryBuilder.AppendColumn("[{0}].*", schema.RootTable.Name);
-			queryBuilder.AppendColumn("ROW_NUMBER() OVER( ORDER BY @orderBy@ ) AS _rowNumber");
+			queryBuilder.AppendColumn("ROW_NUMBER() OVER(" + SqlStringBuilder.OrderByReplacePlaceholder + ") AS _rowNumber");
 			queryBuilder.SetPostfix(" ) AS Nodeset WHERE _rowNumber BETWEEN @{0} AND @{1}", command.AddParameter(pageStart), command.AddParameter(pageEnd));
 		}
 		#endregion
