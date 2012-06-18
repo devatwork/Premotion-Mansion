@@ -1,4 +1,5 @@
-﻿using Premotion.Mansion.Core.Collections;
+﻿using System.Linq;
+using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.ScriptTags.Stack;
 using Premotion.Mansion.Core.Scripting.TagScript;
@@ -26,7 +27,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 			var dataset = new Dataset();
 
 			// add the facets to the dataset
-			foreach (var result in nodeset.Facets)
+			foreach (var result in nodeset.Facets.OrderBy(facet => facet.FriendlyName))
 			{
 				// add the row to the dataset
 				dataset.AddRow(PropertyBagAdapterFactory.Adapt(context, result));
