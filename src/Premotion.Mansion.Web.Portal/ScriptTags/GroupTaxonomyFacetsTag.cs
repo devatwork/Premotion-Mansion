@@ -47,7 +47,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 			                                                                                                                                            	GroupName = node.Value.Pointer.Parent.Name,
 			                                                                                                                                            	Value = new FacetValue(value.Value, value.Count)
 			                                                                                                                                            	        {
-			                                                                                                                                            	        	DisplayValue = value.DisplayValue
+			                                                                                                                                            	        	DisplayValue = node.Value.Pointer.Name
 			                                                                                                                                            	        }
 			                                                                                                                                            }, StringComparer.OrdinalIgnoreCase);
 
