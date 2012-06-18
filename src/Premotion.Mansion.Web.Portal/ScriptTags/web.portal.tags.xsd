@@ -85,4 +85,14 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="groupTaxonomyFacets" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Groups the taxonomy facets by their taxonomy group. The source parameter must be a nodeset.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attributeGroup ref="stl:sourceAttributes" />
+		</xs:complexType>
+	</xs:element>
+
 </xs:schema>

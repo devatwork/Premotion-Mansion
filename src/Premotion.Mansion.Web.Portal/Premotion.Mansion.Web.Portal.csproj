@@ -66,6 +66,7 @@
     <Compile Include="ScriptTags\RetrieveLayoutNodeTag.cs" />
     <Compile Include="ScriptTags\RetrieveTemplatePageNodeTag.cs" />
     <Compile Include="ScriptTags\RetrieveThemeNodeTag.cs" />
+    <Compile Include="ScriptTags\GroupTaxonomyFacetsTag.cs" />
     <Compile Include="Service\IPortalService.cs" />
     <Compile Include="Service\PortalService.cs" />
     <Compile Include="PortalApplicationBootstrapper.cs" />
