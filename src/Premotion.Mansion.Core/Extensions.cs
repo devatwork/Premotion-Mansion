@@ -276,6 +276,52 @@ namespace Premotion.Mansion.Core
 		                                                       	new[] {"&amp;", "&"}
 		                                                       };
 		#endregion
+		#region Extensions of IEnumerable
+		/// <summary>
+		/// Performans an topilogical sort on the given <paramref name="source"/>.
+		/// </summary>
+		/// <typeparam name="TSource">The type of item which to sort.</typeparam>
+		/// <param name="source">The source values.</param>
+		/// <param name="predicate">The predicate which determines if the value is suitable for yielding.</param>
+		/// <returns>Returns the sorted values.</returns>
+		/// <remarks>
+		/// Please note that this method does not prevent endless loops, handle with care.
+		/// </remarks>
+		public static IEnumerable<TSource> TopologicalSort<TSource>(this IEnumerable<TSource> source, Predicate<TSource> predicate)
+		{
+			// validate arguments
+			if (source == null)
+				throw new ArgumentNullException("source");
+			if (predicate == null)
+				throw new ArgumentNullException("predicate");
+
+			// get the values, the keys, the number of items, an array of unyielded result indices and a pointer
+			var values = source.ToArray();
+			var count = values.Length;
+			var notYieldedIndexes = Enumerable.Range(0, count).ToArray();
+			var valuesToGo = count;
+
+			// keep looping while there are values to process
+			while (valuesToGo > 0)
+			{
+				// loop over all the unyielded indices
+				foreach (var notYieldedIndex in notYieldedIndexes.Where(candidate => candidate >= 0))
+				{
+					// get the item
+					var item = values[notYieldedIndex];
+
+					// check if the item is not suitable for yielding yet using the predicate
+					if (!predicate(item))
+						continue;
+
+					// yield the item and update the not-yielded index
+					yield return values[notYieldedIndex];
+					notYieldedIndexes[notYieldedIndex] = -1;
+					valuesToGo--;
+				}
+			}
+		}
+		#endregion
 		#region Extensions of XContainer
 		/// <summary>
 		/// Gets the first (in document order) child element with the specified <paramref name="name"/>.
@@ -473,6 +519,43 @@ namespace Premotion.Mansion.Core
 			                                          	{"guid", guid},
 			                                          	{"bypassAuthorization", true}
 			                                          });
+		}
+		#endregion
+		#region Extensions of Assembly
+		/// <summary>
+		/// Checks wether the givens <paramref name="candidate"/> is in fact a manion assembly.
+		/// </summary>
+		/// <param name="candidate">The <see cref="Assembly"/>.</param>
+		/// <returns>Returns true when the <paramref name="candidate"/> is a mansion assembly, otherwise false.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public static bool IsMansionAssembly(this Assembly candidate)
+		{
+			// validate arguments
+			if (candidate == null)
+				throw new ArgumentNullException("candidate");
+
+			return candidate.GetCustomAttributes(typeof (ScanAssemblyAttribute), false).Length > 0;
+		}
+		/// <summary>
+		/// Checks wether the givens <paramref name="candidate"/> is in fact a manion assembly.
+		/// </summary>
+		/// <param name="candidate">The <see cref="AssemblyName"/>.</param>
+		/// <returns>Returns true when the <paramref name="candidate"/> is a mansion assembly, otherwise false.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public static bool IsMansionAssembly(this AssemblyName candidate)
+		{
+			// validate arguments
+			if (candidate == null)
+				throw new ArgumentNullException("candidate");
+
+			try
+			{
+				return Assembly.Load(candidate).IsMansionAssembly();
+			}
+			catch (Exception)
+			{
+				return false;
+			}
 		}
 		#endregion
 		#region INucleus Extensions

@@ -102,11 +102,34 @@ namespace Premotion.Mansion.Web.Http
 			// load the assemblies
 			var assemblies = Directory.GetFiles(binDirectory, "*.dll").Select(Assembly.LoadFrom);
 
-			// order them by priority
-			var orderedAssemblies = assemblies.Where(candidate => candidate.GetCustomAttributes(typeof (ScanAssemblyAttribute), false).Length > 0).OrderBy(assembly => ((ScanAssemblyAttribute) assembly.GetCustomAttributes(typeof (ScanAssemblyAttribute), false)[0]).Priority);
+			//  filter the assembly list include only assemblies marked with the ScanAssemblyAttribute attribute
+			assemblies = assemblies.Where(candidate => candidate.IsMansionAssembly());
 
-			// return the order list
-			return orderedAssemblies;
+			// create a list of assemblies with their assembly name and their dependencies
+			var assembliesWithDependecies = assemblies.Select(assembly => new
+			                                                              {
+			                                                              	Assembly = assembly,
+			                                                              	AssemblyName = assembly.GetName(),
+			                                                              	Dependencies = assembly.GetReferencedAssemblies().Where(candidate => candidate.IsMansionAssembly()).ToArray()
+			                                                              });
+
+			// keep a list of all the resolved dependencies
+			var resolved = new List<string>();
+
+			// sort the assemblies topological
+			var sorted = assembliesWithDependecies.TopologicalSort(candidate =>
+			                                                       {
+			                                                       	// if there number of unresolved dependencies is greater than zero it is not ready to be resolved
+			                                                       	if (candidate.Dependencies.Any(dependency => !resolved.Contains(dependency.Name, StringComparer.OrdinalIgnoreCase)))
+			                                                       		return false;
+
+			                                                       	// mark this assembly as resolved
+			                                                       	resolved.Add(candidate.AssemblyName.Name);
+			                                                       	return true;
+			                                                       });
+
+			// select only the assemblies
+			return sorted.Select(x => x.Assembly);
 		}
 		#endregion
 		#region Constants

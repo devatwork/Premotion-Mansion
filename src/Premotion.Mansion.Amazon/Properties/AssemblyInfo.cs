@@ -40,4 +40,4 @@ using Premotion.Mansion.Core.Nucleus;
 [assembly: AssemblyVersion("1.1.7")]
 [assembly: AssemblyFileVersion("1.1.7")]
 [assembly: CLSCompliant(true)]
-[assembly: ScanAssembly(10)]
+[assembly: ScanAssembly()]

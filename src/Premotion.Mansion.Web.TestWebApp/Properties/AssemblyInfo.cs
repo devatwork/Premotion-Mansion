@@ -37,4 +37,4 @@ using Premotion.Mansion.Core.Nucleus;
 
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: ScanAssembly(50)]
+[assembly: ScanAssembly()]
