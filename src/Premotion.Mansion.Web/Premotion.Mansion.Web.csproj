@@ -253,6 +253,9 @@
     <Compile Include="Web\Types\Default\PropagateListener.cs" />
     <Compile Include="Web\Types\Default\TagListener.cs" />
     <Compile Include="Web\Types\Tag\TagListener.cs" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.eot" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.ttf" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.woff" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Premotion.Mansion.Core\Premotion.Mansion.Core.csproj">
@@ -852,6 +855,17 @@
     <EmbeddedResource Include="Web\Shared\js\ckfinder\lang\hr.js" />
     <EmbeddedResource Include="Web\Shared\js\ckfinder\lang\ro.js" />
     <EmbeddedResource Include="Web\Shared\js\ckfinder\lang\vi.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesomeie7.css" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesome.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap-icons.css" />
+    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap-icons.min.css" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
