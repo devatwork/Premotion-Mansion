@@ -212,7 +212,12 @@ namespace Premotion.Mansion.Web
 		                                                                         	{".xwd", "image/x-xwindowdump"},
 		                                                                         	{".xsd", "text/xml"},
 		                                                                         	{".z", "application/x-compress"},
-		                                                                         	{".zip", "application/x-zip-compressed"}
+		                                                                         	{".zip", "application/x-zip-compressed"},
+		                                                                         	{".woff", "application/x-font-woff"},
+		                                                                         	{".eot", "application/vnd.ms-fontobject"},
+		                                                                         	{".otf", "font/otf"},
+		                                                                         	{".svg", "image/svg+xml"},
+		                                                                         	{".svgz", "image/svg+xml"},
 		                                                                         };
 		#endregion
 		/// <summary>
