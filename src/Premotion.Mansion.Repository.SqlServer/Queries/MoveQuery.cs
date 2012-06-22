@@ -79,18 +79,18 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 							[parentStructure] = @newParentStructure,
 							[depth] = (LEN(@newParentPointer) - LEN(REPLACE(@newParentPointer, '-', ''))) + 1
 							WHERE [id] = @id ", schema.RootTable.Name);
-			command.Parameters.Add("oldPointerLength", SqlDbType.VarChar).Value = pointer.PointerString.Length + 1;
-			command.Parameters.Add("newPointer", SqlDbType.VarChar).Value = newPointer.PointerString + NodePointer.PointerSeparator;
-			command.Parameters.Add("oldPathLength", SqlDbType.VarChar).Value = pointer.PathString.Length + 1;
-			command.Parameters.Add("newPath", SqlDbType.VarChar).Value = newPointer.PathString + NodePointer.PathSeparator;
-			command.Parameters.Add("oldStructureLength", SqlDbType.VarChar).Value = pointer.StructureString.Length + 1;
-			command.Parameters.Add("newStructure", SqlDbType.VarChar).Value = newPointer.StructureString + NodePointer.StructureSeparator;
-			command.Parameters.Add("oldPointer", SqlDbType.VarChar).Value = pointer.PointerString + NodePointer.PointerSeparator;
-			command.Parameters.Add("id", SqlDbType.Int).Value = newPointer.Id;
-			command.Parameters.Add("newParentId", SqlDbType.Int).Value = newParentPointer.Id;
-			command.Parameters.Add("newParentPointer", SqlDbType.VarChar).Value = newParentPointer.PointerString + NodePointer.PointerSeparator;
-			command.Parameters.Add("newParentPath", SqlDbType.VarChar).Value = newParentPointer.PathString + NodePointer.PathSeparator;
-			command.Parameters.Add("newParentStructure", SqlDbType.VarChar).Value = newParentPointer.StructureString + NodePointer.StructureSeparator;
+			command.AddParameter(pointer.PointerString.Length + 1, "oldPointerLength");
+			command.AddParameter(newPointer.PointerString + NodePointer.PointerSeparator, "newPointer");
+			command.AddParameter(pointer.PathString.Length + 1, "oldPathLength");
+			command.AddParameter(newPointer.PathString + NodePointer.PathSeparator, "newPath");
+			command.AddParameter(pointer.StructureString.Length + 1, "oldStructureLength");
+			command.AddParameter(newPointer.StructureString + NodePointer.StructureSeparator, "newStructure");
+			command.AddParameter(pointer.PointerString + NodePointer.PointerSeparator, "oldPointer");
+			command.AddParameter(newPointer.Id, "id");
+			command.AddParameter(newParentPointer.Id, "newParentId");
+			command.AddParameter(newParentPointer.PointerString + NodePointer.PointerSeparator, "newParentPointer");
+			command.AddParameter(newParentPointer.PathString + NodePointer.PathSeparator, "newParentPath");
+			command.AddParameter(newParentPointer.StructureString + NodePointer.StructureSeparator, "newParentStructure");
 
 			// execute
 			command.CommandText = query.ToString();

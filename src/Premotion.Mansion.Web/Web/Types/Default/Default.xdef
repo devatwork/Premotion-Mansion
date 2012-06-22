@@ -75,7 +75,7 @@ BEGIN
 		[type] [nvarchar](50) NOT NULL,
 		[parentId] [int] NULL,
 		[parentPointer] [nvarchar](255) NULL,
-		[parentPath] [varchar](max) NULL,
+		[parentPath] [nvarchar](max) NULL,
 		[parentStructure] [nvarchar](max) NULL,
 		[depth] [int] NOT NULL,
 		[order] [bigint] NOT NULL
