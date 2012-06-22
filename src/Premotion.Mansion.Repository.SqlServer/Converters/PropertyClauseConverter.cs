@@ -85,7 +85,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Converters
 		private static void MapStandardTable(IMansionContext context, PropertyClause clause, TableColumnPair pair, SqlStringBuilder queryBuilder, SqlCommand command)
 		{
 			// add the table to the query
-			queryBuilder.AddTable(context, pair.Table);
+			queryBuilder.AddTable(context, pair.Table, command);
 
 			// check for single or multiple values
 			if (clause.Values.Length == 1)

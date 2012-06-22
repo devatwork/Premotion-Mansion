@@ -55,11 +55,12 @@ namespace Premotion.Mansion.Repository.SqlServer.Converters
 			/// </summary>
 			/// <param name="context">The <see cref="IMansionContext"/>.</param>
 			/// <param name="rootTable">The root <see cref="Table"/> to which to join this table.</param>
+			/// <param name="command">The <see cref="SqlCommand"/>.</param>
 			/// <returns>Returns the join statement.</returns>
 			/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="rootTable"/> is null.</exception>
-			protected override string DoToJoinStatement(IMansionContext context, Table rootTable)
+			protected override string DoToJoinStatement(IMansionContext context, Table rootTable, SqlCommand command)
 			{
-				return string.Format("INNER JOIN CONTAINSTABLE({0}, {1}, {2}, {3}) AS [{4}] ON [{4}].[KEY] = [{5}].[id]", tableName, columnNames, searchCondition, top, Name, foreignTableName);
+				return string.Format("INNER JOIN CONTAINSTABLE({0}, {1}, {2}, @{3}) AS [{4}] ON [{4}].[KEY] = [{5}].[id]", tableName, columnNames, searchCondition, command.AddParameter(top), Name, foreignTableName);
 			}
 			#endregion
 			#region Private Fields
@@ -156,7 +157,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Converters
 			var fullTextTable = new FullTextSearchTable(queryBuilder.RootTableName, "@" + conditionParameter, queryBuilder.RootTableName);
 
 			// add the full text table to the query
-			queryBuilder.AddTable(context, fullTextTable);
+			queryBuilder.AddTable(context, fullTextTable, command);
 
 			// add a sort clause
 			queryBuilder.AppendOrderBy(string.Format("[{0}].[RANK] DESC", fullTextTable.Name));

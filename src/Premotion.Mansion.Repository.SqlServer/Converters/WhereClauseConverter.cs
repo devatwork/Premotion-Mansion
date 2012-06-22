@@ -23,7 +23,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Converters
 		{
 			// we dont know what tables are used in where clause so add them all
 			foreach (var table in schema.TypeTables)
-				queryBuilder.AddTable(context, table);
+				queryBuilder.AddTable(context, table, command);
 
 			// append the query
 			queryBuilder.AppendWhere(clause.Where);

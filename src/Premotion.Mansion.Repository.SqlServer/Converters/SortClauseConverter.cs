@@ -28,7 +28,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Converters
 				var tableAndColumn = schema.FindTableAndColumn(sort.PropertyName);
 
 				// add the table to the query
-				queryBuilder.AddTable(context, tableAndColumn.Table);
+				queryBuilder.AddTable(context, tableAndColumn.Table, command);
 
 				// append the query
 				queryBuilder.AppendOrderBy(string.Format("[{0}].[{1}] {2}", tableAndColumn.Table.Name, tableAndColumn.Column.ColumnName, sort.Ascending ? "ASC" : "DESC"));

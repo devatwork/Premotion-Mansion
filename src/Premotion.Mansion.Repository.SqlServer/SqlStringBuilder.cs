@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
@@ -49,21 +50,24 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// Adds the table to the query.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="command">The <see cref="SqlCommand"/>.</param>
 		/// <param name="table">The <see cref="Table"/> which to add.</param>
-		public void AddTable(IMansionContext context, Table table)
+		public void AddTable(IMansionContext context, Table table, SqlCommand command)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (table == null)
 				throw new ArgumentNullException("table");
+			if (command == null)
+				throw new ArgumentNullException("command");
 
 			// check if the table is already included
 			if (includedTables.Contains(table.Name))
 				return;
 			includedTables.Add(table.Name);
 
-			tables.Append(" " + table.ToJoinStatement(context, rootTable));
+			tables.Append(" " + table.ToJoinStatement(context, rootTable, command));
 		}
 		#endregion
 		#region Clause Methods

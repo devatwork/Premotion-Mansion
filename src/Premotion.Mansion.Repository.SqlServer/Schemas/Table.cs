@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 
@@ -45,27 +46,31 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="rootTable">The root <see cref="Table"/> to which to join this table.</param>
+		/// <param name="command">The <see cref="SqlCommand"/>.</param>
 		/// <returns>Returns the join statement.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="rootTable"/> is null.</exception>
-		public string ToJoinStatement(IMansionContext context, Table rootTable)
+		public string ToJoinStatement(IMansionContext context, Table rootTable, SqlCommand command)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (rootTable == null)
 				throw new ArgumentNullException("rootTable");
+			if (command == null)
+				throw new ArgumentNullException("command");
 
 			// invoke template method
-			return DoToJoinStatement(context, rootTable);
+			return DoToJoinStatement(context, rootTable, command);
 		}
 		/// <summary>
 		/// Generates a statement which joins this table to the given <paramref name="rootTable"/>/
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="rootTable">The root <see cref="Table"/> to which to join this table.</param>
+		/// <param name="command">The <see cref="SqlCommand"/>.</param>
 		/// <returns>Returns the join statement.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="rootTable"/> is null.</exception>
-		protected virtual string DoToJoinStatement(IMansionContext context, Table rootTable)
+		protected virtual string DoToJoinStatement(IMansionContext context, Table rootTable, SqlCommand command)
 		{
 			return string.Format("INNER JOIN [{0}] ON [{0}].[id] = [{1}].[id]", Name, rootTable.Name);
 		}
