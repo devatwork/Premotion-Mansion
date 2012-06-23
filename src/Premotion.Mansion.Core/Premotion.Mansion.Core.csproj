@@ -255,6 +255,7 @@
     <Compile Include="ScriptFunctions\NotNull.cs" />
     <Compile Include="ScriptFunctions\Relational\IsDirectParentOf.cs" />
     <Compile Include="ScriptFunctions\Rendering\RenderSection.cs" />
+    <Compile Include="ScriptFunctions\Repository\GetFacetValueCount.cs" />
     <Compile Include="ScriptFunctions\Resources\IncludeDynamicResource.cs" />
     <Compile Include="ScriptFunctions\Resources\IncludeMergedResources.cs" />
     <Compile Include="ScriptFunctions\Resources\IncludeStaticResource.cs" />
