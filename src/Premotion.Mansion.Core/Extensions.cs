@@ -558,7 +558,7 @@ namespace Premotion.Mansion.Core
 			}
 		}
 		#endregion
-		#region INucleus Extensions
+		#region Extensions of INucleus
 		/// <summary>
 		/// Resolves an single instance of the component implementing <typeparamref name="TContract"/>.
 		/// </summary>
@@ -609,7 +609,7 @@ namespace Premotion.Mansion.Core
 			return result;
 		}
 		#endregion
-		#region ITypeDefinition Extensions
+		#region Extensions of ITypeDefinition
 		/// <summary>
 		/// Tries to find the <typeparamref name="TDescriptor"/> in the reverse type hierarchy of <paramref name="typeDefinition"/>.
 		/// </summary>
@@ -662,7 +662,7 @@ namespace Premotion.Mansion.Core
 			return false;
 		}
 		#endregion
-		#region String Extensions
+		#region Extensions of String
 		/// <summary>
 		/// Checks whether the <paramref name="input"/> is a number.
 		/// </summary>
@@ -916,8 +916,26 @@ namespace Premotion.Mansion.Core
 
 			return sb.ToString();
 		}
+		/// <summary>
+		/// Replaces each format item in a specified string with the text equivalent of a corresponding object's value.
+		/// </summary>
+		/// <param name="format">A composite format string.</param>
+		/// <param name="args">An object array that contains zero or more objects to format. </param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public static string Format(this string format, params object[] args)
+		{
+			// validate arguments
+			if (format == null)
+				throw new ArgumentNullException("format");
+			if (args == null)
+				throw new ArgumentNullException("format");
+
+			// return the formatted string
+			return string.Format(format, args);
+		}
 		#endregion
-		#region IMansionContext Extensions
+		#region Extensions of IMansionContext
 		/// <summary>
 		/// Gets the unwrapped <see cref="IRepository"/> which is stripped from all decorators.
 		/// </summary>
@@ -941,7 +959,7 @@ namespace Premotion.Mansion.Core
 			return repository;
 		}
 		#endregion
-		#region Type Extensions
+		#region Extensions of Type
 		/// <summary>
 		/// Creates an instance of type <paramref name="type"/>.
 		/// </summary>
