@@ -214,6 +214,8 @@
     <Compile Include="PropertyNotFoundException.cs" />
     <Compile Include="Nucleus\IReflectionService.cs" />
     <Compile Include="Nucleus\ReflectionService.cs" />
+    <Compile Include="ScriptFunctions\Math\Divide.cs" />
+    <Compile Include="ScriptFunctions\Math\Multiply.cs" />
     <Compile Include="ScriptFunctions\Repository\CreateFacet.cs" />
     <Compile Include="ScriptFunctions\InvokeProcedure.cs" />
     <Compile Include="ScriptFunctions\Conditional\And.cs" />

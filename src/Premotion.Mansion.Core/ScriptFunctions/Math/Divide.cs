@@ -3,20 +3,11 @@
 namespace Premotion.Mansion.Core.ScriptFunctions.Math
 {
 	/// <summary>
-	/// Adds the second number to the first.
+	/// Multiplies the first value with the second value.
 	/// </summary>
-	[ScriptFunction("Add")]
-	public class Add : FunctionExpression
+	[ScriptFunction("Divide")]
+	public class Divide : FunctionExpression
 	{
-		/// <summary>
-		/// </summary>
-		/// <param name="context"></param>
-		/// <param name="first"></param>
-		/// <returns></returns>
-		public double Evaluate(IMansionContext context, double first)
-		{
-			return Evaluate(context, first, 1);
-		}
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
@@ -25,7 +16,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Math
 		/// <returns></returns>
 		public double Evaluate(IMansionContext context, double first, double second)
 		{
-			return first + second;
+			return first/second;
 		}
 	}
 }

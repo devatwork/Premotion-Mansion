@@ -14,7 +14,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Math
 		/// <param name="first"></param>
 		/// <param name="second"></param>
 		/// <returns></returns>
-		public int Evaluate(IMansionContext context, int first, int second)
+		public double Evaluate(IMansionContext context, double first, double second)
 		{
 			return first - second;
 		}
