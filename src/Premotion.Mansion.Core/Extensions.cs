@@ -6,6 +6,8 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Nucleus;
@@ -320,6 +322,49 @@ namespace Premotion.Mansion.Core
 					valuesToGo--;
 				}
 			}
+		}
+		#endregion
+		#region Extensions of JArray
+		/// <summary>
+		/// Turns the given <paramref name="array"/> into a <see cref="Dataset"/>.
+		/// </summary>
+		/// <param name="array">The <see cref="JArray"/>.</param>
+		/// <returns>Returns the <see cref="Dataset"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public static Dataset ToDataset(this JArray array)
+		{
+			// validate arguments
+			if (array == null)
+				throw new ArgumentNullException("array");
+
+			// create the dataset
+			var dataset = new Dataset();
+			foreach (JObject obj in array.Children())
+				dataset.AddRow(obj.ToPropertyBag());
+			return dataset;
+		}
+		#endregion
+		#region Extensions of JObject
+		/// <summary>
+		/// Turns the given <paramref name="obj"/> into a <see cref="IPropertyBag"/>.
+		/// </summary>
+		/// <param name="obj">The <see cref="JObject"/>.</param>
+		/// <returns>Returns the <see cref="IPropertyBag"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public static IPropertyBag ToPropertyBag(this JObject obj)
+		{
+			// validate arguments
+			if (obj == null)
+				throw new ArgumentNullException("obj");
+
+			// create the property bag
+			var properties = new PropertyBag();
+			foreach (var property in obj.Properties())
+				properties.Set(property.Name, property.Value.Value<string>());
+
+			// TODO: map child objects as well?
+
+			return properties;
 		}
 		#endregion
 		#region Extensions of XContainer
@@ -1045,6 +1090,57 @@ namespace Premotion.Mansion.Core
 
 			// bake the method call using expressions
 			return Expression.Lambda<Func<INucleus, TContract>>(Expression.Block(parameterTypes, bodyExpressions), nucleusParameterExpression);
+		}
+		#endregion
+		#region Extensions of Dataset
+		/// <summary>
+		/// Writes the <paramref name="dataset"/> to the <paramref name="writer"/>.
+		/// </summary>
+		/// <param name="dataset">The <see cref="Dataset"/>.</param>
+		/// <param name="writer">The <see cref="JsonWriter"/>.</param>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public static void WriteAsJSonArray(this Dataset dataset, JsonWriter writer)
+		{
+			// validate arguments
+			if (dataset == null)
+				throw new ArgumentNullException("dataset");
+			if (writer == null)
+				throw new ArgumentNullException("writer");
+
+			writer.WriteStartArray();
+
+			// write the rows
+			foreach (var row in dataset.Rows)
+				row.WriteAsJSonObject(writer);
+
+			writer.WriteEndArray();
+		}
+		#endregion
+		#region Extensions of IPropertyBag
+		/// <summary>
+		/// Writes the <paramref name="bag"/> to the <paramref name="writer"/>.
+		/// </summary>
+		/// <param name="bag">The <see cref="IPropertyBag"/> which to write.</param>
+		/// <param name="writer">The <see cref="JsonWriter"/>.</param>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public static void WriteAsJSonObject(this IPropertyBag bag, JsonWriter writer)
+		{
+			// validate arguments
+			if (bag == null)
+				throw new ArgumentNullException("bag");
+			if (writer == null)
+				throw new ArgumentNullException("writer");
+
+			writer.WriteStartObject();
+
+			// loop over all the properties
+			foreach (var property in bag)
+			{
+				writer.WritePropertyName(property.Key);
+				writer.WriteValue(property.Value);
+			}
+
+			writer.WriteEndObject();
 		}
 		#endregion
 		#region Private Fields

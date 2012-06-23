@@ -104,6 +104,26 @@
 			<xs:anyAttribute namespace="##any" processContents="skip" />
 		</xs:complexType>
 	</xs:element>
+
+	<xs:element name="getDatasetFromJSon" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Gets a dataset from a given JSon string. The JSon string must contain an array of objects.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content-->
+			<xs:group ref="notFoundContentGroup" />
+			<!--attributes -->
+			<xs:attribute name="input" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>
+						The input JSOn string which to parse. The JSon string must contain an array of objects.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attributeGroup ref="targetAttributes" />
+		</xs:complexType>
+	</xs:element>
 	
 	
 	

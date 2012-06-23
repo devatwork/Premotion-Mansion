@@ -216,6 +216,7 @@
     <Compile Include="Nucleus\ReflectionService.cs" />
     <Compile Include="ScriptFunctions\Math\Divide.cs" />
     <Compile Include="ScriptFunctions\Math\Multiply.cs" />
+    <Compile Include="ScriptFunctions\Media\JSon\DatasetToJSonArray.cs" />
     <Compile Include="ScriptFunctions\Repository\CreateFacet.cs" />
     <Compile Include="ScriptFunctions\InvokeProcedure.cs" />
     <Compile Include="ScriptFunctions\Conditional\And.cs" />
@@ -325,6 +326,7 @@
     <Compile Include="ScriptTags\Caching\ClearCacheTag.cs" />
     <Compile Include="ScriptTags\CatchTag.cs" />
     <Compile Include="ScriptTags\Constants.cs" />
+    <Compile Include="ScriptTags\Media\JSon\GetDatasetFromJSonTag.cs" />
     <Compile Include="ScriptTags\Repository\FetchFacetsDatasetTag.cs" />
     <Compile Include="ScriptTags\DeclareEventHandlerTag.cs" />
     <Compile Include="ScriptTags\DeclareProcedureTag.cs" />

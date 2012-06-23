@@ -20,6 +20,7 @@
 		<copyright>Copyright 2012</copyright>
 		<dependencies>
 			<dependency id="Premotion.Mansion.Core" />
+			<dependency id="Newtonsoft.Json" />
 		</dependencies> 
 		<tags>Premotion Mansion Web</tags>
 	</metadata>
