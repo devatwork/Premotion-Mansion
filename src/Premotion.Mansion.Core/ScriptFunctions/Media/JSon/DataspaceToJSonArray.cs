@@ -4,7 +4,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
 
-namespace Premotion.Mansion.Core.ScriptFunctions.JSon
+namespace Premotion.Mansion.Core.ScriptFunctions.Media.JSon
 {
 	/// <summary>
 	/// Renders the datapsace as a JSon array.

@@ -1,7 +1,7 @@
 ﻿using Premotion.Mansion.Core.IO.JSon;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
-namespace Premotion.Mansion.Core.ScriptTags.Media
+namespace Premotion.Mansion.Core.ScriptTags.Media.JSon
 {
 	/// <summary>
 	/// Renders a JSON document to the top most outpipe.

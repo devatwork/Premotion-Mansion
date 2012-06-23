@@ -2,7 +2,7 @@
 using Premotion.Mansion.Core.IO.Xml;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
-namespace Premotion.Mansion.Core.ScriptTags.Media
+namespace Premotion.Mansion.Core.ScriptTags.Media.Xml
 {
 	/// <summary>
 	/// Renders an XML element to the XML output pipe. This tag must be used within and <see cref="RenderXmlDocumentTag"/>.

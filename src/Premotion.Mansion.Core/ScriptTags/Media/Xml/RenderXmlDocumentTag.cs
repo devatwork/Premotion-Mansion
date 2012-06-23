@@ -1,7 +1,7 @@
 ﻿using Premotion.Mansion.Core.IO.Xml;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
-namespace Premotion.Mansion.Core.ScriptTags.Media
+namespace Premotion.Mansion.Core.ScriptTags.Media.Xml
 {
 	/// <summary>
 	/// Renders an XML document to the top most outpipe.

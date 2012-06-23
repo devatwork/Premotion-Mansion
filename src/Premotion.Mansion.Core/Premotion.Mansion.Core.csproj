@@ -250,7 +250,7 @@
     <Compile Include="ScriptFunctions\Date\Now.cs" />
     <Compile Include="ScriptFunctions\Date\Today.cs" />
     <Compile Include="ScriptFunctions\Guids\EmptyGuid.cs" />
-    <Compile Include="ScriptFunctions\JSon\DataspaceToJSonArray.cs" />
+    <Compile Include="ScriptFunctions\Media\JSon\DataspaceToJSonArray.cs" />
     <Compile Include="ScriptFunctions\List\Intersection.cs" />
     <Compile Include="ScriptFunctions\Math\Add.cs" />
     <Compile Include="ScriptFunctions\Math\Subtract.cs" />
@@ -341,12 +341,12 @@
     <Compile Include="ScriptTags\Media\Csv\RenderDataspaceToCsvRowTag.cs" />
     <Compile Include="ScriptTags\Media\OpenContentForReadingTag.cs" />
     <Compile Include="ScriptTags\Media\OpenContentForWritingTag.cs" />
-    <Compile Include="ScriptTags\Media\RenderJsonArrayPropertyTag.cs" />
-    <Compile Include="ScriptTags\Media\RenderJsonDocumentTag.cs" />
-    <Compile Include="ScriptTags\Media\RenderJsonObjectTag.cs" />
-    <Compile Include="ScriptTags\Media\RenderJsonPropertyTag.cs" />
-    <Compile Include="ScriptTags\Media\RenderXmlDocumentTag.cs" />
-    <Compile Include="ScriptTags\Media\RenderXmlElementTag.cs" />
+    <Compile Include="ScriptTags\Media\JSon\RenderJsonArrayPropertyTag.cs" />
+    <Compile Include="ScriptTags\Media\JSon\RenderJsonDocumentTag.cs" />
+    <Compile Include="ScriptTags\Media\JSon\RenderJsonObjectTag.cs" />
+    <Compile Include="ScriptTags\Media\JSon\RenderJsonPropertyTag.cs" />
+    <Compile Include="ScriptTags\Media\Xml\RenderXmlDocumentTag.cs" />
+    <Compile Include="ScriptTags\Media\Xml\RenderXmlElementTag.cs" />
     <Compile Include="ScriptTags\NotFoundTag.cs" />
     <Compile Include="ScriptTags\Rendering\DisableResponseTemplateCacheTag.cs" />
     <Compile Include="ScriptTags\Rendering\OpenTemplateTag.cs" />
