@@ -49,6 +49,9 @@ namespace Premotion.Mansion.Core.ScriptFunctions
 			using (context.Stack.Push("Arguments", procedureArguments))
 				procedure.Execute(context);
 
+			// make sure the break procedure flag is cleared
+			context.BreakTopMostProcedure = false;
+
 			// return the buffer
 			return buffer.ToString();
 		}
