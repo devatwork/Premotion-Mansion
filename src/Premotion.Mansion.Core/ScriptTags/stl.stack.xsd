@@ -151,14 +151,31 @@
 		</xs:annotation>
 
 		<xs:complexType>
-			<!-- content -->
-			<xs:group ref="defaultContentGroup" />
-			
 			<!-- attributes -->
 			<xs:attributeGroup ref="sourceAttributes" />
 			<xs:attribute name="target" type="xs:string" use="required">
 				<xs:annotation>
-					<xs:documentation>The namespace of the dataset to which to add the row.</xs:documentation>
+					<xs:documentation>
+						The dataset to which to add the row.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="removeRowFromSet" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Removes an existing row from an existing dataset.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attributeGroup ref="sourceAttributes" />
+			<xs:attribute name="target" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>
+						The dataset from which to remove the row.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 		</xs:complexType>

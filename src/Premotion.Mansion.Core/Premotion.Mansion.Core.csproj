@@ -378,6 +378,7 @@
     <Compile Include="ScriptTags\Security\LogoffTag.cs" />
     <Compile Include="ScriptTags\Stack\AddRowToSetTag.cs" />
     <Compile Include="ScriptTags\Stack\AppendPropertyTag.cs" />
+    <Compile Include="ScriptTags\Stack\RemoveRowFromSetTag.cs" />
     <Compile Include="ScriptTags\Stack\CopyPropertiesTag.cs" />
     <Compile Include="ScriptTags\Stack\CreateDatasetTag.cs" />
     <Compile Include="ScriptTags\Stack\CreateDataspaceTag.cs" />
