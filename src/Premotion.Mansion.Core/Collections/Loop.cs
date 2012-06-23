@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Premotion.Mansion.Core.Collections
 {
@@ -108,7 +109,7 @@ namespace Premotion.Mansion.Core.Collections
 			{
 				Current = offset;
 				var loopCurrent = 0;
-				foreach (var row in Dataset.Rows)
+				foreach (var row in Dataset.Rows.ToList())
 				{
 					if (loopCurrent >= start && loopCurrent <= End)
 						yield return row;
