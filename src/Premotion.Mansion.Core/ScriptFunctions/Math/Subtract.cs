@@ -12,6 +12,15 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Math
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="first"></param>
+		/// <returns></returns>
+		public double Evaluate(IMansionContext context, double first)
+		{
+			return Evaluate(context, first, 1);
+		}
+		/// <summary>
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="first"></param>
 		/// <param name="second"></param>
 		/// <returns></returns>
 		public double Evaluate(IMansionContext context, double first, double second)
