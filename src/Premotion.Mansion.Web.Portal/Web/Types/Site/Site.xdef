@@ -10,7 +10,7 @@
 	<cms:behavior label="Website" icon="Types/Site/Site.png">
 		<cms:childType baseType="PageIndex" />
 		<cms:childType baseType="Page" />
-		<cms:childType baseType="Block" allowedExpression="{Not( IsAssignable( Candidate.type, 'SharedBlock' ) )}" />
+		<cms:childType baseType="Block" allowedExpression="{Not( IsSharedBlock( Candidate.type ) )}" />
 		<cms:childType baseType="NavigationIndex" />
 	</cms:behavior>
 

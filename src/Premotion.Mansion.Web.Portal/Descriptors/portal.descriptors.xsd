@@ -35,7 +35,13 @@
 
 	<xs:element name="sharedBlockDisplayBehavior" substitutionGroup="def:typeDescriptor">
 		<xs:annotation>
-			<xs:documentation>Specifies the shared block display behavior on this block. This behavior merges the block properties with a target block. Do not use this behavior directly.</xs:documentation>
+			<xs:documentation>Specifies the shared block display behavior on this block. This behavior merges the block properties with a target block. Do not use this behavior directly unless you are building a shared block display block.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="sharedBlock" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>Marks this block as a shared block. This indicates the block can only be created in the shared content and can not directly placed on a page</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 

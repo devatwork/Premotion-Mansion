@@ -8,7 +8,7 @@
 	<!-- specify cms behavior -->
 	<cms:behavior label="Pagina" icon="Types/Page/Page.png">
 		<cms:childType baseType="Page" />
-		<cms:childType baseType="Block" allowedExpression="{Not( IsAssignable( Candidate.type, 'SharedBlock' ) )}" />
+		<cms:childType baseType="Block" allowedExpression="{Not( IsSharedBlock( Candidate.type ) )}" />
 	</cms:behavior>
 	
 </type>

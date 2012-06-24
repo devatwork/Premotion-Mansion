@@ -27,6 +27,11 @@
 	
 	<!-- Renders the look and feel properties of this block -->
 	<declareProcedure procedureName="IncludeGroupLookAndFeel">
+		<!-- Guard against static blocks -->
+		<if condition="{IsSharedBlock( TargetProperties.type )}">
+			<exitProcedure />
+		</if>
+		
 		<!-- Look & feel of the block -->
 		<forms:fieldset label="Look &amp; Feel">
 			<forms:selectbox name="borderStyle" label="Border type">
@@ -71,6 +76,11 @@
 	
 	<!-- render the column in which this block is shown -->
 	<declareProcedure procedureName="IncludeGroupColumn">
+		<!-- Guard against static blocks -->
+		<if condition="{IsSharedBlock( TargetProperties.type )}">
+			<exitProcedure />
+		</if>
+			 
 		<forms:fieldset label="Column">
 			<forms:selectbox name="column" label="Column">
 

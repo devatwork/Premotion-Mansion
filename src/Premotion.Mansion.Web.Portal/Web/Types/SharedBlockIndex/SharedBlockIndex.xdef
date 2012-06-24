@@ -4,7 +4,7 @@
 	<!-- specify cms behavior -->
 	<cms:behavior label="Shared blocks">
 		<cms:childType baseType="SharedBlockIndex" />
-		<cms:childType baseType="SharedBlock" />
+		<cms:childType baseType="Block" allowedExpression="{IsSharedBlock( Candidate.type )}" />
 	</cms:behavior>
 	
 </type>
