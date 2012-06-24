@@ -70,6 +70,7 @@
     <Compile Include="Collections\PropertyBag.cs" />
     <Compile Include="Collections\PropertyBagAdapterFactory.cs" />
     <Compile Include="Collections\Sort.cs" />
+    <Compile Include="Conversion\Converters\DoubleToInt32Converter.cs" />
     <Compile Include="Conversion\Converters\Int64ToDoubleConverter.cs" />
     <Compile Include="Conversion\Converters\StringToInt64Converter.cs" />
     <Compile Include="Data\Clauses\FacetClause.cs" />
