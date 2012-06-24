@@ -19,4 +19,4 @@
 		</li>
 	</tpl:section>
 
-<tpl:section name="NotFoundMessage" field="Results">TODO: not found</tpl:section>
+<tpl:section name="NotResultsMessage" field="Results">{NotEmpty( BlockProperties.noResultsMessage, 'No results found' )}</tpl:section>

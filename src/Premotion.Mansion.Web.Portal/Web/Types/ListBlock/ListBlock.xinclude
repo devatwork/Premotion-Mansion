@@ -98,7 +98,7 @@
 			</renderSection>
 
 			<else>
-				<invokeProcedure procedureName="RenderNotFoundMessage" />
+				<invokeProcedure procedureName="RenderNoResults" />
 			</else>
 		</if>
 		
@@ -120,10 +120,20 @@
 		</declareProcedure>
 
 		<!-- renders the not found message -->
-		<declareProcedure procedureName="RenderNotFoundMessage">
-			<renderSection name="ListBlock">
-				<renderSection name="NotFoundMessage" />
-			</renderSection>
+		<declareProcedure procedureName="RenderNoResults">
+			<!-- switch on the behavior -->
+			<switch condition="{BlockProperties.noResultsBehavior}">
+				<!-- hide block -->
+				<case value="hideBlock">
+					<!-- nothing to do -->
+				</case>
+				<!-- show the not found message -->
+				<default>
+					<renderSection name="ListBlock">
+						<renderSection name="NotResultsMessage" />
+					</renderSection>
+				</default>
+			</switch>
 		</declareProcedure>
 	
 </mansion>

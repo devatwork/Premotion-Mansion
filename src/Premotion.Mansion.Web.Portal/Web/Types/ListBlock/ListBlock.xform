@@ -7,6 +7,7 @@
 		<invokeProcedure procedureName="IncludeGroupContentType"/>
 		<invokeProcedure procedureName="IncludeGroupLimitig"/>
 		<invokeProcedure procedureName="IncludeGroupClassification"/>
+		<invokeProcedure procedureName="IncludeGroupNoResults"/>
 		<invokeProcedure procedureName="IncludeGroupSorting"/>
 		<invokeProcedure procedureName="IncludeGroupAppearance"/>
 		
@@ -48,6 +49,19 @@
 			</forms:selectbox>
 			<forms:number name="limit" label="Total number of items" defaultValue="25" />
 			<forms:number name="pageSize" label="Number per page" defaultValue="25" />
+		</forms:fieldset>
+	</declareProcedure>
+
+
+	
+	<!-- Group: No results -->
+	<declareProcedure procedureName="IncludeGroupNoResults">
+		<forms:fieldset label="No results">
+			<forms:selectbox name="noResultsBehavior" label="Behavior" defaultValue="noResultsMessage">
+				<providers:csvLabelValuePairProvider csv="noResultsMessage,Show a no results message;hideBlock,Hide the block completely" />
+				<forms:requiredFieldValidator />
+			</forms:selectbox>
+			<forms:textarea name="noResultsMessage" label="Message" />
 		</forms:fieldset>
 	</declareProcedure>
 	
