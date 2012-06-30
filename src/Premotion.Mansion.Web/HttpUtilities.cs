@@ -252,7 +252,7 @@ namespace Premotion.Mansion.Web
 				throw new ArgumentNullException("parts");
 
 			// split all the incoming parts on dash
-			var dashSeparatedParts = parts.SelectMany(part => part.Split(new[] {'/', '\\'}, StringSplitOptions.RemoveEmptyEntries));
+			var dashSeparatedParts = parts.SelectMany(part => part.Split(Dispatcher.Constants.UrlPartTrimCharacters, StringSplitOptions.RemoveEmptyEntries));
 
 			// join the parts
 			return dashSeparatedParts.Aggregate(string.Empty, (current, part) => current + "/" + part);

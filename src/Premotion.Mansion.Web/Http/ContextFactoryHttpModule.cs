@@ -179,7 +179,7 @@ namespace Premotion.Mansion.Web.Http
 				                      {
 				                      	{"url", originalUri.ToString()},
 				                      	{"urlPath", httpContext.Request.Url.GetLeftPart(UriPartial.Path)},
-				                      	{"baseUrl", ApplicationBaseUri.ToString().TrimEnd('/')}
+				                      	{"baseUrl", ApplicationBaseUri.ToString().TrimEnd(Dispatcher.Constants.UrlPartTrimCharacters)}
 				                      }, true);
 
 				// set context location flag

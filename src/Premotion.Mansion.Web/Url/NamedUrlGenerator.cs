@@ -20,7 +20,7 @@ namespace Premotion.Mansion.Web.Url
 		/// <param name="uriBuilder">The <see cref="UriBuilder"/> which to use to build the url.</param>
 		protected override void DoGenerate(IMansionWebContext context, Node node, ITypeDefinition nodeType, UriBuilder uriBuilder)
 		{
-			uriBuilder.Path = HttpUtilities.CombineIntoRelativeUrl(context.HttpContext.Request.ApplicationPath, string.Join("/", node.Pointer.Path.Skip(2).Select(HttpUtilities.EscapeUriString)) + "." + node.Pointer.Id + Constants.ExecutableScriptExtension);
+			uriBuilder.Path = HttpUtilities.CombineIntoRelativeUrl(context.HttpContext.Request.ApplicationPath, node.Pointer.Id + "/" + string.Join("/", node.Pointer.Path.Skip(2).Select(HttpUtilities.EscapeUriString)));
 		}
 		#endregion
 	}

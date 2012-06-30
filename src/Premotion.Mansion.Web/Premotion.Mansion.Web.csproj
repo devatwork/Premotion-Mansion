@@ -199,7 +199,7 @@
     <Compile Include="Http\MansionHttpHandlerBase.cs" />
     <Compile Include="Http\ContextFactoryHttpModule.cs" />
     <Compile Include="Http\OutputCachableHttpHandlerBase.cs" />
-    <Compile Include="Http\ScriptHttpHttpHandler.cs" />
+    <Compile Include="Http\ScriptHttpHandler.cs" />
     <Compile Include="Http\MergeResourceHttpHandler.cs" />
     <Compile Include="Http\PathRewriterHttpModule.cs" />
     <Compile Include="Http\StaticContentHttpHandler.cs" />

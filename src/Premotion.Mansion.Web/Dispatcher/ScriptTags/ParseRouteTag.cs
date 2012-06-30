@@ -93,7 +93,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 
 			// trim the segment
 			var segment = url.Segments[index];
-			segment = index == (url.Segments.Length - 1) ? segment.Substring(0, segment.IndexOf('.')) : segment.Trim(Constants.UrlPartTrimCharacters);
+			segment = segment.Trim(Constants.UrlPartTrimCharacters);
 			return segment;
 		}
 	}

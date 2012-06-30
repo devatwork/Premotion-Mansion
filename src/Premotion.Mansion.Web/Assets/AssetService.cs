@@ -120,7 +120,7 @@ namespace Premotion.Mansion.Web.Assets
 				return AssetFolder.Unknown;
 
 			// get the path parts
-			var parts = path.Split(new[] {'/', '\\'}, StringSplitOptions.RemoveEmptyEntries);
+			var parts = path.Split(Dispatcher.Constants.UrlPartTrimCharacters, StringSplitOptions.RemoveEmptyEntries);
 			if (parts.Length == 0)
 				return AssetFolder.Create(context, assetType, assetType.Node);
 

@@ -122,7 +122,7 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 			if (url == null)
 				throw new ArgumentNullException("url");
 
-			return url.ToString().Trim(new[] {'/'}) + '/';
+			return url.ToString().Trim(Dispatcher.Constants.UrlPartTrimCharacters) + '/';
 		}
 		#endregion
 		#region Properties

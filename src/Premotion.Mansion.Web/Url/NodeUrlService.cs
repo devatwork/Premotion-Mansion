@@ -78,7 +78,7 @@ namespace Premotion.Mansion.Web.Url
 		/// <param name="url">The <see cref="Uri"/> which to parse.</param>
 		/// <param name="queryParameters">The query parameters extracted from <paramref name="url"/>.</param>
 		/// <returns>Returns true when parameters could be extracted, otherwise false.</returns>
-		public bool TryExtractQueryParameters(IMansionContext context, Uri url, out IPropertyBag queryParameters)
+		public bool TryExtractQueryParameters(IMansionWebContext context, Uri url, out IPropertyBag queryParameters)
 		{
 			// validate arguments
 			if (context == null)
@@ -89,16 +89,24 @@ namespace Premotion.Mansion.Web.Url
 			// create bag for parameters
 			queryParameters = new PropertyBag();
 
+			// get the number of segments in the base uri
+			var baseSegmentCount = context.ApplicationBaseUri.Segments.Length;
+
+			// check if this is the base url
+			if (url.Segments.Length <= baseSegmentCount)
+				return false;
+
 			// get the last segment which is the document name
-			var documentName = url.Segments[url.Segments.Length - 1];
+			var candidateId = url.Segments[baseSegmentCount].Trim(Dispatcher.Constants.UrlPartTrimCharacters);
 
-			// get last and second last dot
-			var lastDotPosition = documentName.LastIndexOf('.');
-			var secondLastDotPosition = documentName.LastIndexOf('.', lastDotPosition - 1);
-			if (lastDotPosition != -1 && secondLastDotPosition != -1)
-				queryParameters.Set("id", documentName.Substring(secondLastDotPosition + 1, lastDotPosition - secondLastDotPosition - 1));
+			// check if the candidate id is an actual number
+			var isNumber = candidateId.IsNumber();
 
-			return queryParameters.Count > 0;
+			// if it is a number, it is the page id
+			if (isNumber)
+				queryParameters.Set("id", candidateId);
+
+			return isNumber;
 		}
 		#endregion
 		#region Initialize Methods

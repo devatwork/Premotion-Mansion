@@ -9,7 +9,7 @@ namespace Premotion.Mansion.Web.Http
 	/// <summary>
 	/// Implements the <see cref="IHttpHandler"/> for mansion script requests.
 	/// </summary>
-	public class ScriptHttpHttpHandler : OutputCachableHttpHandlerBase, IRequiresSessionState
+	public class ScriptHttpHandler : OutputCachableHttpHandlerBase, IRequiresSessionState
 	{
 		#region Constants
 		/// <summary>

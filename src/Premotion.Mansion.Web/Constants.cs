@@ -34,17 +34,13 @@
 		/// </summary>
 		public const string FormTagNamespaceUri = @"http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd";
 		/// <summary>
-		/// Gets the extension of executable scripts, including the dot.
-		/// </summary>
-		public const string ExecutableScriptExtension = ".xts";
-		/// <summary>
 		/// The default backoffice script name.
 		/// </summary>
-		public const string DefaultBackofficeScriptName = "Cms/Cms" + ExecutableScriptExtension;
+		public const string DefaultBackofficeScriptName = "Cms/Cms.xts";
 		/// <summary>
 		/// The default frontoffice script name.
 		/// </summary>
-		public const string DefaultFrontofficeScriptName = "Default" + ExecutableScriptExtension;
+		public const string DefaultFrontofficeScriptName = "Default.xts";
 		/// <summary>
 		/// Defines the prefix for application content.
 		/// </summary>

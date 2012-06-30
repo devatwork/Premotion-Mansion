@@ -6,10 +6,6 @@
 	public static class Constants
 	{
 		/// <summary>
-		/// Defines the extension used by dispatcher routes.
-		/// </summary>
-		public const string Extension = @"xts";
-		/// <summary>
 		/// The prefix for route URLs.
 		/// </summary>
 		public const string RouteUrlPrefix = @"-route-";

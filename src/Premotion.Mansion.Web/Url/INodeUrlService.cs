@@ -22,11 +22,11 @@ namespace Premotion.Mansion.Web.Url
 		/// <summary>
 		/// Parses the URL into query parameters.
 		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="url">The <see cref="Uri"/> which to parse.</param>
 		/// <param name="queryParameters">The query parameters extracted from <paramref name="url"/>.</param>
 		/// <returns>Returns true when parameters could be extracted, otherwise false.</returns>
-		bool TryExtractQueryParameters(IMansionContext context, Uri url, out IPropertyBag queryParameters);
+		bool TryExtractQueryParameters(IMansionWebContext context, Uri url, out IPropertyBag queryParameters);
 		#endregion
 	}
 }

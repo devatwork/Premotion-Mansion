@@ -52,7 +52,7 @@ namespace Premotion.Mansion.Web.Portal.Url
 			var sitePathParts = templatePageNode.Pointer.Hierarchy.SkipWhile(candidate => !siteNode.Pointer.IsParentOf(candidate)).TakeWhile(candidate => candidate.Id != templatePageNode.Pointer.Id).ToArray();
 			var contentPathParts = node.Pointer.Hierarchy.Skip(2).ToArray();
 
-			uriBuilder.Path = HttpUtilities.CombineIntoRelativeUrl(context.HttpContext.Request.ApplicationPath, string.Join("/", sitePathParts.Select(pointer => HttpUtilities.EscapeUriString(pointer.Name))), string.Join("/", contentPathParts.Select(pointer => HttpUtilities.EscapeUriString(pointer.Name))) + "." + node.Pointer.Id + Mansion.Web.Constants.ExecutableScriptExtension);
+			uriBuilder.Path = HttpUtilities.CombineIntoRelativeUrl(context.HttpContext.Request.ApplicationPath, node.Pointer.Id + "/" + string.Join("/", sitePathParts.Select(pointer => HttpUtilities.EscapeUriString(pointer.Name))), string.Join("/", contentPathParts.Select(pointer => HttpUtilities.EscapeUriString(pointer.Name))));
 			uriBuilder.Query = string.Empty;
 			uriBuilder.Fragment = string.Empty;
 		}

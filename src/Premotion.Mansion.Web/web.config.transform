@@ -7,7 +7,6 @@
 	</system.web>
 	<appSettings>
 		<add key="APPLICATION_IS_LIVE" value="false" />
-		
 	</appSettings>
 	<system.webServer>
 		<modules>
@@ -19,8 +18,6 @@
 			<add name="PathRewriterModule" type="Premotion.Mansion.Web.Http.PathRewriterHttpModule, Premotion.Mansion.Web" />
 		</modules>
 		<handlers>
-			<remove name="MansionScriptHandler" />
-			<add name="MansionScriptHandler" path="*.xts" verb="*" type="Premotion.Mansion.Web.Http.ScriptHttpHttpHandler, Premotion.Mansion.Web" />
 			<remove name="MansionStaticResourceHandler" />
 			<add name="MansionStaticResourceHandler" path="Static.Application.Resource" verb="GET" type="Premotion.Mansion.Web.Http.StaticResourceHttpHandler, Premotion.Mansion.Web" />
 			<remove name="MansionDynamicResourceHandler" />
@@ -33,10 +30,12 @@
 			<add name="MansionStreamingStaticContentHandler" path="Streaming.Static.Content" verb="GET" type="Premotion.Mansion.Web.Http.StreamingStaticContentHttpHandler, Premotion.Mansion.Web" />
 			<remove name="MansionCKFinderConnectorHttpHandler" />
 			<add name="MansionCKFinderConnectorHttpHandler" path="CKFinder.Connector" verb="GET,POST" type="Premotion.Mansion.Web.CKFinderConnector.ConnectorHttpHandler, Premotion.Mansion.Web" />
+			<remove name="MansionScriptHandler" />
+			<add name="MansionScriptHandler" path="*" verb="*" type="Premotion.Mansion.Web.Http.ScriptHttpHandler, Premotion.Mansion.Web" />
 		</handlers>
 		<httpErrors>
 			<remove statusCode="404" subStatusCode="-1" />
-			<error statusCode="404" path="/Web/Default.xts" responseMode="ExecuteURL" />
+			<error statusCode="404" path="/" responseMode="ExecuteURL" />
 		</httpErrors>
 		<defaultDocument>
 			<files>

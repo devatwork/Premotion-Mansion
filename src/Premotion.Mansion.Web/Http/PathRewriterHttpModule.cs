@@ -54,28 +54,8 @@ namespace Premotion.Mansion.Web.Http
 			httpContext.Items.Add(originalRawUrlKey, httpContext.Request.Url);
 			httpContext.Items.Add(originalRawPathKey, httpContext.Request.Path);
 
-			// if no extension is mapped route it to either the frontoffice or backoffice default
-			var extension = Path.GetExtension(currentPath);
-			if (string.IsNullOrEmpty(extension))
-			{
-				// make sure the path ends with a slash
-				if (currentPath.Length == 0 || currentPath[currentPath.Length - 1] != '/')
-					currentPath += '/';
-
-				// get backoffice flag
-				var isBackoffice = currentPath.StartsWith(@"/cms/", StringComparison.OrdinalIgnoreCase);
-
-				// rewrite the path
-				httpContext.RewritePath(HttpUtilities.CombineIntoRelativeUrl(httpContext.Request.ApplicationPath, isBackoffice ? Constants.DefaultBackofficeScriptName : Constants.DefaultFrontofficeScriptName));
-				return;
-			}
-
-			// dont map script files
-			if (Constants.ExecutableScriptExtension.Equals(extension, StringComparison.OrdinalIgnoreCase))
-				return;
-
 			// check the path
-			var pathParts = currentPath.Split(new[] {'/', '\\'}, StringSplitOptions.RemoveEmptyEntries);
+			var pathParts = currentPath.Split(Dispatcher.Constants.UrlPartTrimCharacters, StringSplitOptions.RemoveEmptyEntries);
 			if (pathParts.Length < 3)
 				return;
 
