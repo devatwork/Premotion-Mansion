@@ -216,7 +216,7 @@ namespace Premotion.Mansion.Core.IO.EmbeddedResources
 		private static string TranslatePath(string path)
 		{
 			// validate arguments
-			if (string.IsNullOrEmpty(path))
+			if (path == null)
 				throw new ArgumentNullException("path");
 
 			return path.Replace('/', '.').Replace('\\', '.').TrimStart('.');

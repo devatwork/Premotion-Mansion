@@ -17,7 +17,7 @@ namespace Premotion.Mansion.Core.IO
 		public RelativeResourcePath(string path, bool overridable)
 		{
 			// validate arguments
-			if (string.IsNullOrEmpty(path))
+			if (path == null)
 				throw new ArgumentNullException("path");
 
 			// set values
