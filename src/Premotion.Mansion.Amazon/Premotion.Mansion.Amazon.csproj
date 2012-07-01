@@ -37,9 +37,9 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AWSSDK, Version=1.4.10.0, Culture=neutral, PublicKeyToken=cd2d24cd2bace800, processorArchitecture=MSIL">
+    <Reference Include="AWSSDK, Version=1.4.12.0, Culture=neutral, PublicKeyToken=cd2d24cd2bace800, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AWSSDK.1.4.10.0\lib\AWSSDK.dll</HintPath>
+      <HintPath>..\packages\AWSSDK.1.4.12.0\lib\AWSSDK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -58,9 +58,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="web.config.transform" />
     <None Include="Premotion.Mansion.Amazon.symbols.nuspec" />
-    <None Include="packages.config" />
     <None Include="Premotion.Mansion.Amazon.nuspec" />
     <None Include="app.config.transform" />
   </ItemGroup>
