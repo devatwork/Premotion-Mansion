@@ -69,7 +69,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 				}
 
 				// execute the schema creation
-				repository.ExecuteWithTransaction(context, schemaBuffer.ToString());
+				repository.ExecuteWithoutTransaction(context, schemaBuffer.ToString());
 			}
 		}
 		#endregion

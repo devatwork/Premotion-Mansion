@@ -335,11 +335,11 @@ namespace Premotion.Mansion.Repository.SqlServer
 		#endregion
 		#region Execute Methods
 		/// <summary>
-		/// Executes the <paramref name="query"/> within a transaction.
+		/// Executes the <paramref name="query"/> without a transaction.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="query">The query wich to execute.</param>
-		public void ExecuteWithTransaction(IMansionContext context, string query)
+		public void ExecuteWithoutTransaction(IMansionContext context, string query)
 		{
 			// validate arguments
 			if (context == null)
@@ -349,29 +349,15 @@ namespace Premotion.Mansion.Repository.SqlServer
 
 			// create the connection and the transaction
 			using (var connection = CreateConnection())
-			using (var transaction = connection.BeginTransaction())
 			using (var command = connection.CreateCommand())
 			{
 				// prepare the command
 				command.Connection = connection;
-				command.Transaction = transaction;
 				command.CommandText = query;
 				command.CommandType = CommandType.Text;
 
 				// execute the command
-				try
-				{
-					command.ExecuteNonQuery();
-
-					// woohoo it worked!
-					transaction.Commit();
-				}
-				catch (Exception)
-				{
-					// something terrible happened, revert everything
-					transaction.Rollback();
-					throw;
-				}
+				command.ExecuteNonQuery();
 			}
 		}
 		#endregion
