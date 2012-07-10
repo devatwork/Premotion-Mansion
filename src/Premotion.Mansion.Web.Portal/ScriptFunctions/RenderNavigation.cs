@@ -166,11 +166,24 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 		/// <returns>Returns the HTML of the navigation tree.</returns>
 		public string Evaluate(IMansionContext context, Node navigationNode)
 		{
+			return Evaluate(context, navigationNode, "nav");
+		}
+		/// <summary>
+		/// Renders a navigation tree.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="navigationNode">Root <see cref="Node"/> of the navigation tree.</param>
+		/// <param name="cssClasses">The CSS classes used for this navigation.</param>
+		/// <returns>Returns the HTML of the navigation tree.</returns>
+		public string Evaluate(IMansionContext context, Node navigationNode, string cssClasses)
+		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (navigationNode == null)
 				throw new ArgumentNullException("navigationNode");
+			if (string.IsNullOrEmpty(cssClasses))
+				throw new ArgumentNullException("cssClasses");
 
 			// get the current URL node
 			var urlNode = context.Stack.Peek<Node>("UrlNode");
@@ -182,7 +195,11 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 			var navigationTree = BuildTreeStructure(context, navigationNode, navigationItemNodeset, urlNode.Pointer);
 
 			// render the tree
-			return RenderNavigationTree(context, navigationTree);
+			using (context.Stack.Push("ControlProperties", new PropertyBag
+			                                               {
+			                                               	{"cssClasses", cssClasses}
+			                                               }))
+				return RenderNavigationTree(context, navigationTree);
 		}
 		#endregion
 		#region Retrieve Methods

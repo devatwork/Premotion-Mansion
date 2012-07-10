@@ -1,5 +1,5 @@
 ﻿<tpl:section name="NavigationRoot">
-	<ul>
+	<ul class="{ControlProperties.cssClasses}">
 		{NavigationItem}
 	</ul>
 </tpl:section>
