@@ -1,5 +1,5 @@
 ﻿<tpl:section name="TwoColumnLayout" field="Layout">
-	<div class="row">
+	<div class="row-fluid">
 		<div class="column span6">
 			{RenderColumn( 'primary-column', $PageNode, $PageBlockNodeset )}
 		</div>
