@@ -1,5 +1,4 @@
-﻿
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
 <xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/stl.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	
