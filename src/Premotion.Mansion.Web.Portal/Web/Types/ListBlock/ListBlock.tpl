@@ -2,8 +2,10 @@
 	<section class="block {BlockProperties.blockStyle} {BlockProperties.borderStyle} list-block"{@BlockId}>
 		{@BlockToolbar}
 		{@BlockTitle}
-		{Results}
-		{InvokeProcedure( 'RenderReadMoreLink' )}
+		<div class="content">
+			{Results}
+			{InvokeProcedure( 'RenderReadMoreLink' )}
+		</div>
 	</section>
 </tpl:section>
 
