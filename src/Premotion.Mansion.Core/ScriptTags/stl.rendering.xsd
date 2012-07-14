@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿
+<?xml version="1.0" encoding="utf-8"?>
 
 <xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/stl.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	
@@ -38,7 +39,7 @@
 
 	<xs:element name="renderSection" substitutionGroup="scriptTag">
 		<xs:annotation>
-			<xs:documentation>Renders a template section.</xs:documentation>
+			<xs:documentation>Renders a template section. Any non-specified attributes are available in the Section dataspace when rendering the section.</xs:documentation>
 		</xs:annotation>
 
 		<xs:complexType>
@@ -51,6 +52,7 @@
 				</xs:annotation>
 			</xs:attribute>
 			<xs:attributeGroup ref="targetFieldAttributes" />
+			<xs:anyAttribute namespace="##any" processContents="skip" />
 		</xs:complexType>
 	</xs:element>
 

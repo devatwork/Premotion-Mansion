@@ -32,20 +32,32 @@ namespace Premotion.Mansion.Core.ScriptTags.Rendering
 		/// <param name="context"></param>
 		protected override void DoExecute(IMansionContext context)
 		{
-			// get the attribute values
-			var sectionName = GetRequiredAttribute<string>(context, "name");
-			var targetField = GetAttribute<string>(context, "targetField");
+			// get the properties
+			var sectionProperties = GetAttributes(context);
 
-			// render the section
-			if (string.IsNullOrWhiteSpace(targetField))
+			// get the section name
+			string sectionName;
+			if (!sectionProperties.TryGetAndRemove(context, "name", out sectionName))
+				throw new InvalidOperationException("The attribute section name is required");
+
+			// get the target field
+			string targetField;
+			sectionProperties.TryGetAndRemove(context, "targetField", out targetField);
+
+			// push the section properties to the stack
+			using (context.Stack.Push("Section", sectionProperties))
 			{
-				using (templateService.Render(context, sectionName))
-					ExecuteChildTags(context);
-			}
-			else
-			{
-				using (templateService.Render(context, sectionName, targetField))
-					ExecuteChildTags(context);
+				// render the section
+				if (string.IsNullOrWhiteSpace(targetField))
+				{
+					using (templateService.Render(context, sectionName))
+						ExecuteChildTags(context);
+				}
+				else
+				{
+					using (templateService.Render(context, sectionName, targetField))
+						ExecuteChildTags(context);
+				}
 			}
 		}
 		#endregion
