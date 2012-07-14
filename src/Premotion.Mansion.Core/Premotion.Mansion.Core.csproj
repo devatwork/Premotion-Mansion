@@ -70,6 +70,7 @@
     <Compile Include="Collections\PropertyBag.cs" />
     <Compile Include="Collections\PropertyBagAdapterFactory.cs" />
     <Compile Include="Collections\Sort.cs" />
+    <Compile Include="Conversion\Converters\StringToCharConverter.cs" />
     <Compile Include="Conversion\Converters\DoubleToInt32Converter.cs" />
     <Compile Include="Conversion\Converters\Int64ToDoubleConverter.cs" />
     <Compile Include="Conversion\Converters\StringToInt64Converter.cs" />
@@ -278,6 +279,7 @@
     <Compile Include="ScriptFunctions\String\Clip.cs" />
     <Compile Include="ScriptFunctions\String\Concat.cs" />
     <Compile Include="ScriptFunctions\String\ConvertToString.cs" />
+    <Compile Include="ScriptFunctions\String\Trim.cs" />
     <Compile Include="ScriptFunctions\String\FormatNumber.cs" />
     <Compile Include="ScriptFunctions\String\GetLabelFromCsv.cs" />
     <Compile Include="ScriptFunctions\String\Length.cs" />
