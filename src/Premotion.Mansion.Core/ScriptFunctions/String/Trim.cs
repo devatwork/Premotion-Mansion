@@ -20,10 +20,8 @@ namespace Premotion.Mansion.Core.ScriptFunctions.String
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
-			if (input == null)
-				throw new ArgumentNullException("input");
 
-			return input.Trim(trimChars);
+			return input == null ? string.Empty : input.Trim(trimChars);
 		}
 	}
 }
