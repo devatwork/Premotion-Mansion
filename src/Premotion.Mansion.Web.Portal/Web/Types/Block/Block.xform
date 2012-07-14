@@ -74,6 +74,21 @@
 	
 	
 	
+	<!-- render the properties of the read-more link -->
+	<declareProcedure procedureName="IncludeGroupReadMore">
+		<forms:fieldset label="Read more">
+			<forms:textbox name="readMoreLabel" label="Label">
+				<forms:requiredFieldValidator />
+			</forms:textbox>
+			<forms:nodeTreeSelect name="readMoreTargetGuid" label="Target">
+				<providers:nodeTreeProvider rootPointer="1" disabledExpression="{\Not( Or( IsEqual( Node.type, 'Page' ), InList( Node.type, GetSubTypes( 'Page' ) )) )}" valueProperty="guid" labelProperty="name" />
+				<forms:requiredFieldValidator />
+			</forms:nodeTreeSelect>
+		</forms:fieldset>
+	</declareProcedure>
+	
+	
+	
 	<!-- render the column in which this block is shown -->
 	<declareProcedure procedureName="IncludeGroupColumn">
 		<!-- Guard against static blocks -->

@@ -7,7 +7,11 @@
 <tpl:section name="BlockDescription" requires="{Not( IsEmpty( BlockProperties.description ) )}"><div class="description">{BlockProperties.description}</div></tpl:section>
 <tpl:section name="BlockBody" requires="{Not( IsEmpty( BlockProperties.body ) )}"><div class="body">{BlockProperties.body}</div></tpl:section>
 
-
+<tpl:section name="BlockReadMoreLink" requires="{Not( IsEmpty( BlockProperties.readMoreTargetGuid ) )}">
+	<div class="read-more">
+		<a href="{NodeUrl( $TargetNode )}" title="{BlockProperties.readMoreLabel}">{BlockProperties.readMoreLabel}</a>
+	</div>
+</tpl:section>
 
 <!-- maintenance toolbars -->
 <tpl:section name="BlockToolbar" requires="{And( HasPortalAdminPermission(), Not( IsTrue( BlockProperties._readonly ) ) )}">

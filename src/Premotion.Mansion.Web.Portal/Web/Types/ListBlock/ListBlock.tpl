@@ -3,6 +3,7 @@
 		{@BlockToolbar}
 		{@BlockTitle}
 		{Results}
+		{InvokeProcedure( 'RenderReadMoreLink' )}
 	</section>
 </tpl:section>
 

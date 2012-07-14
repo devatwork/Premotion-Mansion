@@ -6,4 +6,20 @@
 		<renderSection name="{BlockProperties.type}" />
 	</declareProcedure>
 	
+	
+	
+	<!-- Render read-more section -->
+	<declareProcedure procedureName="RenderReadMoreLink">
+		<!-- guard -->
+		<if condition="{IsEmpty( BlockProperties.readMoreTargetGuid )}">
+			<exitProcedure />
+		</if>
+		
+		<!-- retrieve the target node -->
+		<retrieveNode guid="{BlockProperties.readMoreTargetGuid}" target="TargetNode">
+			<renderSection name="BlockReadMoreLink" />
+			<notFound />
+		</retrieveNode>
+	</declareProcedure>
+	
 </mansion>
