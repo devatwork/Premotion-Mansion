@@ -1,31 +1,3 @@
-.cms {
+.cms-page {
 	padding-top: 60px;
-	padding-bottom: 40px;
-}
-
-.seamless {
-	border: none;
-	overflow: hidden;
-	width: 100%;
-}
-
-/* side bar styles  */
-.sidebar-nav {
-	padding: 9px 0;
-}
-
-/* node navigation styles */
-.nav-list li ul { margin-left: 18px; }
-
-
-
-/* dialog styles */
-.dialog,
-.dialog .container-fluid {
-	padding: 0;
-	overflow: hidden;
-}
-
-.dialog form {
-	margin: 0;
 }
