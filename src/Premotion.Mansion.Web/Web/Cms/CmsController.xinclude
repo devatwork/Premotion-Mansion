@@ -31,22 +31,20 @@
 
 			<!-- render the CMS section -->
 			<renderSection name="CmsPage">
-				<!-- render the header -->
-				<renderSection name="CmsHeader">
-					<renderSection name="ProfileButton" />
-				</renderSection>
-				
-				<!-- render the content-->
-				<renderSection name="Content">
-					<!-- render the node navigation tree pane -->
-					<invokeProcedure procedureName="RenderNodeNavigationTree" />
+				<renderSection name="PageContainer">
 					
-					<!-- render the browser pane -->
-					<invokeProcedure procedureName="RenderBrowser" />
+					<!-- render the user menu -->
+					<invokeProcedure procedureName="RenderUserMenu" />
+
+					<renderSection name="Layout">
+						<!-- render the navigation menu -->
+						<invokeProcedure procedureName="RenderNavigation" />
+					
+						<!-- render the browser-->
+						<invokeProcedure procedureName="RenderBrowser" />
+					</renderSection>
+					
 				</renderSection>
-				
-				<!-- render the footer -->
-				<renderSection name="CmsFooter" />
 			</renderSection>
 
 		</web:respondDocument>
@@ -55,99 +53,41 @@
 	
 	
 	
-	<!-- node navigation tree procedures -->
-	<declareProcedure procedureName="RenderNodeNavigationTree">
-
-		<!-- render the content-->
-		<renderSection name="NodeNavigationTree">
-
-			<!-- retrieve the root node -->
-			<fetchNode source="{$RootNode}" target="LeafNode" global="true" />
-
-			<!-- render the first leaf -->
-			<invokeProcedure procedureName="RenderLeaf" />
-
-		</renderSection>
-
+	<!-- renders the user menu -->
+	<declareProcedure procedureName="RenderUserMenu">
+		<renderSection name="UserMenu" />
 	</declareProcedure>
-
-		<declareProcedure procedureName="RenderLeaf">
-			<renderSection name="NodeNavigationTreeLeaf">
-
-				<!-- if the node is select of a parent of the selected node, retrieve the children -->
-				<if condition="{Or( IsChildOf( $CurrentNode, $LeafNode  ), IsEqual( CurrentNode.id, LeafNode.id ) )}">
-					<retrieveChildNodeset parentSource="{$LeafNode}" target="LeafNodeset">
-						<renderSection name="NodeNavigationTreeBranch">
-							<loopNodeset source="{$LeafNodeset}" target="LeafNode">
-									<invokeProcedure procedureName="RenderLeaf"/>
-							</loopNodeset>
-						</renderSection>
-					</retrieveChildNodeset>
-				</if>
-
-			</renderSection>
-		</declareProcedure>
 	
 	
 	
-	<!-- browser procedures -->
+	<!-- renders the navigation menu -->
+	<declareProcedure procedureName="RenderNavigation">
+		<renderSection name="Navigation" />
+	</declareProcedure>
+	
+	
+	
+	<!-- renders the browser -->
 	<declareProcedure procedureName="RenderBrowser">
-		<renderSection name="NodeViewer">
-			<!-- render the node crumbs -->
-			<invokeProcedure procedureName="RenderNodeCrumbPath" />
-			
-			<!-- render the edit node pane -->
-			<invokeProcedure procedureName="RenderNodeFormPane"/>
-		
-		</renderSection>
+		<renderSection name="Browser" />
 	</declareProcedure>
 
-		<!-- render the crumb trail for a node -->
-		<declareProcedure procedureName="RenderNodeCrumbPath">
-			<renderSection name="NodeCrumbPath">
-				<if condition="{Not( IsEqual( CurrentNode.id, RootNode.id ) )}">
-					<retrieveParentNodeset childSource="{$CurrentNode}" depth="any" target="ParentNodeset">
-						<loopNodeset source="{$ParentNodeset}" target="ParentNode">
-							<renderSection name="NodeParentCrumb" />
-						</loopNodeset>
-					</retrieveParentNodeset>
-				</if>
-				<renderSection name="NodeActiveCrumb" />
-			</renderSection>
-		</declareProcedure>
+
 	
-		<!-- render the node form pan -->
-		<declareProcedure procedureName="RenderNodeFormPane">
-			<!-- determine the xform which to display -->
-			<setProperties dataspaceName="NodeInfo" type="{NotEmpty( Get.type, CurrentNode.type )}">
+	<!-- default action for form submits -->
+	<declareProcedure procedureName="OnCancel">
+		<web:redirectRequest url="{CmsRouteUrl( 'Cms', 'View', FormSourceNode.id )}" />
+		<breakExecution />
+	</declareProcedure>
 
-				<!-- if the type does not exist show the default form -->
-				<if condition="{Not( TypeExists( NodeInfo.type ) )}">
-					<setProperties dataspaceName="NodeInfo" type="Default" />
-				</if>
+	<declareProcedure procedureName="OnCreated">
+		<web:redirectRequest url="{CmsRouteUrl( 'Cms', 'View', NewNode.id )}" />
+		<breakExecution />
+	</declareProcedure>
 
-				<!-- show the xform of the type -->
-				<openScript type="{NodeInfo.type}" extension="xform" checkExists="true">
-					<invokeProcedure procedureName="RenderXForm" source="{$CurrentNode}" targetType="{NodeInfo.type}" mode="{NotEmpty( Get.mode, 'update' )}" />
-				</openScript>
-
-			</setProperties>
-		</declareProcedure>
-
-		<!-- default action for form submits -->
-		<declareProcedure procedureName="OnCancel">
-			<web:redirectRequest url="{CmsRouteUrl( 'Cms', 'View', FormSourceNode.id )}" />
-			<breakExecution />
-		</declareProcedure>
-
-		<declareProcedure procedureName="OnCreated">
-			<web:redirectRequest url="{CmsRouteUrl( 'Cms', 'View', NewNode.id )}" />
-			<breakExecution />
-		</declareProcedure>
-
-		<declareProcedure procedureName="OnUpdated">
-			<web:redirectRequest url="{CmsRouteUrl( 'Cms', 'View', FormSourceNode.id )}" />
-			<breakExecution />
-		</declareProcedure>
+	<declareProcedure procedureName="OnUpdated">
+		<web:redirectRequest url="{CmsRouteUrl( 'Cms', 'View', FormSourceNode.id )}" />
+		<breakExecution />
+	</declareProcedure>
 
 </mansion>
