@@ -662,7 +662,9 @@
     <EmbeddedResource Include="Web\Types\Default\Default.DeleteNode.Dialog.xform" />
     <EmbeddedResource Include="Web\Types\Default\Default.Dialog.xinclude" />
     <EmbeddedResource Include="Web\Types\Default\Default.MoveNode.Dialog.xform" />
-    <EmbeddedResource Include="Web\Types\Default\Default.NodeSelector.Dialog.xinclude" />
+    <EmbeddedResource Include="Web\Types\Default\Default.NodeSelector.Dialog.xinclude">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Web\Types\Default\Default.png" />
     <EmbeddedResource Include="Web\Types\Default\Default.xdef" />
     <EmbeddedResource Include="Web\Types\Default\Default.xform" />
