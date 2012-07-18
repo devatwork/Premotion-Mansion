@@ -277,6 +277,12 @@
 	</div>
 </tpl:section>
 
+<tpl:section name="ButtonGroupControl" field="Control">
+	<div class="clearfix btn-group {ControlProperties.cssClass}">
+		{Control}
+	</div>
+</tpl:section>
+
 <tpl:section name="ButtonControl" field="Control">
 	<a href="#" id="{@ControlId}" class="btn {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}" data-action="{ControlProperties.action}">{ControlProperties.label}</a>&nbsp;
 </tpl:section>
