@@ -26,7 +26,45 @@
 	<!-- Views: Browse                       -->
 	<!-- ################################### -->
 	<declareProcedure procedureName="RenderPluginBrowseDetailView">
-		<renderSection name="Browse" />
+		<!-- TODO: determine the correct node -->
+		<fetchNode source="{$RootNode}" target="CurrentNode">
+			<renderSection name="Browse">
+			
+				<!-- render the crumb path -->
+				<invokeProcedure procedureName="RenderBrowserCrumbPath" />
+
+				<!-- render the child nodes -->
+				<invokeProcedure procedureName="RenderNodeBrowser"/>
+
+				<!-- render the properties of the current node -->
+				<invokeProcedure procedureName="RenderNodeProperties"/>
+			
+			</renderSection>
+		</fetchNode>
+	</declareProcedure>
+
+	<!-- Renders the crumb path-->
+	<declareProcedure procedureName="RenderBrowserCrumbPath">
+		<renderSection name="CrumbPath">
+			<if condition="{Not( IsEqual( CurrentNode.id, RootNode.id ) )}">
+				<retrieveParentNodeset childSource="{$CurrentNode}" depth="any" target="ParentNodeset">
+					<loopNodeset source="{$ParentNodeset}" target="ParentNode">
+						<renderSection name="ParentCrumb" />
+					</loopNodeset>
+				</retrieveParentNodeset>
+			</if>
+			<renderSection name="ActiveCrumb" />
+		</renderSection>
+	</declareProcedure>
+
+	<!-- Renders the children of the current node -->
+	<declareProcedure procedureName="RenderNodeBrowser">
+		<renderSection name="NodeBrowser" />
+	</declareProcedure>
+
+	<!-- Renders the properties of the current node -->
+	<declareProcedure procedureName="RenderNodeProperties">
+		<renderSection name="NodeProperties" />
 	</declareProcedure>
 
 
