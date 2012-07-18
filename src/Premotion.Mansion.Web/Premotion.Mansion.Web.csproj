@@ -81,6 +81,7 @@
     <Compile Include="Cms\ScriptFunctions\GetTypeDefinitionIcon.cs" />
     <Compile Include="Cms\ScriptFunctions\GetTypeDefinitionLabel.cs" />
     <Compile Include="Cms\ScriptFunctions\HasChildTypes.cs" />
+    <Compile Include="Cms\ScriptTags\GetPluginDatasetTag.cs" />
     <Compile Include="ConfigurationSettingsApplicationInitializer.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controls\Container.cs" />
@@ -248,6 +249,9 @@
     <Compile Include="Security\RepositorySecurityPersistenceService.cs" />
     <Compile Include="Security\WebSecurityService.cs" />
     <Compile Include="TagUtilities.cs" />
+    <None Include="Cms\ScriptTags\web.cms.tags.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MyApplicationBootstrapper.cs.pp" />
     <Compile Include="Url\RouteUrlBuilder.cs" />
     <Compile Include="Url\INodeUrlService.cs" />

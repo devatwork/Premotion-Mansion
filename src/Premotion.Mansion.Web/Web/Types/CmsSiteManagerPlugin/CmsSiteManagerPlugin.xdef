@@ -3,6 +3,6 @@
 
 	<!-- define CMS behavior -->
 	<cms:behavior label="CMS Site Manager Plugin" abstract="true" />
-	<cms:plugin />
+	<cms:plugin order="20" />
 
 </type>
