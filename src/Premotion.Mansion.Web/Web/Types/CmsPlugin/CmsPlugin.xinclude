@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
+	
+	<!-- allows the plug-in to add custom user menu items to the user menu -->
+	<declareProcedure procedureName="RenderPluginUserMenu">
+		<!-- do nothing by default -->
+	</declareProcedure>
+	
+	
+	
+	<!-- allows the plug-in to add custom navigation items -->
+	<declareProcedure procedureName="RenderPluginNavigation">
+		<!-- do nothing by default -->
+	</declareProcedure>
+
+</mansion>

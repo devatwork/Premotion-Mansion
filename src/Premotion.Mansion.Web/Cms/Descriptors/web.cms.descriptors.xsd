@@ -32,7 +32,7 @@
 	
 	
 	
-	<!-- type table descriptor -->
+	<!-- behavior descriptor -->
 	<xs:element name="behavior" substitutionGroup="def:typeDescriptor">
 		<xs:annotation>
 			<xs:documentation>Describes the behavior of this type in the CMS.</xs:documentation>
@@ -59,6 +59,19 @@
 					<xs:documentation>Flag indicating whether the type is abstract and should not be created in the CMS. Default is false.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	
+	
+	
+	<!-- plugin descriptor -->
+	<xs:element name="plugin" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>This type implements a CMS plugin.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- TODO: provide attributes -->
 		</xs:complexType>
 	</xs:element>
 
