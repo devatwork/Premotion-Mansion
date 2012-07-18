@@ -10,4 +10,14 @@
 		<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="Find" iconClass="icon-search" pluginType="CmsBrowserPlugin" viewName="Find" />
 	</declareProcedure>
 
+	
+	
+	<!-- ################################### -->
+	<!-- Overrides of CmsHomePlugin.xinclude -->
+	<!-- ################################### -->
+	<declareProcedure procedureName="RenderPluginHomeBlocks">
+		<invokeProcedure procedureName="RenderPluginHomeBlock" label="Browse" description="Browse the content available within this application. Use this navigation method if you know where your content is located." iconClass="icon-list" pluginType="CmsBrowserPlugin" viewName="Browse" />
+		<invokeProcedure procedureName="RenderPluginHomeBlock" label="Find" description="Search for content available within this application. Use this navigation method if you don't know where your content is located." iconClass="icon-search" pluginType="CmsBrowserPlugin" viewName="Find" />
+	</declareProcedure>
+
 </mansion>

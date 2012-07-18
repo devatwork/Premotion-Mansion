@@ -14,7 +14,26 @@
 	<!-- Views                           -->
 	<!-- ############################### -->
 	<declareProcedure procedureName="RenderPluginDefaultDetailView">
-		<renderSection name="View" />
+		<renderSection name="View">
+			
+			<!-- invoke the render home blocks method on all plugins -->
+			<invokeProcedure procedureName="InvokePluginsMethod" methodName="RenderPluginHomeBlocks" />
+			
+		</renderSection>
 	</declareProcedure>
+
+		<!-- Render the home blocks for this plugin -->
+		<declareProcedure procedureName="RenderPluginHomeBlocks"><!-- do nothing--></declareProcedure>
+
+		<!-- render an block for the given plugin view                       -->
+		<!-- arguments:                                                      -->
+		<!--    label, the label of the block                                -->
+		<!--    description, the description of the block                    -->
+		<!--    iconClass, the css class of the icon                         -->
+		<!--    pluginType, the type of the plugin rendering this block      -->
+		<!--    viewName, the name of the view to which this block is linked -->
+		<declareProcedure procedureName="RenderPluginHomeBlock">
+			<renderSection name="HomeBlock" label="{Arguments.label}" description="{Arguments.description}" iconClass="{Arguments.iconClass}" pluginType="{Arguments.pluginType}" viewName="{Arguments.viewName}" />
+		</declareProcedure>
 
 </mansion>
