@@ -17,7 +17,7 @@
 
 	<tpl:section name="ParentCrumb" field="Crumb">
 		<li>
-			<a href="browse-slice.htm" data-href="browse-slice.htm" title="Navigate to {ParentNode.name}">{GetTypeDefinitionIcon( ParentNode.type )} {ParentNode.name}</a>
+			<a href="{CmsNodeBrowserUrl( 'false', ParentNode.id )}" data-href="{CmsNodeBrowserUrl( 'true', ParentNode.id )}" title="Navigate to {ParentNode.name}">{GetTypeDefinitionIcon( ParentNode.type )} {ParentNode.name}</a>
 			<span class="divider">/</span>
 		</li>
 	</tpl:section>
@@ -34,60 +34,7 @@
 			<th>Name</th>
 			<th>Type</th>
 		</tr>
-		<tr>
-			<td>
-				<a href="browse-slice.htm" data-href="browse-slice.htm">
-					<i class="icon-folder-close"></i>
-					Content folder 1
-				</a>
-			</td>
-			<td>Folder</td>
-		</tr>
-		<tr>
-			<td>
-				<a href="browse-slice.htm" data-href="browse-slice.htm">
-					<i class="icon-folder-close"></i>
-					Content folder 2
-				</a>
-			</td>
-			<td>Folder</td>
-		</tr>
-		<tr>
-			<td>
-				<a href="browse-slice.htm" data-href="browse-slice.htm">
-					<i class="icon-folder-close"></i>
-					Content folder 3
-				</a>
-			</td>
-			<td>Folder</td>
-		</tr>
-		<tr>
-			<td>
-				<a href="browse-slice.htm" data-href="browse-slice.htm">
-					<i class="icon-file"></i>
-					File 1
-				</a>
-			</td>
-			<td>Article</td>
-		</tr>
-		<tr>
-			<td>
-				<a href="browse-slice.htm" data-href="browse-slice.htm">
-					<i class="icon-file"></i>
-					File 2
-				</a>
-			</td>
-			<td>Article</td>
-		</tr>
-		<tr>
-			<td>
-				<a href="browse-slice.htm" data-href="browse-slice.htm">
-					<i class="icon-file"></i>
-					File 3
-				</a>
-			</td>
-			<td>Article</td>
-		</tr>
+		{Child}
 	</table>
 	<div class="btn-toolbar">
 		<div class="btn-group">
@@ -109,6 +56,17 @@
 		</div>
 	</div>
 </tpl:section>
+
+	<tpl:section name="NodeBrowserChild" field="Child">
+		<tr>
+			<td>
+				<a href="{CmsNodeBrowserUrl( 'false', ChildNode.id )}" data-href="{CmsNodeBrowserUrl( 'true', ChildNode.id )}" title="Navigate to {ChildNode.name}">{GetTypeDefinitionIcon( ChildNode.type )} {ChildNode.name}</a>
+			</td>
+			<td>{GetTypeDefinitionLabel( ChildNode.type )}</td>
+		</tr>
+	</tpl:section>
+
+
 
 <tpl:section name="NodeProperties" field="Content">
 	<form class="form-horizontal">
