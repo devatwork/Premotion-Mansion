@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
 
 	<!-- ############################### -->
 	<!-- Overrides of CmsPlugin.xinclude -->
@@ -87,6 +87,22 @@
 			</setProperties>
 		</renderSection>
 	</declareProcedure>
+
+		<!-- default action for form submits -->
+		<declareProcedure procedureName="OnCancel">
+			<web:redirectRequest url="{CmsNodeBrowserUrl( 'false', FormSourceNode.id )}" />
+			<breakExecution />
+		</declareProcedure>
+
+		<declareProcedure procedureName="OnCreated">
+			<web:redirectRequest url="{CmsNodeBrowserUrl( 'false', NewNode.id )}" />
+			<breakExecution />
+		</declareProcedure>
+
+		<declareProcedure procedureName="OnUpdated">
+			<web:redirectRequest url="{CmsNodeBrowserUrl( 'false', FormSourceNode.id )}" />
+			<breakExecution />
+		</declareProcedure>
 
 
 

@@ -158,22 +158,4 @@
 		
 	</declareProcedure>
 
-
-	
-	<!-- default action for form submits -->
-	<declareProcedure procedureName="OnCancel">
-		<web:redirectRequest url="{CmsRouteUrl( 'Cms', 'View', FormSourceNode.id )}" />
-		<breakExecution />
-	</declareProcedure>
-
-	<declareProcedure procedureName="OnCreated">
-		<web:redirectRequest url="{CmsRouteUrl( 'Cms', 'View', NewNode.id )}" />
-		<breakExecution />
-	</declareProcedure>
-
-	<declareProcedure procedureName="OnUpdated">
-		<web:redirectRequest url="{CmsRouteUrl( 'Cms', 'View', FormSourceNode.id )}" />
-		<breakExecution />
-	</declareProcedure>
-
 </mansion>
