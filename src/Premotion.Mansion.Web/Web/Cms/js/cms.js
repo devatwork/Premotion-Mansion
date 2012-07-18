@@ -24,6 +24,28 @@
 			$('#modal-popup').attr('data-href', $(this).attr('href'));
 			$('#modal-popup').modal("show");
 		});
+		
+		// register handlers for top level document
+		if (top.document === document) {
+			var topDocument = $(document);
+
+			// handle dialog close
+			topDocument.bind("cms.dialog.close", function() {
+				$('#modal-popup').modal("hide");
+			});
+
+			// handle navigate
+			topDocument.bind("cms.navigate", function(event, url) {
+				$('#modal-popup').modal("hide");
+				document.location = url;
+			});
+
+			// refresh
+			topDocument.bind("cms.refresh", function() {
+				$('#modal-popup').modal("hide");
+				document.location = document.location;
+			});
+		}
 
 	});
 })(jQuery);
