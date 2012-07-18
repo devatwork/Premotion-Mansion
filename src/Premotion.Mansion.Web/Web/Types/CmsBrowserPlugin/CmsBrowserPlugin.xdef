@@ -3,6 +3,6 @@
 
 	<!-- define CMS behavior -->
 	<cms:behavior label="CMS Browser Plugin" abstract="true" />
-	<cms:plugin />
+	<cms:plugin order="10" />
 
 </type>

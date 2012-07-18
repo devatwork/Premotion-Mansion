@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.tags.xsd">
 	
 	<!-- ############################################################### -->
 	<!-- Controller handlers                                             -->
@@ -63,9 +63,7 @@
 					<setProperties dataspaceName="ActivePluginProperties" pluginType="{Arguments.pluginType}" viewName="{Arguments.viewName}">
 					
 						<!-- load all the plugins -->
-						<createDataset target="CmsPluginDataset">
-							<!-- load all the plugins -->
-							<invokeProcedure procedureName="LoadCmsPluginDataset" />
+						<cms:getPluginDataset target="CmsPluginDataset">
 					
 							<!-- render the user menu -->
 							<invokeProcedure procedureName="RenderUserMenu" />
@@ -77,7 +75,8 @@
 								<!-- render the detail view -->
 								<invokeProcedure procedureName="RenderDetailView" />
 							</renderSection>
-						</createDataset>
+							
+						</cms:getPluginDataset>
 
 					</setProperties>
 					
@@ -86,17 +85,6 @@
 
 		</web:respondDocument>
 
-	</declareProcedure>
-
-	
-
-	<!-- loads all the plugins -->
-	<declareProcedure procedureName="LoadCmsPluginDataset">
-		<splitText input="{GetSubTypes( 'CmsPlugin' )}" separator="," target="TypeDataset">
-			<loopDataset source="{$TypeDataset}" target="Type">
-				<addRowToSet source="{$Type}" target="{$CmsPluginDataset}" />
-			</loopDataset>
-		</splitText>
 	</declareProcedure>
 	
 	
@@ -134,7 +122,7 @@
 	<!--   methodName, the name of the method which to invoke -->
 	<declareProcedure procedureName="InvokePluginsMethod">
 		<loopDataset source="{$CmsPluginDataset}" target="CmsPlugin">
-			<invokeProcedure procedureName="InvokePluginMethod" pluginType="{CmsPlugin.value}" methodName="{Arguments.methodName}" />
+			<invokeProcedure procedureName="InvokePluginMethod" pluginType="{CmsPlugin.type}" methodName="{Arguments.methodName}" />
 		</loopDataset>
 	</declareProcedure>
 	

@@ -71,7 +71,11 @@
 		</xs:annotation>
 
 		<xs:complexType>
-			<!-- TODO: provide attributes -->
+			<xs:attribute name="order" type="xs:positiveInteger" use="optional">
+				<xs:annotation>
+					<xs:documentation>The higher the number the lower the priority of this plugin. This number is used for sorting the plugins.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 
