@@ -76,6 +76,7 @@
     <Compile Include="Cms\Model\CmsBehavior.cs" />
     <Compile Include="Cms\ScriptFunctions\CanContainChild.cs" />
     <Compile Include="Cms\ScriptFunctions\CmsRouteUrl.cs" />
+    <Compile Include="Cms\ScriptFunctions\CmsPluginRouteUrl.cs" />
     <Compile Include="Cms\ScriptFunctions\GetTypeDefinitionIcon.cs" />
     <Compile Include="Cms\ScriptFunctions\GetTypeDefinitionLabel.cs" />
     <Compile Include="Cms\ScriptFunctions\HasChildTypes.cs" />
@@ -655,6 +656,7 @@
     <EmbeddedResource Include="Web\Types\AssetType\AssetType.xdef" />
     <EmbeddedResource Include="Web\Types\CmsBrowserPlugin\CmsBrowserPlugin.xdef" />
     <EmbeddedResource Include="Web\Types\CmsBrowserPlugin\CmsBrowserPlugin.xinclude" />
+    <EmbeddedResource Include="Web\Types\CmsBrowserPlugin\CmsBrowserPlugin.tpl" />
     <EmbeddedResource Include="Web\Types\CmsHomePlugin\CmsHomePlugin.xdef" />
     <EmbeddedResource Include="Web\Types\CmsHomePlugin\CmsHomePlugin.tpl" />
     <EmbeddedResource Include="Web\Types\CmsHomePlugin\CmsHomePlugin.xinclude" />

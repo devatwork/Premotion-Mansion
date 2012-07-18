@@ -15,7 +15,7 @@
 				<i class="{Section.iconClass}"></i> {Section.label}
 			</h3>
 			<p>{Section.description}</p>
-			<a href="find.htm"class="btn btn-primary pull-right">
+			<a href="{CmsPluginRouteUrl( Section.pluginType, Section.viewName )}"class="btn btn-primary pull-right">
 				Go <i class="icon-chevron-right"></i>
 			</a>
 		</div>
