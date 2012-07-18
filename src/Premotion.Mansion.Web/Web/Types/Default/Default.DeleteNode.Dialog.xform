@@ -23,7 +23,7 @@
 				<forms:processScriptAction supportedActions="delete">
 					<retrieveParentNode childSource="{$UrlNode}" target="ParentNode">
 						<deleteNode source="{$UrlNode}" />
-						<ctrls:invokeDialogParentTrigger action="cms.navigate" url="{CmsRouteUrl( 'Cms', 'View', ParentNode.id )}" />
+						<ctrls:invokeDialogParentTrigger action="cms.navigate" url="{CmsNodeBrowserUrl( 'false', ParentNode.id )}" />
 					</retrieveParentNode>
 					<breakExecution />
 				</forms:processScriptAction>
