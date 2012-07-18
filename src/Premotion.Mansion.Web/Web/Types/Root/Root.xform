@@ -8,9 +8,4 @@
 		</forms:fieldset>
 	</declareProcedure>
 
-	<!-- renders the new-child, change order, etc. action buttons -->
-	<declareProcedure procedureName="IncludeActionButtons">
-		<invokeProcedure procedureName="IncludeActionAddChildButton"/>
-	</declareProcedure>
-
 </mansion>

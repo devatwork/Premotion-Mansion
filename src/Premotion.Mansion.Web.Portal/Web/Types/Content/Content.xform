@@ -52,21 +52,5 @@
 
 		</forms:fieldset>
 	</declareProcedure>
-
-
-
-	<!-- action buttons for pages -->
-	<declareProcedure procedureName="IncludeActionButtons">
-		<invokeProcedure procedureName="IncludeActionPreviewPageButton"/>
-		<invokeProcedure procedureName="IncludeActionAddChildButton"/>
-		<invokeProcedure procedureName="IncludeActionChangeNodeOrderButton"/>
-		<invokeProcedure procedureName="IncludeActionMoveNodeButton"/>
-		<invokeProcedure procedureName="IncludeActionCopyNodeButton"/>
-		<invokeProcedure procedureName="IncludeActionDeleteNodeButton"/>
-	</declareProcedure>
-	
-	<declareProcedure procedureName="IncludeActionPreviewPageButton">
-		<forms:linkButton action="{MakeAbsoluteUrl( NodeUrl( $FormSourceNode ) )}" label="Preview" cssClass="cms-preview preview" />
-	</declareProcedure>
 	
 </mansion>

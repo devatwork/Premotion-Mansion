@@ -1,15 +1,3 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd">
-
-	<!-- action buttons for registration indices -->
-	<declareProcedure procedureName="IncludeActionButtons">
-		<invokeProcedure procedureName="IncludeActionExportButton"/>
-		<invokeProcedure procedureName="IncludeActionMoveNodeButton"/>
-		<invokeProcedure procedureName="IncludeActionDeleteNodeButton"/>
-	</declareProcedure>
-	
-	<declareProcedure procedureName="IncludeActionExportButton">
-		<forms:linkButton action="{MakeAbsoluteUrl( 'Types/RegistrationIndex/Export.xts' )}?id={FormSourceNode.id}" label="Export" cssClass="cms-export" />
-	</declareProcedure>
-
 </mansion>
