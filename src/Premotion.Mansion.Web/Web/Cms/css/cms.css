@@ -1,3 +1,15 @@
-.cms-page {
-	padding-top: 60px;
+body { padding: 0; }
+
+.cms-page {	padding-top: 60px; }
+
+
+
+
+
+/* dialog styles */
+.seamless {
+	border: none;
+	overflow: hidden;
+	width: 100%;
 }
+.dialog form { margin: 0; }
