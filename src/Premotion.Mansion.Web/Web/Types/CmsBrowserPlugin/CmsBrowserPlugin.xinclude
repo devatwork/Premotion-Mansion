@@ -61,7 +61,7 @@
 		<renderSection name="NodeBrowser">
 			
 			<!-- retrieve the child nodes of the current node -->
-			<retrieveChildNodeset parentSource="{$CurrentNode}" status="any" sort="name asc" target="ChildNodeset">
+			<retrieveChildNodeset parentSource="{$CurrentNode}" status="any" sort="order asc" target="ChildNodeset">
 				<loopNodeset source="{$ChildNodeset}" target="ChildNode">
 					<renderSection name="NodeBrowserChild" />
 				</loopNodeset>
