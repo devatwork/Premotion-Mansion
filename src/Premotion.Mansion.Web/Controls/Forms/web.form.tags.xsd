@@ -619,7 +619,20 @@
 	<!-- button elements -->
 	<xs:element name="buttonBar" substitutionGroup="stl:scriptTag">
 		<xs:annotation>
-			<xs:documentation>Represents a  bar of buttons.</xs:documentation>
+			<xs:documentation>Represents a bar of buttons.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="formControlContainerBase" />
+			</xs:complexContent>
+		</xs:complexType>
+
+	</xs:element>
+	
+	<xs:element name="buttonGroup" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Represents a group of buttons.</xs:documentation>
 		</xs:annotation>
 
 		<xs:complexType>

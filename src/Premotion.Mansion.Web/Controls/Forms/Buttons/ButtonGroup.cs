@@ -4,16 +4,16 @@ using Premotion.Mansion.Core.Scripting.TagScript;
 namespace Premotion.Mansion.Web.Controls.Forms.Buttons
 {
 	/// <summary>
-	/// Represents a bar of buttons.
+	/// Represents a group of buttons.
 	/// </summary>
-	public class ButtonBar : FormControlContainer
+	public class ButtonGroup : FormControlContainer
 	{
-		#region Nested type: ButtonBarFactoryTag
+		#region Nested type: ButtonGroupFactoryTag
 		/// <summary>
-		/// Factory for <see cref="ButtonBar"/>s.
+		/// Factory for <see cref="ButtonGroup"/>s.
 		/// </summary>
-		[ScriptTag(Constants.FormTagNamespaceUri, "buttonbar")]
-		public class ButtonBarFactoryTag : FormControlFactoryTag<ButtonBar>
+		[ScriptTag(Constants.FormTagNamespaceUri, "buttonGroup")]
+		public class ButtonGroupFactoryTag : FormControlFactoryTag<ButtonGroup>
 		{
 			#region Overrides of ControlFactoryTag<Form>
 			/// <summary>
@@ -21,10 +21,10 @@ namespace Premotion.Mansion.Web.Controls.Forms.Buttons
 			/// </summary>
 			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override ButtonBar Create(IMansionWebContext context, ControlDefinition definition)
+			protected override ButtonGroup Create(IMansionWebContext context, ControlDefinition definition)
 			{
 				// create the form
-				return new ButtonBar(definition);
+				return new ButtonGroup(definition);
 			}
 			#endregion
 		}
@@ -34,7 +34,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Buttons
 		/// Constructs a control with the specified ID.
 		/// </summary>
 		/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-		public ButtonBar(ControlDefinition definition) : base(definition)
+		public ButtonGroup(ControlDefinition definition) : base(definition)
 		{
 		}
 		#endregion
@@ -46,7 +46,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Buttons
 		/// <returns>Returns true when the control is allowed, otherwise false.</returns>
 		protected override bool IsControlAllowed(Type controlType)
 		{
-			return typeof (Button).IsAssignableFrom(controlType) || typeof (ButtonGroup).IsAssignableFrom(controlType);
+			return typeof (Button).IsAssignableFrom(controlType);
 		}
 		#endregion
 	}
