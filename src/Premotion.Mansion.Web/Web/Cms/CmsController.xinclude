@@ -33,16 +33,22 @@
 			<renderSection name="CmsPage">
 				<renderSection name="PageContainer">
 					
-					<!-- render the user menu -->
-					<invokeProcedure procedureName="RenderUserMenu" />
-
-					<renderSection name="Layout">
-						<!-- render the navigation menu -->
-						<invokeProcedure procedureName="RenderNavigation" />
+					<!-- load all the plugins -->
+					<createDataset target="CmsPluginDataset">
+						<!-- load all the plugins -->
+						<invokeProcedure procedureName="LoadCmsPluginDataset" />
 					
-						<!-- render the browser-->
-						<invokeProcedure procedureName="RenderBrowser" />
-					</renderSection>
+						<!-- render the user menu -->
+						<invokeProcedure procedureName="RenderUserMenu" />
+
+						<renderSection name="Layout">
+							<!-- render the navigation menu -->
+							<invokeProcedure procedureName="RenderNavigation" />
+					
+							<!-- render the browser-->
+							<invokeProcedure procedureName="RenderBrowser" />
+						</renderSection>
+					</createDataset>
 					
 				</renderSection>
 			</renderSection>
@@ -50,19 +56,36 @@
 		</web:respondDocument>
 
 	</declareProcedure>
+
+	
+
+	<!-- loads all the plugins -->
+	<declareProcedure procedureName="LoadCmsPluginDataset">
+		<splitText input="{GetSubTypes( 'CmsPlugin' )}" separator="," target="TypeDataset">
+			<loopDataset source="{$TypeDataset}" target="Type">
+				<addRowToSet source="{$Type}" target="{$CmsPluginDataset}" />
+			</loopDataset>
+		</splitText>
+	</declareProcedure>
 	
 	
 	
 	<!-- renders the user menu -->
 	<declareProcedure procedureName="RenderUserMenu">
-		<renderSection name="UserMenu" />
+		<renderSection name="UserMenu">
+			<!-- Call the RenderPluginUserMenu method on all plug-ins -->
+			<invokeProcedure procedureName="InvokePluginsMethod" methodName="RenderPluginUserMenu" />
+		</renderSection>
 	</declareProcedure>
 	
 	
 	
 	<!-- renders the navigation menu -->
 	<declareProcedure procedureName="RenderNavigation">
-		<renderSection name="Navigation" />
+		<renderSection name="Navigation">
+			<!-- Call the RenderPluginNavigation method on all plug-ins -->
+			<invokeProcedure procedureName="InvokePluginsMethod" methodName="RenderPluginNavigation" />
+		</renderSection>
 	</declareProcedure>
 	
 	
@@ -70,6 +93,37 @@
 	<!-- renders the browser -->
 	<declareProcedure procedureName="RenderBrowser">
 		<renderSection name="Browser" />
+	</declareProcedure>
+	
+	
+	
+	<!-- invokes a method on all the plugins                  -->
+	<!-- parameters:                                          -->
+	<!--   methodName, the name of the method which to invoke -->
+	<declareProcedure procedureName="InvokePluginsMethod">
+		<loopDataset source="{$CmsPluginDataset}" target="CmsPlugin">
+			<invokeProcedure procedureName="InvokePluginMethod" pluginType="{CmsPlugin.value}" methodName="{Arguments.methodName}" />
+		</loopDataset>
+	</declareProcedure>
+	
+	
+	
+	<!-- invokes a method on the given                        -->
+	<!-- parameters:                                          -->
+	<!--   pluginType, the name of the plugin                 -->
+	<!--   methodName, the name of the method which to invoke -->
+	<declareProcedure procedureName="InvokePluginMethod">
+		
+		<!-- open the script and template -->
+		<openScript type="{Arguments.pluginType}">
+		<openTemplate type="{Arguments.pluginType}">
+				
+			<!-- invoke the procedure -->
+			<invokeProcedure procedureName="{Arguments.methodName}" />
+				
+		</openTemplate>
+		</openScript>
+		
 	</declareProcedure>
 
 
