@@ -20,4 +20,22 @@
 		<invokeProcedure procedureName="RenderPluginHomeBlock" label="Find" description="Search for content available within this application. Use this navigation method if you don't know where your content is located." iconClass="icon-search" pluginType="CmsBrowserPlugin" viewName="Find" />
 	</declareProcedure>
 
+
+
+	<!-- ################################### -->
+	<!-- Views: Browse                       -->
+	<!-- ################################### -->
+	<declareProcedure procedureName="RenderPluginBrowseDetailView">
+		<renderSection name="Browse" />
+	</declareProcedure>
+
+
+
+	<!-- ################################### -->
+	<!-- Views: Find                         -->
+	<!-- ################################### -->
+	<declareProcedure procedureName="RenderPluginFindDetailView">
+		<renderSection name="Find" />
+	</declareProcedure>
+
 </mansion>
