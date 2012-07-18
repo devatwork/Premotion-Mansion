@@ -32,7 +32,9 @@
 			<invokeProcedure procedureName="RenderBrowserCrumbPath" />
 
 			<!-- render the child nodes -->
-			<invokeProcedure procedureName="RenderNodeBrowser"/>
+			<if condition="{Not( IsEqual( Get.mode, 'create' ) )}">
+				<invokeProcedure procedureName="RenderNodeBrowser"/>
+			</if>
 
 			<!-- render the properties of the current node -->
 			<invokeProcedure procedureName="RenderNodeProperties"/>

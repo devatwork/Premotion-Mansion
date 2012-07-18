@@ -90,7 +90,6 @@
 
 
 <tpl:section name="NodeProperties" field="Content">
-	<hr>
 	{Control}
 </tpl:section>
 
