@@ -6,7 +6,7 @@
 	<!-- ############################### -->
 	<declareProcedure procedureName="RenderPluginNavigation">
 		<invokeProcedure procedureName="RenderPluginViewNavigationHeader" label="Content" />
-		<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="Browser" iconClass="icon-list" pluginType="CmsBrowserPlugin" viewName="Browse" />
+		<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="Browse" iconClass="icon-list" pluginType="CmsBrowserPlugin" viewName="Browse" />
 		<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="Find" iconClass="icon-search" pluginType="CmsBrowserPlugin" viewName="Find" />
 	</declareProcedure>
 
