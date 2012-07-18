@@ -38,24 +38,45 @@
 	</table>
 	<div class="btn-toolbar">
 		<div class="btn-group">
-			<button href="#" class="btn btn-primary" rel="tooltip" title="Add a new child to this folder">
-				<i class="icon-plus-sign"></i> Add child
-			</button>
-			<button href="#" class="btn btn-primary" rel="tooltip" title="Reorder the position of this node">
-				<i class="icon-reorder"></i> Change order
-			</button>
-			<button href="#" class="btn btn-primary" rel="tooltip" title="Move this node to another folder">
-				<i class="icon-move"></i> Move
-			</button>
-			<button href="#" class="btn btn-primary" rel="tooltip" title="Move this to another folder">
-				<i class="icon-copy"></i> Copy
-			</button>
-			<button href="#" class="btn btn-danger" rel="tooltip" title="Delete this node">
-				<i class="icon-remove-sign"></i> Delete
-			</button>
+			{@AddChildButton}
+			{@ChangeOrderButton}
+			{@MoveNodeButton}
+			{@CopyNodeButton}
+			{@DeleteNodeButton}
 		</div>
 	</div>
 </tpl:section>
+
+	<tpl:section name="AddChildButton" requires="{HasChildTypes( $CurrentNode )}">
+		<a href="{CmsRouteUrl( 'Dialog', 'AddChildToNode', CurrentNode.id )}" class="btn btn-primary btn-popup" rel="tooltip" title="Add a new child to this folder">
+			<i class="icon-plus-sign"></i> Add child
+		</a>
+	</tpl:section>
+
+	<tpl:section name="ChangeOrderButton">
+		<a href="{CmsRouteUrl( 'Dialog', 'ChangeOrder', CurrentNode.id )}" class="btn btn-primary btn-popup" rel="tooltip" title="Reorder the position of this node">
+			<i class="icon-reorder"></i> Change order
+		</a>
+	</tpl:section>
+
+	<tpl:section name="MoveNodeButton">
+		<a href="{CmsRouteUrl( 'Dialog', 'MoveNode', CurrentNode.id )}" class="btn btn-primary btn-popup" rel="tooltip" title="Move this node to another folder">
+			<i class="icon-move"></i> Move
+		</a>
+	</tpl:section>
+
+	<tpl:section name="CopyNodeButton">
+		<a href="{CmsRouteUrl( 'Dialog', 'CopyNode', CurrentNode.id )}" class="btn btn-primary btn-popup" rel="tooltip" title="Move this to another folder">
+			<i class="icon-copy"></i> Copy
+		</a>
+	</tpl:section>
+
+	<tpl:section name="DeleteNodeButton">
+		<a href="{CmsRouteUrl( 'Dialog', 'DeleteNode', CurrentNode.id )}" class="btn btn-danger btn-popup" rel="tooltip" title="Delete this node">
+			<i class="icon-remove-sign"></i> Delete
+		</a>
+	</tpl:section>
+	
 
 	<tpl:section name="NodeBrowserChild" field="Child">
 		<tr>
