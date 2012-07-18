@@ -53,8 +53,10 @@
 				<invokeProcedure procedureName="RenderXFormContent" />
 
 				<forms:buttonBar>
-					<forms:button action="store" label="Save" cssClass="btn-success" />
-					<forms:button action="cancel" label="Cancel" cssClass="btn-info" />
+					<forms:buttonGroup>
+						<forms:button action="store" label="Save" cssClass="btn-success" />
+						<forms:button action="cancel" label="Cancel" cssClass="btn-info" />
+					</forms:buttonGroup>
 				</forms:buttonBar>
 
 				<!-- handle cancel click -->
@@ -87,8 +89,10 @@
 				<invokeProcedure procedureName="RenderXFormContent" />
 
 				<forms:buttonBar>
-					<forms:button action="store" label="Save" cssClass="btn-success" />
-					<forms:button action="cancel" label="Cancel" cssClass="btn-info" />
+					<forms:buttonGroup>
+						<forms:button action="store" label="Save" cssClass="btn-success" />
+						<forms:button action="cancel" label="Cancel" cssClass="btn-info" />
+					</forms:buttonGroup>
 				</forms:buttonBar>
 
 				<!-- handle cancel click -->

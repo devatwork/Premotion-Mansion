@@ -14,8 +14,10 @@
 				</forms:nodeTreeSelect>
 
 				<forms:buttonBar cssClass="modal-footer">
-					<forms:button action="cancel" label="Cancel" isDefault="true" />
-					<forms:button action="move" label="Move" cssClass="btn-warning" />
+					<forms:buttonGroup>
+						<forms:button action="move" label="Move" cssClass="btn-warning" />
+						<forms:button action="cancel" label="Cancel" cssClass="btn-info" isDefault="true" />
+					</forms:buttonGroup>
 				</forms:buttonBar>
 				
 				<!-- processes the form actions -->

@@ -96,6 +96,7 @@
     <Compile Include="Controls\Forms\Actions\StoreRegistrationAction.cs" />
     <Compile Include="Controls\Forms\Buttons\Button.cs" />
     <Compile Include="Controls\Forms\Buttons\ButtonBar.cs" />
+    <Compile Include="Controls\Forms\Buttons\ButtonGroup.cs" />
     <Compile Include="Controls\Forms\Buttons\LinkButton.cs" />
     <Compile Include="Controls\Forms\Containers\CollapsibleFieldset.cs" />
     <Compile Include="Controls\Forms\Containers\Fieldset.cs" />

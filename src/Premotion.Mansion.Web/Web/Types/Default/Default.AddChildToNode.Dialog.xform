@@ -15,8 +15,10 @@
 				</forms:selectbox>
 
 				<forms:buttonBar cssClass="modal-footer">
-					<forms:button action="cancel" label="Cancel" />
-					<forms:button action="create" label="Create" cssClass="btn-success" isDefault="true" />
+					<forms:buttonGroup>
+						<forms:button action="create" label="Create" cssClass="btn-success" isDefault="true" />
+						<forms:button action="cancel" label="Cancel" cssClass="btn-info" />
+					</forms:buttonGroup>
 				</forms:buttonBar>
 				
 				<!-- processes the form actions -->
