@@ -27,7 +27,7 @@
 				<forms:processScriptAction supportedActions="copy">
 					<retrieveNode id="{FieldProperties.newParentId}" target="NewParentNode">
 						<copyNode source="{$UrlNode}" newParent="{$NewParentNode}" target="CopiedNode">
-							<ctrls:invokeDialogParentTrigger action="cms.navigate" url="{CmsRouteUrl( 'Cms', 'View', CopiedNode.id )}" />
+							<ctrls:invokeDialogParentTrigger action="cms.navigate" url="{CmsNodeBrowserUrl( 'false', CopiedNode.id )}" />
 						</copyNode>
 					</retrieveNode>
 					<breakExecution />
