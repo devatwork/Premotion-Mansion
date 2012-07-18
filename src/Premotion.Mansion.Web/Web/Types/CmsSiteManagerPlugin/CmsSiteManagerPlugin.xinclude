@@ -11,7 +11,7 @@
 
 			<!-- loop over all the sites -->
 			<loopNodeset source="{$SiteNodeset}" target="SiteNode">
-				<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="{SiteNode.name}" iconClass="icon-globe" pluginType="CmsSiteManagerPlugin" viewName="Browse" />
+				<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="{SiteNode.name}" iconClass="icon-globe" pluginType="CmsSiteManagerPlugin" viewName="Website" />
 			</loopNodeset>
 		</retrieveChildNodeset>
 	</declareProcedure>
@@ -25,7 +25,7 @@
 		<!-- loop over all the sites -->
 		<retrieveChildNodeset parentSource="{$RootNode}" baseType="Site" status="any" depth="any" sort="name ASC" target="SiteNodeset">
 			<loopNodeset source="{$SiteNodeset}" target="SiteNode">
-				<invokeProcedure procedureName="RenderPluginHomeBlock" label="{SiteNode.name}" description="Manage the pages, navigation and content displayed on this website." iconClass="icon-globe" pluginType="CmsSiteManagerPlugin" viewName="Browse" />
+				<invokeProcedure procedureName="RenderPluginHomeBlock" label="{SiteNode.name}" description="Manage the pages, navigation and content displayed on this website." iconClass="icon-globe" pluginType="CmsSiteManagerPlugin" viewName="Website" />
 			</loopNodeset>
 			<notFound>
 				<invokeProcedure procedureName="RenderPluginHomeBlock" label="Create a new website" description="This application does not contain any websites, create one now." iconClass="icon-globe" pluginType="CmsSiteManagerPlugin" viewName="Create" />
