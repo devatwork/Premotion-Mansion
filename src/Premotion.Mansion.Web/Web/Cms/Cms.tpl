@@ -56,4 +56,7 @@
 			<p>&copy; Premotion Software Solutions</p>
 		</footer>
 	</div>
+	
+	<!-- Le modal -->
+	<div class="modal fade hide" id="modal-popup"></div>
 </tpl:section>
