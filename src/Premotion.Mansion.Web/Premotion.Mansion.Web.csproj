@@ -316,7 +316,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Web\Cms\CmsController.tpl" />
-    <EmbeddedResource Include="Web\Cms\CmsController.xinclude" />
+    <EmbeddedResource Include="Web\Cms\CmsController.xinclude">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Web\Cms\DialogController.tpl" />
     <EmbeddedResource Include="Web\Cms\DialogController.xinclude" />
     <EmbeddedResource Include="Web\Controls\AsyncController.xinclude">
