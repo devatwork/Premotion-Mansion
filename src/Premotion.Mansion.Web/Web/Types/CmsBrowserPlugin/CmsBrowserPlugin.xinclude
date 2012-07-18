@@ -70,7 +70,22 @@
 
 	<!-- Renders the properties of the current node -->
 	<declareProcedure procedureName="RenderNodeProperties">
-		<renderSection name="NodeProperties" />
+		<renderSection name="NodeProperties">
+			<!-- determine the xform which to display -->
+			<setProperties dataspaceName="NodeInfo" type="{NotEmpty( Get.type, CurrentNode.type )}">
+
+				<!-- if the type does not exist show the default form -->
+				<if condition="{Not( TypeExists( NodeInfo.type ) )}">
+					<setProperties dataspaceName="NodeInfo" type="Default" />
+				</if>
+
+				<!-- show the xform of the type -->
+				<openScript type="{NodeInfo.type}" extension="xform" checkExists="true">
+					<invokeProcedure procedureName="RenderXForm" source="{$CurrentNode}" targetType="{NodeInfo.type}" mode="{NotEmpty( Get.mode, 'update' )}" />
+				</openScript>
+
+			</setProperties>
+		</renderSection>
 	</declareProcedure>
 
 
