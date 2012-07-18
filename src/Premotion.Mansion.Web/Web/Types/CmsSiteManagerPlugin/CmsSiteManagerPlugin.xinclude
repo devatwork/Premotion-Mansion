@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
+
+	<!-- ############################### -->
+	<!-- Overrides of CmsPlugin.xinclude -->
+	<!-- ############################### -->
+	<declareProcedure procedureName="RenderPluginNavigation">
+		<retrieveChildNodeset parentSource="{$RootNode}" baseType="Site" status="any" depth="any" sort="name ASC" target="SiteNodeset">
+			<!-- the header-->
+			<invokeProcedure procedureName="RenderPluginViewNavigationHeader" label="Websites" />
+
+			<!-- loop over all the sites -->
+			<loopNodeset source="{$SiteNodeset}" target="SiteNode">
+				<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="{SiteNode.name}" iconClass="icon-globe" pluginType="CmsSiteManagerPlugin" viewName="Browse" />
+			</loopNodeset>
+		</retrieveChildNodeset>
+	</declareProcedure>
+
+	
+	
+	<!-- ################################### -->
+	<!-- Overrides of CmsHomePlugin.xinclude -->
+	<!-- ################################### -->
+	<declareProcedure procedureName="RenderPluginHomeBlocks">
+		<!-- loop over all the sites -->
+		<retrieveChildNodeset parentSource="{$RootNode}" baseType="Site" status="any" depth="any" sort="name ASC" target="SiteNodeset">
+			<loopNodeset source="{$SiteNodeset}" target="SiteNode">
+				<invokeProcedure procedureName="RenderPluginHomeBlock" label="{SiteNode.name}" description="Manage the pages, navigation and content displayed on this website." iconClass="icon-globe" pluginType="CmsSiteManagerPlugin" viewName="Browse" />
+			</loopNodeset>
+			<notFound>
+				<invokeProcedure procedureName="RenderPluginHomeBlock" label="Create a new website" description="This application does not contain any websites, create one now." iconClass="icon-globe" pluginType="CmsSiteManagerPlugin" viewName="Create" />
+			</notFound>
+		</retrieveChildNodeset>
+	</declareProcedure>
+
+
+
+	<!-- ################################### -->
+	<!-- View: Create                        -->
+	<!-- ################################### -->
+	<declareProcedure procedureName="RenderPluginCreateDetailView">
+		<throw message="Todo"/>
+	</declareProcedure>
+
+</mansion>
