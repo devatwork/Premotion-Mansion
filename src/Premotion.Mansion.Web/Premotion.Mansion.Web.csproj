@@ -652,6 +652,10 @@
     <EmbeddedResource Include="Web\Types\AssetTypeIndex\AssetTypeIndex.xdef" />
     <EmbeddedResource Include="Web\Types\AssetType\AssetType.xdef" />
     <EmbeddedResource Include="Web\Types\CmsBrowserPlugin\CmsBrowserPlugin.xdef" />
+    <EmbeddedResource Include="Web\Types\CmsBrowserPlugin\CmsBrowserPlugin.xinclude" />
+    <EmbeddedResource Include="Web\Types\CmsHomePlugin\CmsHomePlugin.xdef" />
+    <EmbeddedResource Include="Web\Types\CmsHomePlugin\CmsHomePlugin.tpl" />
+    <EmbeddedResource Include="Web\Types\CmsHomePlugin\CmsHomePlugin.xinclude" />
     <EmbeddedResource Include="Web\Types\CmsPlugin\CmsPlugin.tpl" />
     <EmbeddedResource Include="Web\Types\CmsPlugin\CmsPlugin.xinclude" />
     <EmbeddedResource Include="Web\Types\CmsPlugin\CmsPlugin.xdef" />

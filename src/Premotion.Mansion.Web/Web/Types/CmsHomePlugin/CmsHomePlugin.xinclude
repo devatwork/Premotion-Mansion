@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
+
+	<!-- ############################### -->
+	<!-- Overrides of CmsPlugin.xinclude -->
+	<!-- ############################### -->
+	<declareProcedure procedureName="RenderPluginNavigation">
+		<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="Home" iconClass="icon-home" pluginType="CmsHomePlugin" viewName="Default" />
+	</declareProcedure>
+
+
+
+	<!-- ############################### -->
+	<!-- Views                           -->
+	<!-- ############################### -->
+	<declareProcedure procedureName="RenderPluginDefaultDetailView">
+		<renderSection name="View" />
+	</declareProcedure>
+
+</mansion>

@@ -33,22 +33,27 @@
 			<renderSection name="CmsPage">
 				<renderSection name="PageContainer">
 					
-					<!-- load all the plugins -->
-					<createDataset target="CmsPluginDataset">
+					<!-- determine the active plugin -->
+					<setProperties dataspaceName="ActivePluginProperties" pluginType="{NotEmpty( 'CmsHomePlugin' )}" viewName="{NotEmpty( 'Default' )}">
+					
 						<!-- load all the plugins -->
-						<invokeProcedure procedureName="LoadCmsPluginDataset" />
+						<createDataset target="CmsPluginDataset">
+							<!-- load all the plugins -->
+							<invokeProcedure procedureName="LoadCmsPluginDataset" />
 					
-						<!-- render the user menu -->
-						<invokeProcedure procedureName="RenderUserMenu" />
+							<!-- render the user menu -->
+							<invokeProcedure procedureName="RenderUserMenu" />
 
-						<renderSection name="Layout">
-							<!-- render the navigation menu -->
-							<invokeProcedure procedureName="RenderNavigation" />
+							<renderSection name="Layout">
+								<!-- render the navigation menu -->
+								<invokeProcedure procedureName="RenderNavigation" />
 					
-							<!-- render the browser-->
-							<invokeProcedure procedureName="RenderBrowser" />
-						</renderSection>
-					</createDataset>
+								<!-- render the detail view -->
+								<invokeProcedure procedureName="RenderDetailView" />
+							</renderSection>
+						</createDataset>
+
+					</setProperties>
 					
 				</renderSection>
 			</renderSection>
@@ -90,9 +95,10 @@
 	
 	
 	
-	<!-- renders the browser -->
-	<declareProcedure procedureName="RenderBrowser">
-		<renderSection name="Browser" />
+	<!-- renders the detail view -->
+	<declareProcedure procedureName="RenderDetailView">
+		<!-- invoke the default view of the active plugin -->
+		<invokeProcedure procedureName="InvokePluginMethod" pluginType="{ActivePluginProperties.pluginType}" methodName="RenderPlugin{ActivePluginProperties.viewName}DetailView" />
 	</declareProcedure>
 	
 	

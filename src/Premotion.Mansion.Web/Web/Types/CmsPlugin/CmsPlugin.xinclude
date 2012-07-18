@@ -13,4 +13,21 @@
 		<!-- do nothing by default -->
 	</declareProcedure>
 
+		<!-- render an navigation header                                    -->
+		<!-- arguments:                                                     -->
+		<!--    label, the label of the navigation header                   -->
+		<declareProcedure procedureName="RenderPluginViewNavigationHeader">
+			<renderSection name="NavigationHeader" label="{Arguments.label}" />
+		</declareProcedure>
+
+		<!-- render an navigation item for the given plugin view            -->
+		<!-- arguments:                                                     -->
+		<!--    label, the label of the navigation item                     -->
+		<!--    iconClass, the css class of the icon                        -->
+		<!--    pluginType, the type of the plugin rendering this item      -->
+		<!--    viewName, the name of the view to which this item is linked -->
+		<declareProcedure procedureName="RenderPluginViewNavigationItem">
+			<renderSection name="NavigationItem" label="{Arguments.label}" iconClass="{Arguments.iconClass}" pluginType="{Arguments.pluginType}" viewName="{Arguments.viewName}" />
+		</declareProcedure>
+
 </mansion>

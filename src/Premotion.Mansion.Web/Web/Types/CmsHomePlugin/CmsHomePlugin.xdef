@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<type inherits="CmsPlugin" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:security="http://schemas.premotion.nl/mansion/1.0/security.descriptors.xsd">
+
+	<!-- define CMS behavior -->
+	<cms:behavior label="CMS Home Screen Plugin" abstract="true" />
+	<cms:plugin />
+
+</type>

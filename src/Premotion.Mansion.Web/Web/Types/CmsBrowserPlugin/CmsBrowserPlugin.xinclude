@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
+
+	<!-- ############################### -->
+	<!-- Overrides of CmsPlugin.xinclude -->
+	<!-- ############################### -->
+	<declareProcedure procedureName="RenderPluginNavigation">
+		<invokeProcedure procedureName="RenderPluginViewNavigationHeader" label="Content" />
+		<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="Browser" iconClass="icon-list" pluginType="CmsBrowserPlugin" viewName="Browse" />
+		<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="Find" iconClass="icon-search" pluginType="CmsBrowserPlugin" viewName="Find" />
+	</declareProcedure>
+
+</mansion>
