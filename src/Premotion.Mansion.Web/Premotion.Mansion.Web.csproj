@@ -172,7 +172,6 @@
     <Compile Include="Controls\IDataConsumerControl.cs" />
     <Compile Include="Controls\IFormControl.cs" />
     <Compile Include="Controls\List\List.cs" />
-    <Compile Include="Controls\Paging\RenderEmbeddedPagingControl.cs" />
     <Compile Include="Controls\Paging\RenderPagingControl.cs" />
     <Compile Include="Controls\Providers\DataProvider.cs" />
     <Compile Include="Controls\Providers\DatasetProvider.cs" />
