@@ -716,7 +716,7 @@ namespace Premotion.Mansion.Core
 		public static bool IsNumber(this string input)
 		{
 			// validate arguments
-			return !String.IsNullOrEmpty(input) && input.All(Char.IsDigit);
+			return !string.IsNullOrEmpty(input) && input.All(Char.IsDigit);
 		}
 		/// <summary>
 		/// Strips the HTML from the <paramref name="input"/>.

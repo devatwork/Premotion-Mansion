@@ -45,9 +45,9 @@ namespace Premotion.Mansion.Core.Data.Clauses
 
 				// check the input
 				string pageNumberString;
-				var hasPageNumber = !(input.TryGetAndRemove(context, "pageNumber", out pageNumberString) || string.IsNullOrEmpty(pageNumberString) || !pageNumberString.IsNumber());
+				var hasPageNumber = input.TryGetAndRemove(context, "pageNumber", out pageNumberString) && pageNumberString.IsNumber();
 				string pageSizeString;
-				var hasPageSize = !(input.TryGetAndRemove(context, "pageSize", out pageSizeString) || string.IsNullOrEmpty(pageSizeString) || !pageSizeString.IsNumber());
+				var hasPageSize = input.TryGetAndRemove(context, "pageSize", out pageSizeString) && pageSizeString.IsNumber();
 				if (!(hasPageNumber && hasPageSize))
 					yield break;
 

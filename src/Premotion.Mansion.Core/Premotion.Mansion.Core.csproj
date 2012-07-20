@@ -70,6 +70,7 @@
     <Compile Include="Collections\PropertyBag.cs" />
     <Compile Include="Collections\PropertyBagAdapterFactory.cs" />
     <Compile Include="Collections\Sort.cs" />
+    <Compile Include="Conversion\Converters\Int32ToIntDoubleConverter.cs" />
     <Compile Include="Conversion\Converters\StringToCharConverter.cs" />
     <Compile Include="Conversion\Converters\DoubleToInt32Converter.cs" />
     <Compile Include="Conversion\Converters\Int64ToDoubleConverter.cs" />
@@ -219,6 +220,8 @@
     <Compile Include="Nucleus\ReflectionService.cs" />
     <Compile Include="ScriptFunctions\List\AppendNeedle.cs" />
     <Compile Include="ScriptFunctions\List\RemoveNeedle.cs" />
+    <Compile Include="ScriptFunctions\Math\Min.cs" />
+    <Compile Include="ScriptFunctions\Math\Max.cs" />
     <Compile Include="ScriptFunctions\Math\Divide.cs" />
     <Compile Include="ScriptFunctions\Math\Multiply.cs" />
     <Compile Include="ScriptFunctions\Media\JSon\DatasetToJSonArray.cs" />

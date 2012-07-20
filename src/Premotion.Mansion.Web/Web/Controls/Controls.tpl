@@ -362,7 +362,7 @@
 
 	<tpl:section name="ListControlRowNoResults" field="Row"><li class="row">{NotEmpty( ListProperties.notFoundMessage, 'No results found' )}</li></tpl:section>
 
-	<tpl:section name="ListControlPaging">{RenderEmbeddedPagingControl( $dataset, ListProperties.id )}</tpl:section>
+	<tpl:section name="ListControlPaging">{RenderPagingControl( $dataset, ListProperties.id )}</tpl:section>
 
 
 
@@ -424,7 +424,7 @@
 
 		<tpl:section name="GridControlPropertyColumnContent" field="CellContent">{CellProperties.value}</tpl:section>
 
-	<tpl:section name="GridControlPaging">{RenderEmbeddedPagingControl( $dataset, GridProperties.id )}</tpl:section>
+	<tpl:section name="GridControlPaging">{RenderPagingControl( $dataset, GridProperties.id )}</tpl:section>
 
 	<tpl:section name="NoFilterColumnFilter" field="Cell"><td>&nbsp;</td></tpl:section>
 
@@ -443,62 +443,26 @@
 
 
 <!-- paging controls -->
-<tpl:section name="EmbeddedPagingControl" field="Control">
-	{Control}
-</tpl:section>
-
-<tpl:section name="StandAlonePagingControl" field="Control">
-	<form method="get" action="{Request.url}" class="form helper-form" accept-charset="utf-8">
-		{Control}
-		<input type="submit" value="updateui" class="updateui visuallyhidden">
-	</form>
-</tpl:section>
 
 <tpl:section name="PagingControl" field="Control">
-	<nav id="{GetControlPropertyName( ControlProperties.id, 'paging' )}" class="paging-control clearfix">
-		<div class="summary">
-			Showing {PagingProperties.rowStart} - {PagingProperties.rowEnd} of {PagingProperties.rowTotal}
-		</div>
-		<div class="navigation">
-			<label for="{GetControlPropertyName( ControlProperties.id, 'paging-page-size' )}">Items:</label>
-			<select name="{GetControlPropertyName( ControlProperties.id, 'page-size' )}" id="{GetControlPropertyName( ControlProperties.id, 'paging-page-size' )}">
-				<option value="1" {If( Equal( PagingProperties.pageSize, '1' ), 'selected' )}>1</option>
-				<option value="5" {If( Equal( PagingProperties.pageSize, '5' ), 'selected' )}>5</option>
-				<option value="25" {If( Equal( PagingProperties.pageSize, '25' ), 'selected' )}>25</option>
-				<option value="50" {If( Equal( PagingProperties.pageSize, '50' ), 'selected' )}>50</option>
-				<option value="500" {If( Equal( PagingProperties.pageSize, '500' ), 'selected' )}>500</option>
-				<option value="9999" {If( Equal( PagingProperties.pageSize, '9999' ), 'selected' )}>All</option>
-			</select>
-			<label for="{GetControlPropertyName( ControlProperties.id, 'page-number' )}">Page:</label>
-			<select name="{GetControlPropertyName( ControlProperties.id, 'page-number' )}" id="{GetControlPropertyName( ControlProperties.id, 'paging-page-number' )}">
-				{PagingControlPageOption}
-			</select>
-			of <span id="{GetControlPropertyName( ControlProperties.id, 'paging-page-total' )}">{PagingProperties.pageCount}</span>
-			<div>
-				{Controls}
-			</div>
-		</div>
-	</nav>
+
+	<div class="pagination">
+		<ul>
+			<li class="{If( IsEqual( PagingProperties.currentPage, '1' ), 'disabled' )}">
+				<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), Max( Subtract( PagingProperties.currentPage, '1' ), '1' ) )}">Previous</a>
+			</li>
+			{PagingControlPageOption}
+			<li class="{If( IsEqual( PagingProperties.currentPage, PagingProperties.pageCount ), 'disabled' )}">
+				<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), Min( Add( PagingProperties.currentPage, '1' ), PagingProperties.pageCount ) )}">Next</a>
+			</li>
+		</ul>
+	</div>
 </tpl:section>
 
-	<tpl:section name="PagingControlPageOption"><option {If( Equal( PageOption.number, PagingProperties.currentPage ), 'selected' )}>{PageOption.number}</option></tpl:section>
-
-	<tpl:section name="PreviousControlsEnabled" field="Controls">
-		<a href="#" class="first-page" title="Go to first page">First</a>
-		<a href="#" class="previous-page" title="Go to previous page">Previous</a>
-	</tpl:section>
-	<tpl:section name="PreviousControlsDisabled" field="Controls">
-		<span class="first-page">First</span>
-		<span class="previous-page">Previous</span>
-	</tpl:section>
-
-	<tpl:section name="NextControlsEnabled" field="Controls">
-		<a href="#" class="next-page" title="Go to next page">Next</a>
-		<a href="#" class="last-page" title="Go to last page">Last</a>
-	</tpl:section>
-	<tpl:section name="NextControlsDisabled" field="Controls">
-		<span class="next-page">Next</span>
-		<span class="last-page">Last</span>
+	<tpl:section name="PagingControlPageOption">
+		<li class="{If( Equal( PageOption.number, PagingProperties.currentPage ), 'active' )}">
+			<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), PageOption.number )}">{PageOption.number}</a>
+		</li>
 	</tpl:section>
 
 

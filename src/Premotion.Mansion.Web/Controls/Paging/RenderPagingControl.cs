@@ -67,7 +67,6 @@ namespace Premotion.Mansion.Web.Controls.Paging
 			using (var pipe = new StringOutputPipe(buffer))
 			using (context.OutputPipeStack.Push(pipe))
 			using (templateService.Open(context, controlTemplateResource))
-			using (templateService.Render(context, "StandAlonePagingControl", TemplateServiceConstants.OutputTargetField))
 			{
 				// construct the paging properties
 				var pagingProperties = new PropertyBag
@@ -84,20 +83,19 @@ namespace Premotion.Mansion.Web.Controls.Paging
 				                       };
 
 				// render the control
-				using (context.Stack.Push("ControlProperties", pagingProperties, false))
-				using (context.Stack.Push("PagingProperties", pagingProperties, false))
-				using (templateService.Render(context, "PagingControl"))
+				using (context.Stack.Push("ControlProperties", pagingProperties))
+				using (context.Stack.Push("PagingProperties", pagingProperties))
+				using (templateService.Render(context, "PagingControl", TemplateServiceConstants.OutputTargetField))
 				{
 					// render all the page options
 					for (var pageNumber = 1; pageNumber <= dataset.PageCount; pageNumber++)
 					{
-						using (context.Stack.Push("PageOption", new PropertyBag {{"number", pageNumber}}, false))
+						using (context.Stack.Push("PageOption", new PropertyBag
+						                                        {
+						                                        	{"number", pageNumber}
+						                                        }))
 							templateService.Render(context, "PagingControlPageOption").Dispose();
 					}
-
-					// render the previous controls
-					templateService.Render(context, "PreviousControls" + (dataset.CurrentPage == 1 ? "Disabled" : "Enabled")).Dispose();
-					templateService.Render(context, "NextControls" + (dataset.CurrentPage == dataset.PageCount ? "Disabled" : "Enabled")).Dispose();
 				}
 			}
 
