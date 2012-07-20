@@ -86,6 +86,10 @@ namespace Premotion.Mansion.Core
 		/// </summary>
 		IAutoPopDictionaryStack<string, IScript> ProcedureStack { get; }
 		/// <summary>
+		/// Gets the procedure call stack.
+		/// </summary>
+		IAutoPopStack<ScriptTag> ProcedureCallStack { get; }
+		/// <summary>
 		/// Gets the event handler stack.
 		/// </summary>
 		IAutoPopDictionaryStack<string, IScript> EventHandlerStack { get; }

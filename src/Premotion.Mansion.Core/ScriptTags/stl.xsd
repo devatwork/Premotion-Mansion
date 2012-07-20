@@ -241,6 +241,8 @@
 		</xs:annotation>
 
 		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
 			<!-- attributes -->
 			<xs:attribute name="procedureName" type="xs:string" use="required">
 				<xs:annotation>
@@ -254,6 +256,12 @@
 			</xs:attribute>
 			<xs:anyAttribute namespace="##any" processContents="skip" />
 		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="executeNestedTags" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Executes the nested tags of the currently execute invoke procedure.</xs:documentation>
+		</xs:annotation>
 	</xs:element>
 
 	<xs:element name="declareProcedure" substitutionGroup="scriptTag">
