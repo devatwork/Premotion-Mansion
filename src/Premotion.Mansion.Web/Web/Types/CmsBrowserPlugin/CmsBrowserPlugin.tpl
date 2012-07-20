@@ -29,14 +29,7 @@
 
 
 <tpl:section name="NodeBrowser" field="Content">
-	<table class="table table-striped table-bordered browser">
-		<tr>
-			<th>Name</th>
-			<th>Type</th>
-		</tr>
-		{Child}
-	</table>
-	{BrowserPaging}
+	{NodeBrowserContent}
 	<div class="btn-toolbar">
 		<div class="btn-group">
 			{@AddChildButton}
@@ -48,10 +41,21 @@
 	</div>
 </tpl:section>
 
+	<tpl:section name="NodeBrowserContent">
+		<table class="table table-striped table-bordered browser">
+			<tr>
+				<th>Name</th>
+				<th>Type</th>
+			</tr>
+			{Child}
+		</table>
+		{BrowserPaging}
+	</tpl:section>
+
 	<tpl:section name="BrowserPaging">
 		<div class="clearfix">
 			<div class="pull-right">
-				{RenderPagingControl( $ChildNodeset, 'node-browser' )}
+				{RenderPagingControl( Arguments.source, 'node-browser' )}
 			</div>
 		</div>
 	</tpl:section>
@@ -107,141 +111,65 @@
 <!-- View: Find -->
 <tpl:section name="Find" field="View">
 	<div class="page-slider">
+		{NumberOfResults}
 		<div class="row-fluid">
 			<div class="span8">
-				<h2>2.213 Results</h2>
-				<table class="table table-striped table-bordered browser">
-					<tr>
-						<th>Name</th>
-						<th>Type</th>
-						<th>Context</th>
-					</tr>
-					<tr>
-						<td>
-							<a href="browse-slice.htm" data-href="browse-slice.htm">
-								<i class="icon-folder-close"></i>
-								Content folder 1
-							</a>
-						</td>
-						<td>Folder</td>
-						<td>
-							...Lorem ipsum dolor sit amet, consectetur adipiscing elit. <strong>Mauris</strong> vitae libero nec turpis eleifend volutpat..
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<a href="browse-slice.htm" data-href="browse-slice.htm">
-								<i class="icon-folder-close"></i>
-								Content folder 2
-							</a>
-						</td>
-						<td>Folder</td>
-						<td>
-							...Lorem ipsum dolor sit amet, consectetur adipiscing elit. <strong>Mauris</strong> vitae libero nec turpis eleifend volutpat..
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<a href="browse-slice.htm" data-href="browse-slice.htm">
-								<i class="icon-folder-close"></i>
-								Content folder 3
-							</a>
-						</td>
-						<td>Folder</td>
-						<td>
-							...Lorem ipsum dolor sit amet, consectetur adipiscing elit. <strong>Mauris</strong> vitae libero nec turpis eleifend volutpat..
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<a href="browse-slice.htm" data-href="browse-slice.htm">
-								<i class="icon-file"></i>
-								File 1
-							</a>
-						</td>
-						<td>Article</td>
-						<td>
-							...Lorem ipsum dolor sit amet, consectetur adipiscing elit. <strong>Mauris</strong> vitae libero nec turpis eleifend volutpat..
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<a href="browse-slice.htm" data-href="browse-slice.htm">
-								<i class="icon-file"></i>
-								File 2
-							</a>
-						</td>
-						<td>Article</td>
-						<td>
-							...Lorem ipsum dolor sit amet, consectetur adipiscing elit. <strong>Mauris</strong> vitae libero nec turpis eleifend volutpat..
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<a href="browse-slice.htm" data-href="browse-slice.htm">
-								<i class="icon-file"></i>
-								File 3
-							</a>
-						</td>
-						<td>Article</td>
-						<td>
-							...Lorem ipsum dolor sit amet, consectetur adipiscing elit. <strong>Mauris</strong> vitae libero nec turpis eleifend volutpat..
-						</td>
-					</tr>
-				</table>
-				<div class="pagination">
-					<ul>
-						<li class="disabled">
-							<a href="#">Prev</a>
-						</li>
-						<li class="active">
-							<a href="#">1</a>
-						</li>
-						<li>
-							<a href="browse-slice.htm" data-href="browse-slice.htm">2</a>
-						</li>
-						<li>
-							<a href="browse-slice.htm" data-href="browse-slice.htm">3</a>
-						</li>
-						<li>
-							<a href="browse-slice.htm" data-href="browse-slice.htm">4</a>
-						</li>
-						<li>
-							<a href="browse-slice.htm" data-href="browse-slice.htm">Next</a>
-						</li>
-					</ul>
-				</div>
+				{Results}
 			</div>
 			<div class="span4">
-				<form class="well form-horizontal">
-					<fieldset>
-						<div class="control-group">
-							<label class="control-label" for="input01">Keywords:</label>
-							<div class="controls">
-								<input type="search" class="input-large" id="input01">
-										</div>
-						</div>
-						<div class="control-group">
-							<label class="control-label" for="input02">Types:</label>
-							<div class="controls">
-								<ul class="nav nav-list">
-									<li>
-										<a href="#" rel="tooltip" title="Filter on articles">Article (1)</a>
-									</li>
-									<li>
-										<a href="#" rel="tooltip" title="Filter on pages">Page (1)</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<div class="form-actions">
-							<button type="submit" class="btn btn-primary">
-								<i class="icon-search"></i> Search
-							</button>
-						</div>
-					</fieldset>
-				</form>
+				{FindSearchForm}
 			</div>
 		</div>
 	</div>
+</tpl:section>
+
+<tpl:section name="NumberOfResults">
+	<h2>{ResultSet.totalCount} Result{If( IsEqual( ResultSet.totalCount, '1' ), '', 's' )}</h2>
+</tpl:section>
+
+<tpl:section name="FindSearchForm">
+	<form class="well form-vertical" action="{Request.url}" method="get">
+		<fieldset>
+			<div class="control-group">
+				<label class="control-label" for="q">Keywords:</label>
+				<div class="controls">
+					<input type="search" class="input-large" id="q" name="q">
+				</div>
+			</div>
+			<div class="control-group">
+				<ul class="nav nav-list">
+					{Facet}
+				</ul>
+			</div>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary">
+					<i class="icon-search"></i> Search
+				</button>
+			</div>
+		</fieldset>
+	</form>
+</tpl:section>
+
+<tpl:section name="SearchFacets">
+	<div class="well sidebar-nav">
+		<ul class="nav nav-list">
+			{Facet}
+		</ul>
+	</div>
+</tpl:section>
+
+<tpl:section name="Facet">
+	<li class="nav-header">{FacetRow.friendlyName}</li>
+	{FacetValue}
+	{@FacetSeparator}
+</tpl:section>
+
+<tpl:section name="FacetSeparator" requires="{Not( IsLast() )}">
+	<li class="divider"></li>
+</tpl:section>
+
+<tpl:section name="FacetValue">
+	<li>
+		<a href="{ChangeQueryString( Request.url, FacetRow.propertyName, FacetValueRow.value )}" title="Filter op {FacetValueRow.displayValue}">{FacetValueRow.displayValue} ({FacetValueRow.count})</a>
+	</li>
 </tpl:section>

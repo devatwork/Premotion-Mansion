@@ -59,15 +59,20 @@
 	<!-- Renders the children of the current node -->
 	<declareProcedure procedureName="RenderNodeBrowser">
 		<renderSection name="NodeBrowser">
-			
 			<!-- retrieve the child nodes of the current node -->
 			<retrieveChildNodeset parentSource="{$CurrentNode}" status="any" sort="order asc" pageNumber="{GetControlPropertyValue( 'node-browser', 'page-number', '1' )}" pageSize="25" target="ChildNodeset">
-				<loopNodeset source="{$ChildNodeset}" target="ChildNode">
-					<renderSection name="NodeBrowserChild" />
-				</loopNodeset>
-				<renderSection name="BrowserPaging" />
+				<invokeProcedure procedureName="RenderNodeBrowserResults" source="{$ChildNodeset}" />
 			</retrieveChildNodeset>
-			
+		</renderSection>
+	</declareProcedure>
+
+	<!-- Renders the result of the -->
+	<declareProcedure procedureName="RenderNodeBrowserResults">
+		<renderSection name="NodeBrowserContent" targetField="{Arguments.field}">
+			<loopNodeset source="{Arguments.source}" target="ChildNode">
+				<renderSection name="NodeBrowserChild" />
+			</loopNodeset>
+			<renderSection name="BrowserPaging" />
 		</renderSection>
 	</declareProcedure>
 
@@ -113,7 +118,67 @@
 	<!-- Views: Find                         -->
 	<!-- ################################### -->
 	<declareProcedure procedureName="RenderPluginFindDetailView">
-		<renderSection name="Find" />
+		<renderSection name="Find">
+			<!-- retrieve the results -->
+			<invokeProcedure procedureName="RetrieveFinderSearchResults">
+				<!-- render the header -->
+				<renderSection name="NumberOfResults" />
+				
+				<!-- render the results -->
+				<invokeProcedure procedureName="RenderNodeBrowserResults" source="{$ResultSet}" field="Results" />
+			
+				<!-- render the search form -->
+				<invokeProcedure procedureName="RenderPluginFindDetailViewSearchForm"/>
+			</invokeProcedure>
+		</renderSection>
+	</declareProcedure>
+	
+	<!-- execute the search query -->
+	<declareProcedure procedureName="RetrieveFinderSearchResults">
+		<retrieveChildNodeset
+			parentSource="{$RootNode}"
+			depth="any"
+			
+			baseType="{NotEmpty( Get.type, 'Default' )}"
+			status="{NotEmpty( Get.status, 'any' )}"
+			fts="{Get.q}"
+			facetType="{CreateFacet( 'type', 'Types', 'TransformTypeFacet' )}"
+			sort="{If( IsEmpty( Get.q ), 'modified DESC' )}"
+			
+			pageNumber="{GetControlPropertyValue( 'node-browser', 'page-number', '1' )}"
+			pageSize="25"
+			target="ResultSet">
+			<executeNestedTags />
+		</retrieveChildNodeset>
+	</declareProcedure>
+
+		<!-- Facet transform methods -->
+		<declareProcedure procedureName="TransformTypeFacet">
+			<setProperties dataspaceName="Row" displayValue="{GetTypeDefinitionLabel( Row.value )}" />
+		</declareProcedure>
+
+	<!-- renders the search form -->
+	<declareProcedure procedureName="RenderPluginFindDetailViewSearchForm">
+		<renderSection name="FindSearchForm">
+
+			<!-- render the facets -->
+			<fetchFacetsDataset source="{$ResultSet}" target="FacetDataset">
+				<loopDataset source="{$FacetDataset}" target="FacetRow">
+					<if condition="{IsGreaterThan( FacetRow.valueCount, '1' )}">
+
+						<renderSection name="Facet">
+							<fetchFacetValuesDataset source="{$FacetRow}" target="FacetValueDataset">
+								<loopDataset source="{$FacetValueDataset}" target="FacetValueRow">
+									<renderSection name="FacetValue" />
+								</loopDataset>
+							</fetchFacetValuesDataset>
+						</renderSection>
+
+					</if>
+				</loopDataset>
+			</fetchFacetsDataset>
+			
+		</renderSection>
 	</declareProcedure>
 
 </mansion>
