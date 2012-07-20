@@ -36,6 +36,7 @@
 		</tr>
 		{Child}
 	</table>
+	{BrowserPaging}
 	<div class="btn-toolbar">
 		<div class="btn-group">
 			{@AddChildButton}
@@ -46,6 +47,14 @@
 		</div>
 	</div>
 </tpl:section>
+
+	<tpl:section name="BrowserPaging">
+		<div class="clearfix">
+			<div class="pull-right">
+				{RenderPagingControl( $ChildNodeset, 'node-browser' )}
+			</div>
+		</div>
+	</tpl:section>
 
 	<tpl:section name="AddChildButton" requires="{HasChildTypes( $CurrentNode )}">
 		<a href="{CmsRouteUrl( 'Dialog', 'AddChildToNode', CurrentNode.id )}" class="btn btn-primary btn-popup" rel="tooltip" title="Add a new child to this folder">
