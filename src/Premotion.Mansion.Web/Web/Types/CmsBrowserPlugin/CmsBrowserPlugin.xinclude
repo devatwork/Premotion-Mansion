@@ -61,10 +61,11 @@
 		<renderSection name="NodeBrowser">
 			
 			<!-- retrieve the child nodes of the current node -->
-			<retrieveChildNodeset parentSource="{$CurrentNode}" status="any" sort="order asc" target="ChildNodeset">
+			<retrieveChildNodeset parentSource="{$CurrentNode}" status="any" sort="order asc" pageNumber="{GetControlPropertyValue( 'node-browser', 'page-number', '1' )}" pageSize="25" target="ChildNodeset">
 				<loopNodeset source="{$ChildNodeset}" target="ChildNode">
 					<renderSection name="NodeBrowserChild" />
 				</loopNodeset>
+				<renderSection name="BrowserPaging" />
 			</retrieveChildNodeset>
 			
 		</renderSection>
