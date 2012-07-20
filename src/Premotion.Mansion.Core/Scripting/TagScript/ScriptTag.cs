@@ -319,7 +319,7 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// Executes the child tags of this tag.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		protected void ExecuteChildTags(IMansionContext context)
+		public void ExecuteChildTags(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)

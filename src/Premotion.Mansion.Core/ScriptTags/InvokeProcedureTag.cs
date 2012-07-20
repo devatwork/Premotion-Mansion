@@ -1,5 +1,4 @@
 using System;
-using Premotion.Mansion.Core.Scripting;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Core.ScriptTags
@@ -27,7 +26,7 @@ namespace Premotion.Mansion.Core.ScriptTags
 				checkExists = true;
 
 			// find the procedure
-			IScript procedure;
+			ScriptTag procedure;
 			if (!context.ProcedureStack.TryPeek(procedureName, out procedure))
 			{
 				if (checkExists)
@@ -36,7 +35,8 @@ namespace Premotion.Mansion.Core.ScriptTags
 			}
 
 			// invoke the procedure
-			using (context.Stack.Push("Arguments", procedureArguments, false))
+			using (context.ProcedureCallStack.Push(this))
+			using (context.Stack.Push("Arguments", procedureArguments))
 				procedure.Execute(context);
 
 			// make sure the break procedure flag is cleared
