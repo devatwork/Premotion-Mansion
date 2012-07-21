@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
 
 	<!-- ############################### -->
 	<!-- Overrides of CmsPlugin.xinclude -->
@@ -27,10 +27,8 @@
 			<loopNodeset source="{$SiteNodeset}" target="SiteNode">
 				<invokeProcedure procedureName="RenderPluginHomeBlock" label="{SiteNode.name}" description="Manage the pages, navigation and content displayed on this website." iconClass="icon-globe" pluginType="CmsSiteManagerPlugin" viewName="Website" />
 			</loopNodeset>
-			<notFound>
-				<invokeProcedure procedureName="RenderPluginHomeBlock" label="Create a new website" description="This application does not contain any websites, create one now." iconClass="icon-globe" pluginType="CmsSiteManagerPlugin" viewName="Create" />
-			</notFound>
 		</retrieveChildNodeset>
+		<invokeProcedure procedureName="RenderPluginHomeBlock" label="Create a new website" description="Add a new website to this application." iconClass="icon-globe" pluginType="CmsSiteManagerPlugin" viewName="Create" />
 	</declareProcedure>
 
 
@@ -39,6 +37,15 @@
 	<!-- View: Create                        -->
 	<!-- ################################### -->
 	<declareProcedure procedureName="RenderPluginCreateDetailView">
+		<web:redirectRequest url="{CmsNodeBrowserUrl( 'false', RootNode.id )}?type=Site&amp;mode=create"/>
+	</declareProcedure>
+
+
+
+	<!-- ################################### -->
+	<!-- View: Website                       -->
+	<!-- ################################### -->
+	<declareProcedure procedureName="RenderPluginWebsiteDetailView">
 		<throw message="Todo"/>
 	</declareProcedure>
 
