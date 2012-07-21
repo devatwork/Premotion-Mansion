@@ -46,7 +46,18 @@
 	<!-- View: Website                       -->
 	<!-- ################################### -->
 	<declareProcedure procedureName="RenderPluginWebsiteDetailView">
-		<throw message="Todo"/>
+		<renderSection name="WebsiteView">
+			<!-- render the crumb path -->
+			<invokeProcedure procedureName="RenderBrowserCrumbPath" />
+
+			<!-- render the child nodes -->
+			<if condition="{Not( IsEqual( Get.mode, 'create' ) )}">
+				<invokeProcedure procedureName="RenderNodeBrowser"/>
+			</if>
+
+			<!-- render the properties of the current node -->
+			<invokeProcedure procedureName="RenderNodeProperties"/>
+		</renderSection>
 	</declareProcedure>
 
 </mansion>
