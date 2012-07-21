@@ -3,7 +3,6 @@
 	<div class="page-slider">
 		{CrumbPath}
 		{Content}
-		{ActionButtons}
 	</div>
 </tpl:section>
 
