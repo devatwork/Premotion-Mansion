@@ -53,7 +53,7 @@ namespace Premotion.Mansion.Web.Controls.Paging
 				throw new ArgumentNullException("id");
 
 			// check if this dataset does not support paging
-			if (!dataset.IsPaged || dataset.RowCount == 0)
+			if (!dataset.IsPaged || dataset.RowCount == 0 || dataset.PageCount < 2)
 				return string.Empty;
 
 			// render the control
