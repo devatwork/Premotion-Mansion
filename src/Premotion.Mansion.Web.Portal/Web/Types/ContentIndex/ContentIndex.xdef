@@ -3,6 +3,7 @@
 	
 	<!-- specify cms behavior -->
 	<cms:behavior label="Content folder">
+		<cms:childType baseType="ContentIndex" />
 		<cms:childType baseType="Content" />
 	</cms:behavior>
 	
