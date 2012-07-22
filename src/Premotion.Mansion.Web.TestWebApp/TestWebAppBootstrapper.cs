@@ -1,4 +1,5 @@
-﻿using Premotion.Mansion.Core;
+﻿using Premotion.Mansion.Amazon.S3;
+using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Caching;
 using Premotion.Mansion.Core.Conversion;
 using Premotion.Mansion.Core.IO;
@@ -11,6 +12,7 @@ using Premotion.Mansion.Core.Templating;
 using Premotion.Mansion.Core.Templating.Html;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Core.Types.Xml;
+using Premotion.Mansion.Web.Assets;
 using Premotion.Mansion.Web.Caching;
 using Premotion.Mansion.Web.Mail;
 using Premotion.Mansion.Web.Mail.Standard;
@@ -51,6 +53,8 @@ namespace Premotion.Mansion.Web.TestWebApp
 			nucleus.Register<IMailService>(resolver => new StandardMailService());
 			nucleus.Register<INodeUrlService>(resolver => new NodeUrlService(resolver, resolver.ResolveSingle<ITypeService>()));
 			nucleus.Register<IApplicationResourceService>(resolver => new EmbeddedApplicationResourceService("Web", resolver.Resolve<ResourcePathInterpreter>(), resolver.ResolveSingle<IReflectionService>()));
+			nucleus.Register<IContentResourceService>(resolver => new S3ContentResourceService());
+			nucleus.Register<IAssetService>(resolver => new AssetService(resolver.ResolveSingle<IContentResourceService>()));
 		}
 		#endregion
 	}
