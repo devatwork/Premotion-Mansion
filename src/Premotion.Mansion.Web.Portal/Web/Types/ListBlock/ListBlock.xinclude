@@ -26,8 +26,8 @@
 				<case value="paging">
 					<setProperties
 						dataspaceName="Filter"
-						pageNumber="{If( IsEqual( BlockProperties.limitType, 'paging' ), GetControlPropertyValue( Concat( 'block-', BlockProperties.id ), 'page-number', '1' ) )}"
-						pageSize="{If( IsEqual( BlockProperties.limitType, 'paging' ), GetControlPropertyValue( Concat( 'block-', BlockProperties.id ), 'page-size', BlockProperties.pageSize ) )}" />
+						pageNumber="{GetControlPropertyValue( Concat( 'block-', BlockProperties.id ), 'page-number', '1' )}"
+						pageSize="{GetControlPropertyValue( Concat( 'block-', BlockProperties.id ), 'page-size', BlockProperties.pageSize )}" />
 				</case>
 			</switch>
 			
