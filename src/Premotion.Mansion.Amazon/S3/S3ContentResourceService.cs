@@ -302,8 +302,7 @@ namespace Premotion.Mansion.Amazon.S3
 			/// Constructs a content resource path.
 			/// </summary>
 			/// <param name="relativePath">The relative path to the content resource.</param>
-			/// <param name="isNew">Flag indicating whether this is a new file or not.</param>
-			public S3ResourcePath(string relativePath, bool isNew = false)
+			public S3ResourcePath(string relativePath)
 			{
 				// validate arguments
 				if (string.IsNullOrEmpty(relativePath))
@@ -311,14 +310,9 @@ namespace Premotion.Mansion.Amazon.S3
 
 				// store the values
 				Paths = new[] {relativePath.Replace('\\', '/')};
-				IsNew = isNew;
 			}
 			#endregion
 			#region Implementation of IResourcePath
-			/// <summary>
-			/// Gets a flag indicating whether this is a new file or not.
-			/// </summary>
-			public bool IsNew { get; private set; }
 			/// <summary>
 			/// Gets a flag indicating whether this resource is overridable or not.
 			/// </summary>
@@ -407,7 +401,7 @@ namespace Premotion.Mansion.Amazon.S3
 					index++;
 
 				// create the resource path
-				return new S3ResourcePath(ResourceUtils.Combine(categoryBasePath, today.Year.ToString(CultureInfo.InvariantCulture), today.Month.ToString(CultureInfo.InvariantCulture), fileBaseName + index + fileExtension), true);
+				return new S3ResourcePath(ResourceUtils.Combine(categoryBasePath, today.Year.ToString(CultureInfo.InvariantCulture), today.Month.ToString(CultureInfo.InvariantCulture), fileBaseName + index + fileExtension));
 			}
 
 			throw new NotImplementedException();
@@ -451,17 +445,18 @@ namespace Premotion.Mansion.Amazon.S3
 			// initialize
 			Initialize(context);
 
-			// cast the path
-			var s3path = path as S3ResourcePath;
-			if (s3path == null)
-				throw new InvalidOperationException("The given path is not an S3 path");
-
 			// get the meta data for the file and dispose the response streams inmediately
 			GetObjectMetadataResponse metaData = null;
-			if (!s3path.IsNew)
+			try
 			{
 				metaData = client.GetObjectMetadata(new GetObjectMetadataRequest().WithBucketName(bucketName).WithKey(path.Paths.Single()));
 				metaData.Dispose();
+			}
+			catch (AmazonS3Exception ex)
+			{
+				//status wasn't not found, so throw the exception
+				if (ex.StatusCode != System.Net.HttpStatusCode.NotFound)
+					throw;
 			}
 
 			// create the resource
