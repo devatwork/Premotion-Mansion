@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -223,8 +224,6 @@ namespace Premotion.Mansion.Amazon.S3
 				// validate arguments
 				if (service == null)
 					throw new ArgumentNullException("service");
-				if (metadata == null)
-					throw new ArgumentNullException("metadata");
 				if (path == null)
 					throw new ArgumentNullException("path");
 
@@ -261,7 +260,7 @@ namespace Premotion.Mansion.Amazon.S3
 			/// <returns>A hash code for the current <see cref="IResource"/>.</returns>
 			public string GetResourceIdentifier()
 			{
-				return metadata.AmazonId2;
+				return metadata != null ? metadata.AmazonId2 : Guid.NewGuid().ToString();
 			}
 			/// <summary>
 			/// Gets the path of this resource.
@@ -275,14 +274,14 @@ namespace Premotion.Mansion.Amazon.S3
 			/// </summary>
 			public long Length
 			{
-				get { return metadata.ContentLength; }
+				get { return metadata != null ? metadata.ContentLength : -1; }
 			}
 			/// <summary>
 			/// Gets the version of this resource.
 			/// </summary>
 			public string Version
 			{
-				get { return metadata.VersionId; }
+				get { return metadata != null ? metadata.VersionId : "0"; }
 			}
 			#endregion
 			#region Private Fields
@@ -303,7 +302,8 @@ namespace Premotion.Mansion.Amazon.S3
 			/// Constructs a content resource path.
 			/// </summary>
 			/// <param name="relativePath">The relative path to the content resource.</param>
-			public S3ResourcePath(string relativePath)
+			/// <param name="isNew">Flag indicating whether this is a new file or not.</param>
+			public S3ResourcePath(string relativePath, bool isNew = false)
 			{
 				// validate arguments
 				if (string.IsNullOrEmpty(relativePath))
@@ -311,9 +311,14 @@ namespace Premotion.Mansion.Amazon.S3
 
 				// store the values
 				Paths = new[] {relativePath.Replace('\\', '/')};
+				IsNew = isNew;
 			}
 			#endregion
 			#region Implementation of IResourcePath
+			/// <summary>
+			/// Gets a flag indicating whether this is a new file or not.
+			/// </summary>
+			public bool IsNew { get; private set; }
 			/// <summary>
 			/// Gets a flag indicating whether this resource is overridable or not.
 			/// </summary>
@@ -385,6 +390,26 @@ namespace Premotion.Mansion.Amazon.S3
 			if (properties.TryGet(context, "relativePath", out relativePath))
 				return new S3ResourcePath(ResourceUtils.Combine(categoryBasePath, relativePath));
 
+			// check if it is a new file name
+			string fileName;
+			if (properties.TryGet(context, "fileName", out fileName))
+			{
+				// get the current date
+				var today = DateTime.Today;
+
+				// get the file base name and extension
+				var fileBaseName = Path.GetFileNameWithoutExtension(fileName);
+				var fileExtension = Path.GetExtension(fileName);
+
+				// make sure the file name is unique
+				var index = 0;
+				while (Exists(context, new S3ResourcePath(ResourceUtils.Combine(categoryBasePath, today.Year.ToString(CultureInfo.InvariantCulture), today.Month.ToString(CultureInfo.InvariantCulture), fileBaseName + index + fileExtension))))
+					index++;
+
+				// create the resource path
+				return new S3ResourcePath(ResourceUtils.Combine(categoryBasePath, today.Year.ToString(CultureInfo.InvariantCulture), today.Month.ToString(CultureInfo.InvariantCulture), fileBaseName + index + fileExtension), true);
+			}
+
 			throw new NotImplementedException();
 		}
 		/// <summary>
@@ -426,9 +451,18 @@ namespace Premotion.Mansion.Amazon.S3
 			// initialize
 			Initialize(context);
 
+			// cast the path
+			var s3path = path as S3ResourcePath;
+			if (s3path == null)
+				throw new InvalidOperationException("The given path is not an S3 path");
+
 			// get the meta data for the file and dispose the response streams inmediately
-			var metaData = client.GetObjectMetadata(new GetObjectMetadataRequest().WithBucketName(bucketName).WithKey(path.Paths.Single()));
-			metaData.Dispose();
+			GetObjectMetadataResponse metaData = null;
+			if (!s3path.IsNew)
+			{
+				metaData = client.GetObjectMetadata(new GetObjectMetadataRequest().WithBucketName(bucketName).WithKey(path.Paths.Single()));
+				metaData.Dispose();
+			}
 
 			// create the resource
 			return new S3Resource(this, metaData, path);
