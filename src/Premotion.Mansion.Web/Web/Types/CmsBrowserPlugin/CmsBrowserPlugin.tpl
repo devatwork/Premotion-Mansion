@@ -1,10 +1,15 @@
 ﻿<!-- View: Browse -->
 <tpl:section name="Browse" field="View">
 	<div class="page-slider">
+		{AlertMessage}
 		{CrumbPath}
 		{Content}
 	</div>
 </tpl:section>
+
+
+
+<tpl:section name="AlertMessage">{Control}</tpl:section>
 
 
 

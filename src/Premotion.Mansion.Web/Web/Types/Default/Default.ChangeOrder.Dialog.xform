@@ -45,7 +45,7 @@
 				
 				<forms:processScriptAction supportedActions="change">
 					<editNode source="{$UrlNode}" order="{FieldProperties.order}"/>
-					<ctrls:invokeDialogParentTrigger action="cms.refresh" />
+					<ctrls:invokeDialogParentTrigger action="cms.navigate" url="{CmsNodeBrowserUrl( 'false', UrlNode.id )}?change=reordered" />
 					<breakExecution />
 				</forms:processScriptAction>
 				

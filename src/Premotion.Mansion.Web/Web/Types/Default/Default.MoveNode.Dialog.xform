@@ -29,7 +29,7 @@
 				<forms:processScriptAction supportedActions="move">
 					<retrieveNode id="{FieldProperties.newParentId}" target="NewParentNode">
 						<moveNode source="{$UrlNode}" newParent="{$NewParentNode}" target="MovedNode">
-							<ctrls:invokeDialogParentTrigger action="cms.refresh" />
+							<ctrls:invokeDialogParentTrigger action="cms.navigate" url="{CmsNodeBrowserUrl( 'false', MovedNode.id )}?change=moved" />
 							<breakExecution />
 						</moveNode>
 					</retrieveNode>

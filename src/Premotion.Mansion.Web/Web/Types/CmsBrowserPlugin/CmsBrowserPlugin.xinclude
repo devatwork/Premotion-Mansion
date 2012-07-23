@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd">
 
 	<!-- ############################### -->
 	<!-- Overrides of CmsPlugin.xinclude -->
@@ -28,6 +28,9 @@
 	<declareProcedure procedureName="RenderPluginBrowseDetailView">
 		<renderSection name="Browse">
 			
+			<!-- render messages -->
+			<invokeProcedure procedureName="RenderAlerts" />
+			
 			<!-- render the crumb path -->
 			<invokeProcedure procedureName="RenderBrowserCrumbPath" />
 
@@ -39,6 +42,33 @@
 			<!-- render the properties of the current node -->
 			<invokeProcedure procedureName="RenderNodeProperties"/>
 			
+		</renderSection>
+	</declareProcedure>
+	
+	<!-- Renders the messages -->
+	<declareProcedure procedureName="RenderAlerts">
+		<renderSection name="AlertMessage">
+			<if condition="{IsEqual( Get.change, 'cancelled' )}">
+				<forms:infoAlert>No changes were made.</forms:infoAlert>
+			</if>
+			<if condition="{IsEqual( Get.change, 'created' )}">
+				<forms:successAlert>The new node was created successfully.</forms:successAlert>
+			</if>
+			<if condition="{IsEqual( Get.change, 'updated' )}">
+				<forms:successAlert>The changes made to this node were successfully saved.</forms:successAlert>
+			</if>
+			<if condition="{IsEqual( Get.change, 'reordered' )}">
+				<forms:successAlert>The position of the node was successfully updated.</forms:successAlert>
+			</if>
+			<if condition="{IsEqual( Get.change, 'moved' )}">
+				<forms:successAlert>The node was successfully moved to it's new parent.</forms:successAlert>
+			</if>
+			<if condition="{IsEqual( Get.change, 'copied' )}">
+				<forms:successAlert>The node was successfully copied.</forms:successAlert>
+			</if>
+			<if condition="{IsEqual( Get.change, 'deleted' )}">
+				<forms:successAlert>The node was successfully deleted.</forms:successAlert>
+			</if>
 		</renderSection>
 	</declareProcedure>
 
@@ -98,17 +128,17 @@
 
 		<!-- default action for form submits -->
 		<declareProcedure procedureName="OnCancel">
-			<web:redirectRequest url="{CmsNodeBrowserUrl( 'false', FormSourceNode.id )}" />
+			<web:redirectRequest url="{CmsNodeBrowserUrl( 'false', FormSourceNode.id )}?change=cancelled" />
 			<breakExecution />
 		</declareProcedure>
 
 		<declareProcedure procedureName="OnCreated">
-			<web:redirectRequest url="{CmsNodeBrowserUrl( 'false', NewNode.id )}" />
+			<web:redirectRequest url="{CmsNodeBrowserUrl( 'false', NewNode.id )}?change=created" />
 			<breakExecution />
 		</declareProcedure>
 
 		<declareProcedure procedureName="OnUpdated">
-			<web:redirectRequest url="{CmsNodeBrowserUrl( 'false', FormSourceNode.id )}" />
+			<web:redirectRequest url="{CmsNodeBrowserUrl( 'false', FormSourceNode.id )}?change=updated" />
 			<breakExecution />
 		</declareProcedure>
 
