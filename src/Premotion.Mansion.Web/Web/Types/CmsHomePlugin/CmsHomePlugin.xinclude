@@ -5,7 +5,7 @@
 	<!-- Overrides of CmsPlugin.xinclude -->
 	<!-- ############################### -->
 	<declareProcedure procedureName="RenderPluginNavigation">
-		<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="Home" iconClass="icon-home" pluginType="CmsHomePlugin" viewName="Default" />
+		<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="Home" iconClass="icon-home" url="{CmsNodeUrl( RootNode.id, 'CmsHomePlugin', 'Default' )}" active="{And( IsEqual( ActivePluginProperties.pluginType, 'CmsHomePlugin' ), IsEqual( ActivePluginProperties.viewName, 'Default' ) )}" />
 	</declareProcedure>
 
 
@@ -25,15 +25,14 @@
 		<!-- Render the home blocks for this plugin -->
 		<declareProcedure procedureName="RenderPluginHomeBlocks"><!-- do nothing--></declareProcedure>
 
-		<!-- render an block for the given plugin view                       -->
-		<!-- arguments:                                                      -->
-		<!--    label, the label of the block                                -->
-		<!--    description, the description of the block                    -->
-		<!--    iconClass, the css class of the icon                         -->
-		<!--    pluginType, the type of the plugin rendering this block      -->
-		<!--    viewName, the name of the view to which this block is linked -->
+		<!-- render an block for the given plugin view                      -->
+		<!-- arguments:                                                     -->
+		<!--    label, the label of the block                               -->
+		<!--    description, the description of the block                   -->
+		<!--    iconClass, the css class of the icon                        -->
+		<!--    url, the url of the current actions                         -->
 		<declareProcedure procedureName="RenderPluginHomeBlock">
-			<renderSection name="HomeBlock" label="{Arguments.label}" description="{Arguments.description}" iconClass="{Arguments.iconClass}" pluginType="{Arguments.pluginType}" viewName="{Arguments.viewName}" />
+			<renderSection name="HomeBlock" label="{Arguments.label}" description="{Arguments.description}" iconClass="{Arguments.iconClass}" url="{Arguments.url}" />
 		</declareProcedure>
 
 </mansion>

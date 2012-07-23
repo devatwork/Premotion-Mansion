@@ -3,8 +3,8 @@
 </tpl:section>
 
 <tpl:section name="NavigationItem">
-	<li class="{If( And( IsEqual( Section.pluginType, ActivePluginProperties.pluginType ), IsEqual( Section.viewName, ActivePluginProperties.viewName ) ), 'active' )}">
-		<a href="{CmsNodeUrl( RootNode.id, Section.pluginType, Section.viewName )}">
+	<li class="{If( Section.active, 'active' )}">
+		<a href="{Section.url}">
 			<i class="{Section.iconClass}"></i> {Section.label}
 		</a>
 	</li>

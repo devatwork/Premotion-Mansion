@@ -24,10 +24,10 @@
 		<!-- arguments:                                                     -->
 		<!--    label, the label of the navigation item                     -->
 		<!--    iconClass, the css class of the icon                        -->
-		<!--    pluginType, the type of the plugin rendering this item      -->
-		<!--    viewName, the name of the view to which this item is linked -->
+		<!--    url, the url of the current actions                         -->
+		<!--    active, flag indicating whether this item is active or not  -->
 		<declareProcedure procedureName="RenderPluginViewNavigationItem">
-			<renderSection name="NavigationItem" label="{Arguments.label}" iconClass="{Arguments.iconClass}" pluginType="{Arguments.pluginType}" viewName="{Arguments.viewName}" />
+			<renderSection name="NavigationItem" label="{Arguments.label}" iconClass="{Arguments.iconClass}" url="{Arguments.url}" active="{Arguments.active}" />
 		</declareProcedure>
 
 </mansion>

@@ -11,7 +11,7 @@
 
 			<!-- loop over all the sites -->
 			<loopNodeset source="{$SiteNodeset}" target="SiteNode">
-				<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="{SiteNode.name}" iconClass="icon-globe" pluginType="CmsSiteManagerPlugin" viewName="Website" />
+				<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="{SiteNode.name}" iconClass="icon-globe" url="{CmsNodeUrl( SiteNode.id, 'CmsBrowserPlugin', 'Browse' )}" active="{And( IsEqual( ActivePluginProperties.pluginType, 'CmsBrowserPlugin' ), IsEqual( ActivePluginProperties.viewName, 'Browse' ), Or( IsEqual( CurrentNode.id, SiteNode.id ), IsChildOf( $CurrentNode, $SiteNode ) ) )}" />
 			</loopNodeset>
 		</retrieveChildNodeset>
 	</declareProcedure>
@@ -25,10 +25,10 @@
 		<!-- loop over all the sites -->
 		<retrieveChildNodeset parentSource="{$RootNode}" baseType="Site" status="any" depth="any" sort="name ASC" target="SiteNodeset">
 			<loopNodeset source="{$SiteNodeset}" target="SiteNode">
-				<invokeProcedure procedureName="RenderPluginHomeBlock" label="{SiteNode.name}" description="Manage the pages, navigation and content displayed on this website." iconClass="icon-globe" pluginType="CmsSiteManagerPlugin" viewName="Website" />
+				<invokeProcedure procedureName="RenderPluginHomeBlock" label="{SiteNode.name}" description="Manage the pages, navigation and content displayed on this website." iconClass="icon-globe" url="{CmsNodeUrl( SiteNode.id, 'CmsBrowserPlugin', 'Browse' )}" />
 			</loopNodeset>
 		</retrieveChildNodeset>
-		<invokeProcedure procedureName="RenderPluginHomeBlock" label="Create a new website" description="Add a new website to this application." iconClass="icon-globe" pluginType="CmsSiteManagerPlugin" viewName="Create" />
+		<invokeProcedure procedureName="RenderPluginHomeBlock" label="Create a new website" description="Add a new website to this application." iconClass="icon-globe" url="{CmsNodeUrl( RootNode.id, 'CmsSiteManagerPlugin', 'Create' )}" />
 	</declareProcedure>
 
 
@@ -38,26 +38,6 @@
 	<!-- ################################### -->
 	<declareProcedure procedureName="RenderPluginCreateDetailView">
 		<web:redirectRequest url="{CmsNodeUrl( RootNode.id, 'CmsBrowserPlugin', 'Browse' )}?type=Site&amp;mode=create"/>
-	</declareProcedure>
-
-
-
-	<!-- ################################### -->
-	<!-- View: Website                       -->
-	<!-- ################################### -->
-	<declareProcedure procedureName="RenderPluginWebsiteDetailView">
-		<renderSection name="WebsiteView">
-			<!-- render the crumb path -->
-			<invokeProcedure procedureName="RenderBrowserCrumbPath" />
-
-			<!-- render the child nodes -->
-			<if condition="{Not( IsEqual( Get.mode, 'create' ) )}">
-				<invokeProcedure procedureName="RenderNodeBrowser"/>
-			</if>
-
-			<!-- render the properties of the current node -->
-			<invokeProcedure procedureName="RenderNodeProperties"/>
-		</renderSection>
 	</declareProcedure>
 
 </mansion>
