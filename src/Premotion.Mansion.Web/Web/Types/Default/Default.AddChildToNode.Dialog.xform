@@ -28,7 +28,7 @@
 				</forms:processScriptAction>
 				
 				<forms:processScriptAction supportedActions="create">
-					<ctrls:invokeDialogParentTrigger action="cms.navigate" url="{CmsNodeBrowserUrl( 'false', CurrentNode.id )}?type={FieldProperties.type}&amp;mode=create" />
+					<ctrls:invokeDialogParentTrigger action="cms.navigate" url="{CmsNodeUrl( CurrentNode.id, 'CmsBrowserPlugin', 'Browse' )}?type={FieldProperties.type}&amp;mode=create" />
 					<breakExecution />
 				</forms:processScriptAction>
 				

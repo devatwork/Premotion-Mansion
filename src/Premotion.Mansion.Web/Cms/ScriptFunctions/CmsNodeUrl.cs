@@ -7,20 +7,21 @@ using Premotion.Mansion.Web.Url;
 namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 {
 	/// <summary>
-	/// Generates a CMS plugin route URL.
+	/// Generates a CMS route URL.
 	/// </summary>
-	[ScriptFunction("CmsPluginRouteUrl")]
-	public class CmsPluginRouteUrl : FunctionExpression
+	[ScriptFunction("CmsNodeUrl")]
+	public class CmsNodeUrl : FunctionExpression
 	{
 		/// <summary>
 		/// Generates a route URL.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="pluginType">The type name of the plugin.</param>
-		/// <param name="viewName">The view name of the plugin.</param>
+		/// <param name="nodeId">The ID of the node.</param>
+		/// <param name="pluginType">The name of the plugin type.</param>
+		/// <param name="viewName">The name of the view which to render.</param>
 		/// <param name="parameters">The parameters for the route URL.</param>
 		/// <returns>Return the relative URL.</returns>
-		public Uri Evaluate(IMansionContext context, string pluginType, string viewName, params string[] parameters)
+		public Uri Evaluate(IMansionContext context, int nodeId, string pluginType, string viewName, params string[] parameters)
 		{
 			// validate arguments
 			if (context == null)
@@ -32,11 +33,10 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 			if (parameters == null)
 				throw new ArgumentNullException("parameters");
 
-			// assemble the plugin parameters
+			// assemble the plugin type and view
 			var pluginParameters = new[] {pluginType, viewName};
 
-			// assemble the route
-			return RouteUrlBuilder.BuildRouteWithArea(context.Cast<IMansionWebContext>(), "Cms", "Cms", "Plugin", pluginParameters.Concat(parameters).ToArray());
+			return RouteUrlBuilder.BuildRouteWithArea(context.Cast<IMansionWebContext>(), "Cms", "Cms", "Plugin", nodeId, pluginParameters.Concat(parameters).ToArray());
 		}
 	}
 }

@@ -128,17 +128,17 @@
 
 		<!-- default action for form submits -->
 		<declareProcedure procedureName="OnCancel">
-			<web:redirectRequest url="{CmsNodeBrowserUrl( 'false', FormSourceNode.id )}?change=cancelled" />
+			<web:redirectRequest url="{CmsNodeUrl( FormSourceNode.id, 'CmsBrowserPlugin', 'Browse' )}?change=cancelled" />
 			<breakExecution />
 		</declareProcedure>
 
 		<declareProcedure procedureName="OnCreated">
-			<web:redirectRequest url="{CmsNodeBrowserUrl( 'false', NewNode.id )}?change=created" />
+			<web:redirectRequest url="{CmsNodeUrl( NewNode.id, 'CmsBrowserPlugin', 'Browse' )}?change=created" />
 			<breakExecution />
 		</declareProcedure>
 
 		<declareProcedure procedureName="OnUpdated">
-			<web:redirectRequest url="{CmsNodeBrowserUrl( 'false', FormSourceNode.id )}?change=updated" />
+			<web:redirectRequest url="{CmsNodeUrl( FormSourceNode.id, 'CmsBrowserPlugin', 'Browse' )}?change=updated" />
 			<breakExecution />
 		</declareProcedure>
 

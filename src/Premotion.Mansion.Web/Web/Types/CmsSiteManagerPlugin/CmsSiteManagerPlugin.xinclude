@@ -37,7 +37,7 @@
 	<!-- View: Create                        -->
 	<!-- ################################### -->
 	<declareProcedure procedureName="RenderPluginCreateDetailView">
-		<web:redirectRequest url="{CmsNodeBrowserUrl( 'false', RootNode.id )}?type=Site&amp;mode=create"/>
+		<web:redirectRequest url="{CmsNodeUrl( RootNode.id, 'CmsBrowserPlugin', 'Browse' )}?type=Site&amp;mode=create"/>
 	</declareProcedure>
 
 

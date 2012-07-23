@@ -21,7 +21,7 @@
 
 	<tpl:section name="ParentCrumb" field="Crumb">
 		<li>
-			<a href="{CmsNodeBrowserUrl( 'false', ParentNode.id )}" data-href="{CmsNodeBrowserUrl( 'true', ParentNode.id )}" title="Navigate to {ParentNode.name}">{GetTypeDefinitionIcon( ParentNode.type )} {ParentNode.name}</a>
+			<a href="{CmsNodeUrl( ParentNode.id, 'CmsBrowserPlugin', 'Browse' )}" title="Navigate to {ParentNode.name}">{GetTypeDefinitionIcon( ParentNode.type )} {ParentNode.name}</a>
 			<span class="divider">/</span>
 		</li>
 	</tpl:section>
@@ -98,7 +98,7 @@
 	<tpl:section name="NodeBrowserChild" field="Child">
 		<tr>
 			<td>
-				<a href="{CmsNodeBrowserUrl( 'false', ChildNode.id )}" data-href="{CmsNodeBrowserUrl( 'true', ChildNode.id )}" title="Navigate to {ChildNode.name}">{GetTypeDefinitionIcon( ChildNode.type )} {ChildNode.name}</a>
+				<a href="{CmsNodeUrl( ChildNode.id, 'CmsBrowserPlugin', 'Browse' )}" title="Navigate to {ChildNode.name}">{GetTypeDefinitionIcon( ChildNode.type )} {ChildNode.name}</a>
 			</td>
 			<td>{GetTypeDefinitionLabel( ChildNode.type )}</td>
 		</tr>

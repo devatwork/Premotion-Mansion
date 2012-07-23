@@ -4,7 +4,7 @@
 
 <tpl:section name="NavigationItem">
 	<li class="{If( And( IsEqual( Section.pluginType, ActivePluginProperties.pluginType ), IsEqual( Section.viewName, ActivePluginProperties.viewName ) ), 'active' )}">
-		<a href="{CmsPluginRouteUrl( Section.pluginType, Section.viewName )}">
+		<a href="{CmsNodeUrl( RootNode.id, Section.pluginType, Section.viewName )}">
 			<i class="{Section.iconClass}"></i> {Section.label}
 		</a>
 	</li>
