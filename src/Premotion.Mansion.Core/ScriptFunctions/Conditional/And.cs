@@ -1,4 +1,5 @@
-﻿using Premotion.Mansion.Core.Scripting.ExpressionScript;
+﻿using System.Linq;
+using Premotion.Mansion.Core.Scripting.ExpressionScript;
 
 namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 {
@@ -11,12 +12,11 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
-		/// <param name="one"></param>
-		/// <param name="other"></param>
+		/// <param name="candidates"></param>
 		/// <returns></returns>
-		public bool Evaluate(IMansionContext context, bool one, bool other)
+		public bool Evaluate(IMansionContext context, params bool[] candidates)
 		{
-			return one && other;
+			return candidates.All(candidate => candidate);
 		}
 	}
 }
