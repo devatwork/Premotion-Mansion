@@ -284,12 +284,15 @@
 </tpl:section>
 
 <tpl:section name="ButtonControl" field="Control">
-	<a href="#" id="{@ControlId}" class="btn {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}" data-action="{ControlProperties.action}">{ControlProperties.label}</a>&nbsp;
-</tpl:section>
+	<button href="#" id="{@ControlId}" class="btn {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}" data-action="{ControlProperties.action}" {@ButtonControlTooltip}>{@ButtonControlIcon}{ControlProperties.label}</button>&nbsp;
+</tpl:section>	
 
 <tpl:section name="LinkButtonControl" field="Control">
-	<a href="{ControlProperties.action}" id="{@ControlId}" class="btn {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}">{ControlProperties.label}</a>&nbsp;
+	<a href="{ControlProperties.action}" id="{@ControlId}" class="btn {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}" {@ButtonControlTooltip}>{@ButtonControlIcon}{ControlProperties.label}</a>&nbsp;
 </tpl:section>
+
+	<tpl:section name="ButtonControlIcon" requires="{Not( IsEmpty( ControlProperties.iconClass ) )}"><i class="{ControlProperties.iconClass}"></i>&nbsp;</tpl:section>
+	<tpl:section name="ButtonControlTooltip" requires="{Not( IsEmpty( ControlProperties.tooltip ) )}">rel="tooltip" data-original-title="{ControlProperties.tooltip}"</tpl:section>
 
 
 

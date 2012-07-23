@@ -167,6 +167,16 @@
 						<xs:documentation>Flag indicating whether this button is the default button.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
+				<xs:attribute name="iconClass" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>The CSS class of the icon which to display.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="tooltip" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>The tooltip of the button.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
 
 			</xs:extension>
 		</xs:complexContent>
