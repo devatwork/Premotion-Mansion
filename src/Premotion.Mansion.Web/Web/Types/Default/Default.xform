@@ -54,8 +54,8 @@
 
 				<forms:buttonBar>
 					<forms:buttonGroup>
-						<forms:button action="store" label="Save" cssClass="btn-success" />
-						<forms:button action="cancel" label="Cancel" cssClass="btn-info" />
+						<forms:button action="store" label="Create" cssClass="btn-success" iconClass="icon-save" tooltip="Save any changes made to this node" />
+						<forms:button action="cancel" label="Cancel" cssClass="btn-info" iconClass="icon-undo" tooltip="Reverts any changes made to this node" />
 					</forms:buttonGroup>
 				</forms:buttonBar>
 
@@ -90,8 +90,8 @@
 
 				<forms:buttonBar>
 					<forms:buttonGroup>
-						<forms:button action="store" label="Save" cssClass="btn-success" />
-						<forms:button action="cancel" label="Cancel" cssClass="btn-info" />
+						<forms:button action="store" label="Update" cssClass="btn-success" iconClass="icon-save" tooltip="Save any changes made to this node" />
+						<forms:button action="cancel" label="Cancel" cssClass="btn-info" iconClass="icon-undo" tooltip="Reverts any changes made to this node" />
 					</forms:buttonGroup>
 				</forms:buttonBar>
 
