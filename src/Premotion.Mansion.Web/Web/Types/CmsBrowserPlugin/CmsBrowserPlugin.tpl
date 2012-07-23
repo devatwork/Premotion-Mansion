@@ -65,7 +65,7 @@
 	</tpl:section>
 
 	<tpl:section name="AddChildButton" requires="{HasChildTypes( $CurrentNode )}">
-		<a href="{CmsRouteUrl( 'Dialog', 'AddChildToNode', CurrentNode.id )}" class="btn btn-primary btn-popup" rel="tooltip" title="Add a new child to this folder">
+		<a href="{CmsRouteUrl( 'Dialog', 'AddChildToNode', CurrentNode.id )}" class="btn btn-primary btn-popup" rel="tooltip" title="Add a new child to this node">
 			<i class="icon-plus-sign"></i> Add child
 		</a>
 	</tpl:section>
@@ -83,7 +83,7 @@
 	</tpl:section>
 
 	<tpl:section name="CopyNodeButton" requires="{IsTrue( GetTypeDefinitionProperty( CurrentNode.type, 'copyable', 'true' ) )}">
-		<a href="{CmsRouteUrl( 'Dialog', 'CopyNode', CurrentNode.id )}" class="btn btn-primary btn-popup" rel="tooltip" title="Move this to another folder">
+		<a href="{CmsRouteUrl( 'Dialog', 'CopyNode', CurrentNode.id )}" class="btn btn-primary btn-popup" rel="tooltip" title="Create a copy of this node">
 			<i class="icon-copy"></i> Copy
 		</a>
 	</tpl:section>
