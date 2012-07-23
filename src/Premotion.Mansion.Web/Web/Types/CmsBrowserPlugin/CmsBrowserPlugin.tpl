@@ -65,25 +65,25 @@
 		</a>
 	</tpl:section>
 
-	<tpl:section name="ChangeOrderButton">
+	<tpl:section name="ChangeOrderButton" requires="{IsTrue( GetTypeDefinitionProperty( CurrentNode.type, 'reorderable', 'true' ) )}">
 		<a href="{CmsRouteUrl( 'Dialog', 'ChangeOrder', CurrentNode.id )}" class="btn btn-primary btn-popup" rel="tooltip" title="Reorder the position of this node">
 			<i class="icon-reorder"></i> Change order
 		</a>
 	</tpl:section>
 
-	<tpl:section name="MoveNodeButton">
+	<tpl:section name="MoveNodeButton" requires="{IsTrue( GetTypeDefinitionProperty( CurrentNode.type, 'movable', 'true' ) )}">
 		<a href="{CmsRouteUrl( 'Dialog', 'MoveNode', CurrentNode.id )}" class="btn btn-primary btn-popup" rel="tooltip" title="Move this node to another folder">
 			<i class="icon-move"></i> Move
 		</a>
 	</tpl:section>
 
-	<tpl:section name="CopyNodeButton">
+	<tpl:section name="CopyNodeButton" requires="{IsTrue( GetTypeDefinitionProperty( CurrentNode.type, 'copyable', 'true' ) )}">
 		<a href="{CmsRouteUrl( 'Dialog', 'CopyNode', CurrentNode.id )}" class="btn btn-primary btn-popup" rel="tooltip" title="Move this to another folder">
 			<i class="icon-copy"></i> Copy
 		</a>
 	</tpl:section>
 
-	<tpl:section name="DeleteNodeButton">
+	<tpl:section name="DeleteNodeButton" requires="{IsTrue( GetTypeDefinitionProperty( CurrentNode.type, 'deletable', 'true' ) )}">
 		<a href="{CmsRouteUrl( 'Dialog', 'DeleteNode', CurrentNode.id )}" class="btn btn-danger btn-popup" rel="tooltip" title="Delete this node">
 			<i class="icon-remove-sign"></i> Delete
 		</a>

@@ -78,6 +78,7 @@
     <Compile Include="Cms\ScriptFunctions\CmsRouteUrl.cs" />
     <Compile Include="Cms\ScriptFunctions\CmsPluginRouteUrl.cs" />
     <Compile Include="Cms\ScriptFunctions\CmsNodeBrowserUrl.cs" />
+    <Compile Include="Cms\ScriptFunctions\GetTypeDefinitionProperty.cs" />
     <Compile Include="Cms\ScriptFunctions\GetTypeDefinitionIcon.cs" />
     <Compile Include="Cms\ScriptFunctions\GetTypeDefinitionLabel.cs" />
     <Compile Include="Cms\ScriptFunctions\HasChildTypes.cs" />

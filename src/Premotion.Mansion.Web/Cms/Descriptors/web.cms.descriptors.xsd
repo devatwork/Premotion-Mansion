@@ -59,6 +59,26 @@
 					<xs:documentation>Flag indicating whether the type is abstract and should not be created in the CMS. Default is false.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+			<xs:attribute name="reorderable" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Flag indicating whether this node's order can be changed. Default is true.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="movable" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Flag indicating whether this node can be moved. Default is true.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="copyable" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Flag indicating whether this node can be copied. Default is true.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="deletable" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Flag indicating whether this node can be deleted. Default is true.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 	

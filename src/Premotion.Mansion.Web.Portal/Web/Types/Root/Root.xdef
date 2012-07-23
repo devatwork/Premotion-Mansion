@@ -2,7 +2,7 @@
 <type inherits="DefaultIndex" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd">
 	
 	<!-- specify cms behavior -->
-	<cms:behavior label="Root" abstract="true" icon="Types/Root/Root.png">
+	<cms:behavior label="Root" abstract="true" icon="Types/Root/Root.png" reorderable="false" movable="false" copyable="false" deletable="false">
 		<cms:childType baseType="Site" />
 		<cms:childType type="SecurityIndex" />
 		<cms:childType type="ContentIndexRoot" />
