@@ -11,8 +11,8 @@
 
 				<forms:buttonBar cssClass="modal-footer">
 					<forms:buttonGroup>
-						<forms:button action="delete" label="Delete" cssClass="btn-danger" />
-						<forms:button action="cancel" label="Cancel" cssClass="btn-info" isDefault="true" />
+						<forms:button action="delete" label="Delete" cssClass="btn-danger" iconClass="icon-remove-sign" tooltip="Delete this node permanently" />
+						<forms:button action="cancel" label="Cancel" cssClass="btn-info" isDefault="true" iconClass="icon-undo" tooltip="Cancel deleting this node" />
 					</forms:buttonGroup>
 				</forms:buttonBar>
 				

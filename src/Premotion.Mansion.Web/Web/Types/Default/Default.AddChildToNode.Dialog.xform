@@ -16,8 +16,8 @@
 
 				<forms:buttonBar cssClass="modal-footer">
 					<forms:buttonGroup>
-						<forms:button action="create" label="Create" cssClass="btn-success" isDefault="true" />
-						<forms:button action="cancel" label="Cancel" cssClass="btn-info" />
+						<forms:button action="create" label="Create" cssClass="btn-success" isDefault="true" iconClass="icon-plus-sign" tooltip="Create a new node of this type" />
+						<forms:button action="cancel" label="Cancel" cssClass="btn-info" iconClass="icon-undo" tooltip="Cancel adding a child to this node" />
 					</forms:buttonGroup>
 				</forms:buttonBar>
 				

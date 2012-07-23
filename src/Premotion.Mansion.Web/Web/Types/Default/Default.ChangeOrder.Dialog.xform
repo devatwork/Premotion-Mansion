@@ -32,8 +32,8 @@
 
 				<forms:buttonBar cssClass="modal-footer">
 					<forms:buttonGroup>
-						<forms:button action="change" label="Change" cssClass="btn-success" isDefault="true" />
-						<forms:button action="cancel" label="Cancel" cssClass="btn-info" />
+						<forms:button action="change" label="Change" cssClass="btn-success" isDefault="true" iconClass="icon-reorder" tooltip="Change the new position of this node" />
+						<forms:button action="cancel" label="Cancel" cssClass="btn-info" iconClass="icon-undo" tooltip="Cancel changing the position of this node" />
 					</forms:buttonGroup>
 				</forms:buttonBar>
 				

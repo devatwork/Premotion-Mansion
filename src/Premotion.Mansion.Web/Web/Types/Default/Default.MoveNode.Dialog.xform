@@ -15,8 +15,8 @@
 
 				<forms:buttonBar cssClass="modal-footer">
 					<forms:buttonGroup>
-						<forms:button action="move" label="Move" cssClass="btn-warning" />
-						<forms:button action="cancel" label="Cancel" cssClass="btn-info" isDefault="true" />
+						<forms:button action="move" label="Move" cssClass="btn-warning" iconClass="icon-move" tooltip="Move this node to it's new parent" />
+						<forms:button action="cancel" label="Cancel" cssClass="btn-info" isDefault="true" iconClass="icon-undo" tooltip="Cancel moving this node" />
 					</forms:buttonGroup>
 				</forms:buttonBar>
 				
