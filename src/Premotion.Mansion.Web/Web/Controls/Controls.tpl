@@ -337,6 +337,46 @@
 
 
 
+<!-- alerts-->
+<tpl:section name="AlertDismissCaret"><a class="close" data-dismiss="alert" href="#"><i class="icon-remove-sign"></i></a></tpl:section>
+
+<tpl:section name="InfoAlertControl" field="Control">
+	<div class="alert alert-info fade in">
+		{@AlertDismissCaret}
+		{ControlProperties.message}
+	</div>
+</tpl:section>
+
+<tpl:section name="InstructionAlertControl" field="Control">
+	<div class="alert alert-info fade in">
+		{@AlertDismissCaret}
+		{ControlProperties.message}
+	</div>
+</tpl:section>
+
+<tpl:section name="WarningAlertControl" field="Control">
+	<div class="alert alert-warning fade in">
+		{@AlertDismissCaret}
+		{ControlProperties.message}
+	</div>
+</tpl:section>
+
+<tpl:section name="SuccessAlertControl" field="Control">
+	<div class="alert alert-success fade in">
+		{@AlertDismissCaret}
+		{ControlProperties.message}
+	</div>
+</tpl:section>
+
+<tpl:section name="ErrorAlertControl" field="Control">
+	<div class="alert alert-error fade in">
+		{@AlertDismissCaret}
+		{ControlProperties.message}
+	</div>
+</tpl:section>
+
+
+
 <!-- list control sections -->
 <tpl:section name="FormListControl" field="Control">
 	<li class="clearfix">

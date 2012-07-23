@@ -222,6 +222,12 @@
 			<xs:documentation>Represents a message. The content of this tag is used as the message.</xs:documentation>
 		</xs:annotation>
 	</xs:complexType>
+
+	<xs:complexType name="alertBase" abstract="true" mixed="true">
+		<xs:annotation>
+			<xs:documentation>Represents a dismissable alert box. The content of this tag is used as the message.</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
 	
 	
 	
@@ -639,7 +645,7 @@
 		</xs:complexType>
 
 	</xs:element>
-	
+
 	<xs:element name="buttonGroup" substitutionGroup="stl:scriptTag">
 		<xs:annotation>
 			<xs:documentation>Represents a group of buttons.</xs:documentation>
@@ -909,6 +915,69 @@
 					<xs:documentation>The content of the validation message.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<!-- messages -->
+	<xs:element name="infoAlert" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Shows an info alert box to the user.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="alertBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="instructionAlert" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Shows an instruction alert box to the user.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="alertBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="successAlert" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Shows a success alert box to the user.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="alertBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="warningBox" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Shows a warning alert box to the user.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="alertBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="errorAlert" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Shows an error alert box to the user.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="alertBase" />
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 

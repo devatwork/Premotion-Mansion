@@ -96,6 +96,12 @@
     <Compile Include="Controls\Forms\Actions\ProcessDelegateAction.cs" />
     <Compile Include="Controls\Forms\Actions\ProcessScriptAction.cs" />
     <Compile Include="Controls\Forms\Actions\StoreRegistrationAction.cs" />
+    <Compile Include="Controls\Forms\Alerts\ErrorAlert.cs" />
+    <Compile Include="Controls\Forms\Alerts\InfoAlert.cs" />
+    <Compile Include="Controls\Forms\Alerts\InstructionAlert.cs" />
+    <Compile Include="Controls\Forms\Alerts\AlertBase.cs" />
+    <Compile Include="Controls\Forms\Alerts\SuccessAlert.cs" />
+    <Compile Include="Controls\Forms\Alerts\WarningAlert.cs" />
     <Compile Include="Controls\Forms\Buttons\Button.cs" />
     <Compile Include="Controls\Forms\Buttons\ButtonBar.cs" />
     <Compile Include="Controls\Forms\Buttons\ButtonGroup.cs" />
