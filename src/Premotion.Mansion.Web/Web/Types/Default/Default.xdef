@@ -151,7 +151,7 @@ BEGIN
 	AUTHORIZATION [dbo];
 	CREATE FULLTEXT INDEX ON [dbo].[Nodes] (
 		[fullText] Language 1043
-	) KEY INDEX [PK_Nodes]
+	) KEY INDEX [PK_Nodes.id]
 	ON [NodesCatalog]
 	WITH (
 		CHANGE_TRACKING = AUTO
