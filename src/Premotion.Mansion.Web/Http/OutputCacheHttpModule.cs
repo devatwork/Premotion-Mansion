@@ -154,12 +154,8 @@ namespace Premotion.Mansion.Web.Http
 			                                   	var httpContext = webContext.HttpContext;
 			                                   	var httpRequestContext = httpContext.Request;
 
-			                                   	// never cache requests for backoffice users
-			                                   	if (webContext.BackofficeUserState.IsAuthenticated)
-			                                   		return;
-
-			                                   	// Only get request can be cached because other types are state modifying
-			                                   	if (!"GET".Equals(httpRequestContext.HttpMethod, StringComparison.OrdinalIgnoreCase))
+			                                   	// check if the request is not cachable
+			                                   	if (!IsCachableRequest(webContext))
 			                                   		return;
 
 			                                   	// check if the browser requests a hard refresh
@@ -249,6 +245,10 @@ namespace Premotion.Mansion.Web.Http
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
+
+			// never cache requests for backoffice request
+			if (context.IsBackoffice)
+				return false;
 
 			// never cache requests for backoffice users
 			if (context.BackofficeUserState.IsAuthenticated)
