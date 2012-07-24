@@ -602,6 +602,28 @@ namespace Premotion.Mansion.Core
 				return false;
 			}
 		}
+		/// <summary>
+		/// Gets the <see cref="Type"/>s from the given <paramref name="assembly"/> safely.
+		/// </summary>
+		/// <param name="assembly">The <see cref="Assembly"/> from which to load the types.</param>
+		/// <returns>Returns the loaded <see cref="Type"/>s.</returns>
+		/// <seealso href="http://haacked.com/archive/2012/07/23/get-all-types-in-an-assembly.aspx"/>
+		public static IEnumerable<Type> GetTypesSafe(this Assembly assembly)
+		{
+			// validate arguments
+			if (assembly == null)
+				throw new ArgumentNullException("assembly");
+
+			// try to get the type
+			try
+			{
+				return assembly.GetTypes();
+			}
+			catch (ReflectionTypeLoadException ex)
+			{
+				return ex.Types;
+			}
+		}
 		#endregion
 		#region Extensions of INucleus
 		/// <summary>

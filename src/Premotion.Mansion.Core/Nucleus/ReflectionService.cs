@@ -56,11 +56,11 @@ namespace Premotion.Mansion.Core.Nucleus
 				throw new ArgumentNullException("assemblies");
 
 			// select all the exported types
-			var exportedTypes = assemblies.SelectMany(assembly => assembly.GetTypes()).Where(candidate => !candidate.IsAbstract).SelectMany(type => type.GetCustomAttributes(typeof (ExportedAttribute), true).Select(attribute => new
-			                                                                                                                                                                                                                       {
-			                                                                                                                                                                                                                       	Type = type,
-			                                                                                                                                                                                                                       	ExportedAttribute = (ExportedAttribute) attribute
-			                                                                                                                                                                                                                       })).ToList();
+			var exportedTypes = assemblies.SelectMany(assembly => assembly.GetTypesSafe()).Where(candidate => !candidate.IsAbstract).SelectMany(type => type.GetCustomAttributes(typeof (ExportedAttribute), true).Select(attribute => new
+			                                                                                                                                                                                                                           {
+			                                                                                                                                                                                                                           	Type = type,
+			                                                                                                                                                                                                                           	ExportedAttribute = (ExportedAttribute) attribute
+			                                                                                                                                                                                                                           })).ToList();
 
 			// select all the named types
 			var namedTypes = exportedTypes.Where(candidate => candidate.ExportedAttribute is NamedAttribute).ToList();
