@@ -177,6 +177,8 @@
 			
 			pageNumber="{GetControlPropertyValue( 'node-browser', 'page-number', '1' )}"
 			pageSize="25"
+			
+			cache="false"
 			target="ResultSet">
 			<executeNestedTags />
 		</retrieveChildNodeset>
