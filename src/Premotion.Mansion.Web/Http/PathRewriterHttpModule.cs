@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Web;
 using Premotion.Mansion.Core.Patterns;
 
@@ -156,7 +155,7 @@ namespace Premotion.Mansion.Web.Http
 			// check if the request was not rewritten, in that case return the current request path which is original
 			var originalPath = context.Items[originalMappedPathKey] as string;
 			if (originalPath == null)
-				throw new InvalidOperationException("This request has not been redirected");
+				return GetOriginalRawUrl(context).ToString();
 
 			// return the)
 			return originalPath;

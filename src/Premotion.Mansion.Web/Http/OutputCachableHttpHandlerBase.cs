@@ -31,11 +31,8 @@ namespace Premotion.Mansion.Web.Http
 			                                               		using (context.OutputPipeStack.Push(outputPipe))
 			                                               			ProcessRequest(context, outputPipe);
 
-			                                               		// flush the response
-			                                               		var contentBytes = outputPipe.Flush(context);
-
 			                                               		// create the cache container
-			                                               		var cacheContainer = OutputCacheHttpModule.CachableWebResponse.CreateCachedWebResponse(context.HttpContext.Response, contentBytes);
+			                                               		var cacheContainer = OutputCacheHttpModule.CachableWebResponse.CreateCachedWebResponse(context, outputPipe);
 
 			                                               		// do not cache requests other than GET request, check if the output pipe can be cached
 			                                               		cacheContainer.IsCachable = OutputCacheHttpModule.IsCachableRequest(context) && outputPipe.OutputCacheEnabled;
@@ -45,7 +42,7 @@ namespace Premotion.Mansion.Web.Http
 			                                               			OutputCacheHttpModule.SetCacheControlProperties(context.HttpContext.Response, cacheContainer.Object);
 
 			                                               		// write the content to the response
-			                                               		context.HttpContext.Response.OutputStream.Write(contentBytes, 0, contentBytes.Length);
+			                                               		cacheContainer.Object.Flush(context.HttpContext.Response);
 
 			                                               		return cacheContainer;
 			                                               	}

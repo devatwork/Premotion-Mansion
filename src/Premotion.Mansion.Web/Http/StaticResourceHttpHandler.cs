@@ -46,9 +46,8 @@ namespace Premotion.Mansion.Web.Http
 			using (var reader = resource.OpenForReading())
 				reader.RawStream.CopyTo(outputPipe.RawStream);
 
-			// set cache age
-			context.HttpContext.Response.Cache.SetCacheability(HttpCacheability.Public);
-			context.HttpContext.Response.Cache.SetExpires(DateTime.Now.AddYears(1));
+			// set expires header age
+			outputPipe.Expires = DateTime.Now.AddYears(1);
 		}
 		#endregion
 	}

@@ -24,32 +24,35 @@ namespace Premotion.Mansion.Web.Http
 			/// <summary>
 			/// Constructs a cached web response.
 			/// </summary>
-			/// <param name="response">The <see cref="HttpResponseBase"/> being cached.</param>
-			/// <param name="contentBytes">The content of <paramref name="response"/>.</param>
-			private CachableWebResponse(HttpResponseBase response, byte[] contentBytes)
+			/// <param name="context">The <see cref="HttpContextBase"/> being cached.</param>
+			/// <param name="contentBytes">The content of <paramref name="context"/>.</param>
+			private CachableWebResponse(HttpContextBase context, byte[] contentBytes)
 			{
 				// validate arguments
-				if (response == null)
-					throw new ArgumentNullException("response");
+				if (context == null)
+					throw new ArgumentNullException("context");
 				if (contentBytes == null)
 					throw new ArgumentNullException("contentBytes");
 
 				// copy values
 				this.contentBytes = contentBytes;
-				contentType = response.ContentType;
-				contentEncoding = response.ContentEncoding;
-				redirectLocation = response.RedirectLocation;
-				statusCode = response.StatusCode;
-				statusDescription = response.StatusDescription;
-				headers = response.Headers;
+				contentType = context.Response.ContentType;
+				contentEncoding = context.Response.ContentEncoding;
+				redirectLocation = context.Response.RedirectLocation;
+				statusCode = context.Response.StatusCode;
+				statusDescription = context.Response.StatusDescription;
+				headers = context.Response.Headers;
 
 				// assemble header string
 				var headerStringBuilder = new StringBuilder();
 				foreach (var name in headers.AllKeys)
 					headerStringBuilder.AppendFormat("{0}={1}", name, headers[name]);
 
+				// get the original path
+				var originalPath = PathRewriterHttpModule.GetOriginalMappedPath(context);
+
 				// generate the etag
-				var eTagString = contentBytes + contentType + contentEncoding.EncodingName + redirectLocation + statusCode + statusDescription + headerStringBuilder;
+				var eTagString = originalPath + contentType + contentEncoding.EncodingName + redirectLocation + statusCode + statusDescription + headerStringBuilder;
 				var eTagBytes = Encoding.UTF8.GetBytes(eTagString);
 				byte[] eTagHash;
 				using (var md5Service = new MD5CryptoServiceProvider())
@@ -72,6 +75,10 @@ namespace Premotion.Mansion.Web.Http
 			{
 				get { return eTag; }
 			}
+			/// <summary>
+			/// Gets or sets the absolute date and time at which cached information expires in the cache.
+			/// </summary>
+			public DateTime? Expires { get; private set; }
 			/// <summary>
 			/// Flushes this response to the output.
 			/// </summary>
@@ -97,23 +104,29 @@ namespace Premotion.Mansion.Web.Http
 				response.OutputStream.Write(contentBytes, 0, contentBytes.Length);
 			}
 			#endregion
-			#region Cache Methods
+			#region Factory Methods
 			/// <summary>
 			/// Creates a cachable web response.
 			/// </summary>
-			/// <param name="response">The <see cref="HttpResponseBase"/> which is cached.</param>
-			/// <param name="contentBytes">The content of <paramref name="response"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+			/// <param name="outputPipe">The <see cref="WebOutputPipe"/> for which to create a cached object.</param>
 			/// <returns>Returns the created <see cref="CachedObject{TObject}"/>.</returns>
-			public static CachedObject<CachableWebResponse> CreateCachedWebResponse(HttpResponseBase response, byte[] contentBytes)
+			public static CachedObject<CachableWebResponse> CreateCachedWebResponse(IMansionWebContext context, WebOutputPipe outputPipe)
 			{
 				// validate arguments
-				if (response == null)
-					throw new ArgumentNullException("response");
-				if (contentBytes == null)
-					throw new ArgumentNullException("contentBytes");
+				if (context == null)
+					throw new ArgumentNullException("context");
+				if (outputPipe == null)
+					throw new ArgumentNullException("outputPipe");
+
+				// flush the response
+				var contentBytes = outputPipe.Flush(context);
 
 				// create the cachable web response
-				var cachableResponse = new CachableWebResponse(response, contentBytes);
+				var cachableResponse = new CachableWebResponse(context.HttpContext, contentBytes)
+				                       {
+				                       	Expires = outputPipe.Expires
+				                       };
 
 				// return the cache object
 				return CachedObject<CachableWebResponse>.Create(cachableResponse);
@@ -272,8 +285,13 @@ namespace Premotion.Mansion.Web.Http
 
 			// set cache control properties
 			response.Cache.SetCacheability(HttpCacheability.Public);
-			response.Cache.SetLastModified(cachedResponse.LastModified);
-			response.Cache.SetETag(cachedResponse.ETag);
+			if (cachedResponse.Expires.HasValue)
+				response.Cache.SetExpires(cachedResponse.Expires.Value);
+			else
+			{
+				response.Cache.SetLastModified(cachedResponse.LastModified);
+				response.Cache.SetETag(cachedResponse.ETag);
+			}
 		}
 		#endregion
 		#region Private Fields
