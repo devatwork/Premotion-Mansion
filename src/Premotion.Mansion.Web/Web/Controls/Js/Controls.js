@@ -56,7 +56,7 @@ var CKEDITOR_BASEPATH = "{Request.baseUrl}/static-resources/Shared/js/ckeditor/"
 ;(function ($, undefined) {
 	
 	/* button fields */
-	$("form .btn").click(function(event) {
+	$("form .form-actions .btn").click(function(event) {
 		event.preventDefault();
 		var action = $(this).attr("data-action");
 		var form = $(this).closest("form");
