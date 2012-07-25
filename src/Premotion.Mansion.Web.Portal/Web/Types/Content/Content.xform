@@ -36,7 +36,7 @@
 				<forms:fieldset label="Taxonomy">
 					<forms:infoMessage>Categorize this content using the taxonomy.</forms:infoMessage>
 					<forms:multiNodeSelector name="taxonomyGuids" label="Select the categories">
-						<forms:nodeSelectorProperties rootPointer="{TaxonomyNode.pointer}" selectableExpression="{\Equal( Row.type, 'TaxonomyItem' )}" />
+						<forms:nodeSelectorProperties rootPointer="{TaxonomyNode.pointer}" disabledExpression="{\Not( IsAssignable( Node.type, 'TaxonomyItem' ) )}" />
 					</forms:multiNodeSelector>
 				</forms:fieldset>
 				<notFound />

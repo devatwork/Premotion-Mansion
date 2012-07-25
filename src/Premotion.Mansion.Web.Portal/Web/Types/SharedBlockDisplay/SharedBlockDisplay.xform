@@ -12,7 +12,7 @@
 				<forms:infoMessage>Select the block which to display.</forms:infoMessage>
 				<retrieveChildNode parentSource="{$ContentIndexRootNode}" baseType="SharedBlockIndex" target="SharedBlockIndexNode">
 					<forms:singleNodeSelector name="blockGuid" label="Block">
-						<forms:nodeSelectorProperties rootPointer="{SharedBlockIndexNode.pointer}" />
+						<forms:nodeSelectorProperties rootPointer="{SharedBlockIndexNode.pointer}" disabledExpression="{\Not( IsAssignable( Node.type, 'Block' ) )}" />
 						<forms:requiredFieldValidator />
 					</forms:singleNodeSelector>
 				</retrieveChildNode>

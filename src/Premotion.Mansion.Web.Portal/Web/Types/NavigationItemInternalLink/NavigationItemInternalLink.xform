@@ -8,7 +8,7 @@
 				<forms:requiredFieldValidator />
 			</forms:textbox>
 			<forms:singleNodeSelector name="targetGuid" label="Internal Target">
-				<forms:nodeSelectorProperties rootPointer="1" disabledExpression="{\Not( Or( IsEqual( Node.type, 'Page' ), InList( Node.type, GetSubTypes( 'Page' ) )) )}" />
+				<forms:nodeSelectorProperties rootPointer="1" disabledExpression="{\Not( Or( IsAssignable( Node.type, 'Content' ), And( IsAssignable( Node.type, 'Page' ), Not( IsAssignable( Node.type, 'TemplatePage' ) ) ) ) )}" />
 				<forms:requiredFieldValidator />
 			</forms:singleNodeSelector>
 		</forms:fieldset>

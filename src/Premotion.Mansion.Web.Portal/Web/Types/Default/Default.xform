@@ -30,7 +30,7 @@
 			<forms:fieldset label="Taxonomy">
 				<forms:infoMessage>Filter the displayed content by the selected categories.</forms:infoMessage>
 				<forms:multiNodeSelector name="taxonomyGuids" label="Categories">
-					<forms:nodeSelectorProperties rootPointer="{TaxonomyNode.pointer}" selectableExpression="{\Equal( Row.type, 'TaxonomyItem' )}" />
+					<forms:nodeSelectorProperties rootPointer="{TaxonomyNode.pointer}" disabledExpression="{\Not( IsAssignable( Node.type, 'TaxonomyItem' ) )}" />
 				</forms:multiNodeSelector>
 			</forms:fieldset>
 		</retrieveChildNode>

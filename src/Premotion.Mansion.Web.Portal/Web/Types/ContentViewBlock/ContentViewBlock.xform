@@ -4,7 +4,7 @@
 	<!-- Defines the configurable properties of this block -->
 	<declareProcedure procedureName="IncludeBlockConfiguration">
 		<forms:singleNodeSelector name="targetGuid" label="Content to display">
-			<forms:nodeSelectorProperties rootPointer="{ContentIndexRootNode.pointer}" disabledExpression="{\Not( Or( IsEqual( Node.type, 'Content' ), InList( Node.type, GetSubTypes( 'Content' ) )) )}" />
+			<forms:nodeSelectorProperties rootPointer="{ContentIndexRootNode.pointer}" disabledExpression="{\Not( IsAssignable( Node.type, 'Content' ) )}" />
 			<forms:requiredFieldValidator />
 		</forms:singleNodeSelector>
 	</declareProcedure>
