@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
@@ -50,7 +51,8 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		protected override void DoRender(IMansionWebContext context, ITemplateService templateService)
 		{
 			// set the field value
-			Definition.Properties.Set("Value", GetValue(context));
+			var selectedItems = GetValue(context) ?? string.Empty;
+			Definition.Properties.Set("Value", selectedItems);
 
 			// render the field
 			using (context.Stack.Push("SelectorProperties", SelectorProperties))
@@ -60,7 +62,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 			{
 				// loop over all the values
 				var repository = context.Repository;
-				foreach (var value in (GetValue(context) ?? string.Empty).Split(',').Select(x => x.Trim()))
+				foreach (var value in selectedItems.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).Where(c => !string.IsNullOrEmpty(c)))
 				{
 					// retrieve the selected node
 					var selectedNode = repository.RetrieveSingle(context, new PropertyBag
