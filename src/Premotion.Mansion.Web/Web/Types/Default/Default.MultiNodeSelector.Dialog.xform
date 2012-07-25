@@ -9,7 +9,11 @@
 				<forms:validationSummary/>
 				
 				<forms:nodeTreeSelect name="selector" label="" defaultValue="{Get.selected}" allowMultiple="true">
-					<providers:nodeTreeProvider rootPointer="{Get.rootPointer}" valueProperty="{Get.valueProperty}" labelProperty="{Get.labelProperty}" />
+					<providers:nodeTreeProvider
+						rootPointer="{Get.rootPointer}"
+						valueProperty="{Get.valueProperty}"
+						labelProperty="{Get.labelProperty}"
+						disabledExpression="{Get.disabledExpression}" />
 					<forms:requiredFieldValidator message="Select at least one node"/>
 				</forms:nodeTreeSelect>
 

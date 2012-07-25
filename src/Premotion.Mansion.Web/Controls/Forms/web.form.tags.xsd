@@ -538,6 +538,11 @@
 									<xs:documentation>The property which acts as the label. Default value is name.</xs:documentation>
 								</xs:annotation>
 							</xs:attribute>
+							<xs:attribute name="disabledExpression" type="xs:string" use="optional">
+								<xs:annotation>
+									<xs:documentation>The disabled expression to evaluate. Dataspaces available Node. Note to execute within the context of a node the expression must be escaped.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
 							<xs:anyAttribute namespace="##any" processContents="skip" />
 						</xs:complexType>
 					</xs:element>
