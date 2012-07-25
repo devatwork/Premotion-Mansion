@@ -276,6 +276,7 @@
     <Compile Include="ScriptFunctions\Security\IsAuthenticated.cs" />
     <Compile Include="ScriptFunctions\Security\IsBackofficeUserAuthenticated.cs" />
     <Compile Include="ScriptFunctions\Security\IsFronfofficeUserAuthenticated.cs" />
+    <Compile Include="ScriptFunctions\Stack\GetProperty.cs" />
     <Compile Include="ScriptFunctions\Stack\GetStackValue.cs" />
     <Compile Include="ScriptFunctions\String\AddAposToCsv.cs" />
     <Compile Include="ScriptFunctions\String\Character.cs" />
