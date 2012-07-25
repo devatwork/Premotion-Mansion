@@ -156,21 +156,29 @@
 
 <tpl:section name="SingleNodeSelectorControl" field="Field">
 	<div id="{@ControlId}" class="field input-xlarge node-selector single-node-selector">
-		<div id="{@ControlId}-label" class="label">{ControlProperties.displayValue}</div>
-		<a id="{@ControlId}-select" class="button dialog select-button" href="{DataspaceToQueryString( RouteUrlWithArea( 'Dialog', 'Dialog', 'NodeSelector', '1', 'single' ), $SelectorProperties )}">Select</a>
-		<a id="{@ControlId}-clear" class="button clear-button" href="#">Clear</a>
+		<div id="{@ControlId}-label">{ControlProperties.displayValue}</div>
+		<div class="btn-group">
+			<a id="{@ControlId}-select" class="btn btn-popup btn-primary" href="#" data-href="{DataspaceToQueryString( CmsRouteUrl( 'Dialog', 'SingleNodeSelector', '1' ), $SelectorProperties )}"><i class="icon-pushpin"></i> Select</a>
+			<a id="{@ControlId}-clear" class="btn" href="#"><i class="icon-remove-sign"></i> Clear</a>
+		</div>
 		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" class="field hidden" value="{ControlProperties.value}">
 	</div>
 </tpl:section>
 
 <tpl:section name="MultiNodeSelectorControl" field="Field">
 	<div id="{@ControlId}" class="field input-xlarge node-selector multi-node-selector">
-		<div id="{@ControlId}-label" class="label">{ControlProperties.displayValue}</div>
-		<a id="{@ControlId}-select" class="button dialog select-button" href="{DataspaceToQueryString( RouteUrlWithArea( 'Dialog', 'Dialog', 'NodeSelector', '1', 'multi' ), $SelectorProperties )}">Select</a>
-		<a id="{@ControlId}-clear" class="button clear-button" href="#">Clear</a>
+		<ul id="{@ControlId}-labels" class="unstyled">{MultiNodeSelectorControlOption}</ul>
+		<div class="btn-group">
+			<a id="{@ControlId}-select" class="btn btn-popup btn-primary" href="#" data-href="{DataspaceToQueryString( CmsRouteUrl( 'Dialog', 'MultiNodeSelector', '1' ), $SelectorProperties )}"><i class="icon-pushpin"></i> Select</a>
+			<a id="{@ControlId}-clear" class="btn" href="#"><i class="icon-remove-sign"></i> Clear</a>
+		</div>
 		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" class="field hidden" value="{ControlProperties.value}">
 	</div>
 </tpl:section>
+
+	<tpl:section name="MultiNodeSelectorControlOption">
+		<li data-value="{Row.value}">{Row.label}</li>
+	</tpl:section>
 
 <tpl:section name="NodeTreeSelectControl" field="Field">
 	<ul class="field tree-select node-tree">

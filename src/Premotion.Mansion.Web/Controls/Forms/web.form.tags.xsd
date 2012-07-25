@@ -510,22 +510,45 @@
 
 		<xs:complexContent>
 			<xs:extension base="fieldBase">
-				<!-- attributes -->
-				<xs:attributeGroup ref="stl:parentSourceAttributes" />
-				<xs:attribute name="valueProperty" type="xs:string" use="optional">
-					<xs:annotation>
-						<xs:documentation>The property which acts as the value. Must be an identifier of the node (pointer or guid). Default value is guid.</xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-				<xs:attribute name="labelProperty" type="xs:string" use="optional">
-					<xs:annotation>
-						<xs:documentation>The property which acts as the label. Default value is name.</xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-				<xs:anyAttribute namespace="##any" processContents="skip" />
+				<!-- content -->
+				<xs:sequence minOccurs="1" maxOccurs="1">
+					<xs:element name="nodeSelectorProperties" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Specifies the properties of the node selector.
+							</xs:documentation>
+						</xs:annotation>
+
+						<xs:complexType>
+							<!-- attributes -->
+							<xs:attribute name="rootPointer" type="xs:string" use="required">
+								<xs:annotation>
+									<xs:documentation>
+										The pointer from which to select the candidate nodes.
+									</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="valueProperty" type="xs:string" use="optional">
+								<xs:annotation>
+									<xs:documentation>The property which acts as the value. Must be an identifier of the node (pointer or guid). Default value is guid.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="labelProperty" type="xs:string" use="optional">
+								<xs:annotation>
+									<xs:documentation>The property which acts as the label. Default value is name.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:anyAttribute namespace="##any" processContents="skip" />
+						</xs:complexType>
+					</xs:element>
+					<xs:group ref="stl:defaultContentGroup" />
+				</xs:sequence>
+				
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
+	
 
 	<xs:element name="singleNodeSelector" substitutionGroup="stl:scriptTag">
 		<xs:annotation>

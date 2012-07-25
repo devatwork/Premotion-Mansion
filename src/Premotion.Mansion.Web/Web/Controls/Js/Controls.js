@@ -139,21 +139,63 @@ var CKEDITOR_BASEPATH = "{Request.baseUrl}/static-resources/Shared/js/ckeditor/"
 	});
 	
 	/* initialize node selectors */
-	$(".node-selector").each(function() {
+	$(".single-node-selector").each(function() {
 		var containerElement = $(this);
 		var containerId = containerElement.attr("id");
 		var updateListener = "nodetree" + containerId + ".update";
 		var valueElement = containerElement.find("#" + containerId + "-value");
 		var labelElement = containerElement.find("#" + containerId + "-label");
+		var selectButtonElement = containerElement.find("#" + containerId + "-select");
 		var clearButtonElement = containerElement.find("#" + containerId + "-clear");
-		$(document).bind(updateListener, function(event, values, labels) {
-			$.fancybox.close();
-			valueElement.val(values);
-			labelElement.text(labels);
+		$(document).bind(updateListener, function(event, selected) {
+			$('#modal-popup').modal("hide");
+			var parsed = JSON.parse(selected);
+			valueElement.val(parsed[0].value);
+			labelElement.text(parsed[0].label);
+		});
+		selectButtonElement.click(function() {
+			var href = selectButtonElement.data("href");
+			href = href + "&selected=" + valueElement.val();
+			selectButtonElement.attr("href", href);
 		});
 		clearButtonElement.click(function(event) {
 			valueElement.val("");
 			labelElement.text("");
+			event.preventDefault();
+		});
+	});
+	$(".multi-node-selector").each(function() {
+		var containerElement = $(this);
+		var containerId = containerElement.attr("id");
+		var updateListener = "nodetree" + containerId + ".update";
+		var valueElement = containerElement.find("#" + containerId + "-value");
+		var labelsElement = containerElement.find("#" + containerId + "-labels");
+		var selectButtonElement = containerElement.find("#" + containerId + "-select");
+		var clearButtonElement = containerElement.find("#" + containerId + "-clear");
+		$(document).bind(updateListener, function(event, selected) {
+			$('#modal-popup').modal("hide");
+			var parsed = JSON.parse(selected);
+			valueElement.val("");
+			labelsElement.empty();
+			$.each(parsed, function(index, sel) {
+				// append the value
+				var val = valueElement.val();
+				if (val != null && val != "")
+					val += ",";
+				valueElement.val(val + sel.value);
+				
+				// add a label
+				labelsElement.append('<li data-value="' + sel.value + '">' + sel.label + '</li>');
+			});
+		});
+		selectButtonElement.click(function() {
+			var href = selectButtonElement.data("href");
+			href = href + "&selected=" + valueElement.val();
+			selectButtonElement.attr("href", href);
+		});
+		clearButtonElement.click(function(event) {
+			valueElement.val("");
+			labelsElement.empty();
 			event.preventDefault();
 		});
 	});

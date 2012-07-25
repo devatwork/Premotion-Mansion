@@ -112,15 +112,17 @@
     <Compile Include="Controls\Forms\Field.cs" />
     <Compile Include="Controls\Forms\Fields\Checkbox.cs" />
     <Compile Include="Controls\Forms\Fields\CheckboxList.cs" />
+    <Compile Include="Controls\Forms\Fields\MultiNodeSelector.cs" />
+    <Compile Include="Controls\Forms\Fields\NodeSelectorBase.cs" />
+    <Compile Include="Controls\Forms\Fields\SingleNodeSelector.cs" />
+    <Compile Include="Controls\Forms\Fields\NodeSelectorPropertiesTag.cs" />
     <Compile Include="Controls\Forms\Fields\DateTimeField.cs" />
     <Compile Include="Controls\Forms\Fields\Date.cs" />
     <Compile Include="Controls\Forms\Fields\DecimalNumber.cs" />
     <Compile Include="Controls\Forms\Fields\Email.cs" />
     <Compile Include="Controls\Forms\Fields\Hidden.cs" />
     <Compile Include="Controls\Forms\Fields\ImageUpload.cs" />
-    <Compile Include="Controls\Forms\Fields\MultiNodeSelector.cs" />
     <Compile Include="Controls\Forms\Fields\MultiSelect.cs" />
-    <Compile Include="Controls\Forms\Fields\NodeSelectorBase.cs" />
     <Compile Include="Controls\Forms\Fields\NodeTreeSelect.cs" />
     <Compile Include="Controls\Forms\Fields\Number.cs" />
     <Compile Include="Controls\Forms\Fields\Password.cs" />
@@ -128,7 +130,6 @@
     <Compile Include="Controls\Forms\Fields\Readonly.cs" />
     <Compile Include="Controls\Forms\Fields\RichTextArea.cs" />
     <Compile Include="Controls\Forms\Fields\Selectbox.cs" />
-    <Compile Include="Controls\Forms\Fields\SingleNodeSelector.cs" />
     <Compile Include="Controls\Forms\Fields\TagTextbox.cs" />
     <Compile Include="Controls\Forms\Fields\Textarea.cs" />
     <Compile Include="Controls\Forms\Fields\Textbox.cs" />
@@ -665,16 +666,14 @@
     <EmbeddedResource Include="Web\Types\Cms\Cms.xdef" />
     <EmbeddedResource Include="Web\Types\DefaultIndex\DefaultIndex.png" />
     <EmbeddedResource Include="Web\Types\DefaultIndex\DefaultIndex.xdef" />
+    <EmbeddedResource Include="Web\Types\Default\Default.MultiNodeSelector.Dialog.xform" />
+    <EmbeddedResource Include="Web\Types\Default\Default.SingleNodeSelector.Dialog.xform" />
     <EmbeddedResource Include="Web\Types\Default\Default.AddChildToNode.Dialog.xform" />
     <EmbeddedResource Include="Web\Types\Default\Default.ChangeOrder.Dialog.tpl" />
     <EmbeddedResource Include="Web\Types\Default\Default.ChangeOrder.Dialog.xform" />
     <EmbeddedResource Include="Web\Types\Default\Default.CopyNode.Dialog.xform" />
     <EmbeddedResource Include="Web\Types\Default\Default.DeleteNode.Dialog.xform" />
-    <EmbeddedResource Include="Web\Types\Default\Default.Dialog.xinclude" />
     <EmbeddedResource Include="Web\Types\Default\Default.MoveNode.Dialog.xform" />
-    <EmbeddedResource Include="Web\Types\Default\Default.NodeSelector.Dialog.xinclude">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Web\Types\Default\Default.png" />
     <EmbeddedResource Include="Web\Types\Default\Default.xdef" />
     <EmbeddedResource Include="Web\Types\Default\Default.xform" />
