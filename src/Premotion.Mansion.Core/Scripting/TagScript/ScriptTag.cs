@@ -224,7 +224,7 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns></returns>
-		protected IPropertyBag GetAttributes(IMansionContext context)
+		public IPropertyBag GetAttributes(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
