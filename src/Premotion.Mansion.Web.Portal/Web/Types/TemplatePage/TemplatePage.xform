@@ -17,10 +17,10 @@
 	<declareProcedure procedureName="IncludeGroupContentPointer">
 		<forms:fieldset label="Content source">
 			<forms:instructionMessage><![CDATA[Select the folder in which the content, displayed by this template page, resides.]]></forms:instructionMessage>
-			<forms:nodeTreeSelect name="contentSourceGuid" label="Folder" defaultValue="{ContentIndexRootNode.pointer}">
-				<providers:nodeTreeProvider rootPointer="{ContentIndexRootNode.pointer}" valueProperty="guid" labelProperty="name" />
+			<forms:singleNodeSelector name="contentSourceGuid" label="Folder" defaultValue="{ContentIndexRootNode.pointer}">
+				<forms:nodeSelectorProperties rootPointer="{ContentIndexRootNode.pointer}" />
 				<forms:requiredFieldValidator />
-			</forms:nodeTreeSelect>
+			</forms:singleNodeSelector>
 		</forms:fieldset>
 	</declareProcedure>
 	

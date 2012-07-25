@@ -10,12 +10,12 @@
 		<declareProcedure procedureName="IncludeGroupSelectBlock">
 			<forms:fieldset label="Display block">
 				<forms:infoMessage>Select the block which to display.</forms:infoMessage>
-				<forms:nodeTreeSelect name="blockGuid" label="Block">
-					<retrieveChildNode parentSource="{$ContentIndexRootNode}" baseType="SharedBlockIndex" target="SharedBlockIndexNode">
-						<providers:nodeTreeProvider rootPointer="{SharedBlockIndexNode.pointer}" valueProperty="guid" labelProperty="name" />
-					</retrieveChildNode>
-					<forms:requiredFieldValidator />
-				</forms:nodeTreeSelect>
+				<retrieveChildNode parentSource="{$ContentIndexRootNode}" baseType="SharedBlockIndex" target="SharedBlockIndexNode">
+					<forms:singleNodeSelector name="blockGuid" label="Block">
+						<forms:nodeSelectorProperties rootPointer="{SharedBlockIndexNode.pointer}" />
+						<forms:requiredFieldValidator />
+					</forms:singleNodeSelector>
+				</retrieveChildNode>
 			</forms:fieldset>
 		</declareProcedure>
 

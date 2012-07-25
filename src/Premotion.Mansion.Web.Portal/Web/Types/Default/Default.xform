@@ -26,14 +26,14 @@
 	
 	<!-- Group: Taxonomy Filter -->
 	<declareProcedure procedureName="IncludeGroupTaxonomyFilter">
-		<forms:fieldset label="Taxonomy">
-			<forms:infoMessage>Filter the displayed content by the selected categories.</forms:infoMessage>
-			<forms:nodeTreeSelect name="taxonomyGuids" label="Categories" allowMultiple="true">
-				<setProperties dataspaceName="TaxonomyProperties" valueProperty="guid" labelProperty="name" parentPointer="{ContentIndexRootNode.pointer}" type="Taxonomy" selectableExpression="{\Equal( Row.type, 'TaxonomyItem' )}">
-					<providers:nodeTreeSelectProvider source="{$TaxonomyProperties}" />
-				</setProperties>
-			</forms:nodeTreeSelect>
-		</forms:fieldset>
+		<retrieveChildNode parentSource="{$ContentIndexRootNode}" type="Taxonomy" target="TaxonomyNode">
+			<forms:fieldset label="Taxonomy">
+				<forms:infoMessage>Filter the displayed content by the selected categories.</forms:infoMessage>
+				<forms:multiNodeSelector name="taxonomyGuids" label="Categories">
+					<forms:nodeSelectorProperties rootPointer="{TaxonomyNode.pointer}" selectableExpression="{\Equal( Row.type, 'TaxonomyItem' )}" />
+				</forms:multiNodeSelector>
+			</forms:fieldset>
+		</retrieveChildNode>
 	</declareProcedure>
 	
 	

@@ -79,9 +79,9 @@
 		<forms:fieldset label="Read more">
 			<forms:textbox name="readMoreLabel" label="Label">
 			</forms:textbox>
-			<forms:nodeTreeSelect name="readMoreTargetGuid" label="Target">
-				<providers:nodeTreeProvider rootPointer="1" disabledExpression="{\Not( Or( IsEqual( Node.type, 'Page' ), InList( Node.type, GetSubTypes( 'Page' ) )) )}" valueProperty="guid" labelProperty="name" />
-			</forms:nodeTreeSelect>
+			<forms:singleNodeSelector name="readMoreTargetGuid" label="Target">
+				<forms:nodeSelectorProperties rootPointer="1" disabledExpression="{\Not( Or( IsEqual( Node.type, 'Page' ), InList( Node.type, GetSubTypes( 'Page' ) )) )}" />
+			</forms:singleNodeSelector>
 		</forms:fieldset>
 	</declareProcedure>
 	

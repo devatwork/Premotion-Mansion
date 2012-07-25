@@ -35,11 +35,9 @@
 			<retrieveChildNode parentSource="{$ContentIndexRootNode}" type="Taxonomy" target="TaxonomyNode">
 				<forms:fieldset label="Taxonomy">
 					<forms:infoMessage>Categorize this content using the taxonomy.</forms:infoMessage>
-					<forms:nodeTreeSelect name="taxonomyGuids" label="Select the categories" allowMultiple="true">
-						<setProperties dataspaceName="TaxonomyProperties" valueProperty="guid" labelProperty="name" parentPointer="{ContentIndexRootNode.pointer}" type="Taxonomy" selectableExpression="{\Equal( Row.type, 'TaxonomyItem' )}">
-							<providers:nodeTreeSelectProvider source="{$TaxonomyProperties}" />
-						</setProperties>
-					</forms:nodeTreeSelect>
+					<forms:multiNodeSelector name="taxonomyGuids" label="Select the categories">
+						<forms:nodeSelectorProperties rootPointer="{TaxonomyNode.pointer}" selectableExpression="{\Equal( Row.type, 'TaxonomyItem' )}" />
+					</forms:multiNodeSelector>
 				</forms:fieldset>
 				<notFound />
 			</retrieveChildNode>
