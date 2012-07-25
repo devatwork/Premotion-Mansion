@@ -162,22 +162,9 @@
     <Compile Include="Controls\Forms\Validation\RequiredFieldValidator.cs" />
     <Compile Include="Controls\Forms\Validation\UrlFieldValidator.cs" />
     <Compile Include="Controls\Forms\Validation\ValidationSummary.cs" />
-    <Compile Include="Controls\Grid\Column.cs" />
-    <Compile Include="Controls\Grid\ColumnFilter.cs" />
-    <Compile Include="Controls\Grid\ColumnSort.cs" />
-    <Compile Include="Controls\Grid\ExpressionColumn.cs" />
-    <Compile Include="Controls\Grid\Grid.cs" />
-    <Compile Include="Controls\Grid\NoColumnFilter.cs" />
-    <Compile Include="Controls\Grid\NoColumnSort.cs" />
-    <Compile Include="Controls\Grid\PropertyColumn.cs" />
-    <Compile Include="Controls\Grid\PropertyColumnSort.cs" />
-    <Compile Include="Controls\Grid\ScriptedColumn.cs" />
-    <Compile Include="Controls\Grid\SelectboxColumnFilter.cs" />
-    <Compile Include="Controls\Grid\TextboxColumnFilter.cs" />
     <Compile Include="Controls\IControl.cs" />
     <Compile Include="Controls\IDataConsumerControl.cs" />
     <Compile Include="Controls\IFormControl.cs" />
-    <Compile Include="Controls\List\List.cs" />
     <Compile Include="Controls\Paging\RenderPagingControl.cs" />
     <Compile Include="Controls\Providers\DataProvider.cs" />
     <Compile Include="Controls\Providers\DatasetProvider.cs" />
@@ -340,8 +327,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Web\Controls\Css\Controls.css" />
-    <EmbeddedResource Include="Web\Controls\EditorController.tpl" />
-    <EmbeddedResource Include="Web\Controls\EditorController.xinclude" />
     <EmbeddedResource Include="Web\Controls\Js\Controls.js" />
     <EmbeddedResource Include="Web\Dispatcher\Dispatcher.xinclude" />
     <EmbeddedResource Include="Web\Dispatcher\DispatcherWithoutRepository.xinclude" />
@@ -678,8 +663,6 @@
     <EmbeddedResource Include="Web\Types\CmsSiteManagerPlugin\CmsSiteManagerPlugin.xinclude" />
     <EmbeddedResource Include="Web\Types\CmsSiteManagerPlugin\CmsSiteManagerPlugin.xdef" />
     <EmbeddedResource Include="Web\Types\Cms\Cms.xdef" />
-    <EmbeddedResource Include="Web\Types\DefaultIndex\DefaultIndex.Cms.tpl" />
-    <EmbeddedResource Include="Web\Types\DefaultIndex\DefaultIndex.Cms.xinclude" />
     <EmbeddedResource Include="Web\Types\DefaultIndex\DefaultIndex.png" />
     <EmbeddedResource Include="Web\Types\DefaultIndex\DefaultIndex.xdef" />
     <EmbeddedResource Include="Web\Types\Default\Default.AddChildToNode.Dialog.xform" />
