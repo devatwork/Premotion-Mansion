@@ -89,7 +89,7 @@
     <Compile Include="Controls\Control.cs" />
     <Compile Include="Controls\ControlDefinition.cs" />
     <Compile Include="Controls\DataboundControl.cs" />
-    <Compile Include="Controls\Dialog\ScriptTags\InvokeDialogParentTriggerTag.cs" />
+    <Compile Include="Controls\Dialog\InvokeDialogParentTriggerTag.cs" />
     <Compile Include="Controls\Forms\Action.cs" />
     <Compile Include="Controls\Forms\Actions\PrepareDelegateAction.cs" />
     <Compile Include="Controls\Forms\Actions\ProcessDelegateAction.cs" />

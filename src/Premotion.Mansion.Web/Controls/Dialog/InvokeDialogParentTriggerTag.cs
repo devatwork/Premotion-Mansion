@@ -5,7 +5,7 @@ using Premotion.Mansion.Core.IO;
 using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Templating;
 
-namespace Premotion.Mansion.Web.Controls.Dialog.ScriptTags
+namespace Premotion.Mansion.Web.Controls.Dialog
 {
 	/// <summary>
 	/// Redirects the owner page of this dialog to a particular url.
