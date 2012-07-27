@@ -26,7 +26,10 @@ namespace Premotion.Mansion.Web.Http
 			cachingService.AddOrReplace(context, cacheKey, () =>
 			                                               {
 			                                               	// create an web output pipe, push it to the stack and allow implementors to process the request on it
-			                                               	using (var outputPipe = new WebOutputPipe(context.HttpContext))
+			                                               	using (var outputPipe = new WebOutputPipe(context.HttpContext)
+			                                               	                        {
+			                                               	                        	OutputCacheEnabled = true
+			                                               	                        })
 			                                               	{
 			                                               		using (context.OutputPipeStack.Push(outputPipe))
 			                                               			ProcessRequest(context, outputPipe);
