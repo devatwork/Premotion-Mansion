@@ -170,14 +170,10 @@ namespace Premotion.Mansion.Web.Http
 				Stack.Push("Post", httpContext.Request.Form.ToPropertyBag(), true);
 				Stack.Push("Server", httpContext.Request.ServerVariables.ToPropertyBag(), true);
 
-				// get the original url
-				var originalUri = PathRewriterHttpModule.GetOriginalRawUrl(httpContext);
-				originalUri = WebUtilities.StripPort(originalUri);
-
 				// create the application dataspace
 				Stack.Push("Request", new PropertyBag
 				                      {
-				                      	{"url", originalUri.ToString()},
+				                      	{"url", httpContext.Request.Url.ToString()},
 				                      	{"urlPath", httpContext.Request.Url.GetLeftPart(UriPartial.Path)},
 				                      	{"baseUrl", ApplicationBaseUri.ToString().TrimEnd(Dispatcher.Constants.UrlPartTrimCharacters)}
 				                      }, true);
