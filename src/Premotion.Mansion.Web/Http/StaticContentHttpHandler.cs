@@ -61,8 +61,7 @@ namespace Premotion.Mansion.Web.Http
 				}
 
 				// set cache age
-				context.HttpContext.Response.Cache.SetCacheability(HttpCacheability.Public);
-				context.HttpContext.Response.Cache.SetExpires(DateTime.Now.AddYears(1));
+				outputPipe.Expires = DateTime.Now.AddYears(1);
 			}
 			else
 			{
