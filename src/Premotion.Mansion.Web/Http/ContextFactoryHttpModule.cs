@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
@@ -185,6 +186,11 @@ namespace Premotion.Mansion.Web.Http
 				IPropertyBag applicationSettings;
 				if (!Stack.TryPeek(ApplicationSettingsConstants.DataspaceName, out applicationSettings))
 					return;
+
+				// try to get the culture
+				string defaultCulture;
+				if (applicationSettings.TryGet(applicationContext, "DEFAULT_UI_CULTURE", out defaultCulture) && !string.IsNullOrEmpty(defaultCulture))
+					UserInterfaceCulture = CultureInfo.GetCultureInfo(defaultCulture);
 
 				// initialize the repository, when possible
 				var repositoryNamespace = applicationSettings.Get(this, ApplicationSettingsConstants.RepositoryNamespace, string.Empty);
