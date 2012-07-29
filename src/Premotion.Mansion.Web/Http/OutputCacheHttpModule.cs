@@ -175,17 +175,6 @@ namespace Premotion.Mansion.Web.Http
 			                                   	if (httpRequestContext.Headers["Cache-Control"] != null && httpRequestContext.Headers["Cache-Control"].IndexOf("no-cache", StringComparison.OrdinalIgnoreCase) > -1)
 			                                   		return;
 
-			                                   	// check if the If-Modified-Since request header is not set
-			                                   	DateTime modifiedSince;
-			                                   	var ifModifiedSinceHeader = httpRequestContext.Headers["If-Modified-Since"];
-			                                   	if (string.IsNullOrEmpty(ifModifiedSinceHeader) || !DateTime.TryParse(ifModifiedSinceHeader, out modifiedSince))
-			                                   		return;
-
-			                                   	// check if the If-None-Match header request header is not set
-			                                   	var eTag = httpRequestContext.Headers["If-None-Match"];
-			                                   	if (string.IsNullOrEmpty(eTag))
-			                                   		return;
-
 			                                   	// generate a cache key for this request
 			                                   	var cacheKey = GenerateCacheKeyForRequest(httpContext);
 
@@ -198,6 +187,15 @@ namespace Premotion.Mansion.Web.Http
 			                                   	// make sure the request is cached properly by the browser
 			                                   	var response = httpContext.Response;
 			                                   	SetCacheControlProperties(response, cachedResponse);
+
+															// check if the If-Modified-Since request header is not set
+			                                   	DateTime modifiedSince;
+			                                   	var ifModifiedSinceHeader = httpRequestContext.Headers["If-Modified-Since"];
+			                                   	if (string.IsNullOrEmpty(ifModifiedSinceHeader) || !DateTime.TryParse(ifModifiedSinceHeader, out modifiedSince))
+			                                   		modifiedSince = DateTime.MinValue;
+
+			                                   	// check if the If-None-Match header request header is not set
+			                                   	var eTag = httpRequestContext.Headers["If-None-Match"] ?? string.Empty;
 
 			                                   	// check if the ETag and LastModified date match
 			                                   	if (eTag.Equals(cachedResponse.ETag, StringComparison.OrdinalIgnoreCase) && modifiedSince.AddSeconds(1) >= cachedResponse.LastModified)
@@ -284,7 +282,7 @@ namespace Premotion.Mansion.Web.Http
 				throw new ArgumentNullException("cachedResponse");
 
 			// set cache control properties
-			response.Cache.SetCacheability(HttpCacheability.Public);
+			response.Cache.SetCacheability(HttpCacheability.ServerAndPrivate);
 			if (cachedResponse.Expires.HasValue)
 				response.Cache.SetExpires(cachedResponse.Expires.Value);
 			else
