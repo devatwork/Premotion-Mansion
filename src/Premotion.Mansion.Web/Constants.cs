@@ -48,7 +48,7 @@
 		/// <summary>
 		/// Defines the prefix for streamed application content.
 		/// </summary>
-		public const string StreamingStaticContentPrefix = "stream-application-content";
+		public const string StreamingStaticContentPrefix = "streaming-application-content";
 		/// <summary>
 		/// Defines the prefix for static applications resources.
 		/// </summary>

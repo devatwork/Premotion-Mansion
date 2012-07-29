@@ -49,7 +49,7 @@ namespace Premotion.Mansion.Web.Http
 					headerStringBuilder.AppendFormat("{0}={1}", name, headers[name]);
 
 				// get the original path
-				var originalPath = PathRewriterHttpModule.GetOriginalMappedPath(context);
+				var originalPath = context.Request.GetPathWithoutHandlerPrefix();
 
 				// generate the etag
 				var eTagString = originalPath + contentType + contentEncoding.EncodingName + redirectLocation + statusCode + statusDescription + headerStringBuilder;
@@ -242,7 +242,7 @@ namespace Premotion.Mansion.Web.Http
 			return (StringCacheKey) string.Format("host={0}&port={1}&path={2}&get={3}",
 			                                      httpContext.Request["HTTP_HOST"],
 			                                      httpContext.Request["SERVER_PORT"],
-			                                      PathRewriterHttpModule.GetOriginalRawPath(httpContext),
+			                                      httpContext.Request.Path,
 			                                      httpContext.Request["QUERY_STRING"]);
 		}
 		/// <summary>

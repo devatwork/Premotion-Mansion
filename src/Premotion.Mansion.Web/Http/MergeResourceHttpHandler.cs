@@ -21,7 +21,7 @@ namespace Premotion.Mansion.Web.Http
 		protected override void ProcessRequest(IMansionWebContext context, WebOutputPipe outputPipe)
 		{
 			// retrieve the resource
-			var originalResourcePath = PathRewriterHttpModule.GetOriginalMappedPath(context.HttpContext);
+			var originalResourcePath = context.HttpContext.Request.GetPathWithoutHandlerPrefix();
 			var resourcePath = new RelativeResourcePath(originalResourcePath, true);
 
 			// set output pipe properties

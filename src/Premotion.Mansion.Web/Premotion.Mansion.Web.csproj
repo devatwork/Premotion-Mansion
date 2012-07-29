@@ -199,7 +199,6 @@
     <Compile Include="Http\OutputCachableHttpHandlerBase.cs" />
     <Compile Include="Http\ScriptHttpHandler.cs" />
     <Compile Include="Http\MergeResourceHttpHandler.cs" />
-    <Compile Include="Http\PathRewriterHttpModule.cs" />
     <Compile Include="Http\StaticContentHttpHandler.cs" />
     <Compile Include="Http\StaticResourceHttpHandler.cs" />
     <Compile Include="Http\StreamingStaticContentHttpHandler.cs" />
