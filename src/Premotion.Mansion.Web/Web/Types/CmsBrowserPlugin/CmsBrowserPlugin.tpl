@@ -151,6 +151,7 @@
 				</button>
 			</div>
 		</fieldset>
+		<input type="hidden" name="{GetControlPropertyName( 'node-browser', 'page-number' )}" value="1">
 	</form>
 </tpl:section>
 
