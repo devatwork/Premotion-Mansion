@@ -7,7 +7,7 @@
 		/* initialize modal forms */
 		$('#modal-popup').bind('show', function() {
 			// create the frame
-			var frame = $('<iframe class="seamless" seamless />');
+			var frame = $('<iframe class="seamless" id="modal-frame" name="modal-frame" />');
 			frame.load(function() {
 				this.style.height = this.contentWindow.document.body.offsetHeight + 'px';
 			});
