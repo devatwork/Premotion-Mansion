@@ -172,15 +172,17 @@ namespace Premotion.Mansion.Web.Http
 				Stack.Push("Server", httpContext.Request.ServerVariables.ToPropertyBag(), true);
 
 				// create the application dataspace
+				var baseUrl = ApplicationBaseUri.ToString().TrimEnd(Dispatcher.Constants.UrlPartTrimCharacters);
+				var url = httpContext.Request.Url.ToString();
 				Stack.Push("Request", new PropertyBag
 				                      {
-				                      	{"url", httpContext.Request.Url.ToString()},
+				                      	{"url", url},
 				                      	{"urlPath", httpContext.Request.Url.GetLeftPart(UriPartial.Path)},
-				                      	{"baseUrl", ApplicationBaseUri.ToString().TrimEnd(Dispatcher.Constants.UrlPartTrimCharacters)}
+				                      	{"baseUrl", baseUrl}
 				                      }, true);
 
 				// set context location flag
-				IsBackoffice = HttpContext.Request.Path.IndexOf(@"/cms/", HttpContext.Request.ApplicationPath.Length, StringComparison.OrdinalIgnoreCase) != -1;
+				IsBackoffice = url.IndexOf(@"/cms/", baseUrl.Length, StringComparison.OrdinalIgnoreCase) > -1;
 
 				// initialize the context
 				IPropertyBag applicationSettings;
