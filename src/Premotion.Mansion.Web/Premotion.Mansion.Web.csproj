@@ -112,6 +112,10 @@
     <Compile Include="Controls\Forms\Field.cs" />
     <Compile Include="Controls\Forms\Fields\Checkbox.cs" />
     <Compile Include="Controls\Forms\Fields\CheckboxList.cs" />
+    <Compile Include="Controls\Grid\Column.cs" />
+    <Compile Include="Controls\Grid\ColumnFilter.cs" />
+    <Compile Include="Controls\Grid\ColumnSort.cs" />
+    <Compile Include="Controls\Grid\Grid.cs" />
     <Compile Include="Controls\Forms\Fields\MultiNodeSelector.cs" />
     <Compile Include="Controls\Forms\Fields\NodeSelectorBase.cs" />
     <Compile Include="Controls\Forms\Fields\SingleNodeSelector.cs" />
@@ -163,6 +167,9 @@
     <Compile Include="Controls\Forms\Validation\RequiredFieldValidator.cs" />
     <Compile Include="Controls\Forms\Validation\UrlFieldValidator.cs" />
     <Compile Include="Controls\Forms\Validation\ValidationSummary.cs" />
+    <Compile Include="Controls\Grid\PropertyColumn.cs" />
+    <Compile Include="Controls\Grid\SelectboxColumnFilter.cs" />
+    <Compile Include="Controls\Grid\TextboxColumnFilter.cs" />
     <Compile Include="Controls\IControl.cs" />
     <Compile Include="Controls\IDataConsumerControl.cs" />
     <Compile Include="Controls\IFormControl.cs" />

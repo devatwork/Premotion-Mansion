@@ -426,3 +426,61 @@
 		{Control}
 	</fieldset>
 </tpl:section>
+
+
+
+<!-- Grid control sections -->
+<tpl:section name="FormGridControl" field="Control">
+	<form method="get" action="{ChangeQueryString( Request.url, GetControlPropertyName( 'page-number' ), '1' )}">
+		<div id="{@ControlId}">
+			<table class="table table-striped table-bordered table-condensed">
+				{Content}
+			</table>
+			<div class="pull-right">
+				{RenderPagingControl( $Dataset, GridProperties.id )}
+			</div>
+		</div>
+		<input type="hidden" name="{GetControlPropertyName( 'sort' )}" value="{GetControlPropertyValue( 'sort' )}">
+	</form>
+</tpl:section>
+
+	<tpl:section name="GridControlHeader" field="Content">
+		<thead>
+			{Row}
+		</thead>
+	</tpl:section>
+
+	<tpl:section name="GridControlFilterRow" field="Row">
+		<tr class="filters">{Cell}</tr>
+	</tpl:section>
+
+		<tpl:section name="GridControlNoFilter" field="Cell"><td>&nbsp;</td></tpl:section>
+
+		<tpl:section name="GridControlTextboxColumnFilter" field="Cell"><td><input type="text" name="{GetControlPropertyName( FilterProperties.on )}" value="{GetControlPropertyValue( FilterProperties.on )}"></td></tpl:section>
+		
+		<tpl:section name="GridControlSelectboxColumnFilter" field="Cell"><td><select name="{GetControlPropertyName( FilterProperties.on )}" value="{GetControlPropertyValue( FilterProperties.on )}" onchange="this.form.submit();">{GridControlSelectboxColumnFilterOption}</select></td></tpl:section>
+			<tpl:section name="GridControlSelectboxColumnFilterOption"><option value="{OptionProperties.value}" {If( InList( OptionProperties.value, GetControlPropertyValue( FilterProperties.on ) ), 'selected')}>{OptionProperties.label}</option></tpl:section>
+
+	<tpl:section name="GridControlHeaderRow" field="Row">
+		<tr class="headings">{Cell}</tr>
+	</tpl:section>
+	
+		<tpl:section name="GridControlPropertyColumnHeader" field="Cell"><th>{ColumnProperties.heading}</th></tpl:section>
+
+		<tpl:section name="GridControlColumnSortHeader" field="Cell"><th><a href="{HtmlEncode( ChangeQueryString( Request.url, GetControlPropertyName( 'sort' ), ColumnSortProperties.sortParameter ) )}">{ColumnProperties.heading} <i class="pull-right icon-{If( IsTrue( ColumnSortProperties.active ), If( IsTrue( ColumnSortProperties.direction ), 'sort-up', 'sort-down' ), 'sort' )}"></i></a></th></tpl:section>
+
+	<tpl:section name="GridControlBody" field="Content">
+		<tbody>
+			{Row}
+		</tbody>
+	</tpl:section>
+
+	<tpl:section name="GridControlRowNoResults" field="Row"><tr><td colspan="{GridProperties.columnCount}">{NotEmpty( GridProperties.notFoundMessage, 'No results found' )}</td></tr></tpl:section>
+
+	<tpl:section name="GridControlBodyRow" field="Row">
+		<tr>{Cell}</tr>
+	</tpl:section>
+
+		<tpl:section name="GridControlCell" field="Cell"><td>{CellContent}</td></tpl:section>
+
+			<tpl:section name="GridControlPropertyColumnContent" field="CellContent">{CellProperties.value}</tpl:section>
