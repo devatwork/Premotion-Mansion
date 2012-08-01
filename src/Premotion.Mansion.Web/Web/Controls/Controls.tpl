@@ -484,3 +484,5 @@
 		<tpl:section name="GridControlCell" field="Cell"><td>{CellContent}</td></tpl:section>
 
 			<tpl:section name="GridControlPropertyColumnContent" field="CellContent">{CellProperties.value}</tpl:section>
+
+			<tpl:section name="GridControlExpressionColumnContent" field="CellContent">{CellProperties.value}</tpl:section>

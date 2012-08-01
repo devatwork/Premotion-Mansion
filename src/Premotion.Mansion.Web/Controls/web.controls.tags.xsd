@@ -173,6 +173,28 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="expressionColumn" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Defines a column in a grid which displays the result of an expression.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="columnBase">
+					<!-- content -->
+					<xs:group ref="stl:defaultContentGroup" />
+
+					<!-- attributes -->
+					<xs:attribute name="expression" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>The expression to evaluate. Dataspaces available GridProperties, Row, Loop. Warning: in order to execute within the context of a row the expression must be escaped.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
 	<xs:element name="columnSort" substitutionGroup="stl:scriptTag">
 		<xs:annotation>
 			<xs:documentation>Sorts this column based on a property</xs:documentation>

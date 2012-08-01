@@ -115,6 +115,7 @@
     <Compile Include="Controls\Grid\Column.cs" />
     <Compile Include="Controls\Grid\ColumnFilter.cs" />
     <Compile Include="Controls\Grid\ColumnSort.cs" />
+    <Compile Include="Controls\Grid\ExpressionColumn.cs" />
     <Compile Include="Controls\Grid\Grid.cs" />
     <Compile Include="Controls\Forms\Fields\MultiNodeSelector.cs" />
     <Compile Include="Controls\Forms\Fields\NodeSelectorBase.cs" />
