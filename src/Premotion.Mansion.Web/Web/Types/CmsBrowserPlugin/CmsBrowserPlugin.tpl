@@ -45,25 +45,6 @@
 	</div>
 </tpl:section>
 
-	<tpl:section name="NodeBrowserContent">
-		<table class="table table-striped table-bordered browser">
-			<tr>
-				<th>Name</th>
-				<th>Type</th>
-			</tr>
-			{Child}
-		</table>
-		{BrowserPaging}
-	</tpl:section>
-
-	<tpl:section name="BrowserPaging">
-		<div class="clearfix">
-			<div class="pull-right">
-				{RenderPagingControl( Arguments.source, 'node-browser' )}
-			</div>
-		</div>
-	</tpl:section>
-
 	<tpl:section name="AddChildButton" requires="{HasChildTypes( $CurrentNode )}">
 		<a href="{CmsRouteUrl( 'Dialog', 'AddChildToNode', CurrentNode.id )}" class="btn btn-primary btn-popup" rel="tooltip" title="Add a new child to this node">
 			<i class="icon-plus-sign"></i> Add child
@@ -93,15 +74,9 @@
 			<i class="icon-remove-sign"></i> Delete
 		</a>
 	</tpl:section>
-	
 
-	<tpl:section name="NodeBrowserChild" field="Child">
-		<tr>
-			<td>
-				<a href="{CmsNodeUrl( ChildNode.id, 'CmsBrowserPlugin', 'Browse' )}" title="Navigate to {ChildNode.name}">{GetTypeDefinitionIcon( ChildNode.type )} {ChildNode.name}</a>
-			</td>
-			<td>{GetTypeDefinitionLabel( ChildNode.type )}</td>
-		</tr>
+	<tpl:section name="NodeBrowserNodeLink">
+		<a href="{CmsNodeUrl( Row.id, 'CmsBrowserPlugin', 'Browse' )}" title="Navigate to {Row.name}">{GetTypeDefinitionIcon( Row.type )} {Row.name}</a>
 	</tpl:section>
 
 

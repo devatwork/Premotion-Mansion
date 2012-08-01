@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd">
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:controls="http://schemas.premotion.nl/mansion/1.0/web.controls.tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd">
 
 	<!-- ############################### -->
 	<!-- Overrides of CmsPlugin.xinclude -->
@@ -90,20 +90,26 @@
 	<declareProcedure procedureName="RenderNodeBrowser">
 		<renderSection name="NodeBrowser">
 			<!-- retrieve the child nodes of the current node -->
-			<retrieveChildNodeset parentSource="{$CurrentNode}" status="any" sort="order asc" pageNumber="{GetControlPropertyValue( 'node-browser', 'page-number', '1' )}" pageSize="25" target="ChildNodeset">
-				<invokeProcedure procedureName="RenderNodeBrowserResults" source="{$ChildNodeset}" />
+			<retrieveChildNodeset parentSource="{$CurrentNode}" status="any" sort="{GetControlPropertyValue( 'node-browser', 'sort', 'order asc' )}" pageNumber="{GetControlPropertyValue( 'node-browser', 'page-number', '1' )}" pageSize="25" target="ChildNodeset">
+				<invokeProcedure procedureName="RenderNodeBrowserResults" source="{$ChildNodeset}" field="NodeBrowserContent" />
 			</retrieveChildNodeset>
 		</renderSection>
 	</declareProcedure>
 
 	<!-- Renders the result of the -->
 	<declareProcedure procedureName="RenderNodeBrowserResults">
-		<renderSection name="NodeBrowserContent" targetField="{Arguments.field}">
-			<loopNodeset source="{Arguments.source}" target="ChildNode">
-				<renderSection name="NodeBrowserChild" />
-			</loopNodeset>
-			<renderSection name="BrowserPaging" />
-		</renderSection>
+		<controls:grid id="node-browser" targetField="{Arguments.field}">
+			<providers:fetchNodesetProvider source="{Arguments.source}"/>
+			<controls:propertyColumn propertyName="order" heading="">
+				<controls:columnSort on="order" />
+			</controls:propertyColumn>
+			<controls:expressionColumn expression="{\RenderSection( 'NodeBrowserNodeLink' )}" heading="Name">
+				<controls:columnSort on="name" />
+			</controls:expressionColumn>
+			<controls:propertyColumn propertyName="type" heading="Type">
+				<controls:columnSort on="type" />
+			</controls:propertyColumn>
+		</controls:grid>
 	</declareProcedure>
 
 	<!-- Renders the properties of the current node -->
@@ -173,7 +179,7 @@
 			status="{NotEmpty( Get.status, 'any' )}"
 			fts="{Get.q}"
 			facetType="{CreateFacet( 'type', 'Types', 'TransformTypeFacet' )}"
-			sort="{If( IsEmpty( Get.q ), 'modified DESC' )}"
+			sort="{GetControlPropertyValue( 'node-browser', 'sort', 'modified desc' )}"
 			
 			pageNumber="{GetControlPropertyValue( 'node-browser', 'page-number', '1' )}"
 			pageSize="25"
