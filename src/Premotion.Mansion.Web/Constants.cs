@@ -38,6 +38,10 @@
 		/// </summary>
 		public const string DefaultBackofficeScriptName = "Cms/Cms.xts";
 		/// <summary>
+		/// The prefix for backoffice urls.
+		/// </summary>
+		public const string BackofficeUrlPrefix = "Cms";
+		/// <summary>
 		/// The default frontoffice script name.
 		/// </summary>
 		public const string DefaultFrontofficeScriptName = "Default.xts";

@@ -36,7 +36,7 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 			// assemble the plugin type and view
 			var pluginParameters = new[] {pluginType, viewName};
 
-			return RouteUrlBuilder.BuildRouteWithArea(context.Cast<IMansionWebContext>(), "Cms", "Cms", "Plugin", nodeId, pluginParameters.Concat(parameters).ToArray());
+			return RouteUrlBuilder.BuildBackofficeRouteWithArea(context.Cast<IMansionWebContext>(), "Cms", "Cms", "Plugin", nodeId, pluginParameters.Concat(parameters).ToArray());
 		}
 	}
 }

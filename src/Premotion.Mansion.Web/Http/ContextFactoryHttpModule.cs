@@ -182,7 +182,7 @@ namespace Premotion.Mansion.Web.Http
 				                      }, true);
 
 				// set context location flag
-				IsBackoffice = url.IndexOf(@"/cms/", baseUrl.Length, StringComparison.OrdinalIgnoreCase) > -1;
+				IsBackoffice = url.IndexOf("/" + Constants.BackofficeUrlPrefix + "/", baseUrl.Length, StringComparison.OrdinalIgnoreCase) == baseUrl.Length;
 
 				// initialize the context
 				IPropertyBag applicationSettings;
