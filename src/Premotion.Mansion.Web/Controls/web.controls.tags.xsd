@@ -23,9 +23,14 @@
 		</xs:annotation>
 		
 		<!-- attrbutes -->
+		<xs:attribute name="id" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies a custom ID for this control.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="targetField" type="xs:string" use="optional">
 			<xs:annotation>
-				<xs:documentation>Specified the field in which this control is rendered. Only applies to top-level controls. Default value is Control.</xs:documentation>
+				<xs:documentation>Specifies the field in which this control is rendered. Only applies to top-level controls. Default value is Control.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>
