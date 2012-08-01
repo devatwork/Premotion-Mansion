@@ -261,10 +261,6 @@ namespace Premotion.Mansion.Web.Http
 			if (context.IsBackoffice)
 				return false;
 
-			// never cache requests for backoffice users
-			if (context.BackofficeUserState.IsAuthenticated)
-				return false;
-
 			// only GET request can be cached
 			return "GET".Equals(context.HttpContext.Request.HttpMethod, StringComparison.OrdinalIgnoreCase);
 		}
