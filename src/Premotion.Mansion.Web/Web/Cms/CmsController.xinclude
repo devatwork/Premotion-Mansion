@@ -49,11 +49,11 @@
 			
 			<!-- retrieve the root node -->
 			<retrieveNode id="1" target="RootNode" global="true" />
-			<web:retrieveNodeByUrl target="CurrentNode" global="true">
+			<fetchNode source="{$UrlNode}" target="CurrentNode" global="true">
 				<notFound>
 					<fetchNode source="{$RootNode}" target="CurrentNode" global="true" />
 				</notFound>
-			</web:retrieveNodeByUrl>
+			</fetchNode>
 
 			<!-- render the CMS section -->
 			<renderSection name="CmsPage">
