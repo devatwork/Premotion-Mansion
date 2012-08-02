@@ -281,7 +281,7 @@ namespace Premotion.Mansion.Core
 		/// <summary>
 		/// Gets the <see cref="CultureInfo"/> of the system.
 		/// </summary>
-		public CultureInfo SystemCulture { get; private set; }
+		public CultureInfo SystemCulture { get; protected set; }
 		/// <summary>
 		/// Gets the <see cref="CultureInfo"/> of the user interface.
 		/// </summary>

@@ -191,8 +191,13 @@ namespace Premotion.Mansion.Web.Http
 
 				// try to get the culture
 				string defaultCulture;
-				if (applicationSettings.TryGet(applicationContext, "DEFAULT_UI_CULTURE", out defaultCulture) && !string.IsNullOrEmpty(defaultCulture))
-					UserInterfaceCulture = CultureInfo.GetCultureInfo(defaultCulture);
+				if (applicationSettings.TryGet(applicationContext, "DEFAULT_SYSTEM_CULTURE", out defaultCulture) && !string.IsNullOrEmpty(defaultCulture))
+					SystemCulture = CultureInfo.GetCultureInfo(defaultCulture);
+
+				// try to get the culture
+				string defaultUICulture;
+				if (applicationSettings.TryGet(applicationContext, "DEFAULT_UI_CULTURE", out defaultUICulture) && !string.IsNullOrEmpty(defaultUICulture))
+					UserInterfaceCulture = CultureInfo.GetCultureInfo(defaultUICulture);
 
 				// initialize the repository, when possible
 				var repositoryNamespace = applicationSettings.Get(this, ApplicationSettingsConstants.RepositoryNamespace, string.Empty);
