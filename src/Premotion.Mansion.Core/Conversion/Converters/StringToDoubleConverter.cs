@@ -18,7 +18,7 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 		protected override double DoConvert(IMansionContext context, string source, Type sourceType)
 		{
 			source = source.Trim();
-			return string.IsNullOrEmpty(source) ? 0 : System.Convert.ToDouble(source);
+			return string.IsNullOrEmpty(source) ? 0 : System.Convert.ToDouble(source, context.SystemCulture);
 		}
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
@@ -33,7 +33,7 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 			// try to convert
 			try
 			{
-				return System.Convert.ToDouble(source.Trim());
+				return System.Convert.ToDouble(source.Trim(), context.SystemCulture);
 			}
 			catch (Exception)
 			{

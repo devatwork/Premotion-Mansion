@@ -17,7 +17,7 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 		/// <returns>Returns the converted value.</returns>
 		protected override double DoConvert(IMansionContext context, Int32 source, Type sourceType)
 		{
-			return System.Convert.ToDouble(source);
+			return System.Convert.ToDouble(source, context.SystemCulture);
 		}
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
@@ -29,7 +29,7 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 		/// <returns>Returns the converted value.</returns>
 		protected override double DoConvert(IMansionContext context, Int32 source, Type sourceType, double defaultValue)
 		{
-			return System.Convert.ToDouble(source);
+			return System.Convert.ToDouble(source, context.SystemCulture);
 		}
 		#endregion
 	}
