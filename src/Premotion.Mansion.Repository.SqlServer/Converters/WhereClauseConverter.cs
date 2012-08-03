@@ -1,6 +1,6 @@
 ﻿using System.Data.SqlClient;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Data.Clauses;
+using Premotion.Mansion.Repository.SqlServer.Data.Clauses;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
 
 namespace Premotion.Mansion.Repository.SqlServer.Converters

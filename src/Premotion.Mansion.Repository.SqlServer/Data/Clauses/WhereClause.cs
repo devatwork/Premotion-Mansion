@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Data.Clauses;
 
-namespace Premotion.Mansion.Core.Data.Clauses
+namespace Premotion.Mansion.Repository.SqlServer.Data.Clauses
 {
 	/// <summary>
 	/// 	Implements the where clause.

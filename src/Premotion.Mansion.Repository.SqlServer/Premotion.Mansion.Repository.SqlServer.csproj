@@ -63,6 +63,7 @@
     <Compile Include="Converters\TypeClauseConverter.cs" />
     <Compile Include="Converters\WhereClauseConverter.cs" />
     <Compile Include="Data\Clauses\FullTextSearchClause.cs" />
+    <Compile Include="Data\Clauses\WhereClause.cs" />
     <Compile Include="Descriptors\FullTextDescriptor.cs" />
     <Compile Include="Descriptors\SchemaDescriptor.cs" />
     <Compile Include="Extensions.cs" />

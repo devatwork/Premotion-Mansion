@@ -139,7 +139,6 @@
     <Compile Include="Data\Clauses\SortClause.cs" />
     <Compile Include="Data\Clauses\StatusClause.cs" />
     <Compile Include="Data\Clauses\TypeClause.cs" />
-    <Compile Include="Data\Clauses\WhereClause.cs" />
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\IRepositoryDecorator.cs" />
     <Compile Include="Data\IRepositoryFactory.cs" />
