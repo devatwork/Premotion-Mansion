@@ -77,7 +77,7 @@ namespace Premotion.Mansion.Core.Nucleus
 			                                                       }).GroupBy(candidate => candidate.Name, (key, values) => values.First(), StringComparer.OrdinalIgnoreCase).ToList();
 
 			// find the methods method
-			var createInstanceFactoryMethodInfo = typeof (Data.Extensions).GetMethod("CreateInstanceFactory");
+			var createInstanceFactoryMethodInfo = typeof (Extensions).GetMethod("CreateInstanceFactory");
 			if (createInstanceFactoryMethodInfo == null)
 				throw new InvalidOperationException("Could not find CreateInstanceFactory method on Extensions");
 			var registerWithKeyMethodInfo = typeof (IConfigurableNucleus).GetMethods().First(candidate => candidate.Name.Equals("Register") && candidate.GetParameters().Length == 2);
