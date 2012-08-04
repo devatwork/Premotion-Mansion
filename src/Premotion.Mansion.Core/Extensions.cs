@@ -1164,6 +1164,21 @@ namespace Premotion.Mansion.Core
 
 			writer.WriteEndObject();
 		}
+		/// <summary>
+		/// Creates a shallow copy of the given <paramref name="bag"/>.
+		/// </summary>
+		/// <param name="bag">The original <see cref="IPropertyBag"/> which to copy.</param>
+		/// <returns>Returns the created copy.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="bag"/> is null.</exception>
+		public static IPropertyBag Copy(this IPropertyBag bag)
+		{
+			// validate arguments
+			if (bag == null)
+				throw new ArgumentNullException("bag");
+
+			// return the copy
+			return new PropertyBag(bag);
+		}
 		#endregion
 		#region Private Fields
 		private static readonly ConcurrentDictionary<Type, Func<INucleus, object>> ObjectFactoryCache = new ConcurrentDictionary<Type, Func<INucleus, object>>();
