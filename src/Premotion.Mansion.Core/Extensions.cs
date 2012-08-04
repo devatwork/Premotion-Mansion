@@ -764,7 +764,7 @@ namespace Premotion.Mansion.Core
 			// if there is no type, assume the root type
 			if (typeArray.Length == 0)
 				return typeService.LoadRoot(context);
-		
+
 			// if there is one type, it is the root type
 			if (typeArray.Length == 1)
 				return typeArray[0];
