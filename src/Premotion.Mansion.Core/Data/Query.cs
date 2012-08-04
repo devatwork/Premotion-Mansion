@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Premotion.Mansion.Core.Collections;
-using Premotion.Mansion.Core.Data.Specifications;
 using Premotion.Mansion.Core.Types;
 
 namespace Premotion.Mansion.Core.Data
@@ -13,47 +11,18 @@ namespace Premotion.Mansion.Core.Data
 	{
 		#region Add Methods
 		/// <summary>
-		/// Adds a new <paramref name="specification"/> to this query. Specifications are by default combined using the AND operator.
+		/// Adds a new <paramref name="component"/> to this query.
 		/// </summary>
-		/// <param name="specification">The <see cref="Specification"/> which to add.</param>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="specification"/> is null.</exception>
-		public void Add(Specification specification)
+		/// <param name="component">The <see cref="QueryComponent"/> which to add.</param>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="component"/> is null.</exception>
+		public void Add(QueryComponent component)
 		{
 			// validate arguments
-			if (specification == null)
-				throw new ArgumentNullException("specification");
+			if (component == null)
+				throw new ArgumentNullException("component");
 
 			// add to the list
-			specificationQueue.Enqueue(specification);
-		}
-		/// <summary>
-		/// Adds a new <paramref name="sort"/> to this query.
-		/// </summary>
-		/// <param name="sort">The <see cref="Sort"/> which to add.</param>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="sort"/> is null.</exception>
-		public void Add(Sort sort)
-		{
-			// validate arguments
-			if (sort == null)
-				throw new ArgumentNullException("sort");
-
-			// add the sort
-			sortQueue.Enqueue(sort);
-		}
-		/// <summary>
-		/// Adds a new <paramref name="sorts"/> to this query.
-		/// </summary>
-		/// <param name="sorts">The <see cref="Sort"/>s which to add.</param>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="sorts"/> is null.</exception>
-		public void Add(IEnumerable<Sort> sorts)
-		{
-			// validate arguments
-			if (sorts == null)
-				throw new ArgumentNullException("sorts");
-
-			// add the sort
-			foreach (var sort in sorts)
-				sortQueue.Enqueue(sort);
+			componentQueue.Enqueue(component);
 		}
 		/// <summary>
 		/// Adds the given <paramref name="types"/> as type hints to this query.
@@ -72,6 +41,13 @@ namespace Premotion.Mansion.Core.Data
 		#endregion
 		#region Properties
 		/// <summary>
+		/// Gets the <see cref="QueryComponent"/>s of this query.
+		/// </summary>
+		public IEnumerable<QueryComponent> Components
+		{
+			get { return componentQueue; }
+		}
+		/// <summary>
 		/// Gets the hinted <see cref="ITypeDefinition"/>s.
 		/// </summary>
 		public IEnumerable<ITypeDefinition> TypeHints
@@ -80,8 +56,7 @@ namespace Premotion.Mansion.Core.Data
 		}
 		#endregion
 		#region Private Fields
-		private readonly Queue<Sort> sortQueue = new Queue<Sort>();
-		private readonly Queue<Specification> specificationQueue = new Queue<Specification>();
+		private readonly Queue<QueryComponent> componentQueue = new Queue<QueryComponent>();
 		private readonly List<ITypeDefinition> typeHints = new List<ITypeDefinition>();
 		#endregion
 	}
