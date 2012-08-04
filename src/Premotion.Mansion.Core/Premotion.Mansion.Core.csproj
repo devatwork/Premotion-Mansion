@@ -75,8 +75,14 @@
     <Compile Include="Conversion\Converters\DoubleToInt32Converter.cs" />
     <Compile Include="Conversion\Converters\Int64ToDoubleConverter.cs" />
     <Compile Include="Conversion\Converters\StringToInt64Converter.cs" />
-    <Compile Include="Data\Clauses\WhereClause.cs" />
+    <Compile Include="Data\Parser\BaseTypeArgumentProcessor.cs" />
+    <Compile Include="Data\Parser\PropertyArgumentProcessor.cs" />
+    <Compile Include="Data\Parser\TypeArgumentProcessor.cs" />
+    <Compile Include="Data\Parser\WhereArgumentProcessor.cs" />
+    <Compile Include="Data\Parser\QueryArgumentProcessor.cs" />
+    <Compile Include="Data\Parser\SortArgumentProcessor.cs" />
     <Compile Include="Data\Query.cs" />
+    <Compile Include="Data\Parser\QueryParser.cs" />
     <Compile Include="Data\Specifications\IsPropertyEqualSpecification.cs" />
     <Compile Include="Data\Specifications\IsPropertyInSpecification.cs" />
     <Compile Include="Data\Specifications\MultiValuePropertySpecification.cs" />
