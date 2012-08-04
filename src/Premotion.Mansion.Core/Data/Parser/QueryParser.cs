@@ -8,7 +8,7 @@ namespace Premotion.Mansion.Core.Data.Parser
 	/// <summary>
 	/// Implements the <see cref="Query"/> parser.
 	/// </summary>
-	public class QueryParser
+	public class QueryParser : IQueryParser
 	{
 		#region Constructors
 		/// <summary>
