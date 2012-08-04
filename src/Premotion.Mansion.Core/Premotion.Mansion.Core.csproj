@@ -82,7 +82,7 @@
     <Compile Include="Data\Parser\WhereArgumentProcessor.cs" />
     <Compile Include="Data\Parser\QueryArgumentProcessor.cs" />
     <Compile Include="Data\Parser\SortArgumentProcessor.cs" />
-    <Compile Include="Data\PortalApplicationBootstrapper.cs" />
+    <Compile Include="Data\DataApplicationBootstrapper.cs" />
     <Compile Include="Data\Query.cs" />
     <Compile Include="Data\Parser\QueryParser.cs" />
     <Compile Include="Data\Specifications\IsPropertyEqualSpecification.cs" />
