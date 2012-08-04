@@ -739,6 +739,46 @@ namespace Premotion.Mansion.Core
 			descriptor = default(TDescriptor);
 			return false;
 		}
+		/// <summary>
+		/// Finds the common ancestor of the given <paramref name="types"/>.
+		/// </summary>
+		/// <param name="types">The <see cref="ITypeDefinition"/>s for which to find the common ancestor.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <returns>Returns the <see cref="ITypeDefinition"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="types"/> or <paramref name="context"/> is null.</exception>
+		/// <exception cref="InvalidOperationException">Throw if no common ancestor type could be found.</exception>
+		public static ITypeDefinition FindCommonAncestor(this IEnumerable<ITypeDefinition> types, IMansionContext context)
+		{
+			// validate arguments
+			if (types == null)
+				throw new ArgumentNullException("types");
+			if (context == null)
+				throw new ArgumentNullException("context");
+
+			// get the type service
+			var typeService = context.Nucleus.ResolveSingle<ITypeService>();
+
+			// get the type array
+			var typeArray = types.ToArray();
+
+			// if there is no type, assume the root type
+			if (typeArray.Length == 0)
+				return typeService.LoadRoot(context);
+		
+			// if there is one type, it is the root type
+			if (typeArray.Length == 1)
+				return typeArray[0];
+
+			// find the type
+			var rootType = typeArray.First().HierarchyReverse.FirstOrDefault(candidate => typeArray.All(x => x.IsAssignable(candidate)));
+
+			// if there is no root type, throw exception
+			if (rootType == null)
+				throw new InvalidOperationException(string.Format("Could not find a common base type for types {0}", string.Join(", ", typeArray.Select(type => type.Name))));
+
+			// return the root type
+			return rootType;
+		}
 		#endregion
 		#region Extensions of String
 		/// <summary>
