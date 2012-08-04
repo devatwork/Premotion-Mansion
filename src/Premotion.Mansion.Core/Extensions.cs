@@ -675,6 +675,17 @@ namespace Premotion.Mansion.Core
 				throw new InvalidOperationException(String.Format("Missing a dependency of type '{0}' with namespace '{1}' and name '{2}'", typeof (TContract), namespaceUri, name));
 			return result;
 		}
+		/// <summary>
+		/// Creates an instance of type <typeparamref name="TContract"/>.
+		/// </summary>
+		/// <typeparam name="TContract">The contract <see cref="Type"/>.</typeparam>
+		/// <param name="nucleus">The <see cref="INucleus"/>.</param>
+		/// <returns>Returns the created object.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="nucleus"/> is null.</exception>
+		public static TContract CreateInstance<TContract>(this INucleus nucleus) where TContract : class
+		{
+			return typeof (TContract).CreateInstance<TContract>(nucleus);
+		}
 		#endregion
 		#region Extensions of ITypeDefinition
 		/// <summary>
