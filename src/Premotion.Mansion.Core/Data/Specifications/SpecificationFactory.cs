@@ -56,22 +56,6 @@ namespace Premotion.Mansion.Core.Data.Specifications
 		#endregion
 		#region Property Specification Methods
 		/// <summary>
-		/// Constructs an == (is equal) specfication.
-		/// </summary>
-		/// <param name="propertyName">The name of the property on which to apply this specification.</param>
-		/// <param name="value">The value on which to check.</param>
-		/// <returns>Returns the created <see cref="Specification"/>.</returns>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="propertyName"/> is null.</exception>
-		public static Specification IsEqual(string propertyName, object value)
-		{
-			// validate arguments
-			if (string.IsNullOrEmpty(propertyName))
-				throw new ArgumentNullException("propertyName");
-
-			// create the specfification
-			return new IsPropertyEqualSpecification(propertyName, value);
-		}
-		/// <summary>
 		/// Constructs an in list specification.
 		/// </summary>
 		/// <param name="propertyName">The name of the property on which to apply this specification.</param>

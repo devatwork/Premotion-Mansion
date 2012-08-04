@@ -40,7 +40,7 @@ namespace Premotion.Mansion.Core.Data.Parser
 					continue;
 
 				// turn it into a specification
-				query.Add(values.Length == 1 ? SpecificationFactory.IsEqual(propertyName, values[0]) : SpecificationFactory.IsIn(propertyName, values));
+				query.Add(SpecificationFactory.IsIn(propertyName, values));
 			}
 		}
 		#endregion
