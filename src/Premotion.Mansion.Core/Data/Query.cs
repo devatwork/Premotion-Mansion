@@ -70,6 +70,15 @@ namespace Premotion.Mansion.Core.Data
 			typeHints.AddRange(types);
 		}
 		#endregion
+		#region Properties
+		/// <summary>
+		/// Gets the hinted <see cref="ITypeDefinition"/>s.
+		/// </summary>
+		public IEnumerable<ITypeDefinition> TypeHints
+		{
+			get { return typeHints; }
+		}
+		#endregion
 		#region Private Fields
 		private readonly Queue<Sort> sortQueue = new Queue<Sort>();
 		private readonly Queue<Specification> specificationQueue = new Queue<Specification>();
