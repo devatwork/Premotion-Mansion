@@ -7,7 +7,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 	/// Fetches a node from the stack and puts it into a new dataspace.
 	/// </summary>
 	[ScriptTag(Constants.NamespaceUri, "fetchNode")]
-	public class FetchNodeTag : RetrieveNodeBaseTag
+	public class FetchNodeTag : RetrieveRecordBaseTag
 	{
 		/// <summary>
 		/// Builds and executes the query.
@@ -16,7 +16,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 		/// <param name="arguments">The arguments from which to build the query.</param>
 		/// <param name="repository"></param>
 		/// <returns>Returns the result.</returns>
-		protected override Node Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository)
+		protected override IPropertyBag Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository)
 		{
 			return GetAttribute<Node>(context, "source");
 		}

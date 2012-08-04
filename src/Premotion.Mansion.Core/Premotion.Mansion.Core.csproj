@@ -376,8 +376,8 @@
     <Compile Include="ScriptTags\Repository\OpenRepositoryTag.cs" />
     <Compile Include="ScriptTags\Repository\RetrieveChildNodesetTag.cs" />
     <Compile Include="ScriptTags\Repository\RetrieveChildNodeTag.cs" />
-    <Compile Include="ScriptTags\Repository\RetrieveNodeBaseTag.cs" />
-    <Compile Include="ScriptTags\Repository\RetrieveNodesetBaseTag.cs" />
+    <Compile Include="ScriptTags\Repository\RetrieveRecordBaseTag.cs" />
+    <Compile Include="ScriptTags\Repository\RetrieveDatasetBaseTag.cs" />
     <Compile Include="ScriptTags\Repository\RetrieveNodeTag.cs" />
     <Compile Include="ScriptTags\Repository\RetrieveParentNodesetTag.cs" />
     <Compile Include="ScriptTags\Repository\RetrieveParentNodeTag.cs" />

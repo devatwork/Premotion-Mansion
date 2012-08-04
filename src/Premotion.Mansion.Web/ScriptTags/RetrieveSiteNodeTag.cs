@@ -11,7 +11,7 @@ namespace Premotion.Mansion.Web.ScriptTags
 	/// Retrieves a site node byt it's host name.
 	/// </summary>
 	[ScriptTag(Constants.NamespaceUri, "retrieveSiteNode")]
-	public class RetrieveSiteNodeTag : RetrieveNodeBaseTag
+	public class RetrieveSiteNodeTag : RetrieveRecordBaseTag
 	{
 		/// <summary>
 		/// Builds and executes the query.
@@ -20,7 +20,7 @@ namespace Premotion.Mansion.Web.ScriptTags
 		/// <param name="arguments">The arguments from which to build the query.</param>
 		/// <param name="repository"></param>
 		/// <returns>Returns the result.</returns>
-		protected override Node Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository)
+		protected override IPropertyBag Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository)
 		{
 			// get the url
 			Uri url;

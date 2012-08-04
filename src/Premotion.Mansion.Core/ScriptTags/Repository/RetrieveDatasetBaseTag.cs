@@ -7,7 +7,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 	/// <summary>
 	/// Provides base functionality for building nodes queries
 	/// </summary>
-	public abstract class RetrieveNodesetBaseTag : GetDatasetBaseTag
+	public abstract class RetrieveDatasetBaseTag : GetDatasetBaseTag
 	{
 		#region Execute Methods
 		/// <summary>
@@ -28,7 +28,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 		/// <param name="arguments">The arguments from which to build the query.</param>
 		/// <param name="repository"></param>
 		/// <returns>Returns the result.</returns>
-		protected abstract Nodeset Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository);
+		protected abstract Dataset Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository);
 		#endregion
 	}
 }

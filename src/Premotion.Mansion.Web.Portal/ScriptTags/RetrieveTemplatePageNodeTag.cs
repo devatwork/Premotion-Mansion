@@ -11,7 +11,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 	/// Retrieves the template page for the specified source node.
 	/// </summary>
 	[ScriptTag(Constants.TagNamespaceUri, "retrieveTemplatePageNode")]
-	public class RetrieveTemplatePageNodeTag : RetrieveNodeBaseTag
+	public class RetrieveTemplatePageNodeTag : RetrieveRecordBaseTag
 	{
 		#region Constructors
 		/// <summary>
@@ -37,7 +37,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 		/// <param name="arguments">The arguments from which to build the query.</param>
 		/// <param name="repository"></param>
 		/// <returns>Returns the result.</returns>
-		protected override Node Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository)
+		protected override IPropertyBag Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository)
 		{
 			// get the node
 			var contentNode = GetRequiredAttribute<Node>(context, "source");

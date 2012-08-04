@@ -9,7 +9,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 	/// Retrieves a parent node from the top most repository.
 	/// </summary>
 	[ScriptTag(Constants.NamespaceUri, "retrieveParentNode")]
-	public class RetrieveParentNodeTag : RetrieveNodeBaseTag
+	public class RetrieveParentNodeTag : RetrieveRecordBaseTag
 	{
 		/// <summary>
 		/// Builds and executes the query.
@@ -18,7 +18,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 		/// <param name="arguments">The arguments from which to build the query.</param>
 		/// <param name="repository"></param>
 		/// <returns>Returns the result.</returns>
-		protected override Node Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository)
+		protected override IPropertyBag Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository)
 		{
 			// parse the query
 			var query = repository.ParseQuery(context, arguments);
