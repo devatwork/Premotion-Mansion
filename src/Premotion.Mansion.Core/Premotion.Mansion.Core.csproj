@@ -228,6 +228,8 @@
     <Compile Include="Patterns\DisposableChain.cs" />
     <Compile Include="Patterns\Interpreting\IInterpreter.cs" />
     <Compile Include="Patterns\Interpreting\IVotingInterpreter.cs" />
+    <Compile Include="Patterns\Prioritized\IPrioritized.cs" />
+    <Compile Include="Patterns\Prioritized\PrioritizedExtensions.cs" />
     <Compile Include="Patterns\Processing\IProcessor.cs" />
     <Compile Include="Patterns\Processing\IVotingProcessor.cs" />
     <Compile Include="Patterns\Tokenizing\ITokenizer.cs" />
