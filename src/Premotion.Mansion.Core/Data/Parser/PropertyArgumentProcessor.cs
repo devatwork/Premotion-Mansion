@@ -27,11 +27,11 @@ namespace Premotion.Mansion.Core.Data.Parser
 		protected override void DoProcess(IMansionContext context, IPropertyBag parameters, Query query)
 		{
 			// loop through all the remaining properties
-			foreach (var propertyName in parameters.Names)
+			foreach (var propertyName in parameters.Names.ToArray())
 			{
 				// guard against empty properties
 				string valueString;
-				if (!parameters.TryGet(context, propertyName, out valueString) || string.IsNullOrWhiteSpace(valueString))
+				if (!parameters.TryGetAndRemove(context, propertyName, out valueString) || string.IsNullOrWhiteSpace(valueString))
 					continue;
 
 				// parse the parameters, ignoring properties without values
