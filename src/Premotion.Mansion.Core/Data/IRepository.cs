@@ -1,4 +1,5 @@
 ﻿using System;
+using Premotion.Mansion.Core.Collections;
 
 namespace Premotion.Mansion.Core.Data
 {
@@ -59,6 +60,24 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="targetParentPointer">The pointer to the parent to which the copied node is added.</param>
 		/// <returns>Returns the copied node.</returns>
 		Node Copy(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer);
+		#endregion
+		#region Raw Data Methods
+		/// <summary>
+		/// Retrieves a single record from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
+		/// <returns>Returns a single <see cref="IPropertyBag"/> or null when no result is found.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
+		IPropertyBag RetrieveSingle(IMansionContext context, Query query);
+		/// <summary>
+		/// Retrieves a <see cref="Dataset"/> from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
+		/// <returns>Returns a <see cref="Dataset"/> containing the results.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
+		Dataset Retrieve(IMansionContext context, Query query);
 		#endregion
 		#region Parse Query Methods
 		/// <summary>

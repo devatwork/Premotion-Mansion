@@ -454,5 +454,43 @@
 			<xs:attributeGroup ref="targetAttributes" />
 		</xs:complexType>
 	</xs:element>
+	
+	
+	
+	<!-- record tags -->
+	<xs:element name="retrieveDataset" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Retrieves a dataset from the top-most repository.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="retrieveTagType">
+
+					<!-- attributes -->
+					<xs:attributeGroup ref="pagingAttributes" />
+					<xs:attributeGroup ref="filterAttributes" />
+					<xs:anyAttribute namespace="##any" processContents="skip" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="retrieveRecord" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Retrieves a single record from the top-most repository.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="retrieveTagType">
+
+					<!-- attributes -->
+					<xs:attributeGroup ref="filterAttributes" />
+					<xs:anyAttribute namespace="##any" processContents="skip" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 
 </xs:schema>

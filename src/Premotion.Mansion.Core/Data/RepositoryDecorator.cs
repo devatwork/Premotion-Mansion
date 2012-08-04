@@ -1,4 +1,5 @@
 ﻿using System;
+using Premotion.Mansion.Core.Collections;
 
 namespace Premotion.Mansion.Core.Data
 {
@@ -103,6 +104,28 @@ namespace Premotion.Mansion.Core.Data
 		protected override NodeQuery DoParseQuery(IMansionContext context, IPropertyBag arguments)
 		{
 			return DecoratedRepository.ParseQuery(context, arguments);
+		}
+		/// <summary>
+		/// Retrieves a single record from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
+		/// <returns>Returns a single <see cref="IPropertyBag"/> or null when no result is found.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
+		protected override IPropertyBag DoRetrieveSingle(IMansionContext context, Query query)
+		{
+			return DecoratedRepository.RetrieveSingle(context, query);
+		}
+		/// <summary>
+		/// Retrieves a <see cref="Dataset"/> from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
+		/// <returns>Returns a <see cref="Dataset"/> containing the results.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
+		protected override Dataset DoRetrieve(IMansionContext context, Query query)
+		{
+			return DecoratedRepository.Retrieve(context, query);
 		}
 		/// <summary>
 		/// Starts this object. This methods must be called after the object has been created and before it is used.

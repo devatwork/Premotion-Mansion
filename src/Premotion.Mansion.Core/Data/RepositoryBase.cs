@@ -1,4 +1,5 @@
 ﻿using System;
+using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Patterns;
 
 namespace Premotion.Mansion.Core.Data
@@ -167,6 +168,44 @@ namespace Premotion.Mansion.Core.Data
 			// invoke template method
 			return DoCopy(context, pointer, targetParentPointer);
 		}
+		/// <summary>
+		/// Retrieves a single record from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
+		/// <returns>Returns a single <see cref="IPropertyBag"/> or null when no result is found.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
+		public IPropertyBag RetrieveSingle(IMansionContext context, Query query)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (query == null)
+				throw new ArgumentNullException("query");
+			CheckDisposed();
+
+			// invoke template method
+			return DoRetrieve(context, query);
+		}
+		/// <summary>
+		/// Retrieves a <see cref="Dataset"/> from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
+		/// <returns>Returns a <see cref="Dataset"/> containing the results.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
+		public Dataset Retrieve(IMansionContext context, Query query)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (query == null)
+				throw new ArgumentNullException("query");
+			CheckDisposed();
+
+			// invoke template method
+			return DoRetrieve(context, query);
+		}
 		#endregion
 		#region Implementation of IStartable
 		/// <summary>
@@ -257,6 +296,22 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="arguments">The arguments which to parse.</param>
 		/// <returns>Returns the parsed query.</returns>
 		protected abstract NodeQuery DoParseQuery(IMansionContext context, IPropertyBag arguments);
+		/// <summary>
+		/// Retrieves a <see cref="Dataset"/> from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
+		/// <returns>Returns a <see cref="Dataset"/> containing the results.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
+		protected abstract Dataset DoRetrieve(IMansionContext context, Query query);
+		/// <summary>
+		/// Retrieves a single record from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
+		/// <returns>Returns a single <see cref="IPropertyBag"/> or null when no result is found.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
+		protected abstract IPropertyBag DoRetrieveSingle(IMansionContext context, Query query);
 		#endregion
 	}
 }

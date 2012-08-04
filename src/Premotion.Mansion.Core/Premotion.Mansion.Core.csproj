@@ -368,6 +368,8 @@
     <Compile Include="ScriptTags\Constants.cs" />
     <Compile Include="ScriptTags\ExecuteNestedTagsTag.cs" />
     <Compile Include="ScriptTags\Media\JSon\GetDatasetFromJSonTag.cs" />
+    <Compile Include="ScriptTags\Repository\RetrieveRecordTag.cs" />
+    <Compile Include="ScriptTags\Repository\RetrieveDatasetTag.cs" />
     <Compile Include="ScriptTags\Repository\FetchFacetsDatasetTag.cs" />
     <Compile Include="ScriptTags\DeclareEventHandlerTag.cs" />
     <Compile Include="ScriptTags\DeclareProcedureTag.cs" />
