@@ -990,6 +990,9 @@ namespace Premotion.Mansion.Core
 			var tryResolveSingleMethodInfo = nucleusType.GetMethods().Single(candidate => "TryResolveSingle".Equals(candidate.Name) && candidate.GetParameters().Length == 1);
 			if (tryResolveSingleMethodInfo == null)
 				throw new InvalidOperationException(String.Format("Could not find mehtod TryResolveSingle with one parameter on type '{0}'", nucleusType));
+			var resolveMethodInfo = nucleusType.GetMethods().Single(candidate => "Resolve".Equals(candidate.Name) && candidate.GetParameters().Length == 0);
+			if (resolveMethodInfo == null)
+				throw new InvalidOperationException(String.Format("Could not find mehtod Resolve with one parameter on type '{0}'", nucleusType));
 			var nucleusParameterExpression = Expression.Parameter(nucleusType, "nucleus");
 
 			// construct the parameters for the constructor
@@ -999,21 +1002,39 @@ namespace Premotion.Mansion.Core
 			                                                          	// get the type
 			                                                          	var injectedType = parameterInfo.ParameterType;
 
-			                                                          	// define the out parameter
-			                                                          	var outParameter = Expression.Variable(injectedType, "out");
+			                                                          	// check for single or multiple value injection
+			                                                          	if (injectedType.IsGenericType && typeof (IEnumerable<>) == injectedType.GetGenericTypeDefinition())
+			                                                          	{
+			                                                          		// get the type
+			                                                          		var innerType = injectedType.GetGenericArguments()[0];
 
-			                                                          	// bake the method call
-			                                                          	var tryResolveCallExpression = Expression.Call(nucleusParameterExpression, tryResolveSingleMethodInfo.MakeGenericMethod(injectedType), outParameter);
+			                                                          		// bake the method call
+			                                                          		var resolveCallExpression = Expression.Call(nucleusParameterExpression, resolveMethodInfo.MakeGenericMethod(innerType));
 
-			                                                          	// throw if the type could not be found
-			                                                          	var newDependencyNotFoundExceptionExpression = Expression.New(typeof (InvalidOperationException).GetConstructor(new[] {typeof (string)}), new[] {Expression.Constant(String.Format("Could not resolve injected type '{0}' on type '{1}' make sure it is registered properly", injectedType, type))});
-			                                                          	var checkResolveResultExpression = Expression.IfThen(Expression.Not(tryResolveCallExpression), Expression.Throw(newDependencyNotFoundExceptionExpression));
+			                                                          		// set the value
+			                                                          		var assignResultExpression = Expression.Assign(parameterTypes[index], resolveCallExpression);
 
-			                                                          	// set the value
-			                                                          	var assignResultExpression = Expression.Assign(parameterTypes[index], outParameter);
+			                                                          		// return the block
+			                                                          		return Expression.Block(new Expression[] {assignResultExpression});
+			                                                          	}
+			                                                          	else
+			                                                          	{
+			                                                          		// define the out parameter
+			                                                          		var outParameter = Expression.Variable(injectedType, "out");
 
-			                                                          	// return the block
-			                                                          	return Expression.Block(new[] {outParameter}, new Expression[] {checkResolveResultExpression, assignResultExpression});
+			                                                          		// bake the method call
+			                                                          		var tryResolveCallExpression = Expression.Call(nucleusParameterExpression, tryResolveSingleMethodInfo.MakeGenericMethod(injectedType), outParameter);
+
+			                                                          		// throw if the type could not be found
+			                                                          		var newDependencyNotFoundExceptionExpression = Expression.New(typeof (InvalidOperationException).GetConstructor(new[] {typeof (string)}), new[] {Expression.Constant(String.Format("Could not resolve injected type '{0}' on type '{1}' make sure it is registered properly", injectedType, type))});
+			                                                          		var checkResolveResultExpression = Expression.IfThen(Expression.Not(tryResolveCallExpression), Expression.Throw(newDependencyNotFoundExceptionExpression));
+
+			                                                          		// set the value
+			                                                          		var assignResultExpression = Expression.Assign(parameterTypes[index], outParameter);
+
+			                                                          		// return the block
+			                                                          		return Expression.Block(new[] {outParameter}, new Expression[] {checkResolveResultExpression, assignResultExpression});
+			                                                          	}
 			                                                          }));
 
 			// bake the constructor call
