@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Repository.SqlServer.QueryCommands.Mappers;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas
 {
@@ -74,6 +75,17 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		{
 			// this is only invoked when there is a issue in mansion framwork
 			throw new NotSupportedException("Root tables will not be synced");
+		}
+		#endregion
+		#region Overrides of Table
+		/// <summary>
+		/// Gets the <see cref="IRecordMapper"/>s of this table.
+		/// </summary>
+		/// <returns>Returnss the <see cref="IRecordMapper"/>s.</returns>
+		protected override IEnumerable<IRecordMapper> DoGetRecordMappers(IMansionContext context)
+		{
+			yield return context.Nucleus.CreateInstance<NodePointerRecordMapper>();
+			yield return context.Nucleus.CreateInstance<ExtendedPropertiesRecordMapper>();
 		}
 		#endregion
 	}

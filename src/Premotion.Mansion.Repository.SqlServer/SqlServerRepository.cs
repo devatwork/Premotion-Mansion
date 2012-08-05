@@ -9,6 +9,7 @@ using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Clauses;
 using Premotion.Mansion.Repository.SqlServer.Converters;
 using Premotion.Mansion.Repository.SqlServer.Queries;
+using Premotion.Mansion.Repository.SqlServer.QueryCommands;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
 
 namespace Premotion.Mansion.Repository.SqlServer
@@ -276,6 +277,46 @@ namespace Premotion.Mansion.Repository.SqlServer
 			var query = new NodeQuery();
 			query.AddRange(interpreters.OrderBy(interpreter => interpreter.Priority).SelectMany(interpreter => interpreter.Interpret(context, arguments)));
 			return query;
+		}
+		/// <summary>
+		/// Retrieves a single record from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
+		/// <returns>Returns a single <see cref="IPropertyBag"/> or null when no result is found.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
+		protected override IPropertyBag DoRetrieveSingle(IMansionContext context, Query query)
+		{
+			// create the connection and command
+			using (var connection = CreateConnection())
+			using (var command = context.Nucleus.CreateInstance<SelectCommand>())
+			{
+				// init the command with the query
+				command.Prepare(context, connection, query);
+
+				// execute the command
+				return command.ExecuteSingle(context);
+			}
+		}
+		/// <summary>
+		/// Retrieves a <see cref="Dataset"/> from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
+		/// <returns>Returns a <see cref="Dataset"/> containing the results.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
+		protected override Dataset DoRetrieve(IMansionContext context, Query query)
+		{
+			// create the connection and command
+			using (var connection = CreateConnection())
+			using (var command = context.Nucleus.CreateInstance<SelectCommand>())
+			{
+				// init the command with the query
+				command.Prepare(context, connection, query);
+
+				// execute the command
+				return command.Execute(context);
+			}
 		}
 		/// <summary>
 		/// Starts this object. This methods must be called after the object has been created and before it is used.

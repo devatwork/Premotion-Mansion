@@ -74,6 +74,19 @@
     <Compile Include="Queries\InsertQuery.cs" />
     <Compile Include="Queries\MoveQuery.cs" />
     <Compile Include="Queries\SelectQuery.cs" />
+    <Compile Include="QueryCommands\Converters\IQueryComponentConverter.cs" />
+    <Compile Include="QueryCommands\Converters\ISpecificationConverter.cs" />
+    <Compile Include="QueryCommands\Converters\IsPropertyInSpecificationConverter.cs" />
+    <Compile Include="QueryCommands\Converters\QueryComponentConverter.cs" />
+    <Compile Include="QueryCommands\Converters\SortQueryComponentConverter.cs" />
+    <Compile Include="QueryCommands\Converters\SpecificationConverter.cs" />
+    <Compile Include="QueryCommands\Converters\SpecificationQueryComponentConverter.cs" />
+    <Compile Include="QueryCommands\Mappers\ExtendedPropertiesRecordMapper.cs" />
+    <Compile Include="QueryCommands\Mappers\IRecordMapper.cs" />
+    <Compile Include="QueryCommands\Mappers\NodePointerRecordMapper.cs" />
+    <Compile Include="QueryCommands\Mappers\RecordMapper.cs" />
+    <Compile Include="QueryCommands\QueryCommand.cs" />
+    <Compile Include="QueryCommands\SelectCommand.cs" />
     <Compile Include="SqlServerUtilities.cs" />
     <Compile Include="Queries\UpdateQuery.cs" />
     <Compile Include="SchemaCreatorApplicationInitializer.cs" />
@@ -128,6 +141,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

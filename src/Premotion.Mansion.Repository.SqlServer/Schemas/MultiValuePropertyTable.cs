@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Repository.SqlServer.QueryCommands;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas
 {
@@ -178,6 +180,23 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 					                });
 				}
 			}
+		}
+		/// <summary>
+		/// Turns the given <paramref name="values"/> into a where statement for this table.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="column">The <see cref="Column"/>.</param>
+		/// <param name="values">The values.</param>
+		/// <param name="command">The <see cref="QueryCommand"/>.</param>
+		protected override void DoToWhereStatement(IMansionContext context, Column column, object[] values, QueryCommand command)
+		{
+			// assemble the properties
+			var buffer = new StringBuilder();
+			foreach (var value in values)
+				buffer.AppendFormat("@{0},", command.Command.AddParameter(value));
+
+			// append the query
+			command.QueryBuilder.AppendWhere(" [{0}].[id] IN ( SELECT [{1}].[id] FROM [{1}] WHERE [{1}].[{2}] IN ({3}) AND [{1}].[name] = '{4}' )", command.QueryBuilder.RootTableName, Name, column.ColumnName, buffer.Trim(), column.PropertyName);
 		}
 		#endregion
 		#region Helper Methods

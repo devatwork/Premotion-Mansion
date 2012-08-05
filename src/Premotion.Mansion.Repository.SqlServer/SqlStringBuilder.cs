@@ -41,7 +41,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 
 			// set values
 			tables.AppendFormat("[{0}]", rootTable.Name);
-			includedTables.Add(rootTable.Name);
+			includedTables.Add(rootTable);
 			this.rootTable = rootTable;
 		}
 		#endregion
@@ -63,9 +63,9 @@ namespace Premotion.Mansion.Repository.SqlServer
 				throw new ArgumentNullException("command");
 
 			// check if the table is already included
-			if (includedTables.Contains(table.Name))
+			if (includedTables.Contains(table))
 				return;
-			includedTables.Add(table.Name);
+			includedTables.Add(table);
 
 			tables.Append(" " + table.ToJoinStatement(context, rootTable, command));
 		}
@@ -343,12 +343,19 @@ namespace Premotion.Mansion.Repository.SqlServer
 		{
 			get { return rootTable.Name; }
 		}
+		/// <summary>
+		/// Gets all the <see cref="Table"/>s asociated with this query.
+		/// </summary>
+		public IEnumerable<Table> Tables
+		{
+			get { return includedTables; }
+		}
 		#endregion
 		#region Private Fields
 		private readonly StringBuilder additionalQueries = new StringBuilder();
 		private readonly Queue<Action<Nodeset, IDataReader>> additionalQueryMappers = new Queue<Action<Nodeset, IDataReader>>();
 		private readonly StringBuilder columns = new StringBuilder();
-		private readonly ICollection<string> includedTables = new List<string>();
+		private readonly ICollection<Table> includedTables = new List<Table>();
 		private readonly StringBuilder orderBys = new StringBuilder();
 		private readonly Table rootTable;
 		private readonly StringBuilder tables = new StringBuilder();

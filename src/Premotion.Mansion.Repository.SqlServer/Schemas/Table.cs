@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Repository.SqlServer.QueryCommands;
+using Premotion.Mansion.Repository.SqlServer.QueryCommands.Mappers;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas
 {
@@ -38,6 +42,32 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 				throw new ArgumentNullException("column");
 
 			columns.Add(column);
+		}
+		#endregion
+		#region Mapper Methods
+		/// <summary>
+		/// Gets the <see cref="IRecordMapper"/>s of this table.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <returns>Returns the <see cref="IRecordMapper"/>s.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> is null.</exception>
+		public IEnumerable<IRecordMapper> GetRecordMappers(IMansionContext context)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			
+			// invoke template method
+			return DoGetRecordMappers(context);
+		}
+		/// <summary>
+		/// Gets the <see cref="IRecordMapper"/>s of this table.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <returns>Returns the <see cref="IRecordMapper"/>s.</returns>
+		protected virtual IEnumerable<IRecordMapper> DoGetRecordMappers(IMansionContext context)
+		{
+			yield break;
 		}
 		#endregion
 		#region Statement Mapping Methods
@@ -168,6 +198,66 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		protected virtual void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Node> nodes)
 		{
 			throw new NotSupportedException();
+		}
+		/// <summary>
+		/// Turns the given <paramref name="values"/> into a where statement for this table.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="column">The <see cref="Column"/>.</param>
+		/// <param name="values">The values.</param>
+		/// <param name="command">The <see cref="QueryCommand"/>.</param>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public void ToWhereStatement(IMansionContext context, Column column, IEnumerable<object> values, QueryCommand command)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (column == null)
+				throw new ArgumentNullException("column");
+			if (values == null)
+				throw new ArgumentNullException("values");
+			if (command == null)
+				throw new ArgumentNullException("command");
+
+			// guard against empty values
+			var valueArray = values.ToArray();
+			if (valueArray.Length == 0)
+			{
+				command.QueryBuilder.AppendWhere("1 = 0");
+				return;
+			}
+
+			// add this table
+			command.QueryBuilder.AddTable(context, this, command.Command);
+
+			//invoke template method
+			DoToWhereStatement(context, column, valueArray, command);
+		}
+		/// <summary>
+		/// Turns the given <paramref name="values"/> into a where statement for this table.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="column">The <see cref="Column"/>.</param>
+		/// <param name="values">The values.</param>
+		/// <param name="command">The <see cref="QueryCommand"/>.</param>
+		protected virtual void DoToWhereStatement(IMansionContext context, Column column, object[] values, QueryCommand command)
+		{
+			// check for single or multiple values
+			if (values.Length == 1)
+				command.QueryBuilder.AppendWhere(" [{0}].[{1}] = @{2}", Name, column.ColumnName, command.Command.AddParameter(values[0]));
+			else
+			{
+				// start the clause
+				var buffer = new StringBuilder();
+				buffer.AppendFormat("[{0}].[{1}] IN (", Name, column.ColumnName);
+
+				// loop through all the values
+				foreach (var value in values)
+					buffer.AppendFormat("@{0},", command.Command.AddParameter(value));
+
+				// finish the clause
+				command.QueryBuilder.AppendWhere("{0})", buffer.Trim());
+			}
 		}
 		#endregion
 		#region Properties
