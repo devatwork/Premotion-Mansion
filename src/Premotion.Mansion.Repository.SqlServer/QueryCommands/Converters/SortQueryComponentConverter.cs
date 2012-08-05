@@ -1,4 +1,3 @@
-using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 
@@ -18,7 +17,18 @@ namespace Premotion.Mansion.Repository.SqlServer.QueryCommands.Converters
 		/// <param name="command">The <see cref="QueryCommand"/>.</param>
 		protected override void DoConvert(IMansionContext context, SortQueryComponent component, QueryCommand command)
 		{
-			throw new NotImplementedException();
+			// loop through all the sorts
+			foreach (var sort in component.Sorts)
+			{
+				// get the table and the column
+				var tableAndColumn = command.Schema.FindTableAndColumn(sort.PropertyName);
+
+				// add the table to the query
+				command.QueryBuilder.AddTable(context, tableAndColumn.Table, command.Command);
+
+				// append the query
+				command.QueryBuilder.AppendOrderBy(string.Format("[{0}].[{1}] {2}", tableAndColumn.Table.Name, tableAndColumn.Column.ColumnName, sort.Ascending ? "ASC" : "DESC"));
+			}
 		}
 		#endregion
 	}
