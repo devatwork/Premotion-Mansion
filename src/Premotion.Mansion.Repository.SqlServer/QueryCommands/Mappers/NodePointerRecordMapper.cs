@@ -40,7 +40,6 @@ namespace Premotion.Mansion.Repository.SqlServer.QueryCommands.Mappers
 			var nodePointer = NodePointer.Parse(pointer, structure, path);
 
 			// set the pointer
-			properties.Set("id", nodePointer.Id);
 			properties.Set("pointer", nodePointer);
 			properties.Set("path", nodePointer.PathString);
 			properties.Set("structure", nodePointer.StructureString);

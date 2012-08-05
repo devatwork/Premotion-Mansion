@@ -81,6 +81,7 @@
     <Compile Include="QueryCommands\Converters\SortQueryComponentConverter.cs" />
     <Compile Include="QueryCommands\Converters\SpecificationConverter.cs" />
     <Compile Include="QueryCommands\Converters\SpecificationQueryComponentConverter.cs" />
+    <Compile Include="QueryCommands\Mappers\IdRecordMapper.cs" />
     <Compile Include="QueryCommands\Mappers\ExtendedPropertiesRecordMapper.cs" />
     <Compile Include="QueryCommands\Mappers\IRecordMapper.cs" />
     <Compile Include="QueryCommands\Mappers\NodePointerRecordMapper.cs" />

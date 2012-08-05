@@ -84,6 +84,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <returns>Returnss the <see cref="IRecordMapper"/>s.</returns>
 		protected override IEnumerable<IRecordMapper> DoGetRecordMappers(IMansionContext context)
 		{
+			yield return context.Nucleus.CreateInstance<IdRecordMapper>();
 			yield return context.Nucleus.CreateInstance<NodePointerRecordMapper>();
 			yield return context.Nucleus.CreateInstance<ExtendedPropertiesRecordMapper>();
 		}
