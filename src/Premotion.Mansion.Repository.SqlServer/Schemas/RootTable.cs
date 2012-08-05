@@ -87,6 +87,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 			yield return context.Nucleus.CreateInstance<IdRecordMapper>();
 			yield return context.Nucleus.CreateInstance<NodePointerRecordMapper>();
 			yield return context.Nucleus.CreateInstance<ExtendedPropertiesRecordMapper>();
+			yield return context.Nucleus.CreateInstance<RemainderRecordMapper>();
 		}
 		#endregion
 	}

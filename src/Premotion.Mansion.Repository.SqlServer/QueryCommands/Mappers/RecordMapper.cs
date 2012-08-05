@@ -1,5 +1,4 @@
 using System;
-using System.Data;
 using Premotion.Mansion.Core;
 
 namespace Premotion.Mansion.Repository.SqlServer.QueryCommands.Mappers
@@ -25,10 +24,10 @@ namespace Premotion.Mansion.Repository.SqlServer.QueryCommands.Mappers
 		/// Maps the given <paramref name="record"/> to <paramref name="properties"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="record">The <see cref="IDataRecord"/> which to map.</param>
+		/// <param name="record">The <see cref="Record"/> which to map.</param>
 		/// <param name="properties">The <see cref="IPropertyBag"/> in which to store the mapped result.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public void Map(IMansionContext context, IDataRecord record, IPropertyBag properties)
+		public void Map(IMansionContext context, Record record, IPropertyBag properties)
 		{
 			// validate arguments
 			if (context == null)
@@ -45,9 +44,9 @@ namespace Premotion.Mansion.Repository.SqlServer.QueryCommands.Mappers
 		/// Maps the given <paramref name="record"/> to <paramref name="properties"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="record">The <see cref="IDataRecord"/> which to map.</param>
+		/// <param name="record">The <see cref="Record"/> which to map.</param>
 		/// <param name="properties">The <see cref="IPropertyBag"/> in which to store the mapped result.</param>
-		protected abstract void DoMap(IMansionContext context, IDataRecord record, IPropertyBag properties);
+		protected abstract void DoMap(IMansionContext context, Record record, IPropertyBag properties);
 		#endregion
 		#region Implementation of IPrioritized
 		/// <summary>

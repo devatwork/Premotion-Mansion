@@ -9,7 +9,6 @@ namespace Premotion.Mansion.Repository.SqlServer.QueryCommands
 	/// </summary>
 	public abstract class QueryCommand : DisposableBase
 	{
-		// TODO: clean up this class
 		#region Properties
 		/// <summary>
 		/// Gets the <see cref="Schema"/> of this command.
@@ -39,5 +38,6 @@ namespace Premotion.Mansion.Repository.SqlServer.QueryCommands
 			Command.Dispose();
 		}
 		#endregion
+		// TODO: clean up this class
 	}
 }

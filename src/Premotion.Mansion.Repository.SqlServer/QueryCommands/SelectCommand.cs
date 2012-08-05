@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
@@ -102,7 +103,7 @@ namespace Premotion.Mansion.Repository.SqlServer.QueryCommands
 					return null;
 
 				// map to node.
-				return Map(context, recordMappers, reader);
+				return Map(context, recordMappers, new Record(reader));
 			}
 		}
 		/// <summary>
@@ -124,7 +125,7 @@ namespace Premotion.Mansion.Repository.SqlServer.QueryCommands
 				throw new InvalidOperationException("The command is not prepared. Call the prepare method before calling execute.");
 
 			// get the column mappers in prioritized order
-			var recordMappers = Schema.RootTable.GetRecordMappers(context).OrderByPriority();
+			var recordMappers = Schema.RootTable.GetRecordMappers(context).OrderByPriority().ToList();
 
 			// create the dataset
 			var dataset = new Dataset();
@@ -134,7 +135,7 @@ namespace Premotion.Mansion.Repository.SqlServer.QueryCommands
 			{
 				// read the input
 				while (reader.Read())
-					dataset.AddRow(Map(context, recordMappers, reader));
+					dataset.AddRow(Map(context, recordMappers, new Record(reader)));
 			}
 
 			// return the result
@@ -147,9 +148,9 @@ namespace Premotion.Mansion.Repository.SqlServer.QueryCommands
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="recordMappers">The <see cref="IRecordMapper"/>s.</param>
-		/// <param name="record">The <see cref="IDataRecord"/> which to map.</param>
+		/// <param name="record">The <see cref="Record"/> which to map.</param>
 		/// <returns>Returns the mapped record.</returns>
-		private static IPropertyBag Map(IMansionContext context, IEnumerable<IRecordMapper> recordMappers, IDataRecord record)
+		private static IPropertyBag Map(IMansionContext context, IEnumerable<IRecordMapper> recordMappers, Record record)
 		{
 			//  create a new property bag
 			var properties = new PropertyBag();

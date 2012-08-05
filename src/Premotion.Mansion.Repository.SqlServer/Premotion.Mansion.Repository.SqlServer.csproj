@@ -86,7 +86,9 @@
     <Compile Include="QueryCommands\Mappers\IRecordMapper.cs" />
     <Compile Include="QueryCommands\Mappers\NodePointerRecordMapper.cs" />
     <Compile Include="QueryCommands\Mappers\RecordMapper.cs" />
+    <Compile Include="QueryCommands\Mappers\RemainderRecordMapper.cs" />
     <Compile Include="QueryCommands\QueryCommand.cs" />
+    <Compile Include="QueryCommands\Record.cs" />
     <Compile Include="QueryCommands\SelectCommand.cs" />
     <Compile Include="SqlServerUtilities.cs" />
     <Compile Include="Queries\UpdateQuery.cs" />

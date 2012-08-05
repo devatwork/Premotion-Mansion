@@ -1,4 +1,3 @@
-using System.Data;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 
@@ -21,9 +20,9 @@ namespace Premotion.Mansion.Repository.SqlServer.QueryCommands.Mappers
 		/// Maps the given <paramref name="record"/> to <paramref name="properties"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="record">The <see cref="IDataRecord"/> which to map.</param>
+		/// <param name="record">The <see cref="Record"/> which to map.</param>
 		/// <param name="properties">The <see cref="IPropertyBag"/> in which to store the mapped result.</param>
-		protected override void DoMap(IMansionContext context, IDataRecord record, IPropertyBag properties)
+		protected override void DoMap(IMansionContext context, Record record, IPropertyBag properties)
 		{
 			// field indices
 			var idIndex = record.GetOrdinal("id");

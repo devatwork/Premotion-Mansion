@@ -3,14 +3,15 @@ using Premotion.Mansion.Core;
 namespace Premotion.Mansion.Repository.SqlServer.QueryCommands.Mappers
 {
 	/// <summary>
-	/// Implements the <see cref="IRecordMapper"/> for IDs.
+	/// Maps the remaining properties to the record.
 	/// </summary>
-	public class IdRecordMapper : RecordMapper
+	public class RemainderRecordMapper : RecordMapper
 	{
 		#region Constructors
 		/// <summary>
+		/// 
 		/// </summary>
-		public IdRecordMapper() : base(750)
+		public RemainderRecordMapper() : base(10)
 		{
 		}
 		#endregion
@@ -23,11 +24,18 @@ namespace Premotion.Mansion.Repository.SqlServer.QueryCommands.Mappers
 		/// <param name="properties">The <see cref="IPropertyBag"/> in which to store the mapped result.</param>
 		protected override void DoMap(IMansionContext context, Record record, IPropertyBag properties)
 		{
-			// field indices
-			var idIndex = record.GetOrdinal("id");
-
-			// set the pointer
-			properties.Set("id", record.GetInt32(idIndex));
+			// set all the column values as properties
+			foreach (var ordinals in record.GetUnreadOrdinals())
+			{
+				// if the column is empty remove the value from the properties, otherwise set the value from the column
+				if (record.IsDBNull(ordinals))
+				{
+					object obj;
+					properties.TryGetAndRemove(context, record.GetName(ordinals), out obj);
+				}
+				else
+					properties.Set(record.GetName(ordinals), record.GetValue(ordinals));
+			}
 		}
 		#endregion
 	}
