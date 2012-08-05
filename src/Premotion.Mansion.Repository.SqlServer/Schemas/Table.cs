@@ -56,7 +56,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
-			
+
 			// invoke template method
 			return DoGetRecordMappers(context);
 		}
@@ -67,7 +67,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <returns>Returns the <see cref="IRecordMapper"/>s.</returns>
 		protected virtual IEnumerable<IRecordMapper> DoGetRecordMappers(IMansionContext context)
 		{
-			yield break;
+			throw new NotSupportedException();
 		}
 		#endregion
 		#region Statement Mapping Methods

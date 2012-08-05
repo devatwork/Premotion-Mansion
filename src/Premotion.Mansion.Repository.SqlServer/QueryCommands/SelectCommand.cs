@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
@@ -93,7 +92,7 @@ namespace Premotion.Mansion.Repository.SqlServer.QueryCommands
 				throw new InvalidOperationException("The command is not prepared. Call the prepare method before calling execute.");
 
 			// get the column mappers in prioritized order
-			var recordMappers = QueryBuilder.Tables.SelectMany(table => table.GetRecordMappers(context)).OrderByPriority();
+			var recordMappers = Schema.RootTable.GetRecordMappers(context).OrderByPriority();
 
 			// execute the command
 			using (var reader = Command.ExecuteReader(CommandBehavior.SingleRow))
@@ -125,7 +124,7 @@ namespace Premotion.Mansion.Repository.SqlServer.QueryCommands
 				throw new InvalidOperationException("The command is not prepared. Call the prepare method before calling execute.");
 
 			// get the column mappers in prioritized order
-			var recordMappers = QueryBuilder.Tables.SelectMany(table => table.GetRecordMappers(context)).OrderByPriority().ToList();
+			var recordMappers = Schema.RootTable.GetRecordMappers(context).OrderByPriority();
 
 			// create the dataset
 			var dataset = new Dataset();
