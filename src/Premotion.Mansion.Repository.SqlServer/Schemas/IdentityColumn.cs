@@ -14,7 +14,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		#region Constructors
 		/// <summary>
 		/// </summary>
-		public IdentityColumn(Table table) : base("identity")
+		public IdentityColumn(Table table) : base("id")
 		{
 			// validate arguments
 			if (table == null)
