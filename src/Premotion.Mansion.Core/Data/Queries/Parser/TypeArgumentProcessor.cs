@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Premotion.Mansion.Core.Data.Queries.Specifications;
 using Premotion.Mansion.Core.Types;
 
 namespace Premotion.Mansion.Core.Data.Queries.Parser
@@ -44,6 +45,7 @@ namespace Premotion.Mansion.Core.Data.Queries.Parser
 
 			// add the type hints to the query
 			query.Add(types);
+			query.Add(new IsPropertyInSpecification("type", types.Select(type => type.Name)));
 		}
 		#endregion
 		#region Private Fields

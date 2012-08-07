@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Premotion.Mansion.Core.Data.Queries.Specifications;
 using Premotion.Mansion.Core.Types;
 
 namespace Premotion.Mansion.Core.Data.Queries.Parser
@@ -38,18 +39,22 @@ namespace Premotion.Mansion.Core.Data.Queries.Parser
 			if (!parameters.TryGetAndRemove(context, "baseType", out baseTypeNames) && string.IsNullOrEmpty(baseTypeNames))
 				return;
 
-			// parse the type names
-			var types = baseTypeNames.Split(',').Select(x => typeService.Load(context, x)).ToArray();
-			if (types.Length == 0)
+			// parse the base type names
+			var baseTypes = baseTypeNames.Split(',').Select(x => typeService.Load(context, x)).ToArray();
+			if (baseTypes.Length == 0)
 				return;
 
+			// get all the types
+			var types = baseTypes.SelectMany(baseType =>
+			                                 {
+			                                 	var list = new List<ITypeDefinition>(new[] {baseType});
+			                                 	list.AddRange(baseType.GetInheritingTypes(context));
+			                                 	return list;
+			                                 }).ToArray();
+
 			// add the type hints to the query
-			query.Add(types.SelectMany(baseType =>
-			                           {
-			                           	var list = new List<ITypeDefinition>(new[] {baseType});
-			                           	list.AddRange(baseType.GetInheritingTypes(context));
-			                           	return list;
-			                           }));
+			query.Add(types);
+			query.Add(new IsPropertyInSpecification("type", types.Select(type => type.Name)));
 		}
 		#endregion
 		#region Private Fields
