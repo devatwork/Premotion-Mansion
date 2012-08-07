@@ -74,6 +74,7 @@
     <Compile Include="Queries\InsertQuery.cs" />
     <Compile Include="Queries\MoveQuery.cs" />
     <Compile Include="Queries\SelectQuery.cs" />
+    <Compile Include="QueryCommands\Converters\ChildOfQueryComponentConverter.cs" />
     <Compile Include="QueryCommands\Converters\IQueryComponentConverter.cs" />
     <Compile Include="QueryCommands\Converters\ISpecificationConverter.cs" />
     <Compile Include="QueryCommands\Converters\IsPropertyInSpecificationConverter.cs" />

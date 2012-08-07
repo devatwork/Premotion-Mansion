@@ -78,6 +78,7 @@
     <Compile Include="Data\Extensions.cs" />
     <Compile Include="Data\IQueryParser.cs" />
     <Compile Include="Data\Parser\BaseTypeArgumentProcessor.cs" />
+    <Compile Include="Data\Parser\ChildOfQueryArgumentProcessor.cs" />
     <Compile Include="Data\Parser\PropertyArgumentProcessor.cs" />
     <Compile Include="Data\Parser\TypeArgumentProcessor.cs" />
     <Compile Include="Data\Parser\WhereArgumentProcessor.cs" />
