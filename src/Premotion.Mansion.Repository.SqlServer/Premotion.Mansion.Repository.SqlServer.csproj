@@ -74,6 +74,7 @@
     <Compile Include="NodeQueries\InsertQuery.cs" />
     <Compile Include="NodeQueries\MoveQuery.cs" />
     <Compile Include="NodeQueries\SelectQuery.cs" />
+    <Compile Include="Queries\Converters\CacheQueryComponentConverter.cs" />
     <Compile Include="Queries\Converters\PagingQueryComponentConverter.cs" />
     <Compile Include="Queries\Converters\LimitQueryComponentConverter.cs" />
     <Compile Include="Queries\Converters\Nodes\ChildOfQueryComponentConverter.cs" />
