@@ -4,6 +4,10 @@
 	<!-- retrieve the profile -->
 	<declareProcedure procedureName="HandleView">
 
+		<retrieveRecord parentPointer="1" depth="any" type="Site" target="RootNode" sort="type asc">
+			
+		</retrieveRecord>
+
 		<renderSection name="Page">
 			<controls:grid>
 				<providers:retrieveChildNodesetProvider parentPointer="1" type="{GetControlPropertyValue( 'type' )}" status="any" bypassAuthorization="true" pageNumber="{GetControlPropertyValue( 'page-number', '1' )}" pageSize="3" sort="{GetControlPropertyValue( 'sort', 'order asc' )}" />

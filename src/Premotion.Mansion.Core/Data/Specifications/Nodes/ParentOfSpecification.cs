@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Premotion.Mansion.Core.Data.Specifications.Node
+namespace Premotion.Mansion.Core.Data.Specifications.Nodes
 {
 	/// <summary>
 	/// Specifies a parent relation.

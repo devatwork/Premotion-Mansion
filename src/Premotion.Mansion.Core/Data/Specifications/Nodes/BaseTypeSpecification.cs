@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Premotion.Mansion.Core.Types;
 
-namespace Premotion.Mansion.Core.Data.Specifications.Node
+namespace Premotion.Mansion.Core.Data.Specifications.Nodes
 {
 	/// <summary>
 	/// Specifies base <see cref="ITypeDefinition"/>s.
@@ -35,7 +35,7 @@ namespace Premotion.Mansion.Core.Data.Specifications.Node
 		#endregion
 		#region Factory Methods
 		/// <summary>
-		/// Constructs a <see cref="Premotion.Mansion.Core.Data.Specifications.Node.TypeSpecification"/> specification matching the given <paramref name="typeNames"/>.
+		/// Constructs a <see cref="TypeSpecification"/> specification matching the given <paramref name="typeNames"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="typeNames">The type name string.</param>
@@ -60,7 +60,7 @@ namespace Premotion.Mansion.Core.Data.Specifications.Node
 			return IsAny(types);
 		}
 		/// <summary>
-		/// Constructs a <see cref="Premotion.Mansion.Core.Data.Specifications.Node.TypeSpecification"/> specification matching the given <paramref name="type"/>.
+		/// Constructs a <see cref="TypeSpecification"/> specification matching the given <paramref name="type"/>.
 		/// </summary>
 		/// <param name="type">The <see cref="ITypeDefinition"/></param>
 		/// <returns>Returns the created specification.</returns>
@@ -71,7 +71,7 @@ namespace Premotion.Mansion.Core.Data.Specifications.Node
 			return IsAny(type);
 		}
 		/// <summary>
-		/// Constructs a <see cref="Premotion.Mansion.Core.Data.Specifications.Node.TypeSpecification"/> specification matching any of the given <paramref name="types"/>.
+		/// Constructs a <see cref="TypeSpecification"/> specification matching any of the given <paramref name="types"/>.
 		/// </summary>
 		/// <param name="types">The <see cref="ITypeDefinition"/>s.</param>
 		/// <returns>Returns the created specification.</returns>
@@ -82,7 +82,7 @@ namespace Premotion.Mansion.Core.Data.Specifications.Node
 			return new BaseTypeSpecification(types);
 		}
 		/// <summary>
-		/// Constructs a <see cref="Premotion.Mansion.Core.Data.Specifications.Node.TypeSpecification"/> specification matching any of the given <paramref name="types"/>.
+		/// Constructs a <see cref="TypeSpecification"/> specification matching any of the given <paramref name="types"/>.
 		/// </summary>
 		/// <param name="types">The <see cref="ITypeDefinition"/>s.</param>
 		/// <returns>Returns the created specification.</returns>

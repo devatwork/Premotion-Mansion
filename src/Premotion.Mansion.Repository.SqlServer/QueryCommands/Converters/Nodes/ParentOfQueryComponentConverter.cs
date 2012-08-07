@@ -1,11 +1,10 @@
 using System;
 using System.Text;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Specifications;
-using Premotion.Mansion.Core.Data.Specifications.Node;
+using Premotion.Mansion.Core.Data.Specifications.Nodes;
 
-namespace Premotion.Mansion.Repository.SqlServer.QueryCommands.Converters
+namespace Premotion.Mansion.Repository.SqlServer.QueryCommands.Converters.Nodes
 {
 	/// <summary>
 	/// Implements the <see cref="IQueryComponentConverter"/> for  <see cref="ParentOfSpecification"/>s.

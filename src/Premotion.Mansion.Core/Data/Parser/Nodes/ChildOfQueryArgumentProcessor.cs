@@ -1,19 +1,19 @@
 using System;
 using Premotion.Mansion.Core.Conversion;
-using Premotion.Mansion.Core.Data.Specifications.Node;
+using Premotion.Mansion.Core.Data.Specifications.Nodes;
 
-namespace Premotion.Mansion.Core.Data.Parser
+namespace Premotion.Mansion.Core.Data.Parser.Nodes
 {
 	/// <summary>
-	/// Implements the parent of query argument processor.
+	/// Implements the child of query argument processor.
 	/// </summary>
-	public class ParentOfQueryArgumentProcessor : QueryArgumentProcessor
+	public class ChildOfQueryArgumentProcessor : QueryArgumentProcessor
 	{
 		#region Constructors
 		/// <summary>
 		/// Constructs this processor.
 		/// </summary>
-		public ParentOfQueryArgumentProcessor(IConversionService conversionService) : base(200)
+		public ChildOfQueryArgumentProcessor(IConversionService conversionService) : base(200)
 		{
 			// validate arguments
 			if (conversionService == null)
@@ -55,23 +55,23 @@ namespace Premotion.Mansion.Core.Data.Parser
 
 			// check for parentPointer
 			NodePointer parentPointer;
-			if (parameters.TryGetAndRemove(context, "childPointer", out parentPointer))
+			if (parameters.TryGetAndRemove(context, "parentPointer", out parentPointer))
 			{
-				query.Add(ParentOfSpecification.Child(parentPointer, depthValue.Value));
+				query.Add(ChildOfSpecification.Parent(parentPointer, depthValue.Value));
 				clauseCounter++;
 			}
 
 			// check for pointer
 			Node parentNode;
-			if (parameters.TryGetAndRemove(context, "childSource", out parentNode))
+			if (parameters.TryGetAndRemove(context, "parentSource", out parentNode))
 			{
-				query.Add(ParentOfSpecification.Child(parentNode.Pointer, depthValue.Value));
+				query.Add(ChildOfSpecification.Parent(parentNode.Pointer, depthValue.Value));
 				clauseCounter++;
 			}
 
 			// check for ambigous parameters
 			if (clauseCounter > 1)
-				throw new InvalidOperationException("Detected an ambigious parent of clause. Remove either childPointer or childSource.");
+				throw new InvalidOperationException("Detected an ambigious parent of clause. Remove either parentPointer or parentSource.");
 		}
 		#endregion
 		#region Private Fields

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Premotion.Mansion.Core.Data.Specifications.Node
+namespace Premotion.Mansion.Core.Data.Specifications.Nodes
 {
 	/// <summary>
 	/// Specifies IDs.

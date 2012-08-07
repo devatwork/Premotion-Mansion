@@ -2,7 +2,7 @@
 using System.Text;
 using Premotion.Mansion.Core.Security;
 
-namespace Premotion.Mansion.Core.Data.Specifications.Node
+namespace Premotion.Mansion.Core.Data.Specifications.Nodes
 {
 	/// <summary>
 	/// Specifies the security of the current specification.
