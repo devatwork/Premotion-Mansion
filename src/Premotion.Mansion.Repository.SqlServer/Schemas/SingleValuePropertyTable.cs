@@ -160,16 +160,16 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="column">The <see cref="Column"/>.</param>
 		/// <param name="values">The values.</param>
-		/// <param name="command">The <see cref="QueryCommand"/>.</param>
-		protected override void DoToWhereStatement(IMansionContext context, Column column, object[] values, QueryCommand command)
+		/// <param name="commandContext">The <see cref="QueryCommandContext"/>.</param>
+		protected override void DoToWhereStatement(IMansionContext context, Column column, object[] values, QueryCommandContext commandContext)
 		{
 			// assemble the properties
 			var buffer = new StringBuilder();
 			foreach (var value in values)
-				buffer.AppendFormat("@{0},", command.Command.AddParameter(value));
+				buffer.AppendFormat("@{0},", commandContext.Command.AddParameter(value));
 
 			// append the query
-			command.QueryBuilder.AppendWhere(" [{0}].[id] IN ( SELECT [{1}].[id] FROM [{1}] WHERE [{1}].[{2}] IN ({3}) )", command.QueryBuilder.RootTableName, this, column.ColumnName, buffer.Trim());
+			commandContext.QueryBuilder.AppendWhere(" [{0}].[id] IN ( SELECT [{1}].[id] FROM [{1}] WHERE [{1}].[{2}] IN ({3}) )", commandContext.QueryBuilder.RootTableName, this, column.ColumnName, buffer.Trim());
 		}
 		#endregion
 		#region Helper Methods

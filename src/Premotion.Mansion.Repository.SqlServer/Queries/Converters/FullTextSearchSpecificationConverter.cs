@@ -141,8 +141,8 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="specification">The <see cref="Specification"/> which to convert.</param>
-		/// <param name="command">The <see cref="QueryCommand"/>.</param>
-		protected override void DoConvert(IMansionContext context, FullTextSearchSpecification specification, QueryCommand command)
+		/// <param name="commandContext">The <see cref="QueryCommandContext"/>.</param>
+		protected override void DoConvert(IMansionContext context, FullTextSearchSpecification specification, QueryCommandContext commandContext)
 		{
 			// process the query
 			var tokens = Tokenizer.Tokenize(context, specification.Query);
@@ -150,16 +150,16 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 			var condition = string.Join(" AND ", conditions);
 
 			// create the condition parameter
-			var conditionParameter = command.Command.AddParameter(condition);
+			var conditionParameter = commandContext.Command.AddParameter(condition);
 
 			// build the full text table
-			var fullTextTable = new FullTextSearchTable(command.QueryBuilder.RootTableName, "@" + conditionParameter, command.QueryBuilder.RootTableName);
+			var fullTextTable = new FullTextSearchTable(commandContext.QueryBuilder.RootTableName, "@" + conditionParameter, commandContext.QueryBuilder.RootTableName);
 
 			// add the full text table to the query
-			command.QueryBuilder.AddTable(context, fullTextTable, command.Command);
+			commandContext.QueryBuilder.AddTable(context, fullTextTable, commandContext.Command);
 
 			// add a sort clause
-			command.QueryBuilder.AppendOrderBy(string.Format("[{0}].[RANK] DESC", fullTextTable.Name));
+			commandContext.QueryBuilder.AppendOrderBy(string.Format("[{0}].[RANK] DESC", fullTextTable.Name));
 		}
 		#endregion
 		#region Private Fields

@@ -16,9 +16,9 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="specification">The <see cref="Specification"/> which to convert.</param>
-		/// <param name="command">The <see cref="QueryCommand"/>.</param>
+		/// <param name="commandContext">The <see cref="QueryCommandContext"/>.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		void Convert(IMansionContext context, Specification specification, QueryCommand command);
+		void Convert(IMansionContext context, Specification specification, QueryCommandContext commandContext);
 		#endregion
 	}
 }

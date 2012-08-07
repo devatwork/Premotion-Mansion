@@ -16,19 +16,19 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters.Nodes
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="specification">The <see cref="Specification"/> which to convert.</param>
-		/// <param name="command">The <see cref="QueryCommand"/>.</param>
-		protected override void DoConvert(IMansionContext context, ChildOfSpecification specification, QueryCommand command)
+		/// <param name="commandContext">The <see cref="QueryCommandContext"/>.</param>
+		protected override void DoConvert(IMansionContext context, ChildOfSpecification specification, QueryCommandContext commandContext)
 		{
 			switch (specification.Depth)
 			{
 				case null:
-					command.QueryBuilder.AppendWhere("[{1}].[parentPointer] LIKE @{0}", command.Command.AddParameter(specification.ParentPointer.PointerString + NodePointer.PointerSeparator + "%"), command.Schema.RootTable.Name);
+					commandContext.QueryBuilder.AppendWhere("[{1}].[parentPointer] LIKE @{0}", commandContext.Command.AddParameter(specification.ParentPointer.PointerString + NodePointer.PointerSeparator + "%"), commandContext.Schema.RootTable.Name);
 					break;
 				case 1:
-					command.QueryBuilder.AppendWhere("[{1}].[parentId] = @{0}", command.Command.AddParameter(specification.ParentPointer.Id), command.Schema.RootTable.Name);
+					commandContext.QueryBuilder.AppendWhere("[{1}].[parentId] = @{0}", commandContext.Command.AddParameter(specification.ParentPointer.Id), commandContext.Schema.RootTable.Name);
 					break;
 				default:
-					command.QueryBuilder.AppendWhere("[{2}].[parentPointer] LIKE @{0} AND [Nodes].[depth] = @{1}", command.Command.AddParameter(specification.ParentPointer.PointerString + NodePointer.PointerSeparator + "%"), command.Command.AddParameter(specification.Depth + specification.ParentPointer.Depth), command.Schema.RootTable.Name);
+					commandContext.QueryBuilder.AppendWhere("[{2}].[parentPointer] LIKE @{0} AND [Nodes].[depth] = @{1}", commandContext.Command.AddParameter(specification.ParentPointer.PointerString + NodePointer.PointerSeparator + "%"), commandContext.Command.AddParameter(specification.Depth + specification.ParentPointer.Depth), commandContext.Schema.RootTable.Name);
 					break;
 			}
 		}

@@ -97,7 +97,7 @@
     <Compile Include="Queries\Mappers\RecordMapper.cs" />
     <Compile Include="Queries\Mappers\RemainderRecordMapper.cs" />
     <Compile Include="Queries\Parser\FullTextSearchQueryArgumentProcessor.cs" />
-    <Compile Include="Queries\QueryCommand.cs" />
+    <Compile Include="Queries\QueryCommandContext.cs" />
     <Compile Include="Queries\Record.cs" />
     <Compile Include="Queries\SelectCommand.cs" />
     <Compile Include="Queries\Specifications\FullTextSearchSpecification.cs" />

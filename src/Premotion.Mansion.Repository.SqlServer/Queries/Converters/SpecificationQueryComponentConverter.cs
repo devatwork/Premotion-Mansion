@@ -34,10 +34,10 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="component">The <see cref="QueryComponent"/> which to convert.</param>
-		/// <param name="command">The <see cref="QueryCommand"/>.</param>
-		protected override void DoConvert(IMansionContext context, SpecificationQueryComponent component, QueryCommand command)
+		/// <param name="commandContext">The <see cref="QueryCommandContext"/>.</param>
+		protected override void DoConvert(IMansionContext context, SpecificationQueryComponent component, QueryCommandContext commandContext)
 		{
-			converters.Elect(context, component.Specification).Convert(context, component.Specification, command);
+			converters.Elect(context, component.Specification).Convert(context, component.Specification, commandContext);
 		}
 		#endregion
 		#region Private Fields

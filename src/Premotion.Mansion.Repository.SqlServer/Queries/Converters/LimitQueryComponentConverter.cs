@@ -14,10 +14,10 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="component">The <see cref="QueryComponent"/> which to convert.</param>
-		/// <param name="command">The <see cref="QueryCommand"/>.</param>
-		protected override void DoConvert(IMansionContext context, LimitQueryComponent component, QueryCommand command)
+		/// <param name="commandContext">The <see cref="QueryCommandContext"/>.</param>
+		protected override void DoConvert(IMansionContext context, LimitQueryComponent component, QueryCommandContext commandContext)
 		{
-			command.QueryBuilder.SetLimit("TOP {0}", component.Limit);
+			commandContext.QueryBuilder.SetLimit("TOP {0}", component.Limit);
 		}
 		#endregion
 	}

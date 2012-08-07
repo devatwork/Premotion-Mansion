@@ -17,15 +17,15 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters.Nodes
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="specification">The <see cref="Specification"/> which to convert.</param>
-		/// <param name="command">The <see cref="QueryCommand"/>.</param>
-		protected override void DoConvert(IMansionContext context, ParentOfSpecification specification, QueryCommand command)
+		/// <param name="commandContext">The <see cref="QueryCommandContext"/>.</param>
+		protected override void DoConvert(IMansionContext context, ParentOfSpecification specification, QueryCommandContext commandContext)
 		{
 			// check the depth for any depth
 			if (specification.Depth == null)
 			{
 				// check has parent
 				if (!specification.ChildPointer.HasParent)
-					command.QueryBuilder.AppendWhere("1 = 0");
+					commandContext.QueryBuilder.AppendWhere("1 = 0");
 				else
 				{
 					// loop through all the parents
@@ -34,11 +34,11 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters.Nodes
 					do
 					{
 						currentPointer = currentPointer.Parent;
-						buffer.AppendFormat("@{0},", command.Command.AddParameter(currentPointer.Id));
+						buffer.AppendFormat("@{0},", commandContext.Command.AddParameter(currentPointer.Id));
 					} while (currentPointer.HasParent);
 
 					// append the query
-					command.QueryBuilder.AppendWhere("[{1}].[id] IN ({0})", buffer.Trim(), command.Schema.RootTable.Name);
+					commandContext.QueryBuilder.AppendWhere("[{1}].[id] IN ({0})", buffer.Trim(), commandContext.Schema.RootTable.Name);
 				}
 			}
 			else
@@ -51,7 +51,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters.Nodes
 					throw new IndexOutOfRangeException("The index is outside the bound of the pointer.");
 
 				// append the query
-				command.QueryBuilder.AppendWhere("[{1}].[id] = @{0}", command.Command.AddParameter(specification.ChildPointer.Pointer[depth]), command.Schema.RootTable.Name);
+				commandContext.QueryBuilder.AppendWhere("[{1}].[id] = @{0}", commandContext.Command.AddParameter(specification.ChildPointer.Pointer[depth]), commandContext.Schema.RootTable.Name);
 			}
 		}
 		#endregion

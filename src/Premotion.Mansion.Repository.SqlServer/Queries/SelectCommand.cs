@@ -6,6 +6,7 @@ using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data.Queries;
+using Premotion.Mansion.Core.Patterns;
 using Premotion.Mansion.Core.Patterns.Prioritized;
 using Premotion.Mansion.Core.Patterns.Voting;
 using Premotion.Mansion.Repository.SqlServer.Queries.Converters;
@@ -17,7 +18,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 	/// <summary>
 	/// Represents an executable select command.
 	/// </summary>
-	public class SelectCommand : QueryCommand
+	public class SelectCommand : DisposableBase
 	{
 		#region Constructors
 		/// <summary>
@@ -61,16 +62,14 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			var rootType = query.TypeHints.FindCommonAncestor(context);
 
 			// get the schema of the root type
-			Schema = SchemaProvider.Resolve(context, rootType);
+			var schema = SchemaProvider.Resolve(context, rootType);
 
-			// create the command
-			QueryBuilder = new SqlStringBuilder(Schema.RootTable);
-			Command = connection.CreateCommand();
-			Command.CommandType = CommandType.Text;
+			// create the context
+			commandContext = new QueryCommandContext(schema, connection.CreateCommand());
 
 			// loop over all the query components and convert them
 			foreach (var component in query.Components)
-				converters.Elect(context, component).Convert(context, component, this);
+				converters.Elect(context, component).Convert(context, component, commandContext);
 		}
 		#endregion
 		#region Execute Methods
@@ -89,15 +88,15 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			CheckDisposed();
 
 			// check if the command is initialized properly
-			if (Command == null)
+			if (commandContext.Command == null)
 				throw new InvalidOperationException("The command is not prepared. Call the prepare method before calling execute.");
-			Command.CommandText = QueryBuilder.ToSingleNodeQuery();
+			commandContext.Command.CommandText = commandContext.QueryBuilder.ToSingleNodeQuery();
 
 			// get the column mappers in prioritized order
-			var recordMappers = Schema.RootTable.GetRecordMappers(context).OrderByPriority();
+			var recordMappers = commandContext.Schema.RootTable.GetRecordMappers(context).OrderByPriority();
 
 			// execute the command
-			using (var reader = Command.ExecuteReader(CommandBehavior.SingleRow))
+			using (var reader = commandContext.Command.ExecuteReader(CommandBehavior.SingleRow))
 			{
 				// first check if there is a result
 				if (!reader.Read())
@@ -122,15 +121,15 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			CheckDisposed();
 
 			// check if the command is initialized properly
-			if (Command == null)
+			if (commandContext.Command == null)
 				throw new InvalidOperationException("The command is not prepared. Call the prepare method before calling execute.");
-			Command.CommandText = QueryBuilder.ToString();
+			commandContext.Command.CommandText = commandContext.QueryBuilder.ToString();
 
 			// get the column mappers in prioritized order
-			var recordMappers = Schema.RootTable.GetRecordMappers(context).OrderByPriority().ToList();
+			var recordMappers = commandContext.Schema.RootTable.GetRecordMappers(context).OrderByPriority().ToList();
 
 			// execute the command
-			using (var reader = Command.ExecuteReader(CommandBehavior.Default))
+			using (var reader = commandContext.Command.ExecuteReader(CommandBehavior.Default))
 			{
 				// read the input
 				var rows = new List<IPropertyBag>();
@@ -147,7 +146,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 				while (reader.NextResult())
 				{
 					// get the mapper from the query
-					QueryBuilder.GetAdditionalQueryResultMapper()(dataset, reader);
+					commandContext.QueryBuilder.GetAdditionalQueryResultMapper()(dataset, reader);
 				}
 
 				// return the result
@@ -212,8 +211,24 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			return properties;
 		}
 		#endregion
+		#region Overrides of DisposableBase
+		/// <summary>
+		/// Dispose resources. Override this method in derived classes. Unmanaged resources should always be released
+		/// when this method is called. Managed resources may only be disposed of if disposeManagedResources is true.
+		/// </summary>
+		/// <param name="disposeManagedResources">A value which indicates whether managed resources may be disposed of.</param>
+		protected override void DisposeResources(bool disposeManagedResources)
+		{
+			if (!disposeManagedResources)
+				return;
+
+			// cleanup
+			commandContext.Dispose();
+		}
+		#endregion
 		#region Private Fields
 		private readonly IEnumerable<IQueryComponentConverter> converters;
+		private QueryCommandContext commandContext;
 		private Query originalQuery;
 		#endregion
 	}

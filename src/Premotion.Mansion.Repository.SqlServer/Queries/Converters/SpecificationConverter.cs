@@ -36,28 +36,28 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="specification">The <see cref="Specification"/> which to convert.</param>
-		/// <param name="command">The <see cref="QueryCommand"/>.</param>
+		/// <param name="commandContext">The <see cref="QueryCommandContext"/>.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public void Convert(IMansionContext context, Specification specification, QueryCommand command)
+		public void Convert(IMansionContext context, Specification specification, QueryCommandContext commandContext)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (specification == null)
 				throw new ArgumentNullException("specification");
-			if (command == null)
-				throw new ArgumentNullException("command");
+			if (commandContext == null)
+				throw new ArgumentNullException("commandContext");
 
 			// invoke template method
-			DoConvert(context, (TSpecification) specification, command);
+			DoConvert(context, (TSpecification) specification, commandContext);
 		}
 		/// <summary>
 		/// Converts the given <paramref name="specification"/> into a statement.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="specification">The <see cref="Specification"/> which to convert.</param>
-		/// <param name="command">The <see cref="QueryCommand"/>.</param>
-		protected abstract void DoConvert(IMansionContext context, TSpecification specification, QueryCommand command);
+		/// <param name="commandContext">The <see cref="QueryCommandContext"/>.</param>
+		protected abstract void DoConvert(IMansionContext context, TSpecification specification, QueryCommandContext commandContext);
 		#endregion
 	}
 }

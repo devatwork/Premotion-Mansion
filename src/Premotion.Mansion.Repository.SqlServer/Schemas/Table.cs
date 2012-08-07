@@ -205,9 +205,9 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="column">The <see cref="Column"/>.</param>
 		/// <param name="values">The values.</param>
-		/// <param name="command">The <see cref="QueryCommand"/>.</param>
+		/// <param name="commandContext">The <see cref="QueryCommandContext"/>.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public void ToWhereStatement(IMansionContext context, Column column, IEnumerable<object> values, QueryCommand command)
+		public void ToWhereStatement(IMansionContext context, Column column, IEnumerable<object> values, QueryCommandContext commandContext)
 		{
 			// validate arguments
 			if (context == null)
@@ -216,22 +216,22 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 				throw new ArgumentNullException("column");
 			if (values == null)
 				throw new ArgumentNullException("values");
-			if (command == null)
-				throw new ArgumentNullException("command");
+			if (commandContext == null)
+				throw new ArgumentNullException("commandContext");
 
 			// guard against empty values
 			var valueArray = values.ToArray();
 			if (valueArray.Length == 0)
 			{
-				command.QueryBuilder.AppendWhere("1 = 0");
+				commandContext.QueryBuilder.AppendWhere("1 = 0");
 				return;
 			}
 
 			// add this table
-			command.QueryBuilder.AddTable(context, this, command.Command);
+			commandContext.QueryBuilder.AddTable(context, this, commandContext.Command);
 
 			//invoke template method
-			DoToWhereStatement(context, column, valueArray, command);
+			DoToWhereStatement(context, column, valueArray, commandContext);
 		}
 		/// <summary>
 		/// Turns the given <paramref name="values"/> into a where statement for this table.
@@ -239,12 +239,12 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="column">The <see cref="Column"/>.</param>
 		/// <param name="values">The values.</param>
-		/// <param name="command">The <see cref="QueryCommand"/>.</param>
-		protected virtual void DoToWhereStatement(IMansionContext context, Column column, object[] values, QueryCommand command)
+		/// <param name="commandContext">The <see cref="QueryCommandContext"/>.</param>
+		protected virtual void DoToWhereStatement(IMansionContext context, Column column, object[] values, QueryCommandContext commandContext)
 		{
 			// check for single or multiple values
 			if (values.Length == 1)
-				command.QueryBuilder.AppendWhere(" [{0}].[{1}] = @{2}", Name, column.ColumnName, command.Command.AddParameter(values[0]));
+				commandContext.QueryBuilder.AppendWhere(" [{0}].[{1}] = @{2}", Name, column.ColumnName, commandContext.Command.AddParameter(values[0]));
 			else
 			{
 				// start the clause
@@ -253,10 +253,10 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 
 				// loop through all the values
 				foreach (var value in values)
-					buffer.AppendFormat("@{0},", command.Command.AddParameter(value));
+					buffer.AppendFormat("@{0},", commandContext.Command.AddParameter(value));
 
 				// finish the clause
-				command.QueryBuilder.AppendWhere("{0})", buffer.Trim());
+				commandContext.QueryBuilder.AppendWhere("{0})", buffer.Trim());
 			}
 		}
 		#endregion

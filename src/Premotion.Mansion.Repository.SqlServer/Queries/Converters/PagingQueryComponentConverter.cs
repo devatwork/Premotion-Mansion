@@ -14,8 +14,8 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="component">The <see cref="QueryComponent"/> which to convert.</param>
-		/// <param name="command">The <see cref="QueryCommand"/>.</param>
-		protected override void DoConvert(IMansionContext context, PagingQueryComponent component, QueryCommand command)
+		/// <param name="commandContext">The <see cref="QueryCommandContext"/>.</param>
+		protected override void DoConvert(IMansionContext context, PagingQueryComponent component, QueryCommandContext commandContext)
 		{
 			// TODO: make sure there is at least one sort
 
@@ -24,11 +24,11 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 			var pageEnd = pageStart + component.PageSize - 1;
 
 			// append part
-			command.QueryBuilder.OrderByEnabled = false;
-			command.QueryBuilder.SetPrefix("SELECT * FROM ( ");
-			command.QueryBuilder.AppendColumn("[{0}].*", command.Schema.RootTable.Name);
-			command.QueryBuilder.AppendColumn("ROW_NUMBER() OVER(" + SqlStringBuilder.OrderByReplacePlaceholder + ") AS _rowNumber");
-			command.QueryBuilder.SetPostfix(" ) AS Nodeset WHERE _rowNumber BETWEEN @{0} AND @{1}", command.Command.AddParameter(pageStart), command.Command.AddParameter(pageEnd));
+			commandContext.QueryBuilder.OrderByEnabled = false;
+			commandContext.QueryBuilder.SetPrefix("SELECT * FROM ( ");
+			commandContext.QueryBuilder.AppendColumn("[{0}].*", commandContext.Schema.RootTable.Name);
+			commandContext.QueryBuilder.AppendColumn("ROW_NUMBER() OVER(" + SqlStringBuilder.OrderByReplacePlaceholder + ") AS _rowNumber");
+			commandContext.QueryBuilder.SetPostfix(" ) AS Nodeset WHERE _rowNumber BETWEEN @{0} AND @{1}", commandContext.Command.AddParameter(pageStart), commandContext.Command.AddParameter(pageEnd));
 		}
 		#endregion
 	}
