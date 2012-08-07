@@ -4,7 +4,7 @@
 	<!-- retrieve the profile -->
 	<declareProcedure procedureName="HandleView">
 
-		<retrieveRecord parentPointer="1" status="published" depth="any" type="Site" target="RootNode" sort="type asc">
+		<retrieveRecord parentPointer="1" status="published" depth="any" type="Site" limit="5" target="RootNode" sort="type asc">
 			
 		</retrieveRecord>
 

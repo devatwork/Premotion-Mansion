@@ -75,9 +75,11 @@
     <Compile Include="Conversion\Converters\DoubleToInt32Converter.cs" />
     <Compile Include="Conversion\Converters\Int64ToDoubleConverter.cs" />
     <Compile Include="Conversion\Converters\StringToInt64Converter.cs" />
+    <Compile Include="Data\LimitQueryComponent.cs" />
     <Compile Include="Data\Extensions.cs" />
     <Compile Include="Data\IQueryParser.cs" />
     <Compile Include="Data\Parser\BaseTypeArgumentProcessor.cs" />
+    <Compile Include="Data\Parser\LimitArgumentProcessor.cs" />
     <Compile Include="Data\Parser\Nodes\ChildOfQueryArgumentProcessor.cs" />
     <Compile Include="Data\Parser\Nodes\AllowedRolesQueryArgumentProcessor.cs" />
     <Compile Include="Data\Parser\Nodes\StatusQueryArgumentProcessor.cs" />

@@ -74,6 +74,7 @@
     <Compile Include="Queries\InsertQuery.cs" />
     <Compile Include="Queries\MoveQuery.cs" />
     <Compile Include="Queries\SelectQuery.cs" />
+    <Compile Include="QueryCommands\Converters\LimitQueryComponentConverter.cs" />
     <Compile Include="QueryCommands\Converters\Nodes\ChildOfQueryComponentConverter.cs" />
     <Compile Include="QueryCommands\Converters\Nodes\AllowedRolesComponentConverter.cs" />
     <Compile Include="QueryCommands\Converters\Nodes\StatusComponentConverter.cs" />
