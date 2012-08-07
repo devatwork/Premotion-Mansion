@@ -75,11 +75,13 @@
     <Compile Include="Conversion\Converters\DoubleToInt32Converter.cs" />
     <Compile Include="Conversion\Converters\Int64ToDoubleConverter.cs" />
     <Compile Include="Conversion\Converters\StringToInt64Converter.cs" />
+    <Compile Include="Data\Queries\PagingQueryComponent.cs" />
     <Compile Include="Data\Queries\Extensions.cs" />
     <Compile Include="Data\Queries\LimitQueryComponent.cs" />
     <Compile Include="Data\Extensions.cs" />
     <Compile Include="Data\Queries\IQueryParser.cs" />
     <Compile Include="Data\Queries\Parser\BaseTypeArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Parser\PagingArgumentProcessor.cs" />
     <Compile Include="Data\Queries\Parser\LimitArgumentProcessor.cs" />
     <Compile Include="Data\Queries\Parser\Nodes\ChildOfQueryArgumentProcessor.cs" />
     <Compile Include="Data\Queries\Parser\Nodes\AllowedRolesQueryArgumentProcessor.cs" />
