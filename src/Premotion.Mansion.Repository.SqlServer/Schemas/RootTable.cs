@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
-using Premotion.Mansion.Repository.SqlServer.QueryCommands.Mappers;
+using Premotion.Mansion.Repository.SqlServer.Queries.Mappers;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas
 {

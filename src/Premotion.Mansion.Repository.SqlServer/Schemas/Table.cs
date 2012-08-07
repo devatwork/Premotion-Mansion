@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
-using Premotion.Mansion.Repository.SqlServer.QueryCommands;
-using Premotion.Mansion.Repository.SqlServer.QueryCommands.Mappers;
+using Premotion.Mansion.Repository.SqlServer.Queries;
+using Premotion.Mansion.Repository.SqlServer.Queries.Mappers;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas
 {

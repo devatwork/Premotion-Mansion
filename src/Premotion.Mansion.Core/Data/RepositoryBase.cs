@@ -1,5 +1,6 @@
 ﻿using System;
 using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Patterns;
 
 namespace Premotion.Mansion.Core.Data

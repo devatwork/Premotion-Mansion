@@ -7,9 +7,10 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Clauses;
+using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Repository.SqlServer.Converters;
+using Premotion.Mansion.Repository.SqlServer.NodeQueries;
 using Premotion.Mansion.Repository.SqlServer.Queries;
-using Premotion.Mansion.Repository.SqlServer.QueryCommands;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
 
 namespace Premotion.Mansion.Repository.SqlServer
