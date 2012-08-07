@@ -80,6 +80,7 @@
     <Compile Include="Data\Parser\BaseTypeArgumentProcessor.cs" />
     <Compile Include="Data\Parser\Nodes\ChildOfQueryArgumentProcessor.cs" />
     <Compile Include="Data\Parser\Nodes\AllowedRolesQueryArgumentProcessor.cs" />
+    <Compile Include="Data\Parser\Nodes\StatusQueryArgumentProcessor.cs" />
     <Compile Include="Data\Parser\Nodes\ParentOfQueryArgumentProcessor.cs" />
     <Compile Include="Data\Parser\PropertyArgumentProcessor.cs" />
     <Compile Include="Data\Parser\TypeArgumentProcessor.cs" />

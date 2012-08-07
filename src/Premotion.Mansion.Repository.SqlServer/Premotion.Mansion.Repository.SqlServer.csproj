@@ -76,6 +76,7 @@
     <Compile Include="Queries\SelectQuery.cs" />
     <Compile Include="QueryCommands\Converters\Nodes\ChildOfQueryComponentConverter.cs" />
     <Compile Include="QueryCommands\Converters\Nodes\AllowedRolesComponentConverter.cs" />
+    <Compile Include="QueryCommands\Converters\Nodes\StatusComponentConverter.cs" />
     <Compile Include="QueryCommands\Converters\Nodes\ParentOfQueryComponentConverter.cs" />
     <Compile Include="QueryCommands\Converters\IQueryComponentConverter.cs" />
     <Compile Include="QueryCommands\Converters\ISpecificationConverter.cs" />
