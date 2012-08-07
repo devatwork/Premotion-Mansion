@@ -15,9 +15,9 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Core.Data.Queries.Extensions" Collapsed="true">
-    <Position X="12" Y="0.5" Width="1.5" />
+    <Position X="14.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
       <FileName>Data\Queries\Extensions.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -36,7 +36,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Core.Data.Queries.Query" Collapsed="true">
-    <Position X="5" Y="0.5" Width="1.5" />
+    <Position X="6" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAAIAAAAAAAAQAAAAAAAAAAAAABAAAAAQ=</HashCode>
       <FileName>Data\Queries\Query.cs</FileName>
@@ -46,7 +46,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Premotion.Mansion.Core.Data.Queries.QueryComponent" Collapsed="true">
-    <Position X="5" Y="2.5" Width="1.5" />
+    <Position X="6" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data\Queries\QueryComponent.cs</FileName>
@@ -59,8 +59,15 @@
       <FileName>Data\Queries\SortQueryComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Premotion.Mansion.Core.Data.Queries.FacetQueryComponent" Collapsed="true">
+    <Position X="11.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Queries\FacetQueryComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Interface Name="Premotion.Mansion.Core.Data.Queries.IQueryParser" Collapsed="true">
-    <Position X="12" Y="1.75" Width="1.5" />
+    <Position X="14.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data\Queries\IQueryParser.cs</FileName>

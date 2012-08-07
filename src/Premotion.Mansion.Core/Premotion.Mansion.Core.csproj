@@ -76,6 +76,7 @@
     <Compile Include="Conversion\Converters\Int64ToDoubleConverter.cs" />
     <Compile Include="Conversion\Converters\StringToInt64Converter.cs" />
     <Compile Include="Data\Queries\CacheQueryComponent.cs" />
+    <Compile Include="Data\Queries\FacetQueryComponent.cs" />
     <Compile Include="Data\Queries\PagingQueryComponent.cs" />
     <Compile Include="Data\Queries\Extensions.cs" />
     <Compile Include="Data\Queries\LimitQueryComponent.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Data\Queries\IQueryParser.cs" />
     <Compile Include="Data\Queries\Parser\BaseTypeArgumentProcessor.cs" />
     <Compile Include="Data\Queries\Parser\CacheArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Parser\FacetArgumentProcessor.cs" />
     <Compile Include="Data\Queries\Parser\PagingArgumentProcessor.cs" />
     <Compile Include="Data\Queries\Parser\LimitArgumentProcessor.cs" />
     <Compile Include="Data\Queries\Parser\Nodes\ChildOfQueryArgumentProcessor.cs" />

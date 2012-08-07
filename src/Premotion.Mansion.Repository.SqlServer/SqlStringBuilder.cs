@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
 
 namespace Premotion.Mansion.Repository.SqlServer
@@ -215,7 +215,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <param name="query">The additional query which to add.</param>
 		/// <param name="mapper">The mapper which to use to map the results to the query.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null or empty.</exception>
-		public void AddAdditionalQuery(string query, Action<Nodeset, IDataReader> mapper)
+		public void AddAdditionalQuery(string query, Action<Dataset, IDataReader> mapper)
 		{
 			// validate arguments
 			if (string.IsNullOrEmpty(query))
@@ -232,7 +232,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// Gets the additional query result mapper.
 		/// </summary>
 		/// <returns>Returns the next addional query result mapper.</returns>
-		public Action<Nodeset, IDataReader> GetAdditionalQueryResultMapper()
+		public Action<Dataset, IDataReader> GetAdditionalQueryResultMapper()
 		{
 			return additionalQueryMappers.Dequeue();
 		}
@@ -353,7 +353,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		#endregion
 		#region Private Fields
 		private readonly StringBuilder additionalQueries = new StringBuilder();
-		private readonly Queue<Action<Nodeset, IDataReader>> additionalQueryMappers = new Queue<Action<Nodeset, IDataReader>>();
+		private readonly Queue<Action<Dataset, IDataReader>> additionalQueryMappers = new Queue<Action<Dataset, IDataReader>>();
 		private readonly StringBuilder columns = new StringBuilder();
 		private readonly ICollection<Table> includedTables = new List<Table>();
 		private readonly StringBuilder orderBys = new StringBuilder();

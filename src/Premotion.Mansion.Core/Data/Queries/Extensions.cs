@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data.Queries.Specifications;
 
@@ -50,6 +51,24 @@ namespace Premotion.Mansion.Core.Data.Queries
 
 			// add the component to the query
 			query.Add(component);
+		}
+		/// <summary>
+		/// Tries to get the <typeparamref name="TQueryComponent"/> from the <paramref name="query"/>.
+		/// </summary>
+		/// <typeparam name="TQueryComponent">The type of <see cref="QueryComponent"/> which to get.</typeparam>
+		/// <param name="query">The <see cref="Query"/> from which to get the component.</param>
+		/// <param name="component">The <typeparamref name="TQueryComponent"/> which to get.</param>
+		/// <returns>Returns true when found, otherwise false.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="query"/> is null.</exception>
+		public static bool TryGetComponent<TQueryComponent>(this Query query, out TQueryComponent component) where TQueryComponent : QueryComponent
+		{
+			// validate arguments
+			if (query == null)
+				throw new ArgumentNullException("query");
+
+			// loop over all the types
+			component = query.Components.OfType<TQueryComponent>().FirstOrDefault();
+			return component != null;
 		}
 		#endregion
 	}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Premotion.Mansion.Core.Data.Facets;
 
 namespace Premotion.Mansion.Core.Collections
 {
@@ -23,6 +24,42 @@ namespace Premotion.Mansion.Core.Collections
 		protected Dataset(IEnumerable<KeyValuePair<string, object>> properties) : base(properties)
 		{
 			IsPaged = false;
+		}
+		/// <summary>
+		/// Constructs a <see cref="Dataset"/> with the given <paramref name="properties"/> and <paramref name="rows"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="properties">The properties of this set.</param>
+		/// <param name="rows">The list of rows.</param>
+		public Dataset(IMansionContext context, IPropertyBag properties, IEnumerable<IPropertyBag> rows) : base(properties)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (rows == null)
+				throw new ArgumentNullException("rows");
+
+			// set values
+			foreach (var row in rows)
+				RowCollection.Add(row);
+			Set("count", RowCollection.Count);
+
+			// check for paging
+			var totalRowCount = properties.Get(context, "totalCount", -1);
+			var pageNumber = properties.Get(context, "pageNumber", -1);
+			var rowsPerPage = properties.Get(context, "pageSize", -1);
+			if (totalRowCount != -1 && pageNumber != -1 && rowsPerPage != -1)
+				SetPaging(totalRowCount, pageNumber, rowsPerPage);
+			else
+				IsPaged = false;
+
+			// check for sort
+			string sortString;
+			if (properties.TryGet(context, "sort", out sortString))
+			{
+				foreach (var sort in Collections.Sort.Parse(sortString))
+					AddSort(sort);
+			}
 		}
 		#endregion
 		#region Row Methods
@@ -201,7 +238,45 @@ namespace Premotion.Mansion.Core.Collections
 			}
 		}
 		#endregion
+		#region Facet Methods
+		/// <summary>
+		/// Adds an <see cref="FacetResult"/> to this nodeset.
+		/// </summary>
+		/// <param name="result">The <see cref="FacetResult"/> which to add.</param>
+		public void AddFacet(FacetResult result)
+		{
+			// validate arguments
+			if (result == null)
+				throw new ArgumentNullException("result");
+
+			// add the result
+			facetResults.Add(result);
+		}
+		/// <summary>
+		/// Removes the given <paramref name="facet"/> from the <see cref="Facet"/>s.
+		/// </summary>
+		/// <param name="facet">The <see cref="FacetResult"/> which to remove.</param>
+		public void RemoveFacet(FacetResult facet)
+		{
+			// validate arguments
+			if (facet == null)
+				throw new ArgumentNullException("facet");
+
+			// remove the facet
+			facetResults.Remove(facet);
+		}
+		#endregion
+		#region Facet Properties
+		/// <summary>
+		/// Gets the <see cref="FacetResult"/>s.
+		/// </summary>
+		public IEnumerable<FacetResult> Facets
+		{
+			get { return facetResults; }
+		}
+		#endregion
 		#region Private Fields
+		private readonly ICollection<FacetResult> facetResults = new List<FacetResult>();
 		private readonly List<IPropertyBag> rows = new List<IPropertyBag>();
 		private readonly List<Sort> sorts = new List<Sort>();
 		private int currentPage = -1;

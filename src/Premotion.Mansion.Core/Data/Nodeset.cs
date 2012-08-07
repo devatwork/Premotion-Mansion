@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Premotion.Mansion.Core.Collections;
-using Premotion.Mansion.Core.Data.Facets;
 
 namespace Premotion.Mansion.Core.Data
 {
@@ -83,34 +82,6 @@ namespace Premotion.Mansion.Core.Data
 			Set("count", RowCollection.Count);
 		}
 		#endregion
-		#region Facet Methods
-		/// <summary>
-		/// Adds an <see cref="FacetResult"/> to this nodeset.
-		/// </summary>
-		/// <param name="result">The <see cref="FacetResult"/> which to add.</param>
-		public void AddFacet(FacetResult result)
-		{
-			// validate arguments
-			if (result == null)
-				throw new ArgumentNullException("result");
-
-			// add the result
-			facetResults.Add(result);
-		}
-		/// <summary>
-		/// Removes the given <paramref name="facet"/> from the <see cref="Facets"/>.
-		/// </summary>
-		/// <param name="facet">The <see cref="FacetResult"/> which to remove.</param>
-		public void RemoveFacet(FacetResult facet)
-		{
-			// validate arguments
-			if (facet == null)
-				throw new ArgumentNullException("facet");
-
-			// remove the facet
-			facetResults.Remove(facet);
-		}
-		#endregion
 		#region Properties
 		/// <summary>
 		/// Gets the nodes in this set.
@@ -119,16 +90,6 @@ namespace Premotion.Mansion.Core.Data
 		{
 			get { return RowCollection.Select(x => (Node) x); }
 		}
-		/// <summary>
-		/// Gets the <see cref="FacetResult"/>s.
-		/// </summary>
-		public IEnumerable<FacetResult> Facets
-		{
-			get { return facetResults; }
-		}
-		#endregion
-		#region Private Fields
-		private readonly ICollection<FacetResult> facetResults = new List<FacetResult>();
 		#endregion
 	}
 }

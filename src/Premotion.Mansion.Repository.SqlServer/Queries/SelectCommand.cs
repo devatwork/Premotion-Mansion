@@ -54,6 +54,9 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 				throw new ArgumentNullException("query");
 			CheckDisposed();
 
+			// remember value
+			originalQuery = query;
+
 			// find the root type for this query
 			var rootType = query.TypeHints.FindCommonAncestor(context);
 
@@ -68,9 +71,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			// loop over all the query components and convert them
 			foreach (var component in query.Components)
 				converters.Elect(context, component).Convert(context, component, this);
-
-			// safe the query text
-			Command.CommandText = QueryBuilder.ToString();
 		}
 		#endregion
 		#region Execute Methods
@@ -91,6 +91,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			// check if the command is initialized properly
 			if (Command == null)
 				throw new InvalidOperationException("The command is not prepared. Call the prepare method before calling execute.");
+			Command.CommandText = QueryBuilder.ToSingleNodeQuery();
 
 			// get the column mappers in prioritized order
 			var recordMappers = Schema.RootTable.GetRecordMappers(context).OrderByPriority();
@@ -123,23 +124,35 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			// check if the command is initialized properly
 			if (Command == null)
 				throw new InvalidOperationException("The command is not prepared. Call the prepare method before calling execute.");
+			Command.CommandText = QueryBuilder.ToString();
 
 			// get the column mappers in prioritized order
 			var recordMappers = Schema.RootTable.GetRecordMappers(context).OrderByPriority().ToList();
-
-			// create the dataset
-			var dataset = new Dataset();
 
 			// execute the command
 			using (var reader = Command.ExecuteReader(CommandBehavior.Default))
 			{
 				// read the input
+				var rows = new List<IPropertyBag>();
 				while (reader.Read())
-					dataset.AddRow(Map(context, recordMappers, new Record(reader)));
-			}
+					rows.Add(Map(context, recordMappers, new Record(reader)));
 
-			// return the result
-			return dataset;
+				// map the set properties
+				var setProperties = MapSetProperties(context, reader);
+
+				// create the dataset
+				var dataset = new Dataset(context, setProperties, rows);
+
+				// map the result of additional queries
+				while (reader.NextResult())
+				{
+					// get the mapper from the query
+					QueryBuilder.GetAdditionalQueryResultMapper()(dataset, reader);
+				}
+
+				// return the result
+				return dataset;
+			}
 		}
 		#endregion
 		#region Map Methods
@@ -162,9 +175,46 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			// return the properties
 			return properties;
 		}
+		/// <summary>
+		/// Maps the set properties.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="reader">The <see cref="IDataReader"/> reader.</param>
+		/// <returns>Returns the mapped properties.</returns>
+		private IPropertyBag MapSetProperties(IMansionContext context, IDataReader reader)
+		{
+			var properties = new PropertyBag();
+
+			// check for sort
+			SortQueryComponent sortQueryComponent;
+			if (originalQuery.TryGetComponent(out sortQueryComponent))
+				properties.Set("sort", string.Join(", ", sortQueryComponent.Sorts.Select(sort => sort.PropertyName + " " + (sort.Ascending ? "asc" : "desc"))));
+
+			// check for paging
+			PagingQueryComponent pagingQueryComponent;
+			if (originalQuery.TryGetComponent(out pagingQueryComponent))
+			{
+				properties.Set("pageNumber", pagingQueryComponent.PageNumber);
+				properties.Set("pageSize", pagingQueryComponent.PageSize);
+			}
+
+			// check if there is a result set for the properties);
+			if (!reader.NextResult())
+				return properties;
+
+			// make sure there is one result
+			if (!reader.Read())
+				return properties;
+
+			// map the properties
+			for (var index = 0; index < reader.FieldCount; index++)
+				properties.Set(reader.GetName(index), reader.GetValue(index));
+			return properties;
+		}
 		#endregion
 		#region Private Fields
 		private readonly IEnumerable<IQueryComponentConverter> converters;
+		private Query originalQuery;
 		#endregion
 	}
 }
