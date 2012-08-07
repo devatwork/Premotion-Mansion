@@ -510,7 +510,9 @@
     <None Include="Caching\Mansion.Core.Caching.cd" />
     <None Include="Collections\Mansion.Core.Collections.cd" />
     <None Include="Conversion\Mansion.Core.Conversion.cd" />
-    <None Include="Data\Queries\Specifications\Mansion.Core.Data.Specifications.cd" />
+    <None Include="Data\Queries\Mansion.Core.Data.Queries.cd" />
+    <None Include="Data\Queries\Parser\Mansion.Core.Data.Queries.Parser.cd" />
+    <None Include="Data\Queries\Specifications\Mansion.Core.Data.Queries.Specifications.cd" />
     <None Include="Data\Facets\Premotion.Mansion.Core.Data.Facets.cd" />
     <None Include="Premotion.Mansion.Core.symbols.nuspec" />
     <None Include="Data\Mansion.Core.Data.cd" />
