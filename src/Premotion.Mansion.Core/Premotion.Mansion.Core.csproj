@@ -104,16 +104,12 @@
     <Compile Include="Data\Queries\Specifications\IsPropertyInSpecification.cs" />
     <Compile Include="Data\Queries\Specifications\MultiValuePropertySpecification.cs" />
     <Compile Include="Data\Queries\Specifications\Nodes\AllowedRolesSpecification.cs" />
-    <Compile Include="Data\Queries\Specifications\Nodes\BaseTypeSpecification.cs" />
     <Compile Include="Data\Queries\Specifications\CompositeSpecification.cs" />
     <Compile Include="Data\Queries\Specifications\Conjunction.cs" />
     <Compile Include="Data\Queries\Specifications\Nodes\ChildOfSpecification.cs" />
     <Compile Include="Data\Queries\Specifications\Nodes\ParentOfSpecification.cs" />
-    <Compile Include="Data\Queries\Specifications\Nodes\PermantIdSpecification.cs" />
-    <Compile Include="Data\Queries\Specifications\Nodes\IdSpecification.cs" />
     <Compile Include="Data\Queries\Specifications\PropertySpecification.cs" />
     <Compile Include="Data\Queries\Specifications\Nodes\StatusSpecification.cs" />
-    <Compile Include="Data\Queries\Specifications\Nodes\TypeSpecification.cs" />
     <Compile Include="Data\Queries\Specifications\Disjunction.cs" />
     <Compile Include="Data\Clauses\FacetClause.cs" />
     <Compile Include="Data\Queries\Specifications\Negation.cs" />
