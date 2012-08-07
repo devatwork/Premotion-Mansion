@@ -22,7 +22,7 @@ namespace Premotion.Mansion.Core.Data.Specifications.Node
 				throw new ArgumentNullException("childPointer");
 
 			// set values
-			ParentPointer = childPointer;
+			ChildPointer = childPointer;
 			Depth = depth;
 		}
 		#endregion
@@ -33,7 +33,7 @@ namespace Premotion.Mansion.Core.Data.Specifications.Node
 		/// <param name="childPointer">The pointer of the parent.</param>
 		/// <param name="depth">The depth from which to select.</param>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="childPointer"/> is null.</exception>
-		public static ParentOfSpecification Parent(NodePointer childPointer, int? depth = 1)
+		public static ParentOfSpecification Child(NodePointer childPointer, int? depth = 1)
 		{
 			// validate arguments
 			if (childPointer == null)
@@ -50,14 +50,14 @@ namespace Premotion.Mansion.Core.Data.Specifications.Node
 		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.</returns>
 		protected override void DoAsString(StringBuilder builder)
 		{
-			builder.Append("parent-of=").Append(ParentPointer).Append('&').Append(Depth.HasValue ? Depth.ToString() : "any");
+			builder.Append("parent-of=").Append(ChildPointer).Append('&').Append(Depth.HasValue ? Depth.ToString() : "any");
 		}
 		#endregion
 		#region Properties
 		/// <summary>
 		/// Gets the <see cref="NodePointer"/> to the parent from which to select the children.
 		/// </summary>
-		public NodePointer ParentPointer { get; private set; }
+		public NodePointer ChildPointer { get; private set; }
 		/// <summary>
 		/// Get the depth of the childeren.
 		/// Positive values are relative to the parent.
