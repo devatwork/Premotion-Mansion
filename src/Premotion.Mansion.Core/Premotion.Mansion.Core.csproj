@@ -85,6 +85,7 @@
     <Compile Include="Data\Queries\Parser\BaseTypeArgumentProcessor.cs" />
     <Compile Include="Data\Queries\Parser\CacheArgumentProcessor.cs" />
     <Compile Include="Data\Queries\Parser\FacetArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Parser\IdArgumentProcessor.cs" />
     <Compile Include="Data\Queries\Parser\PagingArgumentProcessor.cs" />
     <Compile Include="Data\Queries\Parser\LimitArgumentProcessor.cs" />
     <Compile Include="Data\Queries\Parser\Nodes\ChildOfQueryArgumentProcessor.cs" />
