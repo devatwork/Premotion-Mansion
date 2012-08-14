@@ -29,15 +29,13 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 			// create a new schema
 			var schema = new Schema();
 
-			// extract info from this type
-			ExtractSchemaFromTypeDefinition(context, type, schema);
-
 			// loop through all the types in the hierarchy
-			if (type.HasParent)
-			{
-				foreach (var hierarchyType in type.Parent.HierarchyReverse)
-					ExtractSchemaFromTypeDefinition(context, hierarchyType, schema);
-			}
+			foreach (var hierarchyType in type.Hierarchy)
+				ExtractSchemaFromTypeDefinition(context, hierarchyType, schema);
+
+			// make sure the schema is valid
+			if (schema.RootTable == null)
+				throw new InvalidOperationException(string.Format("The type '{0}' did not result in a root table", type.Name));
 
 			return schema;
 		}
