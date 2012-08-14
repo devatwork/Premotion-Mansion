@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
-using Premotion.Mansion.Core.Data.Clauses;
 using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Data.Queries.Specifications;
-using Premotion.Mansion.Repository.SqlServer.Converters;
 using Premotion.Mansion.Repository.SqlServer.NodeQueries;
 using Premotion.Mansion.Repository.SqlServer.Queries;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
@@ -27,28 +23,16 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="connectionString">The connection string.</param>
-		/// <param name="converters"> </param>
-		/// <param name="interpreters"> </param>
-		/// <param name="parser"> </param>
-		public SqlServerRepository(IMansionContext context, string connectionString, IEnumerable<IClauseConverter> converters, IEnumerable<QueryInterpreter> interpreters, IQueryParser parser)
+		public SqlServerRepository(IMansionContext context, string connectionString)
 		{
 			// valiate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (string.IsNullOrEmpty(connectionString))
 				throw new ArgumentNullException("connectionString");
-			if (converters == null)
-				throw new ArgumentNullException("converters");
-			if (interpreters == null)
-				throw new ArgumentNullException("interpreters");
-			if (parser == null)
-				throw new ArgumentNullException("parser");
 
 			// set values
 			this.connectionString = connectionString;
-			this.converters = converters.ToArray();
-			this.interpreters = interpreters.ToArray();
-			this.parser = parser;
 		}
 		#endregion
 		#region Implementation of IRepository
@@ -278,19 +262,6 @@ namespace Premotion.Mansion.Repository.SqlServer
 			return RetrieveSingleNode(context, selectQuery);
 		}
 		/// <summary>
-		/// Parses <paramref name="arguments" /> into a <see cref="NodeQuery" />.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="arguments">The arguments which to parse.</param>
-		/// <returns>Returns the parsed query.</returns>
-		protected override NodeQuery DoParseQuery(IMansionContext context, IPropertyBag arguments)
-		{
-			// interpret all the clauses and return the query
-			var query = new NodeQuery();
-			query.AddRange(interpreters.OrderBy(interpreter => interpreter.Priority).SelectMany(interpreter => interpreter.Interpret(context, arguments)));
-			return query;
-		}
-		/// <summary>
 		/// Retrieves a single record from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
@@ -432,9 +403,6 @@ namespace Premotion.Mansion.Repository.SqlServer
 		#endregion
 		#region Private Fields
 		private readonly string connectionString;
-		private readonly IEnumerable<IClauseConverter> converters;
-		private readonly IEnumerable<QueryInterpreter> interpreters;
-		private readonly IQueryParser parser;
 		private readonly SchemaProvider schemaProvider = new SchemaProvider();
 		#endregion
 	}

@@ -97,16 +97,6 @@ namespace Premotion.Mansion.Core.Data
 			return DecoratedRepository.Copy(context, pointer, targetParentPointer);
 		}
 		/// <summary>
-		/// Parses <paramref name="arguments" /> into a <see cref="NodeQuery" />.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="arguments">The arguments which to parse.</param>
-		/// <returns>Returns the parsed query.</returns>
-		protected override NodeQuery DoParseQuery(IMansionContext context, IPropertyBag arguments)
-		{
-			return DecoratedRepository.ParseQuery(context, arguments);
-		}
-		/// <summary>
 		/// Retrieves a single record from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>

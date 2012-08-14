@@ -80,15 +80,6 @@ namespace Premotion.Mansion.Core.Data
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
 		Dataset Retrieve(IMansionContext context, Query query);
 		#endregion
-		#region Parse Query Methods
-		/// <summary>
-		/// Parses <paramref name="arguments" /> into a <see cref="NodeQuery" />.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="arguments">The arguments which to parse.</param>
-		/// <returns>Returns the parsed query.</returns>
-		NodeQuery ParseQuery(IMansionContext context, IPropertyBag arguments);
-		#endregion
 		#region Start Methods
 		/// <summary>
 		/// Starts this object. This methods must be called after the object has been created and before it is used.

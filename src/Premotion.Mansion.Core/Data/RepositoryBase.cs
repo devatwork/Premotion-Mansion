@@ -131,24 +131,6 @@ namespace Premotion.Mansion.Core.Data
 			return DoMove(context, pointer, newParentPointer);
 		}
 		/// <summary>
-		/// Parses <paramref name="arguments" /> into a <see cref="NodeQuery" />.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="arguments">The arguments which to parse.</param>
-		/// <returns>Returns the parsed query.</returns>
-		public NodeQuery ParseQuery(IMansionContext context, IPropertyBag arguments)
-		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
-			if (arguments == null)
-				throw new ArgumentNullException("arguments");
-			CheckDisposed();
-
-			// invoke template method
-			return DoParseQuery(context, arguments);
-		}
-		/// <summary>
 		/// Copies an existing node in this repository to a new node.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
@@ -186,7 +168,7 @@ namespace Premotion.Mansion.Core.Data
 			CheckDisposed();
 
 			// invoke template method
-			return DoRetrieve(context, query);
+			return DoRetrieveSingle(context, query);
 		}
 		/// <summary>
 		/// Retrieves a <see cref="Dataset"/> from this repository.
@@ -290,13 +272,6 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="newParentPointer">The pointer to the parent to which the copied node is added.</param>
 		/// <returns>Returns the copied node.</returns>
 		protected abstract Node DoCopy(IMansionContext context, NodePointer pointer, NodePointer newParentPointer);
-		/// <summary>
-		/// Parses <paramref name="arguments" /> into a <see cref="NodeQuery" />.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="arguments">The arguments which to parse.</param>
-		/// <returns>Returns the parsed query.</returns>
-		protected abstract NodeQuery DoParseQuery(IMansionContext context, IPropertyBag arguments);
 		/// <summary>
 		/// Retrieves a <see cref="Dataset"/> from this repository.
 		/// </summary>
