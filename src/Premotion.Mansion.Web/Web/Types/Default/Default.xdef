@@ -5,6 +5,9 @@
 	<property name="pointer">
 		<sqlserver:treeRelations />
 	</property>
+	<property name="guid">
+		<sqlserver:column allowNullValue="true" />
+	</property>
 	<property name="key">
 		<sqlserver:column allowNullValue="true" />
 	</property>
