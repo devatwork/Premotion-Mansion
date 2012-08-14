@@ -53,11 +53,11 @@ namespace Premotion.Mansion.Web.Portal.Web.Types.Page
 
 			// retrieve the blocks of this page
 			var repository = context.Repository;
-			var blockNodeset = repository.RetrieveNodeset(context, repository.ParseQuery(context, new PropertyBag
-			                                                                               {
-			                                                                               	{"baseType", "Block"},
-			                                                                               	{"parentSource", node}
-			                                                                               }));
+			var blockNodeset = repository.RetrieveNodeset(context, new PropertyBag
+			                                                       {
+			                                                       	{"baseType", "Block"},
+			                                                       	{"parentSource", node}
+			                                                       });
 
 			// loop through all the nodes
 			foreach (var blockNode in blockNodeset.Nodes)

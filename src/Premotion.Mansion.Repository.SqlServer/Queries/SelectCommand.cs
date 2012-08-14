@@ -80,7 +80,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <returns>Returns the record when found, otherwise null.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> is null.</exception>
 		/// <exception cref="InvalidOperationException">Thrown if <see cref="Prepare"/> is not called.</exception>
-		public IPropertyBag ExecuteSingle(IMansionContext context)
+		public TRow ExecuteSingle(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -100,7 +100,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			{
 				// first check if there is a result
 				if (!reader.Read())
-					return null;
+					return default(TRow);
 
 				// map to node.
 				return Map(context, recordMappers, new Record(reader));
@@ -113,7 +113,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <returns>Returns the resulting <see cref="Dataset"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> is null.</exception>
 		/// <exception cref="InvalidOperationException">Thrown if <see cref="Prepare"/> is not called.</exception>
-		public Dataset Execute(IMansionContext context)
+		public TSet Execute(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)

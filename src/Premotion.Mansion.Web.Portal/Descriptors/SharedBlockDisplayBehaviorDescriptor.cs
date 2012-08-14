@@ -40,7 +40,7 @@ namespace Premotion.Mansion.Web.Portal.Descriptors
 			Guid displayedBlockGuid;
 			if (!blockProperties.TryGet(context, "blockGuid", out displayedBlockGuid))
 				throw new InvalidOperationException("Block guid not found for shared block display");
-			var displayedBlockNode = context.Repository.RetrieveSingle(context, new PropertyBag
+			var displayedBlockNode = context.Repository.RetrieveSingleNode(context, new PropertyBag
 			                                                                    {
 			                                                                    	{"guid", displayedBlockGuid}
 			                                                                    });

@@ -34,7 +34,7 @@ namespace Premotion.Mansion.Web.Web.Types.Default
 				var propagatedPropertyValue = modifiedProperties.Get<object>(context, propagatedPropertyName);
 
 				// retrieve all the children nodes and update them all
-				foreach (var childNode in context.Repository.Retrieve(context, new PropertyBag
+				foreach (var childNode in context.Repository.RetrieveNodeset(context, new PropertyBag
 				                                                               {
 				                                                               	{"parentSource", node}, {"depth", "any"}
 				                                                               }).Nodes)

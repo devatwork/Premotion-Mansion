@@ -28,9 +28,9 @@ namespace Premotion.Mansion.Core.Data
 		/// Retrieves a single node from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="query">The query on the node.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns>Returns a single <see cref="Node"/>.</returns>
-		protected override Node DoRetrieveSingle(IMansionContext context, NodeQuery query)
+		protected override Node DoRetrieveSingleNode(IMansionContext context, Query query)
 		{
 			return DecoratedRepository.RetrieveSingleNode(context, query);
 		}
@@ -38,9 +38,9 @@ namespace Premotion.Mansion.Core.Data
 		/// Retrieves multiple nodes from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="query">The query on the node.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns>Returns a <see cref="Nodeset"/>.</returns>
-		protected override Nodeset DoRetrieve(IMansionContext context, NodeQuery query)
+		protected override Nodeset DoRetrieveNodeset(IMansionContext context, Query query)
 		{
 			return DecoratedRepository.RetrieveNodeset(context, query);
 		}

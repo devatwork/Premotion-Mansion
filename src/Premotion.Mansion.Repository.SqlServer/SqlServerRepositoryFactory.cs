@@ -2,6 +2,7 @@
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Clauses;
+using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Repository.SqlServer.Converters;
 
@@ -34,7 +35,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 				throw new InvalidOperationException("Could not open connection to SQL server repository without a connection string. Make sure the setting SQLSERVER_CONNECTION_STRING is specified.");
 
 			// create the repository
-			return new SqlServerRepository(context, connectionString, context.Nucleus.Resolve<IClauseConverter>(), context.Nucleus.Resolve<QueryInterpreter>());
+			return new SqlServerRepository(context, connectionString, context.Nucleus.Resolve<IClauseConverter>(), context.Nucleus.Resolve<QueryInterpreter>(), context.Nucleus.ResolveSingle<IQueryParser>());
 		}
 		#endregion
 	}

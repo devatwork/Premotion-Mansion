@@ -37,7 +37,7 @@ namespace Premotion.Mansion.Web.Security
 				return null;
 
 			// perform a query
-			var userNode = context.Repository.RetrieveSingle(context, new PropertyBag
+			var userNode = context.Repository.RetrieveSingleNode(context, new PropertyBag
 			                                                          {
 			                                                          	{"baseType", "User"},
 			                                                          	{"login", username},
@@ -106,7 +106,7 @@ namespace Premotion.Mansion.Web.Security
 				return null;
 
 			// retrieve the user by guid
-			var userNode = context.Repository.RetrieveSingle(context, new PropertyBag
+			var userNode = context.Repository.RetrieveSingleNode(context, new PropertyBag
 			                                                          {
 			                                                          	{"baseType", "User"},
 			                                                          	{"guid", id},

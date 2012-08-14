@@ -1,5 +1,6 @@
 ﻿using System;
 using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Data.Queries;
 
 namespace Premotion.Mansion.Core.Data
 {
@@ -16,7 +17,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="arguments">The arguments which to parse.</param>
 		/// <returns>Returns a <see cref="Nodeset"/>.</returns>
-		public static Nodeset Retrieve(this IRepository repository, IMansionContext context, IPropertyBag arguments)
+		public static Nodeset RetrieveNodeset(this IRepository repository, IMansionContext context, IPropertyBag arguments)
 		{
 			// validate arguments
 			if (repository == null)
@@ -27,7 +28,8 @@ namespace Premotion.Mansion.Core.Data
 				throw new ArgumentNullException("arguments");
 
 			// parse the query
-			var query = repository.ParseQuery(context, arguments);
+			var parser = context.Nucleus.ResolveSingle<IQueryParser>();
+			var query = parser.Parse(context, arguments);
 
 			// execute the query
 			return repository.RetrieveNodeset(context, query);
@@ -39,7 +41,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="arguments">The arguments which to parse.</param>
 		/// <returns>Returns a single <see cref="Node"/>.</returns>
-		public static Node RetrieveSingle(this IRepository repository, IMansionContext context, IPropertyBag arguments)
+		public static Node RetrieveSingleNode(this IRepository repository, IMansionContext context, IPropertyBag arguments)
 		{
 			// validate arguments
 			if (repository == null)
@@ -50,7 +52,8 @@ namespace Premotion.Mansion.Core.Data
 				throw new ArgumentNullException("arguments");
 
 			// parse the query
-			var query = repository.ParseQuery(context, arguments);
+			var parser = context.Nucleus.ResolveSingle<IQueryParser>();
+			var query = parser.Parse(context, arguments);
 
 			// execute the query
 			return repository.RetrieveSingleNode(context, query);
@@ -71,11 +74,11 @@ namespace Premotion.Mansion.Core.Data
 				throw new ArgumentNullException("context");
 
 			// retrieve the node
-			var rootNode = repository.RetrieveSingle(context, new PropertyBag
-			                                                  {
-			                                                  	{"id", 1},
-			                                                  	{"bypassAuthorization", true}
-			                                                  });
+			var rootNode = repository.RetrieveSingleNode(context, new PropertyBag
+			                                                      {
+			                                                      	{"id", 1},
+			                                                      	{"bypassAuthorization", true}
+			                                                      });
 			if (rootNode == null)
 				throw new InvalidOperationException("Could not find root node, please check repository");
 			return rootNode;
@@ -87,7 +90,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="id">The ID of the <see cref="Node"/> which to retrieve.</param>
 		/// <returns>Returns the <see cref="Node"/> when found.</returns>
-		public static Node RetrieveSingle(this IRepository repository, IMansionContext context, int id)
+		public static Node RetrieveSingleNode(this IRepository repository, IMansionContext context, int id)
 		{
 			// validate arguments
 			if (repository == null)
@@ -96,11 +99,11 @@ namespace Premotion.Mansion.Core.Data
 				throw new ArgumentNullException("context");
 
 			// retrieve the node
-			return repository.RetrieveSingle(context, new PropertyBag
-			                                          {
-			                                          	{"id", id},
-			                                          	{"bypassAuthorization", true}
-			                                          });
+			return repository.RetrieveSingleNode(context, new PropertyBag
+			                                              {
+			                                              	{"id", id},
+			                                              	{"bypassAuthorization", true}
+			                                              });
 		}
 		/// <summary>
 		/// Retrieves the <see cref="Node"/> by it's <paramref name="guid"/>.
@@ -109,7 +112,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="guid">The <see cref="Guid"/> of the <see cref="Node"/> which to retrieve.</param>
 		/// <returns>Returns the <see cref="Node"/> when found.</returns>
-		public static Node RetrieveSingle(this IRepository repository, IMansionContext context, Guid guid)
+		public static Node RetrieveSingleNode(this IRepository repository, IMansionContext context, Guid guid)
 		{
 			// validate arguments
 			if (repository == null)
@@ -118,11 +121,11 @@ namespace Premotion.Mansion.Core.Data
 				throw new ArgumentNullException("context");
 
 			// retrieve the node
-			return repository.RetrieveSingle(context, new PropertyBag
-			                                          {
-			                                          	{"guid", guid},
-			                                          	{"bypassAuthorization", true}
-			                                          });
+			return repository.RetrieveSingleNode(context, new PropertyBag
+			                                              {
+			                                              	{"guid", guid},
+			                                              	{"bypassAuthorization", true}
+			                                              });
 		}
 		#endregion
 		#region Extensions of IMansionContext

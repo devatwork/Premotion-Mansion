@@ -65,7 +65,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 				foreach (var value in selectedItems.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).Where(c => !string.IsNullOrEmpty(c)))
 				{
 					// retrieve the selected node
-					var selectedNode = repository.RetrieveSingle(context, new PropertyBag
+					var selectedNode = repository.RetrieveSingleNode(context, new PropertyBag
 					                                                      {
 					                                                      	{ValueProperty, value}
 					                                                      });

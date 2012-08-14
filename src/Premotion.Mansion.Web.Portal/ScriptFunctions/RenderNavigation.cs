@@ -79,8 +79,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 
 				// retrieve the target node
 				var repository = context.Repository;
-				var targetNodeQuery = repository.ParseQuery(context, new PropertyBag {{"guid", targetGuid}});
-				var targetNode = repository.RetrieveSingleNode(context, targetNodeQuery);
+				var targetNode = repository.RetrieveSingleNode(context, new PropertyBag {{"guid", targetGuid}});
 
 				// return the leaf with target node
 				return new Leaf(navigationNode, parentLeaf, targetNode);
@@ -212,14 +211,13 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 		private static Nodeset RetrieveNavigationItemNodeset(IMansionContext context, Node navigationNode)
 		{
 			var repository = context.Repository;
-			var navigationItemQuery = repository.ParseQuery(context, new PropertyBag
-			                                                         {
-			                                                         	{"parentSource", navigationNode},
-			                                                         	{"baseType", "NavigationItem"},
-			                                                         	{"depth", "any"},
-			                                                         	{"status", "published"}
-			                                                         });
-			var navigationItemNodeset = repository.RetrieveNodeset(context, navigationItemQuery);
+			var navigationItemNodeset = repository.RetrieveNodeset(context, new PropertyBag
+			                                                                {
+			                                                                	{"parentSource", navigationNode},
+			                                                                	{"baseType", "NavigationItem"},
+			                                                                	{"depth", "any"},
+			                                                                	{"status", "published"}
+			                                                                });
 			return navigationItemNodeset;
 		}
 		#endregion

@@ -15,9 +15,9 @@ namespace Premotion.Mansion.Core.Data
 		/// Retrieves a single node from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="query">The query on the node.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns>Returns the node.</returns>
-		public Node RetrieveSingleNode(IMansionContext context, NodeQuery query)
+		public Node RetrieveSingleNode(IMansionContext context, Query query)
 		{
 			// validate arguments
 			if (context == null)
@@ -27,15 +27,15 @@ namespace Premotion.Mansion.Core.Data
 			CheckDisposed();
 
 			// invoke template method
-			return DoRetrieveSingle(context, query);
+			return DoRetrieveSingleNode(context, query);
 		}
 		/// <summary>
 		/// Retrieves multiple nodes from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="query">The query on the node.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns></returns>
-		public Nodeset RetrieveNodeset(IMansionContext context, NodeQuery query)
+		public Nodeset RetrieveNodeset(IMansionContext context, Query query)
 		{
 			// validate arguments
 			if (context == null)
@@ -45,7 +45,7 @@ namespace Premotion.Mansion.Core.Data
 			CheckDisposed();
 
 			// invoke template method
-			return DoRetrieve(context, query);
+			return DoRetrieveNodeset(context, query);
 		}
 		/// <summary>
 		/// Creates a new node in this repository.
@@ -243,16 +243,16 @@ namespace Premotion.Mansion.Core.Data
 		/// Retrieves a single node from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="query">The query on the node.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns>Returns the node.</returns>
-		protected abstract Node DoRetrieveSingle(IMansionContext context, NodeQuery query);
+		protected abstract Node DoRetrieveSingleNode(IMansionContext context, Query query);
 		/// <summary>
 		/// Retrieves multiple nodes from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="query">The query on the node.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns></returns>
-		protected abstract Nodeset DoRetrieve(IMansionContext context, NodeQuery query);
+		protected abstract Nodeset DoRetrieveNodeset(IMansionContext context, Query query);
 		/// <summary>
 		/// Creates a new node in this repository.
 		/// </summary>

@@ -8,6 +8,7 @@ using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Clauses;
 using Premotion.Mansion.Core.Data.Queries;
+using Premotion.Mansion.Core.Data.Queries.Specifications;
 using Premotion.Mansion.Repository.SqlServer.Converters;
 using Premotion.Mansion.Repository.SqlServer.NodeQueries;
 using Premotion.Mansion.Repository.SqlServer.Queries;
@@ -28,7 +29,8 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <param name="connectionString">The connection string.</param>
 		/// <param name="converters"> </param>
 		/// <param name="interpreters"> </param>
-		public SqlServerRepository(IMansionContext context, string connectionString, IEnumerable<IClauseConverter> converters, IEnumerable<QueryInterpreter> interpreters)
+		/// <param name="parser"> </param>
+		public SqlServerRepository(IMansionContext context, string connectionString, IEnumerable<IClauseConverter> converters, IEnumerable<QueryInterpreter> interpreters, IQueryParser parser)
 		{
 			// valiate arguments
 			if (context == null)
@@ -39,11 +41,14 @@ namespace Premotion.Mansion.Repository.SqlServer
 				throw new ArgumentNullException("converters");
 			if (interpreters == null)
 				throw new ArgumentNullException("interpreters");
+			if (parser == null)
+				throw new ArgumentNullException("parser");
 
 			// set values
 			this.connectionString = connectionString;
 			this.converters = converters.ToArray();
 			this.interpreters = interpreters.ToArray();
+			this.parser = parser;
 		}
 		#endregion
 		#region Implementation of IRepository
@@ -51,21 +56,39 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// Retrieves a single node from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="query">The query on the node.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns>Returns the node.</returns>
-		protected override Node DoRetrieveSingle(IMansionContext context, NodeQuery query)
+		protected override Node DoRetrieveSingleNode(IMansionContext context, Query query)
 		{
-			throw new NotImplementedException();
+			// create the connection and command
+			using (var connection = CreateConnection())
+			using (var command = context.Nucleus.CreateInstance<SelectNodeCommand>())
+			{
+				// init the command with the query
+				command.Prepare(context, connection, query);
+
+				// execute the command
+				return command.ExecuteSingle(context);
+			}
 		}
 		/// <summary>
 		/// Retrieves multiple nodes from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="query">The query on the node.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns></returns>
-		protected override Nodeset DoRetrieve(IMansionContext context, NodeQuery query)
+		protected override Nodeset DoRetrieveNodeset(IMansionContext context, Query query)
 		{
-			throw new NotImplementedException();
+			// create the connection and command
+			using (var connection = CreateConnection())
+			using (var command = context.Nucleus.CreateInstance<SelectNodeCommand>())
+			{
+				// init the command with the query
+				command.Prepare(context, connection, query);
+
+				// execute the command
+				return command.Execute(context);
+			}
 		}
 		/// <summary>
 		/// Creates a new node in this repository.
@@ -77,7 +100,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		protected override Node DoCreate(IMansionContext context, Node parent, IPropertyBag newProperties)
 		{
 			// create a query to retrieve the new node
-			var selectQuery = new NodeQuery();
+			var selectQuery = new Query();
 
 			// build the query
 			using (var connection = CreateConnection())
@@ -89,7 +112,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 					// execute the query
 					var nodeId = insertQuery.Execute();
 
-					selectQuery.AddRange(new[] {new IdClause(nodeId)});
+					selectQuery.Add(new IsPropertyEqualSpecification("id", nodeId));
 
 					// woohoo it worked!
 					transaction.Commit();
@@ -201,7 +224,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 			}
 
 			// return the moved node
-			var selectQuery = new NodeQuery {new IdClause(pointer.Id)};
+			var selectQuery = new Query().Add(new IsPropertyEqualSpecification("id", pointer.Id));
 			return RetrieveSingleNode(context, selectQuery);
 		}
 		/// <summary>
@@ -214,7 +237,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		protected override Node DoCopy(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer)
 		{
 			// create a query to retrieve the new node
-			var selectQuery = new NodeQuery();
+			var selectQuery = new Query();
 
 			// build the query
 			using (var connection = CreateConnection())
@@ -222,10 +245,10 @@ namespace Premotion.Mansion.Repository.SqlServer
 			{
 				// retrieve the nodes
 				// TODO: retrieve the nodes within the same transaction
-				var nodeToCopy = RetrieveSingleNode(context, new NodeQuery {new IdClause(pointer.Id)});
+				var nodeToCopy = RetrieveSingleNode(context, new Query().Add(new IsPropertyEqualSpecification("id", pointer.Id)));
 				if (nodeToCopy == null)
 					throw new ArgumentNullException(string.Format("Could not find node with pointer '{0}'", pointer));
-				var targetParentNode = RetrieveSingleNode(context, new NodeQuery {new IdClause(targetParentPointer.Id)});
+				var targetParentNode = RetrieveSingleNode(context, new Query().Add(new IsPropertyEqualSpecification("id", targetParentPointer.Id)));
 				if (targetParentNode == null)
 					throw new ArgumentNullException(string.Format("Could not find node with pointer '{0}'", targetParentPointer));
 
@@ -237,7 +260,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 						// execute the query
 						var copiedNodeId = copyQuery.Execute();
 
-						selectQuery.AddRange(new[] {new IdClause(copiedNodeId)});
+						selectQuery.Add(new IsPropertyEqualSpecification("id", copiedNodeId));
 
 						// woohoo it worked!
 						transaction.Commit();
@@ -411,6 +434,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		private readonly string connectionString;
 		private readonly IEnumerable<IClauseConverter> converters;
 		private readonly IEnumerable<QueryInterpreter> interpreters;
+		private readonly IQueryParser parser;
 		private readonly SchemaProvider schemaProvider = new SchemaProvider();
 		#endregion
 	}

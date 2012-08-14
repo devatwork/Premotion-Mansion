@@ -3,6 +3,7 @@ using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
@@ -20,15 +21,19 @@ namespace Premotion.Mansion.Repository.SqlServer.ScriptTags
 		/// 
 		/// </summary>
 		/// <param name="typeService"></param>
+		/// <param name="parser"> </param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public SyncTablesTag(ITypeService typeService)
+		public SyncTablesTag(ITypeService typeService, IQueryParser parser)
 		{
 			// validate arguments
 			if (typeService == null)
 				throw new ArgumentNullException("typeService");
+			if (parser == null)
+				throw new ArgumentNullException("parser");
 
 			// set values
 			this.typeService = typeService;
+			this.parser = parser;
 		}
 		#endregion
 		#region Overrides of ScriptTag
@@ -58,10 +63,11 @@ namespace Premotion.Mansion.Repository.SqlServer.ScriptTags
 			                         			continue;
 
 			                         		// get the node entries for this type, ignore types with zero nodes
-			                         		var nodeset = repository.RetrieveNodeset(context, repository.ParseQuery(context, new PropertyBag
-			                         		                                                                          {
-			                         		                                                                          	{"baseType", type.Name}
-			                         		                                                                          }));
+			                         		var query = parser.Parse(context, new PropertyBag
+			                         		                                  {
+			                         		                                  	{"baseType", type.Name}
+			                         		                                  });
+			                         		var nodeset = repository.RetrieveNodeset(context, query);
 			                         		if (nodeset.RowCount == 0)
 			                         			continue;
 
@@ -76,6 +82,7 @@ namespace Premotion.Mansion.Repository.SqlServer.ScriptTags
 		}
 		#endregion
 		#region Private Fields
+		private readonly IQueryParser parser;
 		private readonly ITypeService typeService;
 		#endregion
 	}

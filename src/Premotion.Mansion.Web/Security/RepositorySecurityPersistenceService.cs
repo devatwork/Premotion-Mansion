@@ -254,13 +254,12 @@ namespace Premotion.Mansion.Web.Security
 		/// <returns></returns>
 		private static Node RetrieveRoleOwnerNode(IMansionContext context, RoleOwner owner, IRepository repository)
 		{
-			var nodeQuery = repository.ParseQuery(context, new PropertyBag
-			                                               {
-			                                               	{"baseType", "RoleOwner"},
-			                                               	{"foreignId", owner.Id},
-			                                               	{"bypassAuthorization", true}
-			                                               });
-			var node = repository.RetrieveSingleNode(context, nodeQuery);
+			var node = repository.RetrieveSingleNode(context, new PropertyBag
+			                                                  {
+			                                                  	{"baseType", "RoleOwner"},
+			                                                  	{"foreignId", owner.Id},
+			                                                  	{"bypassAuthorization", true}
+			                                                  });
 			if (node == null)
 				throw new InvalidOperationException(string.Format("Could not find role owner with foreign ID {0} in repository, please sync tables", owner.Id));
 			return node;
@@ -274,13 +273,12 @@ namespace Premotion.Mansion.Web.Security
 		/// <returns></returns>
 		private Nodeset RetrieveRoleNodes(IMansionContext context, IEnumerable<string> roleGuids, IRepository repository)
 		{
-			var nodeQuery = repository.ParseQuery(context, new PropertyBag
-			                                               {
-			                                               	{"baseType", "Role"},
-			                                               	{"guid", string.Join(",", roleGuids)},
-			                                               	{"bypassAuthorization", true}
-			                                               });
-			return repository.RetrieveNodeset(context, nodeQuery);
+			return repository.RetrieveNodeset(context, new PropertyBag
+			                                           {
+			                                           	{"baseType", "Role"},
+			                                           	{"guid", string.Join(",", roleGuids)},
+			                                           	{"bypassAuthorization", true}
+			                                           });
 		}
 		/// <summary>
 		/// Retrieves the role node.
@@ -291,13 +289,12 @@ namespace Premotion.Mansion.Web.Security
 		/// <returns></returns>
 		private static Node RetrieveRoleNode(IMansionContext context, Role role, IRepository repository)
 		{
-			var nodeQuery = repository.ParseQuery(context, new PropertyBag
-			                                               {
-			                                               	{"baseType", "Role"},
-			                                               	{"guid", role.Id},
-			                                               	{"bypassAuthorization", true}
-			                                               });
-			var node = repository.RetrieveSingleNode(context, nodeQuery);
+			var node = repository.RetrieveSingleNode(context, new PropertyBag
+			                                                  {
+			                                                  	{"baseType", "Role"},
+			                                                  	{"guid", role.Id},
+			                                                  	{"bypassAuthorization", true}
+			                                                  });
 			if (node == null)
 				throw new InvalidOperationException(string.Format("Could not find role with ID {0} in repository, please sync tables", role.Id));
 			return node;
@@ -311,13 +308,12 @@ namespace Premotion.Mansion.Web.Security
 		/// <returns></returns>
 		private Nodeset RetrieveUserGroupNodes(IMansionContext context, Node userNode, IRepository repository)
 		{
-			var nodeQuery = repository.ParseQuery(context, new PropertyBag
-			                                               {
-			                                               	{"baseType", "UserGroup"},
-			                                               	{"userGuids", userNode.Get<string>(context, "guid")},
-			                                               	{"bypassAuthorization", true}
-			                                               });
-			return repository.RetrieveNodeset(context, nodeQuery);
+			return repository.RetrieveNodeset(context, new PropertyBag
+			                                           {
+			                                           	{"baseType", "UserGroup"},
+			                                           	{"userGuids", userNode.Get<string>(context, "guid")},
+			                                           	{"bypassAuthorization", true}
+			                                           });
 		}
 		#endregion
 		#region Map Methods

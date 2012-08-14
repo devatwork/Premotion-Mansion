@@ -58,11 +58,10 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 
 			// retrieve the corresponding node
 			var repository = context.Repository;
-			var nodeQuery = repository.ParseQuery(context, new PropertyBag
-			                                               {
-			                                               	{ValueProperty, currentValue}
-			                                               });
-			var node = repository.RetrieveSingleNode(context, nodeQuery);
+			var node = repository.RetrieveSingleNode(context, new PropertyBag
+			                                                  {
+			                                                  	{ValueProperty, currentValue}
+			                                                  });
 
 			// if no node was found clear the value of this field
 			if (node == null)

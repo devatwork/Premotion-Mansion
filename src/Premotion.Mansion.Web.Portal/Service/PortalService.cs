@@ -79,13 +79,12 @@ namespace Premotion.Mansion.Web.Portal.Service
 			                                                                                  {
 			                                                                                  	// retrieve all the template pages
 			                                                                                  	var repository = context.Repository;
-			                                                                                  	var query = repository.ParseQuery(context, new PropertyBag
-			                                                                                  	                                           {
-			                                                                                  	                                           	{"parentSource", siteNode},
-			                                                                                  	                                           	{"depth", "any"},
-			                                                                                  	                                           	{"baseType", "TemplatePage"}
-			                                                                                  	                                           });
-			                                                                                  	var nodeset = repository.RetrieveNodeset(context, query);
+			                                                                                  	var nodeset = repository.RetrieveNodeset(context, new PropertyBag
+			                                                                                  	                                                  {
+			                                                                                  	                                                  	{"parentSource", siteNode},
+			                                                                                  	                                                  	{"depth", "any"},
+			                                                                                  	                                                  	{"baseType", "TemplatePage"}
+			                                                                                  	                                                  });
 
 			                                                                                  	// create the map of all the pages
 			                                                                                  	var map = nodeset.Nodes.ToDictionary(node =>
@@ -94,11 +93,10 @@ namespace Premotion.Mansion.Web.Portal.Service
 			                                                                                  	                                     	var contentSourceGuid = node.Get<Guid>(context, "contentSourceGuid");
 
 			                                                                                  	                                     	// retrieve the intended node
-			                                                                                  	                                     	var contentSourceNodeQuery = repository.ParseQuery(context, new PropertyBag
-			                                                                                  	                                     	                                                            {
-			                                                                                  	                                     	                                                            	{"guid", contentSourceGuid}
-			                                                                                  	                                     	                                                            });
-			                                                                                  	                                     	var contentSourceNode = repository.RetrieveSingleNode(context, contentSourceNodeQuery);
+			                                                                                  	                                     	var contentSourceNode = repository.RetrieveSingleNode(context, new PropertyBag
+			                                                                                  	                                     	                                                               {
+			                                                                                  	                                     	                                                               	{"guid", contentSourceGuid}
+			                                                                                  	                                     	                                                               });
 
 			                                                                                  	                                     	// return the pointer of that node
 			                                                                                  	                                     	return contentSourceNode.Pointer;

@@ -14,16 +14,16 @@ namespace Premotion.Mansion.Core.Data
 		/// Retrieves a single node from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="query">The query on the node.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns>Returns a single <see cref="Node"/>.</returns>
-		Node RetrieveSingleNode(IMansionContext context, NodeQuery query);
+		Node RetrieveSingleNode(IMansionContext context, Query query);
 		/// <summary>
 		/// Retrieves multiple nodes from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="query">The query on the node.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns>Returns a <see cref="Nodeset"/>.</returns>
-		Nodeset RetrieveNodeset(IMansionContext context, NodeQuery query);
+		Nodeset RetrieveNodeset(IMansionContext context, Query query);
 		/// <summary>
 		/// Creates a new node in this repository.
 		/// </summary>

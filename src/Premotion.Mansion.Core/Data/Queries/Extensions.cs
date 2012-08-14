@@ -18,7 +18,7 @@ namespace Premotion.Mansion.Core.Data.Queries
 		/// <param name="query">The <see cref="Query"/>.</param>
 		/// <param name="specification">The <see cref="Specification"/>.</param>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="query"/> or <paramref name="specification"/> is null.</exception>
-		public static void Add(this Query query, Specification specification)
+		public static Query Add(this Query query, Specification specification)
 		{
 			// validate arguments
 			if (query == null)
@@ -31,6 +31,9 @@ namespace Premotion.Mansion.Core.Data.Queries
 
 			// add the component to the query
 			query.Add(component);
+
+			// return query for chaining
+			return query;
 		}
 		/// <summary>
 		/// Adds the <paramref name="sorts"/> to the <paramref name="query"/>.
@@ -69,6 +72,22 @@ namespace Premotion.Mansion.Core.Data.Queries
 			// loop over all the types
 			component = query.Components.OfType<TQueryComponent>().FirstOrDefault();
 			return component != null;
+		}
+		/// <summary>
+		/// Checks whether the given <paramref name="query"/> contains a specific <typeparamref name="TSpecification"/>.
+		/// </summary>
+		/// <param name="query">The <see cref="Query"/> which to check.</param>
+		/// <typeparam name="TSpecification">The type of <see cref="Specification"/> which to look for.</typeparam>
+		/// <returns>Returns true when the <typeparamref name="TSpecification"/> is in the given <paramref name="query"/>, otherwise false.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="query"/> is null.</exception>
+		public static bool HasSpecification<TSpecification>(this Query query) where TSpecification : Specification
+		{
+			// validate arguments
+			if (query == null)
+				throw new ArgumentNullException("query");
+
+			// TODO: implement
+			throw new NotImplementedException();
 		}
 		#endregion
 	}

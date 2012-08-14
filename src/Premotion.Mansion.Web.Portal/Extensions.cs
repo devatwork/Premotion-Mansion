@@ -31,7 +31,7 @@ namespace Premotion.Mansion.Web.Portal
 			var rootNode = repository.RetrieveRootNode(context);
 
 			// retrieve the node or create it when it does not exist
-			return repository.RetrieveSingle(context, new PropertyBag
+			return repository.RetrieveSingleNode(context, new PropertyBag
 			                                          {
 			                                          	{"parentSource", rootNode},
 			                                          	{"type", "ContentIndexRoot"},
@@ -62,7 +62,7 @@ namespace Premotion.Mansion.Web.Portal
 			var contentIndexRootNode = repository.RetrieveContentIndexRootNode(context);
 
 			// retrieve the node or create it when it does not exist
-			return repository.RetrieveSingle(context, new PropertyBag
+			return repository.RetrieveSingleNode(context, new PropertyBag
 			                                          {
 			                                          	{"parentSource", contentIndexRootNode},
 			                                          	{"type", "Taxonomy"},

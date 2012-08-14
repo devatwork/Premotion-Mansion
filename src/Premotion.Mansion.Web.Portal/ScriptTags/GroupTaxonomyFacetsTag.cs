@@ -33,7 +33,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 			nodeset.RemoveFacet(facet);
 
 			// retrieve all the taxonomy values
-			var taxonomyItemsLookupTable = context.Repository.Retrieve(context, new PropertyBag
+			var taxonomyItemsLookupTable = context.Repository.RetrieveNodeset(context, new PropertyBag
 			                                                                    {
 			                                                                    	{"parentPointer", "1"},
 			                                                                    	{"depth", "any"},

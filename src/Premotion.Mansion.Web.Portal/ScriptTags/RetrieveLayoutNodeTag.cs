@@ -3,6 +3,7 @@ using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.ScriptTags.Repository;
 using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Types;
@@ -19,9 +20,10 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="parser"></param>
 		/// <param name="typeService"></param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public RetrieveLayoutNodeTag(ITypeService typeService)
+		public RetrieveLayoutNodeTag(IQueryParser parser, ITypeService typeService) : base(parser)
 		{
 			// validate arguments
 			if (typeService == null)
@@ -37,9 +39,10 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 		/// </summary>
 		/// <param name="context">The request context.</param>
 		/// <param name="arguments">The arguments from which to build the query.</param>
-		/// <param name="repository"></param>
+		/// <param name="repository">The <see cref="IRepository"/>.</param>
+		/// <param name="parser">The <see cref="IQueryParser"/>.</param>
 		/// <returns>Returns the result.</returns>
-		protected override IPropertyBag Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository)
+		protected override IPropertyBag Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository, IQueryParser parser)
 		{
 			// get the node
 			var contentNode = GetRequiredAttribute<Node>(context, "source");
@@ -53,7 +56,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 				throw new InvalidOperationException(string.Format("Node '{0}' does not have a parent which is a Page", contentNode.Pointer.StructureString));
 
 			// retrieve and return the parent node
-			return repository.RetrieveSingle(context, new PropertyBag {{"id", pageNodePointer.Id}});
+			return repository.RetrieveSingleNode(context, new PropertyBag {{"id", pageNodePointer.Id}});
 		}
 		#endregion
 		#region Private Fields

@@ -9,6 +9,7 @@ namespace Premotion.Mansion.Core.Data.Queries
 	/// </summary>
 	public class Query
 	{
+		// TODO: add robust to string implementation
 		#region Add Methods
 		/// <summary>
 		/// Adds a new <paramref name="component"/> to this query.

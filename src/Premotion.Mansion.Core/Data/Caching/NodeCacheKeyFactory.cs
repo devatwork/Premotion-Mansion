@@ -1,5 +1,6 @@
 ﻿using System;
 using Premotion.Mansion.Core.Caching;
+using Premotion.Mansion.Core.Data.Queries;
 
 namespace Premotion.Mansion.Core.Data.Caching
 {
@@ -30,9 +31,9 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// <summary>
 		/// Creates a <see cref="CacheKey"/> for a <see cref="Node"/> for the specified <paramref name="query"/>.
 		/// </summary>
-		/// <param name="query">The query for which to generate a cache key.</param>
+		/// <param name="query">The <see cref="Query"/> for which to generate a cache key.</param>
 		/// <returns>Returns the generated cache key.</returns>
-		public static CacheKey CreateForNode(NodeQuery query)
+		public static CacheKey CreateForNode(Query query)
 		{
 			// validate arguments
 			if (query == null)
@@ -43,9 +44,9 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// <summary>
 		/// Creates a <see cref="CacheKey"/> for a <see cref="Nodeset"/> for the specified <paramref name="query"/>.
 		/// </summary>
-		/// <param name="query">The query for which to generate a cache key.</param>
+		/// <param name="query">The <see cref="Query"/> for which to generate a cache key.</param>
 		/// <returns>Returns the generated cache key.</returns>
-		public static CacheKey CreateForNodeset(NodeQuery query)
+		public static CacheKey CreateForNodeset(Query query)
 		{
 			// validate arguments
 			if (query == null)
