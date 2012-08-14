@@ -28,7 +28,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 				throw new InvalidOperationException("The (permanent) ID of the node was not specified");
 
 			// execute the query
-			return repository.RetrieveSingle(context, query);
+			return repository.RetrieveSingleNode(context, query);
 		}
 	}
 }

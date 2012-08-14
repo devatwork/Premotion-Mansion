@@ -85,7 +85,7 @@ namespace Premotion.Mansion.Web.Portal.Service
 			                                                                                  	                                           	{"depth", "any"},
 			                                                                                  	                                           	{"baseType", "TemplatePage"}
 			                                                                                  	                                           });
-			                                                                                  	var nodeset = repository.Retrieve(context, query);
+			                                                                                  	var nodeset = repository.RetrieveNodeset(context, query);
 
 			                                                                                  	// create the map of all the pages
 			                                                                                  	var map = nodeset.Nodes.ToDictionary(node =>
@@ -98,7 +98,7 @@ namespace Premotion.Mansion.Web.Portal.Service
 			                                                                                  	                                     	                                                            {
 			                                                                                  	                                     	                                                            	{"guid", contentSourceGuid}
 			                                                                                  	                                     	                                                            });
-			                                                                                  	                                     	var contentSourceNode = repository.RetrieveSingle(context, contentSourceNodeQuery);
+			                                                                                  	                                     	var contentSourceNode = repository.RetrieveSingleNode(context, contentSourceNodeQuery);
 
 			                                                                                  	                                     	// return the pointer of that node
 			                                                                                  	                                     	return contentSourceNode.Pointer;

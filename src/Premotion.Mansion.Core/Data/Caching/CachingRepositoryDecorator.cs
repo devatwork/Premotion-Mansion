@@ -37,13 +37,13 @@ namespace Premotion.Mansion.Core.Data.Caching
 		{
 			// check if this query is not cachable
 			if (query.Clauses.Any(candidate => candidate is CacheClause && !((CacheClause) candidate).IsEnabled))
-				return DecoratedRepository.RetrieveSingle(context, query);
+				return DecoratedRepository.RetrieveSingleNode(context, query);
 
 			// create the cache key for this node
 			var nodeCacheKey = NodeCacheKeyFactory.CreateForNode(query);
 
 			// return the node
-			return cachingService.GetOrAdd(context, nodeCacheKey, () => new CachedNode(DecoratedRepository.RetrieveSingle(context, query)));
+			return cachingService.GetOrAdd(context, nodeCacheKey, () => new CachedNode(DecoratedRepository.RetrieveSingleNode(context, query)));
 		}
 		/// <summary>
 		/// Retrieves multiple nodes from this repository.
@@ -55,13 +55,13 @@ namespace Premotion.Mansion.Core.Data.Caching
 		{
 			// check if this query is not cachable
 			if (query.Clauses.Any(candidate => candidate is CacheClause && !((CacheClause) candidate).IsEnabled))
-				return DecoratedRepository.Retrieve(context, query);
+				return DecoratedRepository.RetrieveNodeset(context, query);
 
 			// create the cache key for this node
 			var nodesetCacheKey = NodeCacheKeyFactory.CreateForNodeset(query);
 
 			// return the node
-			return cachingService.GetOrAdd(context, nodesetCacheKey, () => new CachedNodeset(DecoratedRepository.Retrieve(context, query)));
+			return cachingService.GetOrAdd(context, nodesetCacheKey, () => new CachedNodeset(DecoratedRepository.RetrieveNodeset(context, query)));
 		}
 		/// <summary>
 		/// Creates a new node in this repository.

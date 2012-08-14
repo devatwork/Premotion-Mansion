@@ -35,7 +35,7 @@ namespace Premotion.Mansion.Web.ScriptTags
 			                                           });
 
 			// execute the query
-			return repository.RetrieveSingle(context, query);
+			return repository.RetrieveSingleNode(context, query);
 		}
 	}
 }

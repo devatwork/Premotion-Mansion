@@ -30,7 +30,7 @@ namespace Premotion.Mansion.Core.Data
 			var query = repository.ParseQuery(context, arguments);
 
 			// execute the query
-			return repository.Retrieve(context, query);
+			return repository.RetrieveNodeset(context, query);
 		}
 		/// <summary>
 		/// Retrieves a single node from this repository.
@@ -53,7 +53,7 @@ namespace Premotion.Mansion.Core.Data
 			var query = repository.ParseQuery(context, arguments);
 
 			// execute the query
-			return repository.RetrieveSingle(context, query);
+			return repository.RetrieveSingleNode(context, query);
 		}
 		/// <summary>
 		/// Retrieves the root <see cref="Node"/>.

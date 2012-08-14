@@ -53,7 +53,7 @@ namespace Premotion.Mansion.Web.ScriptTags
 			var query = repository.ParseQuery(context, queryAttributes);
 
 			// execute the query
-			return repository.RetrieveSingle(context, query);
+			return repository.RetrieveSingleNode(context, query);
 		}
 		#endregion
 		#region Private Fields

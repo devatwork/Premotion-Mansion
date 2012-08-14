@@ -29,7 +29,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 				throw new InvalidOperationException("The parent node was not specified.");
 
 			// execute the query
-			return repository.Retrieve(context, query);
+			return repository.RetrieveNodeset(context, query);
 		}
 	}
 }

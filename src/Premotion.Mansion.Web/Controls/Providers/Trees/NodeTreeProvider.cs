@@ -106,7 +106,7 @@ namespace Premotion.Mansion.Web.Controls.Providers.Trees
 			var repository = context.Repository;
 
 			// retrieve the root node
-			var rootnode = repository.RetrieveSingle(context, repository.ParseQuery(context, new PropertyBag
+			var rootnode = repository.RetrieveSingleNode(context, repository.ParseQuery(context, new PropertyBag
 			                                                                                 {
 			                                                                                 	{"pointer", rootPointer}
 			                                                                                 }));
@@ -122,7 +122,7 @@ namespace Premotion.Mansion.Web.Controls.Providers.Trees
 		private IEnumerable<Leaf> RetrieveChildren(IMansionContext context, IRepository repository, Node parentNode)
 		{
 			// retrieve it's direct children
-			var childNodeset = repository.Retrieve(context, repository.ParseQuery(context, new PropertyBag
+			var childNodeset = repository.RetrieveNodeset(context, repository.ParseQuery(context, new PropertyBag
 			                                                                               {
 			                                                                               	{"parentPointer", parentNode.Pointer}
 			                                                                               }));

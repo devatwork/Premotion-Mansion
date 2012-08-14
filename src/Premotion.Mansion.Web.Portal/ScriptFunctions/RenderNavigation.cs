@@ -80,7 +80,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 				// retrieve the target node
 				var repository = context.Repository;
 				var targetNodeQuery = repository.ParseQuery(context, new PropertyBag {{"guid", targetGuid}});
-				var targetNode = repository.RetrieveSingle(context, targetNodeQuery);
+				var targetNode = repository.RetrieveSingleNode(context, targetNodeQuery);
 
 				// return the leaf with target node
 				return new Leaf(navigationNode, parentLeaf, targetNode);
@@ -219,7 +219,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 			                                                         	{"depth", "any"},
 			                                                         	{"status", "published"}
 			                                                         });
-			var navigationItemNodeset = repository.Retrieve(context, navigationItemQuery);
+			var navigationItemNodeset = repository.RetrieveNodeset(context, navigationItemQuery);
 			return navigationItemNodeset;
 		}
 		#endregion

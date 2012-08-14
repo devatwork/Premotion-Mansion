@@ -17,7 +17,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="query">The query on the node.</param>
 		/// <returns>Returns the node.</returns>
-		public Node RetrieveSingle(IMansionContext context, NodeQuery query)
+		public Node RetrieveSingleNode(IMansionContext context, NodeQuery query)
 		{
 			// validate arguments
 			if (context == null)
@@ -35,7 +35,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="query">The query on the node.</param>
 		/// <returns></returns>
-		public Nodeset Retrieve(IMansionContext context, NodeQuery query)
+		public Nodeset RetrieveNodeset(IMansionContext context, NodeQuery query)
 		{
 			// validate arguments
 			if (context == null)

@@ -103,7 +103,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 			}
 
 			// return the created node
-			return RetrieveSingle(context, selectQuery);
+			return RetrieveSingleNode(context, selectQuery);
 		}
 		/// <summary>
 		/// Updates an existing node in this repository.
@@ -202,7 +202,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 
 			// return the moved node
 			var selectQuery = new NodeQuery {new IdClause(pointer.Id)};
-			return RetrieveSingle(context, selectQuery);
+			return RetrieveSingleNode(context, selectQuery);
 		}
 		/// <summary>
 		/// Copies an existing node in this repository to a new node.
@@ -222,10 +222,10 @@ namespace Premotion.Mansion.Repository.SqlServer
 			{
 				// retrieve the nodes
 				// TODO: retrieve the nodes within the same transaction
-				var nodeToCopy = RetrieveSingle(context, new NodeQuery {new IdClause(pointer.Id)});
+				var nodeToCopy = RetrieveSingleNode(context, new NodeQuery {new IdClause(pointer.Id)});
 				if (nodeToCopy == null)
 					throw new ArgumentNullException(string.Format("Could not find node with pointer '{0}'", pointer));
-				var targetParentNode = RetrieveSingle(context, new NodeQuery {new IdClause(targetParentPointer.Id)});
+				var targetParentNode = RetrieveSingleNode(context, new NodeQuery {new IdClause(targetParentPointer.Id)});
 				if (targetParentNode == null)
 					throw new ArgumentNullException(string.Format("Could not find node with pointer '{0}'", targetParentPointer));
 
@@ -252,7 +252,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 			}
 
 			// return the created node
-			return RetrieveSingle(context, selectQuery);
+			return RetrieveSingleNode(context, selectQuery);
 		}
 		/// <summary>
 		/// Parses <paramref name="arguments" /> into a <see cref="NodeQuery" />.

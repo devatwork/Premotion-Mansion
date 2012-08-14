@@ -37,7 +37,7 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		protected override Node DoRetrieveSingle(IMansionContext context, NodeQuery query)
 		{
 			// retrieve the node
-			var node = DecoratedRepository.RetrieveSingle(context, query);
+			var node = DecoratedRepository.RetrieveSingleNode(context, query);
 			if (node == null)
 				return null;
 
@@ -70,7 +70,7 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		protected override Nodeset DoRetrieve(IMansionContext context, NodeQuery query)
 		{
 			// retrieve the nodeset
-			var nodeset = DecoratedRepository.Retrieve(context, query);
+			var nodeset = DecoratedRepository.RetrieveNodeset(context, query);
 
 			// attach the event handler to each node
 			foreach (var node in nodeset.Nodes)

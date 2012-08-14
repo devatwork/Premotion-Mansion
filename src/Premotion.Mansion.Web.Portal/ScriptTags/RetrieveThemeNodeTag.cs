@@ -31,7 +31,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 				return contentNode;
 
 			// retrieve the parents of the current node
-			var parentNodeset = repository.Retrieve(context, repository.ParseQuery(context, new PropertyBag
+			var parentNodeset = repository.RetrieveNodeset(context, repository.ParseQuery(context, new PropertyBag
 			                                                                                {
 			                                                                                	{"childSource", contentNode},
 			                                                                                	{"baseType", "Page"},

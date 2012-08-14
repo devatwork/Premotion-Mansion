@@ -260,7 +260,7 @@ namespace Premotion.Mansion.Web.Security
 			                                               	{"foreignId", owner.Id},
 			                                               	{"bypassAuthorization", true}
 			                                               });
-			var node = repository.RetrieveSingle(context, nodeQuery);
+			var node = repository.RetrieveSingleNode(context, nodeQuery);
 			if (node == null)
 				throw new InvalidOperationException(string.Format("Could not find role owner with foreign ID {0} in repository, please sync tables", owner.Id));
 			return node;
@@ -280,7 +280,7 @@ namespace Premotion.Mansion.Web.Security
 			                                               	{"guid", string.Join(",", roleGuids)},
 			                                               	{"bypassAuthorization", true}
 			                                               });
-			return repository.Retrieve(context, nodeQuery);
+			return repository.RetrieveNodeset(context, nodeQuery);
 		}
 		/// <summary>
 		/// Retrieves the role node.
@@ -297,7 +297,7 @@ namespace Premotion.Mansion.Web.Security
 			                                               	{"guid", role.Id},
 			                                               	{"bypassAuthorization", true}
 			                                               });
-			var node = repository.RetrieveSingle(context, nodeQuery);
+			var node = repository.RetrieveSingleNode(context, nodeQuery);
 			if (node == null)
 				throw new InvalidOperationException(string.Format("Could not find role with ID {0} in repository, please sync tables", role.Id));
 			return node;
@@ -317,7 +317,7 @@ namespace Premotion.Mansion.Web.Security
 			                                               	{"userGuids", userNode.Get<string>(context, "guid")},
 			                                               	{"bypassAuthorization", true}
 			                                               });
-			return repository.Retrieve(context, nodeQuery);
+			return repository.RetrieveNodeset(context, nodeQuery);
 		}
 		#endregion
 		#region Map Methods

@@ -32,7 +32,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <returns>Returns a single <see cref="Node"/>.</returns>
 		protected override Node DoRetrieveSingle(IMansionContext context, NodeQuery query)
 		{
-			return DecoratedRepository.RetrieveSingle(context, query);
+			return DecoratedRepository.RetrieveSingleNode(context, query);
 		}
 		/// <summary>
 		/// Retrieves multiple nodes from this repository.
@@ -42,7 +42,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <returns>Returns a <see cref="Nodeset"/>.</returns>
 		protected override Nodeset DoRetrieve(IMansionContext context, NodeQuery query)
 		{
-			return DecoratedRepository.Retrieve(context, query);
+			return DecoratedRepository.RetrieveNodeset(context, query);
 		}
 		/// <summary>
 		/// Creates a new node in this repository.

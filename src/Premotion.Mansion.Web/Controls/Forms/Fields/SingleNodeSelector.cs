@@ -62,7 +62,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 			                                               {
 			                                               	{ValueProperty, currentValue}
 			                                               });
-			var node = repository.RetrieveSingle(context, nodeQuery);
+			var node = repository.RetrieveSingleNode(context, nodeQuery);
 
 			// if no node was found clear the value of this field
 			if (node == null)

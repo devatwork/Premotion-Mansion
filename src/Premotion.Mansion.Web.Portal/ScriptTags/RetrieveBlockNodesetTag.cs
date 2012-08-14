@@ -25,7 +25,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 			var sourceNode = GetRequiredAttribute<Node>(context, "source");
 
 			// retrieve the block nodes
-			return repository.Retrieve(context, repository.ParseQuery(context, new PropertyBag
+			return repository.RetrieveNodeset(context, repository.ParseQuery(context, new PropertyBag
 			                                                                   {
 			                                                                   	{"baseType", "Block"},
 			                                                                   	{"parentSource", sourceNode},

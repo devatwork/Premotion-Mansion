@@ -64,7 +64,7 @@ namespace Premotion.Mansion.Web.Controls.Providers.Nodesets
 				throw new InvalidOperationException("The parent node was not specified.");
 
 			// execute the query
-			return repository.Retrieve(context, query);
+			return repository.RetrieveNodeset(context, query);
 		}
 		#endregion
 		#region Private Fields

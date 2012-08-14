@@ -58,7 +58,7 @@ namespace Premotion.Mansion.Repository.SqlServer.ScriptTags
 			                         			continue;
 
 			                         		// get the node entries for this type, ignore types with zero nodes
-			                         		var nodeset = repository.Retrieve(context, repository.ParseQuery(context, new PropertyBag
+			                         		var nodeset = repository.RetrieveNodeset(context, repository.ParseQuery(context, new PropertyBag
 			                         		                                                                          {
 			                         		                                                                          	{"baseType", type.Name}
 			                         		                                                                          }));
