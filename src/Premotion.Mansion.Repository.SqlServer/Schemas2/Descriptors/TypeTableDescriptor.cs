@@ -27,7 +27,21 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2.Descriptors
 				throw new ArgumentNullException("type");
 
 			// invoke template method
-			return DoCreate(context, type);
+			var table = DoCreate(context, type);
+
+			// create the columns for this table
+			foreach (var property in type.Properties)
+			{
+				ColumnDescriptor columnDescriptor;
+				if (!property.TryGetDescriptor(out columnDescriptor))
+					continue;
+
+				// add the column to the table
+				table.Add(columnDescriptor.Create(context, table, property));
+			}
+
+			// return the created table
+			return table;
 		}
 		/// <summary>
 		/// Creates the <see cref="Table"/> from the descriptor.
@@ -42,17 +56,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2.Descriptors
 
 			// create the type table
 			var table = new TypeTable(tableName);
-
-			// create the columns for this table
-			foreach (var property in type.Properties)
-			{
-				ColumnDescriptor columnDescriptor;
-				if (!property.TryGetDescriptor(out columnDescriptor))
-					continue;
-
-				// add the column to the table
-				table.Add(columnDescriptor.Create(context, table, property));
-			}
 
 			// return the created table
 			return table;
