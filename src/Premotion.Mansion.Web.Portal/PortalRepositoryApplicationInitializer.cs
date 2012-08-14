@@ -37,11 +37,7 @@ namespace Premotion.Mansion.Web.Portal
 			using (RepositoryUtil.Open(context, repositoryNamespace, applicationSettings))
 			{
 				// check if the root node exists
-				var rootNode = context.Repository.RetrieveSingleNode(context, new PropertyBag
-				                                                          {
-				                                                          	{"id", 1},
-				                                                          	{"bypassAuthorization", true}
-				                                                          });
+				var rootNode = context.Repository.RetrieveRootNode(context);
 				if (rootNode == null)
 					throw new InvalidOperationException("The root node was not found in the repository, please make sure it exists before initializing");
 

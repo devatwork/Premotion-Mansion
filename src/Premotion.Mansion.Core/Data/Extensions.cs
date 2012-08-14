@@ -1,6 +1,6 @@
 ﻿using System;
-using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data.Queries;
+using Premotion.Mansion.Core.Data.Queries.Specifications;
 
 namespace Premotion.Mansion.Core.Data
 {
@@ -74,11 +74,7 @@ namespace Premotion.Mansion.Core.Data
 				throw new ArgumentNullException("context");
 
 			// retrieve the node
-			var rootNode = repository.RetrieveSingleNode(context, new PropertyBag
-			                                                      {
-			                                                      	{"id", 1},
-			                                                      	{"bypassAuthorization", true}
-			                                                      });
+			var rootNode = repository.RetrieveSingleNode(context, new Query().Add(new IsPropertyEqualSpecification("id", 1)));
 			if (rootNode == null)
 				throw new InvalidOperationException("Could not find root node, please check repository");
 			return rootNode;
@@ -99,11 +95,7 @@ namespace Premotion.Mansion.Core.Data
 				throw new ArgumentNullException("context");
 
 			// retrieve the node
-			return repository.RetrieveSingleNode(context, new PropertyBag
-			                                              {
-			                                              	{"id", id},
-			                                              	{"bypassAuthorization", true}
-			                                              });
+			return repository.RetrieveSingleNode(context, new Query().Add(new IsPropertyEqualSpecification("id", id)));
 		}
 		/// <summary>
 		/// Retrieves the <see cref="Node"/> by it's <paramref name="guid"/>.
@@ -121,11 +113,7 @@ namespace Premotion.Mansion.Core.Data
 				throw new ArgumentNullException("context");
 
 			// retrieve the node
-			return repository.RetrieveSingleNode(context, new PropertyBag
-			                                              {
-			                                              	{"guid", guid},
-			                                              	{"bypassAuthorization", true}
-			                                              });
+			return repository.RetrieveSingleNode(context, new Query().Add(new IsPropertyEqualSpecification("guid", guid)));
 		}
 		#endregion
 		#region Extensions of IMansionContext
