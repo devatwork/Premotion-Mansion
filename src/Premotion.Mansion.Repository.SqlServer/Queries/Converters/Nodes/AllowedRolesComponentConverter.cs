@@ -21,10 +21,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters.Nodes
 		{
 			// check if there are no values
 			if (specification.RoleIds.Length == 0)
-			{
-				commandContext.QueryBuilder.AppendWhere("1 = 0");
 				return;
-			}
 
 			// get the table in which the column exists from the schema
 			var pair = commandContext.Schema.FindTableAndColumn("allowedRoleGuids");
