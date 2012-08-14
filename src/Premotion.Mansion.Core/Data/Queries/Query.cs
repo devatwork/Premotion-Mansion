@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Premotion.Mansion.Core.Types;
 
 namespace Premotion.Mansion.Core.Data.Queries
@@ -9,7 +10,6 @@ namespace Premotion.Mansion.Core.Data.Queries
 	/// </summary>
 	public class Query
 	{
-		// TODO: add robust to string implementation
 		#region Add Methods
 		/// <summary>
 		/// Adds a new <paramref name="component"/> to this query.
@@ -54,6 +54,35 @@ namespace Premotion.Mansion.Core.Data.Queries
 		public IEnumerable<ITypeDefinition> TypeHints
 		{
 			get { return typeHints; }
+		}
+		#endregion
+		#region Overrides of Object
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+		/// </returns>
+		/// <filterpriority>2</filterpriority>
+		public override sealed string ToString()
+		{
+			var builder = new StringBuilder();
+
+			// loop over all the components
+			var first = true;
+			foreach (var component in Components)
+			{
+				// append separator if not first
+				if (first)
+					first = false;
+				else
+					builder.Append('_');
+
+				// append component to builder
+				component.AsString(builder);
+			}
+
+			return builder.ToString();
 		}
 		#endregion
 		#region Private Fields

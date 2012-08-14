@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Premotion.Mansion.Core.Data.Queries
 {
 	/// <summary>
@@ -14,6 +16,17 @@ namespace Premotion.Mansion.Core.Data.Queries
 		{
 			// set value
 			this.limit = limit;
+		}
+		#endregion
+		#region Overrides of QueryComponent
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+		/// </summary>
+		/// <param name="builder">The <see cref="T:System.Text.StringBuilder"/> in which to store the <see cref="T:System.String"/> representation.</param>
+		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.</returns>
+		protected override void DoAsString(StringBuilder builder)
+		{
+			builder.AppendFormat("limit:{0}", Limit);
 		}
 		#endregion
 		#region Properties
