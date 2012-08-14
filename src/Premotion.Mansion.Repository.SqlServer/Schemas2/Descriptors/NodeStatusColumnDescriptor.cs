@@ -20,7 +20,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2.Descriptors
 		protected override Column DoCreate(IMansionContext context, Table table, IPropertyDefinition property)
 		{
 			// create the column
-			return new NodeStatusPropertyColumn(table, property.Name);
+			return new NodeStatusPropertyColumn(context, table, property.Name);
 		}
 		#endregion
 	}
