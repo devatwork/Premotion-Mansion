@@ -41,6 +41,15 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		{
 			return new Node();
 		}
+		/// <summary>
+		/// Initializes the given row.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="row">The <see cref="Node"/> which to intialize.</param>
+		protected override void Initialize(IMansionContext context, Node row)
+		{
+			row.Initialize(context);
+		}
 		#endregion
 	}
 }

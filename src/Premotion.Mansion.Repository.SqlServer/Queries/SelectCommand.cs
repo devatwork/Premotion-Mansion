@@ -171,6 +171,9 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			foreach (var recordMapper in recordMappers)
 				recordMapper.Map(context, record, properties);
 
+			// initialize the row
+			Initialize(context, properties);
+
 			// return the properties
 			return properties;
 		}
@@ -224,6 +227,15 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// </summary>
 		/// <returns>Returns the created <typeparamref name="TRow"/>.</returns>
 		protected abstract TRow CreateRow();
+		/// <summary>
+		/// Initializes the given row.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="row">The <typeparamref name="TRow"/> which to intialize.</param>
+		protected virtual void Initialize(IMansionContext context, TRow row)
+		{
+			// do nothing
+		}
 		#endregion
 		#region Overrides of DisposableBase
 		/// <summary>
@@ -237,7 +249,8 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 				return;
 
 			// cleanup
-			commandContext.Dispose();
+			if (commandContext != null)
+				commandContext.Dispose();
 		}
 		#endregion
 		#region Private Fields

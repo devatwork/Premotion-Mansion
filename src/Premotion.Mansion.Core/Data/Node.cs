@@ -85,6 +85,41 @@ namespace Premotion.Mansion.Core.Data
 			guid = extendedProperties.Get<Guid>(context, "guid");
 		}
 		#endregion
+		#region Initialize Methods
+		/// <summary>
+		/// Initializes this node.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/></param>
+		public void Initialize(IMansionContext context)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+
+			// set values
+			pointer = Get<NodePointer>(context, "pointer");
+
+			// determine the state of the node
+			var isApproved = Get<bool>(context, "approved");
+			var publicationDate = Get<DateTime>(context, "publicationDate");
+			var expirationDate = Get<DateTime>(context, "expirationDate");
+			var isArchived = Get<bool>(context, "archived");
+			if (isArchived)
+				status = NodeStatus.Archived;
+			else if (!isApproved)
+				status = NodeStatus.Draft;
+			else if (expirationDate < DateTime.Now)
+				status = NodeStatus.Expired;
+			else if (publicationDate > DateTime.Now)
+				status = NodeStatus.Staged;
+			else
+				status = NodeStatus.Published;
+
+			// set misc properties
+			order = Get<long>(context, "order");
+			guid = Get<Guid>(context, "guid");
+		}
+		#endregion
 		#region Properties
 		/// <summary>
 		/// Gets the pointer of this node.
@@ -116,10 +151,10 @@ namespace Premotion.Mansion.Core.Data
 		}
 		#endregion
 		#region Private Fields
-		private readonly Guid guid;
-		private readonly long order;
-		private readonly NodePointer pointer;
-		private readonly NodeStatus status;
+		private Guid guid;
+		private long order;
+		private NodePointer pointer;
+		private NodeStatus status;
 		#endregion
 	}
 }
