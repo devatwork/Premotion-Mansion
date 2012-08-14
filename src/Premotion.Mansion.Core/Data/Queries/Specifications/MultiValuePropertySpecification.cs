@@ -39,7 +39,17 @@ namespace Premotion.Mansion.Core.Data.Queries.Specifications
 		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.</returns>
 		protected override void DoAsString(StringBuilder builder)
 		{
-			builder.Append(PropertyName).Append(' ').Append(op).Append(' ').Append(Values);
+			builder.Append(PropertyName).Append(' ').Append(op).Append(' ').Append("(");
+			var first = true;
+			foreach (var value in Values)
+			{
+				if (first)
+					first = false;
+				else
+					builder.Append(",");
+				builder.Append(value);
+			}
+			builder.Append(")");
 		}
 		#endregion
 		#region Properties

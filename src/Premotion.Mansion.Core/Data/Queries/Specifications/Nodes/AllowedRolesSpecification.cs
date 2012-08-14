@@ -67,7 +67,7 @@ namespace Premotion.Mansion.Core.Data.Queries.Specifications.Nodes
 		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.</returns>
 		protected override void DoAsString(StringBuilder builder)
 		{
-			builder.Append("allowed-role-ids:").Append(RoleIds.Length == 0 ? "allowed-role-ids:any" : string.Join(",", RoleIds));
+			builder.Append("allowed-role-ids:").Append(RoleIds.Length == 0 ? "any" : string.Join(",", RoleIds));
 		}
 		#endregion
 		#region Properties
