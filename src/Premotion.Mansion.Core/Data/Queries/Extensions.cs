@@ -86,8 +86,8 @@ namespace Premotion.Mansion.Core.Data.Queries
 			if (query == null)
 				throw new ArgumentNullException("query");
 
-			// TODO: implement
-			throw new NotImplementedException();
+			// find any matching specification
+			return query.Components.OfType<SpecificationQueryComponent>().Select(component => component.Specification).OfType<TSpecification>().Any();
 		}
 		#endregion
 	}
