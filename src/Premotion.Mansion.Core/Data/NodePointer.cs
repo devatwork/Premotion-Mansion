@@ -7,7 +7,7 @@ namespace Premotion.Mansion.Core.Data
 	/// <summary>
 	/// This pointer points to a node in the repository.
 	/// </summary>
-	public class NodePointer : IEnumerable<NodePointer>, IEquatable<NodePointer>
+	public class NodePointer : IEnumerable<NodePointer>, IEquatable<NodePointer>, IComparable<NodePointer>, IComparable
 	{
 		#region Constants
 		/// <summary>
@@ -386,35 +386,6 @@ namespace Premotion.Mansion.Core.Data
 		}
 		#endregion
 		#region Overrides of Object
-		#region  Members
-		/// <summary>
-		/// Returns an enumerator that iterates through a collection.
-		/// </summary>
-		/// <returns>
-		/// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
-		/// </returns>
-		/// <filterpriority>2</filterpriority>
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
-		#endregion
-		/// <summary>
-		/// Returns an enumerator that iterates through the collection.
-		/// </summary>
-		/// <returns>
-		/// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
-		/// </returns>
-		/// <filterpriority>1</filterpriority>
-		public IEnumerator<NodePointer> GetEnumerator()
-		{
-			if (HasParent)
-			{
-				foreach (var parentNodePointer in Parent)
-					yield return parentNodePointer;
-			}
-			yield return this;
-		}
 		/// <summary>
 		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 		/// </summary>
@@ -455,7 +426,74 @@ namespace Premotion.Mansion.Core.Data
 			return Id.GetHashCode();
 		}
 		#endregion
-		#region Implementation of IEquatable{NodePointer}
+		#region IComparable Members
+		/// <summary>
+		/// Compares the current instance with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other object.
+		/// </summary>
+		/// <returns>
+		/// A value that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance is less than <paramref name="obj"/>. Zero This instance is equal to <paramref name="obj"/>. Greater than zero This instance is greater than <paramref name="obj"/>. 
+		/// </returns>
+		/// <param name="obj">An object to compare with this instance. </param><exception cref="T:System.ArgumentException"><paramref name="obj"/> is not the same type as this instance. </exception><filterpriority>2</filterpriority>
+		public int CompareTo(object obj)
+		{
+			return CompareTo(obj as NodePointer);
+		}
+		#endregion
+		#region IComparable<NodePointer> Members
+		/// <summary>
+		/// Compares the current object with another object of the same type.
+		/// </summary>
+		/// <returns>
+		/// A value that indicates the relative order of the objects being compared. The return value has the following meanings: Value Meaning Less than zero This object is less than the <paramref name="other"/> parameter.Zero This object is equal to <paramref name="other"/>. Greater than zero This object is greater than <paramref name="other"/>. 
+		/// </returns>
+		/// <param name="other">An object to compare with this object.</param>
+		public int CompareTo(NodePointer other)
+		{
+			// guard
+			if (other == null)
+				return 1;
+
+			// check if IDs match
+			if (Id == other.Id)
+				return 0;
+
+			// check depth
+			var depthCompare = Depth.CompareTo(other.Depth);
+
+			// if depths are equal select the highest id
+			return depthCompare != 0 ? depthCompare : Id.CompareTo(other.Id);
+		}
+		#endregion
+		#region IEnumerable<NodePointer> Members
+		/// <summary>
+		/// Returns an enumerator that iterates through a collection.
+		/// </summary>
+		/// <returns>
+		/// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+		/// </returns>
+		/// <filterpriority>2</filterpriority>
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+		/// <summary>
+		/// Returns an enumerator that iterates through the collection.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+		/// </returns>
+		/// <filterpriority>1</filterpriority>
+		public IEnumerator<NodePointer> GetEnumerator()
+		{
+			if (HasParent)
+			{
+				foreach (var parentNodePointer in Parent)
+					yield return parentNodePointer;
+			}
+			yield return this;
+		}
+		#endregion
+		#region IEquatable<NodePointer> Members
 		/// <summary>
 		/// Indicates whether the current object is equal to another object of the same type.
 		/// </summary>
