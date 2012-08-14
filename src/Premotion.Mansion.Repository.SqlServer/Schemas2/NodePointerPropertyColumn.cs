@@ -21,13 +21,13 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 				throw new ArgumentNullException("table");
 
 			// add marker columns
-			table.Add(new VirtualColumn("name"));
-			table.Add(new VirtualColumn("type"));
-			table.Add(new VirtualColumn("depth"));
-			table.Add(new VirtualColumn("parentId"));
-			table.Add(new VirtualColumn("parentPointer"));
-			table.Add(new VirtualColumn("parentPath"));
-			table.Add(new VirtualColumn("parentStructure"));
+			table.Add(new PropertyColumn("name", "name"));
+			table.Add(new PropertyColumn("type", "type"));
+			table.Add(new PropertyColumn("depth", "depth"));
+			table.Add(new PropertyColumn("parentId", "parentId"));
+			table.Add(new PropertyColumn("parentPointer", "parentPointer"));
+			table.Add(new PropertyColumn("parentPath", "parentPath"));
+			table.Add(new PropertyColumn("parentStructure", "parentStructure"));
 		}
 		#endregion
 	}
