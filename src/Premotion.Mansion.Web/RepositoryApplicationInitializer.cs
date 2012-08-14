@@ -2,9 +2,10 @@
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Data.Queries;
+using Premotion.Mansion.Core.Data.Queries.Specifications;
 using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Security;
-using Premotion.Mansion.Web.Http;
 
 namespace Premotion.Mansion.Web
 {
@@ -39,11 +40,7 @@ namespace Premotion.Mansion.Web
 			using (RepositoryUtil.Open(context, repositoryNamespace, applicationSettings))
 			{
 				// check if the root node exists
-				var rootNode = context.Repository.RetrieveSingleNode(context, new PropertyBag
-				                                                          {
-				                                                          	{"id", 1},
-				                                                          	{"bypassAuthorization", true}
-				                                                          });
+				var rootNode = context.Repository.RetrieveSingleNode(context, new Query().Add(new IsPropertyEqualSpecification("id", 1)));
 				if (rootNode == null)
 					throw new InvalidOperationException("The root node was not found in the repository, please make sure it exists before initializing");
 

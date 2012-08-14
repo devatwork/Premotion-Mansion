@@ -75,6 +75,7 @@
     <Compile Include="NodeQueries\MoveQuery.cs" />
     <Compile Include="NodeQueries\SelectQuery.cs" />
     <Compile Include="Queries\Converters\CacheQueryComponentConverter.cs" />
+    <Compile Include="Queries\Converters\IsPropertyEqualSpecificationConverter.cs" />
     <Compile Include="Queries\Converters\FacetQueryComponentConverter.cs" />
     <Compile Include="Queries\Converters\FullTextSearchSpecificationConverter.cs" />
     <Compile Include="Queries\Converters\PagingQueryComponentConverter.cs" />
