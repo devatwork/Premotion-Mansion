@@ -13,7 +13,7 @@
 		public RootTable(string tableName) : base(tableName)
 		{
 			// create the columns
-			Add(new IdentityColumn(this));
+			Add(new IdentityColumn());
 			Add(new OrderColumn());
 			Add(new ExtendedPropertiesColumn());
 		}
