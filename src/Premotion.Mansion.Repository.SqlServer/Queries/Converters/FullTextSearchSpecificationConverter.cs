@@ -7,7 +7,7 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data.Queries.Specifications;
 using Premotion.Mansion.Core.Patterns.Tokenizing;
 using Premotion.Mansion.Repository.SqlServer.Queries.Specifications;
-using Premotion.Mansion.Repository.SqlServer.Schemas;
+using Premotion.Mansion.Repository.SqlServer.Schemas2;
 
 namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 {

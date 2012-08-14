@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.old.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.old.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:def="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd">
+<xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:def="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd">
 	
 	<!-- import -->
 	<xs:import namespace="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" />
@@ -97,6 +97,18 @@
 				</xs:annotation>
 			</xs:attribute>
 		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="publicationStatus" substitutionGroup="def:propertyDescriptor">
+		<xs:annotation>
+			<xs:documentation>Describes a publication status columns in a MS SQL Server database.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="treeRelations" substitutionGroup="def:propertyDescriptor">
+		<xs:annotation>
+			<xs:documentation>Describes tree relation columns in a MS SQL Server database.</xs:documentation>
+		</xs:annotation>
 	</xs:element>
 	
 	

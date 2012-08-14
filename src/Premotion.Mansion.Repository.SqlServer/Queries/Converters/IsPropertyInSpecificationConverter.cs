@@ -21,7 +21,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 			var pair = commandContext.Schema.FindTableAndColumn(specification.PropertyName);
 
 			// allow the table to map the value
-			pair.Table.ToWhereStatement(context, pair.Column, specification.Values, commandContext);
+			pair.Column.ToWhereStatement(context, commandContext, specification.Values);
 		}
 		#endregion
 	}

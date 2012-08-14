@@ -8,7 +8,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Descriptors
 	/// <summary>
 	/// Describes a column.
 	/// </summary>
-	[TypeDescriptor(Constants.DescriptorNamespaceUri, "dateTimeColumn")]
+	[TypeDescriptor(Constants.DescriptorNamespaceUri, "dateTimeColumn2")]
 	public class DateTimeColumnDescriptor : ColumnDescriptor
 	{
 		#region Factory Methods

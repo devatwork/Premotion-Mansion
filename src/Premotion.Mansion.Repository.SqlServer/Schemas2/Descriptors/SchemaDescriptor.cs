@@ -1,12 +1,12 @@
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Types;
 
-namespace Premotion.Mansion.Repository.SqlServer.Descriptors
+namespace Premotion.Mansion.Repository.SqlServer.Schemas2.Descriptors
 {
 	/// <summary>
 	/// Describes a schema of an type table.
 	/// </summary>
-	[TypeDescriptor(Constants.DescriptorNamespaceUri, "schema2")]
+	[TypeDescriptor(Constants.DescriptorNamespaceUri, "schema")]
 	public class SchemaDescriptor : TypeDescriptor
 	{
 		#region Properties

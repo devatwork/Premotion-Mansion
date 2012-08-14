@@ -2,6 +2,9 @@
 <type xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd" xmlns:webdescriptors="http://schemas.premotion.nl/mansion/1.0/web/descriptors.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:listeners="http://schemas.premotion.nl/mansion/1.0/data.listeners.descriptors.xsd">
 	
 	<!-- define identity properties -->
+	<property name="pointer">
+		<sqlserver:treeRelations />
+	</property>
 	<property name="key">
 		<sqlserver:column allowNullValue="true" />
 	</property>
@@ -13,17 +16,8 @@
 	</property>
 	
 	<!-- define status properties -->
-	<property name="approved">
-		<sqlserver:booleanColumn defaultValue="true" />
-	</property>
-	<property name="publicationDate">
-		<sqlserver:dateTimeColumn expression="{NotNull( Column.value, Now() )}" />
-	</property>
-	<property name="expirationDate">
-		<sqlserver:dateTimeColumn expression="{NotNull( Column.value, MaxSqlDate() )}" />
-	</property>
-	<property name="archived">
-		<sqlserver:booleanColumn defaultValue="false" />
+	<property name="status">
+		<sqlserver:publicationStatus />
 	</property>
 	
 	<!-- role Ids -->

@@ -9,7 +9,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Descriptors
 	/// <summary>
 	/// Describes a property table.
 	/// </summary>
-	[Named(typeof (TypeDescriptor), Constants.DescriptorNamespaceUri, "singleValuePropertyTable")]
+	[Named(typeof (TypeDescriptor), Constants.DescriptorNamespaceUri, "singleValuePropertyTable2")]
 	public class SingleValuePropertyTableDescriptor : PropertyTableDescriptor
 	{
 		#region Factory Methods

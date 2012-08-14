@@ -161,7 +161,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="column">The <see cref="Column"/>.</param>
 		/// <param name="values">The values.</param>
 		/// <param name="commandContext">The <see cref="QueryCommandContext"/>.</param>
-		protected override void DoToWhereStatement(IMansionContext context, Column column, object[] values, QueryCommandContext commandContext)
+		protected virtual void DoToWhereStatement(IMansionContext context, Column column, object[] values, QueryCommandContext commandContext)
 		{
 			// assemble the properties
 			var buffer = new StringBuilder();

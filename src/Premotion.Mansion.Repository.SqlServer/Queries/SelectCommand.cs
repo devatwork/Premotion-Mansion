@@ -11,7 +11,7 @@ using Premotion.Mansion.Core.Patterns.Prioritized;
 using Premotion.Mansion.Core.Patterns.Voting;
 using Premotion.Mansion.Repository.SqlServer.Queries.Converters;
 using Premotion.Mansion.Repository.SqlServer.Queries.Mappers;
-using Premotion.Mansion.Repository.SqlServer.Schemas;
+using Premotion.Mansion.Repository.SqlServer.Schemas2;
 
 namespace Premotion.Mansion.Repository.SqlServer.Queries
 {
@@ -62,7 +62,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			var rootType = query.TypeHints.FindCommonAncestor(context);
 
 			// get the schema of the root type
-			var schema = SchemaProvider.Resolve(context, rootType);
+			var schema = Resolver.Resolve(context, rootType);
 
 			// create the context
 			commandContext = new QueryCommandContext(schema, connection.CreateCommand());
@@ -93,7 +93,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			commandContext.Command.CommandText = commandContext.QueryBuilder.ToSingleNodeQuery();
 
 			// get the column mappers in prioritized order
-			var recordMappers = commandContext.Schema.RootTable.GetRecordMappers(context).OrderByPriority();
+			var recordMappers = commandContext.Schema.GetRecordMappers(context).OrderByPriority();
 
 			// execute the command
 			using (var reader = commandContext.Command.ExecuteReader(CommandBehavior.SingleRow))
@@ -126,7 +126,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			commandContext.Command.CommandText = commandContext.QueryBuilder.ToString();
 
 			// get the column mappers in prioritized order
-			var recordMappers = commandContext.Schema.RootTable.GetRecordMappers(context).OrderByPriority().ToList();
+			var recordMappers = commandContext.Schema.GetRecordMappers(context).OrderByPriority().ToList();
 
 			// execute the command
 			using (var reader = commandContext.Command.ExecuteReader(CommandBehavior.Default))

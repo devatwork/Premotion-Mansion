@@ -55,13 +55,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <returns>Returns the node.</returns>
 		protected override Node DoRetrieveSingle(IMansionContext context, NodeQuery query)
 		{
-			// build the query
-			using (var connection = CreateConnection())
-			using (var selectQuery = SelectQuery.Prepare(context, connection, schemaProvider, query, converters))
-			{
-				// execute the query
-				return selectQuery.ExecuteSingle(context);
-			}
+			throw new NotImplementedException();
 		}
 		/// <summary>
 		/// Retrieves multiple nodes from this repository.
@@ -71,13 +65,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <returns></returns>
 		protected override Nodeset DoRetrieve(IMansionContext context, NodeQuery query)
 		{
-			// build the query
-			using (var connection = CreateConnection())
-			using (var selectQuery = SelectQuery.Prepare(context, connection, schemaProvider, query, converters))
-			{
-				// execute the query
-				return selectQuery.Execute(context);
-			}
+			throw new NotImplementedException();
 		}
 		/// <summary>
 		/// Creates a new node in this repository.

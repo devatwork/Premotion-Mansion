@@ -8,7 +8,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Descriptors
 	/// <summary>
 	/// Describes the root type table.
 	/// </summary>
-	[TypeDescriptor(Constants.DescriptorNamespaceUri, "rootTypeTable")]
+	[TypeDescriptor(Constants.DescriptorNamespaceUri, "rootTypeTable2")]
 	public class RootTypeTableDescriptor : TypeTableDescriptor
 	{
 		#region Factory Methods

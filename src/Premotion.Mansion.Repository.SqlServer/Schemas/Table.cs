@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
-using Premotion.Mansion.Repository.SqlServer.Queries;
 using Premotion.Mansion.Repository.SqlServer.Queries.Mappers;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas
@@ -198,66 +195,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		protected virtual void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Node> nodes)
 		{
 			throw new NotSupportedException();
-		}
-		/// <summary>
-		/// Turns the given <paramref name="values"/> into a where statement for this table.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="column">The <see cref="Column"/>.</param>
-		/// <param name="values">The values.</param>
-		/// <param name="commandContext">The <see cref="QueryCommandContext"/>.</param>
-		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public void ToWhereStatement(IMansionContext context, Column column, IEnumerable<object> values, QueryCommandContext commandContext)
-		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
-			if (column == null)
-				throw new ArgumentNullException("column");
-			if (values == null)
-				throw new ArgumentNullException("values");
-			if (commandContext == null)
-				throw new ArgumentNullException("commandContext");
-
-			// guard against empty values
-			var valueArray = values.ToArray();
-			if (valueArray.Length == 0)
-			{
-				commandContext.QueryBuilder.AppendWhere("1 = 0");
-				return;
-			}
-
-			// add this table
-			commandContext.QueryBuilder.AddTable(context, this, commandContext.Command);
-
-			//invoke template method
-			DoToWhereStatement(context, column, valueArray, commandContext);
-		}
-		/// <summary>
-		/// Turns the given <paramref name="values"/> into a where statement for this table.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="column">The <see cref="Column"/>.</param>
-		/// <param name="values">The values.</param>
-		/// <param name="commandContext">The <see cref="QueryCommandContext"/>.</param>
-		protected virtual void DoToWhereStatement(IMansionContext context, Column column, object[] values, QueryCommandContext commandContext)
-		{
-			// check for single or multiple values
-			if (values.Length == 1)
-				commandContext.QueryBuilder.AppendWhere(" [{0}].[{1}] = @{2}", Name, column.ColumnName, commandContext.Command.AddParameter(values[0]));
-			else
-			{
-				// start the clause
-				var buffer = new StringBuilder();
-				buffer.AppendFormat("[{0}].[{1}] IN (", Name, column.ColumnName);
-
-				// loop through all the values
-				foreach (var value in values)
-					buffer.AppendFormat("@{0},", commandContext.Command.AddParameter(value));
-
-				// finish the clause
-				commandContext.QueryBuilder.AppendWhere("{0})", buffer.Trim());
-			}
 		}
 		#endregion
 		#region Properties

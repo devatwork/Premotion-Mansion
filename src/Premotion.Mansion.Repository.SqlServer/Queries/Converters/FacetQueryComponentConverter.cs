@@ -3,7 +3,7 @@ using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data.Facets;
 using Premotion.Mansion.Core.Data.Queries;
-using Premotion.Mansion.Repository.SqlServer.Schemas;
+using Premotion.Mansion.Repository.SqlServer.Schemas2;
 
 namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 {
@@ -42,28 +42,28 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 
 			// add with custom mapping to the query
 			commandContext.QueryBuilder.AddAdditionalQuery(queryBuffer.ToString(), (nodeset, reader) =>
-			                                                                {
-			                                                                	// loop over all the records to create the facet values
-			                                                                	var facetValues = new List<FacetValue>();
-			                                                                	while (reader.Read())
-			                                                                	{
-			                                                                		// get the value
-			                                                                		var value = reader.GetValue(0);
-			                                                                		var count = reader.GetInt32(1);
+			                                                                       {
+			                                                                       	// loop over all the records to create the facet values
+			                                                                       	var facetValues = new List<FacetValue>();
+			                                                                       	while (reader.Read())
+			                                                                       	{
+			                                                                       		// get the value
+			                                                                       		var value = reader.GetValue(0);
+			                                                                       		var count = reader.GetInt32(1);
 
-			                                                                		// construct the facet value
-			                                                                		var facetValue = new FacetValue(value, count);
+			                                                                       		// construct the facet value
+			                                                                       		var facetValue = new FacetValue(value, count);
 
-			                                                                		// add the value to the list
-			                                                                		facetValues.Add(facetValue);
-			                                                                	}
+			                                                                       		// add the value to the list
+			                                                                       		facetValues.Add(facetValue);
+			                                                                       	}
 
-			                                                                	// create the facet result
-			                                                                	var result = FacetResult.Create(context, component.Facet, facetValues);
+			                                                                       	// create the facet result
+			                                                                       	var result = FacetResult.Create(context, component.Facet, facetValues);
 
-			                                                                	// add the result to the facet set
-			                                                                	nodeset.AddFacet(result);
-			                                                                });
+			                                                                       	// add the result to the facet set
+			                                                                       	nodeset.AddFacet(result);
+			                                                                       });
 		}
 		#endregion
 	}

@@ -101,6 +101,39 @@
     <Compile Include="Queries\Record.cs" />
     <Compile Include="Queries\SelectCommand.cs" />
     <Compile Include="Queries\Specifications\FullTextSearchSpecification.cs" />
+    <Compile Include="Queries\SqlStringBuilder.cs" />
+    <Compile Include="Schemas2\BooleanPropertyColumn.cs" />
+    <Compile Include="Schemas2\Column.cs" />
+    <Compile Include="Schemas2\Descriptors\NodePointerColumnDescriptor.cs" />
+    <Compile Include="Schemas2\Descriptors\NodeStatusColumnDescriptor.cs" />
+    <Compile Include="Schemas2\NodePointerPropertyColumn.cs" />
+    <Compile Include="Schemas2\NodeStatusPropertyColumn.cs" />
+    <Compile Include="Schemas2\DateTimePropertyColumn.cs" />
+    <Compile Include="Schemas2\Descriptors\BooleanColumnDescriptor.cs" />
+    <Compile Include="Schemas2\Descriptors\ColumnDescriptor.cs" />
+    <Compile Include="Schemas2\Descriptors\DateTimeColumnDescriptor.cs" />
+    <Compile Include="Schemas2\Descriptors\FullTextDescriptor.cs" />
+    <Compile Include="Schemas2\Descriptors\MultiValuePropertyTableDescriptor.cs" />
+    <Compile Include="Schemas2\Descriptors\PropertyTableDescriptor.cs" />
+    <Compile Include="Schemas2\Descriptors\RootTypeTableDescriptor.cs" />
+    <Compile Include="Schemas2\Descriptors\SchemaDescriptor.cs" />
+    <Compile Include="Schemas2\Descriptors\SingleValuePropertyTableDescriptor.cs" />
+    <Compile Include="Schemas2\Descriptors\TableDescriptor.cs" />
+    <Compile Include="Schemas2\Descriptors\TypeTableDescriptor.cs" />
+    <Compile Include="Schemas2\DummyColumn.cs" />
+    <Compile Include="Schemas2\ExtendedPropertiesColumn.cs" />
+    <Compile Include="Schemas2\IdentityColumn.cs" />
+    <Compile Include="Schemas2\JoinColumn.cs" />
+    <Compile Include="Schemas2\MultiValuePropertyTable.cs" />
+    <Compile Include="Schemas2\OrderColumn.cs" />
+    <Compile Include="Schemas2\PropertyColumn.cs" />
+    <Compile Include="Schemas2\Resolver.cs" />
+    <Compile Include="Schemas2\RootTable.cs" />
+    <Compile Include="Schemas2\Schema.cs" />
+    <Compile Include="Schemas2\SingleValuePropertyTable.cs" />
+    <Compile Include="Schemas2\Table.cs" />
+    <Compile Include="Schemas2\TableColumnPair.cs" />
+    <Compile Include="Schemas2\TypeTable.cs" />
     <Compile Include="SqlServerUtilities.cs" />
     <Compile Include="NodeQueries\UpdateQuery.cs" />
     <Compile Include="SchemaCreatorApplicationInitializer.cs" />
@@ -144,6 +177,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config.transform" />
+    <None Include="Schemas2\Descriptors\repository.mssql.descriptors.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="web.config.transform" />
     <None Include="Premotion.Mansion.Repository.SqlServer.symbols.nuspec" />
     <None Include="Premotion.Mansion.Repository.SqlServer.nuspec" />

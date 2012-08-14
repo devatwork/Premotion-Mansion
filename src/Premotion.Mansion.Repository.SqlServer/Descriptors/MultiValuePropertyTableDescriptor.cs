@@ -9,7 +9,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Descriptors
 	/// <summary>
 	/// Describes a multi-value property table.
 	/// </summary>
-	[Named(typeof (TypeDescriptor), Constants.DescriptorNamespaceUri, "multiValuePropertyTable")]
+	[Named(typeof (TypeDescriptor), Constants.DescriptorNamespaceUri, "multiValuePropertyTable2")]
 	public class MultiValuePropertyTableDescriptor : PropertyTableDescriptor
 	{
 		#region Factory Methods

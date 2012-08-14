@@ -8,7 +8,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Descriptors
 	/// <summary>
 	/// Describes a column.
 	/// </summary>
-	[TypeDescriptor(Constants.DescriptorNamespaceUri, "booleanColumn")]
+	[TypeDescriptor(Constants.DescriptorNamespaceUri, "booleanColumn2")]
 	public class BooleanColumnDescriptor : ColumnDescriptor
 	{
 		#region Factory Methods

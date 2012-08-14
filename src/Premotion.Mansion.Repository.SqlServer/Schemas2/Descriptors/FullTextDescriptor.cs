@@ -4,12 +4,12 @@ using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Types;
 
-namespace Premotion.Mansion.Repository.SqlServer.Descriptors
+namespace Premotion.Mansion.Repository.SqlServer.Schemas2.Descriptors
 {
 	/// <summary>
 	/// Describes the full text columns.
 	/// </summary>
-	[TypeDescriptor(Constants.DescriptorNamespaceUri, "fullText2")]
+	[TypeDescriptor(Constants.DescriptorNamespaceUri, "fullText")]
 	public class FullTextDescriptor : TypeDescriptor
 	{
 		/// <summary>
@@ -21,6 +21,14 @@ namespace Premotion.Mansion.Repository.SqlServer.Descriptors
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
 		public void Populate(IMansionContext context, IPropertyBag modifiedProperties, IPropertyBag originalProperties)
 		{
+			//validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (modifiedProperties == null)
+				throw new ArgumentNullException("modifiedProperties");
+			if (originalProperties == null)
+				throw new ArgumentNullException("originalProperties");
+
 			// get all the properties over which to loop
 			var properties = Properties.Get<string>(context, "properties").Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(property => property.Trim());
 

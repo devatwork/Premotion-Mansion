@@ -8,7 +8,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Descriptors
 	/// <summary>
 	/// Describes a column.
 	/// </summary>
-	[TypeDescriptor(Constants.DescriptorNamespaceUri, "column")]
+	[TypeDescriptor(Constants.DescriptorNamespaceUri, "column2")]
 	public class ColumnDescriptor : TypeDescriptor
 	{
 		#region Factory Methods
