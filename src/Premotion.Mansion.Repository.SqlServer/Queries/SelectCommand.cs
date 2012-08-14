@@ -18,7 +18,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 	/// <summary>
 	/// Represents an executable select command.
 	/// </summary>
-	public class SelectCommand : DisposableBase
+	public abstract class SelectCommand<TSet, TRow> : DisposableBase where TSet : Dataset where TRow : IPropertyBag
 	{
 		#region Constructors
 		/// <summary>
@@ -26,7 +26,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// </summary>
 		/// <param name="converters">The <see cref="IQueryComponentConverter"/>s.</param>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="converters"/> is null.</exception>
-		public SelectCommand(IEnumerable<IQueryComponentConverter> converters)
+		protected SelectCommand(IEnumerable<IQueryComponentConverter> converters)
 		{
 			// validate arguments
 			if (converters == null)
@@ -132,15 +132,15 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			using (var reader = commandContext.Command.ExecuteReader(CommandBehavior.Default))
 			{
 				// read the input
-				var rows = new List<IPropertyBag>();
+				var rows = new List<TRow>();
 				while (reader.Read())
 					rows.Add(Map(context, recordMappers, new Record(reader)));
 
 				// map the set properties
-				var setProperties = MapSetProperties(context, reader);
+				var setProperties = MapSetProperties(reader);
 
 				// create the dataset
-				var dataset = new Dataset(context, setProperties, rows);
+				var dataset = CreateSet(context, rows, setProperties);
 
 				// map the result of additional queries
 				while (reader.NextResult())
@@ -162,10 +162,10 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <param name="recordMappers">The <see cref="IRecordMapper"/>s.</param>
 		/// <param name="record">The <see cref="Record"/> which to map.</param>
 		/// <returns>Returns the mapped record.</returns>
-		private static IPropertyBag Map(IMansionContext context, IEnumerable<IRecordMapper> recordMappers, Record record)
+		private TRow Map(IMansionContext context, IEnumerable<IRecordMapper> recordMappers, Record record)
 		{
 			//  create a new property bag
-			var properties = new PropertyBag();
+			var properties = CreateRow();
 
 			// loop over all the mappers and map the result
 			foreach (var recordMapper in recordMappers)
@@ -177,10 +177,9 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <summary>
 		/// Maps the set properties.
 		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="reader">The <see cref="IDataReader"/> reader.</param>
 		/// <returns>Returns the mapped properties.</returns>
-		private IPropertyBag MapSetProperties(IMansionContext context, IDataReader reader)
+		private IPropertyBag MapSetProperties(IDataReader reader)
 		{
 			var properties = new PropertyBag();
 
@@ -211,6 +210,21 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			return properties;
 		}
 		#endregion
+		#region Create Methods
+		/// <summary>
+		/// Creates an set of type <typeparamref name="TSet"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="rows">The <typeparamref name="TRow"/>s.</param>
+		/// <param name="setProperties">The properties of the set.</param>
+		/// <returns>Returns the created <typeparamref name="TSet"/>.</returns>
+		protected abstract TSet CreateSet(IMansionContext context, IEnumerable<TRow> rows, IPropertyBag setProperties);
+		/// <summary>
+		/// Creates a new <typeparamref name="TRow"/>.
+		/// </summary>
+		/// <returns>Returns the created <typeparamref name="TRow"/>.</returns>
+		protected abstract TRow CreateRow();
+		#endregion
 		#region Overrides of DisposableBase
 		/// <summary>
 		/// Dispose resources. Override this method in derived classes. Unmanaged resources should always be released
@@ -230,6 +244,43 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		private readonly IEnumerable<IQueryComponentConverter> converters;
 		private QueryCommandContext commandContext;
 		private Query originalQuery;
+		#endregion
+	}
+	/// <summary>
+	/// Represents an executable select command.
+	/// </summary>
+	public class SelectCommand : SelectCommand<Dataset, IPropertyBag>
+	{
+		#region Constructors
+		/// <summary>
+		/// Constructs an <see cref="SelectCommand"/>.
+		/// </summary>
+		/// <param name="converters">The <see cref="IQueryComponentConverter"/>s.</param>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="converters"/> is null.</exception>
+		public SelectCommand(IEnumerable<IQueryComponentConverter> converters) : base(converters)
+		{
+		}
+		#endregion
+		#region Overrides of SelectCommand<Dataset,IPropertyBag>
+		/// <summary>
+		/// Creates a set.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="rows">The rows.</param>
+		/// <param name="setProperties">The properties of the set.</param>
+		/// <returns>Returns the created set.</returns>
+		protected override Dataset CreateSet(IMansionContext context, IEnumerable<IPropertyBag> rows, IPropertyBag setProperties)
+		{
+			return new Dataset(context, setProperties, rows);
+		}
+		/// <summary>
+		/// Creates a new row.
+		/// </summary>
+		/// <returns>Returns the created row.</returns>
+		protected override IPropertyBag CreateRow()
+		{
+			return new PropertyBag();
+		}
 		#endregion
 	}
 }

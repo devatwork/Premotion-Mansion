@@ -10,6 +10,12 @@ namespace Premotion.Mansion.Core.Data
 	{
 		#region Constructors
 		/// <summary>
+		/// Constructs an empty node.
+		/// </summary>
+		public Node()
+		{
+		}
+		/// <summary>
 		/// Constructs a new node with the specified pointer.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
