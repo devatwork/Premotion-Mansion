@@ -33,6 +33,9 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 			// add to the list
 			propertyNames.Add(propertyName);
 
+			// add a column
+			Add(new VirtualColumn(propertyName));
+
 			// return this for chaining
 			return this;
 		}

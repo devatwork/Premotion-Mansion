@@ -21,6 +21,9 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 
 			// set values
 			PropertyName = propertyName;
+
+			// add a column
+			Add(new VirtualColumn(propertyName));
 		}
 		#endregion
 		#region Properties

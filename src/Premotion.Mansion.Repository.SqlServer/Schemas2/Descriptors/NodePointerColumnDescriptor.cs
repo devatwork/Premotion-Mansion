@@ -19,13 +19,8 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2.Descriptors
 		/// <returns>Returns the created <see cref="Column"/>.</returns>
 		protected override Column DoCreate(IMansionContext context, Table table, IPropertyDefinition property)
 		{
-			// get the column name
-			var columnName = Properties.Get<string>(context, "columnName", null) ?? property.Name;
-
 			// create the column
-			var column = new NodePointerPropertyColumn(property.Name, columnName, Properties, table);
-			column.Initialize(context);
-			return column;
+			return new NodePointerPropertyColumn(table, property.Name);
 		}
 		#endregion
 	}

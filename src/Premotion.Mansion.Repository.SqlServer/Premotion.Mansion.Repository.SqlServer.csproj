@@ -122,7 +122,7 @@
     <Compile Include="Schemas2\Descriptors\SingleValuePropertyTableDescriptor.cs" />
     <Compile Include="Schemas2\Descriptors\TableDescriptor.cs" />
     <Compile Include="Schemas2\Descriptors\TypeTableDescriptor.cs" />
-    <Compile Include="Schemas2\DummyColumn.cs" />
+    <Compile Include="Schemas2\VirtualColumn.cs" />
     <Compile Include="Schemas2\ExtendedPropertiesColumn.cs" />
     <Compile Include="Schemas2\IdentityColumn.cs" />
     <Compile Include="Schemas2\JoinColumn.cs" />
