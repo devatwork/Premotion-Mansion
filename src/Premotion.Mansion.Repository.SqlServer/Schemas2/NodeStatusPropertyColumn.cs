@@ -24,32 +24,26 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 				throw new ArgumentNullException("table");
 
 			// create the columns
-			var approvedColumn = new BooleanPropertyColumn("approved", "approved", new PropertyBag
-			                                                                       {
-			                                                                       	{"allowNullValue", false},
-			                                                                       	{"defaultValue", true}
-			                                                                       });
-			var publicationDateColumn = new DateTimePropertyColumn("publicationDate", "publicationDate", new PropertyBag
-			                                                                                             {
-			                                                                                             	{"allowNullValue", false},
-			                                                                                             	{"expression", "{NotNull( Column.value, Now() )}"}
-			                                                                                             });
-			var expirationDateColumn = new DateTimePropertyColumn("expirationDate", "expirationDate", new PropertyBag
-			                                                                                          {
-			                                                                                          	{"allowNullValue", false},
-			                                                                                          	{"expression", "{NotNull( Column.value, MaxSqlDate() )}"}
-			                                                                                          });
-			var archivedColumn = new BooleanPropertyColumn("archived", "archived", new PropertyBag
-			                                                                       {
-			                                                                       	{"allowNullValue", false},
-			                                                                       	{"defaultValue", false}
-			                                                                       });
-
-			// intialize the columns
-			approvedColumn.Initialize(context);
-			publicationDateColumn.Initialize(context);
-			expirationDateColumn.Initialize(context);
-			archivedColumn.Initialize(context);
+			var approvedColumn = BooleanPropertyColumn.CreateBooleanColumn(context, "approved", "approved", new PropertyBag
+			                                                                                                {
+			                                                                                                	{"allowNullValue", false},
+			                                                                                                	{"defaultValue", true}
+			                                                                                                });
+			var publicationDateColumn = DateTimePropertyColumn.CreateDateTimeColumn(context, "publicationDate", "publicationDate", new PropertyBag
+			                                                                                                                       {
+			                                                                                                                       	{"allowNullValue", false},
+			                                                                                                                       	{"expression", "{NotNull( Column.value, Now() )}"}
+			                                                                                                                       });
+			var expirationDateColumn = DateTimePropertyColumn.CreateDateTimeColumn(context, "expirationDate", "expirationDate", new PropertyBag
+			                                                                                                                    {
+			                                                                                                                    	{"allowNullValue", false},
+			                                                                                                                    	{"expression", "{NotNull( Column.value, MaxSqlDate() )}"}
+			                                                                                                                    });
+			var archivedColumn = BooleanPropertyColumn.CreateBooleanColumn(context, "archived", "archived", new PropertyBag
+			                                                                                                {
+			                                                                                                	{"allowNullValue", false},
+			                                                                                                	{"defaultValue", false}
+			                                                                                                });
 
 			// add marker columns
 			table.Add(approvedColumn);

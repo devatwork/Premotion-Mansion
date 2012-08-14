@@ -23,9 +23,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2.Descriptors
 			var columnName = Properties.Get<string>(context, "columnName", null) ?? property.Name;
 
 			// create the column
-			var column = new DateTimePropertyColumn(property.Name, columnName, Properties);
-			column.Initialize(context);
-			return column;
+			return DateTimePropertyColumn.CreateDateTimeColumn(context, property.Name, columnName, Properties);
 		}
 		#endregion
 	}

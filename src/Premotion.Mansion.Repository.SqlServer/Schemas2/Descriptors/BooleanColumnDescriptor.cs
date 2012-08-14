@@ -23,9 +23,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2.Descriptors
 			var columnName = Properties.Get<string>(context, "columnName", null) ?? property.Name;
 
 			// create the column
-			var column = new BooleanPropertyColumn(property.Name, columnName, Properties);
-			column.Initialize(context);
-			return column;
+			return BooleanPropertyColumn.CreateBooleanColumn(context, property.Name, columnName, Properties);
 		}
 		#endregion
 	}

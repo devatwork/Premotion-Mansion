@@ -21,49 +21,80 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 		/// </summary>
 		/// <param name="propertyName">The name of the property.</param>
 		/// <param name="columnName">The name of the column.</param>
-		/// <param name="properties"></param>
-		public PropertyColumn(string propertyName, string columnName, IPropertyBag properties) : base(columnName, propertyName)
+		public PropertyColumn(string propertyName, string columnName) : base(columnName, propertyName)
+		{
+		}
+		#endregion
+		#region Factory Methods
+		/// <summary>
+		/// Creates a <see cref="DateTimePropertyColumn"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="propertyName">The name of the property.</param>
+		/// <param name="columnName">The name of the column.</param>
+		/// <param name="properties">The properties of the column.</param>
+		/// <returns>Returns the created column.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public static PropertyColumn CreatePropertyColumn(IMansionContext context, string propertyName, string columnName, IPropertyBag properties)
 		{
 			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (string.IsNullOrEmpty(propertyName))
+				throw new ArgumentNullException("propertyName");
+			if (string.IsNullOrEmpty(columnName))
+				throw new ArgumentNullException("columnName");
 			if (properties == null)
 				throw new ArgumentNullException("properties");
 
-			// set values
-			Properties = properties;
+			// create the column
+			var column = new PropertyColumn(propertyName, columnName);
+
+			// init the column from the properties
+			Initialize(context, column, properties);
+
+			// return the created column
+			return column;
 		}
 		#endregion
 		#region Initialize Methods
 		/// <summary>
-		/// Initializes this column.
+		/// Initializes the given <paramref name="column"/>.
 		/// </summary>
-		/// <param name="context">The application context.</param>
-		public void Initialize(IMansionContext context)
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="column">The <see cref="PropertyColumn"/> which to initialze.</param>
+		/// <param name="properties">The properties.</param>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		protected static void Initialize(IMansionContext context, PropertyColumn column, IPropertyBag properties)
 		{
-			// TODO: refactor to initializer
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
+			if (column == null)
+				throw new ArgumentNullException("column");
+			if (properties == null)
+				throw new ArgumentNullException("properties");
 
 			// get the allow null flag
-			AllowNullValue = Properties.Get(context, "allowNullValue", false);
+			column.AllowNullValue = properties.Get(context, "allowNullValue", false);
 
 			// check if there is an expression
 			string expressionString;
-			if (Properties.TryGet(context, "expression", out expressionString))
+			if (properties.TryGet(context, "expression", out expressionString))
 			{
 				var expressionService = context.Nucleus.ResolveSingle<IExpressionScriptService>();
-				HasExpression = true;
-				Expression = expressionService.Parse(context, new LiteralResource(expressionString));
+				column.HasExpression = true;
+				column.Expression = expressionService.Parse(context, new LiteralResource(expressionString));
 			}
 
 			// get the default value
 			string defaultValue;
-			if (Properties.TryGet(context, "defaultValue", out defaultValue))
+			if (properties.TryGet(context, "defaultValue", out defaultValue))
 			{
 				var expressionService = context.Nucleus.ResolveSingle<IExpressionScriptService>();
 				var defaultValueExpression = expressionService.Parse(context, new LiteralResource(defaultValue));
-				DefaultValue = Normalize(context, defaultValueExpression.Execute<object>(context));
-				HasDefaultValue = true;
+				column.DefaultValue = defaultValueExpression.Execute<object>(context);
+				column.HasDefaultValue = true;
 			}
 		}
 		#endregion
@@ -82,7 +113,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 
 			// check for single or multiple values
 			if (values.Count == 1)
-				commandContext.QueryBuilder.AppendWhere(" [{0}].[{1}] = @{2}", pair.Table.Name, pair.Column.ColumnName, commandContext.Command.AddParameter(Normalize(context, values[0])));
+				commandContext.QueryBuilder.AppendWhere(" [{0}].[{1}] = @{2}", pair.Table.Name, pair.Column.ColumnName, commandContext.Command.AddParameter(GetValue(context, values[0])));
 			else
 			{
 				// start the clause
@@ -90,7 +121,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 				buffer.AppendFormat("[{0}].[{1}] IN (", pair.Table.Name, pair.Column.ColumnName);
 
 				// loop through all the values
-				foreach (var value in values.Select(val => Normalize(context, val)))
+				foreach (var value in values.Select(val => GetValue(context, val)))
 					buffer.AppendFormat("@{0},", commandContext.Command.AddParameter(value));
 
 				// finish the clause
@@ -105,22 +136,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="input">The input which to normalize.</param>
 		/// <returns>Returns the normalized value.</returns>
-		public object Normalize(IMansionContext context, object input)
-		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
-
-			// parse the value
-			return DoNormalize(context, input);
-		}
-		/// <summary>
-		/// Normalizes the value of this column.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="input">The input which to normalize.</param>
-		/// <returns>Returns the normalized value.</returns>
-		protected virtual object DoNormalize(IMansionContext context, object input)
+		protected virtual object Normalize(IMansionContext context, object input)
 		{
 			// check for empty strings
 			if (input is string && string.IsNullOrEmpty((string) input))
@@ -131,7 +147,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 				return input;
 
 			// push the column variables to the stack
-			using (context.Stack.Push("Column", new PropertyBag {{"value", input}}, false))
+			using (context.Stack.Push("Column", new PropertyBag {{"value", input}}))
 				return Expression.Execute<object>(context);
 		}
 		/// <summary>
@@ -164,10 +180,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 		#endregion
 		#region Properties
 		/// <summary>
-		/// Gets the properties of this column.
-		/// </summary>
-		private IPropertyBag Properties { get; set; }
-		/// <summary>
 		/// Gets a flag indicating whether this column has a default value.
 		/// </summary>
 		private bool HasDefaultValue { get; set; }
@@ -184,7 +196,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 		/// </summary>
 		private bool HasExpression { get; set; }
 		/// <summary>
-		/// Gets the <see cref="IExpressionScript"/> of this column.
+		/// Gets the <see cref="IExpressionScript"/>..
 		/// </summary>
 		private IExpressionScript Expression { get; set; }
 		#endregion
