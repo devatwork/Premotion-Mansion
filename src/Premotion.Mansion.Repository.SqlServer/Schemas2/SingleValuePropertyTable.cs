@@ -21,7 +21,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 			/// <summary>
 			/// </summary>
 			/// <param name="columnName"></param>
-			public SingleValuePropertyColumn(string columnName) : base(columnName)
+			public SingleValuePropertyColumn(string columnName) : base("value", columnName)
 			{
 			}
 			#endregion
