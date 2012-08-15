@@ -82,6 +82,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		protected override Node DoCreate(IMansionContext context, Node parent, IPropertyBag newProperties)
 		{
 			// build the query
+			int nodeId;
 			using (var connection = CreateConnection())
 			using (var transaction = connection.BeginTransaction())
 			using (var command = context.Nucleus.CreateInstance<InsertNodeCommand>())
@@ -93,17 +94,10 @@ namespace Premotion.Mansion.Repository.SqlServer
 				try
 				{
 					// execute the query
-					var nodeId = command.Execute();
-
-					// select the created node
-					var selectQuery = new Query().Add(new IsPropertyEqualSpecification("id", nodeId));
-					var createdNode = RetrieveSingleNode(context, selectQuery);
+					nodeId = command.Execute();
 
 					// woohoo it worked!
 					transaction.Commit();
-
-					// return the created node
-					return createdNode;
 				}
 				catch (Exception)
 				{
@@ -112,6 +106,9 @@ namespace Premotion.Mansion.Repository.SqlServer
 					throw;
 				}
 			}
+
+			// retrieve the created node
+			return RetrieveSingleNode(context, new Query().Add(new IsPropertyEqualSpecification("id", nodeId)));
 		}
 		/// <summary>
 		/// Updates an existing node in this repository.
