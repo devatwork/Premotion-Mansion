@@ -188,9 +188,7 @@
 			<!-- attributes -->
 			<xs:attribute name="properties" type="xs:string" use="required">
 				<xs:annotation>
-					<xs:documentation>
-						A csv of all the properties which to index.
-					</xs:documentation>
+					<xs:documentation>A csv of all the properties which to index.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 		</xs:complexType>
