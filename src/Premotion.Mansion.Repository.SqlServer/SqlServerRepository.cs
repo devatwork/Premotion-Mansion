@@ -86,16 +86,16 @@ namespace Premotion.Mansion.Repository.SqlServer
 			// build the query
 			using (var connection = CreateConnection())
 			using (var transaction = connection.BeginTransaction())
-			using (var insertQuery = context.Nucleus.CreateInstance<InsertCommand>())
+			using (var command = context.Nucleus.CreateInstance<InsertCommand>())
 			{
 				// init the command
-				insertQuery.Prepare(context, connection, transaction, parent.Pointer, newProperties);
+				command.Prepare(context, connection, transaction, parent.Pointer, newProperties);
 
 				// execute the command
 				try
 				{
 					// execute the query
-					var nodeId = insertQuery.Execute();
+					var nodeId = command.Execute();
 
 					// select the created node
 					var selectQuery = new Query().Add(new IsPropertyEqualSpecification("id", nodeId));
@@ -131,12 +131,16 @@ namespace Premotion.Mansion.Repository.SqlServer
 			// build the query
 			using (var connection = CreateConnection())
 			using (var transaction = connection.BeginTransaction())
-			using (var updateQuery = UpdateQuery.Prepare(context, connection, transaction, schemaProvider, node, modifiedProperties))
+			using (var command = context.Nucleus.CreateInstance<UpdateCommand>())
 			{
+				// init the command
+				command.Prepare(context, connection, transaction, node, modifiedProperties);
+
+				// execute the command
 				try
 				{
 					// execute the query
-					updateQuery.Execute();
+					command.Execute();
 
 					// woohoo it worked!
 					transaction.Commit();

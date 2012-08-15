@@ -57,6 +57,17 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 			{
 				throw new NotSupportedException();
 			}
+			/// <summary>
+			/// 
+			/// </summary>
+			/// <param name="context"></param>
+			/// <param name="queryBuilder"></param>
+			/// <param name="node"></param>
+			/// <param name="modifiedProperties"></param>
+			protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+			{
+				throw new NotSupportedException();
+			}
 			#endregion
 		}
 		#endregion
@@ -106,6 +117,86 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 
 				// append the query
 				queryBuilder.AppendQuery(valueModificationQuery.ToInsertStatement(Name));
+			}
+		}
+		/// <summary>
+		/// Generates the update statement for this table.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="queryBuilder"></param>
+		/// <param name="node"></param>
+		/// <param name="modifiedProperties"></param>
+		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		{
+			// check if the property is modified
+			string rawModifiedValue;
+			if (!modifiedProperties.TryGet(context, PropertyName, out rawModifiedValue))
+				return;
+
+			// get the current values
+			var currentValues = GetCurrentValues(queryBuilder.Command, node).ToList();
+
+			// check if there are new properties
+			var modifiedValues = rawModifiedValue.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+
+			// get the deleted values
+			var deletedValues = currentValues.Except(modifiedValues, StringComparer.OrdinalIgnoreCase);
+			var newValues = modifiedValues.Except(currentValues, StringComparer.OrdinalIgnoreCase);
+
+			// create identity parameter
+			var idParameterName = queryBuilder.AddParameter("id", node.Pointer.Id, DbType.Int32);
+
+			// generate the delete statements
+			foreach (var deletedValue in deletedValues)
+			{
+				// build the query
+				var valueModificationQuery = new ModificationQueryBuilder(queryBuilder);
+
+				// build clause
+				var valueParameterName = valueModificationQuery.AddParameter("value", deletedValue, DbType.String);
+				valueModificationQuery.AppendWhereClause("[id] = " + idParameterName + " AND [value] = " + valueParameterName);
+
+				// append the query
+				queryBuilder.AppendQuery(valueModificationQuery.ToDeleteStatement(Name));
+			}
+
+			// generate the insert statements
+			foreach (var newValue in newValues)
+			{
+				// build the query
+				var valueModificationQuery = new ModificationQueryBuilder(queryBuilder);
+
+				// set column values
+				valueModificationQuery.AddColumnValue("id", idParameterName);
+				valueModificationQuery.AddColumnValue("value", newValue, DbType.String);
+
+				// append the query
+				queryBuilder.AppendQuery(valueModificationQuery.ToInsertStatement(Name));
+			}
+		}
+		#endregion
+		#region Helper Methods
+		/// <summary>
+		/// Gets the current values of this table.
+		/// </summary>
+		/// <param name="command"></param>
+		/// <param name="node"></param>
+		/// <returns></returns>
+		private IEnumerable<string> GetCurrentValues(IDbCommand command, Node node)
+		{
+			using (var selectCommand = command.Connection.CreateCommand())
+			{
+				selectCommand.CommandType = CommandType.Text;
+				selectCommand.CommandText = string.Format("SELECT [value] FROM [{0}] WHERE [id] = '{1}'", Name, node.Pointer.Id);
+				selectCommand.Transaction = command.Transaction;
+				using (var reader = selectCommand.ExecuteReader())
+				{
+					if (reader == null)
+						throw new InvalidOperationException("Something terrible happened");
+
+					while (reader.Read())
+						yield return reader.GetValue(0).ToString();
+				}
 			}
 		}
 		#endregion

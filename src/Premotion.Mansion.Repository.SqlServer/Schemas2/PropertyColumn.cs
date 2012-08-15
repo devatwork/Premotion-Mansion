@@ -147,6 +147,29 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 			// set the column value
 			queryBuilder.AddColumnValue(ColumnName, parameterName);
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="queryBuilder"></param>
+		/// <param name="node"></param>
+		/// <param name="modifiedProperties"></param>
+		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		{
+			// check if the property is not modified
+			object input;
+			if (!modifiedProperties.TryGet(context, PropertyName, out input))
+				return;
+
+			// determine the value
+			var value = GetValue(context, input);
+
+			// add the parameter
+			var parameterName = queryBuilder.AddParameter(ColumnName, value);
+
+			// set the column value
+			queryBuilder.AddColumnValue(ColumnName, parameterName);
+		}
 		#endregion
 		#region Value Methods
 		/// <summary>

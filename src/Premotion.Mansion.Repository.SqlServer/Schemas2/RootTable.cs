@@ -44,6 +44,24 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 			queryBuilder.AppendQuery(tableModificationQuery.ToInsertStatement(Name));
 			queryBuilder.AppendQuery("SET @ScopeIdentity = SCOPE_IDENTITY()");
 		}
+		/// <summary>
+		/// Generates the update statement for this table.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="queryBuilder"></param>
+		/// <param name="node"></param>
+		/// <param name="modifiedProperties"></param>
+		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		{
+			// create a table modification query
+			var tableModificationQuery = new ModificationQueryBuilder(queryBuilder);
+			foreach (var column in Columns)
+				column.ToUpdateStatement(context, tableModificationQuery, node, modifiedProperties);
+
+			// if there are no modified column add table modification query to the master query builder
+			if (tableModificationQuery.HasModifiedColumns)
+				queryBuilder.AppendQuery(tableModificationQuery.ToUpdateStatement(Name));
+		}
 		#endregion
 	}
 }

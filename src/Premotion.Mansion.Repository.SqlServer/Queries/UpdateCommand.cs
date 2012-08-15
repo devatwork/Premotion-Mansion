@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Globalization;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Patterns;
@@ -11,16 +10,16 @@ using Premotion.Mansion.Repository.SqlServer.Schemas2;
 namespace Premotion.Mansion.Repository.SqlServer.Queries
 {
 	/// <summary>
-	/// Implements the insert query.
+	/// Implements the update command.
 	/// </summary>
-	public class InsertCommand : DisposableBase
+	public class UpdateCommand : DisposableBase
 	{
 		#region Constructors
 		/// <summary>
 		/// </summary>
 		/// <param name="typeService"></param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public InsertCommand(ITypeService typeService)
+		public UpdateCommand(ITypeService typeService)
 		{
 			// validate arguments
 			if (typeService == null)
@@ -37,42 +36,34 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <param name="context"></param>
 		/// <param name="connection">The connection.</param>
 		/// <param name="transaction">The transaction.</param>
-		/// <param name="parent"></param>
-		/// <param name="newProperties"></param>
+		/// <param name="node"></param>
+		/// <param name="modifiedProperties"></param>
 		/// <returns></returns>
-		public void Prepare(IMansionContext context, SqlConnection connection, SqlTransaction transaction, NodePointer parent, IPropertyBag newProperties)
+		public void Prepare(IMansionContext context, SqlConnection connection, SqlTransaction transaction, Node node, IPropertyBag modifiedProperties)
 		{
 			// validate arguments
 			if (connection == null)
 				throw new ArgumentNullException("connection");
 			if (transaction == null)
 				throw new ArgumentNullException("transaction");
-			if (parent == null)
-				throw new ArgumentNullException("parent");
-			if (newProperties == null)
-				throw new ArgumentNullException("newProperties");
+			if (node == null)
+				throw new ArgumentNullException("node");
+			if (modifiedProperties == null)
+				throw new ArgumentNullException("modifiedProperties");
 
-			// get the values
-			var name = newProperties.Get<string>(context, "name", null);
-			if (string.IsNullOrWhiteSpace(name))
-				throw new InvalidOperationException("The node must have a name");
-			var typeName = newProperties.Get<string>(context, "type", null);
-			if (string.IsNullOrWhiteSpace(typeName))
-				throw new InvalidOperationException("The node must have a type");
+			// set the modified date
+			modifiedProperties.TrySet("modified", DateTime.Now);
 
 			// retrieve the type
-			var type = typeService.Load(context, typeName);
+			var type = typeService.Load(context, node.Pointer.Type);
 
-			// get the schema of the root type
+			// retrieve the schema
 			var schema = Resolver.Resolve(context, type);
 
 			// set the full text property
-			SqlServerUtilities.PopulateFullTextColumn(context, type, newProperties, newProperties);
+			SqlServerUtilities.PopulateFullTextColumn(context, type, modifiedProperties, node);
 
-			// create the new pointer
-			var newPointer = NodePointer.Parse(string.Join(NodePointer.PointerSeparator, new[] {parent.PointerString, 0.ToString(CultureInfo.InvariantCulture)}), string.Join(NodePointer.StructureSeparator, new[] {parent.StructureString, type.Name}), string.Join(NodePointer.PathSeparator, new[] {parent.PathString, name}));
-
-			// create the commands
+			// create the commandse
 			command = connection.CreateCommand();
 			command.CommandType = CommandType.Text;
 			command.Transaction = transaction;
@@ -80,34 +71,24 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			// prepare the query
 			var queryBuilder = new ModificationQueryBuilder(command);
 
-			// loop through all the tables in the schema and let them prepare for insert
+			// loop through all the tables in the schema and let them prepare for update
 			foreach (var table in schema.Tables)
-				table.ToInsertStatement(context, queryBuilder, newPointer, newProperties);
+				table.ToUpdateStatement(context, queryBuilder, node, modifiedProperties);
 
-			// finish the complete insert statement
-			queryBuilder.AppendQuery("SELECT @ScopeIdentity");
-
-			// set the command text
+			// finish the insert statement
 			command.CommandText = queryBuilder.ToStatement();
 		}
 		#endregion
 		#region Execute Methods
 		/// <summary>
-		/// Executes the insert command.
+		/// Executes the update command.
 		/// </summary>
-		/// <returns>Returns the ID of the inserted record.</returns>
-		public int Execute()
+		public void Execute()
 		{
-			CheckDisposed();
-
-			// check if the command is initialized properly
-			if (command == null)
-				throw new InvalidOperationException("The command is not prepared. Call the prepare method before calling execute.");
-
-			return Convert.ToInt32(command.ExecuteScalar());
+			command.ExecuteNonQuery();
 		}
 		#endregion
-		#region Overrides of DisposableBase
+		#region Dispose Implementation
 		/// <summary>
 		/// Dispose resources. Override this method in derived classes. Unmanaged resources should always be released
 		/// when this method is called. Managed resources may only be disposed of if disposeManagedResources is true.
@@ -117,8 +98,9 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		{
 			if (!disposeManagedResources)
 				return;
-			if (command != null)
-				command.Dispose();
+
+			// cleanup
+			command.Dispose();
 		}
 		#endregion
 		#region Private Fields

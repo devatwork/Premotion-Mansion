@@ -117,6 +117,34 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 		/// <param name="newPointer"></param>
 		/// <param name="properties"></param>
 		protected abstract void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties);
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="queryBuilder"></param>
+		/// <param name="node"></param>
+		/// <param name="modifiedProperties"></param>
+		public void ToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (queryBuilder == null)
+				throw new ArgumentNullException("queryBuilder");
+			if (node == null)
+				throw new ArgumentNullException("node");
+			if (modifiedProperties == null)
+				throw new ArgumentNullException("modifiedProperties");
+			DoToUpdateStatement(context, queryBuilder, node, modifiedProperties);
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="queryBuilder"></param>
+		/// <param name="node"></param>
+		/// <param name="modifiedProperties"></param>
+		protected abstract void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties);
 		#endregion
 	}
 }

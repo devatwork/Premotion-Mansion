@@ -28,6 +28,17 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 		{
 			// do  nothing
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="queryBuilder"></param>
+		/// <param name="node"></param>
+		/// <param name="modifiedProperties"></param>
+		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		{
+			// do nothing
+		}
 		#endregion
 	}
 }

@@ -108,6 +108,7 @@
     <Compile Include="Queries\Specifications\SqlWhereSpecification.cs" />
     <Compile Include="Queries\Specifications\FullTextSearchSpecification.cs" />
     <Compile Include="Queries\SqlStringBuilder.cs" />
+    <Compile Include="Queries\UpdateCommand.cs" />
     <Compile Include="Schemas2\BooleanPropertyColumn.cs" />
     <Compile Include="Schemas2\Column.cs" />
     <Compile Include="Schemas2\Descriptors\NodePointerColumnDescriptor.cs" />

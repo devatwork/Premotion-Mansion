@@ -8,7 +8,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 	/// <summary>
 	/// Represens a <see cref="NodeStatus"/> property column.
 	/// </summary>
-	public class NodeStatusPropertyColumn : Column
+	public class NodeStatusPropertyColumn : VirtualColumn
 	{
 		#region Constructors
 		/// <summary>
@@ -50,19 +50,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 			table.Add(publicationDateColumn);
 			table.Add(expirationDateColumn);
 			table.Add(archivedColumn);
-		}
-		#endregion
-		#region Overrides of Column
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="context"></param>
-		/// <param name="queryBuilder"></param>
-		/// <param name="newPointer"></param>
-		/// <param name="properties"></param>
-		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
-		{
-			// do nothing, it is taken care of by the columns created by this column
 		}
 		#endregion
 	}
