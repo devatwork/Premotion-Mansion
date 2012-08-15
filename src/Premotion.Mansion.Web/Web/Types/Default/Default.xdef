@@ -6,7 +6,7 @@
 		<sqlserver:treeRelations />
 	</property>
 	<property name="guid">
-		<sqlserver:column allowNullValue="true" />
+		<sqlserver:column defaultValue="{NewGuid()}" />
 	</property>
 	<property name="key">
 		<sqlserver:column allowNullValue="true" />
@@ -66,7 +66,6 @@ BEGIN
 		[id] [int] IDENTITY(1,1) NOT NULL
 			CONSTRAINT [PK_Nodes.id] PRIMARY KEY CLUSTERED,
 		[guid] [uniqueidentifier] NOT NULL
-			CONSTRAINT [DF_Nodes.guid] DEFAULT newid()
 			CONSTRAINT [IX_Nodes_guid] UNIQUE NONCLUSTERED,
 		[name] [nvarchar](255) NOT NULL,
 		[type] [nvarchar](50) NOT NULL,
