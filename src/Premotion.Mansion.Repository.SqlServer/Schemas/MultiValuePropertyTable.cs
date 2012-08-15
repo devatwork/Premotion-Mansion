@@ -44,7 +44,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 					buffer.AppendFormat("@{0},", commandContext.Command.AddParameter(value));
 
 				// append the query
-				commandContext.QueryBuilder.AppendWhere(" [{0}].[id] IN ( SELECT [{1}].[id] FROM [{1}] WHERE [{1}].[{2}] IN ({3}) AND [{1}].[name] = '{4}' )", commandContext.QueryBuilder.RootTableName, pair.Table.Name, pair.Column.ColumnName, buffer.Trim(), PropertyName);
+				commandContext.QueryBuilder.AppendWhere(" [{0}].[id] IN ( SELECT [{1}].[id] FROM [{1}] WHERE [{1}].[name] = '{2}' AND [{1}].[value] IN ({3}) )", commandContext.QueryBuilder.RootTableName, pair.Table.Name, PropertyName, buffer.Trim());
 			}
 			/// <summary>
 			/// 
