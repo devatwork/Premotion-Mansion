@@ -12,13 +12,16 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 	/// </summary>
 	public class NodePointerPropertyColumn : Column
 	{
+		#region Constants
+		private static readonly string[] ReservedPropertyName = new[] {"depth", "pointer", "path", "strucutre", "parentId", "parentPointer", "parentPath", "parentStructure"};
+		#endregion
 		#region Constructors
 		/// <summary>
 		/// Constructs a column.
 		/// </summary>
 		/// <param name="table">The <see cref="Table"/>.</param>
 		/// <param name="propertyName">The name of the property.</param>
-		public NodePointerPropertyColumn(Table table, string propertyName) : base(propertyName)
+		public NodePointerPropertyColumn(Table table, string propertyName) : base(propertyName, propertyName, 150)
 		{
 			// validate arguments
 			if (table == null)
@@ -63,7 +66,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
 		{
 			// make sure the relational intgrety is not comprimised
-			if (modifiedProperties.Names.Any(x => x.Equals("depth", StringComparison.OrdinalIgnoreCase) || x.Equals("parentId", StringComparison.OrdinalIgnoreCase) || x.Equals("parentPath", StringComparison.OrdinalIgnoreCase) || x.Equals("parentStructure", StringComparison.OrdinalIgnoreCase)))
+			if (modifiedProperties.Names.Intersect(ReservedPropertyName, StringComparer.OrdinalIgnoreCase).Any())
 				throw new InvalidOperationException("The relational properties can not be changed");
 
 			//  add the id an pointer parameters
@@ -111,6 +114,10 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 					queryBuilder.AppendQuery(string.Format("UPDATE [Nodes] SET [parentStructure] = {0} + RIGHT( [parentStructure], LEN( [parentStructure] ) - {1} ) WHERE ( [parentId] = {2} OR [parentPointer] LIKE {3} )", newStructureParameterName, oldStructureLengthParameterName, idParameterName, pointerParameterName));
 				}
 			}
+
+			// remove the pointer properties from the original node
+			node.Remove("pointer");
+			node.Remove("parentPointer");
 		}
 		#endregion
 	}

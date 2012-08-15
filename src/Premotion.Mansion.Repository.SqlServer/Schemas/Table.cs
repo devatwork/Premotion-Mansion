@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Patterns.Prioritized;
 using Premotion.Mansion.Repository.SqlServer.Queries;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas
@@ -183,7 +184,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		public IEnumerable<Column> Columns
 		{
-			get { return columns; }
+			get { return columns.OrderByPriority(); }
 		}
 		#endregion
 		#region Private Fields

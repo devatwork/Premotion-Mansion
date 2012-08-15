@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Patterns.Prioritized;
 using Premotion.Mansion.Repository.SqlServer.Queries;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas
@@ -12,7 +13,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 	/// <summary>
 	/// Represents a column of a <see cref="Table"/>.
 	/// </summary>
-	public abstract class Column
+	public abstract class Column : IPrioritized
 	{
 		#region Constructors
 		/// <summary>
@@ -25,7 +26,15 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="columnName"></param>
 		/// <param name="propertyName"></param>
-		protected Column(string columnName, string propertyName)
+		protected Column(string columnName, string propertyName) : this(columnName, propertyName, 100)
+		{
+		}
+		/// <summary>
+		/// </summary>
+		/// <param name="columnName"></param>
+		/// <param name="propertyName"></param>
+		/// <param name="priority"> </param>
+		protected Column(string columnName, string propertyName, int priority)
 		{
 			// validate arguments
 			if (string.IsNullOrEmpty(columnName))
@@ -36,6 +45,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 			// set values
 			ColumnName = columnName;
 			PropertyName = propertyName;
+			this.priority = priority;
 		}
 		#endregion
 		#region Properties
@@ -184,6 +194,18 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		{
 			throw new NotSupportedException(string.Format("Column type '{0}' can not be synced", GetType()));
 		}
+		#endregion
+		#region Implementation of IPrioritized
+		/// <summary>
+		/// Gets the relative priority of this object. The higher the priority, earlier this object is executed.
+		/// </summary>
+		public int Priority
+		{
+			get { return priority; }
+		}
+		#endregion
+		#region Private Fields
+		private readonly int priority;
 		#endregion
 	}
 }

@@ -16,7 +16,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		#region Constructors
 		/// <summary>
 		/// </summary>
-		public ExtendedPropertiesColumn() : base("extendedProperties")
+		public ExtendedPropertiesColumn() : base("extendedProperties", "extendedProperties", 10)
 		{
 		}
 		#endregion

@@ -15,7 +15,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		#region Constructors
 		/// <summary>
 		/// </summary>
-		public IdentityColumn() : base("id")
+		public IdentityColumn() : base("id", "id", 200)
 		{
 		}
 		#endregion
