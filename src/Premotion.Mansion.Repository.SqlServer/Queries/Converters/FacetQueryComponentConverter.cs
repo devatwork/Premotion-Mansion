@@ -3,7 +3,7 @@ using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data.Facets;
 using Premotion.Mansion.Core.Data.Queries;
-using Premotion.Mansion.Repository.SqlServer.Schemas2;
+using Premotion.Mansion.Repository.SqlServer.Schemas;
 
 namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 {

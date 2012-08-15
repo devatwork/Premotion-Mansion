@@ -6,7 +6,7 @@ using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Types;
-using Premotion.Mansion.Repository.SqlServer.Schemas2;
+using Premotion.Mansion.Repository.SqlServer.Schemas;
 
 namespace Premotion.Mansion.Repository.SqlServer.ScriptTags
 {

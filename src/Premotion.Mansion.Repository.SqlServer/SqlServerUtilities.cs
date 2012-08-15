@@ -1,7 +1,7 @@
 using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Types;
-using Premotion.Mansion.Repository.SqlServer.Schemas2.Descriptors;
+using Premotion.Mansion.Repository.SqlServer.Schemas.Descriptors;
 
 namespace Premotion.Mansion.Repository.SqlServer
 {

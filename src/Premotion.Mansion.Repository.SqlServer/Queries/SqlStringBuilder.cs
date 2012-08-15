@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
-using Premotion.Mansion.Repository.SqlServer.Schemas2;
+using Premotion.Mansion.Repository.SqlServer.Schemas;
 
 namespace Premotion.Mansion.Repository.SqlServer.Queries
 {

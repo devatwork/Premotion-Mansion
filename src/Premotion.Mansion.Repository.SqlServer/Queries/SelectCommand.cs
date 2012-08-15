@@ -11,7 +11,7 @@ using Premotion.Mansion.Core.Patterns.Prioritized;
 using Premotion.Mansion.Core.Patterns.Voting;
 using Premotion.Mansion.Repository.SqlServer.Queries.Converters;
 using Premotion.Mansion.Repository.SqlServer.Queries.Mappers;
-using Premotion.Mansion.Repository.SqlServer.Schemas2;
+using Premotion.Mansion.Repository.SqlServer.Schemas;
 
 namespace Premotion.Mansion.Repository.SqlServer.Queries
 {
