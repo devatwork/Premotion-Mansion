@@ -100,6 +100,7 @@
     <Compile Include="Queries\Mappers\NodePointerRecordMapper.cs" />
     <Compile Include="Queries\Mappers\RecordMapper.cs" />
     <Compile Include="Queries\Mappers\RemainderRecordMapper.cs" />
+    <Compile Include="Queries\MoveNodeCommand.cs" />
     <Compile Include="Queries\Parser\SqlWhereQueryArgumentProcessor.cs" />
     <Compile Include="Queries\Parser\FullTextSearchQueryArgumentProcessor.cs" />
     <Compile Include="Queries\QueryCommandContext.cs" />

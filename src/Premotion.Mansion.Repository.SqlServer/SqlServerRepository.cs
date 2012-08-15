@@ -200,12 +200,16 @@ namespace Premotion.Mansion.Repository.SqlServer
 			// build the query
 			using (var connection = CreateConnection())
 			using (var transaction = connection.BeginTransaction())
-			using (var moveQuery = MoveQuery.Prepare(context, connection, transaction, schemaProvider, pointer, newParentPointer))
+			using (var command = context.Nucleus.CreateInstance<MoveNodeCommand>())
 			{
+				// init the command
+				command.Prepare(context, connection, transaction, pointer, newParentPointer);
+
+				// execute the command
 				try
 				{
 					// execute the query
-					moveQuery.Execute();
+					command.Execute();
 
 					// woohoo it worked!
 					transaction.Commit();
