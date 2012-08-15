@@ -245,6 +245,7 @@
     <Compile Include="PropertyNotFoundException.cs" />
     <Compile Include="Nucleus\IReflectionService.cs" />
     <Compile Include="Nucleus\ReflectionService.cs" />
+    <Compile Include="ScriptFunctions\Guids\NewGuid.cs" />
     <Compile Include="ScriptFunctions\List\AppendNeedle.cs" />
     <Compile Include="ScriptFunctions\List\RemoveNeedle.cs" />
     <Compile Include="ScriptFunctions\Math\Min.cs" />
