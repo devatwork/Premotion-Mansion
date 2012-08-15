@@ -88,6 +88,8 @@
     <Compile Include="Queries\UpdateNodeCommand.cs" />
     <Compile Include="Schemas\BooleanPropertyColumn.cs" />
     <Compile Include="Schemas\Column.cs" />
+    <Compile Include="Schemas\Descriptors\PermanentIdentityColumnDescriptor.cs" />
+    <Compile Include="Schemas\PermanentIdentityColumn.cs" />
     <Compile Include="Schemas\Descriptors\NodePointerColumnDescriptor.cs" />
     <Compile Include="Schemas\Descriptors\NodeStatusColumnDescriptor.cs" />
     <Compile Include="Schemas\NodePointerPropertyColumn.cs" />

@@ -110,6 +110,12 @@
 			<xs:documentation>Describes tree relation columns in a MS SQL Server database.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
+
+	<xs:element name="permanentIdentity" substitutionGroup="def:propertyDescriptor">
+		<xs:annotation>
+			<xs:documentation>Describes a permanent ID (guid) column.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	
 	
 	

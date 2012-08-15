@@ -6,7 +6,7 @@
 		<sqlserver:treeRelations />
 	</property>
 	<property name="guid">
-		<sqlserver:column defaultValue="{NewGuid()}" />
+		<sqlserver:permanentIdentity />
 	</property>
 	<property name="key">
 		<sqlserver:column allowNullValue="true" />
