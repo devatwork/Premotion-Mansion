@@ -197,6 +197,47 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 				}
 			}
 		}
+		/// <summary>
+		/// Generates an table sync statement for this table.
+		/// </summary>
+		/// <param name="context">The request context.</param>
+		/// <param name="bulkContext"></param>
+		/// <param name="nodes"></param>
+		protected override void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Node> nodes)
+		{
+			// start by clearing the table
+			bulkContext.Add(command =>
+			                {
+			                	command.CommandType = CommandType.Text;
+			                	command.CommandText = string.Format("TRUNCATE TABLE [{0}]", Name);
+			                });
+
+			// loop through all the properties
+			foreach (var propertyName in propertyNames)
+			{
+				// loop through all the nodes
+				foreach (var node in nodes)
+				{
+					// check if there are any properties
+					var values = node.Get(context, propertyName, string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+					if (values.Length == 0)
+						continue;
+
+					// create the command
+					var name = propertyName;
+					var node1 = node;
+					bulkContext.Add(command =>
+					                {
+					                	command.CommandType = CommandType.Text;
+					                	var nameColumnValue = command.AddParameter(name);
+
+					                	// loop through each value and write an insert statement
+					                	foreach (var value in values)
+					                		command.CommandText = string.Format("INSERT INTO [{0}] ([id], [name], [value]) VALUES ({1}, @{2}, @{3});", Name, node1.Pointer.Id, nameColumnValue, command.AddParameter(value));
+					                });
+				}
+			}
+		}
 		#endregion
 		#region Helper Methods
 		/// <summary>

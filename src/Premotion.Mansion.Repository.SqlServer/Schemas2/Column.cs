@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Repository.SqlServer.Queries;
@@ -145,6 +147,43 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 		/// <param name="node"></param>
 		/// <param name="modifiedProperties"></param>
 		protected abstract void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties);
+		/// <summary>
+		/// Generates an sync statements of this colum.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="command"></param>
+		/// <param name="node"></param>
+		/// <param name="columnText"></param>
+		/// <param name="valueText"></param>
+		public void ToSyncStatement(IMansionContext context, SqlCommand command, Node node, StringBuilder columnText, StringBuilder valueText)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (command == null)
+				throw new ArgumentNullException("command");
+			if (node == null)
+				throw new ArgumentNullException("node");
+			if (columnText == null)
+				throw new ArgumentNullException("columnText");
+			if (valueText == null)
+				throw new ArgumentNullException("valueText");
+
+			// invoke template method
+			DoToSyncStatement(context, command, node, columnText, valueText);
+		}
+		/// <summary>
+		/// Generates an sync statements of this colum.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="command"></param>
+		/// <param name="node"></param>
+		/// <param name="columnText"></param>
+		/// <param name="valueText"></param>
+		protected virtual void DoToSyncStatement(IMansionContext context, SqlCommand command, Node node, StringBuilder columnText, StringBuilder valueText)
+		{
+			throw new NotSupportedException(string.Format("Column type '{0}' can not be synced", GetType()));
+		}
 		#endregion
 	}
 }

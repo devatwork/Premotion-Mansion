@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using Premotion.Mansion.Core;
@@ -169,6 +170,23 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 
 			// set the column value
 			queryBuilder.AddColumnValue(ColumnName, parameterName);
+		}
+		/// <summary>
+		/// Generates an sync statements of this colum.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="command"></param>
+		/// <param name="node"></param>
+		/// <param name="columnText"></param>
+		/// <param name="valueText"></param>
+		protected override void DoToSyncStatement(IMansionContext context, SqlCommand command, Node node, StringBuilder columnText, StringBuilder valueText)
+		{
+			// determine the value
+			var value = GetValue(context, node.Get<object>(context, PropertyName));
+
+			// write the SQL statement
+			columnText.AppendFormat("[{0}], ", ColumnName);
+			valueText.AppendFormat("@{0}, ", command.AddParameter(value));
 		}
 		#endregion
 		#region Value Methods

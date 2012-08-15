@@ -1,4 +1,6 @@
-﻿using Premotion.Mansion.Core;
+﻿using System;
+using System.Collections.Generic;
+using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas2
@@ -61,6 +63,17 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 			// if there are no modified column add table modification query to the master query builder
 			if (tableModificationQuery.HasModifiedColumns)
 				queryBuilder.AppendQuery(tableModificationQuery.ToUpdateStatement(Name));
+		}
+		/// <summary>
+		/// Generates an table sync statement for this table.
+		/// </summary>
+		/// <param name="context">The request context.</param>
+		/// <param name="bulkContext"></param>
+		/// <param name="nodes"></param>
+		protected override void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Node> nodes)
+		{
+			// this is only invoked when there is a issue in mansion framwork
+			throw new NotSupportedException("Root tables will not be synced");
 		}
 		#endregion
 	}

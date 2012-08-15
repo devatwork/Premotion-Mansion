@@ -1,4 +1,6 @@
 ﻿using System.Data;
+using System.Data.SqlClient;
+using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 
@@ -43,6 +45,20 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 
 			// nothing to update, just tell what
 			queryBuilder.AppendWhereClause("[id] = " + parameterName);
+		}
+		/// <summary>
+		/// Generates an sync statements of this colum.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="command"></param>
+		/// <param name="node"></param>
+		/// <param name="columnText"></param>
+		/// <param name="valueText"></param>
+		protected override void DoToSyncStatement(IMansionContext context, SqlCommand command, Node node, StringBuilder columnText, StringBuilder valueText)
+		{
+			// join the two tables on ID
+			columnText.Append("[id], ");
+			valueText.Append(node.Pointer.Id + ", ");
 		}
 		#endregion
 	}

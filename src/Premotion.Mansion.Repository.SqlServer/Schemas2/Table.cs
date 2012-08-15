@@ -142,6 +142,35 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 		{
 			throw new NotSupportedException();
 		}
+		/// <summary>
+		/// Generates an table sync statement for this table.
+		/// </summary>
+		/// <param name="context">The request context.</param>
+		/// <param name="bulkContext"></param>
+		/// <param name="nodes"></param>
+		public void ToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Node> nodes)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (bulkContext == null)
+				throw new ArgumentNullException("bulkContext");
+			if (nodes == null)
+				throw new ArgumentNullException("nodes");
+
+			// invoke template method
+			DoToSyncStatement(context, bulkContext, nodes);
+		}
+		/// <summary>
+		/// Generates an table sync statement for this table.
+		/// </summary>
+		/// <param name="context">The request context.</param>
+		/// <param name="bulkContext"></param>
+		/// <param name="nodes"></param>
+		protected virtual void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Node> nodes)
+		{
+			throw new NotSupportedException();
+		}
 		#endregion
 		#region Properties
 		/// <summary>

@@ -40,6 +40,29 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 			return schema;
 		}
 		/// <summary>
+		/// Resolves the schema for the specified <paramref name="type"/> without taking it's parents in to account.
+		/// </summary>
+		/// <param name="context">The application context.</param>
+		/// <param name="type">The type which to resolve.</param>
+		/// <returns>Returns the schema.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public static Schema ResolveTypeOnly(IMansionContext context, ITypeDefinition type)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (type == null)
+				throw new ArgumentNullException("type");
+
+			// create a new schema
+			var schema = new Schema();
+
+			// loop through all the types in the hierarch
+			ExtractSchemaFromTypeDefinition(context, type, schema);
+
+			return schema;
+		}
+		/// <summary>
 		/// Extracts schema info from <paramref name="type"/>.
 		/// </summary>
 		/// <param name="context"></param>

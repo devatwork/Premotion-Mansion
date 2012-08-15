@@ -174,6 +174,42 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 				queryBuilder.AppendQuery(valueModificationQuery.ToInsertStatement(Name));
 			}
 		}
+		/// <summary>
+		/// Generates an table sync statement for this table.
+		/// </summary>
+		/// <param name="context">The request context.</param>
+		/// <param name="bulkContext"></param>
+		/// <param name="nodes"></param>
+		protected override void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Node> nodes)
+		{
+			// start by clearing the table
+			bulkContext.Add(command =>
+			                {
+			                	command.CommandType = CommandType.Text;
+			                	command.CommandText = string.Format("TRUNCATE TABLE [{0}]", Name);
+			                });
+
+			// loop through all the properties
+			foreach (var node in nodes)
+			{
+				// check if there are any properties
+				var values = node.Get(context, PropertyName, string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+				if (values.Length == 0)
+					continue;
+
+				// loop through each value and write an insert statement
+				foreach (var value in values)
+				{
+					var node1 = node;
+					var value1 = value;
+					bulkContext.Add(command =>
+					                {
+					                	command.CommandType = CommandType.Text;
+					                	command.CommandText = string.Format("INSERT INTO [{0}] ([id], [value]) VALUES ({1}, @{2});", Name, node1.Pointer.Id, command.AddParameter(value1));
+					                });
+				}
+			}
+		}
 		#endregion
 		#region Helper Methods
 		/// <summary>

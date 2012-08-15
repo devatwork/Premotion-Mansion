@@ -6,7 +6,7 @@ using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Types;
-using Premotion.Mansion.Repository.SqlServer.Schemas;
+using Premotion.Mansion.Repository.SqlServer.Schemas2;
 
 namespace Premotion.Mansion.Repository.SqlServer.ScriptTags
 {
@@ -55,10 +55,10 @@ namespace Premotion.Mansion.Repository.SqlServer.ScriptTags
 			                         	foreach (var type in typeService.LoadAll(context))
 			                         	{
 			                         		// get the schema for this type
-			                         		var typeSchema = SchemaProvider.Resolve(context, type);
+			                         		var schema = Resolver.ResolveTypeOnly(context, type);
 
 			                         		// get the additional tables of this type, if the type has only the root table ignore it
-			                         		var tableList = typeSchema.OwnedTables.ToList();
+			                         		var tableList = schema.Tables.ToList();
 			                         		if (tableList.Count == 0)
 			                         			continue;
 
@@ -72,7 +72,7 @@ namespace Premotion.Mansion.Repository.SqlServer.ScriptTags
 			                         			continue;
 
 			                         		// loop through all the tables except the root table
-			                         		foreach (var table in tableList)
+			                         		foreach (var table in tableList.Where(candidate => !(candidate is RootTable)))
 			                         		{
 			                         			// sync this table
 			                         			table.ToSyncStatement(context, bulkContext, nodeset.Nodes.ToList());
