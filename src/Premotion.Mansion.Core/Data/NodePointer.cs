@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Premotion.Mansion.Core.Data
 {
 	/// <summary>
 	/// This pointer points to a node in the repository.
 	/// </summary>
+	[Serializable, JsonObject(MemberSerialization.OptIn)]
 	public class NodePointer : IEnumerable<NodePointer>, IEquatable<NodePointer>, IComparable<NodePointer>, IComparable
 	{
 		#region Constants
@@ -533,8 +535,11 @@ namespace Premotion.Mansion.Core.Data
 		}
 		#endregion
 		#region Private Fields
+		[JsonProperty]
 		private readonly string[] path;
+		[JsonProperty]
 		private readonly int[] pointer;
+		[JsonProperty]
 		private readonly string[] structure;
 		#endregion
 	}
