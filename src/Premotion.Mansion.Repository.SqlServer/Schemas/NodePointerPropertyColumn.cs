@@ -55,6 +55,10 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 			queryBuilder.AddColumnValue("parentPointer", newPointer.HasParent ? newPointer.Parent.PointerString + NodePointer.PointerSeparator : null, DbType.String);
 			queryBuilder.AddColumnValue("parentPath", newPointer.HasParent ? newPointer.Parent.PathString + NodePointer.PathSeparator : null, DbType.String);
 			queryBuilder.AddColumnValue("parentStructure", newPointer.HasParent ? newPointer.Parent.StructureString + NodePointer.StructureSeparator : null, DbType.String);
+
+			// remove the pointer properties from the original node
+			properties.Remove("pointer");
+			properties.Remove("parentPointer");
 		}
 		/// <summary>
 		/// 

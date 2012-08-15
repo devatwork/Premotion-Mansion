@@ -55,6 +55,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 
 			// create an insert query
 			command = context.Nucleus.CreateInstance<InsertNodeCommand>();
+			command.Prepare(context, connection, transaction, targetParentNode.Pointer, newProperties);
 		}
 		#endregion
 		#region Execute Methods
