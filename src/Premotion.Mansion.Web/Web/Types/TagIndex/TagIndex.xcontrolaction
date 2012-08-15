@@ -12,7 +12,7 @@
 				<retrieveChildNode parentPointer="1" depth="any" type="TagIndex" target="TagIndexNode">
 					
 					<!-- retrieve potential matching tags -->
-					<retrieveChildNodeset parentSource="{$TagIndexNode}" sort="name ASC" cache="false" where="name LIKE '{SqlEncode( Get.term )}%'" target="TagNodeset">
+					<retrieveChildNodeset parentSource="{$TagIndexNode}" sort="name ASC" cache="false" sqlWhere="name LIKE '{SqlEncode( Get.term )}%'" target="TagNodeset">
 						<loopNodeset source="{$TagNodeset}" target="TagNode">
 							<renderJsonObject label="{TagNode.name}" value="{TagNode.name}" />
 						</loopNodeset>
