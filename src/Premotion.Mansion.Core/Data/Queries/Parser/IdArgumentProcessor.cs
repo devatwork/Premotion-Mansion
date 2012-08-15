@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Premotion.Mansion.Core.Data.Queries.Specifications;
 
 namespace Premotion.Mansion.Core.Data.Queries.Parser
@@ -34,10 +35,12 @@ namespace Premotion.Mansion.Core.Data.Queries.Parser
 				query.Add(new IsPropertyEqualSpecification("id", id));
 				counter++;
 			}
-			Guid guid;
-			if (parameters.TryGetAndRemove(context, "guid", out guid))
+			string guids;
+			if (parameters.TryGetAndRemove(context, "guid", out guids) && !string.IsNullOrEmpty(guids))
 			{
-				query.Add(new IsPropertyEqualSpecification("guid", guid));
+				// split the value
+				var values = guids.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+				query.Add(new IsPropertyInSpecification("guid", values));
 				counter++;
 			}
 			NodePointer pointer;
