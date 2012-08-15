@@ -15,13 +15,12 @@
 				status="published"
 				siteGuids="{SiteNode.guid}"
 				taxonomyGuids="{NotEmpty( BlockProperties.taxonomyGuids, PageProperties.taxonomyGuids )}"
-				tagGuids="{NotEmpty( BlockProperties.tagGuids, PageProperties.tagGuids )}"
-				limit="{If( IsEqual( BlockProperties.limitType, 'limit' ), BlockProperties.limit )}" />
+				tagGuids="{NotEmpty( BlockProperties.tagGuids, PageProperties.tagGuids )}" />
 			
 			<!-- determine limit -->
 			<switch condition="{BlockProperties.limitType}">
 				<case value="limit">
-					<setProperties dataspaceName="Filter" limit="{BlockProperties.limit}" />
+					<setProperties dataspaceName="Filter" limit="{NotEmpty( BlockProperties.limit, '25' )}" />
 				</case>
 				<case value="paging">
 					<setProperties
