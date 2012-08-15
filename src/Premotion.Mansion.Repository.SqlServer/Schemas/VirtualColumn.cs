@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Repository.SqlServer.Queries;
@@ -18,6 +20,35 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		}
 		#endregion
 		#region Overrides of Column
+		/// <summary>
+		/// Constructs a WHERE statements on this column for the given <paramref name="values"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="commandContext">The <see cref="QueryCommandContext"/>.</param>
+		/// <param name="pair">The <see cref="TableColumnPair"/>.</param>
+		/// <param name="values">The values on which to construct the where statement.</param>
+		protected override void DoToWhereStatement(IMansionContext context, QueryCommandContext commandContext, TableColumnPair pair, IList<object> values)
+		{
+			// add the table to the query
+			commandContext.QueryBuilder.AddTable(context, pair.Table, commandContext.Command);
+
+			// check for single or multiple values
+			if (values.Count == 1)
+				commandContext.QueryBuilder.AppendWhere(" [{0}].[{1}] = @{2}", pair.Table.Name, pair.Column.ColumnName, commandContext.Command.AddParameter(values[0]));
+			else
+			{
+				// start the clause
+				var buffer = new StringBuilder();
+				buffer.AppendFormat("[{0}].[{1}] IN (", pair.Table.Name, pair.Column.ColumnName);
+
+				// loop through all the values
+				foreach (var value in values)
+					buffer.AppendFormat("@{0},", commandContext.Command.AddParameter(value));
+
+				// finish the clause
+				commandContext.QueryBuilder.AppendWhere("{0})", buffer.Trim());
+			}
+		}
 		/// <summary>
 		/// 
 		/// </summary>
