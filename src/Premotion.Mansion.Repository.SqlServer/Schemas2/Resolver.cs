@@ -8,7 +8,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 	/// <summary>
 	/// Implements the <see cref="Schema"/> resolver.
 	/// </summary>
-	public class Resolver
+	public static class Resolver
 	{
 		#region Resolve Methods
 		/// <summary>

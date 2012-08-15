@@ -92,6 +92,7 @@
     <Compile Include="Queries\Converters\SortQueryComponentConverter.cs" />
     <Compile Include="Queries\Converters\SpecificationConverter.cs" />
     <Compile Include="Queries\Converters\SpecificationQueryComponentConverter.cs" />
+    <Compile Include="Queries\InsertCommand.cs" />
     <Compile Include="Queries\Mappers\IdRecordMapper.cs" />
     <Compile Include="Queries\Mappers\ExtendedPropertiesRecordMapper.cs" />
     <Compile Include="Queries\Mappers\IRecordMapper.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Schemas2\Table.cs" />
     <Compile Include="Schemas2\TableColumnPair.cs" />
     <Compile Include="Schemas2\TypeTable.cs" />
+    <Compile Include="Schemas2\VirtualColumn.cs" />
     <Compile Include="SqlServerUtilities.cs" />
     <Compile Include="NodeQueries\UpdateQuery.cs" />
     <Compile Include="SchemaCreatorApplicationInitializer.cs" />

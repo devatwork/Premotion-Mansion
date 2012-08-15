@@ -104,11 +104,18 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 		/// </summary>
 		public Table RootTable { get; private set; }
 		/// <summary>
-		/// Gets the tables in this schema.
+		/// Gets the <see cref="TypeTable"/>s in this schema.
 		/// </summary>
 		public IEnumerable<Table> TypeTables
 		{
-			get { return tables.Values.Where(table => table is TypeTable); }
+			get { return Tables.OfType<TypeTable>(); }
+		}
+		/// <summary>
+		/// Gets the <see cref="Table"/>s in this schema.
+		/// </summary>
+		public IEnumerable<Table> Tables
+		{
+			get { return tables.Values; }
 		}
 		#endregion
 		#region Private Fields

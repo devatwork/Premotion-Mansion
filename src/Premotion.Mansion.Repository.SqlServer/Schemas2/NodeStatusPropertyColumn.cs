@@ -52,5 +52,18 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 			table.Add(archivedColumn);
 		}
 		#endregion
+		#region Overrides of Column
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="queryBuilder"></param>
+		/// <param name="newPointer"></param>
+		/// <param name="properties"></param>
+		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
+		{
+			// do nothing, it is taken care of by the columns created by this column
+		}
+		#endregion
 	}
 }

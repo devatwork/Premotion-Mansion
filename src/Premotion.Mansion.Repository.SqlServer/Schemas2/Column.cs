@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Repository.SqlServer.Queries;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas2
@@ -88,6 +89,34 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 		{
 			throw new NotSupportedException(string.Format("Columns of type '{0}' do not support where mapping", GetType().Name));
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="queryBuilder"></param>
+		/// <param name="newPointer"></param>
+		/// <param name="properties"></param>
+		public void ToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (newPointer == null)
+				throw new ArgumentNullException("newPointer");
+			if (properties == null)
+				throw new ArgumentNullException("properties");
+
+			// invoke template method
+			DoToInsertStatement(context, queryBuilder, newPointer, properties);
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="queryBuilder"></param>
+		/// <param name="newPointer"></param>
+		/// <param name="properties"></param>
+		protected abstract void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties);
 		#endregion
 	}
 }

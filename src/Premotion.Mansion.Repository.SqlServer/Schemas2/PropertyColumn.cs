@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.IO.Memory;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
 using Premotion.Mansion.Repository.SqlServer.Queries;
@@ -127,6 +128,24 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 				// finish the clause
 				commandContext.QueryBuilder.AppendWhere("{0})", buffer.Trim());
 			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="queryBuilder"></param>
+		/// <param name="newPointer"></param>
+		/// <param name="properties"></param>
+		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
+		{
+			// get the value of the column
+			var value = GetValue(context, properties.Get<object>(context, PropertyName));
+
+			// add the parameter
+			var parameterName = queryBuilder.AddParameter(ColumnName, value);
+
+			// set the column value
+			queryBuilder.AddColumnValue(ColumnName, parameterName);
 		}
 		#endregion
 		#region Value Methods

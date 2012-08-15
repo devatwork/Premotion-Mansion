@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Data;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 {
@@ -74,6 +75,39 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 		protected virtual string DoToJoinStatement(IMansionContext context, Table rootTable, SqlCommand command)
 		{
 			return string.Format("INNER JOIN [{0}] ON [{0}].[id] = [{1}].[id]", Name, rootTable.Name);
+		}
+		/// <summary>
+		/// Generates the insert statement for this table.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="queryBuilder"></param>
+		/// <param name="newPointer"></param>
+		/// <param name="newProperties"></param>
+		public void ToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag newProperties)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (queryBuilder == null)
+				throw new ArgumentNullException("queryBuilder");
+			if (newPointer == null)
+				throw new ArgumentNullException("newPointer");
+			if (newProperties == null)
+				throw new ArgumentNullException("newProperties");
+
+			// invoke template method
+			DoToInsertStatement(context, queryBuilder, newPointer, newProperties);
+		}
+		/// <summary>
+		/// Generates the insert statement for this table.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="queryBuilder"></param>
+		/// <param name="newPointer"></param>
+		/// <param name="newProperties"></param>
+		protected virtual void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag newProperties)
+		{
+			throw new NotSupportedException();
 		}
 		#endregion
 		#region Properties

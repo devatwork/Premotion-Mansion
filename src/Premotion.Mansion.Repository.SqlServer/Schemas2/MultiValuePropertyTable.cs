@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using System.Text;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Repository.SqlServer.Queries;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas2
@@ -43,6 +46,17 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 				// append the query
 				commandContext.QueryBuilder.AppendWhere(" [{0}].[id] IN ( SELECT [{1}].[id] FROM [{1}] WHERE [{1}].[{2}] IN ({3}) AND [{1}].[name] = '{4}' )", commandContext.QueryBuilder.RootTableName, pair.Table.Name, pair.Column.ColumnName, buffer.Trim(), PropertyName);
 			}
+			/// <summary>
+			/// 
+			/// </summary>
+			/// <param name="context"></param>
+			/// <param name="queryBuilder"></param>
+			/// <param name="newPointer"></param>
+			/// <param name="properties"></param>
+			protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
+			{
+				throw new NotSupportedException();
+			}
 			#endregion
 		}
 		#endregion
@@ -74,6 +88,47 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 			// return this for chaining
 			return this;
 		}
+		#endregion
+		#region Overrides of Table
+		/// <summary>
+		/// Generates the insert statement for this table.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="queryBuilder"></param>
+		/// <param name="newPointer"></param>
+		/// <param name="newProperties"></param>
+		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag newProperties)
+		{
+			// loop through all the properties
+			foreach (var propertyName in propertyNames)
+			{
+				// check if there are any properties
+				var values = newProperties.Get(context, propertyName, string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+				if (values.Length == 0)
+					continue;
+
+				// loop through each value and write an insert statement
+				foreach (var value in values)
+				{
+					// build the query
+					var valueModificationQuery = new ModificationQueryBuilder(queryBuilder);
+
+					// set column values
+					valueModificationQuery.AddColumnValue("id", "@ScopeIdentity");
+					valueModificationQuery.AddColumnValue("name", propertyName, DbType.String);
+					valueModificationQuery.AddColumnValue("value", value, DbType.String);
+
+					// append the query
+					queryBuilder.AppendQuery(valueModificationQuery.ToInsertStatement(Name));
+				}
+			}
+		}
+		#endregion
+		#region Private Fields
+		/// <summary>
+		/// Gets the names of the properties which to store.
+		/// </summary>
+		private readonly List<string> propertyNames = new List<string>();
 		#endregion
 	}
 }
