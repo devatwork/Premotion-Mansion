@@ -92,7 +92,8 @@
     <Compile Include="Queries\Converters\SortQueryComponentConverter.cs" />
     <Compile Include="Queries\Converters\SpecificationConverter.cs" />
     <Compile Include="Queries\Converters\SpecificationQueryComponentConverter.cs" />
-    <Compile Include="Queries\InsertCommand.cs" />
+    <Compile Include="Queries\DeleteNodeCommand.cs" />
+    <Compile Include="Queries\InsertNodeCommand.cs" />
     <Compile Include="Queries\Mappers\IdRecordMapper.cs" />
     <Compile Include="Queries\Mappers\ExtendedPropertiesRecordMapper.cs" />
     <Compile Include="Queries\Mappers\IRecordMapper.cs" />
@@ -108,7 +109,7 @@
     <Compile Include="Queries\Specifications\SqlWhereSpecification.cs" />
     <Compile Include="Queries\Specifications\FullTextSearchSpecification.cs" />
     <Compile Include="Queries\SqlStringBuilder.cs" />
-    <Compile Include="Queries\UpdateCommand.cs" />
+    <Compile Include="Queries\UpdateNodeCommand.cs" />
     <Compile Include="Schemas2\BooleanPropertyColumn.cs" />
     <Compile Include="Schemas2\Column.cs" />
     <Compile Include="Schemas2\Descriptors\NodePointerColumnDescriptor.cs" />

@@ -86,7 +86,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 			// build the query
 			using (var connection = CreateConnection())
 			using (var transaction = connection.BeginTransaction())
-			using (var command = context.Nucleus.CreateInstance<InsertCommand>())
+			using (var command = context.Nucleus.CreateInstance<InsertNodeCommand>())
 			{
 				// init the command
 				command.Prepare(context, connection, transaction, parent.Pointer, newProperties);
@@ -131,7 +131,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 			// build the query
 			using (var connection = CreateConnection())
 			using (var transaction = connection.BeginTransaction())
-			using (var command = context.Nucleus.CreateInstance<UpdateCommand>())
+			using (var command = context.Nucleus.CreateInstance<UpdateNodeCommand>())
 			{
 				// init the command
 				command.Prepare(context, connection, transaction, node, modifiedProperties);
@@ -166,12 +166,16 @@ namespace Premotion.Mansion.Repository.SqlServer
 			// build the query
 			using (var connection = CreateConnection())
 			using (var transaction = connection.BeginTransaction())
-			using (var deleteQuery = DeleteQuery.Prepare(context, connection, transaction, schemaProvider, pointer))
+			using (var command = context.Nucleus.CreateInstance<DeleteNodeCommand>())
 			{
+				// init the command
+				command.Prepare(context, connection, transaction, pointer);
+
+				// execute the command
 				try
 				{
 					// execute the query
-					deleteQuery.Execute();
+					command.Execute();
 
 					// woohoo it worked!
 					transaction.Commit();
