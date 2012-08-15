@@ -33,7 +33,7 @@
 				<forms:processScriptAction supportedActions="select">
 					<!-- create the dataset -->
 					<createDataset target="SelectedDataset">
-						<retrieveChildNodeset parentPointer="1" depth="any" where="[{Get.valueProperty}] IN ( {AddAposToCsv( FieldProperties.selector )} )" target="SelectedNodeset">
+						<retrieveChildNodeset parentPointer="1" depth="any" where="{IsSpecification( Get.valueProperty, FieldProperties.selector )}" target="SelectedNodeset">
 							<loopNodeset source="{$SelectedNodeset}" target="SelectedNode">
 								<!-- create the dataset -->
 								<setProperties dataspaceName="Tmp" label="{GetProperty( $SelectedNode, Get.labelProperty )}" value="{GetProperty( $SelectedNode, Get.valueProperty )}">
