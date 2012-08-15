@@ -1,6 +1,5 @@
 ﻿using System;
 using Premotion.Mansion.Core.Data;
-using Premotion.Mansion.Core.Data.Clauses;
 using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Data.Queries.Specifications.Nodes;
 using Premotion.Mansion.Core.Scripting.TagScript;
