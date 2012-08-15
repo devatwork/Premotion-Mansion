@@ -46,6 +46,9 @@
     <Compile Include="BulkOperationContext.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Queries\Converters\ConjunctionSpecificationConverter.cs" />
+    <Compile Include="Queries\Converters\DisjunctionSpecificationConverter.cs" />
+    <Compile Include="Queries\Converters\NegationSpecificationConverter.cs" />
     <Compile Include="Queries\ModificationQueryBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\Converters\CacheQueryComponentConverter.cs" />

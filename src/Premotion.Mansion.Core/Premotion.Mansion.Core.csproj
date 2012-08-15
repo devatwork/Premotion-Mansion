@@ -305,8 +305,11 @@
     <Compile Include="ScriptFunctions\Security\IsAuthenticated.cs" />
     <Compile Include="ScriptFunctions\Security\IsBackofficeUserAuthenticated.cs" />
     <Compile Include="ScriptFunctions\Security\IsFronfofficeUserAuthenticated.cs" />
+    <Compile Include="ScriptFunctions\Specifications\AndSpecification.cs" />
+    <Compile Include="ScriptFunctions\Specifications\NotSpecification.cs" />
     <Compile Include="ScriptFunctions\Specifications\IsSpecification.cs" />
     <Compile Include="ScriptFunctions\Specifications\InSpecfication.cs" />
+    <Compile Include="ScriptFunctions\Specifications\OrSpecification.cs" />
     <Compile Include="ScriptFunctions\Stack\GetProperty.cs" />
     <Compile Include="ScriptFunctions\Stack\GetStackValue.cs" />
     <Compile Include="ScriptFunctions\String\AddAposToCsv.cs" />
