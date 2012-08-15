@@ -92,6 +92,7 @@
     <Compile Include="Queries\Converters\SortQueryComponentConverter.cs" />
     <Compile Include="Queries\Converters\SpecificationConverter.cs" />
     <Compile Include="Queries\Converters\SpecificationQueryComponentConverter.cs" />
+    <Compile Include="Queries\CopyNodeCommand.cs" />
     <Compile Include="Queries\DeleteNodeCommand.cs" />
     <Compile Include="Queries\InsertNodeCommand.cs" />
     <Compile Include="Queries\Mappers\IdRecordMapper.cs" />

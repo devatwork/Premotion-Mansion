@@ -6,7 +6,6 @@ using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Data.Queries.Specifications;
-using Premotion.Mansion.Repository.SqlServer.NodeQueries;
 using Premotion.Mansion.Repository.SqlServer.Queries;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
 
@@ -252,12 +251,17 @@ namespace Premotion.Mansion.Repository.SqlServer
 					throw new ArgumentNullException(string.Format("Could not find node with pointer '{0}'", targetParentPointer));
 
 				// create the copy query
-				using (var copyQuery = CopyQuery.Prepare(context, connection, transaction, schemaProvider, nodeToCopy, targetParentNode))
+				using (var command = context.Nucleus.CreateInstance<CopyNodeCommand>())
 				{
+					// init the command
+					command.Prepare(context, connection, transaction, nodeToCopy, targetParentNode);
+
+					// execute the command
 					try
 					{
 						// execute the query
-						var copiedNodeId = copyQuery.Execute();
+
+						var copiedNodeId = command.Execute();
 
 						selectQuery.Add(new IsPropertyEqualSpecification("id", copiedNodeId));
 
