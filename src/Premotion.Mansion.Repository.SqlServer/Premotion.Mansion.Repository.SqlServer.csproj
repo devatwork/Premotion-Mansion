@@ -45,35 +45,9 @@
   <ItemGroup>
     <Compile Include="BulkOperationContext.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Converters\AllowedRolesClauseConverter.cs" />
-    <Compile Include="Converters\BaseTypeClauseConverter.cs" />
-    <Compile Include="Converters\ChildOfClauseConverter.cs" />
-    <Compile Include="Converters\ClauseConverter.cs" />
-    <Compile Include="Converters\FacetClauseConverter.cs" />
-    <Compile Include="Converters\FullTextSearchClauseConverter.cs" />
-    <Compile Include="Converters\IClauseConverter.cs" />
-    <Compile Include="Converters\IdClauseConverter.cs" />
-    <Compile Include="Converters\LimitClauseConverter.cs" />
-    <Compile Include="Converters\PagingClauseConverter.cs" />
-    <Compile Include="Converters\ParentOfClauseConverter.cs" />
-    <Compile Include="Converters\PermanentIdClauseConverter.cs" />
-    <Compile Include="Converters\PropertyClauseConverter.cs" />
-    <Compile Include="Converters\SortClauseConverter.cs" />
-    <Compile Include="Converters\StatusClauseConverter.cs" />
-    <Compile Include="Converters\TypeClauseConverter.cs" />
-    <Compile Include="Converters\WhereClauseConverter.cs" />
-    <Compile Include="Data\Clauses\FullTextSearchClause.cs" />
-    <Compile Include="Data\Clauses\WhereClause.cs" />
-    <Compile Include="Descriptors\FullTextDescriptor.cs" />
-    <Compile Include="Descriptors\SchemaDescriptor.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="ModificationQueryBuilder.cs" />
+    <Compile Include="Queries\ModificationQueryBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NodeQueries\CopyQuery.cs" />
-    <Compile Include="NodeQueries\DeleteQuery.cs" />
-    <Compile Include="NodeQueries\InsertQuery.cs" />
-    <Compile Include="NodeQueries\MoveQuery.cs" />
-    <Compile Include="NodeQueries\SelectQuery.cs" />
     <Compile Include="Queries\Converters\CacheQueryComponentConverter.cs" />
     <Compile Include="Queries\Converters\SqlWhereSpecificationConverter.cs" />
     <Compile Include="Queries\Converters\IsPropertyEqualSpecificationConverter.cs" />
@@ -145,39 +119,12 @@
     <Compile Include="Schemas2\TypeTable.cs" />
     <Compile Include="Schemas2\VirtualColumn.cs" />
     <Compile Include="SqlServerUtilities.cs" />
-    <Compile Include="NodeQueries\UpdateQuery.cs" />
     <Compile Include="SchemaCreatorApplicationInitializer.cs" />
-    <Compile Include="Schemas\BooleanPropertyColumn.cs" />
-    <Compile Include="Schemas\Column.cs" />
-    <Compile Include="Schemas\DateTimePropertyColumn.cs" />
-    <Compile Include="Descriptors\BooleanColumnDescriptor.cs" />
-    <Compile Include="Descriptors\ColumnDescriptor.cs" />
-    <Compile Include="Descriptors\DateTimeColumnDescriptor.cs" />
-    <Compile Include="Descriptors\MultiValuePropertyTableDescriptor.cs" />
-    <Compile Include="Descriptors\PropertyTableDescriptor.cs" />
-    <Compile Include="Descriptors\RootTypeTableDescriptor.cs" />
-    <Compile Include="Descriptors\SingleValuePropertyTableDescriptor.cs" />
-    <Compile Include="Descriptors\TypeTableDescriptor.cs" />
-    <Compile Include="Schemas\DummyColumn.cs" />
-    <Compile Include="Schemas\ExtendedPropertiesColumn.cs" />
-    <Compile Include="Schemas\IdentityColumn.cs" />
-    <Compile Include="Schemas\JoinColumn.cs" />
-    <Compile Include="Schemas\MultiValuePropertyTable.cs" />
-    <Compile Include="Schemas\OrderColumn.cs" />
-    <Compile Include="Schemas\PropertyColumn.cs" />
-    <Compile Include="Schemas\RootTable.cs" />
-    <Compile Include="Schemas\Schema.cs" />
-    <Compile Include="Schemas\SchemaProvider.cs" />
-    <Compile Include="Schemas\SingleValuePropertyTable.cs" />
-    <Compile Include="Schemas\Table.cs" />
-    <Compile Include="Schemas\TableColumnPair.cs" />
-    <Compile Include="Schemas\TypeTable.cs" />
     <Compile Include="ScriptFunctions\MaxSqlDate.cs" />
     <Compile Include="ScriptFunctions\SqlEncode.cs" />
     <Compile Include="ScriptTags\SyncTablesTag.cs" />
     <Compile Include="SqlServerRepository.cs" />
     <Compile Include="SqlServerRepositoryFactory.cs" />
-    <Compile Include="SqlStringBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Premotion.Mansion.Core\Premotion.Mansion.Core.csproj">
@@ -193,10 +140,6 @@
     <None Include="web.config.transform" />
     <None Include="Premotion.Mansion.Repository.SqlServer.symbols.nuspec" />
     <None Include="Premotion.Mansion.Repository.SqlServer.nuspec" />
-    <None Include="Descriptors\repository.mssql.descriptors.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Schemas\Schemas.cd" />
     <None Include="ScriptTags\repository.mssql.tags.xsd">
       <SubType>Designer</SubType>
     </None>

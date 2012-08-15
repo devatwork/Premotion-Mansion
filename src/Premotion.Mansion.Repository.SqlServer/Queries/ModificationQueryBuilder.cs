@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-namespace Premotion.Mansion.Repository.SqlServer
+namespace Premotion.Mansion.Repository.SqlServer.Queries
 {
 	/// <summary>
 	/// Allows to build a modification query.
@@ -17,7 +17,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		private const char ColumnClose = ']';
 		private const char QueryEnd = ';';
 		private const char ParameterNamePrefix = '@';
-		private static readonly char[] subQuerySeperators = new[] {';', ' '};
+		private static readonly char[] SubQuerySeperators = new[] {';', ' '};
 		#endregion
 		#region Constructors
 		/// <summary>
@@ -59,7 +59,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 				throw new ArgumentNullException("query");
 
 			// trim
-			query = query.Trim(subQuerySeperators);
+			query = query.Trim(SubQuerySeperators);
 
 			// add the query
 			prependQueries.Enqueue(query);
@@ -75,7 +75,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 				throw new ArgumentNullException("query");
 
 			// trim
-			query = query.Trim(subQuerySeperators);
+			query = query.Trim(SubQuerySeperators);
 
 			// add the query
 			appendQueries.Enqueue(query);

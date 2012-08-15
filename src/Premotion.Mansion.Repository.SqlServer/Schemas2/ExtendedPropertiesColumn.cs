@@ -4,6 +4,7 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Conversion;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Repository.SqlServer.Queries;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 {

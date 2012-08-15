@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Repository.SqlServer.Queries;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 {

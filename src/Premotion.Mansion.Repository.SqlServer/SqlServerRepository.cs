@@ -7,7 +7,6 @@ using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Data.Queries.Specifications;
 using Premotion.Mansion.Repository.SqlServer.Queries;
-using Premotion.Mansion.Repository.SqlServer.Schemas;
 
 namespace Premotion.Mansion.Repository.SqlServer
 {
@@ -422,7 +421,6 @@ namespace Premotion.Mansion.Repository.SqlServer
 		#endregion
 		#region Private Fields
 		private readonly string connectionString;
-		private readonly SchemaProvider schemaProvider = new SchemaProvider();
 		#endregion
 	}
 }
