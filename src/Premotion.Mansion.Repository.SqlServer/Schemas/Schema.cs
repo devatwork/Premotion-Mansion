@@ -49,7 +49,12 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 				throw new ArgumentNullException("updateValueFactory");
 
 			// add or update the table
-			tables.AddOrUpdate(tableName, key => addValueFactory(), (key, value) => updateValueFactory((TTable) value));
+			tables.AddOrUpdate(tableName, key =>
+			                              {
+			                              	var table = addValueFactory();
+			                              	tableNames.Enqueue(tableName);
+			                              	return table;
+			                              }, (key, value) => updateValueFactory((TTable) value));
 		}
 		#endregion
 		#region Find Methods
@@ -115,10 +120,11 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		public IEnumerable<Table> Tables
 		{
-			get { return tables.Values; }
+			get { return tableNames.Select(tableName => tables[tableName]); }
 		}
 		#endregion
 		#region Private Fields
+		private readonly Queue<string> tableNames = new Queue<string>();
 		private readonly ConcurrentDictionary<string, Table> tables = new ConcurrentDictionary<string, Table>(StringComparer.OrdinalIgnoreCase);
 		#endregion
 	}
