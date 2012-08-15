@@ -103,6 +103,13 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas2
 		/// Gets the root <see cref="Table"/> from this schema.
 		/// </summary>
 		public Table RootTable { get; private set; }
+		/// <summary>
+		/// Gets the tables in this schema.
+		/// </summary>
+		public IEnumerable<Table> TypeTables
+		{
+			get { return tables.Values.Where(table => table is TypeTable); }
+		}
 		#endregion
 		#region Private Fields
 		private readonly ConcurrentDictionary<string, Table> tables = new ConcurrentDictionary<string, Table>(StringComparer.OrdinalIgnoreCase);
