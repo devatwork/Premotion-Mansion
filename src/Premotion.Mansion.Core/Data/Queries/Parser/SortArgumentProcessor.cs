@@ -24,12 +24,12 @@ namespace Premotion.Mansion.Core.Data.Queries.Parser
 		/// <param name="query">The <see cref="Query"/> in which to set the parameters.</param>
 		protected override void DoProcess(IMansionContext context, IPropertyBag parameters, Query query)
 		{
-			string sortString;
-			if (!parameters.TryGetAndRemove(context, "sort", out sortString) || string.IsNullOrEmpty(sortString))
-				return;
-
 			// parse the sorts and add them to the query
-			query.Add(Sort.Parse(sortString));
+			string sortString;
+			if (parameters.TryGetAndRemove(context, "sort", out sortString) && !string.IsNullOrEmpty(sortString))
+				query.Add(Sort.Parse(sortString));
+			else
+				query.Add(Sort.DefaultSort);
 		}
 		#endregion
 	}
