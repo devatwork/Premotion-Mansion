@@ -139,6 +139,15 @@ namespace Premotion.Mansion.Core.Data
 			DecoratedRepository.Update(context, record, modifiedProperties);
 		}
 		/// <summary>
+		/// Deletes an existing <paramref name="record"/> from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="record">The <see cref="Record"/> which will be deleted.</param>
+		protected override void DoDelete(IMansionContext context, Record record)
+		{
+			DecoratedRepository.Delete(context, record);
+		}
+		/// <summary>
 		/// Starts this object. This methods must be called after the object has been created and before it is used.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>

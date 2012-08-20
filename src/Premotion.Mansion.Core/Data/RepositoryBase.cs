@@ -227,6 +227,22 @@ namespace Premotion.Mansion.Core.Data
 			// invoke template method
 			DoUpdate(context, record, modifiedProperties);
 		}
+		/// <summary>
+		/// Deletes an existing <paramref name="record"/> from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="record">The <see cref="Record"/> which will be deleted.</param>
+		public void Delete(IMansionContext context, Record record)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (record == null)
+				throw new ArgumentNullException("record");
+
+			// invoke template method
+			DoDelete(context, record);
+		}
 		#endregion
 		#region Implementation of IStartable
 		/// <summary>
@@ -340,6 +356,12 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="record">The <see cref="Record"/> which will be updated.</param>
 		/// <param name="modifiedProperties">The properties which to update.</param>
 		protected abstract void DoUpdate(IMansionContext context, Record record, IPropertyBag modifiedProperties);
+		/// <summary>
+		/// Deletes an existing <paramref name="record"/> from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="record">The <see cref="Record"/> which will be deleted.</param>
+		protected abstract void DoDelete(IMansionContext context, Record record);
 		#endregion
 	}
 }

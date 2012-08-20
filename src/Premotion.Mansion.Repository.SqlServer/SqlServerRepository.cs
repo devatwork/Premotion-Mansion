@@ -395,6 +395,38 @@ namespace Premotion.Mansion.Repository.SqlServer
 			record.Merge(modifiedProperties);
 		}
 		/// <summary>
+		/// Deletes an existing <paramref name="record"/> from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="record">The <see cref="Record"/> which will be deleted.</param>
+		protected override void DoDelete(IMansionContext context, Record record)
+		{
+			// build the query
+			using (var connection = CreateConnection())
+			using (var transaction = connection.BeginTransaction())
+			using (var command = context.Nucleus.CreateInstance<DeleteCommand>())
+			{
+				// init the command
+				command.Prepare(context, connection, transaction, record);
+
+				// execute the command
+				try
+				{
+					// execute the query
+					command.Execute();
+
+					// woohoo it worked!
+					transaction.Commit();
+				}
+				catch (Exception)
+				{
+					// something terrible happened, revert everything
+					transaction.Rollback();
+					throw;
+				}
+			}
+		}
+		/// <summary>
 		/// Starts this object. This methods must be called after the object has been created and before it is used.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>

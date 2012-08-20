@@ -93,6 +93,12 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="record">The <see cref="Record"/> which will be updated.</param>
 		/// <param name="modifiedProperties">The properties which to update.</param>
 		void Update(IMansionContext context, Record record, IPropertyBag modifiedProperties);
+		/// <summary>
+		/// Deletes an existing <paramref name="record"/> from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="record">The <see cref="Record"/> which will be deleted.</param>
+		void Delete(IMansionContext context, Record record);
 		#endregion
 		#region Start Methods
 		/// <summary>
