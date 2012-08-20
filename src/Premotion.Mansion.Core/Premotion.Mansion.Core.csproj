@@ -37,9 +37,9 @@
     <DocumentationFile>bin\Premotion.Mansion.Core.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dynamo.Ioc, Version=3.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Dynamo.Ioc, Version=3.0.0.3, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Dynamo.Ioc.3.0.0.2\lib\net40\Dynamo.Ioc.dll</HintPath>
+      <HintPath>..\packages\Dynamo.Ioc.3.0.0.3\lib\net40\Dynamo.Ioc.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.4.5.8\lib\net40\Newtonsoft.Json.dll</HintPath>

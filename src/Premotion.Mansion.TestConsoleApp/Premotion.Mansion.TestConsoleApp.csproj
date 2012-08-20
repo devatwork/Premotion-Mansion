@@ -36,9 +36,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dynamo.Ioc, Version=3.0.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Dynamo.Ioc.3.0.0.2\lib\net40\Dynamo.Ioc.dll</HintPath>
+    <Reference Include="Dynamo.Ioc">
+      <HintPath>..\packages\Dynamo.Ioc.3.0.0.3\lib\net40\Dynamo.Ioc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
