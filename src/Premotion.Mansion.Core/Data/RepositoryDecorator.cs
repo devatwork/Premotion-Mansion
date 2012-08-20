@@ -119,6 +119,16 @@ namespace Premotion.Mansion.Core.Data
 			return DecoratedRepository.Retrieve(context, query);
 		}
 		/// <summary>
+		/// Creates a new record with the given <paramref name="properties"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="properties">The properties from which to create a record.</param>
+		/// <returns>Returns the created record.</returns>
+		protected override IPropertyBag DoCreate(IMansionContext context, IPropertyBag properties)
+		{
+			return DecoratedRepository.Create(context, properties);
+		}
+		/// <summary>
 		/// Starts this object. This methods must be called after the object has been created and before it is used.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>

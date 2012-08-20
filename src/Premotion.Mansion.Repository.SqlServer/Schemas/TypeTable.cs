@@ -29,14 +29,13 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="newPointer"></param>
-		/// <param name="newProperties"></param>
-		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag newProperties)
+		/// <param name="properties"></param>
+		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, IPropertyBag properties)
 		{
 			// create a table modification query
 			var tableModificationQuery = new ModificationQueryBuilder(queryBuilder);
 			foreach (var column in Columns)
-				column.ToInsertStatement(context, tableModificationQuery, newPointer, newProperties);
+				column.ToInsertStatement(context, tableModificationQuery, properties);
 
 			// if there are modified column add table modification query to the master query builder
 			if (tableModificationQuery.HasModifiedColumns)

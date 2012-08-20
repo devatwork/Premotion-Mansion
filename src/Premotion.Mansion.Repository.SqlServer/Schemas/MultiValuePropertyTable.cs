@@ -51,9 +51,8 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 			/// </summary>
 			/// <param name="context"></param>
 			/// <param name="queryBuilder"></param>
-			/// <param name="newPointer"></param>
 			/// <param name="properties"></param>
-			protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
+			protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, IPropertyBag properties)
 			{
 				throw new NotSupportedException();
 			}
@@ -106,15 +105,14 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="newPointer"></param>
-		/// <param name="newProperties"></param>
-		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag newProperties)
+		/// <param name="properties"></param>
+		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, IPropertyBag properties)
 		{
 			// loop through all the properties
 			foreach (var propertyName in propertyNames)
 			{
 				// check if there are any properties
-				var values = newProperties.Get(context, propertyName, string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+				var values = properties.Get(context, propertyName, string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
 				if (values.Length == 0)
 					continue;
 

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Globalization;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Patterns;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
@@ -13,14 +11,14 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 	/// <summary>
 	/// Implements the insert query.
 	/// </summary>
-	public class InsertNodeCommand : DisposableBase
+	public class InsertCommand : DisposableBase
 	{
 		#region Constructors
 		/// <summary>
 		/// </summary>
 		/// <param name="typeService"></param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public InsertNodeCommand(ITypeService typeService)
+		public InsertCommand(ITypeService typeService)
 		{
 			// validate arguments
 			if (typeService == null)
@@ -37,28 +35,22 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <param name="context"></param>
 		/// <param name="connection">The connection.</param>
 		/// <param name="transaction">The transaction.</param>
-		/// <param name="parent"></param>
 		/// <param name="properties"></param>
 		/// <returns></returns>
-		public void Prepare(IMansionContext context, SqlConnection connection, SqlTransaction transaction, NodePointer parent, IPropertyBag properties)
+		public void Prepare(IMansionContext context, SqlConnection connection, SqlTransaction transaction, IPropertyBag properties)
 		{
 			// validate arguments
 			if (connection == null)
 				throw new ArgumentNullException("connection");
 			if (transaction == null)
 				throw new ArgumentNullException("transaction");
-			if (parent == null)
-				throw new ArgumentNullException("parent");
 			if (properties == null)
 				throw new ArgumentNullException("properties");
 
 			// get the values
-			var name = properties.Get<string>(context, "name", null);
-			if (string.IsNullOrWhiteSpace(name))
-				throw new InvalidOperationException("The node must have a name");
 			var typeName = properties.Get<string>(context, "type", null);
 			if (string.IsNullOrWhiteSpace(typeName))
-				throw new InvalidOperationException("The node must have a type");
+				throw new InvalidOperationException("A record must have a type");
 
 			// retrieve the type
 			var type = typeService.Load(context, typeName);
@@ -68,10 +60,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 
 			// set the full text property
 			SqlServerUtilities.PopulateFullTextColumn(context, type, properties, properties);
-
-			// create the new pointer
-			var newPointer = NodePointer.Parse(string.Join(NodePointer.PointerSeparator, new[] {parent.PointerString, 0.ToString(CultureInfo.InvariantCulture)}), string.Join(NodePointer.StructureSeparator, new[] {parent.StructureString, type.Name}), string.Join(NodePointer.PathSeparator, new[] {parent.PathString, name}));
-			properties.Set("_newPointer", newPointer);
 
 			// create the commands
 			command = connection.CreateCommand();

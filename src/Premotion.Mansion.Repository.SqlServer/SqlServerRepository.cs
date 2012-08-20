@@ -317,6 +317,43 @@ namespace Premotion.Mansion.Repository.SqlServer
 			}
 		}
 		/// <summary>
+		/// Creates a new record with the given <paramref name="properties"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="properties">The properties from which to create a record.</param>
+		/// <returns>Returns the created record.</returns>
+		protected override IPropertyBag DoCreate(IMansionContext context, IPropertyBag properties)
+		{
+			// build the query
+			int id;
+			using (var connection = CreateConnection())
+			using (var transaction = connection.BeginTransaction())
+			using (var command = context.Nucleus.CreateInstance<InsertCommand>())
+			{
+				// init the command
+				command.Prepare(context, connection, transaction, properties);
+
+				// execute the command
+				try
+				{
+					// execute the query
+					id = command.Execute();
+
+					// woohoo it worked!
+					transaction.Commit();
+				}
+				catch (Exception)
+				{
+					// something terrible happened, revert everything
+					transaction.Rollback();
+					throw;
+				}
+			}
+
+			// retrieve the created node
+			return RetrieveSingle(context, new Query().Add(new IsPropertyEqualSpecification("id", id)));
+		}
+		/// <summary>
 		/// Starts this object. This methods must be called after the object has been created and before it is used.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>

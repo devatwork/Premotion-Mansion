@@ -24,11 +24,11 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="newPointer"></param>
 		/// <param name="properties"></param>
-		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
+		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, IPropertyBag properties)
 		{
 			// build the select max order + 1 query only for none root nodes
+			var newPointer = properties.Get<NodePointer>(context, "_newPointer");
 			queryBuilder.PrependQuery("DECLARE @order int = 1");
 			if (newPointer.Depth > 1)
 				queryBuilder.PrependQuery(string.Format("SET @order = (SELECT ISNULL(MAX([order]) + 1, 1) FROM [Nodes] WHERE [parentId] = {0})", queryBuilder.AddParameter("parentId", newPointer.Parent.Id, DbType.Int32)));

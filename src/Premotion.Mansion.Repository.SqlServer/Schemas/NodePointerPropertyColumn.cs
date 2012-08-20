@@ -43,10 +43,10 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="newPointer"></param>
 		/// <param name="properties"></param>
-		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
+		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, IPropertyBag properties)
 		{
+			var newPointer = properties.Get<NodePointer>(context, "_newPointer");
 			queryBuilder.AddColumnValue("name", newPointer.Name.Trim(), DbType.String);
 			queryBuilder.AddColumnValue("type", newPointer.Type.Trim(), DbType.String);
 			queryBuilder.AddColumnValue("depth", newPointer.Depth, DbType.Int32);

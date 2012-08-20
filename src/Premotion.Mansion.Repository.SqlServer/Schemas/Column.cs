@@ -106,29 +106,25 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="newPointer"></param>
 		/// <param name="properties"></param>
-		public void ToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
+		public void ToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, IPropertyBag properties)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
-			if (newPointer == null)
-				throw new ArgumentNullException("newPointer");
 			if (properties == null)
 				throw new ArgumentNullException("properties");
 
 			// invoke template method
-			DoToInsertStatement(context, queryBuilder, newPointer, properties);
+			DoToInsertStatement(context, queryBuilder, properties);
 		}
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="newPointer"></param>
 		/// <param name="properties"></param>
-		protected abstract void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties);
+		protected abstract void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, IPropertyBag properties);
 		/// <summary>
 		/// 
 		/// </summary>

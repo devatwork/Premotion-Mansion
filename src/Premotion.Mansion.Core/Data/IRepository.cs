@@ -79,6 +79,13 @@ namespace Premotion.Mansion.Core.Data
 		/// <returns>Returns a <see cref="Dataset"/> containing the results.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
 		Dataset Retrieve(IMansionContext context, Query query);
+		/// <summary>
+		/// Creates a new record with the given <paramref name="properties"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="properties">The properties from which to create a record.</param>
+		/// <returns>Returns the created record.</returns>
+		IPropertyBag Create(IMansionContext context, IPropertyBag properties);
 		#endregion
 		#region Start Methods
 		/// <summary>

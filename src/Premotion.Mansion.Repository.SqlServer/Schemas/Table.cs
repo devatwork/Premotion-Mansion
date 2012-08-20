@@ -83,31 +83,27 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="newPointer"></param>
-		/// <param name="newProperties"></param>
-		public void ToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag newProperties)
+		/// <param name="properties"></param>
+		public void ToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, IPropertyBag properties)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (queryBuilder == null)
 				throw new ArgumentNullException("queryBuilder");
-			if (newPointer == null)
-				throw new ArgumentNullException("newPointer");
-			if (newProperties == null)
-				throw new ArgumentNullException("newProperties");
+			if (properties == null)
+				throw new ArgumentNullException("properties");
 
 			// invoke template method
-			DoToInsertStatement(context, queryBuilder, newPointer, newProperties);
+			DoToInsertStatement(context, queryBuilder, properties);
 		}
 		/// <summary>
 		/// Generates the insert statement for this table.
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="newPointer"></param>
-		/// <param name="newProperties"></param>
-		protected virtual void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag newProperties)
+		/// <param name="properties"></param>
+		protected virtual void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, IPropertyBag properties)
 		{
 			throw new NotSupportedException();
 		}

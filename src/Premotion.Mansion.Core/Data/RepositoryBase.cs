@@ -189,6 +189,24 @@ namespace Premotion.Mansion.Core.Data
 			// invoke template method
 			return DoRetrieve(context, query);
 		}
+		/// <summary>
+		/// Creates a new record with the given <paramref name="properties"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="properties">The properties from which to create a record.</param>
+		/// <returns>Returns the created record.</returns>
+		public IPropertyBag Create(IMansionContext context, IPropertyBag properties)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (properties == null)
+				throw new ArgumentNullException("properties");
+			CheckDisposed();
+
+			// invoke template method
+			return DoCreate(context, properties);
+		}
 		#endregion
 		#region Implementation of IStartable
 		/// <summary>
@@ -273,6 +291,14 @@ namespace Premotion.Mansion.Core.Data
 		/// <returns>Returns the copied node.</returns>
 		protected abstract Node DoCopyNode(IMansionContext context, NodePointer pointer, NodePointer newParentPointer);
 		/// <summary>
+		/// Retrieves a single record from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
+		/// <returns>Returns a single <see cref="IPropertyBag"/> or null when no result is found.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
+		protected abstract IPropertyBag DoRetrieveSingle(IMansionContext context, Query query);
+		/// <summary>
 		/// Retrieves a <see cref="Dataset"/> from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
@@ -281,13 +307,12 @@ namespace Premotion.Mansion.Core.Data
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
 		protected abstract Dataset DoRetrieve(IMansionContext context, Query query);
 		/// <summary>
-		/// Retrieves a single record from this repository.
+		/// Creates a new record with the given <paramref name="properties"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="query">The <see cref="Query"/> which to execute.</param>
-		/// <returns>Returns a single <see cref="IPropertyBag"/> or null when no result is found.</returns>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
-		protected abstract IPropertyBag DoRetrieveSingle(IMansionContext context, Query query);
+		/// <param name="properties">The properties from which to create a record.</param>
+		/// <returns>Returns the created record.</returns>
+		protected abstract IPropertyBag DoCreate(IMansionContext context, IPropertyBag properties);
 		#endregion
 	}
 }
