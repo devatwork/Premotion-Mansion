@@ -493,4 +493,45 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="createRecord" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Creates a new record in the topmost repository. Use the dataspace Properties to set the properties of the new record. Warning: property type must be specified.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+
+			<!-- attributes -->
+			<xs:attributeGroup ref="targetAttributes" />
+			<xs:anyAttribute namespace="##any" processContents="skip" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="updateRecord" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Updates an existing record. Use the dataspace Properties to add or update properties.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+
+			<!-- attributes -->
+			<xs:attributeGroup ref="sourceAttributes" />
+			<xs:anyAttribute namespace="##any" processContents="skip" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="deleteRecord" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Deletes a record from the top most repository.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attributeGroup ref="sourceAttributes" />
+		</xs:complexType>
+	</xs:element>
+
 </xs:schema>
