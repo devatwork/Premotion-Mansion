@@ -105,7 +105,7 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <param name="parent">The parent node.</param>
 		/// <param name="newProperties">The properties of the node which to create.</param>
 		/// <returns>Returns the created nodes.</returns>
-		protected override Node DoCreate(IMansionContext context, Node parent, IPropertyBag newProperties)
+		protected override Node DoCreateNode(IMansionContext context, Node parent, IPropertyBag newProperties)
 		{
 			// get the type of this node
 			var nodeType = newProperties.Get<ITypeDefinition>(context, "type");
@@ -116,7 +116,7 @@ namespace Premotion.Mansion.Core.Data.Listeners
 				listener.BeforeCreate(context, parent, newProperties);
 
 			// execute the derived class
-			var node = DecoratedRepository.Create(context, parent, newProperties);
+			var node = DecoratedRepository.CreateNode(context, parent, newProperties);
 
 			// fire the on after create
 			foreach (var listener in nodeListeners)
@@ -131,7 +131,7 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The node which will be updated.</param>
 		/// <param name="modifiedProperties">The properties which to update.</param>
-		protected override void DoUpdate(IMansionContext context, Node node, IPropertyBag modifiedProperties)
+		protected override void DoUpdateNode(IMansionContext context, Node node, IPropertyBag modifiedProperties)
 		{
 			// get the type of this node
 			var nodeType = typeService.Load(context, node.Pointer.Type);
@@ -142,7 +142,7 @@ namespace Premotion.Mansion.Core.Data.Listeners
 				listener.BeforeUpdate(context, node, modifiedProperties);
 
 			// execute the derived class
-			DecoratedRepository.Update(context, node, modifiedProperties);
+			DecoratedRepository.UpdateNode(context, node, modifiedProperties);
 
 			// fire the on after update
 			foreach (var listener in nodeListeners)
@@ -153,7 +153,7 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node which will be deleted.</param>
-		protected override void DoDelete(IMansionContext context, NodePointer pointer)
+		protected override void DoDeleteNode(IMansionContext context, NodePointer pointer)
 		{
 			// get the type of this node
 			var nodeType = typeService.Load(context, pointer.Type);
@@ -164,7 +164,7 @@ namespace Premotion.Mansion.Core.Data.Listeners
 				listener.BeforeDelete(context, pointer);
 
 			// execute the derived class
-			DecoratedRepository.Delete(context, pointer);
+			DecoratedRepository.DeleteNode(context, pointer);
 		}
 		/// <summary>
 		/// Moves an existing node in this repository to a new parent node.
@@ -173,7 +173,7 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <param name="pointer">The pointer to the node which will be moved.</param>
 		/// <param name="newParentPointer">The pointer to the parent to which the node is moved.</param>
 		/// <returns>Returns the moved node.</returns>m
-		protected override Node DoMove(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
+		protected override Node DoMoveNode(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
 		{
 			// get the type of this node
 			var nodeType = typeService.Load(context, pointer.Type);
@@ -185,7 +185,7 @@ namespace Premotion.Mansion.Core.Data.Listeners
 				listener.BeforeMove(context, originalParentPointer, newParentPointer, pointer);
 
 			// execute the derived class
-			var node = DecoratedRepository.Move(context, pointer, newParentPointer);
+			var node = DecoratedRepository.MoveNode(context, pointer, newParentPointer);
 
 			// fire the on after move
 			foreach (var listener in nodeListeners)
@@ -200,7 +200,7 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <param name="pointer">The pointer to the node which will be copied.</param>
 		/// <param name="targetParentPointer">The pointer to the parent to which the copied node is added.</param>
 		/// <returns>Returns the copied node.</returns>
-		protected override Node DoCopy(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer)
+		protected override Node DoCopyNode(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer)
 		{
 			// get the type of this node
 			var nodeType = typeService.Load(context, pointer.Type);
@@ -212,7 +212,7 @@ namespace Premotion.Mansion.Core.Data.Listeners
 				listener.BeforeCopy(context, originalParentPointer, targetParentPointer, pointer);
 
 			// execute the derived class
-			var node = DecoratedRepository.Copy(context, pointer, targetParentPointer);
+			var node = DecoratedRepository.CopyNode(context, pointer, targetParentPointer);
 
 			// fire the on after copy
 			foreach (var listener in nodeListeners)

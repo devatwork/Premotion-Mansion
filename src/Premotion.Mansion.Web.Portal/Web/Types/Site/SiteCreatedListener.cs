@@ -23,7 +23,7 @@ namespace Premotion.Mansion.Web.Portal.Web.Types.Site
 			var contentIndexRootNode = context.Repository.RetrieveContentIndexRootNode(context);
 
 			// create a new node on this node
-			context.Repository.Create(context, node, new PropertyBag
+			context.Repository.CreateNode(context, node, new PropertyBag
 			                                         {
 			                                         	{"type", "TemplatePage"},
 			                                         	{"name", "Default detail page"},

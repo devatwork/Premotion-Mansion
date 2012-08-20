@@ -62,14 +62,14 @@ namespace Premotion.Mansion.Web.Portal.Web.Types.Page
 						continue;
 
 					// block is obsolete delete it
-					repository.Delete(context, blockNode.Pointer);
+					repository.DeleteNode(context, blockNode.Pointer);
 				}
 			}
 			else
 			{
 				// theme is removed, delete all the theme blocks
 				foreach (var blockNode in blockNodeset.Nodes.Where(candidate => currentThemeSchema.ContainsColumn(candidate.Get<string>(context, "column"))))
-					repository.Delete(context, blockNode.Pointer);
+					repository.DeleteNode(context, blockNode.Pointer);
 			}
 
 			base.DoBeforeUpdate(context, node, modifiedProperties);

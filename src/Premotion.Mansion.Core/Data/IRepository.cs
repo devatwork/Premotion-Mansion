@@ -31,20 +31,20 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="parent">The parent node.</param>
 		/// <param name="newProperties">The properties of the node which to create.</param>
 		/// <returns>Returns the created nodes.</returns>
-		Node Create(IMansionContext context, Node parent, IPropertyBag newProperties);
+		Node CreateNode(IMansionContext context, Node parent, IPropertyBag newProperties);
 		/// <summary>
 		/// Updates an existing node in this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The node which will be updated.</param>
 		/// <param name="modifiedProperties">The properties which to update.</param>
-		void Update(IMansionContext context, Node node, IPropertyBag modifiedProperties);
+		void UpdateNode(IMansionContext context, Node node, IPropertyBag modifiedProperties);
 		/// <summary>
 		/// Deletes an existing node from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node which will be deleted.</param>
-		void Delete(IMansionContext context, NodePointer pointer);
+		void DeleteNode(IMansionContext context, NodePointer pointer);
 		/// <summary>
 		/// Moves an existing node in this repository to a new parent node.
 		/// </summary>
@@ -52,7 +52,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="pointer">The pointer to the node which will be moved.</param>
 		/// <param name="newParentPointer">The pointer to the parent to which the node is moved.</param>
 		/// <returns>Returns the moved node.</returns>m
-		Node Move(IMansionContext context, NodePointer pointer, NodePointer newParentPointer);
+		Node MoveNode(IMansionContext context, NodePointer pointer, NodePointer newParentPointer);
 		/// <summary>
 		/// Copies an existing node in this repository to a new node.
 		/// </summary>
@@ -60,7 +60,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="pointer">The pointer to the node which will be copied.</param>
 		/// <param name="targetParentPointer">The pointer to the parent to which the copied node is added.</param>
 		/// <returns>Returns the copied node.</returns>
-		Node Copy(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer);
+		Node CopyNode(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer);
 		#endregion
 		#region Raw Data Methods
 		/// <summary>

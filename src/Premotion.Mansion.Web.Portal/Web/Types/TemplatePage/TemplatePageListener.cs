@@ -28,7 +28,7 @@ namespace Premotion.Mansion.Web.Portal.Web.Types.TemplatePage
 			var layoutSchema = ColumnSchema.GetSchema(context, layoutName);
 
 			// add the content detail block to the primary column
-			context.Repository.Create(context, node, new PropertyBag
+			context.Repository.CreateNode(context, node, new PropertyBag
 			                                         {
 			                                         	{"name", "Content Detail Block"},
 			                                         	{"type", "ContentDetailBlock"},

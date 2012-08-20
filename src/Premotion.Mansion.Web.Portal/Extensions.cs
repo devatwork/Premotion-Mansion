@@ -36,7 +36,7 @@ namespace Premotion.Mansion.Web.Portal
 			                                          	{"parentSource", rootNode},
 			                                          	{"type", "ContentIndexRoot"},
 			                                          	{"bypassAuthorization", true}
-			                                          }) ?? repository.Create(context, rootNode, new PropertyBag
+			                                          }) ?? repository.CreateNode(context, rootNode, new PropertyBag
 			                                                                                     {
 			                                                                                     	{"type", "ContentIndexRoot"},
 			                                                                                     	{"name", "Shared content"}
@@ -67,7 +67,7 @@ namespace Premotion.Mansion.Web.Portal
 			                                          	{"parentSource", contentIndexRootNode},
 			                                          	{"type", "Taxonomy"},
 			                                          	{"bypassAuthorization", true}
-			                                          }) ?? repository.Create(context, contentIndexRootNode, new PropertyBag
+			                                          }) ?? repository.CreateNode(context, contentIndexRootNode, new PropertyBag
 			                                                                                                 {
 			                                                                                                 	{"type", "Taxonomy"},
 			                                                                                                 	{"name", "Taxonomy"}

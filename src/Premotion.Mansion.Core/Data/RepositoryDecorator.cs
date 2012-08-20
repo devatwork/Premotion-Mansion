@@ -51,9 +51,9 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="parent">The parent node.</param>
 		/// <param name="newProperties">The properties of the node which to create.</param>
 		/// <returns>Returns the created nodes.</returns>
-		protected override Node DoCreate(IMansionContext context, Node parent, IPropertyBag newProperties)
+		protected override Node DoCreateNode(IMansionContext context, Node parent, IPropertyBag newProperties)
 		{
-			return DecoratedRepository.Create(context, parent, newProperties);
+			return DecoratedRepository.CreateNode(context, parent, newProperties);
 		}
 		/// <summary>
 		/// Updates an existing node in this repository.
@@ -61,18 +61,18 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The node which will be updated.</param>
 		/// <param name="modifiedProperties">The properties which to update.</param>
-		protected override void DoUpdate(IMansionContext context, Node node, IPropertyBag modifiedProperties)
+		protected override void DoUpdateNode(IMansionContext context, Node node, IPropertyBag modifiedProperties)
 		{
-			DecoratedRepository.Update(context, node, modifiedProperties);
+			DecoratedRepository.UpdateNode(context, node, modifiedProperties);
 		}
 		/// <summary>
 		/// Deletes an existing node from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node which will be deleted.</param>
-		protected override void DoDelete(IMansionContext context, NodePointer pointer)
+		protected override void DoDeleteNode(IMansionContext context, NodePointer pointer)
 		{
-			DecoratedRepository.Delete(context, pointer);
+			DecoratedRepository.DeleteNode(context, pointer);
 		}
 		/// <summary>
 		/// Moves an existing node in this repository to a new parent node.
@@ -81,9 +81,9 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="pointer">The pointer to the node which will be moved.</param>
 		/// <param name="newParentPointer">The pointer to the parent to which the node is moved.</param>
 		/// <returns>Returns the moved node.</returns>m
-		protected override Node DoMove(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
+		protected override Node DoMoveNode(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
 		{
-			return DecoratedRepository.Move(context, pointer, newParentPointer);
+			return DecoratedRepository.MoveNode(context, pointer, newParentPointer);
 		}
 		/// <summary>
 		/// Copies an existing node in this repository to a new node.
@@ -92,9 +92,9 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="pointer">The pointer to the node which will be copied.</param>
 		/// <param name="targetParentPointer">The pointer to the parent to which the copied node is added.</param>
 		/// <returns>Returns the copied node.</returns>
-		protected override Node DoCopy(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer)
+		protected override Node DoCopyNode(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer)
 		{
-			return DecoratedRepository.Copy(context, pointer, targetParentPointer);
+			return DecoratedRepository.CopyNode(context, pointer, targetParentPointer);
 		}
 		/// <summary>
 		/// Retrieves a single record from this repository.

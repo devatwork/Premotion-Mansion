@@ -39,7 +39,7 @@ namespace Premotion.Mansion.Web.Web.Types.Default
 				                                                               	{"parentSource", node}, {"depth", "any"}
 				                                                               }).Nodes)
 				{
-					context.Repository.Update(context, childNode, new PropertyBag
+					context.Repository.UpdateNode(context, childNode, new PropertyBag
 					                                              {
 					                                              	{propagatedPropertyName, propagatedPropertyValue}
 					                                              });

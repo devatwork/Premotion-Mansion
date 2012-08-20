@@ -36,7 +36,7 @@ namespace Premotion.Mansion.Web
 			                                                      	{"type", "TagIndex"},
 			                                                      	{"parentSource", rootNode},
 			                                                      	{"depth", "any"}
-			                                                      }) ?? repository.Create(context, rootNode, new PropertyBag
+			                                                      }) ?? repository.CreateNode(context, rootNode, new PropertyBag
 			                                                                                                 {
 			                                                                                                 	{"type", "TagIndex"},
 			                                                                                                 	{"name", "Tags"},
@@ -71,7 +71,7 @@ namespace Premotion.Mansion.Web
 			                                          	{"parentSource", tagIndexNode},
 			                                          	{"name", tagName},
 			                                          	{"type", "Tag"}
-			                                          }) ?? repository.Create(context, tagIndexNode, new PropertyBag
+			                                          }) ?? repository.CreateNode(context, tagIndexNode, new PropertyBag
 			                                                                                         {
 			                                                                                         	{"name", tagName},
 			                                                                                         	{"type", "Tag"},

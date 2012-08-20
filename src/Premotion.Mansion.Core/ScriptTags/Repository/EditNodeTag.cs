@@ -25,7 +25,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 				ExecuteChildTags(context);
 
 			// store the updated node
-			context.Repository.Update(context, node, editProperties);
+			context.Repository.UpdateNode(context, node, editProperties);
 		}
 	}
 }

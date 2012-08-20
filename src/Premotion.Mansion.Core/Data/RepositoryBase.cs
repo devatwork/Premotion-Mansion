@@ -54,7 +54,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="parent">The parent node.</param>
 		/// <param name="newProperties">The properties of the node which to create.</param>
 		/// <returns>Returns the created nodes.</returns>
-		public Node Create(IMansionContext context, Node parent, IPropertyBag newProperties)
+		public Node CreateNode(IMansionContext context, Node parent, IPropertyBag newProperties)
 		{
 			// validate arguments
 			if (context == null)
@@ -70,7 +70,7 @@ namespace Premotion.Mansion.Core.Data
 				newProperties.Set("allowedRoleGuids", parent.Get(context, "allowedRoleGuids", string.Empty));
 
 			// invoke template method
-			return DoCreate(context, parent, newProperties);
+			return DoCreateNode(context, parent, newProperties);
 		}
 		/// <summary>
 		/// Updates an existing node in this repository.
@@ -78,7 +78,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The node which will be updated.</param>
 		/// <param name="modifiedProperties">The properties which to update.</param>
-		public void Update(IMansionContext context, Node node, IPropertyBag modifiedProperties)
+		public void UpdateNode(IMansionContext context, Node node, IPropertyBag modifiedProperties)
 		{
 			// validate arguments
 			if (context == null)
@@ -90,14 +90,14 @@ namespace Premotion.Mansion.Core.Data
 			CheckDisposed();
 
 			// invoke template method
-			DoUpdate(context, node, modifiedProperties);
+			DoUpdateNode(context, node, modifiedProperties);
 		}
 		/// <summary>
 		/// Deletes an existing node from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node which will be deleted.</param>
-		public void Delete(IMansionContext context, NodePointer pointer)
+		public void DeleteNode(IMansionContext context, NodePointer pointer)
 		{
 			// validate arguments
 			if (context == null)
@@ -107,7 +107,7 @@ namespace Premotion.Mansion.Core.Data
 			CheckDisposed();
 
 			// invoke template method
-			DoDelete(context, pointer);
+			DoDeleteNode(context, pointer);
 		}
 		/// <summary>
 		/// Moves an existing node in this repository to a new parent node.
@@ -116,7 +116,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="pointer">The pointer to the node which will be moved.</param>
 		/// <param name="newParentPointer">The pointer to the parent to which the node is moved.</param>
 		/// <returns>Returns the moved node.</returns>m
-		public Node Move(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
+		public Node MoveNode(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
 		{
 			// validate arguments
 			if (context == null)
@@ -128,7 +128,7 @@ namespace Premotion.Mansion.Core.Data
 			CheckDisposed();
 
 			// invoke template method
-			return DoMove(context, pointer, newParentPointer);
+			return DoMoveNode(context, pointer, newParentPointer);
 		}
 		/// <summary>
 		/// Copies an existing node in this repository to a new node.
@@ -137,7 +137,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="pointer">The pointer to the node which will be copied.</param>
 		/// <param name="targetParentPointer">The pointer to the parent to which the copied node is added.</param>
 		/// <returns>Returns the copied node.</returns>
-		public Node Copy(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer)
+		public Node CopyNode(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer)
 		{
 			// validate arguments
 			if (context == null)
@@ -149,7 +149,7 @@ namespace Premotion.Mansion.Core.Data
 			CheckDisposed();
 
 			// invoke template method
-			return DoCopy(context, pointer, targetParentPointer);
+			return DoCopyNode(context, pointer, targetParentPointer);
 		}
 		/// <summary>
 		/// Retrieves a single record from this repository.
@@ -242,20 +242,20 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="parent">The parent node.</param>
 		/// <param name="newProperties">The properties of the node which to create.</param>
 		/// <returns>Returns the created nodes.</returns>
-		protected abstract Node DoCreate(IMansionContext context, Node parent, IPropertyBag newProperties);
+		protected abstract Node DoCreateNode(IMansionContext context, Node parent, IPropertyBag newProperties);
 		/// <summary>
 		/// Updates an existing node in this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The node which will be updated.</param>
 		/// <param name="modifiedProperties">The properties which to update.</param>
-		protected abstract void DoUpdate(IMansionContext context, Node node, IPropertyBag modifiedProperties);
+		protected abstract void DoUpdateNode(IMansionContext context, Node node, IPropertyBag modifiedProperties);
 		/// <summary>
 		/// Deletes an existing node from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node which will be deleted.</param>
-		protected abstract void DoDelete(IMansionContext context, NodePointer pointer);
+		protected abstract void DoDeleteNode(IMansionContext context, NodePointer pointer);
 		/// <summary>
 		/// Moves an existing node in this repository to a new parent node.
 		/// </summary>
@@ -263,7 +263,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="pointer">The pointer to the node which will be moved.</param>
 		/// <param name="newParentPointer">The pointer to the parent to which the node is moved.</param>
 		/// <returns>Returns the moved node.</returns>m
-		protected abstract Node DoMove(IMansionContext context, NodePointer pointer, NodePointer newParentPointer);
+		protected abstract Node DoMoveNode(IMansionContext context, NodePointer pointer, NodePointer newParentPointer);
 		/// <summary>
 		/// Copies an existing node in this repository to a new node.
 		/// </summary>
@@ -271,7 +271,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="pointer">The pointer to the node which will be copied.</param>
 		/// <param name="newParentPointer">The pointer to the parent to which the copied node is added.</param>
 		/// <returns>Returns the copied node.</returns>
-		protected abstract Node DoCopy(IMansionContext context, NodePointer pointer, NodePointer newParentPointer);
+		protected abstract Node DoCopyNode(IMansionContext context, NodePointer pointer, NodePointer newParentPointer);
 		/// <summary>
 		/// Retrieves a <see cref="Dataset"/> from this repository.
 		/// </summary>

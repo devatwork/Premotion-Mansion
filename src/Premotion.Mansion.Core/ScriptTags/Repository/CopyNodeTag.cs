@@ -20,7 +20,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 			var newParent = GetRequiredAttribute<Node>(context, "newParent");
 
 			// copy the node
-			var modifiedNode = context.Repository.Copy(context, source.Pointer, newParent.Pointer);
+			var modifiedNode = context.Repository.CopyNode(context, source.Pointer, newParent.Pointer);
 
 			// push the node to the stack
 			using (context.Stack.Push(GetRequiredAttribute<string>(context, "target"), modifiedNode, GetAttribute(context, "global", false)))

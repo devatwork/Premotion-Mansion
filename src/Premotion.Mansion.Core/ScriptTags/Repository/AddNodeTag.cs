@@ -27,7 +27,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 				ExecuteChildTags(context);
 
 			// store the updated node
-			var createdNode = context.Repository.Create(context, parentSource, newProperties);
+			var createdNode = context.Repository.CreateNode(context, parentSource, newProperties);
 
 			// push the new node to the stack
 			context.Stack.Push(GetRequiredAttribute<string>(context, "target"), createdNode, GetAttribute<bool>(context, "global")).Dispose();

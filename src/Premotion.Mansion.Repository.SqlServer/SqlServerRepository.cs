@@ -79,7 +79,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <param name="parent">The parent node.</param>
 		/// <param name="newProperties">The properties of the node which to create.</param>
 		/// <returns>Returns the created nodes.</returns>
-		protected override Node DoCreate(IMansionContext context, Node parent, IPropertyBag newProperties)
+		protected override Node DoCreateNode(IMansionContext context, Node parent, IPropertyBag newProperties)
 		{
 			// build the query
 			int nodeId;
@@ -116,7 +116,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The node which will be updated.</param>
 		/// <param name="modifiedProperties">The properties which to update.</param>
-		protected override void DoUpdate(IMansionContext context, Node node, IPropertyBag modifiedProperties)
+		protected override void DoUpdateNode(IMansionContext context, Node node, IPropertyBag modifiedProperties)
 		{
 			// get the modified properties
 			modifiedProperties = PropertyBag.GetModifiedProperties(context, node, modifiedProperties);
@@ -156,7 +156,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node which will be deleted.</param>
-		protected override void DoDelete(IMansionContext context, NodePointer pointer)
+		protected override void DoDeleteNode(IMansionContext context, NodePointer pointer)
 		{
 			// build the query
 			using (var connection = CreateConnection())
@@ -190,7 +190,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <param name="pointer">The pointer to the node which will be moved.</param>
 		/// <param name="newParentPointer">The pointer to the parent to which the node is moved.</param>
 		/// <returns>Returns the moved node.</returns>m
-		protected override Node DoMove(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
+		protected override Node DoMoveNode(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
 		{
 			// build the query
 			using (var connection = CreateConnection())
@@ -228,7 +228,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <param name="pointer">The pointer to the node which will be copied.</param>
 		/// <param name="targetParentPointer">The pointer to the parent to which the copied node is added.</param>
 		/// <returns>Returns the copied node.</returns>
-		protected override Node DoCopy(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer)
+		protected override Node DoCopyNode(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer)
 		{
 			// create a query to retrieve the new node
 			var selectQuery = new Query();

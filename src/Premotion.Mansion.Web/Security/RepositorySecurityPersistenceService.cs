@@ -41,7 +41,7 @@ namespace Premotion.Mansion.Web.Security
 
 			// store the permission
 			var permissionPrefix = permission.Operation.Resource.Id + "_" + permission.Operation.Id + "_";
-			repository.Update(context, roleNode, new PropertyBag
+			repository.UpdateNode(context, roleNode, new PropertyBag
 			                                     {
 			                                     	{permissionPrefix + "granted", permission.Granted},
 			                                     	{permissionPrefix + "priority", permission.Priority},
@@ -102,7 +102,7 @@ namespace Premotion.Mansion.Web.Security
 			var roleNode = RetrieveRoleNode(context, role, repository);
 
 			// update the role owner
-			repository.Update(context, ownerNode, new PropertyBag
+			repository.UpdateNode(context, ownerNode, new PropertyBag
 			                                      {
 			                                      	{"assignedRoleGuids", string.Join(",", new[] {ownerNode.Get(context, "assignedRoleGuids", string.Empty), roleNode.Get<string>(context, "guid")})}
 			                                      });
@@ -135,7 +135,7 @@ namespace Premotion.Mansion.Web.Security
 			assignedRoleList.Remove(roleNode.Get<string>(context, "guid"));
 
 			// update the user group
-			repository.Update(context, ownerNode, new PropertyBag
+			repository.UpdateNode(context, ownerNode, new PropertyBag
 			                                      {
 			                                      	{"assignedRoleGuids", string.Join(",", assignedRoleList)}
 			                                      });
@@ -164,7 +164,7 @@ namespace Premotion.Mansion.Web.Security
 			var groupNode = RetrieveRoleOwnerNode(context, group, repository);
 
 			// update the user group
-			repository.Update(context, groupNode, new PropertyBag
+			repository.UpdateNode(context, groupNode, new PropertyBag
 			                                      {
 			                                      	{"userGuids", string.Join(",", new[] {groupNode.Get(context, "userGuids", string.Empty), userNode.Get<string>(context, "guid")})}
 			                                      });
@@ -197,7 +197,7 @@ namespace Premotion.Mansion.Web.Security
 			userGuidsList.Remove(userNode.Get<string>(context, "guid"));
 
 			// update the user group
-			repository.Update(context, groupNode, new PropertyBag
+			repository.UpdateNode(context, groupNode, new PropertyBag
 			                                      {
 			                                      	{"userGuids", string.Join(",", userGuidsList)}
 			                                      });

@@ -70,10 +70,10 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// <param name="parent">The parent node.</param>
 		/// <param name="newProperties">The properties of the node which to create.</param>
 		/// <returns>Returns the created nodes.</returns>
-		protected override Node DoCreate(IMansionContext context, Node parent, IPropertyBag newProperties)
+		protected override Node DoCreateNode(IMansionContext context, Node parent, IPropertyBag newProperties)
 		{
 			// excute derived class
-			var node = DecoratedRepository.Create(context, parent, newProperties);
+			var node = DecoratedRepository.CreateNode(context, parent, newProperties);
 
 			// clear all cached nodes and nodesets
 			cachingService.Clear(NodeCacheKeyFactory.RepositoryModifiedDependency.Key);
@@ -86,10 +86,10 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The node which will be updated.</param>
 		/// <param name="modifiedProperties">The properties which to update.</param>
-		protected override void DoUpdate(IMansionContext context, Node node, IPropertyBag modifiedProperties)
+		protected override void DoUpdateNode(IMansionContext context, Node node, IPropertyBag modifiedProperties)
 		{
 			// excute derived class
-			DecoratedRepository.Update(context, node, modifiedProperties);
+			DecoratedRepository.UpdateNode(context, node, modifiedProperties);
 
 			// clear all cached nodes and nodesets
 			cachingService.Clear(NodeCacheKeyFactory.RepositoryModifiedDependency.Key);
@@ -99,10 +99,10 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="pointer">The pointer to the node which will be deleted.</param>
-		protected override void DoDelete(IMansionContext context, NodePointer pointer)
+		protected override void DoDeleteNode(IMansionContext context, NodePointer pointer)
 		{
 			// excute derived class
-			DecoratedRepository.Delete(context, pointer);
+			DecoratedRepository.DeleteNode(context, pointer);
 
 			// clear all cached nodes and nodesets
 			cachingService.Clear(NodeCacheKeyFactory.RepositoryModifiedDependency.Key);
@@ -114,10 +114,10 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// <param name="pointer">The pointer to the node which will be moved.</param>
 		/// <param name="newParentPointer">The pointer to the parent to which the node is moved.</param>
 		/// <returns>Returns the moved node.</returns>m
-		protected override Node DoMove(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
+		protected override Node DoMoveNode(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
 		{
 			// excute derived class
-			var node = DecoratedRepository.Move(context, pointer, newParentPointer);
+			var node = DecoratedRepository.MoveNode(context, pointer, newParentPointer);
 
 			// clear all cached nodes and nodesets
 			cachingService.Clear(NodeCacheKeyFactory.RepositoryModifiedDependency.Key);
@@ -131,10 +131,10 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// <param name="pointer">The pointer to the node which will be copied.</param>
 		/// <param name="targetParentPointer">The pointer to the parent to which the copied node is added.</param>
 		/// <returns>Returns the copied node.</returns>
-		protected override Node DoCopy(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer)
+		protected override Node DoCopyNode(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer)
 		{
 			// excute derived class
-			var node = DecoratedRepository.Copy(context, pointer, targetParentPointer);
+			var node = DecoratedRepository.CopyNode(context, pointer, targetParentPointer);
 
 			// clear all cached nodes and nodesets
 			cachingService.Clear(NodeCacheKeyFactory.RepositoryModifiedDependency.Key);

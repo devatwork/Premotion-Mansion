@@ -284,19 +284,19 @@ namespace Premotion.Mansion.Web.Assets
 				return indexNode;
 
 			// create the node
-			indexNode = repository.Create(context, rootNode, new PropertyBag
+			indexNode = repository.CreateNode(context, rootNode, new PropertyBag
 			                                            {
 			                                            	{"name", "Assets"},
 			                                            	{"type", "AssetTypeIndex"},
 			                                            	{"approved", true},
 			                                            });
-			repository.Create(context, indexNode, new PropertyBag
+			repository.CreateNode(context, indexNode, new PropertyBag
 			                                            {
 			                                            	{"name", "Images"},
 			                                            	{"type", "AssetType"},
 			                                            	{"approved", true},
 			                                            });
-			repository.Create(context, indexNode, new PropertyBag
+			repository.CreateNode(context, indexNode, new PropertyBag
 			                                            {
 			                                            	{"name", "Files"},
 			                                            	{"type", "AssetType"},
@@ -387,7 +387,7 @@ namespace Premotion.Mansion.Web.Assets
 		/// <returns></returns>
 		private Node CreateFolderNode(IMansionContext context, Node parentNode, string folderName)
 		{
-			return context.Repository.Create(context, parentNode, new PropertyBag
+			return context.Repository.CreateNode(context, parentNode, new PropertyBag
 			                                                      {
 			                                                      	{"name", folderName},
 			                                                      	{"type", "AssetFolder"},
@@ -407,7 +407,7 @@ namespace Premotion.Mansion.Web.Assets
 		{
 			if (path == null)
 				throw new ArgumentNullException("path");
-			return context.Repository.Create(context, parentNode, new PropertyBag
+			return context.Repository.CreateNode(context, parentNode, new PropertyBag
 			                                                      {
 			                                                      	{"name", filename},
 			                                                      	{"path", path},

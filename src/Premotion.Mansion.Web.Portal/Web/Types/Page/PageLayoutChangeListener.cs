@@ -72,7 +72,7 @@ namespace Premotion.Mansion.Web.Portal.Web.Types.Page
 					continue;
 
 				// move the block to the default column
-				repository.Update(context, blockNode, new PropertyBag
+				repository.UpdateNode(context, blockNode, new PropertyBag
 				                                      {
 				                                      	{"column", newColumnSchema.DefaultColumn}
 				                                      });
