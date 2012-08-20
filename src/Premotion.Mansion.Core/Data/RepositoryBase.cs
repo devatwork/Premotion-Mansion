@@ -158,7 +158,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns>Returns a single <see cref="IPropertyBag"/> or null when no result is found.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
-		public IPropertyBag RetrieveSingle(IMansionContext context, Query query)
+		public IRecord RetrieveSingle(IMansionContext context, Query query)
 		{
 			// validate arguments
 			if (context == null)
@@ -194,8 +194,8 @@ namespace Premotion.Mansion.Core.Data
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="properties">The properties from which to create a record.</param>
-		/// <returns>Returns the created record.</returns>
-		public IPropertyBag Create(IMansionContext context, IPropertyBag properties)
+		/// <returns>Returns the created <see cref="IRecord"/>.</returns>
+		public IRecord Create(IMansionContext context, IPropertyBag properties)
 		{
 			// validate arguments
 			if (context == null)
@@ -297,7 +297,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns>Returns a single <see cref="IPropertyBag"/> or null when no result is found.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
-		protected abstract IPropertyBag DoRetrieveSingle(IMansionContext context, Query query);
+		protected abstract IRecord DoRetrieveSingle(IMansionContext context, Query query);
 		/// <summary>
 		/// Retrieves a <see cref="Dataset"/> from this repository.
 		/// </summary>
@@ -311,8 +311,8 @@ namespace Premotion.Mansion.Core.Data
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="properties">The properties from which to create a record.</param>
-		/// <returns>Returns the created record.</returns>
-		protected abstract IPropertyBag DoCreate(IMansionContext context, IPropertyBag properties);
+		/// <returns>Returns the created <see cref="IRecord"/>.</returns>
+		protected abstract IRecord DoCreate(IMansionContext context, IPropertyBag properties);
 		#endregion
 	}
 }

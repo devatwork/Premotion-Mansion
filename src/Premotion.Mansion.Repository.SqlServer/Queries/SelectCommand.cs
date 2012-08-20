@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Patterns;
 using Premotion.Mansion.Core.Patterns.Prioritized;
@@ -18,7 +19,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 	/// <summary>
 	/// Represents an executable select command.
 	/// </summary>
-	public abstract class SelectCommand<TSet, TRow> : DisposableBase where TSet : Dataset where TRow : IPropertyBag
+	public abstract class SelectCommand<TSet, TRow> : DisposableBase where TSet : Dataset where TRow : IRecord
 	{
 		#region Constructors
 		/// <summary>
@@ -103,7 +104,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 					return default(TRow);
 
 				// map to node.
-				return Map(context, recordMappers, new Record(reader));
+				return Map(context, recordMappers, new DbRecord(reader));
 			}
 		}
 		/// <summary>
@@ -134,7 +135,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 				// read the input
 				var rows = new List<TRow>();
 				while (reader.Read())
-					rows.Add(Map(context, recordMappers, new Record(reader)));
+					rows.Add(Map(context, recordMappers, new DbRecord(reader)));
 
 				// map the set properties
 				var setProperties = MapSetProperties(reader);
@@ -156,20 +157,20 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		#endregion
 		#region Map Methods
 		/// <summary>
-		/// Maps the <paramref name="record"/> into a <see cref="IPropertyBag"/>.
+		/// Maps the <paramref name="dbRecord"/> into a <see cref="IPropertyBag"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="recordMappers">The <see cref="IRecordMapper"/>s.</param>
-		/// <param name="record">The <see cref="Record"/> which to map.</param>
+		/// <param name="dbRecord">The <see cref="DbRecord"/> which to map.</param>
 		/// <returns>Returns the mapped record.</returns>
-		private TRow Map(IMansionContext context, IEnumerable<IRecordMapper> recordMappers, Record record)
+		private TRow Map(IMansionContext context, IEnumerable<IRecordMapper> recordMappers, DbRecord dbRecord)
 		{
 			//  create a new property bag
 			var properties = CreateRow();
 
 			// loop over all the mappers and map the result
 			foreach (var recordMapper in recordMappers)
-				recordMapper.Map(context, record, properties);
+				recordMapper.Map(context, dbRecord, properties);
 
 			// initialize the row
 			Initialize(context, properties);
@@ -262,7 +263,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 	/// <summary>
 	/// Represents an executable select command.
 	/// </summary>
-	public class SelectCommand : SelectCommand<Dataset, IPropertyBag>
+	public class SelectCommand : SelectCommand<Dataset, IRecord>
 	{
 		#region Constructors
 		/// <summary>
@@ -274,7 +275,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		{
 		}
 		#endregion
-		#region Overrides of SelectCommand<Dataset,IPropertyBag>
+		#region Overrides of SelectCommand<Dataset,IRecord>
 		/// <summary>
 		/// Creates a set.
 		/// </summary>
@@ -282,7 +283,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <param name="rows">The rows.</param>
 		/// <param name="setProperties">The properties of the set.</param>
 		/// <returns>Returns the created set.</returns>
-		protected override Dataset CreateSet(IMansionContext context, IEnumerable<IPropertyBag> rows, IPropertyBag setProperties)
+		protected override Dataset CreateSet(IMansionContext context, IEnumerable<IRecord> rows, IPropertyBag setProperties)
 		{
 			return new Dataset(context, setProperties, rows);
 		}
@@ -290,9 +291,18 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// Creates a new row.
 		/// </summary>
 		/// <returns>Returns the created row.</returns>
-		protected override IPropertyBag CreateRow()
+		protected override IRecord CreateRow()
 		{
-			return new PropertyBag();
+			return new Record();
+		}
+		/// <summary>
+		/// Initializes the given row.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="row">The <see cref="Node"/> which to intialize.</param>
+		protected override void Initialize(IMansionContext context, IRecord row)
+		{
+			row.Initialize(context);
 		}
 		#endregion
 	}

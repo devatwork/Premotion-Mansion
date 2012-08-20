@@ -17,24 +17,24 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Mappers
 		#endregion
 		#region Overrides of RecordMapper
 		/// <summary>
-		/// Maps the given <paramref name="record"/> to <paramref name="properties"/>.
+		/// Maps the given <paramref name="dbRecord"/> to <paramref name="properties"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="record">The <see cref="Record"/> which to map.</param>
+		/// <param name="dbRecord">The <see cref="DbRecord"/> which to map.</param>
 		/// <param name="properties">The <see cref="IPropertyBag"/> in which to store the mapped result.</param>
-		protected override void DoMap(IMansionContext context, Record record, IPropertyBag properties)
+		protected override void DoMap(IMansionContext context, DbRecord dbRecord, IPropertyBag properties)
 		{
 			// set all the column values as properties
-			foreach (var ordinals in record.GetUnreadOrdinals())
+			foreach (var ordinals in dbRecord.GetUnreadOrdinals())
 			{
 				// if the column is empty remove the value from the properties, otherwise set the value from the column
-				if (record.IsDBNull(ordinals))
+				if (dbRecord.IsDBNull(ordinals))
 				{
 					object obj;
-					properties.TryGetAndRemove(context, record.GetName(ordinals), out obj);
+					properties.TryGetAndRemove(context, dbRecord.GetName(ordinals), out obj);
 				}
 				else
-					properties.Set(record.GetName(ordinals), record.GetValue(ordinals));
+					properties.Set(dbRecord.GetName(ordinals), dbRecord.GetValue(ordinals));
 			}
 		}
 		#endregion

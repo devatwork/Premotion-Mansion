@@ -76,6 +76,7 @@
     <Compile Include="Conversion\Converters\DoubleToInt32Converter.cs" />
     <Compile Include="Conversion\Converters\Int64ToDoubleConverter.cs" />
     <Compile Include="Conversion\Converters\StringToInt64Converter.cs" />
+    <Compile Include="Data\IRecord.cs" />
     <Compile Include="Data\Queries\CacheQueryComponent.cs" />
     <Compile Include="Data\Queries\FacetQueryComponent.cs" />
     <Compile Include="Data\Queries\PagingQueryComponent.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Data\Facets\FacetValue.cs" />
     <Compile Include="Data\Facets\TransformingFacetDefinition.cs" />
     <Compile Include="Data\Queries\Specifications\SpecificationFactory.cs" />
+    <Compile Include="Data\Record.cs" />
     <Compile Include="IO\EmbeddedResources\EmbeddedApplicationResourceService.cs" />
     <Compile Include="IO\EmbeddedResources\EmbeddedResource.cs" />
     <Compile Include="MansionContext.cs" />

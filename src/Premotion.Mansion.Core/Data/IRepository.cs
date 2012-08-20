@@ -68,9 +68,9 @@ namespace Premotion.Mansion.Core.Data
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="query">The <see cref="Query"/> which to execute.</param>
-		/// <returns>Returns a single <see cref="IPropertyBag"/> or null when no result is found.</returns>
+		/// <returns>Returns a single <see cref="IRecord"/> or null when no result is found.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
-		IPropertyBag RetrieveSingle(IMansionContext context, Query query);
+		IRecord RetrieveSingle(IMansionContext context, Query query);
 		/// <summary>
 		/// Retrieves a <see cref="Dataset"/> from this repository.
 		/// </summary>
@@ -84,8 +84,8 @@ namespace Premotion.Mansion.Core.Data
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="properties">The properties from which to create a record.</param>
-		/// <returns>Returns the created record.</returns>
-		IPropertyBag Create(IMansionContext context, IPropertyBag properties);
+		/// <returns>Returns the created <see cref="IRecord"/>.</returns>
+		IRecord Create(IMansionContext context, IPropertyBag properties);
 		#endregion
 		#region Start Methods
 		/// <summary>

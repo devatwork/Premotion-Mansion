@@ -17,25 +17,25 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Mappers
 		#endregion
 		#region Overrides of RecordMapper
 		/// <summary>
-		/// Maps the given <paramref name="record"/> to <paramref name="properties"/>.
+		/// Maps the given <paramref name="dbRecord"/> to <paramref name="properties"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="record">The <see cref="Record"/> which to map.</param>
+		/// <param name="dbRecord">The <see cref="DbRecord"/> which to map.</param>
 		/// <param name="properties">The <see cref="IPropertyBag"/> in which to store the mapped result.</param>
-		protected override void DoMap(IMansionContext context, Record record, IPropertyBag properties)
+		protected override void DoMap(IMansionContext context, DbRecord dbRecord, IPropertyBag properties)
 		{
 			// field indices
-			var idIndex = record.GetOrdinal("id");
-			var parentPointerIndex = record.GetOrdinal("parentPointer");
-			var nameIndex = record.GetOrdinal("name");
-			var parentPathIndex = record.GetOrdinal("parentPath");
-			var typeIndex = record.GetOrdinal("type");
-			var parentStructureIndex = record.GetOrdinal("parentStructure");
+			var idIndex = dbRecord.GetOrdinal("id");
+			var parentPointerIndex = dbRecord.GetOrdinal("parentPointer");
+			var nameIndex = dbRecord.GetOrdinal("name");
+			var parentPathIndex = dbRecord.GetOrdinal("parentPath");
+			var typeIndex = dbRecord.GetOrdinal("type");
+			var parentStructureIndex = dbRecord.GetOrdinal("parentStructure");
 
 			// assemble the node pointer
-			var pointer = (record.IsDBNull(parentPointerIndex) ? string.Empty : record.GetString(parentPointerIndex) + NodePointer.PointerSeparator) + record.GetInt32(idIndex);
-			var structure = (record.IsDBNull(parentStructureIndex) ? string.Empty : record.GetString(parentStructureIndex) + NodePointer.StructureSeparator) + record.GetString(typeIndex);
-			var path = (record.IsDBNull(parentPathIndex) ? string.Empty : record.GetString(parentPathIndex) + NodePointer.PathSeparator) + record.GetString(nameIndex);
+			var pointer = (dbRecord.IsDBNull(parentPointerIndex) ? string.Empty : dbRecord.GetString(parentPointerIndex) + NodePointer.PointerSeparator) + dbRecord.GetInt32(idIndex);
+			var structure = (dbRecord.IsDBNull(parentStructureIndex) ? string.Empty : dbRecord.GetString(parentStructureIndex) + NodePointer.StructureSeparator) + dbRecord.GetString(typeIndex);
+			var path = (dbRecord.IsDBNull(parentPathIndex) ? string.Empty : dbRecord.GetString(parentPathIndex) + NodePointer.PathSeparator) + dbRecord.GetString(nameIndex);
 			var nodePointer = NodePointer.Parse(pointer, structure, path);
 
 			// set the pointer

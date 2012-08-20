@@ -1,23 +1,21 @@
 ﻿using System;
-using Premotion.Mansion.Core.Collections;
 
 namespace Premotion.Mansion.Core.Data
 {
 	/// <summary>
 	/// Implements a node.
 	/// </summary>
-	public sealed class Node : PropertyBag
+	public sealed class Node : Record
 	{
 		#region Initialize Methods
 		/// <summary>
 		/// Initializes this node.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/></param>
-		public void Initialize(IMansionContext context)
+		protected override void DoInitialize(IMansionContext context)
 		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
+			// allow base to initialze
+			base.DoInitialize(context);
 
 			// set values
 			pointer = Get<NodePointer>(context, "pointer");

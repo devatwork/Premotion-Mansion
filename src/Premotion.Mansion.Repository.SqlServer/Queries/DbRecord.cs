@@ -8,7 +8,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 	/// <summary>
 	/// Adapter for <see cref="IDataRecord"/>.
 	/// </summary>
-	public class Record
+	public class DbRecord
 	{
 		#region Constructors
 		/// <summary>
@@ -16,7 +16,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// </summary>
 		/// <param name="record"></param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public Record(IDataRecord record)
+		public DbRecord(IDataRecord record)
 		{
 			// validate arguments
 			if (record == null)

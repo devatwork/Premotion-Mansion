@@ -16,18 +16,18 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Mappers
 		#endregion
 		#region Overrides of RecordMapper
 		/// <summary>
-		/// Maps the given <paramref name="record"/> to <paramref name="properties"/>.
+		/// Maps the given <paramref name="dbRecord"/> to <paramref name="properties"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="record">The <see cref="Record"/> which to map.</param>
+		/// <param name="dbRecord">The <see cref="DbRecord"/> which to map.</param>
 		/// <param name="properties">The <see cref="IPropertyBag"/> in which to store the mapped result.</param>
-		protected override void DoMap(IMansionContext context, Record record, IPropertyBag properties)
+		protected override void DoMap(IMansionContext context, DbRecord dbRecord, IPropertyBag properties)
 		{
 			// field indices
-			var idIndex = record.GetOrdinal("id");
+			var idIndex = dbRecord.GetOrdinal("id");
 
 			// set the pointer
-			properties.Set("id", record.GetInt32(idIndex));
+			properties.Set("id", dbRecord.GetInt32(idIndex));
 		}
 		#endregion
 	}

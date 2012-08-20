@@ -21,32 +21,32 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Mappers
 		#endregion
 		#region Implementation of IRecordMapper
 		/// <summary>
-		/// Maps the given <paramref name="record"/> to <paramref name="properties"/>.
+		/// Maps the given <paramref name="dbRecord"/> to <paramref name="properties"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="record">The <see cref="Record"/> which to map.</param>
+		/// <param name="dbRecord">The <see cref="DbRecord"/> which to map.</param>
 		/// <param name="properties">The <see cref="IPropertyBag"/> in which to store the mapped result.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public void Map(IMansionContext context, Record record, IPropertyBag properties)
+		public void Map(IMansionContext context, DbRecord dbRecord, IPropertyBag properties)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
-			if (record == null)
-				throw new ArgumentNullException("record");
+			if (dbRecord == null)
+				throw new ArgumentNullException("dbRecord");
 			if (properties == null)
 				throw new ArgumentNullException("properties");
 
 			// invoke template method
-			DoMap(context, record, properties);
+			DoMap(context, dbRecord, properties);
 		}
 		/// <summary>
-		/// Maps the given <paramref name="record"/> to <paramref name="properties"/>.
+		/// Maps the given <paramref name="dbRecord"/> to <paramref name="properties"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="record">The <see cref="Record"/> which to map.</param>
+		/// <param name="dbRecord">The <see cref="DbRecord"/> which to map.</param>
 		/// <param name="properties">The <see cref="IPropertyBag"/> in which to store the mapped result.</param>
-		protected abstract void DoMap(IMansionContext context, Record record, IPropertyBag properties);
+		protected abstract void DoMap(IMansionContext context, DbRecord dbRecord, IPropertyBag properties);
 		#endregion
 		#region Implementation of IPrioritized
 		/// <summary>

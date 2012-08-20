@@ -27,24 +27,24 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Mappers
 		#endregion
 		#region Overrides of RecordMapper
 		/// <summary>
-		/// Maps the given <paramref name="record"/> to <paramref name="properties"/>.
+		/// Maps the given <paramref name="dbRecord"/> to <paramref name="properties"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="record">The <see cref="Record"/> which to map.</param>
+		/// <param name="dbRecord">The <see cref="DbRecord"/> which to map.</param>
 		/// <param name="properties">The <see cref="IPropertyBag"/> in which to store the mapped result.</param>
-		protected override void DoMap(IMansionContext context, Record record, IPropertyBag properties)
+		protected override void DoMap(IMansionContext context, DbRecord dbRecord, IPropertyBag properties)
 		{
 			// get the index of the column
-			var extendedPropertiesIndex = record.GetOrdinal("extendedProperties");
+			var extendedPropertiesIndex = dbRecord.GetOrdinal("extendedProperties");
 
 			// check if there are no extended properties
-			if (record.IsDBNull(extendedPropertiesIndex))
+			if (dbRecord.IsDBNull(extendedPropertiesIndex))
 				return;
 
 			// get the extended properties
-			var extendedPropertiesLength = record.GetBytes(extendedPropertiesIndex, 0, null, 0, 0);
+			var extendedPropertiesLength = dbRecord.GetBytes(extendedPropertiesIndex, 0, null, 0, 0);
 			var serializedProperties = new byte[extendedPropertiesLength];
-			record.GetBytes(extendedPropertiesIndex, 0, serializedProperties, 0, serializedProperties.Length);
+			dbRecord.GetBytes(extendedPropertiesIndex, 0, serializedProperties, 0, serializedProperties.Length);
 
 			// deserialize
 			var deserializedProperties = conversionService.Convert<IPropertyBag>(context, serializedProperties);

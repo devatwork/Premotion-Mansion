@@ -103,7 +103,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns>Returns a single <see cref="IPropertyBag"/> or null when no result is found.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
-		protected override IPropertyBag DoRetrieveSingle(IMansionContext context, Query query)
+		protected override IRecord DoRetrieveSingle(IMansionContext context, Query query)
 		{
 			return DecoratedRepository.RetrieveSingle(context, query);
 		}
@@ -123,8 +123,8 @@ namespace Premotion.Mansion.Core.Data
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="properties">The properties from which to create a record.</param>
-		/// <returns>Returns the created record.</returns>
-		protected override IPropertyBag DoCreate(IMansionContext context, IPropertyBag properties)
+		/// <returns>Returns the created <see cref="IRecord"/>.</returns>
+		protected override IRecord DoCreate(IMansionContext context, IPropertyBag properties)
 		{
 			return DecoratedRepository.Create(context, properties);
 		}

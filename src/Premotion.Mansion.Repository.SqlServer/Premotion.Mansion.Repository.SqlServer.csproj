@@ -83,7 +83,7 @@
     <Compile Include="Queries\Parser\SqlWhereQueryArgumentProcessor.cs" />
     <Compile Include="Queries\Parser\FullTextSearchQueryArgumentProcessor.cs" />
     <Compile Include="Queries\QueryCommandContext.cs" />
-    <Compile Include="Queries\Record.cs" />
+    <Compile Include="Queries\DbRecord.cs" />
     <Compile Include="Queries\SelectCommand.cs" />
     <Compile Include="Queries\SelectNodeCommand.cs" />
     <Compile Include="Queries\Specifications\SqlWhereSpecification.cs" />
