@@ -212,20 +212,20 @@ namespace Premotion.Mansion.Core.Data
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="record">The <see cref="Record"/> which will be updated.</param>
-		/// <param name="modifiedProperties">The properties which to update.</param>
-		public void Update(IMansionContext context, Record record, IPropertyBag modifiedProperties)
+		/// <param name="properties">The updated properties.</param>
+		public void Update(IMansionContext context, Record record, IPropertyBag properties)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (record == null)
 				throw new ArgumentNullException("record");
-			if (modifiedProperties == null)
-				throw new ArgumentNullException("modifiedProperties");
+			if (properties == null)
+				throw new ArgumentNullException("properties");
 			CheckDisposed();
 
 			// invoke template method
-			DoUpdate(context, record, modifiedProperties);
+			DoUpdate(context, record, properties);
 		}
 		/// <summary>
 		/// Deletes an existing <paramref name="record"/> from this repository.
@@ -354,8 +354,8 @@ namespace Premotion.Mansion.Core.Data
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="record">The <see cref="Record"/> which will be updated.</param>
-		/// <param name="modifiedProperties">The properties which to update.</param>
-		protected abstract void DoUpdate(IMansionContext context, Record record, IPropertyBag modifiedProperties);
+		/// <param name="properties">The updated properties.</param>
+		protected abstract void DoUpdate(IMansionContext context, Record record, IPropertyBag properties);
 		/// <summary>
 		/// Deletes an existing <paramref name="record"/> from this repository.
 		/// </summary>

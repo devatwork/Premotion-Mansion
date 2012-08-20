@@ -358,12 +358,12 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="record">The <see cref="Record"/> which will be updated.</param>
-		/// <param name="modifiedProperties">The properties which to update.</param>
-		protected override void DoUpdate(IMansionContext context, Record record, IPropertyBag modifiedProperties)
+		/// <param name="properties">The updated properties.</param>
+		protected override void DoUpdate(IMansionContext context, Record record, IPropertyBag properties)
 		{
 			// get the modified properties
-			modifiedProperties = PropertyBag.GetModifiedProperties(context, record, modifiedProperties);
-			if (modifiedProperties.Count == 0)
+			properties = PropertyBag.GetModifiedProperties(context, record, properties);
+			if (properties.Count == 0)
 				return;
 
 			// build the query
@@ -372,7 +372,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 			using (var command = context.Nucleus.CreateInstance<UpdateCommand>())
 			{
 				// init the command
-				command.Prepare(context, connection, transaction, record, modifiedProperties);
+				command.Prepare(context, connection, transaction, record, properties);
 
 				// execute the command
 				try
@@ -392,7 +392,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 			}
 
 			// merge the modified properties back into the node
-			record.Merge(modifiedProperties);
+			record.Merge(properties);
 		}
 		/// <summary>
 		/// Deletes an existing <paramref name="record"/> from this repository.

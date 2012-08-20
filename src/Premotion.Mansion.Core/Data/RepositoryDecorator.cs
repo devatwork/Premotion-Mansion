@@ -133,10 +133,10 @@ namespace Premotion.Mansion.Core.Data
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="record">The <see cref="Record"/> which will be updated.</param>
-		/// <param name="modifiedProperties">The properties which to update.</param>
-		protected override void DoUpdate(IMansionContext context, Record record, IPropertyBag modifiedProperties)
+		/// <param name="properties">The updated properties.</param>
+		protected override void DoUpdate(IMansionContext context, Record record, IPropertyBag properties)
 		{
-			DecoratedRepository.Update(context, record, modifiedProperties);
+			DecoratedRepository.Update(context, record, properties);
 		}
 		/// <summary>
 		/// Deletes an existing <paramref name="record"/> from this repository.
