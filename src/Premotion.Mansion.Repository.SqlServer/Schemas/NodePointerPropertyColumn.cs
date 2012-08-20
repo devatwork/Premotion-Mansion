@@ -65,17 +65,22 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="node"></param>
+		/// <param name="record"> </param>
 		/// <param name="modifiedProperties"></param>
-		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Record record, IPropertyBag modifiedProperties)
 		{
 			// make sure the relational intgrety is not comprimised
 			if (modifiedProperties.Names.Intersect(ReservedPropertyName, StringComparer.OrdinalIgnoreCase).Any())
 				throw new InvalidOperationException("The relational properties can not be changed");
 
+			// get the pointer
+			NodePointer pointer;
+			if (!record.TryGet(context, "pointer", out pointer))
+				throw new InvalidOperationException("Could not update this record because it did not contain a pointer");
+
 			//  add the id an pointer parameters
-			var idParameterName = queryBuilder.AddParameter("id", node.Pointer.Id, DbType.Int32);
-			var pointerParameterName = queryBuilder.AddParameter("pointer", node.Pointer.PointerString + "-%", DbType.String);
+			var idParameterName = queryBuilder.AddParameter("id", pointer.Id, DbType.Int32);
+			var pointerParameterName = queryBuilder.AddParameter("pointer", pointer.PointerString + "-%", DbType.String);
 
 			// check if the name changed
 			string newName;
@@ -86,14 +91,14 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 					throw new InvalidOperationException("Can not update column name with empty string");
 				if (newName.Contains(NodePointer.PathSeparator))
 					throw new InvalidOperationException(string.Format("Name '{0}' contains invalid characters", newName));
-				if (!node.Pointer.Name.Equals(newName))
+				if (!pointer.Name.Equals(newName))
 				{
 					// add the name column modification
 					queryBuilder.AddColumnValue("name", newName, DbType.String);
 
 					// update the paths
-					var oldPathLengthParameterName = queryBuilder.AddParameter("oldPathLength", node.Pointer.PathString.Length + 1, DbType.String);
-					var newPathParameterName = queryBuilder.AddParameter("newPath", NodePointer.Rename(node.Pointer, newName).PathString + NodePointer.PathSeparator, DbType.String);
+					var oldPathLengthParameterName = queryBuilder.AddParameter("oldPathLength", pointer.PathString.Length + 1, DbType.String);
+					var newPathParameterName = queryBuilder.AddParameter("newPath", NodePointer.Rename(pointer, newName).PathString + NodePointer.PathSeparator, DbType.String);
 					queryBuilder.AppendQuery(string.Format(@" UPDATE [Nodes] SET [parentPath] = {0} + RIGHT( [parentPath], LEN( [parentPath] ) - {1} ) WHERE ( [parentId] = {2} OR [parentPointer] LIKE {3} )", newPathParameterName, oldPathLengthParameterName, idParameterName, pointerParameterName));
 				}
 			}
@@ -107,21 +112,21 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 					throw new InvalidOperationException("Can not update column type with empty string");
 				if (newType.Contains(NodePointer.StructureSeparator))
 					throw new InvalidOperationException(string.Format("Type '{0}' contains invalid characters", newType));
-				if (!string.IsNullOrEmpty(newType) && !node.Pointer.Type.Equals(newType))
+				if (!string.IsNullOrEmpty(newType) && !pointer.Type.Equals(newType))
 				{
 					// add the name column modification
 					queryBuilder.AddColumnValue("type", newType, DbType.String);
 
 					// update the structures
-					var newStructureParameterName = queryBuilder.AddParameter("newStructure", NodePointer.ChangeType(node.Pointer, newType).StructureString + NodePointer.StructureSeparator, DbType.String);
-					var oldStructureLengthParameterName = queryBuilder.AddParameter("oldStructureLength", node.Pointer.StructureString.Length + 1, DbType.Int32);
+					var newStructureParameterName = queryBuilder.AddParameter("newStructure", NodePointer.ChangeType(pointer, newType).StructureString + NodePointer.StructureSeparator, DbType.String);
+					var oldStructureLengthParameterName = queryBuilder.AddParameter("oldStructureLength", pointer.StructureString.Length + 1, DbType.Int32);
 					queryBuilder.AppendQuery(string.Format("UPDATE [Nodes] SET [parentStructure] = {0} + RIGHT( [parentStructure], LEN( [parentStructure] ) - {1} ) WHERE ( [parentId] = {2} OR [parentPointer] LIKE {3} )", newStructureParameterName, oldStructureLengthParameterName, idParameterName, pointerParameterName));
 				}
 			}
 
 			// remove the pointer properties from the original node
-			node.Remove("pointer");
-			node.Remove("parentPointer");
+			record.Remove("pointer");
+			record.Remove("parentPointer");
 		}
 		#endregion
 	}

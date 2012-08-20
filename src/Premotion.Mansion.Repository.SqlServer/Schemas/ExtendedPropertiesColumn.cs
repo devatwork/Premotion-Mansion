@@ -45,12 +45,12 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="node"></param>
+		/// <param name="record"> </param>
 		/// <param name="modifiedProperties"></param>
-		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Record record, IPropertyBag modifiedProperties)
 		{
 			// assemble the extended properties
-			var extendedProperties = new PropertyBag(node);
+			var extendedProperties = new PropertyBag(record);
 			extendedProperties.Merge(modifiedProperties);
 
 			// remove all properties starting with an underscore

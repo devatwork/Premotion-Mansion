@@ -64,12 +64,12 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="node"></param>
+		/// <param name="record"> </param>
 		/// <param name="modifiedProperties"></param>
-		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Record record, IPropertyBag modifiedProperties)
 		{
 			// create paremeter
-			var idParameterName = queryBuilder.AddParameter("id", node.Pointer.Id, DbType.Int32);
+			var idParameterName = queryBuilder.AddParameter("id", record.Id, DbType.Int32);
 
 			// add where clause
 			queryBuilder.AppendWhereClause("[id] = " + idParameterName);

@@ -129,6 +129,16 @@ namespace Premotion.Mansion.Core.Data
 			return DecoratedRepository.Create(context, properties);
 		}
 		/// <summary>
+		/// Updates an existing <paramref name="record"/> in this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="record">The <see cref="Record"/> which will be updated.</param>
+		/// <param name="modifiedProperties">The properties which to update.</param>
+		protected override void DoUpdate(IMansionContext context, Record record, IPropertyBag modifiedProperties)
+		{
+			DecoratedRepository.Update(context, record, modifiedProperties);
+		}
+		/// <summary>
 		/// Starts this object. This methods must be called after the object has been created and before it is used.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>

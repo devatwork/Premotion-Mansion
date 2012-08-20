@@ -130,29 +130,29 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="node"></param>
+		/// <param name="record"></param>
 		/// <param name="modifiedProperties"></param>
-		public void ToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		public void ToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Record record, IPropertyBag modifiedProperties)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (queryBuilder == null)
 				throw new ArgumentNullException("queryBuilder");
-			if (node == null)
-				throw new ArgumentNullException("node");
+			if (record == null)
+				throw new ArgumentNullException("record");
 			if (modifiedProperties == null)
 				throw new ArgumentNullException("modifiedProperties");
-			DoToUpdateStatement(context, queryBuilder, node, modifiedProperties);
+			DoToUpdateStatement(context, queryBuilder, record, modifiedProperties);
 		}
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="node"></param>
+		/// <param name="record"></param>
 		/// <param name="modifiedProperties"></param>
-		protected abstract void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties);
+		protected abstract void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Record record, IPropertyBag modifiedProperties);
 		/// <summary>
 		/// Generates an sync statements of this colum.
 		/// </summary>

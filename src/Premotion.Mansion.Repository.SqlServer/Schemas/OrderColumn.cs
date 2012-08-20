@@ -41,17 +41,22 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="node"></param>
+		/// <param name="record"> </param>
 		/// <param name="modifiedProperties"></param>
-		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Record record, IPropertyBag modifiedProperties)
 		{
 			// check if the property is not modified
 			int newOrder;
 			if (!modifiedProperties.TryGet(context, PropertyName, out newOrder))
 				return;
 
+			// check if the record contains a pointer
+			NodePointer pointer;
+			if (!modifiedProperties.TryGet(context, "pointer", out pointer))
+				throw new InvalidOperationException("Could not update this record because it did not contain a pointer");
+
 			// don't update order for root  nodes
-			if (node.Pointer.Depth == 1)
+			if (pointer.Depth == 1)
 				return;
 
 			// do not allow values smaller than 1
@@ -60,8 +65,8 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 
 			// assemble parameter
 			var newOrderParameterName = queryBuilder.AddParameter("newOrder", newOrder, DbType.Int32);
-			var oldOrderParameterName = queryBuilder.AddParameter("oldOrder", node.Get<int>(context, PropertyName), DbType.Int32);
-			var parentIdParameterName = queryBuilder.AddParameter("parentId", node.Pointer.Parent.Id, DbType.Int32);
+			var oldOrderParameterName = queryBuilder.AddParameter("oldOrder", record.Get<int>(context, PropertyName), DbType.Int32);
+			var parentIdParameterName = queryBuilder.AddParameter("parentId", pointer.Parent.Id, DbType.Int32);
 
 			// update the orders before updating the order of the current node
 			queryBuilder.PrependQuery(string.Format("UPDATE [Nodes] SET [order] = [order] + 1 WHERE (parentId = {0}) AND ([order] < {1} AND [order] >= {2})", parentIdParameterName, oldOrderParameterName, newOrderParameterName));

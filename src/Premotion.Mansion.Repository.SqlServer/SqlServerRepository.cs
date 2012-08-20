@@ -354,6 +354,47 @@ namespace Premotion.Mansion.Repository.SqlServer
 			return RetrieveSingle(context, new Query().Add(new IsPropertyEqualSpecification("id", id)));
 		}
 		/// <summary>
+		/// Updates an existing <paramref name="record"/> in this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="record">The <see cref="Record"/> which will be updated.</param>
+		/// <param name="modifiedProperties">The properties which to update.</param>
+		protected override void DoUpdate(IMansionContext context, Record record, IPropertyBag modifiedProperties)
+		{
+			// get the modified properties
+			modifiedProperties = PropertyBag.GetModifiedProperties(context, record, modifiedProperties);
+			if (modifiedProperties.Count == 0)
+				return;
+
+			// build the query
+			using (var connection = CreateConnection())
+			using (var transaction = connection.BeginTransaction())
+			using (var command = context.Nucleus.CreateInstance<UpdateCommand>())
+			{
+				// init the command
+				command.Prepare(context, connection, transaction, record, modifiedProperties);
+
+				// execute the command
+				try
+				{
+					// execute the query
+					command.Execute();
+
+					// woohoo it worked!
+					transaction.Commit();
+				}
+				catch (Exception)
+				{
+					// something terrible happened, revert everything
+					transaction.Rollback();
+					throw;
+				}
+			}
+
+			// merge the modified properties back into the node
+			record.Merge(modifiedProperties);
+		}
+		/// <summary>
 		/// Starts this object. This methods must be called after the object has been created and before it is used.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>

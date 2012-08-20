@@ -207,6 +207,26 @@ namespace Premotion.Mansion.Core.Data
 			// invoke template method
 			return DoCreate(context, properties);
 		}
+		/// <summary>
+		/// Updates an existing <paramref name="record"/> in this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="record">The <see cref="Record"/> which will be updated.</param>
+		/// <param name="modifiedProperties">The properties which to update.</param>
+		public void Update(IMansionContext context, Record record, IPropertyBag modifiedProperties)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (record == null)
+				throw new ArgumentNullException("record");
+			if (modifiedProperties == null)
+				throw new ArgumentNullException("modifiedProperties");
+			CheckDisposed();
+
+			// invoke template method
+			DoUpdate(context, record, modifiedProperties);
+		}
 		#endregion
 		#region Implementation of IStartable
 		/// <summary>
@@ -313,6 +333,13 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="properties">The properties from which to create a record.</param>
 		/// <returns>Returns the created <see cref="Record"/>.</returns>
 		protected abstract Record DoCreate(IMansionContext context, IPropertyBag properties);
+		/// <summary>
+		/// Updates an existing <paramref name="record"/> in this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="record">The <see cref="Record"/> which will be updated.</param>
+		/// <param name="modifiedProperties">The properties which to update.</param>
+		protected abstract void DoUpdate(IMansionContext context, Record record, IPropertyBag modifiedProperties);
 		#endregion
 	}
 }

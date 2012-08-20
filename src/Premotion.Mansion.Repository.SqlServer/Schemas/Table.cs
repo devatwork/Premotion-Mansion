@@ -112,31 +112,31 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="node"></param>
+		/// <param name="record"></param>
 		/// <param name="modifiedProperties"></param>
-		public void ToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		public void ToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Record record, IPropertyBag modifiedProperties)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (queryBuilder == null)
 				throw new ArgumentNullException("queryBuilder");
-			if (node == null)
-				throw new ArgumentNullException("node");
+			if (record == null)
+				throw new ArgumentNullException("record");
 			if (modifiedProperties == null)
 				throw new ArgumentNullException("modifiedProperties");
 
 			// invoke template method
-			DoToUpdateStatement(context, queryBuilder, node, modifiedProperties);
+			DoToUpdateStatement(context, queryBuilder, record, modifiedProperties);
 		}
 		/// <summary>
 		/// Generates the update statement for this table.
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="node"></param>
+		/// <param name="record"></param>
 		/// <param name="modifiedProperties"></param>
-		protected virtual void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		protected virtual void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Record record, IPropertyBag modifiedProperties)
 		{
 			throw new NotSupportedException();
 		}

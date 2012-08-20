@@ -61,9 +61,9 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 			/// </summary>
 			/// <param name="context"></param>
 			/// <param name="queryBuilder"></param>
-			/// <param name="node"></param>
+			/// <param name="record"> </param>
 			/// <param name="modifiedProperties"></param>
-			protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+			protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Record record, IPropertyBag modifiedProperties)
 			{
 				throw new NotSupportedException();
 			}
@@ -122,9 +122,9 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="node"></param>
+		/// <param name="record"> </param>
 		/// <param name="modifiedProperties"></param>
-		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Record record, IPropertyBag modifiedProperties)
 		{
 			// check if the property is modified
 			string rawModifiedValue;
@@ -132,7 +132,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 				return;
 
 			// get the current values
-			var currentValues = GetCurrentValues(queryBuilder.Command, node).ToList();
+			var currentValues = GetCurrentValues(queryBuilder.Command, record).ToList();
 
 			// check if there are new properties
 			var modifiedValues = rawModifiedValue.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
@@ -142,7 +142,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 			var newValues = modifiedValues.Except(currentValues, StringComparer.OrdinalIgnoreCase);
 
 			// create identity parameter
-			var idParameterName = queryBuilder.AddParameter("id", node.Pointer.Id, DbType.Int32);
+			var idParameterName = queryBuilder.AddParameter("id", record.Id, DbType.Int32);
 
 			// generate the delete statements
 			foreach (var deletedValue in deletedValues)
@@ -214,14 +214,14 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// Gets the current values of this table.
 		/// </summary>
 		/// <param name="command"></param>
-		/// <param name="node"></param>
+		/// <param name="record"></param>
 		/// <returns></returns>
-		private IEnumerable<string> GetCurrentValues(IDbCommand command, Node node)
+		private IEnumerable<string> GetCurrentValues(IDbCommand command, Record record)
 		{
 			using (var selectCommand = command.Connection.CreateCommand())
 			{
 				selectCommand.CommandType = CommandType.Text;
-				selectCommand.CommandText = string.Format("SELECT [value] FROM [{0}] WHERE [id] = '{1}'", Name, node.Pointer.Id);
+				selectCommand.CommandText = string.Format("SELECT [value] FROM [{0}] WHERE [id] = '{1}'", Name, record.Id);
 				selectCommand.Transaction = command.Transaction;
 				using (var reader = selectCommand.ExecuteReader())
 				{
