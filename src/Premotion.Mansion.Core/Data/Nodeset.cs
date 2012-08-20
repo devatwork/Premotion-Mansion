@@ -1,49 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Premotion.Mansion.Core.Collections;
 
 namespace Premotion.Mansion.Core.Data
 {
 	/// <summary>
 	/// Implements a set of <see cref="Node"/>s.
 	/// </summary>
-	public class Nodeset : Dataset
+	public class Nodeset : RecordSet
 	{
 		#region Constructors
 		/// <summary>
 		/// Creates a filled nodeset.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="nodes"></param>
 		/// <param name="properties"></param>
-		public Nodeset(IMansionContext context, IEnumerable<Node> nodes, IPropertyBag properties) : base(properties)
+		/// <param name="nodes"></param>
+		public Nodeset(IMansionContext context, IPropertyBag properties, IEnumerable<Node> nodes) : base(context, properties, nodes)
 		{
-			// validate arguments
-			if (nodes == null)
-				throw new ArgumentNullException("nodes");
-			if (properties == null)
-				throw new ArgumentNullException("properties");
-
-			// set values
-			foreach (var node in nodes)
-				RowCollection.Add(node);
-			Set("count", RowCollection.Count);
-
-			// check for paging
-			var totalRowCount = properties.Get(context, "totalCount", -1);
-			var pageNumber = properties.Get(context, "pageNumber", -1);
-			var rowsPerPage = properties.Get(context, "pageSize", -1);
-			if (totalRowCount != -1 && pageNumber != -1 && rowsPerPage != -1)
-				SetPaging(totalRowCount, pageNumber, rowsPerPage);
-
-			// check for sort
-			string sortString;
-			if (properties.TryGet(context, "sort", out sortString))
-			{
-				foreach (var sort in Collections.Sort.Parse(sortString))
-					AddSort(sort);
-			}
 		}
 		#endregion
 		#region Row Methods

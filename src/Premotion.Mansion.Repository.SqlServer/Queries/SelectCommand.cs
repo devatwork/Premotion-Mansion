@@ -19,7 +19,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 	/// <summary>
 	/// Represents an executable select command.
 	/// </summary>
-	public abstract class SelectCommand<TSet, TRow> : DisposableBase where TSet : Dataset where TRow : IRecord
+	public abstract class SelectCommand<TSet, TRow> : DisposableBase where TSet : RecordSet where TRow : Record
 	{
 		#region Constructors
 		/// <summary>
@@ -263,7 +263,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 	/// <summary>
 	/// Represents an executable select command.
 	/// </summary>
-	public class SelectCommand : SelectCommand<Dataset, IRecord>
+	public class SelectCommand : SelectCommand<RecordSet, Record>
 	{
 		#region Constructors
 		/// <summary>
@@ -283,15 +283,15 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <param name="rows">The rows.</param>
 		/// <param name="setProperties">The properties of the set.</param>
 		/// <returns>Returns the created set.</returns>
-		protected override Dataset CreateSet(IMansionContext context, IEnumerable<IRecord> rows, IPropertyBag setProperties)
+		protected override RecordSet CreateSet(IMansionContext context, IEnumerable<Record> rows, IPropertyBag setProperties)
 		{
-			return new Dataset(context, setProperties, rows);
+			return new RecordSet(context, setProperties, rows);
 		}
 		/// <summary>
 		/// Creates a new row.
 		/// </summary>
 		/// <returns>Returns the created row.</returns>
-		protected override IRecord CreateRow()
+		protected override Record CreateRow()
 		{
 			return new Record();
 		}
@@ -300,7 +300,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="row">The <see cref="Node"/> which to intialize.</param>
-		protected override void Initialize(IMansionContext context, IRecord row)
+		protected override void Initialize(IMansionContext context, Record row)
 		{
 			row.Initialize(context);
 		}

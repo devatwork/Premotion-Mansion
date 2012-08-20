@@ -6,9 +6,17 @@ namespace Premotion.Mansion.Core.Data
 	/// <summary>
 	/// Defines a record.
 	/// </summary>
-	public class Record : PropertyBag, IRecord
+	public class Record : PropertyBag
 	{
 		#region Implementation of IRecord
+		/// <summary>
+		/// Gets the ID of this record.
+		/// </summary>
+		public int Id { get; private set; }
+		/// <summary>
+		/// Gets the type name of this record.
+		/// </summary>
+		public string Type { get; private set; }
 		/// <summary>
 		/// Initializes this record.
 		/// </summary>
@@ -33,14 +41,6 @@ namespace Premotion.Mansion.Core.Data
 			Id = Get<int>(context, "id");
 			Type = Get<string>(context, "type");
 		}
-		/// <summary>
-		/// Gets the ID of this record.
-		/// </summary>
-		public int Id { get; private set; }
-		/// <summary>
-		/// Gets the type name of this record.
-		/// </summary>
-		public string Type { get; private set; }
 		#endregion
 	}
 }

@@ -281,9 +281,9 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="query">The <see cref="Query"/> which to execute.</param>
-		/// <returns>Returns a single <see cref="IPropertyBag"/> or null when no result is found.</returns>
+		/// <returns>Returns a single <see cref="Record"/> or null when no result is found.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
-		protected override IRecord DoRetrieveSingle(IMansionContext context, Query query)
+		protected override Record DoRetrieveSingle(IMansionContext context, Query query)
 		{
 			// create the connection and command
 			using (var connection = CreateConnection())
@@ -321,8 +321,8 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="properties">The properties from which to create a record.</param>
-		/// <returns>Returns the created <see cref="IRecord"/>.</returns>
-		protected override IRecord DoCreate(IMansionContext context, IPropertyBag properties)
+		/// <returns>Returns the created <see cref="Record"/>.</returns>
+		protected override Record DoCreate(IMansionContext context, IPropertyBag properties)
 		{
 			// build the query
 			int id;

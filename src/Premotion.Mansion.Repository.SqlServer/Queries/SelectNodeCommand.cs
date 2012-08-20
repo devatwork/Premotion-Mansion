@@ -31,7 +31,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <returns>Returns the created set.</returns>
 		protected override Nodeset CreateSet(IMansionContext context, IEnumerable<Node> rows, IPropertyBag setProperties)
 		{
-			return new Nodeset(context, rows, setProperties);
+			return new Nodeset(context, setProperties, rows);
 		}
 		/// <summary>
 		/// Creates a new row.
