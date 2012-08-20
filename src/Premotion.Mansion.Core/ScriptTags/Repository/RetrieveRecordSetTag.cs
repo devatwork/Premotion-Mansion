@@ -8,14 +8,14 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 	/// <summary>
 	/// Retrieves a <see cref="Dataset"/> from the top most repository.
 	/// </summary>
-	[ScriptTag(Constants.NamespaceUri, "retrieveDataset")]
-	public class RetrieveDatasetTag : RetrieveDatasetBaseTag
+	[ScriptTag(Constants.NamespaceUri, "retrieveRecordSet")]
+	public class RetrieveRecordSetTag : RetrieveRecordSetBaseTag
 	{
 		#region Constructors
 		/// <summary>
 		/// </summary>
 		/// <param name="parser"></param>
-		public RetrieveDatasetTag(IQueryParser parser) : base(parser)
+		public RetrieveRecordSetTag(IQueryParser parser) : base(parser)
 		{
 		}
 		#endregion
@@ -27,8 +27,8 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 		/// <param name="arguments">The arguments from which to build the query.</param>
 		/// <param name="repository">The <see cref="IRepository"/>.</param>
 		/// <param name="parser">The <see cref="IQueryParser"/>.</param>
-		/// <returns>Returns the result.</returns>
-		protected override Dataset Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository, IQueryParser parser)
+		/// <returns>Returns the <see cref="RecordSet"/>.</returns>
+		protected override RecordSet Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository, IQueryParser parser)
 		{
 			// parse the query
 			var query = parser.Parse(context, arguments);

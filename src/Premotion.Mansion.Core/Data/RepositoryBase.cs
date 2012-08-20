@@ -177,7 +177,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns>Returns a <see cref="Dataset"/> containing the results.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
-		public Dataset Retrieve(IMansionContext context, Query query)
+		public RecordSet Retrieve(IMansionContext context, Query query)
 		{
 			// validate arguments
 			if (context == null)
@@ -341,7 +341,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns>Returns a <see cref="Dataset"/> containing the results.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
-		protected abstract Dataset DoRetrieve(IMansionContext context, Query query);
+		protected abstract RecordSet DoRetrieve(IMansionContext context, Query query);
 		/// <summary>
 		/// Creates a new record with the given <paramref name="properties"/>.
 		/// </summary>

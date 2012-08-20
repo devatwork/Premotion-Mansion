@@ -43,7 +43,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 		/// <param name="repository">The <see cref="IRepository"/>.</param>
 		/// <param name="parser">The <see cref="IQueryParser"/>.</param>
 		/// <returns>Returns the result.</returns>
-		protected abstract IPropertyBag Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository, IQueryParser parser);
+		protected abstract Record Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository, IQueryParser parser);
 		#endregion
 		#region Private Fields
 		private readonly IQueryParser parser;

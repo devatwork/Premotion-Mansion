@@ -375,7 +375,7 @@
     <Compile Include="ScriptTags\ExecuteNestedTagsTag.cs" />
     <Compile Include="ScriptTags\Media\JSon\GetDatasetFromJSonTag.cs" />
     <Compile Include="ScriptTags\Repository\RetrieveRecordTag.cs" />
-    <Compile Include="ScriptTags\Repository\RetrieveDatasetTag.cs" />
+    <Compile Include="ScriptTags\Repository\RetrieveRecordSetTag.cs" />
     <Compile Include="ScriptTags\Repository\FetchFacetsDatasetTag.cs" />
     <Compile Include="ScriptTags\DeclareEventHandlerTag.cs" />
     <Compile Include="ScriptTags\DeclareProcedureTag.cs" />
@@ -416,7 +416,7 @@
     <Compile Include="ScriptTags\Repository\RetrieveChildNodesetTag.cs" />
     <Compile Include="ScriptTags\Repository\RetrieveChildNodeTag.cs" />
     <Compile Include="ScriptTags\Repository\RetrieveRecordBaseTag.cs" />
-    <Compile Include="ScriptTags\Repository\RetrieveDatasetBaseTag.cs" />
+    <Compile Include="ScriptTags\Repository\RetrieveRecordSetBaseTag.cs" />
     <Compile Include="ScriptTags\Repository\RetrieveNodeTag.cs" />
     <Compile Include="ScriptTags\Repository\RetrieveParentNodesetTag.cs" />
     <Compile Include="ScriptTags\Repository\RetrieveParentNodeTag.cs" />

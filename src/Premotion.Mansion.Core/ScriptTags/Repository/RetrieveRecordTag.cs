@@ -27,7 +27,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 		/// <param name="repository">The <see cref="IRepository"/>.</param>
 		/// <param name="parser">The <see cref="IQueryParser"/>.</param>
 		/// <returns>Returns the result.</returns>
-		protected override IPropertyBag Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository, IQueryParser parser)
+		protected override Record Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository, IQueryParser parser)
 		{
 			// parse the query
 			var query = parser.Parse(context, arguments);

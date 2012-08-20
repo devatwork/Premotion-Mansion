@@ -11,7 +11,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 	/// Retrieves the block nodes for a node.
 	/// </summary>
 	[ScriptTag(Constants.TagNamespaceUri, "retrieveBlockNodeset")]
-	public class RetrieveBlockNodesetTag : RetrieveDatasetBaseTag
+	public class RetrieveBlockNodesetTag : RetrieveRecordSetBaseTag
 	{
 		#region Constructors
 		/// <summary>
@@ -29,8 +29,8 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 		/// <param name="arguments">The arguments from which to build the query.</param>
 		/// <param name="repository">The <see cref="IRepository"/>.</param>
 		/// <param name="parser">The <see cref="IQueryParser"/>.</param>
-		/// <returns>Returns the result.</returns>
-		protected override Dataset Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository, IQueryParser parser)
+		/// <returns>Returns the <see cref="RecordSet"/>.</returns>
+		protected override RecordSet Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository, IQueryParser parser)
 		{
 			// get the node
 			var sourceNode = GetRequiredAttribute<Node>(context, "source");

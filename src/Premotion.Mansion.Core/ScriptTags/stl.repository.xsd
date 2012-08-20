@@ -458,9 +458,9 @@
 	
 	
 	<!-- record tags -->
-	<xs:element name="retrieveDataset" substitutionGroup="scriptTag">
+	<xs:element name="retrieveRecordSet" substitutionGroup="scriptTag">
 		<xs:annotation>
-			<xs:documentation>Retrieves a dataset from the top-most repository.</xs:documentation>
+			<xs:documentation>Retrieves a record set from the top-most repository.</xs:documentation>
 		</xs:annotation>
 
 		<xs:complexType>

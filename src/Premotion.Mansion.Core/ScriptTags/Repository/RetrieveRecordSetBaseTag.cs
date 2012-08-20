@@ -9,13 +9,13 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 	/// <summary>
 	/// Provides base functionality for building nodes queries
 	/// </summary>
-	public abstract class RetrieveDatasetBaseTag : GetDatasetBaseTag
+	public abstract class RetrieveRecordSetBaseTag : GetDatasetBaseTag
 	{
 		#region Constructors
 		/// <summary>
 		/// </summary>
 		/// <param name="parser"></param>
-		protected RetrieveDatasetBaseTag(IQueryParser parser)
+		protected RetrieveRecordSetBaseTag(IQueryParser parser)
 		{
 			// validate arguments
 			if (parser == null)
@@ -44,8 +44,8 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 		/// <param name="arguments">The arguments from which to build the query.</param>
 		/// <param name="repository">The <see cref="IRepository"/>.</param>
 		/// <param name="parser">The <see cref="IQueryParser"/>.</param>
-		/// <returns>Returns the result.</returns>
-		protected abstract Dataset Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository, IQueryParser parser);
+		/// <returns>Returns the <see cref="RecordSet"/>.</returns>
+		protected abstract RecordSet Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository, IQueryParser parser);
 		#endregion
 		#region Private Fields
 		private readonly IQueryParser parser;

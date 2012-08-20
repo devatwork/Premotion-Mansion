@@ -31,7 +31,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 		/// <param name="repository">The <see cref="IRepository"/>.</param>
 		/// <param name="parser">The <see cref="IQueryParser"/>.</param>
 		/// <returns>Returns the result.</returns>
-		protected override IPropertyBag Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository, IQueryParser parser)
+		protected override Record Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository, IQueryParser parser)
 		{
 			// get the node
 			var contentNode = GetRequiredAttribute<Node>(context, "source");

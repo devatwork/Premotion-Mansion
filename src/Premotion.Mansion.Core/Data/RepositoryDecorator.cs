@@ -114,7 +114,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns>Returns a <see cref="Dataset"/> containing the results.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
-		protected override Dataset DoRetrieve(IMansionContext context, Query query)
+		protected override RecordSet DoRetrieve(IMansionContext context, Query query)
 		{
 			return DecoratedRepository.Retrieve(context, query);
 		}
