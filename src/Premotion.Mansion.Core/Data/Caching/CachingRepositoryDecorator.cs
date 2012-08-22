@@ -76,8 +76,8 @@ namespace Premotion.Mansion.Core.Data.Caching
 			// excute derived class
 			var node = DecoratedRepository.CreateNode(context, parent, newProperties);
 
-			// clear all cached nodes and nodesets
-			cachingService.Clear(NodeCacheKeyFactory.RepositoryModifiedDependency.Key);
+			// clear the cache for the given node
+			node.ClearFromCache(cachingService);
 
 			return node;
 		}
@@ -92,8 +92,8 @@ namespace Premotion.Mansion.Core.Data.Caching
 			// excute derived class
 			DecoratedRepository.UpdateNode(context, node, modifiedProperties);
 
-			// clear all cached nodes and nodesets
-			cachingService.Clear(NodeCacheKeyFactory.RepositoryModifiedDependency.Key);
+			// clear the cache for the given node
+			node.ClearFromCache(cachingService);
 		}
 		/// <summary>
 		/// Deletes an existing node from this repository.
@@ -106,6 +106,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 			DecoratedRepository.DeleteNode(context, pointer);
 
 			// clear all cached nodes and nodesets
+			// TODO: refactor this method to always use a node
 			cachingService.Clear(NodeCacheKeyFactory.RepositoryModifiedDependency.Key);
 		}
 		/// <summary>
@@ -120,8 +121,8 @@ namespace Premotion.Mansion.Core.Data.Caching
 			// excute derived class
 			var node = DecoratedRepository.MoveNode(context, pointer, newParentPointer);
 
-			// clear all cached nodes and nodesets
-			cachingService.Clear(NodeCacheKeyFactory.RepositoryModifiedDependency.Key);
+			// clear the cache for the given node
+			node.ClearFromCache(cachingService);
 
 			return node;
 		}
@@ -137,8 +138,8 @@ namespace Premotion.Mansion.Core.Data.Caching
 			// excute derived class
 			var node = DecoratedRepository.CopyNode(context, pointer, targetParentPointer);
 
-			// clear all cached nodes and nodesets
-			cachingService.Clear(NodeCacheKeyFactory.RepositoryModifiedDependency.Key);
+			// clear the cache for the given node
+			node.ClearFromCache(cachingService);
 
 			return node;
 		}
@@ -176,7 +177,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 			var record = DecoratedRepository.Create(context, properties);
 
 			// clear the cache for the given record
-			record.ClearFrom(cachingService);
+			record.ClearFromCache(cachingService);
 
 			return record;
 		}
@@ -192,7 +193,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 			DecoratedRepository.Update(context, record, properties);
 
 			// clear the cache for the given record
-			record.ClearFrom(cachingService);
+			record.ClearFromCache(cachingService);
 		}
 		/// <summary>
 		/// Deletes an existing <paramref name="record"/> from this repository.
@@ -205,7 +206,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 			DecoratedRepository.Delete(context, record);
 
 			// clear the cache for the given record
-			record.ClearFrom(cachingService);
+			record.ClearFromCache(cachingService);
 		}
 		#endregion
 		#region Private Fields
@@ -234,18 +235,37 @@ namespace Premotion.Mansion.Core.Data.Caching
 			return query.Components.OfType<CacheQueryComponent>().All(candidate => candidate.IsEnabled);
 		}
 		#endregion
-		#region Extensions of Record
+		#region Extensions for Record
 		/// <summary>
 		/// Clears the given <paramref name="record"/> from the <paramref name="cachingService"/>.
 		/// </summary>
 		/// <param name="record">The <see cref="Record"/> which should be cleared from the cache.</param>
 		/// <param name="cachingService">The <see cref="ICachingService"/>.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public static void ClearFrom(this Record record, ICachingService cachingService)
+		public static void ClearFromCache(this Record record, ICachingService cachingService)
 		{
 			// validate arguments
 			if (record == null)
 				throw new ArgumentNullException("record");
+			if (cachingService == null)
+				throw new ArgumentNullException("cachingService");
+
+			// fire the repository modified
+			cachingService.Clear(NodeCacheKeyFactory.RepositoryModifiedDependency.Key);
+		}
+		#endregion
+		#region Extensions for Node
+		/// <summary>
+		/// Clears the given <paramref name="node"/> from the <paramref name="cachingService"/>.
+		/// </summary>
+		/// <param name="node">The <see cref="Node"/> which should be cleared from the cache.</param>
+		/// <param name="cachingService">The <see cref="ICachingService"/>.</param>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public static void ClearFromCache(this Node node, ICachingService cachingService)
+		{
+			// validate arguments
+			if (node == null)
+				throw new ArgumentNullException("node");
 			if (cachingService == null)
 				throw new ArgumentNullException("cachingService");
 
