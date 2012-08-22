@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Premotion.Mansion.Core.Caching;
+using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data.Queries;
 
 namespace Premotion.Mansion.Core.Data.Caching
@@ -140,6 +141,57 @@ namespace Premotion.Mansion.Core.Data.Caching
 			cachingService.Clear(NodeCacheKeyFactory.RepositoryModifiedDependency.Key);
 
 			return node;
+		}
+		/// <summary>
+		/// Retrieves a single record from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
+		/// <returns>Returns a single <see cref="Record"/> or null when no result is found.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
+		protected override Record DoRetrieveSingle(IMansionContext context, Query query)
+		{
+			return DecoratedRepository.RetrieveSingle(context, query);
+		}
+		/// <summary>
+		/// Retrieves a <see cref="Dataset"/> from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
+		/// <returns>Returns a <see cref="Dataset"/> containing the results.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
+		protected override RecordSet DoRetrieve(IMansionContext context, Query query)
+		{
+			return DecoratedRepository.Retrieve(context, query);
+		}
+		/// <summary>
+		/// Creates a new record with the given <paramref name="properties"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="properties">The properties from which to create a record.</param>
+		/// <returns>Returns the created <see cref="Record"/>.</returns>
+		protected override Record DoCreate(IMansionContext context, IPropertyBag properties)
+		{
+			return DecoratedRepository.Create(context, properties);
+		}
+		/// <summary>
+		/// Updates an existing <paramref name="record"/> in this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="record">The <see cref="Record"/> which will be updated.</param>
+		/// <param name="properties">The updated properties.</param>
+		protected override void DoUpdate(IMansionContext context, Record record, IPropertyBag properties)
+		{
+			DecoratedRepository.Update(context, record, properties);
+		}
+		/// <summary>
+		/// Deletes an existing <paramref name="record"/> from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="record">The <see cref="Record"/> which will be deleted.</param>
+		protected override void DoDelete(IMansionContext context, Record record)
+		{
+			DecoratedRepository.Delete(context, record);
 		}
 		#endregion
 		#region Private Fields
