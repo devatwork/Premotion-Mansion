@@ -44,7 +44,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 			var cacheKey = query.CalculateCacheKey("Node_Query_");
 
 			// return the node
-			return cachingService.GetOrAdd(context, cacheKey, () => new CachedNode(DecoratedRepository.RetrieveSingleNode(context, query)));
+			return cachingService.GetOrAdd(context, cacheKey, () => DecoratedRepository.RetrieveSingleNode(context, query).AsCachableObject());
 		}
 		/// <summary>
 		/// Retrieves multiple nodes from this repository.
@@ -273,6 +273,21 @@ namespace Premotion.Mansion.Core.Data.Caching
 		}
 		#endregion
 		#region Extensions for Node
+		/// <summary>
+		/// Turns the given <paramref name="node"/> in a cachable object.
+		/// </summary>
+		/// <param name="node">The <see cref="Node"/> for which to create the cachable object.</param>
+		/// <returns>Returns the <see cref="CachedObject{TObject}"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="node"/> is null.</exception>
+		public static CachedObject<Node> AsCachableObject(this Node node)
+		{
+			// validate arguments
+			if (node == null)
+				throw new ArgumentNullException("node");
+
+			// TODO: refactor this class
+			return new CachedNode(node);
+		}
 		/// <summary>
 		/// Clears the given <paramref name="node"/> from the <paramref name="cachingService"/>.
 		/// </summary>
