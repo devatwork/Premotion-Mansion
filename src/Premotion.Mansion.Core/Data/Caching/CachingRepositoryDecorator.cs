@@ -172,7 +172,13 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// <returns>Returns the created <see cref="Record"/>.</returns>
 		protected override Record DoCreate(IMansionContext context, IPropertyBag properties)
 		{
-			return DecoratedRepository.Create(context, properties);
+			// execute in the decorated repository
+			var record = DecoratedRepository.Create(context, properties);
+
+			// clear the cache for the given record
+			record.ClearFrom(cachingService);
+
+			return record;
 		}
 		/// <summary>
 		/// Updates an existing <paramref name="record"/> in this repository.
@@ -182,7 +188,11 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// <param name="properties">The updated properties.</param>
 		protected override void DoUpdate(IMansionContext context, Record record, IPropertyBag properties)
 		{
+			// execute in the decorated repository
 			DecoratedRepository.Update(context, record, properties);
+
+			// clear the cache for the given record
+			record.ClearFrom(cachingService);
 		}
 		/// <summary>
 		/// Deletes an existing <paramref name="record"/> from this repository.
@@ -191,7 +201,11 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// <param name="record">The <see cref="Record"/> which will be deleted.</param>
 		protected override void DoDelete(IMansionContext context, Record record)
 		{
+			// execute in the decorated repository
 			DecoratedRepository.Delete(context, record);
+
+			// clear the cache for the given record
+			record.ClearFrom(cachingService);
 		}
 		#endregion
 		#region Private Fields
@@ -199,7 +213,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 		#endregion
 	}
 	/// <summary>
-	/// Provides extension methods using by the caching repository decorator.
+	/// Provides extension methods used by <see cref="CachingRepositoryDecorator"/>.
 	/// </summary>
 	public static class Extensions
 	{
@@ -218,6 +232,25 @@ namespace Premotion.Mansion.Core.Data.Caching
 
 			// check if all of the CacheQueryComponents are enabled
 			return query.Components.OfType<CacheQueryComponent>().All(candidate => candidate.IsEnabled);
+		}
+		#endregion
+		#region Extensions of Record
+		/// <summary>
+		/// Clears the given <paramref name="record"/> from the <paramref name="cachingService"/>.
+		/// </summary>
+		/// <param name="record">The <see cref="Record"/> which should be cleared from the cache.</param>
+		/// <param name="cachingService">The <see cref="ICachingService"/>.</param>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public static void ClearFrom(this Record record, ICachingService cachingService)
+		{
+			// validate arguments
+			if (record == null)
+				throw new ArgumentNullException("record");
+			if (cachingService == null)
+				throw new ArgumentNullException("cachingService");
+
+			// fire the repository modified
+			cachingService.Clear(NodeCacheKeyFactory.RepositoryModifiedDependency.Key);
 		}
 		#endregion
 	}
