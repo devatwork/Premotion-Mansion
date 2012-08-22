@@ -36,7 +36,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 		protected override Node DoRetrieveSingleNode(IMansionContext context, Query query)
 		{
 			// check if this query is not cachable
-			if (query.Components.Any(candidate => candidate is CacheQueryComponent && !((CacheQueryComponent) candidate).IsEnabled))
+			if (!query.IsCachable())
 				return DecoratedRepository.RetrieveSingleNode(context, query);
 
 			// create the cache key for this node
@@ -54,7 +54,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 		protected override Nodeset DoRetrieveNodeset(IMansionContext context, Query query)
 		{
 			// check if this query is not cachable
-			if (query.Components.Any(candidate => candidate is CacheQueryComponent && !((CacheQueryComponent) candidate).IsEnabled))
+			if (!query.IsCachable())
 				return DecoratedRepository.RetrieveNodeset(context, query);
 
 			// create the cache key for this node
@@ -144,6 +144,29 @@ namespace Premotion.Mansion.Core.Data.Caching
 		#endregion
 		#region Private Fields
 		private readonly ICachingService cachingService;
+		#endregion
+	}
+	/// <summary>
+	/// Provides extension methods using by the caching repository decorator.
+	/// </summary>
+	public static class Extensions
+	{
+		#region Extensions for Query
+		/// <summary>
+		/// Checks whether the given <paramref name="query"/> is cachable.
+		/// </summary>
+		/// <param name="query">The <see cref="Query"/>.</param>
+		/// <returns>Returns true when the query is cachable, otherwise false.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="query"/> is null.</exception>
+		public static bool IsCachable(this Query query)
+		{
+			// validate arguments
+			if (query == null)
+				throw new ArgumentNullException("query");
+
+			// check if all of the CacheQueryComponents are enabled
+			return query.Components.OfType<CacheQueryComponent>().All(candidate => candidate.IsEnabled);
+		}
 		#endregion
 	}
 }
