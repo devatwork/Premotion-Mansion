@@ -76,6 +76,7 @@
     <Compile Include="Conversion\Converters\DoubleToInt32Converter.cs" />
     <Compile Include="Conversion\Converters\Int64ToDoubleConverter.cs" />
     <Compile Include="Conversion\Converters\StringToInt64Converter.cs" />
+    <Compile Include="Data\Caching\CacheExtensions.cs" />
     <Compile Include="Data\Queries\CacheQueryComponent.cs" />
     <Compile Include="Data\Queries\FacetQueryComponent.cs" />
     <Compile Include="Data\Queries\PagingQueryComponent.cs" />
@@ -165,10 +166,7 @@
     <Compile Include="Conversion\IConversionService.cs" />
     <Compile Include="Conversion\IConverter.cs" />
     <Compile Include="Conversion\NoConverterFoundException.cs" />
-    <Compile Include="Data\Caching\CachedNode.cs" />
-    <Compile Include="Data\Caching\CachedNodeset.cs" />
     <Compile Include="Data\Caching\CachingRepositoryDecorator.cs" />
-    <Compile Include="Data\Caching\NodeCacheKeyFactory.cs" />
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\IRepositoryDecorator.cs" />
     <Compile Include="Data\IRepositoryFactory.cs" />

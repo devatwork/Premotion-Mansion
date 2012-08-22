@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Premotion.Mansion.Core.Caching;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data.Queries;
@@ -11,6 +10,16 @@ namespace Premotion.Mansion.Core.Data.Caching
 	/// </summary>
 	public class CachingRepositoryDecorator : RepositoryDecorator
 	{
+		#region Constants
+		/// <summary>
+		/// Defines the cache key prefix.
+		/// </summary>
+		private const string RepositoryCacheKeyPrefix = "Repository_";
+		/// <summary>
+		/// Defines the repository modified cache key.
+		/// </summary>
+		public static readonly StringCacheKeyDependency RepositoryModifiedDependency = new StringCacheKeyDependency(RepositoryCacheKeyPrefix + "Modified");
+		#endregion
 		#region Constructors
 		/// <summary>
 		/// Constructs a caching decorated <see cref="IRepository"/>.
@@ -107,7 +116,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 
 			// clear all cached nodes and nodesets
 			// TODO: refactor this method to always use a node
-			cachingService.Clear(NodeCacheKeyFactory.RepositoryModifiedDependency.Key);
+			cachingService.Clear(RepositoryModifiedDependency.Key);
 		}
 		/// <summary>
 		/// Moves an existing node in this repository to a new parent node.
@@ -227,161 +236,6 @@ namespace Premotion.Mansion.Core.Data.Caching
 		#endregion
 		#region Private Fields
 		private readonly ICachingService cachingService;
-		#endregion
-	}
-	/// <summary>
-	/// Provides extension methods used by <see cref="CachingRepositoryDecorator"/>.
-	/// </summary>
-	public static class Extensions
-	{
-		#region Extensions for Query
-		/// <summary>
-		/// Calculates a node cache key for the given <paramref name="query"/>.
-		/// </summary>
-		/// <param name="query">The <see cref="Query"/> for which to generate the <see cref="CacheKey"/>.</param>
-		/// <param name="prefix">The prefix of the cache query.</param>
-		/// <returns>Returns the calculated <see cref="CacheKey"/>.</returns>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="query"/> or <paramref name="prefix"/> is null.</exception>
-		public static CacheKey CalculateCacheKey(this Query query, string prefix)
-		{
-			// validate arguments
-			if (query == null)
-				throw new ArgumentNullException("query");
-			if (string.IsNullOrEmpty(prefix))
-				throw new ArgumentNullException("prefix");
-
-			// generate the cache key
-			return (StringCacheKey) (prefix + query);
-		}
-		/// <summary>
-		/// Checks whether the given <paramref name="query"/> is cacheable.
-		/// </summary>
-		/// <param name="query">The <see cref="Query"/>.</param>
-		/// <returns>Returns true when the query is cacheable, otherwise false.</returns>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="query"/> is null.</exception>
-		public static bool Iscacheable(this Query query)
-		{
-			// validate arguments
-			if (query == null)
-				throw new ArgumentNullException("query");
-
-			// check if all of the CacheQueryComponents are enabled
-			return query.Components.OfType<CacheQueryComponent>().All(candidate => candidate.IsEnabled);
-		}
-		#endregion
-		#region Extensions for Record
-		/// <summary>
-		/// Turns the given <paramref name="record"/> in a cacheable object.
-		/// </summary>
-		/// <param name="record">The <see cref="Record"/> for which to create the cacheable object.</param>
-		/// <returns>Returns the <see cref="CachedObject{TObject}"/>.</returns>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="record"/> is null.</exception>
-		public static CachedObject<Record> AsCacheableObject(this Record record)
-		{
-			// validate arguments
-			if (record == null)
-				throw new ArgumentNullException("record");
-
-			// create a new cacheable object
-			var cacheable = new CachedObject<Record>(record);
-
-			// add the repository modified cache key
-			cacheable.Add(NodeCacheKeyFactory.RepositoryModifiedDependency);
-
-			// return the cacheable  object
-			return cacheable;
-		}
-		/// <summary>
-		/// Clears the given <paramref name="record"/> from the <paramref name="cachingService"/>.
-		/// </summary>
-		/// <param name="record">The <see cref="Record"/> which should be cleared from the cache.</param>
-		/// <param name="cachingService">The <see cref="ICachingService"/>.</param>
-		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public static void ClearFromCache(this Record record, ICachingService cachingService)
-		{
-			// validate arguments
-			if (record == null)
-				throw new ArgumentNullException("record");
-			if (cachingService == null)
-				throw new ArgumentNullException("cachingService");
-
-			// fire the repository modified
-			cachingService.Clear(NodeCacheKeyFactory.RepositoryModifiedDependency.Key);
-		}
-		#endregion
-		#region Extensions for Nodeset
-		/// <summary>
-		/// Turns the given <paramref name="recordset"/> in a cacheable object.
-		/// </summary>
-		/// <param name="recordset">The <see cref="Nodeset"/> for which to create the cacheable object.</param>
-		/// <returns>Returns the <see cref="CachedObject{TObject}"/>.</returns>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="recordset"/> is null.</exception>
-		public static CachedObject<RecordSet> AsCacheableObject(this RecordSet recordset)
-		{
-			// validate arguments
-			if (recordset == null)
-				throw new ArgumentNullException("recordset");
-
-			// create a new cacheable object
-			var cacheable = new CachedObject<RecordSet>(recordset);
-
-			// add the repository modified cache key
-			cacheable.Add(NodeCacheKeyFactory.RepositoryModifiedDependency);
-
-			// return the cacheable  object
-			return cacheable;
-		}
-		#endregion
-		#region Extensions for Node
-		/// <summary>
-		/// Turns the given <paramref name="node"/> in a cacheable object.
-		/// </summary>
-		/// <param name="node">The <see cref="Node"/> for which to create the cacheable object.</param>
-		/// <returns>Returns the <see cref="CachedObject{TObject}"/>.</returns>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="node"/> is null.</exception>
-		public static CachedObject<Node> AsCacheableObject(this Node node)
-		{
-			// validate arguments
-			if (node == null)
-				throw new ArgumentNullException("node");
-
-			// TODO: refactor this class
-			return new CachedNode(node);
-		}
-		/// <summary>
-		/// Clears the given <paramref name="node"/> from the <paramref name="cachingService"/>.
-		/// </summary>
-		/// <param name="node">The <see cref="Node"/> which should be cleared from the cache.</param>
-		/// <param name="cachingService">The <see cref="ICachingService"/>.</param>
-		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public static void ClearFromCache(this Node node, ICachingService cachingService)
-		{
-			// validate arguments
-			if (node == null)
-				throw new ArgumentNullException("node");
-			if (cachingService == null)
-				throw new ArgumentNullException("cachingService");
-
-			// fire the repository modified
-			cachingService.Clear(NodeCacheKeyFactory.RepositoryModifiedDependency.Key);
-		}
-		#endregion
-		#region Extensions for Nodeset
-		/// <summary>
-		/// Turns the given <paramref name="nodeset"/> in a cacheable object.
-		/// </summary>
-		/// <param name="nodeset">The <see cref="Nodeset"/> for which to create the cacheable object.</param>
-		/// <returns>Returns the <see cref="CachedObject{TObject}"/>.</returns>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="nodeset"/> is null.</exception>
-		public static CachedObject<Nodeset> AsCacheableObject(this Nodeset nodeset)
-		{
-			// validate arguments
-			if (nodeset == null)
-				throw new ArgumentNullException("nodeset");
-
-			// TODO: refactor this class
-			return new CachedNodeset(nodeset);
-		}
 		#endregion
 	}
 }
