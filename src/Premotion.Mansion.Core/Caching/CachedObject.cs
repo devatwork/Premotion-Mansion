@@ -62,7 +62,7 @@ namespace Premotion.Mansion.Core.Caching
 		/// <summary>
 		/// Gets the priority of this cache object.
 		/// </summary>
-		public Priority Priority { get; protected set; }
+		public Priority Priority { get; set; }
 		/// <summary>
 		/// Gets/Sets a flag indicating whether caching is enabled for this object.
 		/// </summary>
