@@ -176,6 +176,9 @@ namespace Premotion.Mansion.Core.Data.Caching
 			if (cachingService == null)
 				throw new ArgumentNullException("cachingService");
 
+			// fire the evict by ID
+			cachingService.Clear(node.CalculateIdCacheKey());
+
 			// fire the repository modified
 			cachingService.Clear(CachingRepositoryDecorator.RepositoryModifiedDependency.Key);
 		}
