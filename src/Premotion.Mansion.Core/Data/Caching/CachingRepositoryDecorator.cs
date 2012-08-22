@@ -36,15 +36,15 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// <returns>Returns a single <see cref="Node"/>.</returns>
 		protected override Node DoRetrieveSingleNode(IMansionContext context, Query query)
 		{
-			// check if this query is not cachable
-			if (!query.IsCachable())
+			// check if this query is not cacheable
+			if (!query.Iscacheable())
 				return DecoratedRepository.RetrieveSingleNode(context, query);
 
 			// create the cache key for this node
 			var cacheKey = query.CalculateCacheKey("Node_Query_");
 
 			// return the node
-			return cachingService.GetOrAdd(context, cacheKey, () => DecoratedRepository.RetrieveSingleNode(context, query).AsCachableObject());
+			return cachingService.GetOrAdd(context, cacheKey, () => DecoratedRepository.RetrieveSingleNode(context, query).AsCacheableObject());
 		}
 		/// <summary>
 		/// Retrieves multiple nodes from this repository.
@@ -54,15 +54,15 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// <returns>Returns a <see cref="Nodeset"/>.</returns>
 		protected override Nodeset DoRetrieveNodeset(IMansionContext context, Query query)
 		{
-			// check if this query is not cachable
-			if (!query.IsCachable())
+			// check if this query is not cacheable
+			if (!query.Iscacheable())
 				return DecoratedRepository.RetrieveNodeset(context, query);
 
 			// create the cache key for this node
 			var cacheKey = query.CalculateCacheKey("Nodeset_Query_");
 
 			// return the node
-			return cachingService.GetOrAdd(context, cacheKey, () => DecoratedRepository.RetrieveNodeset(context, query).AsCachableObject());
+			return cachingService.GetOrAdd(context, cacheKey, () => DecoratedRepository.RetrieveNodeset(context, query).AsCacheableObject());
 		}
 		/// <summary>
 		/// Creates a new node in this repository.
@@ -152,15 +152,15 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
 		protected override Record DoRetrieveSingle(IMansionContext context, Query query)
 		{
-			// check if this query is not cachable
-			if (!query.IsCachable())
+			// check if this query is not cacheable
+			if (!query.Iscacheable())
 				return DecoratedRepository.RetrieveSingle(context, query);
 
 			// create the cache key for this node
 			var cacheKey = query.CalculateCacheKey("Record_Query_");
 
 			// return the node
-			return cachingService.GetOrAdd(context, cacheKey, () => DecoratedRepository.RetrieveSingle(context, query).AsCachableObject());
+			return cachingService.GetOrAdd(context, cacheKey, () => DecoratedRepository.RetrieveSingle(context, query).AsCacheableObject());
 		}
 		/// <summary>
 		/// Retrieves a <see cref="Dataset"/> from this repository.
@@ -171,15 +171,15 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
 		protected override RecordSet DoRetrieve(IMansionContext context, Query query)
 		{
-			// check if this query is not cachable
-			if (!query.IsCachable())
+			// check if this query is not cacheable
+			if (!query.Iscacheable())
 				return DecoratedRepository.Retrieve(context, query);
 
 			// create the cache key for this node
 			var cacheKey = query.CalculateCacheKey("Record_Set_Query_");
 
 			// return the node
-			return cachingService.GetOrAdd(context, cacheKey, () => DecoratedRepository.Retrieve(context, query).AsCachableObject());
+			return cachingService.GetOrAdd(context, cacheKey, () => DecoratedRepository.Retrieve(context, query).AsCacheableObject());
 		}
 		/// <summary>
 		/// Creates a new record with the given <paramref name="properties"/>.
@@ -254,12 +254,12 @@ namespace Premotion.Mansion.Core.Data.Caching
 			return (StringCacheKey) (prefix + query);
 		}
 		/// <summary>
-		/// Checks whether the given <paramref name="query"/> is cachable.
+		/// Checks whether the given <paramref name="query"/> is cacheable.
 		/// </summary>
 		/// <param name="query">The <see cref="Query"/>.</param>
-		/// <returns>Returns true when the query is cachable, otherwise false.</returns>
+		/// <returns>Returns true when the query is cacheable, otherwise false.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="query"/> is null.</exception>
-		public static bool IsCachable(this Query query)
+		public static bool Iscacheable(this Query query)
 		{
 			// validate arguments
 			if (query == null)
@@ -276,7 +276,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// <param name="record">The <see cref="Record"/> for which to create the cacheable object.</param>
 		/// <returns>Returns the <see cref="CachedObject{TObject}"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="record"/> is null.</exception>
-		public static CachedObject<Record> AsCachableObject(this Record record)
+		public static CachedObject<Record> AsCacheableObject(this Record record)
 		{
 			// validate arguments
 			if (record == null)
@@ -313,10 +313,10 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// <summary>
 		/// Turns the given <paramref name="recordset"/> in a cacheable object.
 		/// </summary>
-		/// <param name="recordset">The <see cref="Nodeset"/> for which to create the cachable object.</param>
+		/// <param name="recordset">The <see cref="Nodeset"/> for which to create the cacheable object.</param>
 		/// <returns>Returns the <see cref="CachedObject{TObject}"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="recordset"/> is null.</exception>
-		public static CachedObject<RecordSet> AsCachableObject(this RecordSet recordset)
+		public static CachedObject<RecordSet> AsCacheableObject(this RecordSet recordset)
 		{
 			// validate arguments
 			if (recordset == null)
@@ -334,12 +334,12 @@ namespace Premotion.Mansion.Core.Data.Caching
 		#endregion
 		#region Extensions for Node
 		/// <summary>
-		/// Turns the given <paramref name="node"/> in a cachable object.
+		/// Turns the given <paramref name="node"/> in a cacheable object.
 		/// </summary>
-		/// <param name="node">The <see cref="Node"/> for which to create the cachable object.</param>
+		/// <param name="node">The <see cref="Node"/> for which to create the cacheable object.</param>
 		/// <returns>Returns the <see cref="CachedObject{TObject}"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="node"/> is null.</exception>
-		public static CachedObject<Node> AsCachableObject(this Node node)
+		public static CachedObject<Node> AsCacheableObject(this Node node)
 		{
 			// validate arguments
 			if (node == null)
@@ -368,12 +368,12 @@ namespace Premotion.Mansion.Core.Data.Caching
 		#endregion
 		#region Extensions for Nodeset
 		/// <summary>
-		/// Turns the given <paramref name="nodeset"/> in a cachable object.
+		/// Turns the given <paramref name="nodeset"/> in a cacheable object.
 		/// </summary>
-		/// <param name="nodeset">The <see cref="Nodeset"/> for which to create the cachable object.</param>
+		/// <param name="nodeset">The <see cref="Nodeset"/> for which to create the cacheable object.</param>
 		/// <returns>Returns the <see cref="CachedObject{TObject}"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="nodeset"/> is null.</exception>
-		public static CachedObject<Nodeset> AsCachableObject(this Nodeset nodeset)
+		public static CachedObject<Nodeset> AsCacheableObject(this Nodeset nodeset)
 		{
 			// validate arguments
 			if (nodeset == null)
