@@ -35,7 +35,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// <param name="query">The <see cref="Query"/>.</param>
 		/// <returns>Returns true when the query is cacheable, otherwise false.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="query"/> is null.</exception>
-		public static bool Iscacheable(this Query query)
+		public static bool IsCacheable(this Query query)
 		{
 			// validate arguments
 			if (query == null)
@@ -56,11 +56,38 @@ namespace Premotion.Mansion.Core.Data.Caching
 			// create a new cacheable object
 			var cacheable = new CachedObject<Record>(obj);
 
-			// add the repository modified cache key
-			cacheable.Add(CachingRepositoryDecorator.RepositoryModifiedDependency);
+			// if the result is found, cache it by it's id
+			if (obj != null)
+			{
+				// generate an ID for this specific record
+				var recordIdCacheKey = obj.CalculateIdCacheKey();
+
+				// add that cache key as the dependency
+				cacheable.Add((StringCacheKeyDependency) recordIdCacheKey);
+			}
+			else
+			{
+				// add the repository modified cache key
+				cacheable.Add(CachingRepositoryDecorator.RepositoryModifiedDependency);
+			}
 
 			// return the cacheable  object
 			return cacheable;
+		}
+		/// <summary>
+		/// Calculates an <see cref="CacheKey"/> on the <paramref name="record"/>'s ID.
+		/// </summary>
+		/// <param name="record">The <see cref="Record"/> for which to calculate a cache key.</param>
+		/// <returns>Returns the calculated <see cref="CacheKey"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="record"/> is null.</exception>
+		public static StringCacheKey CalculateIdCacheKey(this Record record)
+		{
+			// validate arguments
+			if (record == null)
+				throw new ArgumentNullException("record");
+
+			// return the generated cache key
+			return "Record_ID_" + record.Id;
 		}
 		/// <summary>
 		/// Clears the given <paramref name="record"/> from the <paramref name="cachingService"/>.
@@ -75,6 +102,9 @@ namespace Premotion.Mansion.Core.Data.Caching
 				throw new ArgumentNullException("record");
 			if (cachingService == null)
 				throw new ArgumentNullException("cachingService");
+
+			// fire the evict by ID
+			cachingService.Clear(record.CalculateIdCacheKey());
 
 			// fire the repository modified
 			cachingService.Clear(CachingRepositoryDecorator.RepositoryModifiedDependency.Key);
@@ -114,8 +144,20 @@ namespace Premotion.Mansion.Core.Data.Caching
 			// create a new cacheable object
 			var cacheable = new CachedObject<Node>(obj);
 
-			// add the repository modified cache key
-			cacheable.Add(CachingRepositoryDecorator.RepositoryModifiedDependency);
+			// if the result is found, cache it by it's id
+			if (obj != null)
+			{
+				// generate an ID for this specific record
+				var recordIdCacheKey = obj.CalculateIdCacheKey();
+
+				// add that cache key as the dependency
+				cacheable.Add((StringCacheKeyDependency) recordIdCacheKey);
+			}
+			else
+			{
+				// add the repository modified cache key
+				cacheable.Add(CachingRepositoryDecorator.RepositoryModifiedDependency);
+			}
 
 			// return the cacheable  object
 			return cacheable;

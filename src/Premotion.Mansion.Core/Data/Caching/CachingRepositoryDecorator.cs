@@ -46,7 +46,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 		protected override Node DoRetrieveSingleNode(IMansionContext context, Query query)
 		{
 			// check if this query is not cacheable
-			if (!query.Iscacheable())
+			if (!query.IsCacheable())
 				return DecoratedRepository.RetrieveSingleNode(context, query);
 
 			// create the cache key for this node
@@ -64,7 +64,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 		protected override Nodeset DoRetrieveNodeset(IMansionContext context, Query query)
 		{
 			// check if this query is not cacheable
-			if (!query.Iscacheable())
+			if (!query.IsCacheable())
 				return DecoratedRepository.RetrieveNodeset(context, query);
 
 			// create the cache key for this node
@@ -162,7 +162,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 		protected override Record DoRetrieveSingle(IMansionContext context, Query query)
 		{
 			// check if this query is not cacheable
-			if (!query.Iscacheable())
+			if (!query.IsCacheable())
 				return DecoratedRepository.RetrieveSingle(context, query);
 
 			// create the cache key for this node
@@ -181,7 +181,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 		protected override RecordSet DoRetrieve(IMansionContext context, Query query)
 		{
 			// check if this query is not cacheable
-			if (!query.Iscacheable())
+			if (!query.IsCacheable())
 				return DecoratedRepository.Retrieve(context, query);
 
 			// create the cache key for this node
