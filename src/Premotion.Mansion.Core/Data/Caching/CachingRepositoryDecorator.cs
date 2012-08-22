@@ -62,7 +62,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 			var cacheKey = query.CalculateCacheKey("Nodeset_Query_");
 
 			// return the node
-			return cachingService.GetOrAdd(context, cacheKey, () => new CachedNodeset(DecoratedRepository.RetrieveNodeset(context, query)));
+			return cachingService.GetOrAdd(context, cacheKey, () => DecoratedRepository.RetrieveNodeset(context, query).AsCachableObject());
 		}
 		/// <summary>
 		/// Creates a new node in this repository.
@@ -304,6 +304,23 @@ namespace Premotion.Mansion.Core.Data.Caching
 
 			// fire the repository modified
 			cachingService.Clear(NodeCacheKeyFactory.RepositoryModifiedDependency.Key);
+		}
+		#endregion
+		#region Extensions for Nodeset
+		/// <summary>
+		/// Turns the given <paramref name="nodeset"/> in a cachable object.
+		/// </summary>
+		/// <param name="nodeset">The <see cref="Nodeset"/> for which to create the cachable object.</param>
+		/// <returns>Returns the <see cref="CachedObject{TObject}"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="nodeset"/> is null.</exception>
+		public static CachedObject<Nodeset> AsCachableObject(this Nodeset nodeset)
+		{
+			// validate arguments
+			if (nodeset == null)
+				throw new ArgumentNullException("nodeset");
+
+			// TODO: refactor this class
+			return new CachedNodeset(nodeset);
 		}
 		#endregion
 	}
