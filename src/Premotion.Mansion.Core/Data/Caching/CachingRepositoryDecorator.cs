@@ -41,10 +41,10 @@ namespace Premotion.Mansion.Core.Data.Caching
 				return DecoratedRepository.RetrieveSingleNode(context, query);
 
 			// create the cache key for this node
-			var nodeCacheKey = NodeCacheKeyFactory.CreateForNode(query);
+			var cacheKey = query.CalculateCacheKey("Node_Query_");
 
 			// return the node
-			return cachingService.GetOrAdd(context, nodeCacheKey, () => new CachedNode(DecoratedRepository.RetrieveSingleNode(context, query)));
+			return cachingService.GetOrAdd(context, cacheKey, () => new CachedNode(DecoratedRepository.RetrieveSingleNode(context, query)));
 		}
 		/// <summary>
 		/// Retrieves multiple nodes from this repository.
@@ -59,10 +59,10 @@ namespace Premotion.Mansion.Core.Data.Caching
 				return DecoratedRepository.RetrieveNodeset(context, query);
 
 			// create the cache key for this node
-			var nodesetCacheKey = NodeCacheKeyFactory.CreateForNodeset(query);
+			var cacheKey = query.CalculateCacheKey("Nodeset_Query_");
 
 			// return the node
-			return cachingService.GetOrAdd(context, nodesetCacheKey, () => new CachedNodeset(DecoratedRepository.RetrieveNodeset(context, query)));
+			return cachingService.GetOrAdd(context, cacheKey, () => new CachedNodeset(DecoratedRepository.RetrieveNodeset(context, query)));
 		}
 		/// <summary>
 		/// Creates a new node in this repository.
@@ -219,6 +219,24 @@ namespace Premotion.Mansion.Core.Data.Caching
 	public static class Extensions
 	{
 		#region Extensions for Query
+		/// <summary>
+		/// Calculates a node cache key for the given <paramref name="query"/>.
+		/// </summary>
+		/// <param name="query">The <see cref="Query"/> for which to generate the <see cref="CacheKey"/>.</param>
+		/// <param name="prefix">The prefix of the cache query.</param>
+		/// <returns>Returns the calculated <see cref="CacheKey"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="query"/> or <paramref name="prefix"/> is null.</exception>
+		public static CacheKey CalculateCacheKey(this Query query, string prefix)
+		{
+			// validate arguments
+			if (query == null)
+				throw new ArgumentNullException("query");
+			if (string.IsNullOrEmpty(prefix))
+				throw new ArgumentNullException("prefix");
+
+			// generate the cache key
+			return (StringCacheKey) (prefix + query);
+		}
 		/// <summary>
 		/// Checks whether the given <paramref name="query"/> is cachable.
 		/// </summary>
