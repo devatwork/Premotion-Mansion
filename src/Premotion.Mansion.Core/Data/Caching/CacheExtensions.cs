@@ -51,13 +51,8 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// </summary>
 		/// <param name="obj">The <see cref="Record"/> for which to create the cacheable object.</param>
 		/// <returns>Returns the <see cref="CachedObject{TObject}"/>.</returns>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="obj"/> is null.</exception>
 		public static CachedObject<Record> AsCacheableObject(this Record obj)
 		{
-			// validate arguments
-			if (obj == null)
-				throw new ArgumentNullException("obj");
-
 			// create a new cacheable object
 			var cacheable = new CachedObject<Record>(obj);
 
@@ -114,13 +109,8 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// </summary>
 		/// <param name="obj">The <see cref="Node"/> for which to create the cacheable object.</param>
 		/// <returns>Returns the <see cref="CachedObject{TObject}"/>.</returns>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="obj"/> is null.</exception>
 		public static CachedObject<Node> AsCacheableObject(this Node obj)
 		{
-			// validate arguments
-			if (obj == null)
-				throw new ArgumentNullException("obj");
-
 			// create a new cacheable object
 			var cacheable = new CachedObject<Node>(obj);
 
