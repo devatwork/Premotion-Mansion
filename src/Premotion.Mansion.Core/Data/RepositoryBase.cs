@@ -96,18 +96,18 @@ namespace Premotion.Mansion.Core.Data
 		/// Deletes an existing node from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="pointer">The pointer to the node which will be deleted.</param>
-		public void DeleteNode(IMansionContext context, NodePointer pointer)
+		/// <param name="node">The pointer to the node which will be deleted.</param>
+		public void DeleteNode(IMansionContext context, Node node)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
-			if (pointer == null)
-				throw new ArgumentNullException("pointer");
+			if (node == null)
+				throw new ArgumentNullException("node");
 			CheckDisposed();
 
 			// invoke template method
-			DoDeleteNode(context, pointer);
+			DoDeleteNode(context, node);
 		}
 		/// <summary>
 		/// Moves an existing node in this repository to a new parent node.
@@ -308,8 +308,8 @@ namespace Premotion.Mansion.Core.Data
 		/// Deletes an existing node from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="pointer">The pointer to the node which will be deleted.</param>
-		protected abstract void DoDeleteNode(IMansionContext context, NodePointer pointer);
+		/// <param name="node">The pointer to the node which will be deleted.</param>
+		protected abstract void DoDeleteNode(IMansionContext context, Node node);
 		/// <summary>
 		/// Moves an existing node in this repository to a new parent node.
 		/// </summary>

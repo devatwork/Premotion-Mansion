@@ -15,36 +15,33 @@ namespace Premotion.Mansion.Web.Portal.Web.Types.Page
 		/// This method is called just before a node is created by the repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="parent">The parent node to which the new child will be added.</param>
-		/// <param name="newProperties">The new properties of the node.</param>
-		protected override void DoBeforeCreate(IMansionContext context, Node parent, IPropertyBag newProperties)
+		/// <param name="properties">The new properties of the node.</param>
+		protected override void DoBeforeCreate(IMansionContext context, IPropertyBag properties)
 		{
 			// check if the layout is set
 			string layout;
-			if (newProperties.TryGet(context, "layout", out layout))
+			if (properties.TryGet(context, "layout", out layout))
 				return;
-			if (!parent.TryGet(context, "layout", out layout))
-				layout = "OneColumnLayout";
 
 			// set the layout
-			newProperties.TrySet("layout", layout);
+			properties.TrySet("layout", layout);
 		}
 		/// <summary>
 		/// This method is called just before a node is updated by the repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="node">The node which will be modified.</param>
-		/// <param name="modifiedProperties">The updated properties of the node.</param>
-		protected override void DoBeforeUpdate(IMansionContext context, Node node, IPropertyBag modifiedProperties)
+		/// <param name="record"> </param>
+		/// <param name="properties">The updated properties of the node.</param>
+		protected override void DoBeforeUpdate(IMansionContext context, Record record, IPropertyBag properties)
 		{
 			// check if the layout was not modified
 			string newLayoutName;
-			if (!modifiedProperties.TryGet(context, "layout", out newLayoutName))
+			if (!properties.TryGet(context, "layout", out newLayoutName))
 				return;
 
 			// check if there was no old layout
 			string oldLayoutName;
-			if (!node.TryGet(context, "layout", out oldLayoutName))
+			if (!record.TryGet(context, "layout", out oldLayoutName))
 				return;
 
 			// get the schemas
@@ -56,7 +53,7 @@ namespace Premotion.Mansion.Web.Portal.Web.Types.Page
 			var blockNodeset = repository.RetrieveNodeset(context, new PropertyBag
 			                                                       {
 			                                                       	{"baseType", "Block"},
-			                                                       	{"parentSource", node}
+			                                                       	{"parentSource", record}
 			                                                       });
 
 			// loop through all the nodes
@@ -73,9 +70,9 @@ namespace Premotion.Mansion.Web.Portal.Web.Types.Page
 
 				// move the block to the default column
 				repository.UpdateNode(context, blockNode, new PropertyBag
-				                                      {
-				                                      	{"column", newColumnSchema.DefaultColumn}
-				                                      });
+				                                          {
+				                                          	{"column", newColumnSchema.DefaultColumn}
+				                                          });
 			}
 		}
 	}

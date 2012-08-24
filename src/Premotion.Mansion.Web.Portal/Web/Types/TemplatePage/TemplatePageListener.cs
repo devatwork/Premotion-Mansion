@@ -16,11 +16,15 @@ namespace Premotion.Mansion.Web.Portal.Web.Types.TemplatePage
 		/// This method is called just after a node is created by the repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="parent">The parent node to which the new child was be added.</param>
-		/// <param name="node">The created node.</param>
-		/// <param name="newProperties">The properties from which the <paramref name="node"/> was constructed.</param>
-		protected override void DoAfterCreate(IMansionContext context, Node parent, Node node, IPropertyBag newProperties)
+		/// <param name="record"> </param>
+		/// <param name="properties">The properties from which the <paramref name="record"/> was constructed.</param>
+		protected override void DoAfterCreate(IMansionContext context, Record record, IPropertyBag properties)
 		{
+			// get the node
+			var node = record as Node;
+			if (node == null)
+				throw new InvalidOperationException("Record is not a node");
+
 			// get the layout schema
 			string layoutName;
 			if (!node.TryGet(context, "layout", out layoutName))
@@ -29,15 +33,12 @@ namespace Premotion.Mansion.Web.Portal.Web.Types.TemplatePage
 
 			// add the content detail block to the primary column
 			context.Repository.CreateNode(context, node, new PropertyBag
-			                                         {
-			                                         	{"name", "Content Detail Block"},
-			                                         	{"type", "ContentDetailBlock"},
-			                                         	{"approved", true},
-			                                         	{"column", layoutSchema.DefaultColumn}
-			                                         });
-
-			// invoke base
-			base.DoAfterCreate(context, parent, node, newProperties);
+			                                             {
+			                                             	{"name", "Content Detail Block"},
+			                                             	{"type", "ContentDetailBlock"},
+			                                             	{"approved", true},
+			                                             	{"column", layoutSchema.DefaultColumn}
+			                                             });
 		}
 	}
 }

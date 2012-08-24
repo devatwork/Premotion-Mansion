@@ -16,15 +16,15 @@ namespace Premotion.Mansion.Web.Portal.Web.Types.Page
 		/// This method is called just before a node is updated by the repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="node">The node which will be modified.</param>
-		/// <param name="modifiedProperties">The updated properties of the node.</param>
-		protected override void DoBeforeUpdate(IMansionContext context, Node node, IPropertyBag modifiedProperties)
+		/// <param name="record"> </param>
+		/// <param name="properties">The updated properties of the node.</param>
+		protected override void DoBeforeUpdate(IMansionContext context, Record record, IPropertyBag properties)
 		{
 			// get the variables
 			string currentTheme;
-			var hasCurrentTheme = node.TryGet(context, "theme", out currentTheme) && !string.IsNullOrEmpty(currentTheme);
+			var hasCurrentTheme = record.TryGet(context, "theme", out currentTheme) && !string.IsNullOrEmpty(currentTheme);
 			string newTheme;
-			var hasNewTheme = modifiedProperties.TryGet(context, "theme", out newTheme) && !string.IsNullOrEmpty(newTheme);
+			var hasNewTheme = properties.TryGet(context, "theme", out newTheme) && !string.IsNullOrEmpty(newTheme);
 
 			// do nothing when the page does not have a theme yet
 			if (!hasCurrentTheme)
@@ -38,7 +38,7 @@ namespace Premotion.Mansion.Web.Portal.Web.Types.Page
 			var blockNodeset = repository.RetrieveNodeset(context, new PropertyBag
 			                                                       {
 			                                                       	{"baseType", "Block"},
-			                                                       	{"parentSource", node}
+			                                                       	{"parentSource", record}
 			                                                       });
 
 			// check if a new theme is selected
@@ -62,17 +62,17 @@ namespace Premotion.Mansion.Web.Portal.Web.Types.Page
 						continue;
 
 					// block is obsolete delete it
-					repository.DeleteNode(context, blockNode.Pointer);
+					repository.DeleteNode(context, blockNode);
 				}
 			}
 			else
 			{
 				// theme is removed, delete all the theme blocks
 				foreach (var blockNode in blockNodeset.Nodes.Where(candidate => currentThemeSchema.ContainsColumn(candidate.Get<string>(context, "column"))))
-					repository.DeleteNode(context, blockNode.Pointer);
+					repository.DeleteNode(context, blockNode);
 			}
 
-			base.DoBeforeUpdate(context, node, modifiedProperties);
+			base.DoBeforeUpdate(context, record, properties);
 		}
 	}
 }

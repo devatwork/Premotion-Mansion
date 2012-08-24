@@ -43,8 +43,8 @@ namespace Premotion.Mansion.Core.Data
 		/// Deletes an existing node from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="pointer">The pointer to the node which will be deleted.</param>
-		void DeleteNode(IMansionContext context, NodePointer pointer);
+		/// <param name="node">The pointer to the node which will be deleted.</param>
+		void DeleteNode(IMansionContext context, Node node);
 		/// <summary>
 		/// Moves an existing node in this repository to a new parent node.
 		/// </summary>

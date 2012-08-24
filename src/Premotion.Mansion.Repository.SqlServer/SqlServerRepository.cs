@@ -155,8 +155,8 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// Deletes an existing node from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="pointer">The pointer to the node which will be deleted.</param>
-		protected override void DoDeleteNode(IMansionContext context, NodePointer pointer)
+		/// <param name="node">The pointer to the node which will be deleted.</param>
+		protected override void DoDeleteNode(IMansionContext context, Node node)
 		{
 			// build the query
 			using (var connection = CreateConnection())
@@ -164,7 +164,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 			using (var command = context.Nucleus.CreateInstance<DeleteNodeCommand>())
 			{
 				// init the command
-				command.Prepare(context, connection, transaction, pointer);
+				command.Prepare(context, connection, transaction, node.Pointer);
 
 				// execute the command
 				try
