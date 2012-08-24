@@ -24,7 +24,7 @@ namespace Premotion.Mansion.Web.Http
 			var response = context.HttpContext.Response;
 
 			// retrieve the resource
-			var originalResourcePath = PathRewriterHttpModule.GetOriginalMappedPath(context.HttpContext);
+			var originalResourcePath = context.HttpContext.Request.GetPathWithoutHandlerPrefix();
 
 			// split the path
 			var pathParts = originalResourcePath.Split(Dispatcher.Constants.UrlPartTrimCharacters, StringSplitOptions.RemoveEmptyEntries);

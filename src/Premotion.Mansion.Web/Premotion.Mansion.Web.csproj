@@ -38,7 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -71,13 +71,17 @@
     <Compile Include="Cms\Constants.cs" />
     <Compile Include="Cms\Descriptors\ChildTypeDescriptor.cs" />
     <Compile Include="Cms\Descriptors\CmsBehaviorDescriptor.cs" />
+    <Compile Include="Cms\Descriptors\CmsPluginDescriptor.cs" />
     <Compile Include="Cms\Model\ChildType.cs" />
     <Compile Include="Cms\Model\CmsBehavior.cs" />
     <Compile Include="Cms\ScriptFunctions\CanContainChild.cs" />
     <Compile Include="Cms\ScriptFunctions\CmsRouteUrl.cs" />
+    <Compile Include="Cms\ScriptFunctions\CmsNodeUrl.cs" />
+    <Compile Include="Cms\ScriptFunctions\GetTypeDefinitionProperty.cs" />
     <Compile Include="Cms\ScriptFunctions\GetTypeDefinitionIcon.cs" />
     <Compile Include="Cms\ScriptFunctions\GetTypeDefinitionLabel.cs" />
     <Compile Include="Cms\ScriptFunctions\HasChildTypes.cs" />
+    <Compile Include="Cms\ScriptTags\GetPluginDatasetTag.cs" />
     <Compile Include="ConfigurationSettingsApplicationInitializer.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controls\Container.cs" />
@@ -85,14 +89,21 @@
     <Compile Include="Controls\Control.cs" />
     <Compile Include="Controls\ControlDefinition.cs" />
     <Compile Include="Controls\DataboundControl.cs" />
-    <Compile Include="Controls\Dialog\ScriptTags\InvokeDialogParentTriggerTag.cs" />
+    <Compile Include="Controls\Dialog\InvokeDialogParentTriggerTag.cs" />
     <Compile Include="Controls\Forms\Action.cs" />
     <Compile Include="Controls\Forms\Actions\PrepareDelegateAction.cs" />
     <Compile Include="Controls\Forms\Actions\ProcessDelegateAction.cs" />
     <Compile Include="Controls\Forms\Actions\ProcessScriptAction.cs" />
     <Compile Include="Controls\Forms\Actions\StoreRegistrationAction.cs" />
+    <Compile Include="Controls\Forms\Alerts\ErrorAlert.cs" />
+    <Compile Include="Controls\Forms\Alerts\InfoAlert.cs" />
+    <Compile Include="Controls\Forms\Alerts\InstructionAlert.cs" />
+    <Compile Include="Controls\Forms\Alerts\AlertBase.cs" />
+    <Compile Include="Controls\Forms\Alerts\SuccessAlert.cs" />
+    <Compile Include="Controls\Forms\Alerts\WarningAlert.cs" />
     <Compile Include="Controls\Forms\Buttons\Button.cs" />
     <Compile Include="Controls\Forms\Buttons\ButtonBar.cs" />
+    <Compile Include="Controls\Forms\Buttons\ButtonGroup.cs" />
     <Compile Include="Controls\Forms\Buttons\LinkButton.cs" />
     <Compile Include="Controls\Forms\Containers\CollapsibleFieldset.cs" />
     <Compile Include="Controls\Forms\Containers\Fieldset.cs" />
@@ -101,15 +112,22 @@
     <Compile Include="Controls\Forms\Field.cs" />
     <Compile Include="Controls\Forms\Fields\Checkbox.cs" />
     <Compile Include="Controls\Forms\Fields\CheckboxList.cs" />
+    <Compile Include="Controls\Grid\Column.cs" />
+    <Compile Include="Controls\Grid\ColumnFilter.cs" />
+    <Compile Include="Controls\Grid\ColumnSort.cs" />
+    <Compile Include="Controls\Grid\ExpressionColumn.cs" />
+    <Compile Include="Controls\Grid\Grid.cs" />
+    <Compile Include="Controls\Forms\Fields\MultiNodeSelector.cs" />
+    <Compile Include="Controls\Forms\Fields\NodeSelectorBase.cs" />
+    <Compile Include="Controls\Forms\Fields\SingleNodeSelector.cs" />
+    <Compile Include="Controls\Forms\Fields\NodeSelectorPropertiesTag.cs" />
     <Compile Include="Controls\Forms\Fields\DateTimeField.cs" />
     <Compile Include="Controls\Forms\Fields\Date.cs" />
     <Compile Include="Controls\Forms\Fields\DecimalNumber.cs" />
     <Compile Include="Controls\Forms\Fields\Email.cs" />
     <Compile Include="Controls\Forms\Fields\Hidden.cs" />
     <Compile Include="Controls\Forms\Fields\ImageUpload.cs" />
-    <Compile Include="Controls\Forms\Fields\MultiNodeSelector.cs" />
     <Compile Include="Controls\Forms\Fields\MultiSelect.cs" />
-    <Compile Include="Controls\Forms\Fields\NodeSelectorBase.cs" />
     <Compile Include="Controls\Forms\Fields\NodeTreeSelect.cs" />
     <Compile Include="Controls\Forms\Fields\Number.cs" />
     <Compile Include="Controls\Forms\Fields\Password.cs" />
@@ -117,7 +135,6 @@
     <Compile Include="Controls\Forms\Fields\Readonly.cs" />
     <Compile Include="Controls\Forms\Fields\RichTextArea.cs" />
     <Compile Include="Controls\Forms\Fields\Selectbox.cs" />
-    <Compile Include="Controls\Forms\Fields\SingleNodeSelector.cs" />
     <Compile Include="Controls\Forms\Fields\TagTextbox.cs" />
     <Compile Include="Controls\Forms\Fields\Textarea.cs" />
     <Compile Include="Controls\Forms\Fields\Textbox.cs" />
@@ -151,23 +168,12 @@
     <Compile Include="Controls\Forms\Validation\RequiredFieldValidator.cs" />
     <Compile Include="Controls\Forms\Validation\UrlFieldValidator.cs" />
     <Compile Include="Controls\Forms\Validation\ValidationSummary.cs" />
-    <Compile Include="Controls\Grid\Column.cs" />
-    <Compile Include="Controls\Grid\ColumnFilter.cs" />
-    <Compile Include="Controls\Grid\ColumnSort.cs" />
-    <Compile Include="Controls\Grid\ExpressionColumn.cs" />
-    <Compile Include="Controls\Grid\Grid.cs" />
-    <Compile Include="Controls\Grid\NoColumnFilter.cs" />
-    <Compile Include="Controls\Grid\NoColumnSort.cs" />
     <Compile Include="Controls\Grid\PropertyColumn.cs" />
-    <Compile Include="Controls\Grid\PropertyColumnSort.cs" />
-    <Compile Include="Controls\Grid\ScriptedColumn.cs" />
     <Compile Include="Controls\Grid\SelectboxColumnFilter.cs" />
     <Compile Include="Controls\Grid\TextboxColumnFilter.cs" />
     <Compile Include="Controls\IControl.cs" />
     <Compile Include="Controls\IDataConsumerControl.cs" />
     <Compile Include="Controls\IFormControl.cs" />
-    <Compile Include="Controls\List\List.cs" />
-    <Compile Include="Controls\Paging\RenderEmbeddedPagingControl.cs" />
     <Compile Include="Controls\Paging\RenderPagingControl.cs" />
     <Compile Include="Controls\Providers\DataProvider.cs" />
     <Compile Include="Controls\Providers\DatasetProvider.cs" />
@@ -201,7 +207,6 @@
     <Compile Include="Http\OutputCachableHttpHandlerBase.cs" />
     <Compile Include="Http\ScriptHttpHandler.cs" />
     <Compile Include="Http\MergeResourceHttpHandler.cs" />
-    <Compile Include="Http\PathRewriterHttpModule.cs" />
     <Compile Include="Http\StaticContentHttpHandler.cs" />
     <Compile Include="Http\StaticResourceHttpHandler.cs" />
     <Compile Include="Http\StreamingStaticContentHttpHandler.cs" />
@@ -244,6 +249,9 @@
     <Compile Include="Security\RepositorySecurityPersistenceService.cs" />
     <Compile Include="Security\WebSecurityService.cs" />
     <Compile Include="TagUtilities.cs" />
+    <None Include="Cms\ScriptTags\web.cms.tags.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MyApplicationBootstrapper.cs.pp" />
     <Compile Include="Url\RouteUrlBuilder.cs" />
     <Compile Include="Url\INodeUrlService.cs" />
@@ -315,7 +323,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Web\Cms\CmsController.tpl" />
-    <EmbeddedResource Include="Web\Cms\CmsController.xinclude" />
+    <EmbeddedResource Include="Web\Cms\CmsController.xinclude">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Web\Cms\DialogController.tpl" />
     <EmbeddedResource Include="Web\Cms\DialogController.xinclude" />
     <EmbeddedResource Include="Web\Controls\AsyncController.xinclude">
@@ -325,8 +335,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Web\Controls\Css\Controls.css" />
-    <EmbeddedResource Include="Web\Controls\EditorController.tpl" />
-    <EmbeddedResource Include="Web\Controls\EditorController.xinclude" />
     <EmbeddedResource Include="Web\Controls\Js\Controls.js" />
     <EmbeddedResource Include="Web\Dispatcher\Dispatcher.xinclude" />
     <EmbeddedResource Include="Web\Dispatcher\DispatcherWithoutRepository.xinclude" />
@@ -650,23 +658,33 @@
     <EmbeddedResource Include="Web\Types\AssetFolder\AssetFolder.xdef" />
     <EmbeddedResource Include="Web\Types\AssetTypeIndex\AssetTypeIndex.xdef" />
     <EmbeddedResource Include="Web\Types\AssetType\AssetType.xdef" />
+    <EmbeddedResource Include="Web\Types\CmsBrowserPlugin\CmsBrowserPlugin.xdef" />
+    <EmbeddedResource Include="Web\Types\CmsBrowserPlugin\CmsBrowserPlugin.xinclude" />
+    <EmbeddedResource Include="Web\Types\CmsBrowserPlugin\CmsBrowserPlugin.tpl" />
+    <EmbeddedResource Include="Web\Types\CmsHomePlugin\CmsHomePlugin.xdef" />
+    <EmbeddedResource Include="Web\Types\CmsHomePlugin\CmsHomePlugin.tpl" />
+    <EmbeddedResource Include="Web\Types\CmsHomePlugin\CmsHomePlugin.xinclude" />
+    <EmbeddedResource Include="Web\Types\CmsPlugin\CmsPlugin.tpl" />
+    <EmbeddedResource Include="Web\Types\CmsPlugin\CmsPlugin.xinclude" />
+    <EmbeddedResource Include="Web\Types\CmsPlugin\CmsPlugin.xdef" />
+    <EmbeddedResource Include="Web\Types\CmsSiteManagerPlugin\CmsSiteManagerPlugin.tpl" />
+    <EmbeddedResource Include="Web\Types\CmsSiteManagerPlugin\CmsSiteManagerPlugin.xinclude" />
+    <EmbeddedResource Include="Web\Types\CmsSiteManagerPlugin\CmsSiteManagerPlugin.xdef" />
     <EmbeddedResource Include="Web\Types\Cms\Cms.xdef" />
-    <EmbeddedResource Include="Web\Types\DefaultIndex\DefaultIndex.Cms.tpl" />
-    <EmbeddedResource Include="Web\Types\DefaultIndex\DefaultIndex.Cms.xinclude" />
     <EmbeddedResource Include="Web\Types\DefaultIndex\DefaultIndex.png" />
     <EmbeddedResource Include="Web\Types\DefaultIndex\DefaultIndex.xdef" />
+    <EmbeddedResource Include="Web\Types\Default\Default.MultiNodeSelector.Dialog.xform" />
+    <EmbeddedResource Include="Web\Types\Default\Default.SingleNodeSelector.Dialog.xform" />
     <EmbeddedResource Include="Web\Types\Default\Default.AddChildToNode.Dialog.xform" />
     <EmbeddedResource Include="Web\Types\Default\Default.ChangeOrder.Dialog.tpl" />
     <EmbeddedResource Include="Web\Types\Default\Default.ChangeOrder.Dialog.xform" />
     <EmbeddedResource Include="Web\Types\Default\Default.CopyNode.Dialog.xform" />
     <EmbeddedResource Include="Web\Types\Default\Default.DeleteNode.Dialog.xform" />
-    <EmbeddedResource Include="Web\Types\Default\Default.Dialog.xinclude" />
     <EmbeddedResource Include="Web\Types\Default\Default.MoveNode.Dialog.xform" />
-    <EmbeddedResource Include="Web\Types\Default\Default.NodeSelector.Dialog.xinclude">
+    <EmbeddedResource Include="Web\Types\Default\Default.png" />
+    <EmbeddedResource Include="Web\Types\Default\Default.xdef">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Web\Types\Default\Default.png" />
-    <EmbeddedResource Include="Web\Types\Default\Default.xdef" />
     <EmbeddedResource Include="Web\Types\Default\Default.xform" />
     <EmbeddedResource Include="Web\Types\RegistrationIndex\Export.xts" />
     <EmbeddedResource Include="Web\Types\RegistrationIndex\RegistrationIndex.xdef" />

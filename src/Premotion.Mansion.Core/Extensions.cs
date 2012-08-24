@@ -9,7 +9,6 @@ using System.Xml.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Premotion.Mansion.Core.Collections;
-using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Patterns.Descriptors;
 using Premotion.Mansion.Core.Types;
@@ -449,123 +448,6 @@ namespace Premotion.Mansion.Core
 			return attribute;
 		}
 		#endregion
-		#region Extensions of IRepository
-		/// <summary>
-		/// Retrieves multiple nodes from this repository.
-		/// </summary>
-		/// <param name="repository">The <see cref="IRepository"/> on which to execute the query.</param>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="arguments">The arguments which to parse.</param>
-		/// <returns>Returns a <see cref="Nodeset"/>.</returns>
-		public static Nodeset Retrieve(this IRepository repository, IMansionContext context, IPropertyBag arguments)
-		{
-			// validate arguments
-			if (repository == null)
-				throw new ArgumentNullException("repository");
-			if (context == null)
-				throw new ArgumentNullException("context");
-			if (arguments == null)
-				throw new ArgumentNullException("arguments");
-
-			// parse the query
-			var query = repository.ParseQuery(context, arguments);
-
-			// execute the query
-			return repository.Retrieve(context, query);
-		}
-		/// <summary>
-		/// Retrieves a single node from this repository.
-		/// </summary>
-		/// <param name="repository">The <see cref="IRepository"/> on which to execute the query.</param>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="arguments">The arguments which to parse.</param>
-		/// <returns>Returns a single <see cref="Node"/>.</returns>
-		public static Node RetrieveSingle(this IRepository repository, IMansionContext context, IPropertyBag arguments)
-		{
-			// validate arguments
-			if (repository == null)
-				throw new ArgumentNullException("repository");
-			if (context == null)
-				throw new ArgumentNullException("context");
-			if (arguments == null)
-				throw new ArgumentNullException("arguments");
-
-			// parse the query
-			var query = repository.ParseQuery(context, arguments);
-
-			// execute the query
-			return repository.RetrieveSingle(context, query);
-		}
-		/// <summary>
-		/// Retrieves the root <see cref="Node"/>.
-		/// </summary>
-		/// <param name="repository">The <see cref="IRepository"/> from which to retrieve the node.</param>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <returns>Returns the root node when found.</returns>
-		/// <exception cref="InvalidOperationException">Thrown when root node could not be found in the repository.</exception>
-		public static Node RetrieveRootNode(this IRepository repository, IMansionContext context)
-		{
-			// validate arguments
-			if (repository == null)
-				throw new ArgumentNullException("repository");
-			if (context == null)
-				throw new ArgumentNullException("context");
-
-			// retrieve the node
-			var rootNode = repository.RetrieveSingle(context, new PropertyBag
-			                                                  {
-			                                                  	{"id", 1},
-			                                                  	{"bypassAuthorization", true}
-			                                                  });
-			if (rootNode == null)
-				throw new InvalidOperationException("Could not find root node, please check repository");
-			return rootNode;
-		}
-		/// <summary>
-		/// Retrieves the <see cref="Node"/> by it's <paramref name="id"/>.
-		/// </summary>
-		/// <param name="repository">The <see cref="IRepository"/> from which to retrieve the node.</param>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="id">The ID of the <see cref="Node"/> which to retrieve.</param>
-		/// <returns>Returns the <see cref="Node"/> when found.</returns>
-		public static Node RetrieveSingle(this IRepository repository, IMansionContext context, int id)
-		{
-			// validate arguments
-			if (repository == null)
-				throw new ArgumentNullException("repository");
-			if (context == null)
-				throw new ArgumentNullException("context");
-
-			// retrieve the node
-			return repository.RetrieveSingle(context, new PropertyBag
-			                                          {
-			                                          	{"id", id},
-			                                          	{"bypassAuthorization", true}
-			                                          });
-		}
-		/// <summary>
-		/// Retrieves the <see cref="Node"/> by it's <paramref name="guid"/>.
-		/// </summary>
-		/// <param name="repository">The <see cref="IRepository"/> from which to retrieve the node.</param>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="guid">The <see cref="Guid"/> of the <see cref="Node"/> which to retrieve.</param>
-		/// <returns>Returns the <see cref="Node"/> when found.</returns>
-		public static Node RetrieveSingle(this IRepository repository, IMansionContext context, Guid guid)
-		{
-			// validate arguments
-			if (repository == null)
-				throw new ArgumentNullException("repository");
-			if (context == null)
-				throw new ArgumentNullException("context");
-
-			// retrieve the node
-			return repository.RetrieveSingle(context, new PropertyBag
-			                                          {
-			                                          	{"guid", guid},
-			                                          	{"bypassAuthorization", true}
-			                                          });
-		}
-		#endregion
 		#region Extensions of Assembly
 		/// <summary>
 		/// Checks wether the givens <paramref name="candidate"/> is in fact a manion assembly.
@@ -600,6 +482,28 @@ namespace Premotion.Mansion.Core
 			catch (Exception)
 			{
 				return false;
+			}
+		}
+		/// <summary>
+		/// Gets the <see cref="Type"/>s from the given <paramref name="assembly"/> safely.
+		/// </summary>
+		/// <param name="assembly">The <see cref="Assembly"/> from which to load the types.</param>
+		/// <returns>Returns the loaded <see cref="Type"/>s.</returns>
+		/// <seealso href="http://haacked.com/archive/2012/07/23/get-all-types-in-an-assembly.aspx"/>
+		public static IEnumerable<Type> GetTypesSafe(this Assembly assembly)
+		{
+			// validate arguments
+			if (assembly == null)
+				throw new ArgumentNullException("assembly");
+
+			// try to get the type
+			try
+			{
+				return assembly.GetTypes();
+			}
+			catch (ReflectionTypeLoadException ex)
+			{
+				return ex.Types;
 			}
 		}
 		#endregion
@@ -652,6 +556,17 @@ namespace Premotion.Mansion.Core
 			if (!nucleus.TryResolveSingle(strongName, out result))
 				throw new InvalidOperationException(String.Format("Missing a dependency of type '{0}' with namespace '{1}' and name '{2}'", typeof (TContract), namespaceUri, name));
 			return result;
+		}
+		/// <summary>
+		/// Creates an instance of type <typeparamref name="TContract"/>.
+		/// </summary>
+		/// <typeparam name="TContract">The contract <see cref="Type"/>.</typeparam>
+		/// <param name="nucleus">The <see cref="INucleus"/>.</param>
+		/// <returns>Returns the created object.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="nucleus"/> is null.</exception>
+		public static TContract CreateInstance<TContract>(this INucleus nucleus) where TContract : class
+		{
+			return typeof (TContract).CreateInstance<TContract>(nucleus);
 		}
 		#endregion
 		#region Extensions of ITypeDefinition
@@ -706,6 +621,46 @@ namespace Premotion.Mansion.Core
 			descriptor = default(TDescriptor);
 			return false;
 		}
+		/// <summary>
+		/// Finds the common ancestor of the given <paramref name="types"/>.
+		/// </summary>
+		/// <param name="types">The <see cref="ITypeDefinition"/>s for which to find the common ancestor.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <returns>Returns the <see cref="ITypeDefinition"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="types"/> or <paramref name="context"/> is null.</exception>
+		/// <exception cref="InvalidOperationException">Throw if no common ancestor type could be found.</exception>
+		public static ITypeDefinition FindCommonAncestor(this IEnumerable<ITypeDefinition> types, IMansionContext context)
+		{
+			// validate arguments
+			if (types == null)
+				throw new ArgumentNullException("types");
+			if (context == null)
+				throw new ArgumentNullException("context");
+
+			// get the type service
+			var typeService = context.Nucleus.ResolveSingle<ITypeService>();
+
+			// get the type array
+			var typeArray = types.ToArray();
+
+			// if there is no type, assume the root type
+			if (typeArray.Length == 0)
+				return typeService.LoadRoot(context);
+
+			// if there is one type, it is the root type
+			if (typeArray.Length == 1)
+				return typeArray[0];
+
+			// find the type
+			var rootType = typeArray.First().HierarchyReverse.FirstOrDefault(candidate => typeArray.All(x => x.IsAssignable(candidate)));
+
+			// if there is no root type, throw exception
+			if (rootType == null)
+				throw new InvalidOperationException(string.Format("Could not find a common base type for types {0}", string.Join(", ", typeArray.Select(type => type.Name))));
+
+			// return the root type
+			return rootType;
+		}
 		#endregion
 		#region Extensions of String
 		/// <summary>
@@ -716,7 +671,7 @@ namespace Premotion.Mansion.Core
 		public static bool IsNumber(this string input)
 		{
 			// validate arguments
-			return !String.IsNullOrEmpty(input) && input.All(Char.IsDigit);
+			return !string.IsNullOrEmpty(input) && input.All(Char.IsDigit);
 		}
 		/// <summary>
 		/// Strips the HTML from the <paramref name="input"/>.
@@ -980,30 +935,6 @@ namespace Premotion.Mansion.Core
 			return string.Format(format, args);
 		}
 		#endregion
-		#region Extensions of IMansionContext
-		/// <summary>
-		/// Gets the unwrapped <see cref="IRepository"/> which is stripped from all decorators.
-		/// </summary>
-		/// <returns>Returns the unwrapped <see cref="IRepository"/>.</returns>
-		public static IRepository GetUnwrappedRepository(this IMansionContext context)
-		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
-
-			// get the current repository
-			var repository = context.Repository;
-
-			// unwrap the decorators
-			while (repository is IRepositoryDecorator)
-			{
-				// unwrap it
-				repository = ((IRepositoryDecorator) repository).DecoratedRepository;
-			}
-
-			return repository;
-		}
-		#endregion
 		#region Extensions of Type
 		/// <summary>
 		/// Creates an instance of type <paramref name="type"/>.
@@ -1059,6 +990,9 @@ namespace Premotion.Mansion.Core
 			var tryResolveSingleMethodInfo = nucleusType.GetMethods().Single(candidate => "TryResolveSingle".Equals(candidate.Name) && candidate.GetParameters().Length == 1);
 			if (tryResolveSingleMethodInfo == null)
 				throw new InvalidOperationException(String.Format("Could not find mehtod TryResolveSingle with one parameter on type '{0}'", nucleusType));
+			var resolveMethodInfo = nucleusType.GetMethods().Single(candidate => "Resolve".Equals(candidate.Name) && candidate.GetParameters().Length == 0);
+			if (resolveMethodInfo == null)
+				throw new InvalidOperationException(String.Format("Could not find mehtod Resolve with one parameter on type '{0}'", nucleusType));
 			var nucleusParameterExpression = Expression.Parameter(nucleusType, "nucleus");
 
 			// construct the parameters for the constructor
@@ -1068,21 +1002,39 @@ namespace Premotion.Mansion.Core
 			                                                          	// get the type
 			                                                          	var injectedType = parameterInfo.ParameterType;
 
-			                                                          	// define the out parameter
-			                                                          	var outParameter = Expression.Variable(injectedType, "out");
+			                                                          	// check for single or multiple value injection
+			                                                          	if (injectedType.IsGenericType && typeof (IEnumerable<>) == injectedType.GetGenericTypeDefinition())
+			                                                          	{
+			                                                          		// get the type
+			                                                          		var innerType = injectedType.GetGenericArguments()[0];
 
-			                                                          	// bake the method call
-			                                                          	var tryResolveCallExpression = Expression.Call(nucleusParameterExpression, tryResolveSingleMethodInfo.MakeGenericMethod(injectedType), outParameter);
+			                                                          		// bake the method call
+			                                                          		var resolveCallExpression = Expression.Call(nucleusParameterExpression, resolveMethodInfo.MakeGenericMethod(innerType));
 
-			                                                          	// throw if the type could not be found
-			                                                          	var newDependencyNotFoundExceptionExpression = Expression.New(typeof (InvalidOperationException).GetConstructor(new[] {typeof (string)}), new[] {Expression.Constant(String.Format("Could not resolve injected type '{0}' on type '{1}' make sure it is registered properly", injectedType, type))});
-			                                                          	var checkResolveResultExpression = Expression.IfThen(Expression.Not(tryResolveCallExpression), Expression.Throw(newDependencyNotFoundExceptionExpression));
+			                                                          		// set the value
+			                                                          		var assignResultExpression = Expression.Assign(parameterTypes[index], resolveCallExpression);
 
-			                                                          	// set the value
-			                                                          	var assignResultExpression = Expression.Assign(parameterTypes[index], outParameter);
+			                                                          		// return the block
+			                                                          		return Expression.Block(new Expression[] {assignResultExpression});
+			                                                          	}
+			                                                          	else
+			                                                          	{
+			                                                          		// define the out parameter
+			                                                          		var outParameter = Expression.Variable(injectedType, "out");
 
-			                                                          	// return the block
-			                                                          	return Expression.Block(new[] {outParameter}, new Expression[] {checkResolveResultExpression, assignResultExpression});
+			                                                          		// bake the method call
+			                                                          		var tryResolveCallExpression = Expression.Call(nucleusParameterExpression, tryResolveSingleMethodInfo.MakeGenericMethod(injectedType), outParameter);
+
+			                                                          		// throw if the type could not be found
+			                                                          		var newDependencyNotFoundExceptionExpression = Expression.New(typeof (InvalidOperationException).GetConstructor(new[] {typeof (string)}), new[] {Expression.Constant(String.Format("Could not resolve injected type '{0}' on type '{1}' make sure it is registered properly", injectedType, type))});
+			                                                          		var checkResolveResultExpression = Expression.IfThen(Expression.Not(tryResolveCallExpression), Expression.Throw(newDependencyNotFoundExceptionExpression));
+
+			                                                          		// set the value
+			                                                          		var assignResultExpression = Expression.Assign(parameterTypes[index], outParameter);
+
+			                                                          		// return the block
+			                                                          		return Expression.Block(new[] {outParameter}, new Expression[] {checkResolveResultExpression, assignResultExpression});
+			                                                          	}
 			                                                          }));
 
 			// bake the constructor call
@@ -1141,6 +1093,21 @@ namespace Premotion.Mansion.Core
 			}
 
 			writer.WriteEndObject();
+		}
+		/// <summary>
+		/// Creates a shallow copy of the given <paramref name="bag"/>.
+		/// </summary>
+		/// <param name="bag">The original <see cref="IPropertyBag"/> which to copy.</param>
+		/// <returns>Returns the created copy.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="bag"/> is null.</exception>
+		public static IPropertyBag Copy(this IPropertyBag bag)
+		{
+			// validate arguments
+			if (bag == null)
+				throw new ArgumentNullException("bag");
+
+			// return the copy
+			return new PropertyBag(bag);
 		}
 		#endregion
 		#region Private Fields

@@ -1,81 +1,90 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Premotion.Mansion.Core.Data.RepositoryBase" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="7.25" Y="5.5" Width="1.5" />
+  <Class Name="Premotion.Mansion.Core.Data.RepositoryUtil" Collapsed="true">
+    <Position X="7.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIQAAACAAKIAAAAEAAEAEIQAAwEAAkAAAAAAAABAAII=</HashCode>
-      <FileName>Data\RepositoryBase.cs</FileName>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\RepositoryUtil.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Data.Extensions" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAACAAABAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Data\Extensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Data.Node" Collapsed="true">
+    <Position X="3.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUAAAINAAACAAAAAAAAAgAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Node.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Data.NodePointer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAiAAIBAAAGABYEgEkCQQQEAQAABIEkAQAgAAAAgiA=</HashCode>
+      <FileName>Data\NodePointer.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="Premotion.Mansion.Core.Data.Node">
-    <Position X="10" Y="5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAQAAAIEAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Data\Node.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Pointer" />
-      <Property Name="Status" />
-    </ShowAsAssociation>
-  </Class>
-  <Class Name="Premotion.Mansion.Core.Data.NodePointer" BaseTypeListCollapsed="true">
-    <Position X="13.25" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>BAAiAAIAAAAGABIEAEkCQAQEAQAABAEkAQAAAAAAgAA=</HashCode>
-      <FileName>Data\NodePointer.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Parent" />
-    </ShowAsAssociation>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="Premotion.Mansion.Core.Data.NodeQuery" Collapsed="true">
-    <Position X="7.25" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAwAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAEAEA=</HashCode>
-      <FileName>Data\NodeQuery.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Premotion.Mansion.Core.Data.NodeQueryClause" Collapsed="true">
-    <Position X="3.75" Y="5.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Data\NodeQueryClause.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Premotion.Mansion.Core.Data.Nodeset" Collapsed="true">
-    <Position X="5.5" Y="5.5" Width="1.5" />
+    <Position X="6" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAkAAAAAAAAAA=</HashCode>
       <FileName>Data\Nodeset.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Interface Name="Premotion.Mansion.Core.Data.IRepository" Collapsed="true">
-    <Position X="1.25" Y="4.5" Width="1.5" />
+  <Class Name="Premotion.Mansion.Core.Data.RepositoryBase" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIQAAAAAAKAAAAAAAAAAAIQAAgEAAEAAAAAAAAAAAAA=</HashCode>
+      <HashCode>EIAAAACABCMAAAAAAAkAQIEEBAABAkAIAAABIABABAA=</HashCode>
+      <FileName>Data\RepositoryBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Data.RepositoryDecorator" Collapsed="true">
+    <Position X="0.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAABAACAAAIAAAAAAAkAQAAABAAAAgEIAAAAIABABAA=</HashCode>
+      <FileName>Data\RepositoryDecorator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Data.Record" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAQAAAAAAAgAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Data\Record.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Premotion.Mansion.Core.Data.IRepository" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAABCEAAAAAAAEAAIEEAAABAEAAAAABAAAAAAA=</HashCode>
       <FileName>Data\IRepository.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Premotion.Mansion.Core.Data.IRepositoryDecorator" Collapsed="true">
-    <Position X="1.25" Y="6" Width="1.5" />
+    <Position X="0.5" Y="2" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
       <FileName>Data\IRepositoryDecorator.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Premotion.Mansion.Core.Data.IRepositoryFactory" Collapsed="true">
-    <Position X="3.75" Y="6.75" Width="1.5" />
+    <Position X="6" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>Data\IRepositoryFactory.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="Premotion.Mansion.Core.Data.NodeStatus" Collapsed="true">
-    <Position X="3.75" Y="7.75" Width="1.5" />
+    <Position X="6" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAEAACAAAAAAIAAAAAAABAAgAAAAAAAA=</HashCode>
+      <HashCode>IAAAAAAAAAAAAEAACAAAAAAIAAAAAAABAAgAAAAAAAA=</HashCode>
       <FileName>Data\NodeStatus.cs</FileName>
     </TypeIdentifier>
   </Enum>

@@ -15,30 +15,29 @@ namespace Premotion.Mansion.Web.Web.Types.Default
 		/// This method is called just before a node is created by the repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="parent">The parent node to which the new child will be added.</param>
-		/// <param name="newProperties">The new properties of the node.</param>
-		protected override void DoBeforeCreate(IMansionContext context, Node parent, IPropertyBag newProperties)
+		/// <param name="properties">The new properties of the node.</param>
+		protected override void DoBeforeCreate(IMansionContext context, IPropertyBag properties)
 		{
-			TagUtilities.ToGuids(context, newProperties);
+			TagUtilities.ToGuids(context, properties);
 		}
 		/// <summary>
 		/// This method is called just before a node is updated by the repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="node">The node which will be modified.</param>
-		/// <param name="modifiedProperties">The updated properties of the node.</param>
-		protected override void DoBeforeUpdate(IMansionContext context, Node node, IPropertyBag modifiedProperties)
+		/// <param name="record"> </param>
+		/// <param name="properties">The updated properties of the node.</param>
+		protected override void DoBeforeUpdate(IMansionContext context, Record record, IPropertyBag properties)
 		{
-			TagUtilities.ToGuids(context, modifiedProperties);
+			TagUtilities.ToGuids(context, properties);
 		}
 		/// <summary>
 		/// This method is called when an property which is not on the node is accessed. Useful for lazy loading properties.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="node">The <see cref="Node"/> which does not have the property..</param>
+		/// <param name="record"> </param>
 		/// <param name="propertyName">The name of the property being retrieved.</param>
 		/// <param name="value">The missing value</param>
-		protected override bool DoTryResolveMissingProperty(IMansionContext context, Node node, string propertyName, out object value)
+		protected override bool DoTryResolveMissingProperty(IMansionContext context, Record record, string propertyName, out object value)
 		{
 			// we do not care about any property except _tags
 			if (!"_tags".Equals(propertyName, StringComparison.OrdinalIgnoreCase))
@@ -48,7 +47,7 @@ namespace Premotion.Mansion.Web.Web.Types.Default
 			}
 
 			// initialize the _tags attribute
-			value = TagUtilities.ToNames(context, node);
+			value = TagUtilities.ToNames(context, record);
 			return true;
 		}
 		#endregion

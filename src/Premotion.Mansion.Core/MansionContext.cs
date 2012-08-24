@@ -151,6 +151,13 @@ namespace Premotion.Mansion.Core
 			get { return procedureStack; }
 		}
 		/// <summary>
+		/// Gets the procedure call stack.
+		/// </summary>
+		public IAutoPopStack<ScriptTag> ProcedureCallStack
+		{
+			get { return procedureCallStack; }
+		}
+		/// <summary>
 		/// Gets the event handler stack.
 		/// </summary>
 		public IAutoPopDictionaryStack<string, IScript> EventHandlerStack
@@ -274,11 +281,11 @@ namespace Premotion.Mansion.Core
 		/// <summary>
 		/// Gets the <see cref="CultureInfo"/> of the system.
 		/// </summary>
-		public CultureInfo SystemCulture { get; private set; }
+		public CultureInfo SystemCulture { get; protected set; }
 		/// <summary>
 		/// Gets the <see cref="CultureInfo"/> of the user interface.
 		/// </summary>
-		public CultureInfo UserInterfaceCulture { get; private set; }
+		public CultureInfo UserInterfaceCulture { get; protected set; }
 		/// <summary>
 		/// Gets the <see cref="INucleus"/> used by this context.
 		/// </summary>
@@ -311,6 +318,7 @@ namespace Premotion.Mansion.Core
 		private readonly IAutoPopStack<IInputPipe> inputPipeStack = new AutoPopStack<IInputPipe>();
 		private readonly INucleus nucleus;
 		private readonly IAutoPopStack<IOutputPipe> outputPipeStack = new AutoPopStack<IOutputPipe>();
+		private readonly IAutoPopStack<ScriptTag> procedureCallStack = new AutoPopStack<ScriptTag>();
 		private readonly IAutoPopDictionaryStack<string, IScript> procedureStack = new AutoPopDictionaryStack<string, IScript>(StringComparer.OrdinalIgnoreCase);
 		private readonly IAutoPopStack<IRepository> repositoryStack = new AutoPopStack<IRepository>();
 		private readonly IAutoPopStack<ITagScript> scriptStack = new AutoPopStack<ITagScript>();

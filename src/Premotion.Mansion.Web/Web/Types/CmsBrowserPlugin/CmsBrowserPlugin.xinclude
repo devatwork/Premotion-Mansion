@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:controls="http://schemas.premotion.nl/mansion/1.0/web.controls.tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd">
+
+	<!-- ############################### -->
+	<!-- Overrides of CmsPlugin.xinclude -->
+	<!-- ############################### -->
+	<declareProcedure procedureName="RenderPluginNavigation">
+		<invokeProcedure procedureName="RenderPluginViewNavigationHeader" label="Content" />
+		<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="Browse" iconClass="icon-list" url="{CmsNodeUrl( RootNode.id, 'CmsBrowserPlugin', 'Browse' )}" active="{And( IsEqual( ActivePluginProperties.pluginType, 'CmsBrowserPlugin' ), IsEqual( ActivePluginProperties.viewName, 'Browse' ), Not( Contains( CurrentNode.structure, 'Site' ) ) )}" />
+		<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="Find" iconClass="icon-search" url="{CmsNodeUrl( RootNode.id, 'CmsBrowserPlugin', 'Find' )}" active="{And( IsEqual( ActivePluginProperties.pluginType, 'CmsBrowserPlugin' ), IsEqual( ActivePluginProperties.viewName, 'Find' ) )}" />
+	</declareProcedure>
+
+	
+	
+	<!-- ################################### -->
+	<!-- Overrides of CmsHomePlugin.xinclude -->
+	<!-- ################################### -->
+	<declareProcedure procedureName="RenderPluginHomeBlocks">
+		<invokeProcedure procedureName="RenderPluginHomeBlock" label="Browse" description="Browse the content available within this application. Use this navigation method if you know where your content is located." iconClass="icon-list" url="{CmsNodeUrl( RootNode.id, 'CmsBrowserPlugin', 'Browse' )}" />
+		<invokeProcedure procedureName="RenderPluginHomeBlock" label="Find" description="Search for content available within this application. Use this navigation method if you don't know where your content is located." iconClass="icon-search" url="{CmsNodeUrl( RootNode.id, 'CmsBrowserPlugin', 'Find' )}" />
+	</declareProcedure>
+
+
+
+	<!-- ################################### -->
+	<!-- Views: Browse                       -->
+	<!-- ################################### -->
+	<declareProcedure procedureName="RenderPluginBrowseDetailView">
+		<renderSection name="Browse">
+			
+			<!-- render messages -->
+			<invokeProcedure procedureName="RenderAlerts" />
+			
+			<!-- render the crumb path -->
+			<invokeProcedure procedureName="RenderBrowserCrumbPath" />
+
+			<!-- render the child nodes -->
+			<if condition="{Not( IsEqual( Get.mode, 'create' ) )}">
+				<invokeProcedure procedureName="RenderNodeBrowser"/>
+			</if>
+
+			<!-- render the properties of the current node -->
+			<invokeProcedure procedureName="RenderNodeProperties"/>
+			
+		</renderSection>
+	</declareProcedure>
+	
+	<!-- Renders the messages -->
+	<declareProcedure procedureName="RenderAlerts">
+		<renderSection name="AlertMessage">
+			<if condition="{IsEqual( Get.change, 'cancelled' )}">
+				<forms:infoAlert>No changes were made.</forms:infoAlert>
+			</if>
+			<if condition="{IsEqual( Get.change, 'created' )}">
+				<forms:successAlert>The new node was created successfully.</forms:successAlert>
+			</if>
+			<if condition="{IsEqual( Get.change, 'updated' )}">
+				<forms:successAlert>The changes made to this node were successfully saved.</forms:successAlert>
+			</if>
+			<if condition="{IsEqual( Get.change, 'reordered' )}">
+				<forms:successAlert>The position of the node was successfully updated.</forms:successAlert>
+			</if>
+			<if condition="{IsEqual( Get.change, 'moved' )}">
+				<forms:successAlert>The node was successfully moved to it's new parent.</forms:successAlert>
+			</if>
+			<if condition="{IsEqual( Get.change, 'copied' )}">
+				<forms:successAlert>The node was successfully copied.</forms:successAlert>
+			</if>
+			<if condition="{IsEqual( Get.change, 'deleted' )}">
+				<forms:successAlert>The node was successfully deleted.</forms:successAlert>
+			</if>
+		</renderSection>
+	</declareProcedure>
+
+	<!-- Renders the crumb path-->
+	<declareProcedure procedureName="RenderBrowserCrumbPath">
+		<renderSection name="CrumbPath">
+			<if condition="{Not( IsEqual( CurrentNode.id, RootNode.id ) )}">
+				<retrieveParentNodeset childSource="{$CurrentNode}" depth="any" target="ParentNodeset">
+					<loopNodeset source="{$ParentNodeset}" target="ParentNode">
+						<renderSection name="ParentCrumb" />
+					</loopNodeset>
+				</retrieveParentNodeset>
+			</if>
+			<renderSection name="ActiveCrumb" />
+		</renderSection>
+	</declareProcedure>
+
+	<!-- Renders the children of the current node -->
+	<declareProcedure procedureName="RenderNodeBrowser">
+		<renderSection name="NodeBrowser">
+			<!-- retrieve the child nodes of the current node -->
+			<retrieveChildNodeset parentSource="{$CurrentNode}" status="any" sort="{GetControlPropertyValue( 'node-browser', 'sort', 'order asc' )}" pageNumber="{GetControlPropertyValue( 'node-browser', 'page-number', '1' )}" pageSize="25" target="ChildNodeset">
+				<invokeProcedure procedureName="RenderNodeBrowserResults" source="{$ChildNodeset}" field="NodeBrowserContent" />
+			</retrieveChildNodeset>
+		</renderSection>
+	</declareProcedure>
+
+	<!-- Renders the result of the -->
+	<declareProcedure procedureName="RenderNodeBrowserResults">
+		<controls:grid id="node-browser" targetField="{Arguments.field}">
+			<providers:fetchNodesetProvider source="{Arguments.source}"/>
+			<controls:propertyColumn propertyName="order" heading="">
+				<controls:columnSort on="order" />
+			</controls:propertyColumn>
+			<controls:expressionColumn expression="{\RenderSection( 'NodeBrowserNodeLink' )}" heading="Name">
+				<controls:columnSort on="name" />
+			</controls:expressionColumn>
+			<controls:propertyColumn propertyName="type" heading="Type">
+				<controls:columnSort on="type" />
+			</controls:propertyColumn>
+		</controls:grid>
+	</declareProcedure>
+
+	<!-- Renders the properties of the current node -->
+	<declareProcedure procedureName="RenderNodeProperties">
+		<renderSection name="NodeProperties">
+			<!-- determine the xform which to display -->
+			<setProperties dataspaceName="NodeInfo" type="{NotEmpty( Get.type, CurrentNode.type )}">
+
+				<!-- if the type does not exist show the default form -->
+				<if condition="{Not( TypeExists( NodeInfo.type ) )}">
+					<setProperties dataspaceName="NodeInfo" type="Default" />
+				</if>
+
+				<!-- show the xform of the type -->
+				<openScript type="{NodeInfo.type}" extension="xform" checkExists="true">
+					<invokeProcedure procedureName="RenderXForm" source="{$CurrentNode}" targetType="{NodeInfo.type}" mode="{NotEmpty( Get.mode, 'update' )}" />
+				</openScript>
+
+			</setProperties>
+		</renderSection>
+	</declareProcedure>
+
+		<!-- default action for form submits -->
+		<declareProcedure procedureName="OnCancel">
+			<web:redirectRequest url="{CmsNodeUrl( FormSourceNode.id, 'CmsBrowserPlugin', 'Browse' )}?change=cancelled" />
+			<breakExecution />
+		</declareProcedure>
+
+		<declareProcedure procedureName="OnCreated">
+			<web:redirectRequest url="{CmsNodeUrl( NewNode.id, 'CmsBrowserPlugin', 'Browse' )}?change=created" />
+			<breakExecution />
+		</declareProcedure>
+
+		<declareProcedure procedureName="OnUpdated">
+			<web:redirectRequest url="{CmsNodeUrl( FormSourceNode.id, 'CmsBrowserPlugin', 'Browse' )}?change=updated" />
+			<breakExecution />
+		</declareProcedure>
+
+
+
+	<!-- ################################### -->
+	<!-- Views: Find                         -->
+	<!-- ################################### -->
+	<declareProcedure procedureName="RenderPluginFindDetailView">
+		<renderSection name="Find">
+			<!-- retrieve the results -->
+			<invokeProcedure procedureName="RetrieveFinderSearchResults">
+				<!-- render the header -->
+				<renderSection name="NumberOfResults" />
+				
+				<!-- render the results -->
+				<invokeProcedure procedureName="RenderNodeBrowserResults" source="{$ResultSet}" field="Results" />
+			
+				<!-- render the search form -->
+				<invokeProcedure procedureName="RenderPluginFindDetailViewSearchForm"/>
+			</invokeProcedure>
+		</renderSection>
+	</declareProcedure>
+	
+	<!-- execute the search query -->
+	<declareProcedure procedureName="RetrieveFinderSearchResults">
+		<retrieveChildNodeset
+			parentSource="{$RootNode}"
+			depth="any"
+			
+			baseType="{NotEmpty( Get.type, 'Default' )}"
+			status="{NotEmpty( Get.status, 'any' )}"
+			fts="{Get.q}"
+			facetType="{CreateFacet( 'type', 'Types', 'TransformTypeFacet' )}"
+			sort="{GetControlPropertyValue( 'node-browser', 'sort', 'modified desc' )}"
+			
+			pageNumber="{GetControlPropertyValue( 'node-browser', 'page-number', '1' )}"
+			pageSize="25"
+			
+			cache="false"
+			target="ResultSet">
+			<executeNestedTags />
+		</retrieveChildNodeset>
+	</declareProcedure>
+
+		<!-- Facet transform methods -->
+		<declareProcedure procedureName="TransformTypeFacet">
+			<setProperties dataspaceName="Row" displayValue="{GetTypeDefinitionLabel( Row.value )}" />
+		</declareProcedure>
+
+	<!-- renders the search form -->
+	<declareProcedure procedureName="RenderPluginFindDetailViewSearchForm">
+		<renderSection name="FindSearchForm">
+
+			<!-- render the facets -->
+			<fetchFacetsDataset source="{$ResultSet}" target="FacetDataset">
+				<loopDataset source="{$FacetDataset}" target="FacetRow">
+					<if condition="{IsGreaterThan( FacetRow.valueCount, '1' )}">
+
+						<renderSection name="Facet">
+							<fetchFacetValuesDataset source="{$FacetRow}" target="FacetValueDataset">
+								<loopDataset source="{$FacetValueDataset}" target="FacetValueRow">
+									<renderSection name="FacetValue" />
+								</loopDataset>
+							</fetchFacetValuesDataset>
+						</renderSection>
+
+					</if>
+				</loopDataset>
+			</fetchFacetsDataset>
+			
+		</renderSection>
+	</declareProcedure>
+
+</mansion>

@@ -9,6 +9,12 @@ namespace Premotion.Mansion.Core.Collections
 	/// </summary>
 	public class Sort
 	{
+		#region Constants
+		/// <summary>
+		/// The default sort method on which to sort.
+		/// </summary>
+		public static readonly IEnumerable<Sort> DefaultSort = new Sort[] {new Sort("order", true)};
+		#endregion
 		#region Constructor
 		/// <summary>
 		/// Constructs a sort for a property.

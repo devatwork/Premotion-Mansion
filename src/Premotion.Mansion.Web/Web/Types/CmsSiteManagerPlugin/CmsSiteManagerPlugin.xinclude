@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+
+	<!-- ############################### -->
+	<!-- Overrides of CmsPlugin.xinclude -->
+	<!-- ############################### -->
+	<declareProcedure procedureName="RenderPluginNavigation">
+		<retrieveChildNodeset parentSource="{$RootNode}" baseType="Site" status="any" depth="any" sort="name ASC" target="SiteNodeset">
+			<!-- the header-->
+			<invokeProcedure procedureName="RenderPluginViewNavigationHeader" label="Websites" />
+
+			<!-- loop over all the sites -->
+			<loopNodeset source="{$SiteNodeset}" target="SiteNode">
+				<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="{SiteNode.name}" iconClass="icon-globe" url="{CmsNodeUrl( SiteNode.id, 'CmsBrowserPlugin', 'Browse' )}" active="{And( IsEqual( ActivePluginProperties.pluginType, 'CmsBrowserPlugin' ), IsEqual( ActivePluginProperties.viewName, 'Browse' ), Or( IsEqual( CurrentNode.id, SiteNode.id ), IsChildOf( $CurrentNode, $SiteNode ) ) )}" />
+			</loopNodeset>
+		</retrieveChildNodeset>
+	</declareProcedure>
+
+	
+	
+	<!-- ################################### -->
+	<!-- Overrides of CmsHomePlugin.xinclude -->
+	<!-- ################################### -->
+	<declareProcedure procedureName="RenderPluginHomeBlocks">
+		<!-- loop over all the sites -->
+		<retrieveChildNodeset parentSource="{$RootNode}" baseType="Site" status="any" depth="any" sort="name ASC" target="SiteNodeset">
+			<loopNodeset source="{$SiteNodeset}" target="SiteNode">
+				<invokeProcedure procedureName="RenderPluginHomeBlock" label="{SiteNode.name}" description="Manage the pages, navigation and content displayed on this website." iconClass="icon-globe" url="{CmsNodeUrl( SiteNode.id, 'CmsBrowserPlugin', 'Browse' )}" />
+			</loopNodeset>
+		</retrieveChildNodeset>
+		<invokeProcedure procedureName="RenderPluginHomeBlock" label="Create a new website" description="Add a new website to this application." iconClass="icon-globe" url="{CmsNodeUrl( RootNode.id, 'CmsSiteManagerPlugin', 'Create' )}" />
+	</declareProcedure>
+
+
+
+	<!-- ################################### -->
+	<!-- View: Create                        -->
+	<!-- ################################### -->
+	<declareProcedure procedureName="RenderPluginCreateDetailView">
+		<web:redirectRequest url="{CmsNodeUrl( RootNode.id, 'CmsBrowserPlugin', 'Browse' )}?type=Site&amp;mode=create"/>
+	</declareProcedure>
+
+</mansion>

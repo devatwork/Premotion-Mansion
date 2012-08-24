@@ -29,7 +29,9 @@ namespace Premotion.Mansion.Web.Controls
 				var webContext = context.Cast<IMansionWebContext>();
 
 				// get the id of this control
-				var id = webContext.GetNextControlId();
+				string id;
+				if (!TryGetAttribute(context, "id", out id))
+					id = webContext.GetNextControlId();
 
 				// get the properties of this control
 				var properties = GetAttributes(context);

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Scripting.TagScript;
@@ -8,61 +8,50 @@ using Premotion.Mansion.Web.Controls.Providers;
 namespace Premotion.Mansion.Web.Controls.Grid
 {
 	/// <summary>
-	/// Implements <see cref="ColumnFilter"/> using a selectbox.
+	/// Implements a <see cref="ColumnFilter"/> using a Selectbox.
 	/// </summary>
 	public class SelectboxColumnFilter : ColumnFilter, IDataConsumerControl<DataProvider<Dataset>, Dataset>
 	{
 		#region Nested type: SelectboxColumnFilterFactoryTag
 		/// <summary>
-		/// Constructs <see cref="TextboxColumnFilter"/>s.
+		/// Base class for <see cref="Premotion.Mansion.Web.Controls.Grid.SelectboxColumnFilter"/> factories.
 		/// </summary>
 		[ScriptTag(Constants.ControlTagNamespaceUri, "selectboxColumnFilter")]
 		public class SelectboxColumnFilterFactoryTag : ColumnFilterFactoryTag
 		{
-			#region Overrides of ColumnFilterFactoryTag
+			#region Overrides of ScriptTag
 			/// <summary>
-			/// Creates a <see cref="ColumnFilter"/>.
+			/// Create a <see cref="ColumnFilter"/> instance.
 			/// </summary>
 			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
-			/// <param name="column">The <see cref="Column"/> to which this filter is applied.</param>
-			/// <param name="properties">The properties of the filter.</param>
 			/// <returns>Returns the created <see cref="ColumnFilter"/>.</returns>
-			protected override ColumnFilter Create(IMansionContext context, Column column, IPropertyBag properties)
+			protected override ColumnFilter Create(IMansionWebContext context)
 			{
-				return new SelectboxColumnFilter(properties);
+				return new SelectboxColumnFilter();
 			}
 			#endregion
 		}
 		#endregion
-		#region Constructors
-		/// <summary>
-		/// Constructs a column filter.
-		/// </summary>
-		/// <param name="properties">The properties of this filter.</param>
-		private SelectboxColumnFilter(IPropertyBag properties) : base(properties)
-		{
-		}
-		#endregion
 		#region Overrides of ColumnFilter
 		/// <summary>
-		/// Renders this column sort.
+		/// Renders the header of this column.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		/// <param name="data">The <see cref="Dataset"/>.</param>
-		protected override void DoRender(IMansionWebContext context, ITemplateService templateService, Dataset data)
+		/// <param name="dataset">The <see cref="Dataset"/> rendered in this column.</param>
+		protected override void DoRenderHeader(IMansionWebContext context, ITemplateService templateService, Dataset dataset)
 		{
-			using (templateService.Render(context, "SelectboxColumnFilter"))
+			using (templateService.Render(context, "GridControl" + GetType().Name))
 			{
 				foreach (var row in Retrieve(context).Rows)
 				{
-					using (context.Stack.Push("OptionProperties", row, false))
-						templateService.Render(context, "SelectboxColumnFilterOption").Dispose();
+					using (context.Stack.Push("OptionProperties", row))
+						templateService.Render(context, "GridControl" + GetType().Name + "Option").Dispose();
 				}
 			}
 		}
 		#endregion
-		#region Data Methods
+		#region Implementation of IDataConsumerControl<in DataProvider<Dataset>,Dataset>
 		/// <summary>
 		/// Sets the <paramref name="dataProvider"/> for this control.
 		/// </summary>
@@ -75,7 +64,7 @@ namespace Premotion.Mansion.Web.Controls.Grid
 			if (provider != null)
 				throw new InvalidOperationException("The data provider has already been set, cant override it.");
 
-			// set value
+			// set the provider
 			provider = dataProvider;
 		}
 		/// <summary>

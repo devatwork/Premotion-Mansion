@@ -18,7 +18,7 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 		protected override decimal DoConvert(IMansionContext context, string source, Type sourceType)
 		{
 			source = source.Trim();
-			return string.IsNullOrEmpty(source) ? 0 : System.Convert.ToDecimal(source);
+			return string.IsNullOrEmpty(source) ? 0 : System.Convert.ToDecimal(source, context.SystemCulture);
 		}
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.
@@ -33,7 +33,7 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 			// try to convert
 			try
 			{
-				return System.Convert.ToDecimal(source.Trim());
+				return System.Convert.ToDecimal(source.Trim(), context.SystemCulture);
 			}
 			catch (Exception)
 			{

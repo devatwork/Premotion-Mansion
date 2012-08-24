@@ -93,7 +93,7 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 							generator.Emit(OpCodes.Callvirt, getExpressionFromField);
 
 							// get the expression evalution method
-							var expressionEvaluateMethod = typeof (IScript).GetMethods().Where(candidate => candidate.Name.Equals("Execute") && candidate.IsGenericMethod).Single().MakeGenericMethod(elementType);
+							var expressionEvaluateMethod = typeof (IScript).GetMethods().Single(candidate => candidate.Name.Equals("Execute") && candidate.IsGenericMethod).MakeGenericMethod(elementType);
 
 							// execute the expression
 							generator.Emit(OpCodes.Ldarg_1); // load the context reference
@@ -104,7 +104,7 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 							generator.Emit(OpCodes.Ldloc, paramsArrayLocalVarIndex); // push array to eval stack
 							generator.Emit(OpCodes.Ldc_I4, argumentExpressionIndex); // push array index to eval stack
 							generator.Emit(OpCodes.Ldloc, varargsItemLocalVarIndex); // push argument expression execution value to stack
-							generator.Emit(OpCodes.Stelem_Ref); // store the value in the array at the specified index
+							generator.Emit(OpCodes.Stelem, elementType); // store the value in the array at the specified index
 						}
 					}
 

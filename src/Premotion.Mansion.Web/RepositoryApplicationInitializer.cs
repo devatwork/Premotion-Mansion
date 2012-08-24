@@ -2,9 +2,10 @@
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Data.Queries;
+using Premotion.Mansion.Core.Data.Queries.Specifications;
 using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Security;
-using Premotion.Mansion.Web.Http;
 
 namespace Premotion.Mansion.Web
 {
@@ -39,11 +40,7 @@ namespace Premotion.Mansion.Web
 			using (RepositoryUtil.Open(context, repositoryNamespace, applicationSettings))
 			{
 				// check if the root node exists
-				var rootNode = context.Repository.RetrieveSingle(context, new PropertyBag
-				                                                          {
-				                                                          	{"id", 1},
-				                                                          	{"bypassAuthorization", true}
-				                                                          });
+				var rootNode = context.Repository.RetrieveSingleNode(context, new Query().Add(new IsPropertyEqualSpecification("id", 1)));
 				if (rootNode == null)
 					throw new InvalidOperationException("The root node was not found in the repository, please make sure it exists before initializing");
 
@@ -52,52 +49,52 @@ namespace Premotion.Mansion.Web
 					return;
 
 				// create the default nodes
-				var securityNode = context.Repository.Create(context, rootNode, new PropertyBag
+				var securityNode = context.Repository.CreateNode(context, rootNode, new PropertyBag
 				                                                                {
 				                                                                	{"type", "SecurityIndex"},
 				                                                                	{"name", "Security"},
 				                                                                });
-				var roleIndexNode = context.Repository.Create(context, securityNode, new PropertyBag
+				var roleIndexNode = context.Repository.CreateNode(context, securityNode, new PropertyBag
 				                                                                     {
 				                                                                     	{"type", "RoleIndex"},
 				                                                                     	{"name", "Roles"},
 				                                                                     });
-				var adminRoleNode = context.Repository.Create(context, roleIndexNode, new PropertyBag
+				var adminRoleNode = context.Repository.CreateNode(context, roleIndexNode, new PropertyBag
 				                                                                      {
 				                                                                      	{"type", "Role"},
 				                                                                      	{"name", "Administrator"},
 				                                                                      });
-				var visitorRoleNode = context.Repository.Create(context, roleIndexNode, new PropertyBag
+				var visitorRoleNode = context.Repository.CreateNode(context, roleIndexNode, new PropertyBag
 				                                                                        {
 				                                                                        	{"type", "Role"},
 				                                                                        	{"name", "Visitor"},
 				                                                                        });
-				var userIndexNode = context.Repository.Create(context, securityNode, new PropertyBag
+				var userIndexNode = context.Repository.CreateNode(context, securityNode, new PropertyBag
 				                                                                     {
 				                                                                     	{"type", "UserIndex"},
 				                                                                     	{"name", "Users"},
 				                                                                     });
-				var adminUserNode = context.Repository.Create(context, userIndexNode, new PropertyBag
+				var adminUserNode = context.Repository.CreateNode(context, userIndexNode, new PropertyBag
 				                                                                      {
 				                                                                      	{"type", "User"},
 				                                                                      	{"name", "Administrator"},
 				                                                                      	{"login", "admin@premotion.nl"},
 				                                                                      	{"password", "admin"},
 				                                                                      });
-				context.Repository.Create(context, userIndexNode, new PropertyBag
+				context.Repository.CreateNode(context, userIndexNode, new PropertyBag
 				                                                  {
 				                                                  	{"type", "User"},
 				                                                  	{"name", "Visitor"},
 				                                                  	{"foreignId", "Anonymous"},
 				                                                  	{"allowedRoleGuids", adminRoleNode.PermanentId.ToString()},
 				                                                  });
-				var userGroupIndexNode = context.Repository.Create(context, securityNode, new PropertyBag
+				var userGroupIndexNode = context.Repository.CreateNode(context, securityNode, new PropertyBag
 				                                                                          {
 				                                                                          	{"type", "UserGroupIndex"},
 				                                                                          	{"name", "Groups"},
 				                                                                          	{"allowedRoleGuids", adminRoleNode.PermanentId.ToString()},
 				                                                                          });
-				var adminUserGroup = context.Repository.Create(context, userGroupIndexNode, new PropertyBag
+				var adminUserGroup = context.Repository.CreateNode(context, userGroupIndexNode, new PropertyBag
 				                                                                            {
 				                                                                            	{"type", "UserGroup"},
 				                                                                            	{"name", "Administrators"},
@@ -107,22 +104,22 @@ namespace Premotion.Mansion.Web
 				                                                                            });
 
 				// update the root node
-				context.Repository.Update(context, rootNode, new PropertyBag
+				context.Repository.UpdateNode(context, rootNode, new PropertyBag
 				                                             {
 				                                             	{"repositoryInitialized", true},
 				                                             	{"allowedRoleGuids", adminRoleNode.PermanentId.ToString() + "," + visitorRoleNode.PermanentId.ToString()},
 				                                             });
-				context.Repository.Update(context, securityNode, new PropertyBag {{"allowedRoleGuids", adminRoleNode.PermanentId.ToString()}});
-				context.Repository.Update(context, roleIndexNode, new PropertyBag {{"allowedRoleGuids", adminRoleNode.PermanentId.ToString()}});
-				context.Repository.Update(context, adminRoleNode, new PropertyBag {{"allowedRoleGuids", adminRoleNode.PermanentId.ToString()}});
-				context.Repository.Update(context, visitorRoleNode, new PropertyBag {{"allowedRoleGuids", adminRoleNode.PermanentId.ToString()}});
-				context.Repository.Update(context, userIndexNode, new PropertyBag {{"allowedRoleGuids", adminRoleNode.PermanentId.ToString()}});
-				context.Repository.Update(context, adminUserNode, new PropertyBag
+				context.Repository.UpdateNode(context, securityNode, new PropertyBag {{"allowedRoleGuids", adminRoleNode.PermanentId.ToString()}});
+				context.Repository.UpdateNode(context, roleIndexNode, new PropertyBag {{"allowedRoleGuids", adminRoleNode.PermanentId.ToString()}});
+				context.Repository.UpdateNode(context, adminRoleNode, new PropertyBag {{"allowedRoleGuids", adminRoleNode.PermanentId.ToString()}});
+				context.Repository.UpdateNode(context, visitorRoleNode, new PropertyBag {{"allowedRoleGuids", adminRoleNode.PermanentId.ToString()}});
+				context.Repository.UpdateNode(context, userIndexNode, new PropertyBag {{"allowedRoleGuids", adminRoleNode.PermanentId.ToString()}});
+				context.Repository.UpdateNode(context, adminUserNode, new PropertyBag
 				                                                  {
 				                                                  	{"allowedRoleGuids", adminRoleNode.PermanentId.ToString()},
 				                                                  	{"foreignId", adminUserNode.PermanentId.ToString()}
 				                                                  });
-				context.Repository.Update(context, adminUserGroup, new PropertyBag
+				context.Repository.UpdateNode(context, adminUserGroup, new PropertyBag
 				                                                   {
 				                                                   	{"foreignId", adminUserGroup.PermanentId.ToString()}
 				                                                   });

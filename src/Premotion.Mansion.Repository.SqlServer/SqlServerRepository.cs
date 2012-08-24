@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
-using Premotion.Mansion.Core.Data.Clauses;
-using Premotion.Mansion.Repository.SqlServer.Converters;
+using Premotion.Mansion.Core.Data.Queries;
+using Premotion.Mansion.Core.Data.Queries.Specifications;
 using Premotion.Mansion.Repository.SqlServer.Queries;
-using Premotion.Mansion.Repository.SqlServer.Schemas;
 
 namespace Premotion.Mansion.Repository.SqlServer
 {
@@ -24,24 +21,16 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="connectionString">The connection string.</param>
-		/// <param name="converters"> </param>
-		/// <param name="interpreters"> </param>
-		public SqlServerRepository(IMansionContext context, string connectionString, IEnumerable<IClauseConverter> converters, IEnumerable<QueryInterpreter> interpreters)
+		public SqlServerRepository(IMansionContext context, string connectionString)
 		{
 			// valiate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (string.IsNullOrEmpty(connectionString))
 				throw new ArgumentNullException("connectionString");
-			if (converters == null)
-				throw new ArgumentNullException("converters");
-			if (interpreters == null)
-				throw new ArgumentNullException("interpreters");
 
 			// set values
 			this.connectionString = connectionString;
-			this.converters = converters.ToArray();
-			this.interpreters = interpreters.ToArray();
 		}
 		#endregion
 		#region Implementation of IRepository
@@ -49,32 +38,38 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// Retrieves a single node from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="query">The query on the node.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns>Returns the node.</returns>
-		protected override Node DoRetrieveSingle(IMansionContext context, NodeQuery query)
+		protected override Node DoRetrieveSingleNode(IMansionContext context, Query query)
 		{
-			// build the query
+			// create the connection and command
 			using (var connection = CreateConnection())
-			using (var selectQuery = SelectQuery.Prepare(context, connection, schemaProvider, query, converters))
+			using (var command = context.Nucleus.CreateInstance<SelectNodeCommand>())
 			{
-				// execute the query
-				return selectQuery.ExecuteSingle(context);
+				// init the command with the query
+				command.Prepare(context, connection, query);
+
+				// execute the command
+				return command.ExecuteSingle(context);
 			}
 		}
 		/// <summary>
 		/// Retrieves multiple nodes from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="query">The query on the node.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns></returns>
-		protected override Nodeset DoRetrieve(IMansionContext context, NodeQuery query)
+		protected override Nodeset DoRetrieveNodeset(IMansionContext context, Query query)
 		{
-			// build the query
+			// create the connection and command
 			using (var connection = CreateConnection())
-			using (var selectQuery = SelectQuery.Prepare(context, connection, schemaProvider, query, converters))
+			using (var command = context.Nucleus.CreateInstance<SelectNodeCommand>())
 			{
-				// execute the query
-				return selectQuery.Execute(context);
+				// init the command with the query
+				command.Prepare(context, connection, query);
+
+				// execute the command
+				return command.Execute(context);
 			}
 		}
 		/// <summary>
@@ -84,22 +79,22 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <param name="parent">The parent node.</param>
 		/// <param name="newProperties">The properties of the node which to create.</param>
 		/// <returns>Returns the created nodes.</returns>
-		protected override Node DoCreate(IMansionContext context, Node parent, IPropertyBag newProperties)
+		protected override Node DoCreateNode(IMansionContext context, Node parent, IPropertyBag newProperties)
 		{
-			// create a query to retrieve the new node
-			var selectQuery = new NodeQuery();
-
 			// build the query
+			int nodeId;
 			using (var connection = CreateConnection())
 			using (var transaction = connection.BeginTransaction())
-			using (var insertQuery = InsertQuery.Prepare(context, connection, transaction, schemaProvider, parent.Pointer, newProperties))
+			using (var command = context.Nucleus.CreateInstance<InsertNodeCommand>())
 			{
+				// init the command
+				command.Prepare(context, connection, transaction, parent.Pointer, newProperties);
+
+				// execute the command
 				try
 				{
 					// execute the query
-					var nodeId = insertQuery.Execute();
-
-					selectQuery.AddRange(new[] {new IdClause(nodeId)});
+					nodeId = command.Execute();
 
 					// woohoo it worked!
 					transaction.Commit();
@@ -112,8 +107,8 @@ namespace Premotion.Mansion.Repository.SqlServer
 				}
 			}
 
-			// return the created node
-			return RetrieveSingle(context, selectQuery);
+			// retrieve the created node
+			return RetrieveSingleNode(context, new Query().Add(new IsPropertyEqualSpecification("id", nodeId)));
 		}
 		/// <summary>
 		/// Updates an existing node in this repository.
@@ -121,7 +116,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The node which will be updated.</param>
 		/// <param name="modifiedProperties">The properties which to update.</param>
-		protected override void DoUpdate(IMansionContext context, Node node, IPropertyBag modifiedProperties)
+		protected override void DoUpdateNode(IMansionContext context, Node node, IPropertyBag modifiedProperties)
 		{
 			// get the modified properties
 			modifiedProperties = PropertyBag.GetModifiedProperties(context, node, modifiedProperties);
@@ -131,12 +126,16 @@ namespace Premotion.Mansion.Repository.SqlServer
 			// build the query
 			using (var connection = CreateConnection())
 			using (var transaction = connection.BeginTransaction())
-			using (var updateQuery = UpdateQuery.Prepare(context, connection, transaction, schemaProvider, node, modifiedProperties))
+			using (var command = context.Nucleus.CreateInstance<UpdateNodeCommand>())
 			{
+				// init the command
+				command.Prepare(context, connection, transaction, node, modifiedProperties);
+
+				// execute the command
 				try
 				{
 					// execute the query
-					updateQuery.Execute();
+					command.Execute();
 
 					// woohoo it worked!
 					transaction.Commit();
@@ -156,18 +155,22 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// Deletes an existing node from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="pointer">The pointer to the node which will be deleted.</param>
-		protected override void DoDelete(IMansionContext context, NodePointer pointer)
+		/// <param name="node">The pointer to the node which will be deleted.</param>
+		protected override void DoDeleteNode(IMansionContext context, Node node)
 		{
 			// build the query
 			using (var connection = CreateConnection())
 			using (var transaction = connection.BeginTransaction())
-			using (var deleteQuery = DeleteQuery.Prepare(context, connection, transaction, schemaProvider, pointer))
+			using (var command = context.Nucleus.CreateInstance<DeleteNodeCommand>())
 			{
+				// init the command
+				command.Prepare(context, connection, transaction, node.Pointer);
+
+				// execute the command
 				try
 				{
 					// execute the query
-					deleteQuery.Execute();
+					command.Execute();
 
 					// woohoo it worked!
 					transaction.Commit();
@@ -187,17 +190,21 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <param name="pointer">The pointer to the node which will be moved.</param>
 		/// <param name="newParentPointer">The pointer to the parent to which the node is moved.</param>
 		/// <returns>Returns the moved node.</returns>m
-		protected override Node DoMove(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
+		protected override Node DoMoveNode(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
 		{
 			// build the query
 			using (var connection = CreateConnection())
 			using (var transaction = connection.BeginTransaction())
-			using (var moveQuery = MoveQuery.Prepare(context, connection, transaction, schemaProvider, pointer, newParentPointer))
+			using (var command = context.Nucleus.CreateInstance<MoveNodeCommand>())
 			{
+				// init the command
+				command.Prepare(context, connection, transaction, pointer, newParentPointer);
+
+				// execute the command
 				try
 				{
 					// execute the query
-					moveQuery.Execute();
+					command.Execute();
 
 					// woohoo it worked!
 					transaction.Commit();
@@ -211,8 +218,8 @@ namespace Premotion.Mansion.Repository.SqlServer
 			}
 
 			// return the moved node
-			var selectQuery = new NodeQuery {new IdClause(pointer.Id)};
-			return RetrieveSingle(context, selectQuery);
+			var selectQuery = new Query().Add(new IsPropertyEqualSpecification("id", pointer.Id));
+			return RetrieveSingleNode(context, selectQuery);
 		}
 		/// <summary>
 		/// Copies an existing node in this repository to a new node.
@@ -221,10 +228,10 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <param name="pointer">The pointer to the node which will be copied.</param>
 		/// <param name="targetParentPointer">The pointer to the parent to which the copied node is added.</param>
 		/// <returns>Returns the copied node.</returns>
-		protected override Node DoCopy(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer)
+		protected override Node DoCopyNode(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer)
 		{
 			// create a query to retrieve the new node
-			var selectQuery = new NodeQuery();
+			var selectQuery = new Query();
 
 			// build the query
 			using (var connection = CreateConnection())
@@ -232,22 +239,27 @@ namespace Premotion.Mansion.Repository.SqlServer
 			{
 				// retrieve the nodes
 				// TODO: retrieve the nodes within the same transaction
-				var nodeToCopy = RetrieveSingle(context, new NodeQuery {new IdClause(pointer.Id)});
+				var nodeToCopy = RetrieveSingleNode(context, new Query().Add(new IsPropertyEqualSpecification("id", pointer.Id)));
 				if (nodeToCopy == null)
 					throw new ArgumentNullException(string.Format("Could not find node with pointer '{0}'", pointer));
-				var targetParentNode = RetrieveSingle(context, new NodeQuery {new IdClause(targetParentPointer.Id)});
+				var targetParentNode = RetrieveSingleNode(context, new Query().Add(new IsPropertyEqualSpecification("id", targetParentPointer.Id)));
 				if (targetParentNode == null)
 					throw new ArgumentNullException(string.Format("Could not find node with pointer '{0}'", targetParentPointer));
 
 				// create the copy query
-				using (var copyQuery = CopyQuery.Prepare(context, connection, transaction, schemaProvider, nodeToCopy, targetParentNode))
+				using (var command = context.Nucleus.CreateInstance<CopyNodeCommand>())
 				{
+					// init the command
+					command.Prepare(context, connection, transaction, nodeToCopy, targetParentNode);
+
+					// execute the command
 					try
 					{
 						// execute the query
-						var copiedNodeId = copyQuery.Execute();
 
-						selectQuery.AddRange(new[] {new IdClause(copiedNodeId)});
+						var copiedNodeId = command.Execute();
+
+						selectQuery.Add(new IsPropertyEqualSpecification("id", copiedNodeId));
 
 						// woohoo it worked!
 						transaction.Commit();
@@ -262,20 +274,157 @@ namespace Premotion.Mansion.Repository.SqlServer
 			}
 
 			// return the created node
-			return RetrieveSingle(context, selectQuery);
+			return RetrieveSingleNode(context, selectQuery);
 		}
 		/// <summary>
-		/// Parses <paramref name="arguments" /> into a <see cref="NodeQuery" />.
+		/// Retrieves a single record from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="arguments">The arguments which to parse.</param>
-		/// <returns>Returns the parsed query.</returns>
-		protected override NodeQuery DoParseQuery(IMansionContext context, IPropertyBag arguments)
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
+		/// <returns>Returns a single <see cref="Record"/> or null when no result is found.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
+		protected override Record DoRetrieveSingle(IMansionContext context, Query query)
 		{
-			// interpret all the clauses and return the query
-			var query = new NodeQuery();
-			query.AddRange(interpreters.OrderBy(interpreter => interpreter.Priority).SelectMany(interpreter => interpreter.Interpret(context, arguments)));
-			return query;
+			// create the connection and command
+			using (var connection = CreateConnection())
+			using (var command = context.Nucleus.CreateInstance<SelectCommand>())
+			{
+				// init the command with the query
+				command.Prepare(context, connection, query);
+
+				// execute the command
+				return command.ExecuteSingle(context);
+			}
+		}
+		/// <summary>
+		/// Retrieves a <see cref="Dataset"/> from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
+		/// <returns>Returns a <see cref="Dataset"/> containing the results.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
+		protected override RecordSet DoRetrieve(IMansionContext context, Query query)
+		{
+			// create the connection and command
+			using (var connection = CreateConnection())
+			using (var command = context.Nucleus.CreateInstance<SelectCommand>())
+			{
+				// init the command with the query
+				command.Prepare(context, connection, query);
+
+				// execute the command
+				return command.Execute(context);
+			}
+		}
+		/// <summary>
+		/// Creates a new record with the given <paramref name="properties"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="properties">The properties from which to create a record.</param>
+		/// <returns>Returns the created <see cref="Record"/>.</returns>
+		protected override Record DoCreate(IMansionContext context, IPropertyBag properties)
+		{
+			// build the query
+			int id;
+			using (var connection = CreateConnection())
+			using (var transaction = connection.BeginTransaction())
+			using (var command = context.Nucleus.CreateInstance<InsertCommand>())
+			{
+				// init the command
+				command.Prepare(context, connection, transaction, properties);
+
+				// execute the command
+				try
+				{
+					// execute the query
+					id = command.Execute();
+
+					// woohoo it worked!
+					transaction.Commit();
+				}
+				catch (Exception)
+				{
+					// something terrible happened, revert everything
+					transaction.Rollback();
+					throw;
+				}
+			}
+
+			// retrieve the created node
+			return RetrieveSingle(context, new Query().Add(new IsPropertyEqualSpecification("id", id)));
+		}
+		/// <summary>
+		/// Updates an existing <paramref name="record"/> in this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="record">The <see cref="Record"/> which will be updated.</param>
+		/// <param name="properties">The updated properties.</param>
+		protected override void DoUpdate(IMansionContext context, Record record, IPropertyBag properties)
+		{
+			// get the modified properties
+			properties = PropertyBag.GetModifiedProperties(context, record, properties);
+			if (properties.Count == 0)
+				return;
+
+			// build the query
+			using (var connection = CreateConnection())
+			using (var transaction = connection.BeginTransaction())
+			using (var command = context.Nucleus.CreateInstance<UpdateCommand>())
+			{
+				// init the command
+				command.Prepare(context, connection, transaction, record, properties);
+
+				// execute the command
+				try
+				{
+					// execute the query
+					command.Execute();
+
+					// woohoo it worked!
+					transaction.Commit();
+				}
+				catch (Exception)
+				{
+					// something terrible happened, revert everything
+					transaction.Rollback();
+					throw;
+				}
+			}
+
+			// merge the modified properties back into the node
+			record.Merge(properties);
+		}
+		/// <summary>
+		/// Deletes an existing <paramref name="record"/> from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="record">The <see cref="Record"/> which will be deleted.</param>
+		protected override void DoDelete(IMansionContext context, Record record)
+		{
+			// build the query
+			using (var connection = CreateConnection())
+			using (var transaction = connection.BeginTransaction())
+			using (var command = context.Nucleus.CreateInstance<DeleteCommand>())
+			{
+				// init the command
+				command.Prepare(context, connection, transaction, record);
+
+				// execute the command
+				try
+				{
+					// execute the query
+					command.Execute();
+
+					// woohoo it worked!
+					transaction.Commit();
+				}
+				catch (Exception)
+				{
+					// something terrible happened, revert everything
+					transaction.Rollback();
+					throw;
+				}
+			}
 		}
 		/// <summary>
 		/// Starts this object. This methods must be called after the object has been created and before it is used.
@@ -379,9 +528,6 @@ namespace Premotion.Mansion.Repository.SqlServer
 		#endregion
 		#region Private Fields
 		private readonly string connectionString;
-		private readonly IEnumerable<IClauseConverter> converters;
-		private readonly IEnumerable<QueryInterpreter> interpreters;
-		private readonly SchemaProvider schemaProvider = new SchemaProvider();
 		#endregion
 	}
 }

@@ -167,6 +167,16 @@
 						<xs:documentation>Flag indicating whether this button is the default button.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
+				<xs:attribute name="iconClass" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>The CSS class of the icon which to display.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="tooltip" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>The tooltip of the button.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
 
 			</xs:extension>
 		</xs:complexContent>
@@ -210,6 +220,12 @@
 	<xs:complexType name="messageBase" abstract="true" mixed="true">
 		<xs:annotation>
 			<xs:documentation>Represents a message. The content of this tag is used as the message.</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+
+	<xs:complexType name="alertBase" abstract="true" mixed="true">
+		<xs:annotation>
+			<xs:documentation>Represents a dismissable alert box. The content of this tag is used as the message.</xs:documentation>
 		</xs:annotation>
 	</xs:complexType>
 	
@@ -494,22 +510,50 @@
 
 		<xs:complexContent>
 			<xs:extension base="fieldBase">
-				<!-- attributes -->
-				<xs:attributeGroup ref="stl:parentSourceAttributes" />
-				<xs:attribute name="valueProperty" type="xs:string" use="optional">
-					<xs:annotation>
-						<xs:documentation>The property which acts as the value. Must be an identifier of the node (pointer or guid). Default value is guid.</xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-				<xs:attribute name="labelProperty" type="xs:string" use="optional">
-					<xs:annotation>
-						<xs:documentation>The property which acts as the label. Default value is name.</xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-				<xs:anyAttribute namespace="##any" processContents="skip" />
+				<!-- content -->
+				<xs:sequence minOccurs="1" maxOccurs="1">
+					<xs:element name="nodeSelectorProperties" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Specifies the properties of the node selector.
+							</xs:documentation>
+						</xs:annotation>
+
+						<xs:complexType>
+							<!-- attributes -->
+							<xs:attribute name="rootPointer" type="xs:string" use="required">
+								<xs:annotation>
+									<xs:documentation>
+										The pointer from which to select the candidate nodes.
+									</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="valueProperty" type="xs:string" use="optional">
+								<xs:annotation>
+									<xs:documentation>The property which acts as the value. Must be an identifier of the node (pointer or guid). Default value is guid.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="labelProperty" type="xs:string" use="optional">
+								<xs:annotation>
+									<xs:documentation>The property which acts as the label. Default value is name.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="disabledExpression" type="xs:string" use="optional">
+								<xs:annotation>
+									<xs:documentation>The disabled expression to evaluate. Dataspaces available Node. Note to execute within the context of a node the expression must be escaped.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:anyAttribute namespace="##any" processContents="skip" />
+						</xs:complexType>
+					</xs:element>
+					<xs:group ref="stl:defaultContentGroup" />
+				</xs:sequence>
+				
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
+	
 
 	<xs:element name="singleNodeSelector" substitutionGroup="stl:scriptTag">
 		<xs:annotation>
@@ -619,7 +663,20 @@
 	<!-- button elements -->
 	<xs:element name="buttonBar" substitutionGroup="stl:scriptTag">
 		<xs:annotation>
-			<xs:documentation>Represents a  bar of buttons.</xs:documentation>
+			<xs:documentation>Represents a bar of buttons.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="formControlContainerBase" />
+			</xs:complexContent>
+		</xs:complexType>
+
+	</xs:element>
+
+	<xs:element name="buttonGroup" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Represents a group of buttons.</xs:documentation>
 		</xs:annotation>
 
 		<xs:complexType>
@@ -886,6 +943,69 @@
 					<xs:documentation>The content of the validation message.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<!-- messages -->
+	<xs:element name="infoAlert" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Shows an info alert box to the user.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="alertBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="instructionAlert" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Shows an instruction alert box to the user.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="alertBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="successAlert" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Shows a success alert box to the user.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="alertBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="warningBox" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Shows a warning alert box to the user.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="alertBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="errorAlert" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Shows an error alert box to the user.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="alertBase" />
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 

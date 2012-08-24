@@ -14,8 +14,10 @@
 				</forms:nodeTreeSelect>
 
 				<forms:buttonBar cssClass="modal-footer">
-					<forms:button action="cancel" label="Cancel" isDefault="true" />
-					<forms:button action="copy" label="Copy" cssClass="btn-warning" />
+					<forms:buttonGroup>
+						<forms:button action="copy" label="Copy" cssClass="btn-warning" iconClass="icon-copy" tooltip="Create a copy of this node" />
+						<forms:button action="cancel" label="Cancel" cssClass="btn-info" isDefault="true" iconClass="icon-undo" tooltip="Cancel copying this node" />
+					</forms:buttonGroup>
 				</forms:buttonBar>
 				
 				<!-- processes the form actions -->
@@ -27,7 +29,7 @@
 				<forms:processScriptAction supportedActions="copy">
 					<retrieveNode id="{FieldProperties.newParentId}" target="NewParentNode">
 						<copyNode source="{$UrlNode}" newParent="{$NewParentNode}" target="CopiedNode">
-							<ctrls:invokeDialogParentTrigger action="cms.navigate" url="{CmsRouteUrl( 'Cms', 'View', CopiedNode.id )}" />
+							<ctrls:invokeDialogParentTrigger action="cms.navigate" url="{CmsNodeUrl( CopiedNode.id, 'CmsBrowserPlugin', 'Browse' )}?change=copied" />
 						</copyNode>
 					</retrieveNode>
 					<breakExecution />

@@ -31,12 +31,12 @@ namespace Premotion.Mansion.Web
 			var rootNode = repository.RetrieveRootNode(context);
 
 			// retrieve the tag index or create it
-			var tagIndexNode = repository.RetrieveSingle(context, new PropertyBag
+			var tagIndexNode = repository.RetrieveSingleNode(context, new PropertyBag
 			                                                      {
 			                                                      	{"type", "TagIndex"},
 			                                                      	{"parentSource", rootNode},
 			                                                      	{"depth", "any"}
-			                                                      }) ?? repository.Create(context, rootNode, new PropertyBag
+			                                                      }) ?? repository.CreateNode(context, rootNode, new PropertyBag
 			                                                                                                 {
 			                                                                                                 	{"type", "TagIndex"},
 			                                                                                                 	{"name", "Tags"},
@@ -66,12 +66,12 @@ namespace Premotion.Mansion.Web
 			var repository = context.Repository;
 
 			// retrieve the tag or create it
-			return repository.RetrieveSingle(context, new PropertyBag
+			return repository.RetrieveSingleNode(context, new PropertyBag
 			                                          {
 			                                          	{"parentSource", tagIndexNode},
 			                                          	{"name", tagName},
 			                                          	{"type", "Tag"}
-			                                          }) ?? repository.Create(context, tagIndexNode, new PropertyBag
+			                                          }) ?? repository.CreateNode(context, tagIndexNode, new PropertyBag
 			                                                                                         {
 			                                                                                         	{"name", tagName},
 			                                                                                         	{"type", "Tag"},
@@ -101,7 +101,7 @@ namespace Premotion.Mansion.Web
 			var repository = context.Repository;
 
 			// retrieve the node
-			tagNode = repository.RetrieveSingle(context, new PropertyBag
+			tagNode = repository.RetrieveSingleNode(context, new PropertyBag
 			                                             {
 			                                             	{"parentSource", tagIndexNode},
 			                                             	{"name", tagName},
@@ -212,7 +212,7 @@ namespace Premotion.Mansion.Web
 				var tagIndexNode = RetrieveTagIndexNode(context);
 
 				// retrieve the tags by their guid
-				var tagNodes = context.Repository.Retrieve(context, new PropertyBag
+				var tagNodes = context.Repository.RetrieveNodeset(context, new PropertyBag
 				                                                    {
 				                                                    	{"parentSource", tagIndexNode},
 				                                                    	{"guid", tagGuids}

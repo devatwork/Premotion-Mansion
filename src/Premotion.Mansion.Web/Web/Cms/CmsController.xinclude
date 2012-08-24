@@ -1,8 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.tags.xsd">
+	
+	<!-- ############################################################### -->
+	<!-- Controller handlers                                             -->
+	<!-- ############################################################### -->
 
 	<!-- Invoked by the dispatcher when the application is bootstrapped -->
+	<declareProcedure procedureName="HandlePlugin">
+
+		<!-- render the active plugin -->
+		<invokeProcedure procedureName="RenderPluginView" pluginType="{NotEmpty( Route.routeParameter0, 'CmsHomePlugin' )}" viewName="{NotEmpty( Route.routeParameter1, 'Default' )}" />
+
+	</declareProcedure>
+
+	
+	<!-- Invoked by the dispatcher when the application is bootstrapped -->
 	<declareProcedure procedureName="HandleDefault">
+
+		<!-- render the active plugin -->
+		<invokeProcedure procedureName="RenderPluginView" pluginType="CmsHomePlugin" viewName="Default" />
+
+	</declareProcedure>
+
+	
+	
+	<!-- render the plugin view of the given plugin -->
+	<!-- arguments:                                 -->
+	<!--   pluginType, the type of the plugin       -->
+	<!--   viewName, the name of the view           -->
+	<declareProcedure procedureName="RenderPluginView">
 
 		<!-- we are returning a page -->
 		<web:respondDocument contentType="text/html" encoding="UTF-8" cache="false">
@@ -23,30 +49,38 @@
 			
 			<!-- retrieve the root node -->
 			<retrieveNode id="1" target="RootNode" global="true" />
-			<web:retrieveNodeByUrl target="CurrentNode" global="true">
+			<fetchNode source="{$UrlNode}" target="CurrentNode" global="true">
 				<notFound>
 					<fetchNode source="{$RootNode}" target="CurrentNode" global="true" />
 				</notFound>
-			</web:retrieveNodeByUrl>
+			</fetchNode>
 
 			<!-- render the CMS section -->
 			<renderSection name="CmsPage">
-				<!-- render the header -->
-				<renderSection name="CmsHeader">
-					<renderSection name="ProfileButton" />
-				</renderSection>
-				
-				<!-- render the content-->
-				<renderSection name="Content">
-					<!-- render the node navigation tree pane -->
-					<invokeProcedure procedureName="RenderNodeNavigationTree" />
+				<renderSection name="PageContainer">
 					
-					<!-- render the browser pane -->
-					<invokeProcedure procedureName="RenderBrowser" />
+					<!-- determine the active plugin -->
+					<setProperties dataspaceName="ActivePluginProperties" pluginType="{Arguments.pluginType}" viewName="{Arguments.viewName}">
+					
+						<!-- load all the plugins -->
+						<cms:getPluginDataset target="CmsPluginDataset">
+					
+							<!-- render the user menu -->
+							<invokeProcedure procedureName="RenderUserMenu" />
+
+							<renderSection name="Layout">
+								<!-- render the navigation menu -->
+								<invokeProcedure procedureName="RenderNavigation" />
+					
+								<!-- render the detail view -->
+								<invokeProcedure procedureName="RenderDetailView" />
+							</renderSection>
+							
+						</cms:getPluginDataset>
+
+					</setProperties>
+					
 				</renderSection>
-				
-				<!-- render the footer -->
-				<renderSection name="CmsFooter" />
 			</renderSection>
 
 		</web:respondDocument>
@@ -55,99 +89,61 @@
 	
 	
 	
-	<!-- node navigation tree procedures -->
-	<declareProcedure procedureName="RenderNodeNavigationTree">
-
-		<!-- render the content-->
-		<renderSection name="NodeNavigationTree">
-
-			<!-- retrieve the root node -->
-			<fetchNode source="{$RootNode}" target="LeafNode" global="true" />
-
-			<!-- render the first leaf -->
-			<invokeProcedure procedureName="RenderLeaf" />
-
+	<!-- renders the user menu -->
+	<declareProcedure procedureName="RenderUserMenu">
+		<renderSection name="UserMenu">
+			<!-- Call the RenderPluginUserMenu method on all plug-ins -->
+			<invokeProcedure procedureName="InvokePluginsMethod" methodName="RenderPluginUserMenu" />
 		</renderSection>
-
 	</declareProcedure>
-
-		<declareProcedure procedureName="RenderLeaf">
-			<renderSection name="NodeNavigationTreeLeaf">
-
-				<!-- if the node is select of a parent of the selected node, retrieve the children -->
-				<if condition="{Or( IsChildOf( $CurrentNode, $LeafNode  ), IsEqual( CurrentNode.id, LeafNode.id ) )}">
-					<retrieveChildNodeset parentSource="{$LeafNode}" target="LeafNodeset">
-						<renderSection name="NodeNavigationTreeBranch">
-							<loopNodeset source="{$LeafNodeset}" target="LeafNode">
-									<invokeProcedure procedureName="RenderLeaf"/>
-							</loopNodeset>
-						</renderSection>
-					</retrieveChildNodeset>
-				</if>
-
-			</renderSection>
-		</declareProcedure>
 	
 	
 	
-	<!-- browser procedures -->
-	<declareProcedure procedureName="RenderBrowser">
-		<renderSection name="NodeViewer">
-			<!-- render the node crumbs -->
-			<invokeProcedure procedureName="RenderNodeCrumbPath" />
-			
-			<!-- render the edit node pane -->
-			<invokeProcedure procedureName="RenderNodeFormPane"/>
+	<!-- renders the navigation menu -->
+	<declareProcedure procedureName="RenderNavigation">
+		<renderSection name="Navigation">
+			<!-- Call the RenderPluginNavigation method on all plug-ins -->
+			<invokeProcedure procedureName="InvokePluginsMethod" methodName="RenderPluginNavigation" />
+		</renderSection>
+	</declareProcedure>
+	
+	
+	
+	<!-- renders the detail view -->
+	<declareProcedure procedureName="RenderDetailView">
+		<!-- invoke the default view of the active plugin -->
+		<invokeProcedure procedureName="InvokePluginMethod" pluginType="{ActivePluginProperties.pluginType}" methodName="RenderPlugin{ActivePluginProperties.viewName}DetailView" />
+	</declareProcedure>
+	
+	
+	
+	<!-- invokes a method on all the plugins                  -->
+	<!-- parameters:                                          -->
+	<!--   methodName, the name of the method which to invoke -->
+	<declareProcedure procedureName="InvokePluginsMethod">
+		<loopDataset source="{$CmsPluginDataset}" target="CmsPlugin">
+			<invokeProcedure procedureName="InvokePluginMethod" pluginType="{CmsPlugin.type}" methodName="{Arguments.methodName}" />
+		</loopDataset>
+	</declareProcedure>
+	
+	
+	
+	<!-- invokes a method on the given                        -->
+	<!-- parameters:                                          -->
+	<!--   pluginType, the name of the plugin                 -->
+	<!--   methodName, the name of the method which to invoke -->
+	<declareProcedure procedureName="InvokePluginMethod">
 		
-		</renderSection>
+		<!-- open the script and template -->
+		<openScript type="{Arguments.pluginType}">
+		<openTemplate type="{Arguments.pluginType}">
+				
+			<!-- invoke the procedure -->
+			<invokeProcedure procedureName="{Arguments.methodName}" />
+				
+		</openTemplate>
+		</openScript>
+		
 	</declareProcedure>
-
-		<!-- render the crumb trail for a node -->
-		<declareProcedure procedureName="RenderNodeCrumbPath">
-			<renderSection name="NodeCrumbPath">
-				<if condition="{Not( IsEqual( CurrentNode.id, RootNode.id ) )}">
-					<retrieveParentNodeset childSource="{$CurrentNode}" depth="any" target="ParentNodeset">
-						<loopNodeset source="{$ParentNodeset}" target="ParentNode">
-							<renderSection name="NodeParentCrumb" />
-						</loopNodeset>
-					</retrieveParentNodeset>
-				</if>
-				<renderSection name="NodeActiveCrumb" />
-			</renderSection>
-		</declareProcedure>
-	
-		<!-- render the node form pan -->
-		<declareProcedure procedureName="RenderNodeFormPane">
-			<!-- determine the xform which to display -->
-			<setProperties dataspaceName="NodeInfo" type="{NotEmpty( Get.type, CurrentNode.type )}">
-
-				<!-- if the type does not exist show the default form -->
-				<if condition="{Not( TypeExists( NodeInfo.type ) )}">
-					<setProperties dataspaceName="NodeInfo" type="Default" />
-				</if>
-
-				<!-- show the xform of the type -->
-				<openScript type="{NodeInfo.type}" extension="xform" checkExists="true">
-					<invokeProcedure procedureName="RenderXForm" source="{$CurrentNode}" targetType="{NodeInfo.type}" mode="{NotEmpty( Get.mode, 'update' )}" />
-				</openScript>
-
-			</setProperties>
-		</declareProcedure>
-
-		<!-- default action for form submits -->
-		<declareProcedure procedureName="OnCancel">
-			<web:redirectRequest url="{CmsRouteUrl( 'Cms', 'View', FormSourceNode.id )}" />
-			<breakExecution />
-		</declareProcedure>
-
-		<declareProcedure procedureName="OnCreated">
-			<web:redirectRequest url="{CmsRouteUrl( 'Cms', 'View', NewNode.id )}" />
-			<breakExecution />
-		</declareProcedure>
-
-		<declareProcedure procedureName="OnUpdated">
-			<web:redirectRequest url="{CmsRouteUrl( 'Cms', 'View', FormSourceNode.id )}" />
-			<breakExecution />
-		</declareProcedure>
 
 </mansion>

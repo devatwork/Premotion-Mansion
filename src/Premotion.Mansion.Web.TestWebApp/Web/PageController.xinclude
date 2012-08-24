@@ -1,19 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:social="http://schemas.premotion.nl/mansion/1.0/web/social/tags.xsd">
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:social="http://schemas.premotion.nl/mansion/1.0/web/social/tags.xsd" xmlns:controls="http://schemas.premotion.nl/mansion/1.0/web.controls.tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd">>
 
 	<!-- retrieve the profile -->
 	<declareProcedure procedureName="HandleView">
 
-		<switch condition="{Get.status}">
-			<case value="failed">
-				<renderText>Failed because {Get.reason}</renderText>
-			</case>
-			<default>
-				<social:retrieveProfile providerName="facebook" target="Profile">
-					<renderText>{Profile.name}</renderText>
-				</social:retrieveProfile>
-			</default>
-		</switch>
+		<retrieveRecord parentPointer="1" fts="test" facetType="{CreateFacet( 'type', 'Types' )}" status="published" depth="any" type="Site" limit="5" pageNumber="1" pageSize="25" target="RootNode" sort="type asc">
+			
+		</retrieveRecord>
+
+		<renderSection name="Page">
+			<controls:grid>
+				<providers:retrieveChildNodesetProvider parentPointer="1" depth="any" type="{GetControlPropertyValue( 'type' )}" status="any" fts="{GetControlPropertyValue( 'name' )}" bypassAuthorization="true" pageNumber="{GetControlPropertyValue( 'page-number', '1' )}" pageSize="3" sort="{GetControlPropertyValue( 'sort', 'order asc' )}" cache="false" />
+				<controls:propertyColumn propertyName="name" heading="Name">
+					<controls:columnSort on="name" />
+					<controls:textboxColumnFilter on="name" />
+				</controls:propertyColumn>
+				<controls:propertyColumn propertyName="type" heading="Type">
+					<controls:columnSort on="type" />
+					<controls:selectboxColumnFilter on="type">
+						<providers:allTypesDefinitionDatasetProvider />
+					</controls:selectboxColumnFilter>
+				</controls:propertyColumn>
+			</controls:grid>
+		</renderSection>
 	
 	</declareProcedure>
 	

@@ -12,8 +12,7 @@
 
 			<!-- render the form -->
 			<renderSection name="CmsPage">
-				<renderSection name="CmsHeader" />
-				<renderSection name="CmsFooter" />
+			<renderSection name="PageContainer">
 				<renderSection name="Content">
 
 					<forms:form name="Login">
@@ -50,6 +49,7 @@
 					</forms:form>
 
 				</renderSection>
+			</renderSection>
 			</renderSection>
 
 		</web:respondDocument>

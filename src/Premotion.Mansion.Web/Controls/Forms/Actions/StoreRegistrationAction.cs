@@ -88,7 +88,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Actions
 				properties.Set("name", DateTime.Now.ToString(context.UserInterfaceCulture));
 
 			// store the registration
-			context.Repository.Create(context, registrationIndexNode, properties);
+			context.Repository.CreateNode(context, registrationIndexNode, properties);
 		}
 		#endregion
 		#region Private Fields

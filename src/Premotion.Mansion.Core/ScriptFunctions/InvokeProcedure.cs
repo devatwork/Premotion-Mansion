@@ -3,8 +3,8 @@ using System.Globalization;
 using System.Text;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.IO.Memory;
-using Premotion.Mansion.Core.Scripting;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
+using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Core.ScriptFunctions
 {
@@ -33,7 +33,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions
 				throw new ArgumentNullException("arguments");
 
 			// get the procedure
-			IScript procedure;
+			ScriptTag procedure;
 			if (!context.ProcedureStack.TryPeek(procedureName, out procedure))
 				throw new InvalidOperationException(string.Format("No procedure found with name '{0}'", procedureName));
 

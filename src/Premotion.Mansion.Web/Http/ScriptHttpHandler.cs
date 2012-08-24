@@ -29,6 +29,10 @@ namespace Premotion.Mansion.Web.Http
 		/// <param name="outputPipe">The <see cref="WebOutputPipe"/> constructed to which the response is written.</param>
 		protected override void ProcessRequest(IMansionWebContext context, WebOutputPipe outputPipe)
 		{
+			// always disable cache for backoffice users
+			if (context.BackofficeUserState.IsAuthenticated)
+				outputPipe.OutputCacheEnabled = false;
+
 			// determine path to the script which to execute
 			var scriptPath = new RelativeResourcePath(context.HttpContext.Request.Path.Substring(context.HttpContext.Request.ApplicationPath.Length), false);
 

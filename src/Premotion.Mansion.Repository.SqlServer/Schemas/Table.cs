@@ -1,8 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Patterns.Prioritized;
+using Premotion.Mansion.Repository.SqlServer.Queries;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas
 {
@@ -13,30 +15,32 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 	{
 		#region Constructors
 		/// <summary>
-		/// Constructs a table.
+		/// Constructs this table with the given <paramref name="name"/>.
 		/// </summary>
-		/// <param name="name"></param>
+		/// <param name="name">The name of this table.</param>
 		protected Table(string name)
 		{
 			// validate arguments
 			if (string.IsNullOrEmpty(name))
 				throw new ArgumentNullException("name");
 
-			// set values
+			// set properties
 			Name = name;
 		}
 		#endregion
-		#region Column Methods
+		#region Add Methods
 		/// <summary>
-		/// Adds a column to this table.
+		/// Adds the <paramref name="column"/> to this table.
 		/// </summary>
-		/// <param name="column">The column which to add.</param>
-		public void AddColumn(Column column)
+		/// <param name="column">The <see cref="Column"/> which to add.</param>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="column"/> is null.</exception>
+		public void Add(Column column)
 		{
 			// validate arguments
 			if (column == null)
 				throw new ArgumentNullException("column");
 
+			// add the column
 			columns.Add(column);
 		}
 		#endregion
@@ -79,31 +83,27 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="newPointer"></param>
-		/// <param name="newProperties"></param>
-		public void ToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag newProperties)
+		/// <param name="properties"></param>
+		public void ToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, IPropertyBag properties)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (queryBuilder == null)
 				throw new ArgumentNullException("queryBuilder");
-			if (newPointer == null)
-				throw new ArgumentNullException("newPointer");
-			if (newProperties == null)
-				throw new ArgumentNullException("newProperties");
+			if (properties == null)
+				throw new ArgumentNullException("properties");
 
 			// invoke template method
-			DoToInsertStatement(context, queryBuilder, newPointer, newProperties);
+			DoToInsertStatement(context, queryBuilder, properties);
 		}
 		/// <summary>
 		/// Generates the insert statement for this table.
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="newPointer"></param>
-		/// <param name="newProperties"></param>
-		protected virtual void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag newProperties)
+		/// <param name="properties"></param>
+		protected virtual void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, IPropertyBag properties)
 		{
 			throw new NotSupportedException();
 		}
@@ -112,31 +112,31 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="node"></param>
+		/// <param name="record"></param>
 		/// <param name="modifiedProperties"></param>
-		public void ToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		public void ToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Record record, IPropertyBag modifiedProperties)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (queryBuilder == null)
 				throw new ArgumentNullException("queryBuilder");
-			if (node == null)
-				throw new ArgumentNullException("node");
+			if (record == null)
+				throw new ArgumentNullException("record");
 			if (modifiedProperties == null)
 				throw new ArgumentNullException("modifiedProperties");
 
 			// invoke template method
-			DoToUpdateStatement(context, queryBuilder, node, modifiedProperties);
+			DoToUpdateStatement(context, queryBuilder, record, modifiedProperties);
 		}
 		/// <summary>
 		/// Generates the update statement for this table.
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="node"></param>
+		/// <param name="record"></param>
 		/// <param name="modifiedProperties"></param>
-		protected virtual void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		protected virtual void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Record record, IPropertyBag modifiedProperties)
 		{
 			throw new NotSupportedException();
 		}
@@ -176,11 +176,11 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		public string Name { get; private set; }
 		/// <summary>
-		/// Gets the columns in this table.
+		/// Gets the <see cref="Column"/>s in this table.
 		/// </summary>
 		public IEnumerable<Column> Columns
 		{
-			get { return columns; }
+			get { return columns.OrderByPriority(); }
 		}
 		#endregion
 		#region Private Fields

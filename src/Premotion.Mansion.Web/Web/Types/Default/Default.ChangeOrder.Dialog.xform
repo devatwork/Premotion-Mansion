@@ -31,8 +31,10 @@
 				</forms:renderScript>
 
 				<forms:buttonBar cssClass="modal-footer">
-					<forms:button action="cancel" label="Cancel" />
-					<forms:button action="change" label="Change" cssClass="btn-success" isDefault="true" />
+					<forms:buttonGroup>
+						<forms:button action="change" label="Change" cssClass="btn-success" isDefault="true" iconClass="icon-reorder" tooltip="Change the new position of this node" />
+						<forms:button action="cancel" label="Cancel" cssClass="btn-info" iconClass="icon-undo" tooltip="Cancel changing the position of this node" />
+					</forms:buttonGroup>
 				</forms:buttonBar>
 				
 				<!-- processes the form actions -->
@@ -43,7 +45,7 @@
 				
 				<forms:processScriptAction supportedActions="change">
 					<editNode source="{$UrlNode}" order="{FieldProperties.order}"/>
-					<ctrls:invokeDialogParentTrigger action="cms.refresh" />
+					<ctrls:invokeDialogParentTrigger action="cms.navigate" url="{CmsNodeUrl( UrlNode.id, 'CmsBrowserPlugin', 'Browse' )}?change=reordered" />
 					<breakExecution />
 				</forms:processScriptAction>
 				

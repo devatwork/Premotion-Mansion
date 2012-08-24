@@ -29,7 +29,7 @@ namespace Premotion.Mansion.Web.Converters
 		protected override string DoConvert(IMansionContext context, Uri source, Type sourceType)
 		{
 			// return the full url when the hostname changed, otherwise the relative url
-			return WebUtilities.StripPort(source).ToString();
+			return source.ToString();
 		}
 		/// <summary>
 		/// Converts the object to <see cref="IConverter.TargetType"/>.

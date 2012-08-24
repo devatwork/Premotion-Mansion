@@ -92,6 +92,10 @@ namespace Premotion.Mansion.Web.Url
 			// get the number of segments in the base uri
 			var baseSegmentCount = context.ApplicationBaseUri.Segments.Length;
 
+			// check for backoffice request
+			if (context.IsBackoffice)
+				baseSegmentCount += 1;
+
 			// check if this is the base url
 			if (url.Segments.Length <= baseSegmentCount)
 				return false;

@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Scripting.TagScript;
@@ -7,15 +8,16 @@ using Premotion.Mansion.Core.Templating;
 namespace Premotion.Mansion.Web.Controls.Grid
 {
 	/// <summary>
-	/// Represents the sort of an <see cref="Column"/>.
+	/// Represents the sorting options of a column.
 	/// </summary>
-	public abstract class ColumnSort
+	public class ColumnSort : IControl
 	{
-		#region Nested type: ColumnSorterFactoryTag
+		#region Nested type: ColumnSortFactoryTag
 		/// <summary>
 		/// Base class for <see cref="ColumnSort"/> factories.
 		/// </summary>
-		public abstract class ColumnSorterFactoryTag : ScriptTag
+		[ScriptTag(Constants.ControlTagNamespaceUri, "columnSort")]
+		public class ColumnSortFactoryTag : ScriptTag
 		{
 			#region Overrides of ScriptTag
 			/// <summary>
@@ -32,74 +34,72 @@ namespace Premotion.Mansion.Web.Controls.Grid
 				if (!webContext.TryPeekControl(out column))
 					throw new InvalidOperationException(string.Format("'{0}' must be added to a '{1}'", GetType(), typeof (Column)));
 
-				// retrieve the properties of the filter
-				var properties = GetAttributes(webContext);
+				// get the property names on which to sort
+				var propertyName = GetRequiredAttribute<string>(context, "on");
 
 				// create the filter
-				var sort = Create(context, column, properties);
+				var sort = new ColumnSort
+				           {
+				           	PropertyName = propertyName
+				           };
+
+				// allow facets
+				using (webContext.ControlStack.Push(sort))
+					ExecuteChildTags(webContext);
 
 				// set the sort to the column
-				column.Set(sort);
+				column.Sort = sort;
 			}
-			/// <summary>
-			/// Creates a <see cref="ColumnSort"/>.
-			/// </summary>
-			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
-			/// <param name="column">The <see cref="Column"/> to which the sort is applied.</param>
-			/// <param name="properties">The properties of the filter.</param>
-			/// <returns>Returns the created <see cref="ColumnSort"/>.</returns>
-			protected abstract ColumnSort Create(IMansionContext context, Column column, IPropertyBag properties);
 			#endregion
-		}
-		#endregion
-		#region Constructors
-		/// <summary>
-		/// Constructs a column sort.
-		/// </summary>
-		/// <param name="properties">The properties of this sort.</param>
-		protected ColumnSort(IPropertyBag properties)
-		{
-			// validate arguments
-			if (properties == null)
-				throw new ArgumentNullException("properties");
-
-			// set values
-			Properties = properties;
 		}
 		#endregion
 		#region Render Methods
 		/// <summary>
-		/// Renders this column sort.
+		/// Renders the header of the column on which this sorter is working.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		/// <param name="data">The <see cref="Dataset"/>.</param>
-		public void Render(IMansionWebContext context, ITemplateService templateService, Dataset data)
+		/// <param name="dataset">The <see cref="Dataset"/> rendered in this column.</param>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public void RenderHeader(IMansionWebContext context, ITemplateService templateService, Dataset dataset)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (templateService == null)
 				throw new ArgumentNullException("templateService");
-			if (data == null)
-				throw new ArgumentNullException("data");
+			if (dataset == null)
+				throw new ArgumentNullException("dataset");
 
-			using (context.Stack.Push("ColumnSortProperties", Properties, false))
-				DoRender(context, templateService, data);
+			// determine if this column sort is active
+			var activeSort = dataset.Sorts.FirstOrDefault();
+
+			// check if there is an active sort
+			var active = false;
+			var ascending = false;
+			if (activeSort != null && PropertyName.Equals(activeSort.PropertyName, StringComparison.OrdinalIgnoreCase))
+			{
+				active = true;
+				ascending = activeSort.Ascending;
+			}
+
+			// create the sort properties
+			var properties = new PropertyBag
+			                 {
+			                 	{"active", active},
+			                 	{"direction", ascending},
+			                 	{"sortParameter", PropertyName + " " + (ascending ? "desc" : "asc")}
+			                 };
+
+			using (context.Stack.Push("ColumnSortProperties", properties))
+				templateService.Render(context, "GridControl" + GetType().Name + "Header").Dispose();
 		}
-		/// <summary>
-		/// Renders this column sort.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
-		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		/// <param name="data">The <see cref="Dataset"/>.</param>
-		protected abstract void DoRender(IMansionWebContext context, ITemplateService templateService, Dataset data);
 		#endregion
 		#region Properties
 		/// <summary>
-		/// Gets the properties of this sort.
+		/// Gets the name of the property on which to sort.
 		/// </summary>
-		protected IPropertyBag Properties { get; private set; }
+		private string PropertyName { get; set; }
 		#endregion
 	}
 }

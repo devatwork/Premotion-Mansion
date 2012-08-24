@@ -2,6 +2,12 @@
 <type xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd" xmlns:webdescriptors="http://schemas.premotion.nl/mansion/1.0/web/descriptors.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:listeners="http://schemas.premotion.nl/mansion/1.0/data.listeners.descriptors.xsd">
 	
 	<!-- define identity properties -->
+	<property name="pointer">
+		<sqlserver:treeRelations />
+	</property>
+	<property name="guid">
+		<sqlserver:permanentIdentity />
+	</property>
 	<property name="key">
 		<sqlserver:column allowNullValue="true" />
 	</property>
@@ -13,17 +19,8 @@
 	</property>
 	
 	<!-- define status properties -->
-	<property name="approved">
-		<sqlserver:booleanColumn defaultValue="true" />
-	</property>
-	<property name="publicationDate">
-		<sqlserver:dateTimeColumn expression="{NotNull( Column.value, Now() )}" />
-	</property>
-	<property name="expirationDate">
-		<sqlserver:dateTimeColumn expression="{NotNull( Column.value, MaxSqlDate() )}" />
-	</property>
-	<property name="archived">
-		<sqlserver:booleanColumn defaultValue="false" />
+	<property name="status">
+		<sqlserver:publicationStatus />
 	</property>
 	
 	<!-- role Ids -->
@@ -69,7 +66,6 @@ BEGIN
 		[id] [int] IDENTITY(1,1) NOT NULL
 			CONSTRAINT [PK_Nodes.id] PRIMARY KEY CLUSTERED,
 		[guid] [uniqueidentifier] NOT NULL
-			CONSTRAINT [DF_Nodes.guid] DEFAULT newid()
 			CONSTRAINT [IX_Nodes_guid] UNIQUE NONCLUSTERED,
 		[name] [nvarchar](255) NOT NULL,
 		[type] [nvarchar](50) NOT NULL,
@@ -151,7 +147,7 @@ BEGIN
 	AUTHORIZATION [dbo];
 	CREATE FULLTEXT INDEX ON [dbo].[Nodes] (
 		[fullText] Language 1043
-	) KEY INDEX [PK_Nodes]
+	) KEY INDEX [PK_Nodes.id]
 	ON [NodesCatalog]
 	WITH (
 		CHANGE_TRACKING = AUTO

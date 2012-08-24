@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Repository.SqlServer.Queries;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas
 {
@@ -18,25 +19,24 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		public RootTable(string tableName) : base(tableName)
 		{
 			// create the columns
-			AddColumn(new IdentityColumn(this));
-			AddColumn(new OrderColumn());
-			AddColumn(new ExtendedPropertiesColumn());
+			Add(new IdentityColumn());
+			Add(new OrderColumn());
+			Add(new ExtendedPropertiesColumn());
 		}
 		#endregion
-		#region Statement Mapping Methods
+		#region Overrides of Table
 		/// <summary>
 		/// Generates the insert statement for this table.
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="newPointer"></param>
-		/// <param name="newProperties"></param>
-		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag newProperties)
+		/// <param name="properties"></param>
+		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, IPropertyBag properties)
 		{
 			// create a table modification query
 			var tableModificationQuery = new ModificationQueryBuilder(queryBuilder);
 			foreach (var column in Columns)
-				column.ToInsertStatement(context, tableModificationQuery, newPointer, newProperties);
+				column.ToInsertStatement(context, tableModificationQuery, properties);
 
 			// if there are no modified column add table modification query to the master query builder
 			if (!tableModificationQuery.HasModifiedColumns)
@@ -51,14 +51,14 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="node"></param>
+		/// <param name="record"> </param>
 		/// <param name="modifiedProperties"></param>
-		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Record record, IPropertyBag modifiedProperties)
 		{
 			// create a table modification query
 			var tableModificationQuery = new ModificationQueryBuilder(queryBuilder);
 			foreach (var column in Columns)
-				column.ToUpdateStatement(context, tableModificationQuery, node, modifiedProperties);
+				column.ToUpdateStatement(context, tableModificationQuery, record, modifiedProperties);
 
 			// if there are no modified column add table modification query to the master query builder
 			if (tableModificationQuery.HasModifiedColumns)

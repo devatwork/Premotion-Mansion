@@ -154,6 +154,38 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 			return expression.Execute<TValue>(context);
 		}
 		/// <summary>
+		/// Tries to get the value of the attribute.
+		/// </summary>
+		/// <typeparam name="TValue">The type of the value.</typeparam>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="attributeName">The name of the attribute from which to get the value.</param>
+		/// <param name="value">The value of the attribute.</param>
+		/// <returns>Returns true when the value was got, otherwise false.</returns>
+		protected bool TryGetAttribute<TValue>(IMansionContext context, string attributeName, out TValue value)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (string.IsNullOrEmpty(attributeName))
+				throw new ArgumentNullException("attributeName");
+
+			// check if the tag does not have the attribute
+			string attributeValue;
+			if (!attributes.TryGetValue(attributeName, out attributeValue))
+			{
+				value = default(TValue);
+				return false;
+			}
+
+			// get the expression script parser and parse the expression
+			var expressionScriptParser = context.Nucleus.ResolveSingle<IExpressionScriptService>();
+			var expression = expressionScriptParser.Parse(context, new LiteralResource(attributeValue));
+
+			// return the parsed expression
+			value = expression.Execute<TValue>(context);
+			return true;
+		}
+		/// <summary>
 		/// Gets the value of the attribute.
 		/// </summary>
 		/// <typeparam name="TValue">The type of the value.</typeparam>
@@ -224,7 +256,7 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns></returns>
-		protected IPropertyBag GetAttributes(IMansionContext context)
+		public IPropertyBag GetAttributes(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
@@ -319,7 +351,7 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// Executes the child tags of this tag.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		protected void ExecuteChildTags(IMansionContext context)
+		public void ExecuteChildTags(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)

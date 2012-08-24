@@ -1,82 +1,44 @@
 ﻿using System;
-using Premotion.Mansion.Core.Collections;
 
 namespace Premotion.Mansion.Core.Data
 {
 	/// <summary>
 	/// Implements a node.
 	/// </summary>
-	public sealed class Node : PropertyBag
+	public sealed class Node : Record
 	{
-		#region Constructors
+		#region Initialize Methods
 		/// <summary>
-		/// Constructs a new node with the specified pointer.
+		/// Initializes this node.
 		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="pointer">The pointer to the node.</param>
-		/// <param name="extendedProperties"></param>
-		public Node(IMansionContext context, NodePointer pointer, IPropertyBag extendedProperties) : base(extendedProperties)
+		/// <param name="context">The <see cref="IMansionContext"/></param>
+		protected override void DoInitialize(IMansionContext context)
 		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
-			if (pointer == null)
-				throw new ArgumentNullException("pointer");
-			if (extendedProperties == null)
-				throw new ArgumentNullException("extendedProperties");
+			// allow base to initialze
+			base.DoInitialize(context);
 
 			// set values
-			this.pointer = pointer;
-
-			// copy the pointer properties to the property bag
-			Set("id", Pointer.Id);
-			Set("pointer", Pointer.PointerString);
-			if (Pointer.HasParent)
-			{
-				Set("parentPointer", Pointer.Parent.PointerString);
-				Set("parentId", Pointer.Parent.Id);
-			}
-			Set("path", Pointer.PathString);
-			Set("structure", Pointer.StructureString);
-			Set("name", Pointer.Name);
-			Set("type", Pointer.Type);
-			if (Pointer.HasParent)
-				Set("parentPointer", Pointer.Parent.PointerString);
+			pointer = Get<NodePointer>(context, "pointer");
 
 			// determine the state of the node
-			var isApproved = extendedProperties.Get<bool>(context, "approved");
-			var publicationDate = extendedProperties.Get<DateTime>(context, "publicationDate");
-			var expirationDate = extendedProperties.Get<DateTime>(context, "expirationDate");
-			var isArchived = extendedProperties.Get<bool>(context, "archived");
+			var isApproved = Get<bool>(context, "approved");
+			var publicationDate = Get<DateTime>(context, "publicationDate");
+			var expirationDate = Get<DateTime>(context, "expirationDate");
+			var isArchived = Get<bool>(context, "archived");
 			if (isArchived)
-			{
 				status = NodeStatus.Archived;
-				Set("status", "archived");
-			}
 			else if (!isApproved)
-			{
 				status = NodeStatus.Draft;
-				Set("status", "draft");
-			}
 			else if (expirationDate < DateTime.Now)
-			{
 				status = NodeStatus.Expired;
-				Set("status", "expired");
-			}
 			else if (publicationDate > DateTime.Now)
-			{
 				status = NodeStatus.Staged;
-				Set("status", "staged");
-			}
 			else
-			{
 				status = NodeStatus.Published;
-				Set("status", "published");
-			}
 
 			// set misc properties
-			order = extendedProperties.Get<long>(context, "order");
-			guid = extendedProperties.Get<Guid>(context, "guid");
+			order = Get<long>(context, "order");
+			guid = Get<Guid>(context, "guid");
 		}
 		#endregion
 		#region Properties
@@ -110,10 +72,10 @@ namespace Premotion.Mansion.Core.Data
 		}
 		#endregion
 		#region Private Fields
-		private readonly Guid guid;
-		private readonly long order;
-		private readonly NodePointer pointer;
-		private readonly NodeStatus status;
+		private Guid guid;
+		private long order;
+		private NodePointer pointer;
+		private NodeStatus status;
 		#endregion
 	}
 }

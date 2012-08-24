@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
@@ -170,25 +171,33 @@ namespace Premotion.Mansion.Web.Http
 				Stack.Push("Post", httpContext.Request.Form.ToPropertyBag(), true);
 				Stack.Push("Server", httpContext.Request.ServerVariables.ToPropertyBag(), true);
 
-				// get the original url
-				var originalUri = PathRewriterHttpModule.GetOriginalRawUrl(httpContext);
-				originalUri = WebUtilities.StripPort(originalUri);
-
 				// create the application dataspace
+				var baseUrl = ApplicationBaseUri.ToString().TrimEnd(Dispatcher.Constants.UrlPartTrimCharacters);
+				var url = httpContext.Request.Url.ToString();
 				Stack.Push("Request", new PropertyBag
 				                      {
-				                      	{"url", originalUri.ToString()},
+				                      	{"url", url},
 				                      	{"urlPath", httpContext.Request.Url.GetLeftPart(UriPartial.Path)},
-				                      	{"baseUrl", ApplicationBaseUri.ToString().TrimEnd(Dispatcher.Constants.UrlPartTrimCharacters)}
+				                      	{"baseUrl", baseUrl}
 				                      }, true);
 
 				// set context location flag
-				IsBackoffice = HttpContext.Request.Path.IndexOf(@"/cms/", HttpContext.Request.ApplicationPath.Length, StringComparison.OrdinalIgnoreCase) != -1;
+				IsBackoffice = url.IndexOf("/" + Constants.BackofficeUrlPrefix + "/", baseUrl.Length, StringComparison.OrdinalIgnoreCase) == baseUrl.Length;
 
 				// initialize the context
 				IPropertyBag applicationSettings;
 				if (!Stack.TryPeek(ApplicationSettingsConstants.DataspaceName, out applicationSettings))
 					return;
+
+				// try to get the culture
+				string defaultCulture;
+				if (applicationSettings.TryGet(applicationContext, "DEFAULT_SYSTEM_CULTURE", out defaultCulture) && !string.IsNullOrEmpty(defaultCulture))
+					SystemCulture = CultureInfo.GetCultureInfo(defaultCulture);
+
+				// try to get the culture
+				string defaultUICulture;
+				if (applicationSettings.TryGet(applicationContext, "DEFAULT_UI_CULTURE", out defaultUICulture) && !string.IsNullOrEmpty(defaultUICulture))
+					UserInterfaceCulture = CultureInfo.GetCultureInfo(defaultUICulture);
 
 				// initialize the repository, when possible
 				var repositoryNamespace = applicationSettings.Get(this, ApplicationSettingsConstants.RepositoryNamespace, string.Empty);

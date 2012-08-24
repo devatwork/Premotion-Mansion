@@ -18,7 +18,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 			var source = GetRequiredAttribute<Node>(context, "source");
 
 			// delete the node
-			context.Repository.Delete(context, source.Pointer);
+			context.Repository.DeleteNode(context, source);
 		}
 	}
 }
