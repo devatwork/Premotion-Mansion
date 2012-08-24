@@ -1,6 +1,7 @@
 using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Web.Portal.Service;
 
@@ -39,7 +40,7 @@ namespace Premotion.Mansion.Web.Portal.Descriptors
 			Guid displayedBlockGuid;
 			if (!blockProperties.TryGet(context, "blockGuid", out displayedBlockGuid))
 				throw new InvalidOperationException("Block guid not found for shared block display");
-			var displayedBlockNode = context.Repository.RetrieveSingle(context, new PropertyBag
+			var displayedBlockNode = context.Repository.RetrieveSingleNode(context, new PropertyBag
 			                                                                    {
 			                                                                    	{"guid", displayedBlockGuid}
 			                                                                    });

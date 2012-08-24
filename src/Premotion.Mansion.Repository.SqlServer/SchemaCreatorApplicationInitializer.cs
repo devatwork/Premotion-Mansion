@@ -5,7 +5,7 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Types;
-using Premotion.Mansion.Repository.SqlServer.Descriptors;
+using Premotion.Mansion.Repository.SqlServer.Schemas.Descriptors;
 
 namespace Premotion.Mansion.Repository.SqlServer
 {

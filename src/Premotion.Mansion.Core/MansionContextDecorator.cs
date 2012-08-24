@@ -131,6 +131,13 @@ namespace Premotion.Mansion.Core
 			get { return decoratedContext.ProcedureStack; }
 		}
 		/// <summary>
+		/// Gets the procedure call stack.
+		/// </summary>
+		public IAutoPopStack<ScriptTag> ProcedureCallStack
+		{
+			get { return decoratedContext.ProcedureCallStack; }
+		}
+		/// <summary>
 		/// Gets the event handler stack.
 		/// </summary>
 		public IAutoPopDictionaryStack<string, IScript> EventHandlerStack

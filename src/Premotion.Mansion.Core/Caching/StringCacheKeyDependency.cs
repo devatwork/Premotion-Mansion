@@ -35,6 +35,17 @@ namespace Premotion.Mansion.Core.Caching
 			return key.ToString();
 		}
 		#endregion
+		#region Operators
+		///<summary>
+		/// Converts <paramref name="key"/> into a <see cref="StringCacheKey"/>.
+		///</summary>
+		///<param name="key">The key.</param>
+		///<returns>Returns the converted cache key.</returns>
+		public static implicit operator StringCacheKeyDependency(StringCacheKey key)
+		{
+			return new StringCacheKeyDependency(key);
+		}
+		#endregion
 		#region Properties
 		/// <summary>
 		/// Gets the <see cref="CacheKey"/> of the this dependency.

@@ -9,29 +9,22 @@
 		<link rel="stylesheet" href="{StaticResourceUrl( '/Shared/css/bootstrap/bootstrap.min.css' )}">
 		<link rel="stylesheet" href="{DynamicResourceUrl( '/Controls/Css/Controls.css' )}">
 		<link rel="stylesheet" href="{StaticResourceUrl( '/Shared/css/jquery/jquery-ui.css' )}">
-		<link rel="stylesheet" href="{DynamicResourceUrl( '/Cms/css/cms.css' )}">
 		<link rel="stylesheet" href="{StaticResourceUrl( '/Shared/css/bootstrap/bootstrap-responsive.min.css' )}">
 		<link rel="stylesheet" href="{StaticResourceUrl( '/Shared/css/fontawesome/font-awesome.css' )}">
 		<!--[if lt IE 8]>
 		<link rel="stylesheet" href="{StaticResourceUrl( '/Shared/css/fontawesome/font-awesome-ie7.css' )}">
 		<![endif]-->
+		<link rel="stylesheet" href="{DynamicResourceUrl( '/Cms/css/cms.css' )}">
 		{Header}
 		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 	</head>
+	<body>
 
-	<body class="{@PageBodyClasses}">
-		{CmsHeader}
-		<div class="container-fluid">
-			{Content}
-			{CmsFooter}
-		</div>
-
-		<!-- Le modal -->
-		<div class="modal fade hide" id="modal-popup"></div>
-
+		{Container}
+		
 		<!-- Le javascript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
@@ -44,30 +37,26 @@
 	</body>
 </html></tpl:section>
 
-<tpl:section name="PageBodyClasses">cms</tpl:section>
 
-<tpl:section name="CmsHeader">
+
+<tpl:section name="PageContainer" field="Container">
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container-fluid">
-				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</a>
-				<span class="brand">Premotion Mansion CMS</span>
-				{ProfileButton}
-				{Navigation}
+				<a class="brand" href="#">Premotion Mansion CMS</a>
+				{UserMenu}
 			</div>
 		</div>
 	</div>
-</tpl:section>
 
-<tpl:section name="CmsFooter">
-	<hr>
-	<footer>
-		<p>
-			&copy; <a href="http://www.premotion.nl/" title="Premotion Software Solutions">Premotion Software Solutions</a> 2010 - {FormatDate( Now(), 'yyyy' )}
-		</p>
-	</footer>
+	<div class="container-fluid cms-page">
+		{Content}
+		<hr>
+		<footer>
+			<p>&copy; Premotion Software Solutions</p>
+		</footer>
+	</div>
+	
+	<!-- Le modal -->
+	<div class="modal fade hide" id="modal-popup"></div>
 </tpl:section>

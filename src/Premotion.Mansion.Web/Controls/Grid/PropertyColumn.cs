@@ -1,4 +1,3 @@
-﻿using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Scripting.TagScript;
@@ -7,13 +6,13 @@ using Premotion.Mansion.Core.Templating;
 namespace Premotion.Mansion.Web.Controls.Grid
 {
 	/// <summary>
-	/// Represents a grid column displaying a property.
+	/// Represents a column which is bound to a property.
 	/// </summary>
 	public class PropertyColumn : Column
 	{
 		#region Nested type: PropertyColumnFactoryTag
 		/// <summary>
-		/// Constructs <see cref="PropertyColumn"/>s/
+		/// Creates <see cref="PropertyColumn"/>s.
 		/// </summary>
 		[ScriptTag(Constants.ControlTagNamespaceUri, "propertyColumn")]
 		public class PropertyColumnFactoryTag : ColumnFactoryTag
@@ -26,29 +25,20 @@ namespace Premotion.Mansion.Web.Controls.Grid
 			/// <returns>Returns the created <see cref="Column"/>.</returns>
 			protected override Column Create(IMansionWebContext context)
 			{
-				// get the property name
-				var propertyName = GetRequiredAttribute<string>(context, "property");
-
-				// create the column
-				return new PropertyColumn(GetAttributes(context), propertyName);
+				return new PropertyColumn(GetAttributes(context))
+				       {
+				       	propertyName = GetRequiredAttribute<string>(context, "propertyName")
+				       };
 			}
 			#endregion
 		}
 		#endregion
 		#region Constructors
 		/// <summary>
-		/// Constructs a column.
 		/// </summary>
-		/// <param name="properties">The properties of this column.</param>
-		/// <param name="propertyName">The name of the property displayed by this column.</param>
-		private PropertyColumn(IPropertyBag properties, string propertyName) : base(properties)
+		/// <param name="properties"></param>
+		private PropertyColumn(IPropertyBag properties) : base(properties)
 		{
-			// validate arguments
-			if (string.IsNullOrEmpty(propertyName))
-				throw new ArgumentNullException("propertyName");
-
-			// set values
-			PropertyName = propertyName;
 		}
 		#endregion
 		#region Overrides of Column
@@ -57,26 +47,23 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		/// <param name="data">The <see cref="Dataset"/> rendered in this column.</param>
+		/// <param name="dataset">The <see cref="Dataset"/> rendered in this column.</param>
 		/// <param name="row">The being rendered.</param>
-		protected override void DoRenderCell(IMansionWebContext context, ITemplateService templateService, Dataset data, IPropertyBag row)
+		protected override void DoRenderCell(IMansionWebContext context, ITemplateService templateService, Dataset dataset, IPropertyBag row)
 		{
 			// create the cell properties
 			var cellProperties = new PropertyBag
 			                     {
-			                     	{"value", row.Get<object>(context, PropertyName, null)}
+			                     	{"value", row.Get<object>(context, propertyName, null)}
 			                     };
 
 			// render the cell
-			using (context.Stack.Push("CellProperties", cellProperties, false))
+			using (context.Stack.Push("CellProperties", cellProperties))
 				templateService.Render(context, "GridControlPropertyColumnContent").Dispose();
 		}
 		#endregion
 		#region Private Fields
-		/// <summary>
-		/// Gets the name of the property displayed by this column.
-		/// </summary>
-		public string PropertyName { get; private set; }
+		private string propertyName;
 		#endregion
 	}
 }

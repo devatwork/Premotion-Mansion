@@ -11,7 +11,8 @@
     <RootNamespace>Premotion.Mansion.TestConsoleApp</RootNamespace>
     <AssemblyName>Premotion.Mansion.TestConsoleApp</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\src\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -36,8 +37,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dynamo.Ioc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=584702d813863cbd, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dynamo.Ioc.1.0\lib\Dynamo.Ioc.dll</HintPath>
+    <Reference Include="Dynamo.Ioc">
+      <HintPath>..\packages\Dynamo.Ioc.3.0.0.3\lib\net40\Dynamo.Ioc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -53,6 +54,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

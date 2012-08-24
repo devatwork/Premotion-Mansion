@@ -35,11 +35,9 @@
 			<retrieveChildNode parentSource="{$ContentIndexRootNode}" type="Taxonomy" target="TaxonomyNode">
 				<forms:fieldset label="Taxonomy">
 					<forms:infoMessage>Categorize this content using the taxonomy.</forms:infoMessage>
-					<forms:nodeTreeSelect name="taxonomyGuids" label="Select the categories" allowMultiple="true">
-						<setProperties dataspaceName="TaxonomyProperties" valueProperty="guid" labelProperty="name" parentPointer="{ContentIndexRootNode.pointer}" type="Taxonomy" selectableExpression="{\Equal( Row.type, 'TaxonomyItem' )}">
-							<providers:nodeTreeSelectProvider source="{$TaxonomyProperties}" />
-						</setProperties>
-					</forms:nodeTreeSelect>
+					<forms:multiNodeSelector name="taxonomyGuids" label="Select the categories">
+						<forms:nodeSelectorProperties rootPointer="{TaxonomyNode.pointer}" disabledExpression="{\Not( IsAssignable( Node.type, 'TaxonomyItem' ) )}" />
+					</forms:multiNodeSelector>
 				</forms:fieldset>
 				<notFound />
 			</retrieveChildNode>
@@ -51,22 +49,6 @@
 			</forms:fieldset>
 
 		</forms:fieldset>
-	</declareProcedure>
-
-
-
-	<!-- action buttons for pages -->
-	<declareProcedure procedureName="IncludeActionButtons">
-		<invokeProcedure procedureName="IncludeActionPreviewPageButton"/>
-		<invokeProcedure procedureName="IncludeActionAddChildButton"/>
-		<invokeProcedure procedureName="IncludeActionChangeNodeOrderButton"/>
-		<invokeProcedure procedureName="IncludeActionMoveNodeButton"/>
-		<invokeProcedure procedureName="IncludeActionCopyNodeButton"/>
-		<invokeProcedure procedureName="IncludeActionDeleteNodeButton"/>
-	</declareProcedure>
-	
-	<declareProcedure procedureName="IncludeActionPreviewPageButton">
-		<forms:linkButton action="{MakeAbsoluteUrl( NodeUrl( $FormSourceNode ) )}" label="Preview" cssClass="cms-preview preview" />
 	</declareProcedure>
 	
 </mansion>

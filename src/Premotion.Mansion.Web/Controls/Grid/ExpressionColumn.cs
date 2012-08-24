@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.IO.Memory;
@@ -10,13 +10,13 @@ using Premotion.Mansion.Core.Templating;
 namespace Premotion.Mansion.Web.Controls.Grid
 {
 	/// <summary>
-	/// Represents a grid column displaying a property.
+	/// Represents a column which is bound to an expression.
 	/// </summary>
 	public class ExpressionColumn : Column
 	{
 		#region Nested type: ExpressionColumnFactoryTag
 		/// <summary>
-		/// Constructs <see cref="ExpressionColumn"/>s/
+		/// Creates <see cref="PropertyColumn"/>s.
 		/// </summary>
 		[ScriptTag(Constants.ControlTagNamespaceUri, "expressionColumn")]
 		public class ExpressionColumnFactoryTag : ColumnFactoryTag
@@ -45,14 +45,10 @@ namespace Premotion.Mansion.Web.Controls.Grid
 			/// <returns>Returns the created <see cref="Column"/>.</returns>
 			protected override Column Create(IMansionWebContext context)
 			{
-				// get the column properties
-				var properties = GetAttributes(context);
-
-				// parse into an expression
-				var expression = expressionScriptService.Parse(context, new LiteralResource(GetRequiredAttribute<string>(context, "expression")));
-
-				// create the column))
-				return new ExpressionColumn(properties, expression);
+				return new ExpressionColumn(GetAttributes(context))
+				       {
+				       	epxression = expressionScriptService.Parse(context, new LiteralResource(GetRequiredAttribute<string>(context, "expression")))
+				       };
 			}
 			#endregion
 			#region Private Fields
@@ -62,18 +58,10 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		#endregion
 		#region Constructors
 		/// <summary>
-		/// Constructs a column.
 		/// </summary>
-		/// <param name="properties">The properties of this column.</param>
-		/// <param name="expression">The <see cref="IScript"/> expression which to evaluate.</param>
-		private ExpressionColumn(IPropertyBag properties, IScript expression) : base(properties)
+		/// <param name="properties"></param>
+		private ExpressionColumn(IPropertyBag properties) : base(properties)
 		{
-			// validate arguments
-			if (expression == null)
-				throw new ArgumentNullException("expression");
-
-			// set values
-			this.expression = expression;
 		}
 		#endregion
 		#region Overrides of Column
@@ -82,23 +70,23 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		/// <param name="data">The <see cref="Dataset"/> rendered in this column.</param>
+		/// <param name="dataset">The <see cref="Dataset"/> rendered in this column.</param>
 		/// <param name="row">The being rendered.</param>
-		protected override void DoRenderCell(IMansionWebContext context, ITemplateService templateService, Dataset data, IPropertyBag row)
+		protected override void DoRenderCell(IMansionWebContext context, ITemplateService templateService, Dataset dataset, IPropertyBag row)
 		{
 			// create the cell properties
 			var cellProperties = new PropertyBag
 			                     {
-			                     	{"value", expression.Execute<object>(context)}
+			                     	{"value", epxression.Execute<object>(context)}
 			                     };
 
 			// render the cell
-			using (context.Stack.Push("CellProperties", cellProperties, false))
-				templateService.Render(context, "GridControlPropertyColumnContent").Dispose();
+			using (context.Stack.Push("CellProperties", cellProperties))
+				templateService.Render(context, "GridControlExpressionColumnContent").Dispose();
 		}
 		#endregion
 		#region Private Fields
-		private readonly IScript expression;
+		private IScript epxression;
 		#endregion
 	}
 }

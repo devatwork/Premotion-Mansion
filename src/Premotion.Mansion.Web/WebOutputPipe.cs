@@ -145,6 +145,10 @@ namespace Premotion.Mansion.Web
 				httpContext.Response.ContentType = value;
 			}
 		}
+		/// <summary>
+		/// Gets or sets the absolute date and time at which cached information expires in the cache.
+		/// </summary>
+		public DateTime? Expires { get; set; }
 		#endregion
 		#region Private Fields
 		private readonly MemoryStream buffer = new MemoryStream();

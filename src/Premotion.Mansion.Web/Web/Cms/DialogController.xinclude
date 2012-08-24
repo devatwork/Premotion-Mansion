@@ -11,7 +11,7 @@
 			<web:disableOutputCache />
 
 			<!-- render the tree -->
-			<web:retrieveNodeByUrl target="CurrentNode">
+			<fetchNode source="{$UrlNode}" target="CurrentNode">
 				
 				<!-- check security -->
 				<if condition="{Not( And( IsAuthenticated(), HasPermission( 'Cms', 'use' ) ) )}">
@@ -40,7 +40,7 @@
 				<notFound>
 					<web:setStatusCode code="404"/>
 				</notFound>
-			</web:retrieveNodeByUrl>
+			</fetchNode>
 
 		</web:respondDocument>
 

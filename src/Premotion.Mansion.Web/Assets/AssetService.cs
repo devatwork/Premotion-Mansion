@@ -259,7 +259,7 @@ namespace Premotion.Mansion.Web.Assets
 		/// <returns></returns>
 		private static Node RetrieveRootNode(IMansionContext context)
 		{
-			return context.Repository.RetrieveSingle(context, new PropertyBag {{"id", 1}});
+			return context.Repository.RetrieveSingleNode(context, new PropertyBag {{"id", 1}});
 		}
 		/// <summary>
 		/// Retrieves the asset index node.
@@ -272,7 +272,7 @@ namespace Premotion.Mansion.Web.Assets
 
 			// check if the index node exists
 			var repository = context.Repository;
-			var indexNode = repository.RetrieveSingle(context, new PropertyBag
+			var indexNode = repository.RetrieveSingleNode(context, new PropertyBag
 			                                                   {
 			                                                   	{"parentSource", rootNode},
 			                                                   	{"depth", "any"},
@@ -284,19 +284,19 @@ namespace Premotion.Mansion.Web.Assets
 				return indexNode;
 
 			// create the node
-			indexNode = repository.Create(context, rootNode, new PropertyBag
+			indexNode = repository.CreateNode(context, rootNode, new PropertyBag
 			                                            {
 			                                            	{"name", "Assets"},
 			                                            	{"type", "AssetTypeIndex"},
 			                                            	{"approved", true},
 			                                            });
-			repository.Create(context, indexNode, new PropertyBag
+			repository.CreateNode(context, indexNode, new PropertyBag
 			                                            {
 			                                            	{"name", "Images"},
 			                                            	{"type", "AssetType"},
 			                                            	{"approved", true},
 			                                            });
-			repository.Create(context, indexNode, new PropertyBag
+			repository.CreateNode(context, indexNode, new PropertyBag
 			                                            {
 			                                            	{"name", "Files"},
 			                                            	{"type", "AssetType"},
@@ -312,7 +312,7 @@ namespace Premotion.Mansion.Web.Assets
 		/// <returns></returns>
 		private static Nodeset RetrieveAssetTypeNodeset(IMansionContext context, Node indexNode)
 		{
-			return context.Repository.Retrieve(context, new PropertyBag
+			return context.Repository.RetrieveNodeset(context, new PropertyBag
 			                                            {
 			                                            	{"parentSource", indexNode},
 			                                            	{"baseType", "AssetType"},
@@ -327,7 +327,7 @@ namespace Premotion.Mansion.Web.Assets
 		/// <returns></returns>
 		private Nodeset RetrieveFolderNodeset(IMansionContext context, Node indexNode)
 		{
-			return context.Repository.Retrieve(context, new PropertyBag
+			return context.Repository.RetrieveNodeset(context, new PropertyBag
 			                                            {
 			                                            	{"parentSource", indexNode},
 			                                            	{"baseType", "AssetFolder"},
@@ -342,7 +342,7 @@ namespace Premotion.Mansion.Web.Assets
 		/// <returns></returns>
 		private Nodeset RetrieveEntryNodeset(IMansionContext context, Node indexNode)
 		{
-			return context.Repository.Retrieve(context, new PropertyBag
+			return context.Repository.RetrieveNodeset(context, new PropertyBag
 			                                            {
 			                                            	{"parentSource", indexNode},
 			                                            	{"baseType", "AssetEntry"},
@@ -362,7 +362,7 @@ namespace Premotion.Mansion.Web.Assets
 			var repository = context.Repository;
 			foreach (var folderName in path)
 			{
-				var folderNode = repository.RetrieveSingle(context, new PropertyBag
+				var folderNode = repository.RetrieveSingleNode(context, new PropertyBag
 				                                                    {
 				                                                    	{"parentSource", folderIndexNode},
 				                                                    	{"baseType", "AssetFolder"},
@@ -387,7 +387,7 @@ namespace Premotion.Mansion.Web.Assets
 		/// <returns></returns>
 		private Node CreateFolderNode(IMansionContext context, Node parentNode, string folderName)
 		{
-			return context.Repository.Create(context, parentNode, new PropertyBag
+			return context.Repository.CreateNode(context, parentNode, new PropertyBag
 			                                                      {
 			                                                      	{"name", folderName},
 			                                                      	{"type", "AssetFolder"},
@@ -407,7 +407,7 @@ namespace Premotion.Mansion.Web.Assets
 		{
 			if (path == null)
 				throw new ArgumentNullException("path");
-			return context.Repository.Create(context, parentNode, new PropertyBag
+			return context.Repository.CreateNode(context, parentNode, new PropertyBag
 			                                                      {
 			                                                      	{"name", filename},
 			                                                      	{"path", path},

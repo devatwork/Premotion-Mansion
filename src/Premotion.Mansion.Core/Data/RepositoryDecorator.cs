@@ -1,4 +1,6 @@
 ﻿using System;
+using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Data.Queries;
 
 namespace Premotion.Mansion.Core.Data
 {
@@ -26,21 +28,21 @@ namespace Premotion.Mansion.Core.Data
 		/// Retrieves a single node from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="query">The query on the node.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns>Returns a single <see cref="Node"/>.</returns>
-		protected override Node DoRetrieveSingle(IMansionContext context, NodeQuery query)
+		protected override Node DoRetrieveSingleNode(IMansionContext context, Query query)
 		{
-			return DecoratedRepository.RetrieveSingle(context, query);
+			return DecoratedRepository.RetrieveSingleNode(context, query);
 		}
 		/// <summary>
 		/// Retrieves multiple nodes from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="query">The query on the node.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
 		/// <returns>Returns a <see cref="Nodeset"/>.</returns>
-		protected override Nodeset DoRetrieve(IMansionContext context, NodeQuery query)
+		protected override Nodeset DoRetrieveNodeset(IMansionContext context, Query query)
 		{
-			return DecoratedRepository.Retrieve(context, query);
+			return DecoratedRepository.RetrieveNodeset(context, query);
 		}
 		/// <summary>
 		/// Creates a new node in this repository.
@@ -49,9 +51,9 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="parent">The parent node.</param>
 		/// <param name="newProperties">The properties of the node which to create.</param>
 		/// <returns>Returns the created nodes.</returns>
-		protected override Node DoCreate(IMansionContext context, Node parent, IPropertyBag newProperties)
+		protected override Node DoCreateNode(IMansionContext context, Node parent, IPropertyBag newProperties)
 		{
-			return DecoratedRepository.Create(context, parent, newProperties);
+			return DecoratedRepository.CreateNode(context, parent, newProperties);
 		}
 		/// <summary>
 		/// Updates an existing node in this repository.
@@ -59,18 +61,18 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="node">The node which will be updated.</param>
 		/// <param name="modifiedProperties">The properties which to update.</param>
-		protected override void DoUpdate(IMansionContext context, Node node, IPropertyBag modifiedProperties)
+		protected override void DoUpdateNode(IMansionContext context, Node node, IPropertyBag modifiedProperties)
 		{
-			DecoratedRepository.Update(context, node, modifiedProperties);
+			DecoratedRepository.UpdateNode(context, node, modifiedProperties);
 		}
 		/// <summary>
 		/// Deletes an existing node from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="pointer">The pointer to the node which will be deleted.</param>
-		protected override void DoDelete(IMansionContext context, NodePointer pointer)
+		/// <param name="node">The pointer to the node which will be deleted.</param>
+		protected override void DoDeleteNode(IMansionContext context, Node node)
 		{
-			DecoratedRepository.Delete(context, pointer);
+			DecoratedRepository.DeleteNode(context, node);
 		}
 		/// <summary>
 		/// Moves an existing node in this repository to a new parent node.
@@ -79,9 +81,9 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="pointer">The pointer to the node which will be moved.</param>
 		/// <param name="newParentPointer">The pointer to the parent to which the node is moved.</param>
 		/// <returns>Returns the moved node.</returns>m
-		protected override Node DoMove(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
+		protected override Node DoMoveNode(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
 		{
-			return DecoratedRepository.Move(context, pointer, newParentPointer);
+			return DecoratedRepository.MoveNode(context, pointer, newParentPointer);
 		}
 		/// <summary>
 		/// Copies an existing node in this repository to a new node.
@@ -90,19 +92,60 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="pointer">The pointer to the node which will be copied.</param>
 		/// <param name="targetParentPointer">The pointer to the parent to which the copied node is added.</param>
 		/// <returns>Returns the copied node.</returns>
-		protected override Node DoCopy(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer)
+		protected override Node DoCopyNode(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer)
 		{
-			return DecoratedRepository.Copy(context, pointer, targetParentPointer);
+			return DecoratedRepository.CopyNode(context, pointer, targetParentPointer);
 		}
 		/// <summary>
-		/// Parses <paramref name="arguments" /> into a <see cref="NodeQuery" />.
+		/// Retrieves a single record from this repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="arguments">The arguments which to parse.</param>
-		/// <returns>Returns the parsed query.</returns>
-		protected override NodeQuery DoParseQuery(IMansionContext context, IPropertyBag arguments)
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
+		/// <returns>Returns a single <see cref="Record"/> or null when no result is found.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
+		protected override Record DoRetrieveSingle(IMansionContext context, Query query)
 		{
-			return DecoratedRepository.ParseQuery(context, arguments);
+			return DecoratedRepository.RetrieveSingle(context, query);
+		}
+		/// <summary>
+		/// Retrieves a <see cref="Dataset"/> from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="Query"/> which to execute.</param>
+		/// <returns>Returns a <see cref="Dataset"/> containing the results.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
+		protected override RecordSet DoRetrieve(IMansionContext context, Query query)
+		{
+			return DecoratedRepository.Retrieve(context, query);
+		}
+		/// <summary>
+		/// Creates a new record with the given <paramref name="properties"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="properties">The properties from which to create a record.</param>
+		/// <returns>Returns the created <see cref="Record"/>.</returns>
+		protected override Record DoCreate(IMansionContext context, IPropertyBag properties)
+		{
+			return DecoratedRepository.Create(context, properties);
+		}
+		/// <summary>
+		/// Updates an existing <paramref name="record"/> in this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="record">The <see cref="Record"/> which will be updated.</param>
+		/// <param name="properties">The updated properties.</param>
+		protected override void DoUpdate(IMansionContext context, Record record, IPropertyBag properties)
+		{
+			DecoratedRepository.Update(context, record, properties);
+		}
+		/// <summary>
+		/// Deletes an existing <paramref name="record"/> from this repository.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="record">The <see cref="Record"/> which will be deleted.</param>
+		protected override void DoDelete(IMansionContext context, Record record)
+		{
+			DecoratedRepository.Delete(context, record);
 		}
 		/// <summary>
 		/// Starts this object. This methods must be called after the object has been created and before it is used.

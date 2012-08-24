@@ -37,11 +37,12 @@
     <DocumentationFile>bin\Premotion.Mansion.Core.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dynamo.Ioc">
-      <HintPath>..\packages\Dynamo.Ioc.1.0\lib\Dynamo.Ioc.dll</HintPath>
+    <Reference Include="Dynamo.Ioc, Version=3.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Dynamo.Ioc.3.0.0.3\lib\net40\Dynamo.Ioc.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -70,16 +71,63 @@
     <Compile Include="Collections\PropertyBag.cs" />
     <Compile Include="Collections\PropertyBagAdapterFactory.cs" />
     <Compile Include="Collections\Sort.cs" />
+    <Compile Include="Conversion\Converters\Int32ToIntDoubleConverter.cs" />
     <Compile Include="Conversion\Converters\StringToCharConverter.cs" />
     <Compile Include="Conversion\Converters\DoubleToInt32Converter.cs" />
     <Compile Include="Conversion\Converters\Int64ToDoubleConverter.cs" />
     <Compile Include="Conversion\Converters\StringToInt64Converter.cs" />
-    <Compile Include="Data\Clauses\FacetClause.cs" />
+    <Compile Include="Data\Caching\CacheExtensions.cs" />
+    <Compile Include="Data\Listeners\RecordListener.cs" />
+    <Compile Include="Data\Queries\CacheQueryComponent.cs" />
+    <Compile Include="Data\Queries\FacetQueryComponent.cs" />
+    <Compile Include="Data\Queries\PagingQueryComponent.cs" />
+    <Compile Include="Data\Queries\Extensions.cs" />
+    <Compile Include="Data\Queries\LimitQueryComponent.cs" />
+    <Compile Include="Data\Extensions.cs" />
+    <Compile Include="Data\Queries\IQueryParser.cs" />
+    <Compile Include="Data\Queries\Parser\BaseTypeArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Parser\CacheArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Parser\FacetArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Parser\IdArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Parser\PagingArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Parser\LimitArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Parser\Nodes\ChildOfQueryArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Parser\Nodes\AllowedRolesQueryArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Parser\Nodes\StatusQueryArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Parser\Nodes\ParentOfQueryArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Parser\PropertyArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Parser\TypeArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Parser\WhereArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Parser\QueryArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Parser\SortArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Parser\DataApplicationBootstrapper.cs" />
+    <Compile Include="Data\Queries\Query.cs" />
+    <Compile Include="Data\Queries\Parser\QueryParser.cs" />
+    <Compile Include="Data\Queries\QueryComponent.cs" />
+    <Compile Include="Data\Queries\SortQueryComponent.cs" />
+    <Compile Include="Data\Queries\SpecificationQueryComponent.cs" />
+    <Compile Include="Data\Queries\Specifications\IsPropertyEqualSpecification.cs" />
+    <Compile Include="Data\Queries\Specifications\IsPropertyInSpecification.cs" />
+    <Compile Include="Data\Queries\Specifications\MultiValuePropertySpecification.cs" />
+    <Compile Include="Data\Queries\Specifications\Nodes\AllowedRolesSpecification.cs" />
+    <Compile Include="Data\Queries\Specifications\CompositeSpecification.cs" />
+    <Compile Include="Data\Queries\Specifications\Conjunction.cs" />
+    <Compile Include="Data\Queries\Specifications\Nodes\ChildOfSpecification.cs" />
+    <Compile Include="Data\Queries\Specifications\Nodes\ParentOfSpecification.cs" />
+    <Compile Include="Data\Queries\Specifications\PropertySpecification.cs" />
+    <Compile Include="Data\Queries\Specifications\Nodes\StatusSpecification.cs" />
+    <Compile Include="Data\Queries\Specifications\Disjunction.cs" />
+    <Compile Include="Data\Queries\Specifications\Negation.cs" />
+    <Compile Include="Data\Queries\Specifications\SingleValuePropertySpecification.cs" />
+    <Compile Include="Data\Queries\Specifications\Specification.cs" />
     <Compile Include="Data\Facets\Facet.cs" />
     <Compile Include="Data\Facets\FacetDefinition.cs" />
     <Compile Include="Data\Facets\FacetResult.cs" />
     <Compile Include="Data\Facets\FacetValue.cs" />
     <Compile Include="Data\Facets\TransformingFacetDefinition.cs" />
+    <Compile Include="Data\Queries\Specifications\SpecificationFactory.cs" />
+    <Compile Include="Data\Record.cs" />
+    <Compile Include="Data\RecordSet.cs" />
     <Compile Include="IO\EmbeddedResources\EmbeddedApplicationResourceService.cs" />
     <Compile Include="IO\EmbeddedResources\EmbeddedResource.cs" />
     <Compile Include="MansionContext.cs" />
@@ -119,26 +167,7 @@
     <Compile Include="Conversion\IConversionService.cs" />
     <Compile Include="Conversion\IConverter.cs" />
     <Compile Include="Conversion\NoConverterFoundException.cs" />
-    <Compile Include="Data\Caching\CachedNode.cs" />
-    <Compile Include="Data\Caching\CachedNodeset.cs" />
     <Compile Include="Data\Caching\CachingRepositoryDecorator.cs" />
-    <Compile Include="Data\Caching\NodeCacheKeyFactory.cs" />
-    <Compile Include="Data\Clauses\AllowedRolesClause.cs" />
-    <Compile Include="Data\Clauses\BaseTypeClause.cs" />
-    <Compile Include="Data\Clauses\CacheClause.cs" />
-    <Compile Include="Data\Clauses\ChildOfClause.cs" />
-    <Compile Include="Data\Clauses\IdClause.cs" />
-    <Compile Include="Data\Clauses\ITypeSpecifierClause.cs" />
-    <Compile Include="Data\Clauses\LimitClause.cs" />
-    <Compile Include="Data\Clauses\PagingClause.cs" />
-    <Compile Include="Data\Clauses\ParentOfClause.cs" />
-    <Compile Include="Data\Clauses\PermanentIdClause.cs" />
-    <Compile Include="Data\Clauses\PropertyClause.cs" />
-    <Compile Include="Data\Clauses\QueryInterpreter.cs" />
-    <Compile Include="Data\Clauses\SortClause.cs" />
-    <Compile Include="Data\Clauses\StatusClause.cs" />
-    <Compile Include="Data\Clauses\TypeClause.cs" />
-    <Compile Include="Data\Clauses\WhereClause.cs" />
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\IRepositoryDecorator.cs" />
     <Compile Include="Data\IRepositoryFactory.cs" />
@@ -148,8 +177,6 @@
     <Compile Include="Data\Listeners\RegisterListenerDescriptor.cs" />
     <Compile Include="Data\Node.cs" />
     <Compile Include="Data\NodePointer.cs" />
-    <Compile Include="Data\NodeQuery.cs" />
-    <Compile Include="Data\NodeQueryClause.cs" />
     <Compile Include="Data\Nodeset.cs" />
     <Compile Include="Data\NodeStatus.cs" />
     <Compile Include="Data\RepositoryBase.cs" />
@@ -207,18 +234,24 @@
     <Compile Include="Patterns\DisposableChain.cs" />
     <Compile Include="Patterns\Interpreting\IInterpreter.cs" />
     <Compile Include="Patterns\Interpreting\IVotingInterpreter.cs" />
+    <Compile Include="Patterns\Prioritized\IPrioritized.cs" />
+    <Compile Include="Patterns\Prioritized\PrioritizedExtensions.cs" />
     <Compile Include="Patterns\Processing\IProcessor.cs" />
     <Compile Include="Patterns\Processing\IVotingProcessor.cs" />
     <Compile Include="Patterns\Tokenizing\ITokenizer.cs" />
     <Compile Include="Patterns\Voting\Election.cs" />
+    <Compile Include="Patterns\Voting\Extensions.cs" />
     <Compile Include="Patterns\Voting\ICandidate.cs" />
     <Compile Include="Patterns\Voting\VoteResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyNotFoundException.cs" />
     <Compile Include="Nucleus\IReflectionService.cs" />
     <Compile Include="Nucleus\ReflectionService.cs" />
+    <Compile Include="ScriptFunctions\Guids\NewGuid.cs" />
     <Compile Include="ScriptFunctions\List\AppendNeedle.cs" />
     <Compile Include="ScriptFunctions\List\RemoveNeedle.cs" />
+    <Compile Include="ScriptFunctions\Math\Min.cs" />
+    <Compile Include="ScriptFunctions\Math\Max.cs" />
     <Compile Include="ScriptFunctions\Math\Divide.cs" />
     <Compile Include="ScriptFunctions\Math\Multiply.cs" />
     <Compile Include="ScriptFunctions\Media\JSon\DatasetToJSonArray.cs" />
@@ -273,6 +306,12 @@
     <Compile Include="ScriptFunctions\Security\IsAuthenticated.cs" />
     <Compile Include="ScriptFunctions\Security\IsBackofficeUserAuthenticated.cs" />
     <Compile Include="ScriptFunctions\Security\IsFronfofficeUserAuthenticated.cs" />
+    <Compile Include="ScriptFunctions\Specifications\AndSpecification.cs" />
+    <Compile Include="ScriptFunctions\Specifications\NotSpecification.cs" />
+    <Compile Include="ScriptFunctions\Specifications\IsSpecification.cs" />
+    <Compile Include="ScriptFunctions\Specifications\InSpecfication.cs" />
+    <Compile Include="ScriptFunctions\Specifications\OrSpecification.cs" />
+    <Compile Include="ScriptFunctions\Stack\GetProperty.cs" />
     <Compile Include="ScriptFunctions\Stack\GetStackValue.cs" />
     <Compile Include="ScriptFunctions\String\AddAposToCsv.cs" />
     <Compile Include="ScriptFunctions\String\Character.cs" />
@@ -332,7 +371,13 @@
     <Compile Include="ScriptTags\Caching\ClearCacheTag.cs" />
     <Compile Include="ScriptTags\CatchTag.cs" />
     <Compile Include="ScriptTags\Constants.cs" />
+    <Compile Include="ScriptTags\ExecuteNestedTagsTag.cs" />
     <Compile Include="ScriptTags\Media\JSon\GetDatasetFromJSonTag.cs" />
+    <Compile Include="ScriptTags\Repository\DeleteRecordTag.cs" />
+    <Compile Include="ScriptTags\Repository\UpdateRecordTag.cs" />
+    <Compile Include="ScriptTags\Repository\CreateRecordTag.cs" />
+    <Compile Include="ScriptTags\Repository\RetrieveRecordTag.cs" />
+    <Compile Include="ScriptTags\Repository\RetrieveRecordSetTag.cs" />
     <Compile Include="ScriptTags\Repository\FetchFacetsDatasetTag.cs" />
     <Compile Include="ScriptTags\DeclareEventHandlerTag.cs" />
     <Compile Include="ScriptTags\DeclareProcedureTag.cs" />
@@ -372,8 +417,8 @@
     <Compile Include="ScriptTags\Repository\OpenRepositoryTag.cs" />
     <Compile Include="ScriptTags\Repository\RetrieveChildNodesetTag.cs" />
     <Compile Include="ScriptTags\Repository\RetrieveChildNodeTag.cs" />
-    <Compile Include="ScriptTags\Repository\RetrieveNodeBaseTag.cs" />
-    <Compile Include="ScriptTags\Repository\RetrieveNodesetBaseTag.cs" />
+    <Compile Include="ScriptTags\Repository\RetrieveRecordBaseTag.cs" />
+    <Compile Include="ScriptTags\Repository\RetrieveRecordSetBaseTag.cs" />
     <Compile Include="ScriptTags\Repository\RetrieveNodeTag.cs" />
     <Compile Include="ScriptTags\Repository\RetrieveParentNodesetTag.cs" />
     <Compile Include="ScriptTags\Repository\RetrieveParentNodeTag.cs" />
@@ -457,6 +502,9 @@
     <None Include="Caching\Mansion.Core.Caching.cd" />
     <None Include="Collections\Mansion.Core.Collections.cd" />
     <None Include="Conversion\Mansion.Core.Conversion.cd" />
+    <None Include="Data\Queries\Mansion.Core.Data.Queries.cd" />
+    <None Include="Data\Queries\Parser\Mansion.Core.Data.Queries.Parser.cd" />
+    <None Include="Data\Queries\Specifications\Mansion.Core.Data.Queries.Specifications.cd" />
     <None Include="Data\Facets\Premotion.Mansion.Core.Data.Facets.cd" />
     <None Include="Premotion.Mansion.Core.symbols.nuspec" />
     <None Include="Data\Mansion.Core.Data.cd" />

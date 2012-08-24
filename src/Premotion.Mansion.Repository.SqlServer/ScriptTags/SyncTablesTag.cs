@@ -2,6 +2,8 @@
 using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.SqlServer.Schemas;
@@ -19,15 +21,19 @@ namespace Premotion.Mansion.Repository.SqlServer.ScriptTags
 		/// 
 		/// </summary>
 		/// <param name="typeService"></param>
+		/// <param name="parser"> </param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public SyncTablesTag(ITypeService typeService)
+		public SyncTablesTag(ITypeService typeService, IQueryParser parser)
 		{
 			// validate arguments
 			if (typeService == null)
 				throw new ArgumentNullException("typeService");
+			if (parser == null)
+				throw new ArgumentNullException("parser");
 
 			// set values
 			this.typeService = typeService;
+			this.parser = parser;
 		}
 		#endregion
 		#region Overrides of ScriptTag
@@ -49,23 +55,24 @@ namespace Premotion.Mansion.Repository.SqlServer.ScriptTags
 			                         	foreach (var type in typeService.LoadAll(context))
 			                         	{
 			                         		// get the schema for this type
-			                         		var typeSchema = SchemaProvider.Resolve(context, type);
+			                         		var schema = Resolver.ResolveTypeOnly(context, type);
 
 			                         		// get the additional tables of this type, if the type has only the root table ignore it
-			                         		var tableList = typeSchema.OwnedTables.ToList();
+			                         		var tableList = schema.Tables.ToList();
 			                         		if (tableList.Count == 0)
 			                         			continue;
 
 			                         		// get the node entries for this type, ignore types with zero nodes
-			                         		var nodeset = repository.Retrieve(context, repository.ParseQuery(context, new PropertyBag
-			                         		                                                                          {
-			                         		                                                                          	{"baseType", type.Name}
-			                         		                                                                          }));
+			                         		var query = parser.Parse(context, new PropertyBag
+			                         		                                  {
+			                         		                                  	{"baseType", type.Name}
+			                         		                                  });
+			                         		var nodeset = repository.RetrieveNodeset(context, query);
 			                         		if (nodeset.RowCount == 0)
 			                         			continue;
 
 			                         		// loop through all the tables except the root table
-			                         		foreach (var table in tableList)
+			                         		foreach (var table in tableList.Where(candidate => !(candidate is RootTable)))
 			                         		{
 			                         			// sync this table
 			                         			table.ToSyncStatement(context, bulkContext, nodeset.Nodes.ToList());
@@ -75,6 +82,7 @@ namespace Premotion.Mansion.Repository.SqlServer.ScriptTags
 		}
 		#endregion
 		#region Private Fields
+		private readonly IQueryParser parser;
 		private readonly ITypeService typeService;
 		#endregion
 	}

@@ -20,10 +20,10 @@
 	<declareProcedure procedureName="IncludeGroupContentSource">
 		<forms:fieldset label="Content source">
 			<forms:infoMessage>Select the folder from which content is displayed.</forms:infoMessage>
-			<forms:nodeTreeSelect name="contentSourceGuid" label="Folder" defaultValue="{ContentIndexRootNode.pointer}">
-				<providers:nodeTreeProvider rootPointer="{ContentIndexRootNode.pointer}" valueProperty="guid" labelProperty="name" />
+			<forms:singleNodeSelector name="contentSourceGuid" label="Folder" defaultValue="{ContentIndexRootNode.guid}">
+				<forms:nodeSelectorProperties rootPointer="{ContentIndexRootNode.pointer}" disabledExpression="{\Not( Or( IsAssignable( Node.type, 'ContentIndexRoot' ), IsAssignable( Node.type, 'ContentIndex' ) ) )}" />
 				<forms:requiredFieldValidator />
-			</forms:nodeTreeSelect>
+			</forms:singleNodeSelector>
 		</forms:fieldset>
 	</declareProcedure>
 

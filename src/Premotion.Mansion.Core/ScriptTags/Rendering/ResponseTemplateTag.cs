@@ -91,7 +91,8 @@ namespace Premotion.Mansion.Core.ScriptTags.Rendering
 					// check if the object can be cached
 					return new CachedPhrase(responseTemplateExpression)
 					       {
-					       	IsCachable = isResponseCacheEnabled
+					       	IsCachable = isResponseCacheEnabled,
+								Priority = Priority.Normal
 					       };
 				}
 				);

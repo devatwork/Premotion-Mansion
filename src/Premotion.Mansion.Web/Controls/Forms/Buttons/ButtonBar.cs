@@ -46,7 +46,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Buttons
 		/// <returns>Returns true when the control is allowed, otherwise false.</returns>
 		protected override bool IsControlAllowed(Type controlType)
 		{
-			return typeof (Button).IsAssignableFrom(controlType);
+			return typeof (Button).IsAssignableFrom(controlType) || typeof (ButtonGroup).IsAssignableFrom(controlType);
 		}
 		#endregion
 	}

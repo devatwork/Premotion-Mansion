@@ -7,10 +7,10 @@
 			<forms:textbox name="name" label="Name">
 				<forms:requiredFieldValidator />
 			</forms:textbox>
-			<forms:nodeTreeSelect name="targetGuid" label="Internal Target">
-				<providers:nodeTreeProvider rootPointer="1" disabledExpression="{\Not( Or( IsEqual( Node.type, 'Page' ), InList( Node.type, GetSubTypes( 'Page' ) )) )}" valueProperty="guid" labelProperty="name" />
+			<forms:singleNodeSelector name="targetGuid" label="Internal Target">
+				<forms:nodeSelectorProperties rootPointer="1" disabledExpression="{\Not( Or( IsAssignable( Node.type, 'Content' ), And( IsAssignable( Node.type, 'Page' ), Not( IsAssignable( Node.type, 'TemplatePage' ) ) ) ) )}" />
 				<forms:requiredFieldValidator />
-			</forms:nodeTreeSelect>
+			</forms:singleNodeSelector>
 		</forms:fieldset>
 		<invokeProcedure procedureName="IncludeGroupPublication"/>
 		<invokeProcedure procedureName="IncludeGroupIdentity"/>

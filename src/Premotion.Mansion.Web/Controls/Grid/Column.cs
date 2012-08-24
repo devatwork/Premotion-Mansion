@@ -72,94 +72,101 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		/// <param name="data">The <see cref="Dataset"/> rendered in this column.</param>
-		public void RenderHeaderFilter(IMansionWebContext context, ITemplateService templateService, Dataset data)
+		/// <param name="dataset">The <see cref="Dataset"/> rendered in this column.</param>
+		public void RenderHeaderFilter(IMansionWebContext context, ITemplateService templateService, Dataset dataset)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (templateService == null)
 				throw new ArgumentNullException("templateService");
-			if (data == null)
-				throw new ArgumentNullException("data");
+			if (dataset == null)
+				throw new ArgumentNullException("dataset");
 
-			using (context.Stack.Push("ColumnProperties", Properties, false))
-				filter.Render(context, templateService, data);
+			// invoke template method
+			DoRenderHeaderFilter(context, templateService, dataset);
 		}
 		/// <summary>
 		/// Renders the header of this column.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		/// <param name="data">The <see cref="Dataset"/> rendered in this column.</param>
-		public void RenderHeader(IMansionWebContext context, ITemplateService templateService, Dataset data)
+		/// <param name="dataset">The <see cref="Dataset"/> rendered in this column.</param>
+		protected virtual void DoRenderHeaderFilter(IMansionWebContext context, ITemplateService templateService, Dataset dataset)
+		{
+			// if the column has got a filter, allow it to render the header
+			if (Filter != null)
+				Filter.RenderHeader(context, templateService, dataset);
+			else
+				templateService.Render(context, "GridControlNoFilter").Dispose();
+		}
+		/// <summary>
+		/// Renders the header of this column.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
+		/// <param name="dataset">The <see cref="Dataset"/> rendered in this column.</param>
+		public void RenderHeader(IMansionWebContext context, ITemplateService templateService, Dataset dataset)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (templateService == null)
 				throw new ArgumentNullException("templateService");
-			if (data == null)
-				throw new ArgumentNullException("data");
+			if (dataset == null)
+				throw new ArgumentNullException("dataset");
 
-			using (context.Stack.Push("ColumnProperties", Properties, false))
-				sort.Render(context, templateService, data);
+			// do invoke template method
+			DoRenderHeader(context, templateService, dataset);
+		}
+		/// <summary>
+		/// Renders the header of this column.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
+		/// <param name="dataset">The <see cref="Dataset"/> rendered in this column.</param>
+		protected virtual void DoRenderHeader(IMansionWebContext context, ITemplateService templateService, Dataset dataset)
+		{
+			using (context.Stack.Push("ColumnProperties", Properties))
+			{
+				// if the column has got a sort, allow it to render the header
+				if (Sort != null)
+					Sort.RenderHeader(context, templateService, dataset);
+				else
+					templateService.Render(context, "GridControl" + GetType().Name + "Header").Dispose();
+			}
 		}
 		/// <summary>
 		/// Renders a cell of this column.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		/// <param name="data">The <see cref="Dataset"/> rendered in this column.</param>
+		/// <param name="dataset">The <see cref="Dataset"/> rendered in this column.</param>
 		/// <param name="row">The being rendered.</param>
-		public void RenderCell(IMansionWebContext context, ITemplateService templateService, Dataset data, IPropertyBag row)
+		public void RenderCell(IMansionWebContext context, ITemplateService templateService, Dataset dataset, IPropertyBag row)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (templateService == null)
 				throw new ArgumentNullException("templateService");
-			if (data == null)
-				throw new ArgumentNullException("data");
+			if (dataset == null)
+				throw new ArgumentNullException("dataset");
 			if (row == null)
 				throw new ArgumentNullException("row");
 
-			using (context.Stack.Push("ColumnProperties", Properties, false))
+			using (context.Stack.Push("ColumnProperties", Properties))
 			using (templateService.Render(context, "GridControlCell"))
-				DoRenderCell(context, templateService, data, row);
+				DoRenderCell(context, templateService, dataset, row);
 		}
 		/// <summary>
 		/// Renders a cell of this column.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		/// <param name="data">The <see cref="Dataset"/> rendered in this column.</param>
+		/// <param name="dataset">The <see cref="Dataset"/> rendered in this column.</param>
 		/// <param name="row">The being rendered.</param>
-		protected abstract void DoRenderCell(IMansionWebContext context, ITemplateService templateService, Dataset data, IPropertyBag row);
-		#endregion
-		#region Column Property Methods
-		/// <summary>
-		/// Sets the <paramref name="columnFilter"/> to this column.
-		/// </summary>
-		/// <param name="columnFilter">The <see cref="ColumnFilter"/> which to set.</param>
-		public void Set(ColumnFilter columnFilter)
-		{
-			// validate arguments
-			if (columnFilter == null)
-				throw new ArgumentNullException("columnFilter");
-			filter = columnFilter;
-		}
-		/// <summary>
-		/// Sets the <paramref name="columnSort"/> to this column.
-		/// </summary>
-		/// <param name="columnSort">The <see cref="ColumnSort"/> which to set.</param>
-		public void Set(ColumnSort columnSort)
-		{
-			// validate arguments
-			if (columnSort == null)
-				throw new ArgumentNullException("columnSort");
-			sort = columnSort;
-		}
+		protected abstract void DoRenderCell(IMansionWebContext context, ITemplateService templateService, Dataset dataset, IPropertyBag row);
 		#endregion
 		#region Properties
 		/// <summary>
@@ -171,12 +178,16 @@ namespace Premotion.Mansion.Web.Controls.Grid
 		/// </summary>
 		public bool HasFilter
 		{
-			get { return !NoColumnFilter.Instance.Equals(filter); }
+			get { return Filter != null; }
 		}
-		#endregion
-		#region Private Fields
-		private ColumnFilter filter = NoColumnFilter.Instance;
-		private ColumnSort sort = NoColumnSort.Instance;
+		/// <summary>
+		/// Gets the <see cref="ColumnSort"/>.
+		/// </summary>
+		public ColumnSort Sort { private get; set; }
+		/// <summary>
+		/// Gets the <see cref="ColumnFilter"/>.
+		/// </summary>
+		public ColumnFilter Filter { private get; set; }
 		#endregion
 	}
 }

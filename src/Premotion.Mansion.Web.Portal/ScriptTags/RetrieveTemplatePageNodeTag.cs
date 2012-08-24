@@ -1,6 +1,7 @@
 ﻿using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.ScriptTags.Repository;
 using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Web.Portal.Service;
@@ -11,15 +12,16 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 	/// Retrieves the template page for the specified source node.
 	/// </summary>
 	[ScriptTag(Constants.TagNamespaceUri, "retrieveTemplatePageNode")]
-	public class RetrieveTemplatePageNodeTag : RetrieveNodeBaseTag
+	public class RetrieveTemplatePageNodeTag : RetrieveRecordBaseTag
 	{
 		#region Constructors
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="parser"></param>
 		/// <param name="portalService"></param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public RetrieveTemplatePageNodeTag(IPortalService portalService)
+		public RetrieveTemplatePageNodeTag(IQueryParser parser, IPortalService portalService) : base(parser)
 		{
 			// validate arguments
 			if (portalService == null)
@@ -35,9 +37,10 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 		/// </summary>
 		/// <param name="context">The request context.</param>
 		/// <param name="arguments">The arguments from which to build the query.</param>
-		/// <param name="repository"></param>
+		/// <param name="repository">The <see cref="IRepository"/>.</param>
+		/// <param name="parser">The <see cref="IQueryParser"/>.</param>
 		/// <returns>Returns the result.</returns>
-		protected override Node Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository)
+		protected override Record Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository, IQueryParser parser)
 		{
 			// get the node
 			var contentNode = GetRequiredAttribute<Node>(context, "source");

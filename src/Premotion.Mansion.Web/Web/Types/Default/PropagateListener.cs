@@ -12,39 +12,50 @@ namespace Premotion.Mansion.Web.Web.Types.Default
 	/// </summary>
 	public class PropagateListener : NodeListener
 	{
+		#region Constants
 		/// <summary>
 		/// The prefix of propagated properties.
 		/// </summary>
 		private const string PropagatePrefix = "_propagate";
+		#endregion
+		#region Overrides of NodeListener
 		/// <summary>
 		/// This method is called just after a node is updated by the repository.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="node">The modified node.</param>
-		/// <param name="modifiedProperties">The properties which were set to the updated <paramref name="node"/>.</param>
-		protected override void DoAfterUpdate(IMansionContext context, Node node, IPropertyBag modifiedProperties)
+		/// <param name="record"> </param>
+		/// <param name="properties">The properties which were set to the updated <paramref name="record"/>.</param>
+		protected override void DoAfterUpdate(IMansionContext context, Record record, IPropertyBag properties)
 		{
-			// loop over all the updated properties to find those who start with _propagate
-			foreach (var propagatePropertyName in modifiedProperties.Names.Where(x => x.StartsWith(PropagatePrefix, StringComparison.OrdinalIgnoreCase)))
+			// get the propagate property names
+			var propagatePropertyNames = properties.Names.Where(x => x.StartsWith(PropagatePrefix, StringComparison.OrdinalIgnoreCase));
+
+			// get the property names who's value is true
+			var propagatedNowProperties = propagatePropertyNames.Where(x => properties.Get(context, x, false));
+
+			// loop over all the updated properties and propagated properties
+			foreach (var propagatePropertyName in propagatedNowProperties)
 			{
 				// get the name of the property being propagated
 				var propagatedPropertyName = propagatePropertyName.Substring(PropagatePrefix.Length);
 
 				// get the propagated property value
-				var propagatedPropertyValue = modifiedProperties.Get<object>(context, propagatedPropertyName);
+				var propagatedPropertyValue = properties.Get<object>(context, propagatedPropertyName);
 
 				// retrieve all the children nodes and update them all
-				foreach (var childNode in context.Repository.Retrieve(context, new PropertyBag
-				                                                               {
-				                                                               	{"parentSource", node}, {"depth", "any"}
-				                                                               }).Nodes)
+				foreach (var childNode in context.Repository.RetrieveNodeset(context, new PropertyBag
+				                                                                      {
+				                                                                      	{"parentSource", record},
+				                                                                      	{"depth", "any"}
+				                                                                      }).Nodes)
 				{
-					context.Repository.Update(context, childNode, new PropertyBag
-					                                              {
-					                                              	{propagatedPropertyName, propagatedPropertyValue}
-					                                              });
+					context.Repository.UpdateNode(context, childNode, new PropertyBag
+					                                                  {
+					                                                  	{propagatedPropertyName, propagatedPropertyValue}
+					                                                  });
 				}
 			}
 		}
+		#endregion
 	}
 }

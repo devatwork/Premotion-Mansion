@@ -156,21 +156,29 @@
 
 <tpl:section name="SingleNodeSelectorControl" field="Field">
 	<div id="{@ControlId}" class="field input-xlarge node-selector single-node-selector">
-		<div id="{@ControlId}-label" class="label">{ControlProperties.displayValue}</div>
-		<a id="{@ControlId}-select" class="button dialog select-button" href="{DataspaceToQueryString( RouteUrlWithArea( 'Dialog', 'Dialog', 'NodeSelector', '1', 'single' ), $SelectorProperties )}">Select</a>
-		<a id="{@ControlId}-clear" class="button clear-button" href="#">Clear</a>
+		<div id="{@ControlId}-label">{ControlProperties.displayValue}</div>
+		<div class="btn-group">
+			<a id="{@ControlId}-select" class="btn btn-popup btn-primary" href="#" data-href="{DataspaceToQueryString( CmsRouteUrl( 'Dialog', 'SingleNodeSelector', '1' ), $SelectorProperties )}"><i class="icon-pushpin"></i> Select</a>
+			<a id="{@ControlId}-clear" class="btn" href="#"><i class="icon-remove-sign"></i> Clear</a>
+		</div>
 		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" class="field hidden" value="{ControlProperties.value}">
 	</div>
 </tpl:section>
 
 <tpl:section name="MultiNodeSelectorControl" field="Field">
 	<div id="{@ControlId}" class="field input-xlarge node-selector multi-node-selector">
-		<div id="{@ControlId}-label" class="label">{ControlProperties.displayValue}</div>
-		<a id="{@ControlId}-select" class="button dialog select-button" href="{DataspaceToQueryString( RouteUrlWithArea( 'Dialog', 'Dialog', 'NodeSelector', '1', 'multi' ), $SelectorProperties )}">Select</a>
-		<a id="{@ControlId}-clear" class="button clear-button" href="#">Clear</a>
+		<ul id="{@ControlId}-labels" class="unstyled">{MultiNodeSelectorControlOption}</ul>
+		<div class="btn-group">
+			<a id="{@ControlId}-select" class="btn btn-popup btn-primary" href="#" data-href="{DataspaceToQueryString( CmsRouteUrl( 'Dialog', 'MultiNodeSelector', '1' ), $SelectorProperties )}"><i class="icon-pushpin"></i> Select</a>
+			<a id="{@ControlId}-clear" class="btn" href="#"><i class="icon-remove-sign"></i> Clear</a>
+		</div>
 		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" class="field hidden" value="{ControlProperties.value}">
 	</div>
 </tpl:section>
+
+	<tpl:section name="MultiNodeSelectorControlOption">
+		<li data-value="{Row.value}">{Row.label}</li>
+	</tpl:section>
 
 <tpl:section name="NodeTreeSelectControl" field="Field">
 	<ul class="field tree-select node-tree">
@@ -277,13 +285,22 @@
 	</div>
 </tpl:section>
 
-<tpl:section name="ButtonControl" field="Control">
-	<a href="#" id="{@ControlId}" class="btn {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}" data-action="{ControlProperties.action}">{ControlProperties.label}</a>&nbsp;
+<tpl:section name="ButtonGroupControl" field="Control">
+	<div class="clearfix btn-group {ControlProperties.cssClass}">
+		{Control}
+	</div>
 </tpl:section>
 
+<tpl:section name="ButtonControl" field="Control">
+	<button href="#" id="{@ControlId}" class="btn {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}" data-action="{ControlProperties.action}" {@ButtonControlTooltip}>{@ButtonControlIcon}{ControlProperties.label}</button>&nbsp;
+</tpl:section>	
+
 <tpl:section name="LinkButtonControl" field="Control">
-	<a href="{ControlProperties.action}" id="{@ControlId}" class="btn {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}">{ControlProperties.label}</a>&nbsp;
+	<a href="{ControlProperties.action}" id="{@ControlId}" class="btn {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}" {@ButtonControlTooltip}>{@ButtonControlIcon}{ControlProperties.label}</a>&nbsp;
 </tpl:section>
+
+	<tpl:section name="ButtonControlIcon" requires="{Not( IsEmpty( ControlProperties.iconClass ) )}"><i class="{ControlProperties.iconClass}"></i>&nbsp;</tpl:section>
+	<tpl:section name="ButtonControlTooltip" requires="{Not( IsEmpty( ControlProperties.tooltip ) )}">rel="tooltip" data-original-title="{ControlProperties.tooltip}"</tpl:section>
 
 
 
@@ -328,171 +345,66 @@
 
 
 
-<!-- list control sections -->
-<tpl:section name="FormListControl" field="Control">
-	<li class="clearfix">
-		<form id="{GetControlPropertyName( 'form' )}" action="{HtmlEncode( Request.url )}" method="get">
-			<ul id="{@ControlId}" class="list">
-				{Row}
-			</ul>
-			{ListControlPaging}
-			<input type="submit" value="updateui" class="updateui visuallyhidden">
-		</form>
-	</li>
+<!-- alerts-->
+<tpl:section name="AlertDismissCaret"><a class="close" data-dismiss="alert" href="#"><i class="icon-remove-sign"></i></a></tpl:section>
+
+<tpl:section name="InfoAlertControl" field="Control">
+	<div class="alert alert-info fade in">
+		{@AlertDismissCaret}
+		{ControlProperties.message}
+	</div>
 </tpl:section>
 
-<tpl:section name="EmbeddedListControl" field="Control">
-	<li class="clearfix">
-		<ul id="{@ControlId}" class="list">
-			{Row}
-		</ul>
-		{ListControlPaging}
-	</li>
+<tpl:section name="InstructionAlertControl" field="Control">
+	<div class="alert alert-info fade in">
+		{@AlertDismissCaret}
+		{ControlProperties.message}
+	</div>
 </tpl:section>
 
-	<tpl:section name="ListControlRow" field="Row">
-		<li class="row {RowClasses} clickable">{RowProperties.content}</li>
-	</tpl:section>
-
-	<tpl:section name="ListControlRowNoResults" field="Row"><li class="row">{NotEmpty( ListProperties.notFoundMessage, 'No results found' )}</li></tpl:section>
-
-	<tpl:section name="ListControlPaging">{RenderEmbeddedPagingControl( $dataset, ListProperties.id )}</tpl:section>
-
-
-
-<!-- grid control sections -->
-<tpl:section name="FormGridControl" field="Control">
-	<li class="clearfix">
-		<form id="{GetControlPropertyName( 'form' )}" action="{HtmlEncode( Request.url )}" method="get">
-			<table id="{@ControlId}" class="grid">
-				{Content}
-			</table>
-			{GridControlPaging}
-			<input type="submit" value="updateui" class="updateui visuallyhidden">
-		</form>
-	</li>
+<tpl:section name="WarningAlertControl" field="Control">
+	<div class="alert alert-warning fade in">
+		{@AlertDismissCaret}
+		{ControlProperties.message}
+	</div>
 </tpl:section>
 
-<tpl:section name="EmbeddedGridControl" field="Control">
-	<li class="clearfix">
-		<table id="{@ControlId}" class="grid">
-			{Content}
-		</table>
-		{GridControlPaging}
-	</li>
+<tpl:section name="SuccessAlertControl" field="Control">
+	<div class="alert alert-success fade in">
+		{@AlertDismissCaret}
+		{ControlProperties.message}
+	</div>
 </tpl:section>
 
-	<tpl:section name="GridControlHeader" field="Content">
-		<thead>
-			{Row}
-		</thead>
-	</tpl:section>
-
-		<tpl:section name="GridControlHeaderRow" field="Row">
-			<tr class="row {RowClasses}">{Cell}</tr>
-		</tpl:section>
-
-	<tpl:section name="GridControlBody" field="Content">
-		<tbody>
-			{Row}
-		</tbody>
-	</tpl:section>
-
-		<tpl:section name="GridControlBodyRow" field="Row">
-			<tr class="row {RowClasses} clickable">{Cell}</tr>
-		</tpl:section>
-
-	<tpl:section name="GridControlFilterRow" field="Row">
-		<tr class="row filters {RowClasses}">{Cell}</tr>
-	</tpl:section>
-
-	<tpl:section name="GridControlRowNoResults" field="Row"><tr><td colspan="{GridProperties.columnCount}">{NotEmpty( GridProperties.notFoundMessage, 'No results found' )}</td></tr></tpl:section>
-
-	<tpl:section name="GridControlHeaderCell" field="Cell"><th style="{@GridControlHeaderCellWidth}{CellClasses}">{ColumnProperties.heading}</th></tpl:section>
-
-	<tpl:section name="GridControlSortableHeaderCell" field="Cell"><th style="{@GridControlHeaderCellWidth}{CellClasses}"><a href="{HtmlEncode( ChangeQueryString( Request.url, GetControlPropertyName( 'sort' ), HeaderProperties.sortParameter ) )}" class="sortable {HeaderProperties.direction}">{ColumnProperties.heading}</a></th></tpl:section>
-
-		<tpl:section name="GridControlHeaderCellWidth" field="CellClasses" requires="{Not( IsEmpty( ColumnProperties.width ) )}">width:{ColumnProperties.width};</tpl:section>
-
-	<tpl:section name="GridControlCell" field="Cell"><td>{CellContent}</td></tpl:section>
-
-		<tpl:section name="GridControlPropertyColumnContent" field="CellContent">{CellProperties.value}</tpl:section>
-
-	<tpl:section name="GridControlPaging">{RenderEmbeddedPagingControl( $dataset, GridProperties.id )}</tpl:section>
-
-	<tpl:section name="NoFilterColumnFilter" field="Cell"><td>&nbsp;</td></tpl:section>
-
-	<tpl:section name="TextboxColumnFilter" field="Cell"><td><input type="text" name="{GetControlPropertyName( ColumnFilterProperties.property )}" value="{GetControlPropertyValue( ColumnFilterProperties.property )}" class="filter-textbox"></td></tpl:section>
-
-	<tpl:section name="SelectboxColumnFilter" field="Cell">
-		<td>
-			<select name="{GetControlPropertyName( ColumnFilterProperties.property )}" class="filter-selectbox">
-				{Option}
-			</select>
-		</td>
-	</tpl:section>
-
-		<tpl:section name="SelectboxColumnFilterOption" field="Option"><option value="{HtmlEncode( OptionProperties.value )}" {If( Equal( OptionProperties.value, GetControlPropertyValue( ColumnFilterProperties.property ) ), 'selected')}>{OptionProperties.label}</option></tpl:section>
+<tpl:section name="ErrorAlertControl" field="Control">
+	<div class="alert alert-error fade in">
+		{@AlertDismissCaret}
+		{ControlProperties.message}
+	</div>
+</tpl:section>
 
 
 
 <!-- paging controls -->
-<tpl:section name="EmbeddedPagingControl" field="Control">
-	{Control}
-</tpl:section>
-
-<tpl:section name="StandAlonePagingControl" field="Control">
-	<form method="get" action="{Request.url}" class="form helper-form" accept-charset="utf-8">
-		{Control}
-		<input type="submit" value="updateui" class="updateui visuallyhidden">
-	</form>
-</tpl:section>
-
 <tpl:section name="PagingControl" field="Control">
-	<nav id="{GetControlPropertyName( ControlProperties.id, 'paging' )}" class="paging-control clearfix">
-		<div class="summary">
-			Showing {PagingProperties.rowStart} - {PagingProperties.rowEnd} of {PagingProperties.rowTotal}
-		</div>
-		<div class="navigation">
-			<label for="{GetControlPropertyName( ControlProperties.id, 'paging-page-size' )}">Items:</label>
-			<select name="{GetControlPropertyName( ControlProperties.id, 'page-size' )}" id="{GetControlPropertyName( ControlProperties.id, 'paging-page-size' )}">
-				<option value="1" {If( Equal( PagingProperties.pageSize, '1' ), 'selected' )}>1</option>
-				<option value="5" {If( Equal( PagingProperties.pageSize, '5' ), 'selected' )}>5</option>
-				<option value="25" {If( Equal( PagingProperties.pageSize, '25' ), 'selected' )}>25</option>
-				<option value="50" {If( Equal( PagingProperties.pageSize, '50' ), 'selected' )}>50</option>
-				<option value="500" {If( Equal( PagingProperties.pageSize, '500' ), 'selected' )}>500</option>
-				<option value="9999" {If( Equal( PagingProperties.pageSize, '9999' ), 'selected' )}>All</option>
-			</select>
-			<label for="{GetControlPropertyName( ControlProperties.id, 'page-number' )}">Page:</label>
-			<select name="{GetControlPropertyName( ControlProperties.id, 'page-number' )}" id="{GetControlPropertyName( ControlProperties.id, 'paging-page-number' )}">
-				{PagingControlPageOption}
-			</select>
-			of <span id="{GetControlPropertyName( ControlProperties.id, 'paging-page-total' )}">{PagingProperties.pageCount}</span>
-			<div>
-				{Controls}
-			</div>
-		</div>
-	</nav>
+
+	<div class="pagination">
+		<ul>
+			<li class="{If( IsEqual( PagingProperties.currentPage, '1' ), 'disabled' )}">
+				<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), Max( Subtract( PagingProperties.currentPage, '1' ), '1' ) )}">Previous</a>
+			</li>
+			{PagingControlPageOption}
+			<li class="{If( IsEqual( PagingProperties.currentPage, PagingProperties.pageCount ), 'disabled' )}">
+				<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), Min( Add( PagingProperties.currentPage, '1' ), PagingProperties.pageCount ) )}">Next</a>
+			</li>
+		</ul>
+	</div>
 </tpl:section>
 
-	<tpl:section name="PagingControlPageOption"><option {If( Equal( PageOption.number, PagingProperties.currentPage ), 'selected' )}>{PageOption.number}</option></tpl:section>
-
-	<tpl:section name="PreviousControlsEnabled" field="Controls">
-		<a href="#" class="first-page" title="Go to first page">First</a>
-		<a href="#" class="previous-page" title="Go to previous page">Previous</a>
-	</tpl:section>
-	<tpl:section name="PreviousControlsDisabled" field="Controls">
-		<span class="first-page">First</span>
-		<span class="previous-page">Previous</span>
-	</tpl:section>
-
-	<tpl:section name="NextControlsEnabled" field="Controls">
-		<a href="#" class="next-page" title="Go to next page">Next</a>
-		<a href="#" class="last-page" title="Go to last page">Last</a>
-	</tpl:section>
-	<tpl:section name="NextControlsDisabled" field="Controls">
-		<span class="next-page">Next</span>
-		<span class="last-page">Last</span>
+	<tpl:section name="PagingControlPageOption">
+		<li class="{If( Equal( PageOption.number, PagingProperties.currentPage ), 'active' )}">
+			<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), PageOption.number )}">{PageOption.number}</a>
+		</li>
 	</tpl:section>
 
 
@@ -514,3 +426,63 @@
 		{Control}
 	</fieldset>
 </tpl:section>
+
+
+
+<!-- Grid control sections -->
+<tpl:section name="FormGridControl" field="Control">
+	<form method="get" action="{ChangeQueryString( Request.url, GetControlPropertyName( 'page-number' ), '1' )}">
+		<div id="{@ControlId}">
+			<table class="table table-striped table-bordered table-condensed">
+				{Content}
+			</table>
+			<div class="pull-right">
+				{RenderPagingControl( $Dataset, GridProperties.id )}
+			</div>
+		</div>
+		<input type="hidden" name="{GetControlPropertyName( 'sort' )}" value="{GetControlPropertyValue( 'sort' )}">
+	</form>
+</tpl:section>
+
+	<tpl:section name="GridControlHeader" field="Content">
+		<thead>
+			{Row}
+		</thead>
+	</tpl:section>
+
+	<tpl:section name="GridControlFilterRow" field="Row">
+		<tr class="filters">{Cell}</tr>
+	</tpl:section>
+
+		<tpl:section name="GridControlNoFilter" field="Cell"><td>&nbsp;</td></tpl:section>
+
+		<tpl:section name="GridControlTextboxColumnFilter" field="Cell"><td><input type="text" name="{GetControlPropertyName( FilterProperties.on )}" value="{GetControlPropertyValue( FilterProperties.on )}"></td></tpl:section>
+		
+		<tpl:section name="GridControlSelectboxColumnFilter" field="Cell"><td><select name="{GetControlPropertyName( FilterProperties.on )}" value="{GetControlPropertyValue( FilterProperties.on )}" onchange="this.form.submit();">{GridControlSelectboxColumnFilterOption}</select></td></tpl:section>
+			<tpl:section name="GridControlSelectboxColumnFilterOption"><option value="{OptionProperties.value}" {If( InList( OptionProperties.value, GetControlPropertyValue( FilterProperties.on ) ), 'selected')}>{OptionProperties.label}</option></tpl:section>
+
+	<tpl:section name="GridControlHeaderRow" field="Row">
+		<tr class="headings">{Cell}</tr>
+	</tpl:section>
+	
+		<tpl:section name="GridControlPropertyColumnHeader" field="Cell"><th>{ColumnProperties.heading}</th></tpl:section>
+
+		<tpl:section name="GridControlColumnSortHeader" field="Cell"><th><a href="{HtmlEncode( ChangeQueryString( Request.url, GetControlPropertyName( 'sort' ), ColumnSortProperties.sortParameter ) )}">{ColumnProperties.heading} <i class="pull-right icon-{If( IsTrue( ColumnSortProperties.active ), If( IsTrue( ColumnSortProperties.direction ), 'sort-up', 'sort-down' ), 'sort' )}"></i></a></th></tpl:section>
+
+	<tpl:section name="GridControlBody" field="Content">
+		<tbody>
+			{Row}
+		</tbody>
+	</tpl:section>
+
+	<tpl:section name="GridControlRowNoResults" field="Row"><tr><td colspan="{GridProperties.columnCount}">{NotEmpty( GridProperties.notFoundMessage, 'No results found' )}</td></tr></tpl:section>
+
+	<tpl:section name="GridControlBodyRow" field="Row">
+		<tr>{Cell}</tr>
+	</tpl:section>
+
+		<tpl:section name="GridControlCell" field="Cell"><td>{CellContent}</td></tpl:section>
+
+			<tpl:section name="GridControlPropertyColumnContent" field="CellContent">{CellProperties.value}</tpl:section>
+
+			<tpl:section name="GridControlExpressionColumnContent" field="CellContent">{CellProperties.value}</tpl:section>

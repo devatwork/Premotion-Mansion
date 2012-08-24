@@ -3,10 +3,10 @@
 
 	<!-- Defines the configurable properties of this block -->
 	<declareProcedure procedureName="IncludeBlockConfiguration">
-		<forms:nodeTreeSelect name="targetGuid" label="Content to display">
-			<providers:nodeTreeProvider rootPointer="{ContentIndexRootNode.pointer}" disabledExpression="{\Not( Or( IsEqual( Node.type, 'Content' ), InList( Node.type, GetSubTypes( 'Content' ) )) )}" valueProperty="guid" labelProperty="name" />
+		<forms:singleNodeSelector name="targetGuid" label="Content to display">
+			<forms:nodeSelectorProperties rootPointer="{ContentIndexRootNode.pointer}" disabledExpression="{\Not( IsAssignable( Node.type, 'Content' ) )}" />
 			<forms:requiredFieldValidator />
-		</forms:nodeTreeSelect>
+		</forms:singleNodeSelector>
 	</declareProcedure>
 	
 </mansion>

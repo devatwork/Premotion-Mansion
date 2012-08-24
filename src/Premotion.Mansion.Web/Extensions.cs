@@ -13,7 +13,7 @@ namespace Premotion.Mansion.Web
 	/// </summary>
 	public static class Extensions
 	{
-		#region IHttpContext Extensions
+		#region HttpContextBase Extensions
 		/// <summary>
 		/// Gets a flag indicating whether the <paramref name="httpContext"/> has a session.
 		/// </summary>
@@ -45,6 +45,31 @@ namespace Premotion.Mansion.Web
 			                               {
 			                               	Expires = DateTime.Now.AddDays(-1)
 			                               });
+		}
+		#endregion
+		#region HttpRequestBase Extensions
+		/// <summary>
+		/// Gets the path of the request without the handler prefix.
+		/// </summary>
+		/// <param name="request">The <see cref="HttpRequestBase"/>.</param>
+		/// <returns>Returns the path.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="request"/> is null.</exception>
+		public static string GetPathWithoutHandlerPrefix(this HttpRequestBase request)
+		{
+			// validate arguments
+			if (request == null)
+				throw new ArgumentNullException("request");
+
+			// get the raw uri
+			var path = request.Path.Substring(request.ApplicationPath.Length);
+
+			// split the path
+			var pathParts = path.Split(Dispatcher.Constants.UrlPartTrimCharacters, StringSplitOptions.RemoveEmptyEntries);
+			if (pathParts.Length < 1)
+				return path;
+
+			// rejoin without the first part
+			return String.Join("/", pathParts, 1, pathParts.Length - 1);
 		}
 		#endregion
 		#region NameValueCollection Extensions

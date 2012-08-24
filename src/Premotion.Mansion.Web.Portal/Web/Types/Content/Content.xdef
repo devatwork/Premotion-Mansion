@@ -32,6 +32,7 @@ BEGIN
 			CONSTRAINT [FK_NodesAssociations_Nodes] FOREIGN KEY([id]) REFERENCES [dbo].[Nodes] ([id])
 				ON UPDATE CASCADE
 				ON DELETE CASCADE,
+		[name] [nvarchar](50) NOT NULL,
 		[value] [uniqueidentifier] NOT NULL
 	);
 END]]>

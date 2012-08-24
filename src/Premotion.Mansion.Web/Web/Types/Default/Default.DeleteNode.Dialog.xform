@@ -10,8 +10,10 @@
 				<forms:warningMessage>Are you sure you want to delete '{UrlNode.name}'? This action can not be undone.</forms:warningMessage>
 
 				<forms:buttonBar cssClass="modal-footer">
-					<forms:button action="cancel" label="Cancel" cssClass="cancel" isDefault="true" />
-					<forms:button action="delete" label="Delete" cssClass="btn-danger" />
+					<forms:buttonGroup>
+						<forms:button action="delete" label="Delete" cssClass="btn-danger" iconClass="icon-remove-sign" tooltip="Delete this node permanently" />
+						<forms:button action="cancel" label="Cancel" cssClass="btn-info" isDefault="true" iconClass="icon-undo" tooltip="Cancel deleting this node" />
+					</forms:buttonGroup>
 				</forms:buttonBar>
 				
 				<!-- processes the form actions -->
@@ -23,7 +25,7 @@
 				<forms:processScriptAction supportedActions="delete">
 					<retrieveParentNode childSource="{$UrlNode}" target="ParentNode">
 						<deleteNode source="{$UrlNode}" />
-						<ctrls:invokeDialogParentTrigger action="cms.navigate" url="{CmsRouteUrl( 'Cms', 'View', ParentNode.id )}" />
+						<ctrls:invokeDialogParentTrigger action="cms.navigate" url="{CmsNodeUrl( ParentNode.id, 'CmsBrowserPlugin', 'Browse' )}?change=deleted" />
 					</retrieveParentNode>
 					<breakExecution />
 				</forms:processScriptAction>

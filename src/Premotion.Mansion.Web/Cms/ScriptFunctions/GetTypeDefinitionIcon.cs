@@ -45,7 +45,7 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 			// try to find the type
 			ITypeDefinition type;
 			if (!typeService.TryLoad(context, typeName, out type))
-				return typeName;
+				return string.Empty;
 
 			// find the descriptor
 			CmsBehaviorDescriptor cmsDescriptor;
@@ -57,7 +57,7 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 
 			// get the url
 			var webContext = context.Cast<IMansionWebContext>();
-			var prefixedRelativePath = HttpUtilities.CombineIntoRelativeUrl(webContext.HttpContext.Request.ApplicationPath, Premotion.Mansion.Web.Constants.StaticResourcesPrefix, behavior.PathToIcon);
+			var prefixedRelativePath = HttpUtilities.CombineIntoRelativeUrl(webContext.HttpContext.Request.ApplicationPath, Mansion.Web.Constants.StaticResourcesPrefix, behavior.PathToIcon);
 			var imageUrl = new Uri(webContext.ApplicationBaseUri, prefixedRelativePath);
 
 			// build the icon html

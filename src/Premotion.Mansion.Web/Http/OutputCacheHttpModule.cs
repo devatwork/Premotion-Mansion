@@ -24,32 +24,35 @@ namespace Premotion.Mansion.Web.Http
 			/// <summary>
 			/// Constructs a cached web response.
 			/// </summary>
-			/// <param name="response">The <see cref="HttpResponseBase"/> being cached.</param>
-			/// <param name="contentBytes">The content of <paramref name="response"/>.</param>
-			private CachableWebResponse(HttpResponseBase response, byte[] contentBytes)
+			/// <param name="context">The <see cref="HttpContextBase"/> being cached.</param>
+			/// <param name="contentBytes">The content of <paramref name="context"/>.</param>
+			private CachableWebResponse(HttpContextBase context, byte[] contentBytes)
 			{
 				// validate arguments
-				if (response == null)
-					throw new ArgumentNullException("response");
+				if (context == null)
+					throw new ArgumentNullException("context");
 				if (contentBytes == null)
 					throw new ArgumentNullException("contentBytes");
 
 				// copy values
 				this.contentBytes = contentBytes;
-				contentType = response.ContentType;
-				contentEncoding = response.ContentEncoding;
-				redirectLocation = response.RedirectLocation;
-				statusCode = response.StatusCode;
-				statusDescription = response.StatusDescription;
-				headers = response.Headers;
+				contentType = context.Response.ContentType;
+				contentEncoding = context.Response.ContentEncoding;
+				redirectLocation = context.Response.RedirectLocation;
+				statusCode = context.Response.StatusCode;
+				statusDescription = context.Response.StatusDescription;
+				headers = context.Response.Headers;
 
 				// assemble header string
 				var headerStringBuilder = new StringBuilder();
 				foreach (var name in headers.AllKeys)
 					headerStringBuilder.AppendFormat("{0}={1}", name, headers[name]);
 
+				// get the original path
+				var originalPath = context.Request.GetPathWithoutHandlerPrefix();
+
 				// generate the etag
-				var eTagString = contentBytes + contentType + contentEncoding.EncodingName + redirectLocation + statusCode + statusDescription + headerStringBuilder;
+				var eTagString = originalPath + contentType + contentEncoding.EncodingName + redirectLocation + statusCode + statusDescription + headerStringBuilder;
 				var eTagBytes = Encoding.UTF8.GetBytes(eTagString);
 				byte[] eTagHash;
 				using (var md5Service = new MD5CryptoServiceProvider())
@@ -72,6 +75,10 @@ namespace Premotion.Mansion.Web.Http
 			{
 				get { return eTag; }
 			}
+			/// <summary>
+			/// Gets or sets the absolute date and time at which cached information expires in the cache.
+			/// </summary>
+			public DateTime? Expires { get; private set; }
 			/// <summary>
 			/// Flushes this response to the output.
 			/// </summary>
@@ -97,23 +104,29 @@ namespace Premotion.Mansion.Web.Http
 				response.OutputStream.Write(contentBytes, 0, contentBytes.Length);
 			}
 			#endregion
-			#region Cache Methods
+			#region Factory Methods
 			/// <summary>
 			/// Creates a cachable web response.
 			/// </summary>
-			/// <param name="response">The <see cref="HttpResponseBase"/> which is cached.</param>
-			/// <param name="contentBytes">The content of <paramref name="response"/>.</param>
+			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+			/// <param name="outputPipe">The <see cref="WebOutputPipe"/> for which to create a cached object.</param>
 			/// <returns>Returns the created <see cref="CachedObject{TObject}"/>.</returns>
-			public static CachedObject<CachableWebResponse> CreateCachedWebResponse(HttpResponseBase response, byte[] contentBytes)
+			public static CachedObject<CachableWebResponse> CreateCachedWebResponse(IMansionWebContext context, WebOutputPipe outputPipe)
 			{
 				// validate arguments
-				if (response == null)
-					throw new ArgumentNullException("response");
-				if (contentBytes == null)
-					throw new ArgumentNullException("contentBytes");
+				if (context == null)
+					throw new ArgumentNullException("context");
+				if (outputPipe == null)
+					throw new ArgumentNullException("outputPipe");
+
+				// flush the response
+				var contentBytes = outputPipe.Flush(context);
 
 				// create the cachable web response
-				var cachableResponse = new CachableWebResponse(response, contentBytes);
+				var cachableResponse = new CachableWebResponse(context.HttpContext, contentBytes)
+				                       {
+				                       	Expires = outputPipe.Expires
+				                       };
 
 				// return the cache object
 				return CachedObject<CachableWebResponse>.Create(cachableResponse);
@@ -154,27 +167,12 @@ namespace Premotion.Mansion.Web.Http
 			                                   	var httpContext = webContext.HttpContext;
 			                                   	var httpRequestContext = httpContext.Request;
 
-			                                   	// never cache requests for backoffice users
-			                                   	if (webContext.BackofficeUserState.IsAuthenticated)
-			                                   		return;
-
-			                                   	// Only get request can be cached because other types are state modifying
-			                                   	if (!"GET".Equals(httpRequestContext.HttpMethod, StringComparison.OrdinalIgnoreCase))
+			                                   	// check if the request is not cachable
+			                                   	if (!IsCachableRequest(webContext))
 			                                   		return;
 
 			                                   	// check if the browser requests a hard refresh
 			                                   	if (httpRequestContext.Headers["Cache-Control"] != null && httpRequestContext.Headers["Cache-Control"].IndexOf("no-cache", StringComparison.OrdinalIgnoreCase) > -1)
-			                                   		return;
-
-			                                   	// check if the If-Modified-Since request header is not set
-			                                   	DateTime modifiedSince;
-			                                   	var ifModifiedSinceHeader = httpRequestContext.Headers["If-Modified-Since"];
-			                                   	if (string.IsNullOrEmpty(ifModifiedSinceHeader) || !DateTime.TryParse(ifModifiedSinceHeader, out modifiedSince))
-			                                   		return;
-
-			                                   	// check if the If-None-Match header request header is not set
-			                                   	var eTag = httpRequestContext.Headers["If-None-Match"];
-			                                   	if (string.IsNullOrEmpty(eTag))
 			                                   		return;
 
 			                                   	// generate a cache key for this request
@@ -189,6 +187,15 @@ namespace Premotion.Mansion.Web.Http
 			                                   	// make sure the request is cached properly by the browser
 			                                   	var response = httpContext.Response;
 			                                   	SetCacheControlProperties(response, cachedResponse);
+
+															// check if the If-Modified-Since request header is not set
+			                                   	DateTime modifiedSince;
+			                                   	var ifModifiedSinceHeader = httpRequestContext.Headers["If-Modified-Since"];
+			                                   	if (string.IsNullOrEmpty(ifModifiedSinceHeader) || !DateTime.TryParse(ifModifiedSinceHeader, out modifiedSince))
+			                                   		modifiedSince = DateTime.MinValue;
+
+			                                   	// check if the If-None-Match header request header is not set
+			                                   	var eTag = httpRequestContext.Headers["If-None-Match"] ?? string.Empty;
 
 			                                   	// check if the ETag and LastModified date match
 			                                   	if (eTag.Equals(cachedResponse.ETag, StringComparison.OrdinalIgnoreCase) && modifiedSince.AddSeconds(1) >= cachedResponse.LastModified)
@@ -235,7 +242,7 @@ namespace Premotion.Mansion.Web.Http
 			return (StringCacheKey) string.Format("host={0}&port={1}&path={2}&get={3}",
 			                                      httpContext.Request["HTTP_HOST"],
 			                                      httpContext.Request["SERVER_PORT"],
-			                                      PathRewriterHttpModule.GetOriginalRawPath(httpContext),
+			                                      httpContext.Request.Path,
 			                                      httpContext.Request["QUERY_STRING"]);
 		}
 		/// <summary>
@@ -250,8 +257,8 @@ namespace Premotion.Mansion.Web.Http
 			if (context == null)
 				throw new ArgumentNullException("context");
 
-			// never cache requests for backoffice users
-			if (context.BackofficeUserState.IsAuthenticated)
+			// never cache requests for backoffice request
+			if (context.IsBackoffice)
 				return false;
 
 			// only GET request can be cached
@@ -271,9 +278,14 @@ namespace Premotion.Mansion.Web.Http
 				throw new ArgumentNullException("cachedResponse");
 
 			// set cache control properties
-			response.Cache.SetCacheability(HttpCacheability.Public);
-			response.Cache.SetLastModified(cachedResponse.LastModified);
-			response.Cache.SetETag(cachedResponse.ETag);
+			response.Cache.SetCacheability(HttpCacheability.ServerAndPrivate);
+			if (cachedResponse.Expires.HasValue)
+				response.Cache.SetExpires(cachedResponse.Expires.Value);
+			else
+			{
+				response.Cache.SetLastModified(cachedResponse.LastModified);
+				response.Cache.SetETag(cachedResponse.ETag);
+			}
 		}
 		#endregion
 		#region Private Fields

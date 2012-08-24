@@ -32,7 +32,7 @@
 	
 	
 	
-	<!-- type table descriptor -->
+	<!-- behavior descriptor -->
 	<xs:element name="behavior" substitutionGroup="def:typeDescriptor">
 		<xs:annotation>
 			<xs:documentation>Describes the behavior of this type in the CMS.</xs:documentation>
@@ -57,6 +57,43 @@
 			<xs:attribute name="abstract" type="xs:boolean" use="optional">
 				<xs:annotation>
 					<xs:documentation>Flag indicating whether the type is abstract and should not be created in the CMS. Default is false.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="reorderable" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Flag indicating whether this node's order can be changed. Default is true.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="movable" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Flag indicating whether this node can be moved. Default is true.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="copyable" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Flag indicating whether this node can be copied. Default is true.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="deletable" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Flag indicating whether this node can be deleted. Default is true.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	
+	
+	
+	<!-- plugin descriptor -->
+	<xs:element name="plugin" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>This type implements a CMS plugin.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="order" type="xs:positiveInteger" use="optional">
+				<xs:annotation>
+					<xs:documentation>The higher the number the lower the priority of this plugin. This number is used for sorting the plugins.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 		</xs:complexType>

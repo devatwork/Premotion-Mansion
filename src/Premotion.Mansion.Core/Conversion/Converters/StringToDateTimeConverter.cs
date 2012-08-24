@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
 
 namespace Premotion.Mansion.Core.Conversion.Converters
 {
@@ -10,7 +9,7 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 	public class StringToDateTimeConverter : ConverterBase<string, DateTime>
 	{
 		#region Constants
-		private static readonly string[] formats = new[] {"r", "U", "f", "F", "d", "D", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy/MM/dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM/dd", "dd-MM-yyyy HH:mm:ss", "dd-MM-yyyy HH:mm", "dd-MM-yyyy", "d MMMM yyyy HH:mm:ss", "d MMMM yyyy HH:mm", "d MMMM yyyy"};
+		private static readonly string[] Formats = new[] {"r", "U", "f", "F", "d", "D", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy/MM/dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM/dd", "dd-MM-yyyy HH:mm:ss", "dd-MM-yyyy HH:mm", "dd-MM-yyyy", "d MMMM yyyy HH:mm:ss", "d MMMM yyyy HH:mm", "d MMMM yyyy"};
 		#endregion
 		#region Overrides of ConverterBase<string,DateTime>
 		/// <summary>
@@ -39,8 +38,8 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 				return defaultValue;
 
 			// try to parse the date with any of the formats
-			var result = defaultValue;
-			if (formats.Any(format => DateTime.TryParseExact(source, format, context.UserInterfaceCulture, DateTimeStyles.None, out result)))
+			DateTime result;
+			if (DateTime.TryParseExact(source, Formats, context.UserInterfaceCulture, DateTimeStyles.None, out result))
 				return result;
 
 			return defaultValue;

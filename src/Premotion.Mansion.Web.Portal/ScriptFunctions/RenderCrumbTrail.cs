@@ -146,7 +146,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 			var crumbSet = new Dataset();
 
 			// retrieve page node parent nodes
-			var pageParentNodeset = context.Repository.Retrieve(context, new PropertyBag
+			var pageParentNodeset = context.Repository.RetrieveNodeset(context, new PropertyBag
 			                                                             {
 			                                                             	{"childSource", pageNode},
 			                                                             	{"depth", "any"},
@@ -161,7 +161,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 			if (contentNode.Pointer != pageNode.Pointer)
 			{
 				// retrieve content node parent nodes
-				var contentParentNodeset = context.Repository.Retrieve(context, new PropertyBag
+				var contentParentNodeset = context.Repository.RetrieveNodeset(context, new PropertyBag
 				                                                                {
 				                                                                	{"childSource", contentNode},
 				                                                                	{"depth", "any"},

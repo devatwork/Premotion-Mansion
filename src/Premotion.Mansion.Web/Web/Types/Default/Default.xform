@@ -53,8 +53,10 @@
 				<invokeProcedure procedureName="RenderXFormContent" />
 
 				<forms:buttonBar>
-					<forms:button action="cancel" label="Cancel" cssClass="btn-warning" />
-					<forms:button action="store" label="Save" cssClass="btn-success" />
+					<forms:buttonGroup>
+						<forms:button action="store" label="Create" cssClass="btn-success" iconClass="icon-save" tooltip="Save any changes made to this node" />
+						<forms:button action="cancel" label="Cancel" cssClass="btn-info" iconClass="icon-undo" tooltip="Reverts any changes made to this node" />
+					</forms:buttonGroup>
 				</forms:buttonBar>
 
 				<!-- handle cancel click -->
@@ -87,9 +89,10 @@
 				<invokeProcedure procedureName="RenderXFormContent" />
 
 				<forms:buttonBar>
-					<invokeProcedure procedureName="IncludeActionButtons" />
-					<forms:button action="cancel" label="Cancel" cssClass="btn-warning" />
-					<forms:button action="store" label="Save" cssClass="btn-success" />
+					<forms:buttonGroup>
+						<forms:button action="store" label="Update" cssClass="btn-success" iconClass="icon-save" tooltip="Save any changes made to this node" />
+						<forms:button action="cancel" label="Cancel" cssClass="btn-info" iconClass="icon-undo" tooltip="Reverts any changes made to this node" />
+					</forms:buttonGroup>
 				</forms:buttonBar>
 
 				<!-- handle cancel click -->
@@ -152,38 +155,6 @@
 			</forms:multiselect>
 			<forms:checkbox name="_propagateAllowedRoleGuids" label="Propagate" />
 		</forms:collapsibleFieldset>
-	</declareProcedure>
-
-
-	<!-- renders the new-child, change order, etc. action buttons -->
-	<declareProcedure procedureName="IncludeActionButtons">
-		<invokeProcedure procedureName="IncludeActionAddChildButton"/>
-		<invokeProcedure procedureName="IncludeActionChangeNodeOrderButton"/>
-		<invokeProcedure procedureName="IncludeActionMoveNodeButton"/>
-		<invokeProcedure procedureName="IncludeActionCopyNodeButton"/>
-		<invokeProcedure procedureName="IncludeActionDeleteNodeButton"/>
-	</declareProcedure>
-
-	<declareProcedure procedureName="IncludeActionAddChildButton">
-		<if condition="{HasChildTypes( $FormSourceNode )}">
-			<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'AddChildToNode', CurrentNode.id )}" label="Add new child" cssClass="cms-dialog btn-info" />
-		</if>
-	</declareProcedure>
-
-	<declareProcedure procedureName="IncludeActionChangeNodeOrderButton">
-		<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'ChangeOrder', CurrentNode.id )}" label="Change order" cssClass="cms-dialog btn-info" />
-	</declareProcedure>
-
-	<declareProcedure procedureName="IncludeActionMoveNodeButton">
-		<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'MoveNode', CurrentNode.id )}" label="Move" cssClass="cms-dialog btn-info" />
-	</declareProcedure>
-
-	<declareProcedure procedureName="IncludeActionCopyNodeButton">
-		<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'CopyNode', CurrentNode.id )}" label="Copy" cssClass="cms-dialog btn-info" />
-	</declareProcedure>
-
-	<declareProcedure procedureName="IncludeActionDeleteNodeButton">
-		<forms:linkButton action="{CmsRouteUrl( 'Dialog', 'DeleteNode', CurrentNode.id )}" label="Delete" cssClass="cms-dialog btn-danger" />
 	</declareProcedure>
 
 </mansion>

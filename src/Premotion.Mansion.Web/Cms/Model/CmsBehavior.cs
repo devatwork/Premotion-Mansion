@@ -40,7 +40,11 @@ namespace Premotion.Mansion.Web.Cms.Model
 			               {
 			               	Label = descriptor.Properties.Get(context, "label", descriptor.TypeDefinition.Name),
 			               	PathToIcon = descriptor.Properties.Get(context, "icon", string.Empty),
-			               	IsAbstract = descriptor.Properties.Get(context, "abstract", false)
+			               	IsAbstract = descriptor.Properties.Get(context, "abstract", false),
+			               	CanChangeOrder = descriptor.Properties.Get(context, "reorderable", true),
+			               	CanMove = descriptor.Properties.Get(context, "movable", true),
+			               	CanCopy = descriptor.Properties.Get(context, "copyable", true),
+			               	CanDelete = descriptor.Properties.Get(context, "deletable", true)
 			               };
 
 			//  add all the child type
@@ -105,6 +109,22 @@ namespace Premotion.Mansion.Web.Cms.Model
 		/// Gets a flag indicating whether the type is abstract and should not be created in the CMS. Default is false
 		/// </summary>
 		public bool IsAbstract { get; private set; }
+		/// <summary>
+		/// Gets a flag indicating whether this node's order can be changed.
+		/// </summary>
+		public bool CanChangeOrder { get; private set; }
+		/// <summary>
+		/// Gets a flag indicating whether this node can be moved.
+		/// </summary>
+		public bool CanMove { get; private set; }
+		/// <summary>
+		/// Gets a flag indicating whether this node can be copied.
+		/// </summary>
+		public bool CanCopy { get; private set; }
+		/// <summary>
+		/// Gets a flag indicating whether this node can be deleted.
+		/// </summary>
+		public bool CanDelete { get; private set; }
 		#endregion
 		#region Private Fields
 		private readonly ICollection<ChildType> children = new List<ChildType>();

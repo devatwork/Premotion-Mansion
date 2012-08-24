@@ -45,6 +45,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <EmbeddedResource Include="Web\PageController.tpl" />
     <EmbeddedResource Include="Web\PageController.xinclude" />
     <EmbeddedResource Include="Web\Default.xts" />
   </ItemGroup>

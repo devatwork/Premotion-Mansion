@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Repository.SqlServer.Queries;
 
 namespace Premotion.Mansion.Repository.SqlServer.Schemas
 {
@@ -18,15 +19,14 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		{
 		}
 		#endregion
-		#region ToStatement Methods
+		#region Overrides of Column
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="newPointer"></param>
 		/// <param name="properties"></param>
-		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, NodePointer newPointer, IPropertyBag properties)
+		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, IPropertyBag properties)
 		{
 			// join the two tables on ID
 			queryBuilder.AddColumnValue("id", "@ScopeIdentity");
@@ -36,12 +36,12 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="node"></param>
+		/// <param name="record"> </param>
 		/// <param name="modifiedProperties"></param>
-		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Node node, IPropertyBag modifiedProperties)
+		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Record record, IPropertyBag modifiedProperties)
 		{
 			// get the parameter name
-			var parameterName = queryBuilder.AddParameter("id", node.Pointer.Id, DbType.Int32);
+			var parameterName = queryBuilder.AddParameter("id", record.Id, DbType.Int32);
 
 			// nothing to update, just tell what
 			queryBuilder.AppendWhereClause("[id] = " + parameterName);

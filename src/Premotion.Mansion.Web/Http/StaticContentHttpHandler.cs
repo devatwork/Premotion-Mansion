@@ -24,7 +24,7 @@ namespace Premotion.Mansion.Web.Http
 		protected override void ProcessRequest(IMansionWebContext context, WebOutputPipe outputPipe)
 		{
 			// retrieve the resource
-			var originalResourcePath = PathRewriterHttpModule.GetOriginalMappedPath(context.HttpContext);
+			var originalResourcePath = context.HttpContext.Request.GetPathWithoutHandlerPrefix();
 
 			// split the path
 			var pathParts = originalResourcePath.Split(Dispatcher.Constants.UrlPartTrimCharacters, StringSplitOptions.RemoveEmptyEntries);
@@ -40,7 +40,6 @@ namespace Premotion.Mansion.Web.Http
 			// set output pipe properties
 			outputPipe.ContentType = HttpUtilities.GetMimeType(originalResourcePath);
 			outputPipe.Encoding = Encoding.UTF8;
-			outputPipe.OutputCacheEnabled = true;
 
 			// if the resource exist process it otherwise 404
 			if (contentService.Exists(context, contentPath))
@@ -62,8 +61,7 @@ namespace Premotion.Mansion.Web.Http
 				}
 
 				// set cache age
-				context.HttpContext.Response.Cache.SetCacheability(HttpCacheability.Public);
-				context.HttpContext.Response.Cache.SetExpires(DateTime.Now.AddYears(1));
+				outputPipe.Expires = DateTime.Now.AddYears(1);
 			}
 			else
 			{

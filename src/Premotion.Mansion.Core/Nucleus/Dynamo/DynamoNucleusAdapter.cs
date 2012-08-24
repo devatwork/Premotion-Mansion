@@ -6,7 +6,7 @@ using Dynamo.Ioc;
 namespace Premotion.Mansion.Core.Nucleus.Dynamo
 {
 	/// <summary>
-	/// Implements the <see cref="INucleus"/> using the Dynamo <see cref="Container"/>.
+	/// Implements the <see cref="INucleus"/> using the Dynamo <see cref="IocContainer"/>.
 	/// </summary>
 	public class DynamoNucleusAdapter : NucleusBase
 	{
@@ -17,7 +17,7 @@ namespace Premotion.Mansion.Core.Nucleus.Dynamo
 		public DynamoNucleusAdapter()
 		{
 			// create a new container
-			container = new Container(Lifetime.Container);
+			container = new IocContainer(() => new ContainerLifetime());
 
 			// register the nucleus interface in the container
 			container.RegisterInstance(typeof (INucleus), this);
@@ -45,10 +45,7 @@ namespace Premotion.Mansion.Core.Nucleus.Dynamo
 		protected override bool DoTryResolveSingle<TContract>(out TContract instance)
 		{
 			// let the container resolve the instance
-			instance = container.TryResolve<TContract>();
-
-			// check if a result was found
-			return instance != null;
+			return container.TryResolve(out instance);
 		}
 		/// <summary>
 		/// Resolves an single instance of the component implementing <typeparamref name="TContract"/>.
@@ -62,10 +59,7 @@ namespace Premotion.Mansion.Core.Nucleus.Dynamo
 		protected override bool DoTryResolveSingle<TContract>(string name, out TContract instance)
 		{
 			// let the container resolve the instance
-			instance = container.TryResolve<TContract>(name);
-
-			// check if a result was found
-			return instance != null;
+			return container.TryResolve(name, out instance);
 		}
 		/// <summary>
 		/// Registers a <paramref name="instanceFactory"/> for component with contract <typeparamref name="TContract"/>.
@@ -96,7 +90,7 @@ namespace Premotion.Mansion.Core.Nucleus.Dynamo
 			var instanceFactoryExpression = AssembleFactoryExpression(instanceFactory);
 
 			// register the factory
-			container.Register(name, instanceFactoryExpression).WithLifetime(Lifetime.Transient());
+			container.Register(instanceFactoryExpression, name).Lifetime = new TransientLifetime();
 		}
 		/// <summary>
 		/// Optimizes the underlying IoC container for performance. The container is now considered read-only.
@@ -144,7 +138,7 @@ namespace Premotion.Mansion.Core.Nucleus.Dynamo
 		}
 		#endregion
 		#region Private Fields
-		private readonly Container container;
+		private readonly IocContainer container;
 		#endregion
 	}
 }

@@ -31,12 +31,12 @@ namespace Premotion.Mansion.Web.Portal
 			var rootNode = repository.RetrieveRootNode(context);
 
 			// retrieve the node or create it when it does not exist
-			return repository.RetrieveSingle(context, new PropertyBag
+			return repository.RetrieveSingleNode(context, new PropertyBag
 			                                          {
 			                                          	{"parentSource", rootNode},
 			                                          	{"type", "ContentIndexRoot"},
 			                                          	{"bypassAuthorization", true}
-			                                          }) ?? repository.Create(context, rootNode, new PropertyBag
+			                                          }) ?? repository.CreateNode(context, rootNode, new PropertyBag
 			                                                                                     {
 			                                                                                     	{"type", "ContentIndexRoot"},
 			                                                                                     	{"name", "Shared content"}
@@ -62,12 +62,12 @@ namespace Premotion.Mansion.Web.Portal
 			var contentIndexRootNode = repository.RetrieveContentIndexRootNode(context);
 
 			// retrieve the node or create it when it does not exist
-			return repository.RetrieveSingle(context, new PropertyBag
+			return repository.RetrieveSingleNode(context, new PropertyBag
 			                                          {
 			                                          	{"parentSource", contentIndexRootNode},
 			                                          	{"type", "Taxonomy"},
 			                                          	{"bypassAuthorization", true}
-			                                          }) ?? repository.Create(context, contentIndexRootNode, new PropertyBag
+			                                          }) ?? repository.CreateNode(context, contentIndexRootNode, new PropertyBag
 			                                                                                                 {
 			                                                                                                 	{"type", "Taxonomy"},
 			                                                                                                 	{"name", "Taxonomy"}

@@ -1,6 +1,7 @@
 ﻿using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.ScriptTags.Repository;
 using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Web.Url;
@@ -11,15 +12,16 @@ namespace Premotion.Mansion.Web.ScriptTags
 	/// Retrieves a node based on the URL of the request.
 	/// </summary>
 	[ScriptTag(Constants.NamespaceUri, "retrieveNodeByUrl")]
-	public class RetrieveNodeByUrlTag : RetrieveNodeBaseTag
+	public class RetrieveNodeByUrlTag : RetrieveRecordBaseTag
 	{
 		#region Constructors
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="parser"></param>
 		/// <param name="nodeUrlService"></param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public RetrieveNodeByUrlTag(INodeUrlService nodeUrlService)
+		public RetrieveNodeByUrlTag(IQueryParser parser, INodeUrlService nodeUrlService) : base(parser)
 		{
 			// validate arguments
 			if (nodeUrlService == null)
@@ -29,15 +31,16 @@ namespace Premotion.Mansion.Web.ScriptTags
 			this.nodeUrlService = nodeUrlService;
 		}
 		#endregion
-		#region Evaluate Methods
+		#region Overrides of RetrieveRecordBaseTag
 		/// <summary>
 		/// Builds and executes the query.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="arguments">The arguments from which to build the query.</param>
-		/// <param name="repository"></param>
+		/// <param name="repository">The <see cref="IRepository"/>.</param>
+		/// <param name="parser">The <see cref="IQueryParser"/>.</param>
 		/// <returns>Returns the result.</returns>
-		protected override Node Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository)
+		protected override Record Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository, IQueryParser parser)
 		{
 			// get the url
 			Uri url;
@@ -50,10 +53,10 @@ namespace Premotion.Mansion.Web.ScriptTags
 				return null;
 
 			// parse the query
-			var query = repository.ParseQuery(context, queryAttributes);
+			var query = parser.Parse(context, queryAttributes);
 
 			// execute the query
-			return repository.RetrieveSingle(context, query);
+			return repository.RetrieveSingleNode(context, query);
 		}
 		#endregion
 		#region Private Fields
