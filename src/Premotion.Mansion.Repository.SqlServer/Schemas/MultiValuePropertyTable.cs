@@ -24,7 +24,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 			/// <summary>
 			/// </summary>
 			/// <param name="columnName"></param>
-			public MultiValuePropertyColumn(string columnName) : base(columnName)
+			public MultiValuePropertyColumn(string columnName) : base("value", columnName)
 			{
 			}
 			#endregion
