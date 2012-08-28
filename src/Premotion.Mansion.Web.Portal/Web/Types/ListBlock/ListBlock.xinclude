@@ -129,7 +129,7 @@
 				<!-- show the not found message -->
 				<default>
 					<renderSection name="ListBlock">
-						<renderSection name="NotResultsMessage" />
+						<renderSection name="NoResultsMessage" />
 					</renderSection>
 				</default>
 			</switch>

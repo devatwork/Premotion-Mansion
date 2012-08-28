@@ -22,4 +22,4 @@
 		</li>
 	</tpl:section>
 
-<tpl:section name="NotResultsMessage" field="Results">{NotEmpty( BlockProperties.noResultsMessage, 'No results found' )}</tpl:section>
+<tpl:section name="NoResultsMessage" field="Results">{NotEmpty( BlockProperties.noResultsMessage, 'No results found' )}</tpl:section>
