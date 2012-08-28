@@ -86,6 +86,10 @@ namespace Premotion.Mansion.Core
 		/// </summary>
 		IAutoPopDictionaryStack<string, IScript> ProcedureStack { get; }
 		/// <summary>
+		/// Gets/Sets the depth of the execute nested procedures.
+		/// </summary>
+		int ExecuteNestedProcedureDepth { get; set; }
+		/// <summary>
 		/// Gets the procedure call stack.
 		/// </summary>
 		IAutoPopStack<ScriptTag> ProcedureCallStack { get; }

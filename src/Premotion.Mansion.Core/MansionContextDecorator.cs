@@ -131,6 +131,14 @@ namespace Premotion.Mansion.Core
 			get { return decoratedContext.ProcedureStack; }
 		}
 		/// <summary>
+		/// Gets/Sets the depth of the execute nested procedures.
+		/// </summary>
+		public int ExecuteNestedProcedureDepth
+		{
+			get { return decoratedContext.ExecuteNestedProcedureDepth; }
+			set { decoratedContext.ExecuteNestedProcedureDepth = value; }
+		}
+		/// <summary>
 		/// Gets the procedure call stack.
 		/// </summary>
 		public IAutoPopStack<ScriptTag> ProcedureCallStack
