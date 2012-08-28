@@ -390,11 +390,11 @@
 	<div class="pagination">
 		<ul>
 			<li class="{If( IsEqual( PagingProperties.currentPage, '1' ), 'disabled' )}">
-				<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), Max( Subtract( PagingProperties.currentPage, '1' ), '1' ) )}">Previous</a>
+				<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), Max( Subtract( PagingProperties.currentPage, '1' ), '1' ) )}"><i class="icon-caret-left"></i></a>
 			</li>
 			{PagingControlPageOption}
 			<li class="{If( IsEqual( PagingProperties.currentPage, PagingProperties.pageCount ), 'disabled' )}">
-				<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), Min( Add( PagingProperties.currentPage, '1' ), PagingProperties.pageCount ) )}">Next</a>
+				<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), Min( Add( PagingProperties.currentPage, '1' ), PagingProperties.pageCount ) )}"><i class="icon-caret-right"></i></a>
 			</li>
 		</ul>
 	</div>
