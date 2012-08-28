@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
 
-
 	<!-- ################################# -->
 	<!-- Overrides of: ListBlock.xinclude	-->
 	<!-- ################################# -->
@@ -14,7 +13,9 @@
 		
 		<!-- ask the page node for additional filters -->
 		<openScript type="{ContentProperties.type}">
-			<invokeProcedure procedureName="RetrieveRelated{BlockProperties.contentType}s" />
+			<invokeProcedure procedureName="RetrieveRelated{BlockProperties.contentType}s">
+				<executeNestedTags />
+			</invokeProcedure>
 		</openScript>
 
 	</declareProcedure>

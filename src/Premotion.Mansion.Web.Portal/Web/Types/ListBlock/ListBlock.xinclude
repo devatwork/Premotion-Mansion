@@ -32,15 +32,13 @@
 			
 			<!-- allow derived blocks to add additional filters-->
 			<invokeProcedure procedureName="PrepareFilter" checkExists="false" />
-			
-			<!-- retrieve and render -->
-			<createDataset target="ResultSet">
-				<!-- retrieve the content -->
-				<invokeProcedure procedureName="RetrieveListContent" />
 
+			<!-- retrieve the content -->
+			<invokeProcedure procedureName="RetrieveListContent">
 				<!-- finally render the content -->
 				<invokeProcedure procedureName="RenderListContent" />
-			</createDataset>
+			</invokeProcedure>
+			
 		</setProperties>
 		
 	</declareProcedure>
@@ -67,10 +65,8 @@
 			pageNumber="{Filter.pageNumber}"
 			pageSize="{Filter.pageSize}"
 									 
-			target="Nodeset">
-			<loopNodeset source="{$Nodeset}" target="Node">
-				<addRowToSet source="{$Node}" target="{$ResultSet}" />
-			</loopNodeset>
+			target="ResultSet">
+			<executeNestedTags />
 		</retrieveChildNodeset>
 
 	</declareProcedure>
