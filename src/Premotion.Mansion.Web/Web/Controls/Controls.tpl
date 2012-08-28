@@ -387,7 +387,6 @@
 
 <!-- paging controls -->
 <tpl:section name="PagingControl" field="Control">
-
 	<div class="pagination">
 		<ul>
 			<li class="{If( IsEqual( PagingProperties.currentPage, '1' ), 'disabled' )}">
