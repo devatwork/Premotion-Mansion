@@ -17,7 +17,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 		/// <param name="commandContext">The <see cref="QueryCommandContext"/>.</param>
 		protected override void DoConvert(IMansionContext context, LimitQueryComponent component, QueryCommandContext commandContext)
 		{
-			commandContext.QueryBuilder.SetLimit("TOP {0}", component.Limit);
+			commandContext.QueryBuilder.SetLimit(component.Limit);
 		}
 		#endregion
 	}

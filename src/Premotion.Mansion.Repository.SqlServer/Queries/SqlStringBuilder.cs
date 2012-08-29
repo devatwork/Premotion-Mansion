@@ -161,19 +161,14 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <summary>
 		/// Sets the limit clause.
 		/// </summary>
-		/// <param name="clause">The clause which to set.</param>
-		/// <param name="parameters">The parameters to use in the format string.</param>
-		public void SetLimit(string clause, params object[] parameters)
+		/// <param name="maxNumberOfResults">The parameter containing the limit.</param>
+		public void SetLimit(int maxNumberOfResults)
 		{
-			// validate arguments
-			if (string.IsNullOrEmpty(clause))
-				throw new ArgumentNullException("clause");
-
 			// make sure the limit is not set already
-			if (!string.IsNullOrEmpty(limit))
+			if (limit.HasValue)
 				throw new InvalidOperationException("The limit clause can only be set once");
 
-			limit = string.Format(clause, parameters);
+			limit = maxNumberOfResults;
 		}
 		/// <summary>
 		/// Sets the prefix.
@@ -253,8 +248,8 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 
 			// assemble the query
 			commandText.Append("SELECT");
-			if (!string.IsNullOrEmpty(limit))
-				commandText.AppendFormat(" {0}", limit);
+			if (limit.HasValue)
+				commandText.AppendFormat(" TOP {0}", limit);
 
 			if (columns.Length == 0)
 				commandText.AppendFormat(" [{0}].* {1}", rootTable.Name, FromReplacePlaceholder);
@@ -273,7 +268,12 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			commandText.AppendLine(";");
 
 			// append the count query
-			commandText.Append("SELECT COUNT(1) AS [TotalCount]");
+			commandText.Append("SELECT ");
+			if (limit.HasValue)
+				commandText.AppendFormat("Case When COUNT(1) < {0} Then COUNT(1) Else {0} End", limit);
+			else
+				commandText.Append("COUNT(1)");
+			commandText.Append(" AS [TotalCount]");
 			commandText.Append(FromReplacePlaceholder);
 			commandText.Append(WhereReplacePlaceholder);
 			commandText.AppendLine(";");
@@ -304,8 +304,8 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 
 			// assemble the query
 			commandText.Append("SELECT");
-			if (!string.IsNullOrEmpty(limit))
-				commandText.AppendFormat(" {0}", limit);
+			if (limit.HasValue)
+				commandText.AppendFormat(" TOP {0}", limit);
 
 			if (columns.Length == 0)
 				commandText.AppendFormat(" [{0}].* {1}", rootTable.Name, FromReplacePlaceholder);
@@ -380,7 +380,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		private readonly StringBuilder rootWhereBuilder = new StringBuilder();
 		private readonly StringBuilder tables = new StringBuilder();
 		private readonly AutoPopStack<StringBuilder> whereBuilderStack = new AutoPopStack<StringBuilder>();
-		private string limit;
+		private int? limit;
 		private bool orderByEnabled = true;
 		private string postfix;
 		private string prefix;
