@@ -15,6 +15,12 @@ namespace Premotion.Mansion.Web.Controls.Paging
 	[ScriptFunction("RenderPagingControl")]
 	public class RenderPagingControl : FunctionExpression
 	{
+		#region Constants
+		/// <summary>
+		/// Determines how many pages before/after the current page are displayed.
+		/// </summary>
+		private const int NumberOfAdjacentPagesToDisplay = 2;
+		#endregion
 		#region Constructors
 		/// <summary>
 		/// 
@@ -35,6 +41,7 @@ namespace Premotion.Mansion.Web.Controls.Paging
 			this.templateService = templateService;
 		}
 		#endregion
+		#region Evaluate Methods
 		/// <summary>
 		/// Renders the paging control for the given dataset.
 		/// </summary>
@@ -88,7 +95,9 @@ namespace Premotion.Mansion.Web.Controls.Paging
 				using (templateService.Render(context, "PagingControl", TemplateServiceConstants.OutputTargetField))
 				{
 					// render all the page options
-					for (var pageNumber = 1; pageNumber <= dataset.PageCount; pageNumber++)
+					var displayPageNumberStart = Math.Max(dataset.CurrentPage - NumberOfAdjacentPagesToDisplay, 1);
+					var displayPageNumberEnd = Math.Min(dataset.CurrentPage + NumberOfAdjacentPagesToDisplay, dataset.PageCount);
+					for (var pageNumber = displayPageNumberStart; pageNumber <= displayPageNumberEnd; pageNumber++)
 					{
 						using (context.Stack.Push("PageOption", new PropertyBag
 						                                        {
@@ -102,6 +111,7 @@ namespace Premotion.Mansion.Web.Controls.Paging
 			// return the buffer
 			return buffer.ToString();
 		}
+		#endregion
 		#region Private Fields
 		private readonly IApplicationResourceService applicationResourceService;
 		private readonly ITemplateService templateService;
