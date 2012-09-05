@@ -12,7 +12,7 @@
 <!-- Google Applications -->
 <tpl:section name="GoogleSiteVerification" requires="{Not( IsEmpty( SiteNode.googleSiteVerification ) )}"><meta name="google-site-verification" content="{SiteNode.googleSiteVerification}"></tpl:section>
 
-<tpl:section name="GoogleAnalytics" requires="{And( Not( IsEmpty( SiteNode.googleAnalyticsTrackingCode ) ), IsTrue( Application.live ) )}">
+<tpl:section name="GoogleAnalytics" requires="{And( Not( IsEmpty( SiteNode.googleAnalyticsTrackingCode ) ), IsTrue( Application.APPLICATION_IS_LIVE ) )}">
 <script>
 	var _gaq=[['_setAccount','{SiteNode.googleAnalyticsTrackingCode}'],['_trackPageview']];
 	(function(d,t){ var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
