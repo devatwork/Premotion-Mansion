@@ -1,6 +1,7 @@
 ﻿using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
+using Premotion.Mansion.Web.Hosting;
 
 namespace Premotion.Mansion.Web.ScriptFunctions
 {
@@ -28,7 +29,7 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 			var webContext = context.Cast<IMansionWebContext>();
 
 			// create the relative path
-			var prefixedRelativePath = HttpUtilities.CombineIntoRelativeUrl(webContext.HttpContext.Request.ApplicationPath, Constants.StreamingStaticContentPrefix, relativePath);
+			var prefixedRelativePath = HttpUtilities.CombineIntoRelativeUrl(webContext.HttpContext.Request.ApplicationPath, StreamingStaticContentRequestHandler.Prefix, relativePath);
 
 			// create the uri
 			return new Uri(webContext.ApplicationBaseUri, prefixedRelativePath);

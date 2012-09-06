@@ -1,0 +1,103 @@
+using System;
+using System.Globalization;
+using System.IO;
+using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.IO;
+
+namespace Premotion.Mansion.Web.Hosting
+{
+	/// <summary>
+	/// Implements the <see cref="MansionRequestHandlerBase"/> for streaming static content like images and documents.
+	/// </summary>
+	public class StreamingStaticContentRequestHandler : MansionRequestHandlerBase
+	{
+		#region Constants
+		/// <summary>
+		/// Defines the prefix for streamed application content.
+		/// </summary>
+		public const string Prefix = "streaming-application-content";
+		#endregion
+		#region Constructors
+		/// <summary>
+		/// Constructs a <see cref="DynamicResourceRequestHandler"/>.
+		/// </summary>
+		/// <param name="contentService">The <see cref="IContentResourceService"/>.</param>
+		public StreamingStaticContentRequestHandler(IContentResourceService contentService) : base(20, new UrlPrefixSpeficiation(Prefix))
+		{
+			// validate arguments
+			if (contentService == null)
+				throw new ArgumentNullException("contentService");
+
+			// set values
+			this.contentService = contentService;
+		}
+		#endregion
+		#region Overrides of MansionRequestHandlerBase
+		/// <summary>
+		/// Executes the handler within the given <paramref name="context"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionWebContext"/> in which to execute the current request.</param>
+		protected override void DoExecute(IMansionWebContext context)
+		{
+			// create the request context
+			var response = context.HttpContext.Response;
+
+			// retrieve the resource
+			var originalResourcePath = context.HttpContext.Request.GetPathWithoutHandlerPrefix();
+
+			// split the path
+			var pathParts = originalResourcePath.Split(Dispatcher.Constants.UrlPartTrimCharacters, StringSplitOptions.RemoveEmptyEntries);
+
+			// parse the path
+			var contentPath = contentService.ParsePath(context, new PropertyBag
+			                                                    {
+			                                                    	{"category", pathParts[0]},
+			                                                    	{"relativePath", string.Join(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture), pathParts, 1, pathParts.Length - 1)}
+			                                                    });
+
+			// if the resource exist process it otherwise 404
+			if (!contentService.Exists(context, contentPath))
+			{
+				// send 404
+				response.StatusCode = 404;
+				response.StatusDescription = "Not Found";
+				return;
+			}
+
+			// get the resource
+			var resource = contentService.GetResource(context, contentPath);
+			var len = resource.Length;
+
+			// set the headers
+			response.Buffer = false;
+			response.AppendHeader("Content-Length", len.ToString(CultureInfo.InvariantCulture));
+			response.ContentType = HttpUtilities.GetMimeType(originalResourcePath);
+
+			// stream the file
+			var buffer = new byte[1024];
+			var outputStream = response.OutputStream;
+			using (var reader = resource.OpenForReading())
+			{
+				int bytes;
+				while (len > 0 && (bytes = reader.RawStream.Read(buffer, 0, buffer.Length)) > 0)
+				{
+					outputStream.Write(buffer, 0, bytes);
+					len -= bytes;
+				}
+			}
+		}
+		#endregion
+		#region Properties
+		/// <summary>
+		/// Gets the minimal required <see cref="RequiresSessionState"/> for this handler.
+		/// </summary>
+		public override RequiresSessionState MinimalStateDemand
+		{
+			get { return RequiresSessionState.ReadOnly; }
+		}
+		#endregion
+		#region Private Fields
+		private readonly IContentResourceService contentService;
+		#endregion
+	}
+}
