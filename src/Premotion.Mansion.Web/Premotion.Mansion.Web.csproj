@@ -199,6 +199,8 @@
     <Compile Include="Dispatcher\ScriptTags\InvokeActionTag.cs" />
     <Compile Include="Dispatcher\ScriptTags\ParseRouteTag.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="MansionWebApplicationContextFactory.cs" />
+    <Compile Include="MansionWebContext.cs" />
     <Compile Include="Hosting\OutputCacheRequestHandler.cs" />
     <Compile Include="Hosting\RequiresSessionState.cs" />
     <Compile Include="Hosting\DynamicResourceRequestHandler.cs" />
@@ -212,16 +214,6 @@
     <Compile Include="Hosting\StreamingStaticContentRequestHandler.cs" />
     <Compile Include="HttpUtilities.cs" />
     <Compile Include="Hosting\AspNet\MansionHttpHandlerFactory.cs" />
-    <Compile Include="Http\DynamicResourceHttpHandler.cs" />
-    <Compile Include="Http\OutputCacheHttpModule.cs" />
-    <Compile Include="Http\MansionHttpHandlerBase.cs" />
-    <Compile Include="Http\ContextFactoryHttpModule.cs" />
-    <Compile Include="Http\OutputCachableHttpHandlerBase.cs" />
-    <Compile Include="Http\ScriptHttpHandler.cs" />
-    <Compile Include="Http\MergeResourceHttpHandler.cs" />
-    <Compile Include="Http\StaticContentHttpHandler.cs" />
-    <Compile Include="Http\StaticResourceHttpHandler.cs" />
-    <Compile Include="Http\StreamingStaticContentHttpHandler.cs" />
     <Compile Include="Mail\Constants.cs" />
     <Compile Include="Mail\Extensions.cs" />
     <Compile Include="Mail\IMailService.cs" />

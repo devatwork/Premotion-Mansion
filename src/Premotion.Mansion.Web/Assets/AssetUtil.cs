@@ -2,6 +2,7 @@
 using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Web.Hosting;
 
 namespace Premotion.Mansion.Web.Assets
 {
@@ -65,7 +66,7 @@ namespace Premotion.Mansion.Web.Assets
 			var folderPath = GetPath(assetTypeNode, folderNode);
 
 			// create the relative path
-			var prefixedRelativePath = HttpUtilities.CombineIntoRelativeUrl(webContext.HttpContext.Request.ApplicationPath, Constants.StaticContentPrefix, folderPath);
+			var prefixedRelativePath = HttpUtilities.CombineIntoRelativeUrl(webContext.HttpContext.Request.ApplicationPath, StaticContentRequestHandler.Prefix, folderPath);
 
 			// create the uri
 			return new Uri(webContext.ApplicationBaseUri, prefixedRelativePath);

@@ -45,25 +45,5 @@
 		/// The default frontoffice script name.
 		/// </summary>
 		public const string DefaultFrontofficeScriptName = "Default.xts";
-		/// <summary>
-		/// Defines the prefix for application content.
-		/// </summary>
-		public const string StaticContentPrefix = "application-content";
-		/// <summary>
-		/// Defines the prefix for streamed application content.
-		/// </summary>
-		public const string StreamingStaticContentPrefix = "streaming-application-content";
-		/// <summary>
-		/// Defines the prefix for static applications resources.
-		/// </summary>
-		public const string StaticResourcesPrefix = "static-resources";
-		/// <summary>
-		/// Defines the prefix for dynamic applications resources.
-		/// </summary>
-		public const string DynamicResourcesPrefix = "dynamic-resources";
-		/// <summary>
-		/// Defines the prefix for merging applications resources.
-		/// </summary>
-		public const string MergeResourcesPrefix = "merge-resources";
 	}
 }

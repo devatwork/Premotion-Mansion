@@ -3,6 +3,7 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Web.Cms.Descriptors;
+using Premotion.Mansion.Web.Hosting;
 
 namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 {
@@ -57,7 +58,7 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 
 			// get the url
 			var webContext = context.Cast<IMansionWebContext>();
-			var prefixedRelativePath = HttpUtilities.CombineIntoRelativeUrl(webContext.HttpContext.Request.ApplicationPath, Mansion.Web.Constants.StaticResourcesPrefix, behavior.PathToIcon);
+			var prefixedRelativePath = HttpUtilities.CombineIntoRelativeUrl(webContext.HttpContext.Request.ApplicationPath, StaticResourceRequestHandler.Prefix, behavior.PathToIcon);
 			var imageUrl = new Uri(webContext.ApplicationBaseUri, prefixedRelativePath);
 
 			// build the icon html
