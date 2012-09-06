@@ -103,5 +103,15 @@ namespace Premotion.Mansion.Web
 			return sorted.Select(x => x.Assembly);
 		}
 		#endregion
+		#region Launch Methods
+		private static readonly Lazy<DateTime> LaunchTimeLazy = new Lazy<DateTime>(() => DateTime.Now);
+		/// <summary>
+		/// Gets the launch time of the application.
+		/// </summary>
+		public static DateTime LaunchTime
+		{
+			get { return LaunchTimeLazy.Value; }
+		}
+		#endregion
 	}
 }
