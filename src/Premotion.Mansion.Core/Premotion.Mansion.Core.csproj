@@ -238,6 +238,7 @@
     <Compile Include="Patterns\Prioritized\PrioritizedExtensions.cs" />
     <Compile Include="Patterns\Processing\IProcessor.cs" />
     <Compile Include="Patterns\Processing\IVotingProcessor.cs" />
+    <Compile Include="Patterns\Specifications\ISpecification.cs" />
     <Compile Include="Patterns\Tokenizing\ITokenizer.cs" />
     <Compile Include="Patterns\Voting\Election.cs" />
     <Compile Include="Patterns\Voting\Extensions.cs" />
