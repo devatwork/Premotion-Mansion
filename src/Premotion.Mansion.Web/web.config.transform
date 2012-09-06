@@ -9,27 +9,9 @@
 		<add key="APPLICATION_IS_LIVE" value="false" />
 	</appSettings>
 	<system.webServer>
-		<modules>
-			<remove name="ContextFactoryModule" />
-			<add name="ContextFactoryModule" type="Premotion.Mansion.Web.Http.ContextFactoryHttpModule, Premotion.Mansion.Web" />
-			<remove name="OutputCacheModule" />
-			<add name="OutputCacheModule" type="Premotion.Mansion.Web.Http.OutputCacheHttpModule, Premotion.Mansion.Web" />
-		</modules>
 		<handlers>
-			<remove name="MansionStaticResourceHandler" />
-			<add name="MansionStaticResourceHandler" path="static-resources/*" verb="GET" type="Premotion.Mansion.Web.Http.StaticResourceHttpHandler, Premotion.Mansion.Web" />
-			<remove name="MansionDynamicResourceHandler" />
-			<add name="MansionDynamicResourceHandler" path="dynamic-resources/*" verb="GET" type="Premotion.Mansion.Web.Http.DynamicResourceHttpHandler, Premotion.Mansion.Web" />
-			<remove name="MansionMergeResourceHandler" />
-			<add name="MansionMergeResourceHandler" path="merge-resources/*" verb="GET" type="Premotion.Mansion.Web.Http.MergeResourceHttpHandler, Premotion.Mansion.Web" />
-			<remove name="MansionStaticContentHandler" />
-			<add name="MansionStaticContentHandler" path="application-content/*" verb="GET" type="Premotion.Mansion.Web.Http.StaticContentHttpHandler, Premotion.Mansion.Web" />
-			<remove name="MansionStreamingStaticContentHandler" />
-			<add name="MansionStreamingStaticContentHandler" path="streaming-application-content/*" verb="GET" type="Premotion.Mansion.Web.Http.StreamingStaticContentHttpHandler, Premotion.Mansion.Web" />
-			<remove name="MansionCKFinderConnectorHttpHandler" />
-			<add name="MansionCKFinderConnectorHttpHandler" path="CKFinder.Connector" verb="GET,POST" type="Premotion.Mansion.Web.CKFinderConnector.ConnectorHttpHandler, Premotion.Mansion.Web" />
-			<remove name="MansionScriptHandler" />
-			<add name="MansionScriptHandler" path="*" verb="*" type="Premotion.Mansion.Web.Http.ScriptHttpHandler, Premotion.Mansion.Web" />
+			<remove name="MansionHandler" />
+			<add name="MansionHandler" path="*" verb="*" type="Premotion.Mansion.Web.Hosting.AspNet.MansionHttpHandlerFactory, Premotion.Mansion.Web" />
 		</handlers>
 		<httpErrors>
 			<remove statusCode="404" subStatusCode="-1" />
