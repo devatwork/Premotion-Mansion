@@ -1,6 +1,5 @@
 using System;
 using Premotion.Mansion.Core.Caching;
-using Premotion.Mansion.Web.Http;
 
 namespace Premotion.Mansion.Web.Hosting
 {
@@ -34,7 +33,7 @@ namespace Premotion.Mansion.Web.Hosting
 		protected override sealed void DoExecute(IMansionWebContext context)
 		{
 			// generate the cache key
-			var cacheKey = OutputCacheHttpModule.GenerateCacheKeyForRequest(context.HttpContext);
+			var cacheKey = OutputCacheRequestHandler.GenerateCacheKeyForRequest(context.HttpContext);
 
 			// add the result to the 
 			cachingService.AddOrReplace(context, cacheKey, () =>
@@ -49,14 +48,14 @@ namespace Premotion.Mansion.Web.Hosting
 			                                               			DoExecute(context, outputPipe);
 
 			                                               		// create the cache container
-			                                               		var cacheContainer = OutputCacheHttpModule.CachableWebResponse.CreateCachedWebResponse(context, outputPipe);
+			                                               		var cacheContainer = OutputCacheRequestHandler.CachableWebResponse.CreateCachedWebResponse(context, outputPipe);
 
 			                                               		// do not cache requests other than GET request, check if the output pipe can be cached
-			                                               		cacheContainer.IsCachable = OutputCacheHttpModule.IsCachableRequest(context) && outputPipe.OutputCacheEnabled;
+			                                               		cacheContainer.IsCachable = OutputCacheRequestHandler.IsCachableRequest(context) && outputPipe.OutputCacheEnabled;
 
 			                                               		// if the response is cacheable set the cache parameters
 			                                               		if (cacheContainer.IsCachable)
-			                                               			OutputCacheHttpModule.SetCacheControlProperties(context.HttpContext.Response, cacheContainer.Object);
+			                                               			OutputCacheRequestHandler.SetCacheControlProperties(context.HttpContext.Response, cacheContainer.Object);
 
 			                                               		// write the content to the response
 			                                               		cacheContainer.Object.Flush(context.HttpContext.Response);

@@ -199,6 +199,7 @@
     <Compile Include="Dispatcher\ScriptTags\InvokeActionTag.cs" />
     <Compile Include="Dispatcher\ScriptTags\ParseRouteTag.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Hosting\OutputCacheRequestHandler.cs" />
     <Compile Include="Hosting\RequiresSessionState.cs" />
     <Compile Include="Hosting\DynamicResourceRequestHandler.cs" />
     <Compile Include="Hosting\IRequestHandlerSpecification.cs" />
