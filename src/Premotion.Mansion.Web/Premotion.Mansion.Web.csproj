@@ -57,7 +57,7 @@
     <Compile Include="Caching\HttpCachingService.cs" />
     <Compile Include="CKFinderConnector\AccessControlRules.cs" />
     <Compile Include="CKFinderConnector\ConnectorException.cs" />
-    <Compile Include="CKFinderConnector\ConnectorHttpHandler.cs" />
+    <Compile Include="CKFinderConnector\ConnectorRequestHandler.cs" />
     <Compile Include="CKFinderConnector\ErrorCodes.cs" />
     <Compile Include="CKFinderConnector\Handlers\CommandHandlerBase.cs" />
     <Compile Include="CKFinderConnector\Handlers\CreateFolderCommandHandler.cs" />

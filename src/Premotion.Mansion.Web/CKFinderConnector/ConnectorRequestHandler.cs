@@ -1,23 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
-using System.Web.SessionState;
 using Premotion.Mansion.Web.CKFinderConnector.Handlers;
-using Premotion.Mansion.Web.Http;
+using Premotion.Mansion.Web.Hosting;
 
 namespace Premotion.Mansion.Web.CKFinderConnector
 {
 	/// <summary>
-	/// Implements the <see cref="IHttpHandler"/> for CKFinder connector requests.
+	/// Implements the <see cref="MansionRequestHandlerBase"/> for CKFinder connector requests.
 	/// </summary>
-	public class ConnectorHttpHandler : MansionHttpHandlerBase, IRequiresSessionState
+	public class ConnectorRequestHandler : MansionRequestHandlerBase
 	{
-		#region Overrides of MansionHttpHandlerBase
+		#region Constants
+		private const string Prefix = "CKFinder.Connector";
+		#endregion
+		#region Constructors
 		/// <summary>
-		/// Enables processing of HTTP Web requests by a custom HttpHandler that implements the <see cref="T:System.Web.IHttpHandler"/> interface.
+		/// 
 		/// </summary>
-		/// <param name="context">The <see cref="IMansionWebContext"/> constructed for handling the current request.</param>
-		protected override void ProcessRequest(IMansionWebContext context)
+		public ConnectorRequestHandler() : base(15, new UrlPrefixSpeficiation(Prefix))
+		{
+		}
+		#endregion
+		#region Overrides of MansionRequestHandlerBase
+		/// <summary>e
+		/// 
+		/// Executes the handler within the given <paramref name="context"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionWebContext"/> in which to execute the current request.</param>
+		protected override void DoExecute(IMansionWebContext context)
 		{
 			// get the command name
 			var commandName = context.HttpContext.Request.QueryString["command"];
@@ -26,15 +36,24 @@ namespace Premotion.Mansion.Web.CKFinderConnector
 
 			// get the command handler for the command
 			CommandHandlerBase handler;
-			if (!handlers.TryGetValue(commandName, out handler))
+			if (!Handlers.TryGetValue(commandName, out handler))
 				throw new ConnectorException(ErrorCodes.InvalidCommand);
 
 			// handle the command
 			handler.Handle(context);
 		}
 		#endregion
+		#region Properties
+		/// <summary>
+		/// Gets the minimal required <see cref="RequiresSessionState"/> for this handler.
+		/// </summary>
+		public override RequiresSessionState MinimalStateDemand
+		{
+			get { return RequiresSessionState.Full; }
+		}
+		#endregion
 		#region Private Fields
-		private static readonly IDictionary<string, CommandHandlerBase> handlers = new Dictionary<string, CommandHandlerBase>(StringComparer.OrdinalIgnoreCase)
+		private static readonly IDictionary<string, CommandHandlerBase> Handlers = new Dictionary<string, CommandHandlerBase>(StringComparer.OrdinalIgnoreCase)
 		                                                                           {
 		                                                                           	{"Init", new InitCommandHandler()},
 		                                                                           	{"GetFolders", new GetFoldersCommandHandler()},
