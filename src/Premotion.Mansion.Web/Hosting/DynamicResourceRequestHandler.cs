@@ -53,7 +53,7 @@ namespace Premotion.Mansion.Web.Hosting
 			outputPipe.ContentType = HttpUtilities.GetMimeType(originalResourcePath);
 			outputPipe.Encoding = Encoding.UTF8;
 
-			// if the resource exist process it otherwise 404
+			// if the resource does not exist, send a 404
 			if (!resourceService.Exists(context, resourcePath))
 			{
 				// send 404
@@ -67,6 +67,9 @@ namespace Premotion.Mansion.Web.Hosting
 
 			// execute the script and write the result back to the output pipe
 			outputPipe.Writer.Write(script.Execute<string>(context));
+
+			// set expires header age
+			outputPipe.Expires = DateTime.Now.AddYears(1);
 		}
 		#endregion
 		#region Private Fields

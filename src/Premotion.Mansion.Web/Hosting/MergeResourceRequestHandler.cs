@@ -53,25 +53,27 @@ namespace Premotion.Mansion.Web.Hosting
 			outputPipe.ContentType = HttpUtilities.GetMimeType(originalResourcePath);
 			outputPipe.Encoding = Encoding.UTF8;
 
-			// if the resource exist process it otherwise 404
-			if (resourceService.Exists(context, resourcePath))
-			{
-				// merge all the resources
-				foreach (var resource in resourceService.Get(context, resourcePath))
-				{
-					// parse the resource script
-					var script = scriptService.Parse(context, resource);
-
-					// execute the script and write the result back to the output pipe
-					outputPipe.Writer.Write(script.Execute<string>(context));
-				}
-			}
-			else
+			// if the resource does not exist, send a 404
+			if (!resourceService.Exists(context, resourcePath))
 			{
 				// send 404
 				context.HttpContext.Response.StatusCode = 404;
 				context.HttpContext.Response.StatusDescription = "Not Found";
+				return;
 			}
+			
+			// merge all the resources
+			foreach (var resource in resourceService.Get(context, resourcePath))
+			{
+				// parse the resource script
+				var script = scriptService.Parse(context, resource);
+
+				// execute the script and write the result back to the output pipe
+				outputPipe.Writer.Write(script.Execute<string>(context));
+			}
+
+			// set expires header age
+			outputPipe.Expires = DateTime.Now.AddYears(1);
 		}
 		#endregion
 		#region Private Fields
