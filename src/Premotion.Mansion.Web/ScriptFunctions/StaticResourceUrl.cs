@@ -50,7 +50,7 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 			var prefixedRelativePath = HttpUtilities.CombineIntoRelativeUrl(webContext.HttpContext.Request.ApplicationPath, StaticResourceRequestHandler.Prefix, relativePath);
 
 			// create the uri
-			return new Uri(webContext.ApplicationBaseUri, prefixedRelativePath + "?v=" + MansionWebApplicationContextFactory.LaunchTime.Ticks);
+			return new Uri(webContext.ApplicationBaseUri, prefixedRelativePath + "?v=" + MansionWebApplicationContextFactory.ApplicationModifiedDate.Ticks);
 		}
 		#endregion
 		#region Private Fields
