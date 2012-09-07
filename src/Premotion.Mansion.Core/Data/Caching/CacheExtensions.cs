@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Premotion.Mansion.Core.Caching;
 using Premotion.Mansion.Core.Data.Queries;
+using Premotion.Mansion.Core.Data.Queries.Specifications.Nodes;
 
 namespace Premotion.Mansion.Core.Data.Caching
 {
@@ -50,13 +52,19 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// Turns the given <paramref name="obj"/> in a cacheable object.
 		/// </summary>
 		/// <param name="obj">The <see cref="Record"/> for which to create the cacheable object.</param>
+		/// <param name="query">The <see cref="Query"/> which resulted in the given <paramref name="obj"/>.</param>
 		/// <returns>Returns the <see cref="CachedObject{TObject}"/>.</returns>
-		public static CachedObject<Record> AsCacheableObject(this Record obj)
+		public static CachedObject<Record> AsCacheableObject(this Record obj, Query query)
 		{
+			// validate arguments
+			if (query == null)
+				throw new ArgumentNullException("query");
+
 			// create a new cacheable object
 			var cacheable = new CachedObject<Record>(obj);
 
 			// if the result is found, cache it by it's id
+			ChildOfSpecification childOfSpecification;
 			if (obj != null)
 			{
 				// generate an ID for this specific record
@@ -64,6 +72,14 @@ namespace Premotion.Mansion.Core.Data.Caching
 
 				// add that cache key as the dependency
 				cacheable.Add((StringCacheKeyDependency) recordIdCacheKey);
+			}
+			else if (query.TryGetSpecification(out childOfSpecification))
+			{
+				// cache on the parent tree Id
+				var parentTreeIdCacheKey = childOfSpecification.ParentPointer.CalculateTreeIdCacheKey();
+
+				// add that cache key as the dependency
+				cacheable.Add((StringCacheKeyDependency) parentTreeIdCacheKey);
 			}
 			else
 			{
@@ -93,41 +109,67 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// Clears the given <paramref name="record"/> from the <paramref name="cachingService"/>.
 		/// </summary>
 		/// <param name="record">The <see cref="Record"/> which should be cleared from the cache.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="cachingService">The <see cref="ICachingService"/>.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public static void ClearFromCache(this Record record, ICachingService cachingService)
+		public static void ClearFromCache(this Record record, IMansionContext context, ICachingService cachingService)
 		{
 			// validate arguments
 			if (record == null)
 				throw new ArgumentNullException("record");
+			if (context == null)
+				throw new ArgumentNullException("context");
 			if (cachingService == null)
 				throw new ArgumentNullException("cachingService");
 
 			// fire the evict by ID
 			cachingService.Clear(record.CalculateIdCacheKey());
 
+			// fire the evict by tree ID, if any
+			NodePointer pointer;
+			if (record.TryGet(context, "pointer", out pointer))
+			{
+				foreach (var treeCacheKey in pointer.CalculateTreeIdCacheKeys())
+					cachingService.Clear(treeCacheKey);
+			}
+
 			// fire the repository modified
 			cachingService.Clear(CachingRepositoryDecorator.RepositoryModifiedDependency.Key);
 		}
 		#endregion
-		#region Extensions for Nodeset
+		#region Extensions for RecordSet
 		/// <summary>
 		/// Turns the given <paramref name="obj"/> in a cacheable object.
 		/// </summary>
-		/// <param name="obj">The <see cref="Nodeset"/> for which to create the cacheable object.</param>
+		/// <param name="obj">The <see cref="RecordSet"/> for which to create the cacheable object.</param>
+		/// <param name="query">The <see cref="Query"/> which resulted in the given <paramref name="obj"/>.</param>
 		/// <returns>Returns the <see cref="CachedObject{TObject}"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="obj"/> is null.</exception>
-		public static CachedObject<RecordSet> AsCacheableObject(this RecordSet obj)
+		public static CachedObject<RecordSet> AsCacheableObject(this RecordSet obj, Query query)
 		{
 			// validate arguments
 			if (obj == null)
 				throw new ArgumentNullException("obj");
+			if (query == null)
+				throw new ArgumentNullException("query");
 
 			// create a new cacheable object
 			var cacheable = new CachedObject<RecordSet>(obj);
 
-			// add the repository modified cache key
-			cacheable.Add(CachingRepositoryDecorator.RepositoryModifiedDependency);
+			ChildOfSpecification childOfSpecification;
+			if (query.TryGetSpecification(out childOfSpecification))
+			{
+				// cache on the parent tree Id
+				var parentTreeIdCacheKey = childOfSpecification.ParentPointer.CalculateTreeIdCacheKey();
+
+				// add that cache key as the dependency
+				cacheable.Add((StringCacheKeyDependency) parentTreeIdCacheKey);
+			}
+			else
+			{
+				// add the repository modified cache key
+				cacheable.Add(CachingRepositoryDecorator.RepositoryModifiedDependency);
+			}
 
 			// return the cacheable  object
 			return cacheable;
@@ -138,13 +180,19 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// Turns the given <paramref name="obj"/> in a cacheable object.
 		/// </summary>
 		/// <param name="obj">The <see cref="Node"/> for which to create the cacheable object.</param>
+		/// <param name="query">The <see cref="Query"/> which resulted in the given <paramref name="obj"/>.</param>
 		/// <returns>Returns the <see cref="CachedObject{TObject}"/>.</returns>
-		public static CachedObject<Node> AsCacheableObject(this Node obj)
+		public static CachedObject<Node> AsCacheableObject(this Node obj, Query query)
 		{
+			// validate arguments
+			if (query == null)
+				throw new ArgumentNullException("query");
+
 			// create a new cacheable object
 			var cacheable = new CachedObject<Node>(obj);
 
 			// if the result is found, cache it by it's id
+			ChildOfSpecification childOfSpecification;
 			if (obj != null)
 			{
 				// generate an ID for this specific record
@@ -152,6 +200,14 @@ namespace Premotion.Mansion.Core.Data.Caching
 
 				// add that cache key as the dependency
 				cacheable.Add((StringCacheKeyDependency) recordIdCacheKey);
+			}
+			else if (query.TryGetSpecification(out childOfSpecification))
+			{
+				// cache on the parent tree Id
+				var parentTreeIdCacheKey = childOfSpecification.ParentPointer.CalculateTreeIdCacheKey();
+
+				// add that cache key as the dependency
+				cacheable.Add((StringCacheKeyDependency) parentTreeIdCacheKey);
 			}
 			else
 			{
@@ -179,6 +235,10 @@ namespace Premotion.Mansion.Core.Data.Caching
 			// fire the evict by ID
 			cachingService.Clear(node.CalculateIdCacheKey());
 
+			// fire the evict by tree ID
+			foreach (var treeCacheKey in node.Pointer.CalculateTreeIdCacheKeys())
+				cachingService.Clear(treeCacheKey);
+
 			// fire the repository modified
 			cachingService.Clear(CachingRepositoryDecorator.RepositoryModifiedDependency.Key);
 		}
@@ -188,22 +248,69 @@ namespace Premotion.Mansion.Core.Data.Caching
 		/// Turns the given <paramref name="obj"/> in a cacheable object.
 		/// </summary>
 		/// <param name="obj">The <see cref="Nodeset"/> for which to create the cacheable object.</param>
+		/// <param name="query">The <see cref="Query"/> which resulted in the given <paramref name="obj"/>.</param>
 		/// <returns>Returns the <see cref="CachedObject{TObject}"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="obj"/> is null.</exception>
-		public static CachedObject<Nodeset> AsCacheableObject(this Nodeset obj)
+		public static CachedObject<Nodeset> AsCacheableObject(this Nodeset obj, Query query)
 		{
 			// validate arguments
 			if (obj == null)
 				throw new ArgumentNullException("obj");
+			if (query == null)
+				throw new ArgumentNullException("query");
 
 			// create a new cacheable object
 			var cacheable = new CachedObject<Nodeset>(obj);
 
-			// add the repository modified cache key
-			cacheable.Add(CachingRepositoryDecorator.RepositoryModifiedDependency);
+			ChildOfSpecification childOfSpecification;
+			if (query.TryGetSpecification(out childOfSpecification))
+			{
+				// cache on the parent tree Id
+				var parentTreeIdCacheKey = childOfSpecification.ParentPointer.CalculateTreeIdCacheKey();
+
+				// add that cache key as the dependency
+				cacheable.Add((StringCacheKeyDependency) parentTreeIdCacheKey);
+			}
+			else
+			{
+				// add the repository modified cache key
+				cacheable.Add(CachingRepositoryDecorator.RepositoryModifiedDependency);
+			}
 
 			// return the cacheable  object
 			return cacheable;
+		}
+		#endregion
+		#region Extension for NodePointer
+		/// <summary>
+		/// Calculates the tree ID cache key for the given <paramref name="pointer"/>.
+		/// </summary>
+		/// <param name="pointer">The <see cref="NodePointer"/> for which to calculate the tree ID cache key.</param>
+		/// <returns>Returns the calculated cache key.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="pointer"/> is null.</exception>
+		private static StringCacheKey CalculateTreeIdCacheKey(this NodePointer pointer)
+		{
+			// validate arguments
+			if (pointer == null)
+				throw new ArgumentNullException("pointer");
+
+			// calculate the key
+			return "Tree_ID_" + pointer.Id;
+		}
+		/// <summary>
+		/// Calculates the tree ID cache keys for the given <paramref name="pointer"/>.
+		/// </summary>
+		/// <param name="pointer">The <see cref="NodePointer"/> for which to calculate the tree ID cache keys.</param>
+		/// <returns>Returns the calculated cache keys.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="pointer"/> is null.</exception>
+		private static IEnumerable<StringCacheKey> CalculateTreeIdCacheKeys(this NodePointer pointer)
+		{
+			// validate arguments
+			if (pointer == null)
+				throw new ArgumentNullException("pointer");
+
+			// calculate a key for each parent
+			return pointer.HierarchyReverse.Select(p => p.CalculateTreeIdCacheKey());
 		}
 		#endregion
 	}

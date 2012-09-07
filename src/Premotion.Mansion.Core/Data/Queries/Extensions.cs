@@ -89,6 +89,24 @@ namespace Premotion.Mansion.Core.Data.Queries
 			// find any matching specification
 			return query.Components.OfType<SpecificationQueryComponent>().Select(component => component.Specification).OfType<TSpecification>().Any();
 		}
+		/// <summary>
+		/// Tries to get a <typeparamref name="TSpecification"/> from the given <paramref name="query"/>.
+		/// </summary>
+		/// <param name="query">The <see cref="Query"/> which to check.</param>
+		/// <param name="specification">The <typeparamref name="TSpecification"/>.</param>
+		/// <typeparam name="TSpecification">The type of <see cref="Specification"/> which to look for.</typeparam>
+		/// <returns>Returns true when the <typeparamref name="TSpecification"/> is in the given <paramref name="query"/>, otherwise false.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="query"/> is null.</exception>
+		public static bool TryGetSpecification<TSpecification>(this Query query, out TSpecification specification) where TSpecification : Specification
+		{
+			// validate arguments
+			if (query == null)
+				throw new ArgumentNullException("query");
+
+			// find any matching specification
+			specification = query.Components.OfType<SpecificationQueryComponent>().Select(component => component.Specification).OfType<TSpecification>().FirstOrDefault();
+			return specification != null;
+		}
 		#endregion
 	}
 }

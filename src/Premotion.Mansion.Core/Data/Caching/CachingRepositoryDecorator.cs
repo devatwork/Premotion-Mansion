@@ -53,7 +53,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 			var cacheKey = query.CalculateCacheKey("Node_Query_");
 
 			// return the node
-			return cachingService.GetOrAdd(context, cacheKey, () => DecoratedRepository.RetrieveSingleNode(context, query).AsCacheableObject());
+			return cachingService.GetOrAdd(context, cacheKey, () => DecoratedRepository.RetrieveSingleNode(context, query).AsCacheableObject(query));
 		}
 		/// <summary>
 		/// Retrieves multiple nodes from this repository.
@@ -71,7 +71,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 			var cacheKey = query.CalculateCacheKey("Nodeset_Query_");
 
 			// return the node
-			return cachingService.GetOrAdd(context, cacheKey, () => DecoratedRepository.RetrieveNodeset(context, query).AsCacheableObject());
+			return cachingService.GetOrAdd(context, cacheKey, () => DecoratedRepository.RetrieveNodeset(context, query).AsCacheableObject(query));
 		}
 		/// <summary>
 		/// Creates a new node in this repository.
@@ -168,7 +168,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 			var cacheKey = query.CalculateCacheKey("Record_Query_");
 
 			// return the node
-			return cachingService.GetOrAdd(context, cacheKey, () => DecoratedRepository.RetrieveSingle(context, query).AsCacheableObject());
+			return cachingService.GetOrAdd(context, cacheKey, () => DecoratedRepository.RetrieveSingle(context, query).AsCacheableObject(query));
 		}
 		/// <summary>
 		/// Retrieves a <see cref="Dataset"/> from this repository.
@@ -187,7 +187,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 			var cacheKey = query.CalculateCacheKey("Record_Set_Query_");
 
 			// return the node
-			return cachingService.GetOrAdd(context, cacheKey, () => DecoratedRepository.Retrieve(context, query).AsCacheableObject());
+			return cachingService.GetOrAdd(context, cacheKey, () => DecoratedRepository.Retrieve(context, query).AsCacheableObject(query));
 		}
 		/// <summary>
 		/// Creates a new record with the given <paramref name="properties"/>.
@@ -201,7 +201,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 			var record = DecoratedRepository.Create(context, properties);
 
 			// clear the cache for the given record
-			record.ClearFromCache(cachingService);
+			record.ClearFromCache(context, cachingService);
 
 			return record;
 		}
@@ -217,7 +217,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 			DecoratedRepository.Update(context, record, properties);
 
 			// clear the cache for the given record
-			record.ClearFromCache(cachingService);
+			record.ClearFromCache(context, cachingService);
 		}
 		/// <summary>
 		/// Deletes an existing <paramref name="record"/> from this repository.
@@ -230,7 +230,7 @@ namespace Premotion.Mansion.Core.Data.Caching
 			DecoratedRepository.Delete(context, record);
 
 			// clear the cache for the given record
-			record.ClearFromCache(cachingService);
+			record.ClearFromCache(context, cachingService);
 		}
 		#endregion
 		#region Private Fields
