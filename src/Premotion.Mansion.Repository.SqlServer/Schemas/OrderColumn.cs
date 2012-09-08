@@ -52,7 +52,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 
 			// check if the record contains a pointer
 			NodePointer pointer;
-			if (!modifiedProperties.TryGet(context, "pointer", out pointer))
+			if (!record.TryGet(context, "pointer", out pointer))
 				throw new InvalidOperationException("Could not update this record because it did not contain a pointer");
 
 			// don't update order for root  nodes
