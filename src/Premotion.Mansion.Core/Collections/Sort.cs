@@ -13,7 +13,7 @@ namespace Premotion.Mansion.Core.Collections
 		/// <summary>
 		/// The default sort method on which to sort.
 		/// </summary>
-		public static readonly IEnumerable<Sort> DefaultSort = new Sort[] {new Sort("order", true)};
+		public static readonly IEnumerable<Sort> DefaultSort = new[] {new Sort("order", true)};
 		#endregion
 		#region Constructor
 		/// <summary>
