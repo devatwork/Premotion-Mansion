@@ -16,46 +16,97 @@ namespace Premotion.Mansion.Web
 	/// </summary>
 	public static class MansionWebApplicationContextFactory
 	{
+		#region Nested type: ContextContainer
+		/// <summary>
+		/// Contains the contexts of the current application.
+		/// </summary>
+		private class ContextContainer
+		{
+			#region Constructors
+			/// <summary>
+			/// 
+			/// </summary>
+			/// <param name="applicationContext"></param>
+			/// <param name="lastAssemblyWriteTime"></param>
+			public ContextContainer(IMansionContext applicationContext, DateTime lastAssemblyWriteTime)
+			{
+				// validate arguments
+				if (applicationContext == null)
+					throw new ArgumentNullException("applicationContext");
+
+				// set values
+				this.applicationContext = applicationContext;
+				this.lastAssemblyWriteTime = lastAssemblyWriteTime;
+			}
+			#endregion
+			#region Properties
+			/// <summary>
+			/// Gets the <see cref="ApplicationContext"/>.
+			/// </summary>
+			public IMansionContext ApplicationContext
+			{
+				get { return applicationContext; }
+			}
+			/// <summary>
+			/// Gets the write time of the newest assembly.
+			/// </summary>
+			public DateTime LastAssemblyWriteTime
+			{
+				get { return lastAssemblyWriteTime; }
+			}
+			#endregion
+			#region Private Fields
+			private readonly IMansionContext applicationContext;
+			private readonly DateTime lastAssemblyWriteTime;
+			#endregion
+		}
+		#endregion
 		#region Singleton Implementation
 		/// <summary>
 		/// Creates a single instance of the <see cref="MansionWebApplicationContextFactory"/> class.
 		/// </summary>
-		private static readonly Lazy<IMansionContext> InstanceFactory = new Lazy<IMansionContext>(() =>
-		                                                                                          {
-		                                                                                          	// make sure there is an hosted environment
-		                                                                                          	if (!HostingEnvironment.IsHosted)
-		                                                                                          		throw new InvalidOperationException("Premotion Mansion Web framework can only run within a hosted environment");
+		private static readonly Lazy<ContextContainer> InstanceFactory = new Lazy<ContextContainer>(() =>
+		                                                                                            {
+		                                                                                            	// make sure there is an hosted environment
+		                                                                                            	if (!HostingEnvironment.IsHosted)
+		                                                                                            		throw new InvalidOperationException("Premotion Mansion Web framework can only run within a hosted environment");
 
-		                                                                                          	// create a nucleus
-		                                                                                          	var nucleus = new DynamoNucleusAdapter();
-		                                                                                          	nucleus.Register<IReflectionService>(t => new ReflectionService());
+		                                                                                            	// create a nucleus
+		                                                                                            	var nucleus = new DynamoNucleusAdapter();
+		                                                                                            	nucleus.Register<IReflectionService>(t => new ReflectionService());
 
-		                                                                                          	// create the application context
-		                                                                                          	var applicationContext = new MansionContext(nucleus);
+		                                                                                            	// create the application context
+		                                                                                            	var applicationContext = new MansionContext(nucleus);
 
-		                                                                                          	// register all the types within the assembly
-		                                                                                          	nucleus.ResolveSingle<IReflectionService>().Initialize(nucleus, LoadOrderedAssemblyList());
+		                                                                                            	// assemblies
+		                                                                                            	var assemblies = LoadOrderedAssemblyList().ToList();
 
-		                                                                                          	// get all the application bootstrappers from the nucleus and allow them to bootstrap the application
-		                                                                                          	foreach (var bootstrapper in nucleus.Resolve<ApplicationBootstrapper>().OrderBy(bootstrapper => bootstrapper.Weight))
-		                                                                                          		bootstrapper.Bootstrap(nucleus);
+		                                                                                            	// register all the types within the assembly
+		                                                                                            	nucleus.ResolveSingle<IReflectionService>().Initialize(nucleus, assemblies);
 
-		                                                                                          	// compile the nucleus for ultra fast performance
-		                                                                                          	nucleus.Optimize();
+		                                                                                            	// calculate the last application modification time
+		                                                                                            	var lastAssemblyWriteTime = assemblies.Max(assembly => new FileInfo(assembly.Location).LastWriteTime);
 
-		                                                                                          	// get all the application initializers from the nucleus and allow them to initialize the application
-		                                                                                          	foreach (var initializer in nucleus.Resolve<ApplicationInitializer>().OrderBy(initializer => initializer.Weight))
-		                                                                                          		initializer.Initialize(applicationContext);
+		                                                                                            	// get all the application bootstrappers from the nucleus and allow them to bootstrap the application
+		                                                                                            	foreach (var bootstrapper in nucleus.Resolve<ApplicationBootstrapper>().OrderBy(bootstrapper => bootstrapper.Weight))
+		                                                                                            		bootstrapper.Bootstrap(nucleus);
 
-		                                                                                          	// return the context
-		                                                                                          	return applicationContext;
-		                                                                                          });
+		                                                                                            	// compile the nucleus for ultra fast performance
+		                                                                                            	nucleus.Optimize();
+
+		                                                                                            	// get all the application initializers from the nucleus and allow them to initialize the application
+		                                                                                            	foreach (var initializer in nucleus.Resolve<ApplicationInitializer>().OrderBy(initializer => initializer.Weight))
+		                                                                                            		initializer.Initialize(applicationContext);
+
+		                                                                                            	// return the container
+		                                                                                            	return new ContextContainer(applicationContext, lastAssemblyWriteTime);
+		                                                                                            });
 		/// <summary>
 		/// Gets the <see cref="IMansionContext"/>, which is the context of the entire application.
 		/// </summary>
 		public static IMansionContext Instance
 		{
-			get { return InstanceFactory.Value; }
+			get { return InstanceFactory.Value.ApplicationContext; }
 		}
 		#endregion
 		#region Assembly Load Methods
@@ -104,13 +155,12 @@ namespace Premotion.Mansion.Web
 		}
 		#endregion
 		#region Launch Methods
-		private static readonly Lazy<DateTime> LaunchTimeLazy = new Lazy<DateTime>(() => DateTime.Now);
 		/// <summary>
-		/// Gets the launch time of the application.
+		/// Gets the <see cref="DateTime"/> when the application was last modified.
 		/// </summary>
-		public static DateTime LaunchTime
+		public static DateTime ApplicationModifiedDate
 		{
-			get { return LaunchTimeLazy.Value; }
+			get { return InstanceFactory.Value.LastAssemblyWriteTime; }
 		}
 		#endregion
 	}

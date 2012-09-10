@@ -61,12 +61,7 @@ Author: Premotion Software Solutions
 		// assemble dialog
 		$(this).html(frame);
 	});
-	$(".command.configure").click( function(e) {
-		e.preventDefault();
-		$("#portal-modal-popup").attr("data-href", $(this).attr("href"));
-		$("#portal-modal-popup").modal('show');
-	});
-	$(".command.remove").click( function(e) {
+	$(".command.dialog").click( function(e) {
 		e.preventDefault();
 		$("#portal-modal-popup").attr("data-href", $(this).attr("href"));
 		$("#portal-modal-popup").modal('show');

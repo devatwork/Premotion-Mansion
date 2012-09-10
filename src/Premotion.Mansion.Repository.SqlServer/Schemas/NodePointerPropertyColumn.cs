@@ -55,10 +55,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 			queryBuilder.AddColumnValue("parentPointer", newPointer.HasParent ? newPointer.Parent.PointerString + NodePointer.PointerSeparator : null, DbType.String);
 			queryBuilder.AddColumnValue("parentPath", newPointer.HasParent ? newPointer.Parent.PathString + NodePointer.PathSeparator : null, DbType.String);
 			queryBuilder.AddColumnValue("parentStructure", newPointer.HasParent ? newPointer.Parent.StructureString + NodePointer.StructureSeparator : null, DbType.String);
-
-			// remove the pointer properties from the original node
-			properties.Remove("pointer");
-			properties.Remove("parentPointer");
 		}
 		/// <summary>
 		/// 
@@ -123,10 +119,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 					queryBuilder.AppendQuery(string.Format("UPDATE [Nodes] SET [parentStructure] = {0} + RIGHT( [parentStructure], LEN( [parentStructure] ) - {1} ) WHERE ( [parentId] = {2} OR [parentPointer] LIKE {3} )", newStructureParameterName, oldStructureLengthParameterName, idParameterName, pointerParameterName));
 				}
 			}
-
-			// remove the pointer properties from the original node
-			record.Remove("pointer");
-			record.Remove("parentPointer");
 		}
 		#endregion
 	}

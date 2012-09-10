@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Conversion;
 using Premotion.Mansion.Core.Data.Queries.Specifications.Nodes;
 
@@ -9,6 +11,12 @@ namespace Premotion.Mansion.Core.Data.Queries.Parser.Nodes
 	/// </summary>
 	public class ParentOfQueryArgumentProcessor : QueryArgumentProcessor
 	{
+		#region Constants
+		/// <summary>
+		/// The default sort method on which to sort.
+		/// </summary>
+		public static readonly IEnumerable<Sort> DefaultSort = Sort.Parse("depth asc");
+		#endregion
 		#region Constructors
 		/// <summary>
 		/// Constructs this processor.
@@ -68,6 +76,10 @@ namespace Premotion.Mansion.Core.Data.Queries.Parser.Nodes
 				query.Add(ParentOfSpecification.Child(parentNode.Pointer, depthValue.Value));
 				clauseCounter++;
 			}
+
+			// sort on depth if no explicit sort has been set
+			if (clauseCounter > 0 && !parameters.Contains("sort"))
+				query.Add(new SortQueryComponent(DefaultSort));
 
 			// check for ambigous parameters
 			if (clauseCounter > 1)

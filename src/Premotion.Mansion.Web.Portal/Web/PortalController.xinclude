@@ -108,6 +108,7 @@
 			<renderSection name="PortalAdminDialog">
 
 				<fetchNode source="{$UrlNode}" target="FormSourceNode">
+					<setProperties dataspaceName="TargetProperties" type="{FormSourceNode.type}">
 					<forms:form name="edit-block" dataSource="{$UrlNode}" targetField="Content">
 						<forms:step label="Edit block '{FormSourceNode.name}'" headerCssClasses="modal-header" bodyCssClasses="modal-body">
 							<forms:validationSummary/>
@@ -139,6 +140,7 @@
 
 						</forms:step>
 					</forms:form>
+					</setProperties>
 				</fetchNode>
 
 			</renderSection>
