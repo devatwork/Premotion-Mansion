@@ -18,10 +18,10 @@
 					<responseTemplate cacheKey="{Request.url}" enabled="true">
 
 						<!-- render the slice -->
-						<if condition="{ProcedureExists( Concat( 'Route', Route.originalAction, 'AsSlice') )}">
+						<if condition="{ProcedureExists( Concat( 'Render', Route.originalAction, 'AsSlice') )}">
 							<invokeProcedure procedureName="Render{Route.originalAction}AsSlice" />
 							<else>
-								<web:setStatusCode code="404" description="Action not found on type" />
+								<web:setStatusCode code="404" description="Action '{Concat( 'Render', Route.originalAction, 'AsSlice' )}' not found on type '{UrlNode.type}'" />
 							</else>
 						</if>
 						
