@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+
+	<!-- Invoked when the tree is rendered as HTML -->
+	<declareProcedure procedureName="HandleDefault">
+
+		<!-- we are returning a page -->
+		<web:respondDocument contentType="text/html" encoding="UTF-8" cache="true">
+
+			<!-- render the tree -->
+			<fetchNode source="{$UrlNode}" target="CurrentNode">
+
+				<!-- open the scripts of the type -->
+				<openScript type="{CurrentNode.type}">
+				<openTemplate type="{CurrentNode.type}">
+					
+					<!-- allow response templates, used when the slice contains personalized data -->
+					<responseTemplate cacheKey="{Request.url}" enabled="true">
+
+						<!-- render the slice -->
+						<if condition="{ProcedureExists( Concat( 'Route', Route.originalAction, 'AsSlice') )}">
+							<invokeProcedure procedureName="Render{Route.originalAction}AsSlice" />
+							<else>
+								<web:setStatusCode code="404" description="Action not found on type" />
+							</else>
+						</if>
+						
+					</responseTemplate>
+					
+				</openTemplate>
+				</openScript>
+
+				<notFound>
+					<web:setStatusCode code="404" description="Node not found" />
+				</notFound>
+			</fetchNode>
+
+		</web:respondDocument>
+
+	</declareProcedure>
+
+</mansion>
