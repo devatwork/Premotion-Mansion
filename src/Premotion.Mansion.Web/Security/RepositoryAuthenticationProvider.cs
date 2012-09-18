@@ -25,16 +25,22 @@ namespace Premotion.Mansion.Web.Security
 		/// </summary>
 		/// <param name="context">The security context.</param>
 		/// <param name="parameters">The parameters used for authentication.</param>
-		/// <returns>Returns the user when authenticated otherwise null.</returns>
-		protected override UserState DoAuthenticate(IMansionContext context, IPropertyBag parameters)
+		/// <returns>Returns the <see cref="AuthenticationResult"/>.</returns>
+		protected override AuthenticationResult DoAuthenticate(IMansionContext context, IPropertyBag parameters)
 		{
 			// get the credentials
 			var username = parameters.Get(context, "username", string.Empty);
 			if (string.IsNullOrEmpty(username))
-				return null;
+				return AuthenticationResult.Failed(new PropertyBag
+				                            {
+				                            	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.NoUsernameSpecifiedReason}
+				                            });
 			var password = parameters.Get(context, "password", string.Empty);
 			if (string.IsNullOrEmpty(password))
-				return null;
+				return AuthenticationResult.Failed(new PropertyBag
+				                            {
+				                            	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.NoPasswordSpecifiedReason}
+				                            });
 
 			// perform a query
 			var userNode = context.Repository.RetrieveSingleNode(context, new PropertyBag
@@ -47,10 +53,13 @@ namespace Premotion.Mansion.Web.Security
 			                                                          	{"cache", false}
 			                                                          });
 			if (userNode == null)
-				return null;
+				return AuthenticationResult.Failed(new PropertyBag
+				                            {
+				                            	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.InvalidCredentialsReason}
+				                            });
 
 			// create and return the user state
-			return CreateUserState(context, userNode);
+			return AuthenticationResult.Success(CreateUserState(context, userNode), new PropertyBag());
 		}
 		/// <summary>
 		/// Logs the current user off.

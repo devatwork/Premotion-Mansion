@@ -448,6 +448,7 @@
     <Compile Include="ScriptTags\TryTag.cs" />
     <Compile Include="Security\AuditResult.cs" />
     <Compile Include="Security\AuthenticationProvider.cs" />
+    <Compile Include="Security\AuthenticationResult.cs" />
     <Compile Include="Security\ConfigurationFileAuthenticationProvider.cs" />
     <Compile Include="Security\Constants.cs" />
     <Compile Include="Security\Descriptors\OperationDescriptor.cs" />

@@ -8,7 +8,7 @@
 	<!-- elements -->
 	<xs:element name="authenticateUser" substitutionGroup="scriptTag">
 		<xs:annotation>
-			<xs:documentation>Authenticates an user for the current request context.</xs:documentation>
+			<xs:documentation>Authenticates an user for the current request context. The result of the authentication is available in the AuthenticationResult dataspace.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<!-- content -->

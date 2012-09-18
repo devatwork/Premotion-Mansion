@@ -19,8 +19,8 @@
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="authenticationProviderName">The name of the authentication provider.</param>
 		/// <param name="parameters">The parameters used for authentication.</param>
-		/// <returns>Returns true when the authentication was succeful, otherwise false.</returns>
-		bool Authenticate(IMansionContext context, string authenticationProviderName, IPropertyBag parameters);
+		/// <returns>Returns the <see cref="AuthenticationResult"/>.</returns>
+		AuthenticationResult Authenticate(IMansionContext context, string authenticationProviderName, IPropertyBag parameters);
 		/// <summary>
 		/// Logs the user of from the current <see cref="IMansionContext"/>.
 		/// </summary>
