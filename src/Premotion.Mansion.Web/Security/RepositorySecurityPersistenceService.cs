@@ -42,10 +42,10 @@ namespace Premotion.Mansion.Web.Security
 			// store the permission
 			var permissionPrefix = permission.Operation.Resource.Id + "_" + permission.Operation.Id + "_";
 			repository.UpdateNode(context, roleNode, new PropertyBag
-			                                     {
-			                                     	{permissionPrefix + "granted", permission.Granted},
-			                                     	{permissionPrefix + "priority", permission.Priority},
-			                                     });
+			                                         {
+			                                         	{permissionPrefix + "granted", permission.Granted},
+			                                         	{permissionPrefix + "priority", permission.Priority},
+			                                         });
 		}
 		/// <summary>
 		/// Updates an existing <paramref name="permission"/>.
@@ -103,9 +103,9 @@ namespace Premotion.Mansion.Web.Security
 
 			// update the role owner
 			repository.UpdateNode(context, ownerNode, new PropertyBag
-			                                      {
-			                                      	{"assignedRoleGuids", string.Join(",", new[] {ownerNode.Get(context, "assignedRoleGuids", string.Empty), roleNode.Get<string>(context, "guid")})}
-			                                      });
+			                                          {
+			                                          	{"assignedRoleGuids", string.Join(",", new[] {ownerNode.Get(context, "assignedRoleGuids", string.Empty), roleNode.Get<string>(context, "guid")})}
+			                                          });
 		}
 		/// <summary>
 		/// Removes a <paramref name="role"/> from the <paramref name="owner"/>.
@@ -136,9 +136,9 @@ namespace Premotion.Mansion.Web.Security
 
 			// update the user group
 			repository.UpdateNode(context, ownerNode, new PropertyBag
-			                                      {
-			                                      	{"assignedRoleGuids", string.Join(",", assignedRoleList)}
-			                                      });
+			                                          {
+			                                          	{"assignedRoleGuids", string.Join(",", assignedRoleList)}
+			                                          });
 		}
 		/// <summary>
 		/// Adds the <paramref name="user"/> to the <paramref name="group"/>.
@@ -165,9 +165,9 @@ namespace Premotion.Mansion.Web.Security
 
 			// update the user group
 			repository.UpdateNode(context, groupNode, new PropertyBag
-			                                      {
-			                                      	{"userGuids", string.Join(",", new[] {groupNode.Get(context, "userGuids", string.Empty), userNode.Get<string>(context, "guid")})}
-			                                      });
+			                                          {
+			                                          	{"userGuids", string.Join(",", new[] {groupNode.Get(context, "userGuids", string.Empty), userNode.Get<string>(context, "guid")})}
+			                                          });
 		}
 		/// <summary>
 		/// Removes the <paramref name="user"/> from the <paramref name="group"/>.
@@ -198,9 +198,9 @@ namespace Premotion.Mansion.Web.Security
 
 			// update the user group
 			repository.UpdateNode(context, groupNode, new PropertyBag
-			                                      {
-			                                      	{"userGuids", string.Join(",", userGuidsList)}
-			                                      });
+			                                          {
+			                                          	{"userGuids", string.Join(",", userGuidsList)}
+			                                          });
 		}
 		/// <summary>
 		/// Retrieves a <see cref="User"/> by it's ID.
@@ -208,13 +208,11 @@ namespace Premotion.Mansion.Web.Security
 		/// <param name="context">The <see cref="IMansionContext"/></param>
 		/// <param name="id">The ID of the <see cref="User"/>.</param>
 		/// <returns>Returns the loaded <see cref="User"/>.</returns>
-		public User RetrieveUser(IMansionContext context, string id)
+		public User RetrieveUser(IMansionContext context, Guid id)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
-			if (string.IsNullOrEmpty(id))
-				throw new ArgumentNullException("id");
 
 			// create the user
 			var user = new User(id);
@@ -254,12 +252,26 @@ namespace Premotion.Mansion.Web.Security
 		/// <returns></returns>
 		private static Node RetrieveRoleOwnerNode(IMansionContext context, RoleOwner owner, IRepository repository)
 		{
-			var node = repository.RetrieveSingleNode(context, new PropertyBag
-			                                                  {
-			                                                  	{"baseType", "RoleOwner"},
-			                                                  	{"foreignId", owner.Id},
-			                                                  	{"bypassAuthorization", true}
-			                                                  });
+			// if the user is not authenticated, retrieve the visiter from the database
+			Node node;
+			if (owner.Id == Guid.Empty)
+			{
+				node = repository.RetrieveSingleNode(context, new PropertyBag
+				                                              {
+				                                              	{"baseType", "RoleOwner"},
+				                                              	{"key", "AnonymousUser"},
+				                                              	{"bypassAuthorization", true}
+				                                              });
+			}
+			else
+			{
+				node = repository.RetrieveSingleNode(context, new PropertyBag
+				                                              {
+				                                              	{"baseType", "RoleOwner"},
+				                                              	{"guid", owner.Id},
+				                                              	{"bypassAuthorization", true}
+				                                              });
+			}
 			if (node == null)
 				throw new InvalidOperationException(string.Format("Could not find role owner with foreign ID {0} in repository, please sync tables", owner.Id));
 			return node;
@@ -326,7 +338,7 @@ namespace Premotion.Mansion.Web.Security
 		private Role MapRole(IMansionContext context, Node roleNode)
 		{
 			// create the role
-			var role = new Role(roleNode.PermanentId.ToString());
+			var role = new Role(roleNode.PermanentId);
 
 			// find all the properties ending with _granted
 			foreach (var property in roleNode.Where(x => x.Key.EndsWith(GrantedPostfix, StringComparison.OrdinalIgnoreCase)))

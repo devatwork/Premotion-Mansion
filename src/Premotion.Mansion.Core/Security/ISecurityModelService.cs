@@ -1,4 +1,6 @@
-﻿namespace Premotion.Mansion.Core.Security
+﻿using System;
+
+namespace Premotion.Mansion.Core.Security
 {
 	/// <summary>
 	/// This service manages <see cref="User"/>s, <see cref="UserGroup"/>s, <see cref="Role"/>s and <see cref="Permission"/>s.
@@ -49,7 +51,7 @@
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="roleOwner">The <see cref="RoleOwner"/> from which to get the assigned <see cref="Role"/> IDs.</param>
 		/// <returns>Returns the assigned <see cref="Role"/> IDS.</returns>
-		string[] RetrieveAssignedRoleIds(IMansionContext context, RoleOwner roleOwner);
+		Guid[] RetrieveAssignedRoleIds(IMansionContext context, RoleOwner roleOwner);
 		#endregion
 		#region Permission Methods
 		/// <summary>

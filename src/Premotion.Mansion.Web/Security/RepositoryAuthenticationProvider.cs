@@ -31,32 +31,38 @@ namespace Premotion.Mansion.Web.Security
 			// get the credentials
 			var username = parameters.Get(context, "username", string.Empty);
 			if (string.IsNullOrEmpty(username))
+			{
 				return AuthenticationResult.Failed(new PropertyBag
-				                            {
-				                            	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.NoUsernameSpecifiedReason}
-				                            });
+				                                   {
+				                                   	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.NoUsernameSpecifiedReason}
+				                                   });
+			}
 			var password = parameters.Get(context, "password", string.Empty);
 			if (string.IsNullOrEmpty(password))
+			{
 				return AuthenticationResult.Failed(new PropertyBag
-				                            {
-				                            	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.NoPasswordSpecifiedReason}
-				                            });
+				                                   {
+				                                   	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.NoPasswordSpecifiedReason}
+				                                   });
+			}
 
 			// perform a query
 			var userNode = context.Repository.RetrieveSingleNode(context, new PropertyBag
-			                                                          {
-			                                                          	{"baseType", "User"},
-			                                                          	{"login", username},
-			                                                          	{"password", password},
-			                                                          	{"status", "any"},
-			                                                          	{"bypassAuthorization", true},
-			                                                          	{"cache", false}
-			                                                          });
+			                                                              {
+			                                                              	{"baseType", "User"},
+			                                                              	{"login", username},
+			                                                              	{"password", password},
+			                                                              	{"status", "any"},
+			                                                              	{"bypassAuthorization", true},
+			                                                              	{"cache", false}
+			                                                              });
 			if (userNode == null)
+			{
 				return AuthenticationResult.Failed(new PropertyBag
-				                            {
-				                            	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.InvalidCredentialsReason}
-				                            });
+				                                   {
+				                                   	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.InvalidCredentialsReason}
+				                                   });
+			}
 
 			// create and return the user state
 			return AuthenticationResult.Success(CreateUserState(context, userNode), new PropertyBag());
@@ -116,13 +122,13 @@ namespace Premotion.Mansion.Web.Security
 
 			// retrieve the user by guid
 			var userNode = context.Repository.RetrieveSingleNode(context, new PropertyBag
-			                                                          {
-			                                                          	{"baseType", "User"},
-			                                                          	{"guid", id},
-			                                                          	{"status", "any"},
-			                                                          	{"bypassAuthorization", true},
-			                                                          	{"cache", false}
-			                                                          });
+			                                                              {
+			                                                              	{"baseType", "User"},
+			                                                              	{"guid", id},
+			                                                              	{"status", "any"},
+			                                                              	{"bypassAuthorization", true},
+			                                                              	{"cache", false}
+			                                                              });
 			if (userNode == null)
 				return null;
 
@@ -143,7 +149,7 @@ namespace Premotion.Mansion.Web.Security
 		private UserState CreateUserState(IMansionContext context, Node userNode)
 		{
 			// create the user state
-			var userState = new UserState(userNode.Get<string>(context, "guid"), this);
+			var userState = new UserState(userNode.Get<Guid>(context, "guid"), this);
 
 			// merge the user properties
 			userState.Properties.Merge(userNode);

@@ -1,4 +1,5 @@
-﻿using Premotion.Mansion.Core.Collections;
+﻿using System;
+using Premotion.Mansion.Core.Collections;
 
 namespace Premotion.Mansion.Core.Security
 {
@@ -27,26 +28,32 @@ namespace Premotion.Mansion.Core.Security
 			// get the credentials
 			var username = parameters.Get<string>(context, "username");
 			if (string.IsNullOrEmpty(username))
+			{
 				return AuthenticationResult.Failed(new PropertyBag
-				                            {
-				                            	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.NoUsernameSpecifiedReason}
-				                            });
+				                                   {
+				                                   	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.NoUsernameSpecifiedReason}
+				                                   });
+			}
 			var password = parameters.Get<string>(context, "password");
 			if (string.IsNullOrEmpty(password))
+			{
 				return AuthenticationResult.Failed(new PropertyBag
-				                            {
-				                            	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.NoPasswordSpecifiedReason}
-				                            });
+				                                   {
+				                                   	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.NoPasswordSpecifiedReason}
+				                                   });
+			}
 
 			// check for incorrect credentials
 			if (!username.Equals("System") || !password.Equals("Premotion"))
+			{
 				return AuthenticationResult.Failed(new PropertyBag
-				                            {
-				                            	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.InvalidCredentialsReason}
-				                            });
+				                                   {
+				                                   	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.InvalidCredentialsReason}
+				                                   });
+			}
 
 			// return the user
-			return AuthenticationResult.Success(new UserState(username, this), new PropertyBag());
+			return AuthenticationResult.Success(new UserState(Guid.NewGuid(), this), new PropertyBag());
 		}
 		/// <summary>
 		/// Logs the current user off.

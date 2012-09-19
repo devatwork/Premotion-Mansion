@@ -13,10 +13,10 @@ namespace Premotion.Mansion.Core.Security
 		/// Constructs a role.
 		/// </summary>
 		/// <param name="id">The ID of the role.</param>
-		public Role(string id)
+		public Role(Guid id)
 		{
 			// validate arguments
-			if (string.IsNullOrEmpty(id))
+			if (id == Guid.Empty)
 				throw new ArgumentNullException("id");
 
 			// set values
@@ -62,15 +62,15 @@ namespace Premotion.Mansion.Core.Security
 		#endregion
 		#region Properties
 		/// <summary>
-		/// Gets the ID of this <see cref="Role"/>.
+		/// Gets the permanent ID of this <see cref="Role"/>.
 		/// </summary>
-		public string Id
+		public Guid Id
 		{
 			get { return id; }
 		}
 		#endregion
 		#region Private Fields
-		private readonly string id;
+		private readonly Guid id;
 		private readonly Dictionary<ProtectedOperation, Permission> permissions = new Dictionary<ProtectedOperation, Permission>();
 		#endregion
 	}

@@ -2,15 +2,9 @@
 <type inherits="Default" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd">
 	
 	<!-- properties -->
-	<property name="foreignId">
-		<sqlserver:column allowNullValue="true" />
-	</property>
 	<property name="assignedRoleGuids">
 		<sqlserver:singleValuePropertyTable tableName="NodesAssignedRoleGuids" />
 	</property>
-
-	<!-- type table -->
-	<sqlserver:typeTable tableName="RoleOwnerNodes" />
 	
 	<!-- specify cms behavior -->
 	<cms:behavior label="Role Owner" abstract="true" />
@@ -19,23 +13,7 @@
 
 	<!-- database schema -->
 	<sqlserver:schema>
-		<![CDATA[-- RoleOwnerNodes
-IF NOT EXISTS ( SELECT [name] FROM [sysobjects] WHERE [name] = 'RoleOwnerNodes' AND [xtype] = 'U' )
-BEGIN
-	-- Create table
-	CREATE TABLE [dbo].[RoleOwnerNodes] (
-		[id] [int] NOT NULL
-			CONSTRAINT [PK_RoleOwnerNodes.id] PRIMARY KEY CLUSTERED
-			CONSTRAINT [FK_RoleOwnerNodes_Nodes] FOREIGN KEY( [id] ) REFERENCES [dbo].[Nodes] ([id])
-				ON UPDATE CASCADE
-				ON DELETE CASCADE,
-		[foreignId] [nvarchar](255) NULL
-	);
-	-- Create indices
-	CREATE NONCLUSTERED INDEX [IX_RoleOwnerNodes_foreignId] ON [dbo].[RoleOwnerNodes] ([foreignId]);
-END
-
--- NodesAssignedRoleGuids
+		<![CDATA[-- NodesAssignedRoleGuids
 IF NOT EXISTS ( SELECT [name] FROM [sysobjects] WHERE [name] = 'NodesAssignedRoleGuids' AND [xtype] = 'U' )
 BEGIN
 	-- Create table

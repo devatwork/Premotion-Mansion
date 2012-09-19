@@ -1,4 +1,6 @@
-﻿namespace Premotion.Mansion.Core.Security
+﻿using System;
+
+namespace Premotion.Mansion.Core.Security
 {
 	/// <summary>
 	/// Provides persistence
@@ -64,9 +66,9 @@
 		/// Retrieves a <see cref="User"/> by it's ID.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/></param>
-		/// <param name="id">The ID of the <see cref="User"/>.</param>
+		/// <param name="id">The permanent ID of the <see cref="User"/>.</param>
 		/// <returns>Returns the loaded <see cref="User"/>.</returns>
-		User RetrieveUser(IMansionContext context, string id);
+		User RetrieveUser(IMansionContext context, Guid id);
 		#endregion
 	}
 }

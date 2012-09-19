@@ -15,17 +15,17 @@ namespace Premotion.Mansion.Core.Security
 		/// </summary>
 		private UserState()
 		{
-			id = "Anonymous";
+			id = Guid.Empty;
 		}
 		/// <summary>
 		/// Constructs an authenicated user.
 		/// </summary>
-		/// <param name="id">The ID of the authenticated user.</param>
+		/// <param name="id">The permanent ID of the authenticated user.</param>
 		/// <param name="authenticationProvider">The <see cref="AuthenticationProvider"/> which authenticated this user.</param>
-		public UserState(string id, AuthenticationProvider authenticationProvider)
+		public UserState(Guid id, AuthenticationProvider authenticationProvider)
 		{
 			// validate arguments
-			if (string.IsNullOrEmpty(id))
+			if (id == Guid.Empty)
 				throw new ArgumentNullException("id");
 			if (authenticationProvider == null)
 				throw new ArgumentNullException("authenticationProvider");
@@ -38,9 +38,9 @@ namespace Premotion.Mansion.Core.Security
 		#endregion
 		#region Properties
 		/// <summary>
-		/// Gets the ID of this user.
+		/// Gets the permant ID of this user.
 		/// </summary>
-		public string Id
+		public Guid Id
 		{
 			get { return id; }
 		}
@@ -72,18 +72,14 @@ namespace Premotion.Mansion.Core.Security
 		}
 		#endregion
 		#region Singleton Implementation
-		private static readonly UserState anonymousUser = new UserState();
 		/// <summary>
 		/// Get the anonymous user account.
 		/// </summary>
-		public static UserState AnonymousUser
-		{
-			get { return anonymousUser; }
-		}
+		public static readonly UserState AnonymousUser = new UserState();
 		#endregion
 		#region Private Fields
 		private readonly string authenticationProviderName;
-		private readonly string id;
+		private readonly Guid id;
 		private readonly bool isAuthenticated;
 		private readonly IPropertyBag properties = new PropertyBag();
 		#endregion

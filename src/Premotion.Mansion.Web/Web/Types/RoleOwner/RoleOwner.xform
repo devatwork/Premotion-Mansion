@@ -3,7 +3,6 @@
 
 	<!-- render the role selection interface -->
 	<declareProcedure procedureName="IncludeGroupRoleOwner">
-		<forms:hidden name="foreignId" value="{NotEmpty( FormSourceNode.foreignId, FormSourceNode.guid )}" />
 		<forms:multiselect name="assignedRoleGuids" label="Assigned Roles" valueProperty="guid" labelProperty="name">
 			<providers:retrieveChildNodesetProvider parentPointer="1" baseType="Role" depth="any" />
 		</forms:multiselect>

@@ -13,13 +13,9 @@ namespace Premotion.Mansion.Core.Security
 		/// <summary>
 		/// Constructs a role owner.
 		/// </summary>
-		/// <param name="id">The ID of the role owner.</param>
-		protected RoleOwner(string id)
+		/// <param name="id">The permanent ID of the role owner.</param>
+		protected RoleOwner(Guid id)
 		{
-			// validate arguments
-			if (string.IsNullOrEmpty(id))
-				throw new ArgumentNullException("id");
-
 			// set value
 			this.id = id;
 		}
@@ -50,9 +46,9 @@ namespace Premotion.Mansion.Core.Security
 		#endregion
 		#region Properties
 		/// <summary>
-		/// Gets the ID of this role owner. This is also known as the foreignId.
+		/// Gets the permanent ID of this role owner.
 		/// </summary>
-		public string Id
+		public Guid Id
 		{
 			get { return id; }
 		}
@@ -65,8 +61,8 @@ namespace Premotion.Mansion.Core.Security
 		}
 		#endregion
 		#region Private Fields
-		private readonly string id;
-		private readonly Dictionary<string, Role> roles = new Dictionary<string, Role>();
+		private readonly Guid id;
+		private readonly Dictionary<Guid, Role> roles = new Dictionary<Guid, Role>();
 		#endregion
 	}
 }

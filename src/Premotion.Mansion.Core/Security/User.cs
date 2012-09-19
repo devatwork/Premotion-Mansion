@@ -1,4 +1,6 @@
-﻿namespace Premotion.Mansion.Core.Security
+﻿using System;
+
+namespace Premotion.Mansion.Core.Security
 {
 	/// <summary>
 	/// Represents a user.
@@ -9,8 +11,8 @@
 		/// <summary>
 		/// Constructs a user.
 		/// </summary>
-		/// <param name="id">The ID of the user.</param>
-		public User(string id) : base(id)
+		/// <param name="id">The permanent ID of the user.</param>
+		public User(Guid id) : base(id)
 		{
 		}
 		#endregion
