@@ -178,7 +178,7 @@ namespace Premotion.Mansion.Core.Security
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="roleOwner">The <see cref="RoleOwner"/> from which to get the assigned <see cref="Role"/> IDs.</param>
 		/// <returns>Returns the assigned <see cref="Role"/> IDS.</returns>
-		public string[] RetrieveAssignedRoleIds(IMansionContext context, RoleOwner roleOwner)
+		public Guid[] RetrieveAssignedRoleIds(IMansionContext context, RoleOwner roleOwner)
 		{
 			// validate arguments
 			if (context == null)

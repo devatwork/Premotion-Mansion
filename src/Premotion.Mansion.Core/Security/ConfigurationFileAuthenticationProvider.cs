@@ -1,4 +1,7 @@
-﻿namespace Premotion.Mansion.Core.Security
+﻿using System;
+using Premotion.Mansion.Core.Collections;
+
+namespace Premotion.Mansion.Core.Security
 {
 	/// <summary>
 	/// Implements <see cref="AuthenticationProvider"/> using credentials specified in the configuration file of this application.
@@ -19,23 +22,38 @@
 		/// </summary>
 		/// <param name="context">The security context.</param>
 		/// <param name="parameters">The parameters used for authentication.</param>
-		/// <returns>Returns the user when authenticated otherwise null.</returns>
-		protected override UserState DoAuthenticate(IMansionContext context, IPropertyBag parameters)
+		/// <returns>Returns the <see cref="AuthenticationResult"/>.</returns>
+		protected override AuthenticationResult DoAuthenticate(IMansionContext context, IPropertyBag parameters)
 		{
 			// get the credentials
 			var username = parameters.Get<string>(context, "username");
 			if (string.IsNullOrEmpty(username))
-				return null;
+			{
+				return AuthenticationResult.Failed(new PropertyBag
+				                                   {
+				                                   	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.NoUsernameSpecifiedReason}
+				                                   });
+			}
 			var password = parameters.Get<string>(context, "password");
 			if (string.IsNullOrEmpty(password))
-				return null;
+			{
+				return AuthenticationResult.Failed(new PropertyBag
+				                                   {
+				                                   	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.NoPasswordSpecifiedReason}
+				                                   });
+			}
 
 			// check for incorrect credentials
 			if (!username.Equals("System") || !password.Equals("Premotion"))
-				return null;
+			{
+				return AuthenticationResult.Failed(new PropertyBag
+				                                   {
+				                                   	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.InvalidCredentialsReason}
+				                                   });
+			}
 
 			// return the user
-			return new UserState(username, this);
+			return AuthenticationResult.Success(new UserState(Guid.NewGuid(), this), new PropertyBag());
 		}
 		/// <summary>
 		/// Logs the current user off.

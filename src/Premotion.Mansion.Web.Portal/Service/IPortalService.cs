@@ -1,4 +1,5 @@
-﻿using Premotion.Mansion.Core;
+﻿using System;
+using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Types;
@@ -47,6 +48,22 @@ namespace Premotion.Mansion.Web.Portal.Service
 		/// <param name="blockProperties">The <see cref="IPropertyBag"/> of the block which to render.</param>
 		/// <param name="targetField">The name of the field to which to render.</param>
 		void RenderBlock(IMansionContext context, IPropertyBag blockProperties, string targetField);
+		/// <summary>
+		/// Renders the given block, defined by <paramref name="blockProperties"/>, directly to the output.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="blockProperties">The <see cref="IPropertyBag"/> of the block which to render.</param>
+		/// <param name="targetField">The name of the field to which to render.</param>
+		/// <exception cref="ArgumentNullException">Thrown if one of the paramters is null.</exception>
+		void RenderBlockToOutput(IMansionContext context, IPropertyBag blockProperties, string targetField);
+		/// <summary>
+		/// Renders the given block, defined by <paramref name="blockProperties"/>, as a delayed block to the output.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="blockProperties">The <see cref="IPropertyBag"/> of the block which to render.</param>
+		/// <param name="targetField">The name of the field to which to render.</param>
+		/// <exception cref="ArgumentNullException">Thrown if one of the paramters is null.</exception>
+		void RenderDelayedBlockToOutput(IMansionContext context, IPropertyBag blockProperties, string targetField);
 		#endregion
 	}
 }

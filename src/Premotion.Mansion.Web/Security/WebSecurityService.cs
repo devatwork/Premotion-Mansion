@@ -102,13 +102,14 @@ namespace Premotion.Mansion.Web.Security
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="authenicationProvider">The authentication provider which to use.</param>
 		/// <param name="parameters">The parameters used for authentication.</param>
-		/// <returns>Returns the authenticated <see cref="UserState"/> or null.</returns>
-		protected override UserState DoAuthenticate(IMansionContext context, AuthenticationProvider authenicationProvider, IPropertyBag parameters)
+		/// <returns>Returns the <see cref="AuthenticationResult"/>.</returns>
+		protected override AuthenticationResult DoAuthenticate(IMansionContext context, AuthenticationProvider authenicationProvider, IPropertyBag parameters)
 		{
 			// authenticate
-			var user = authenicationProvider.Authenticate(context, parameters);
-			if (user == null)
-				return null;
+			var result = authenicationProvider.Authenticate(context, parameters);
+			if (!result.WasSuccesful)
+				return result;
+			var user = result.UserState;
 
 			// get the web request context
 			var httpContext = context.Cast<IMansionWebContext>().HttpContext;
@@ -144,7 +145,7 @@ namespace Premotion.Mansion.Web.Security
 				httpContext.DeleteCookie(revivalCookieName);
 
 			// authentication was successful
-			return user;
+			return result;
 		}
 		/// <summary>
 		/// Logs the user of from the current request context.

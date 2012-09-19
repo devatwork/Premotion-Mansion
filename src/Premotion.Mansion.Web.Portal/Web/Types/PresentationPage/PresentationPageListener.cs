@@ -36,7 +36,9 @@ namespace Premotion.Mansion.Web.Portal.Web.Types.PresentationPage
 			                                             	{"name", "Page Presentation Block"},
 			                                             	{"type", "PresentationPageBlock"},
 			                                             	{"approved", true},
-			                                             	{"column", layoutSchema.DefaultColumn}
+			                                             	{"column", layoutSchema.DefaultColumn},
+			                                             	{"borderStyle", "border"},
+			                                             	{"blockStyle", "normal"}
 			                                             });
 		}
 	}

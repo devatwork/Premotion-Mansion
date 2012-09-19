@@ -38,7 +38,7 @@
   <Class Name="Premotion.Mansion.Core.Security.ProtectedOperation" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="10.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAIAAAACAEgAAAAAAAAAAAAIAAAAAQAAAAAiA=</HashCode>
+      <HashCode>AAACAAAAIAAAACAEgAAAAAQAAAAAAMAAAAAAAAAAAiA=</HashCode>
       <FileName>Security\ProtectedOperation.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -46,7 +46,7 @@
   <Class Name="Premotion.Mansion.Core.Security.ProtectedResource" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="7" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAEgAAAAAAAAAAAAIAAAAAQAAAAAiA=</HashCode>
+      <HashCode>AAICAAACAAAAAgAEgAAAAAQAAAAAAIAAAAAAAAAAAiA=</HashCode>
       <FileName>Security\ProtectedResource.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -68,7 +68,7 @@
   <Class Name="Premotion.Mansion.Core.Security.SecurityModelService" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="10.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAIAAgACAAAEAAgAAoQAAECAAAAAQAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAIAAgAgAABAAAgAAoQAAECAAAAAQAAAAAAA=</HashCode>
       <FileName>Security\SecurityModelService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -76,7 +76,7 @@
   <Class Name="Premotion.Mansion.Core.Security.SecurityServiceBase" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="7" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAAAAAQAAIBAAACAAAEAgAIAABAAAwAAAAAAAQAAAAA=</HashCode>
+      <HashCode>BAAAAAQAAABAAAAAAAAAgAIAABAAAwAAAAAEAQAAAAA=</HashCode>
       <FileName>Security\SecurityServiceBase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -95,17 +95,24 @@
       <FileName>Security\UserGroup.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Premotion.Mansion.Core.Security.AuthenticationResult" Collapsed="true">
+    <Position X="10.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAEAAAABAAIAAAAAAgAAAAAAABAAAAACAAA=</HashCode>
+      <FileName>Security\AuthenticationResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Interface Name="Premotion.Mansion.Core.Security.ISecurityModelService" Collapsed="true">
     <Position X="7" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAIAAgAAAAAAAAgAAgQAAEAAAAAAQAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAIAAgAgAABAAAgAAgQAAEAAAAAAQAAAAAAA=</HashCode>
       <FileName>Security\ISecurityModelService.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Premotion.Mansion.Core.Security.ISecurityPersistenceService" Collapsed="true">
     <Position X="8.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAiAAAAAAAAAAgAAAQAAEAAIAAAQAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAiAAAgAAAAAAgAAAQAAEAAIAAAQAAAAAAA=</HashCode>
       <FileName>Security\ISecurityPersistenceService.cs</FileName>
     </TypeIdentifier>
   </Interface>

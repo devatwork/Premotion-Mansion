@@ -76,8 +76,8 @@ namespace Premotion.Mansion.Core.Security
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="authenticationProviderName">The name of the authentication provider.</param>
 		/// <param name="parameters">The parameters used for authentication.</param>
-		/// <returns>Returns true when the authentication was succeful, otherwise false.</returns>
-		public bool Authenticate(IMansionContext context, string authenticationProviderName, IPropertyBag parameters)
+		/// <returns>Returns the <see cref="AuthenticationResult"/>.</returns>
+		public AuthenticationResult Authenticate(IMansionContext context, string authenticationProviderName, IPropertyBag parameters)
 		{
 			// validate arguments
 			if (context == null)
@@ -91,15 +91,14 @@ namespace Premotion.Mansion.Core.Security
 			var authenicationProvider = ResolveAuthenticationProvider(context, authenticationProviderName);
 
 			// invoke template method
-			var authenticatedUser = DoAuthenticate(context, authenicationProvider, parameters);
-			if (authenticatedUser == null)
-				return false;
+			var result = DoAuthenticate(context, authenicationProvider, parameters);
 
-			// set the user on the context
-			context.SetCurrentUserState(authenticatedUser);
+			// set the user on the context if authentication was succesful
+			if (result.WasSuccesful)
+				context.SetCurrentUserState(result.UserState);
 
-			// authentication successful
-			return true;
+			// return result
+			return result;
 		}
 		/// <summary>
 		/// Logs the user of from the current <see cref="IMansionContext"/>.
@@ -110,6 +109,10 @@ namespace Premotion.Mansion.Core.Security
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
+
+			// if the user was not authenticated, there is noone to logoff
+			if (!context.CurrentUserState.IsAuthenticated)
+				return;
 
 			// get the authentication provider name of the user being logged off
 			var authenticationProviderName = context.CurrentUserState.AuthenticationProviderName;
@@ -127,8 +130,8 @@ namespace Premotion.Mansion.Core.Security
 		/// <param name="securityContext">The security context.</param>
 		/// <param name="authenicationProvider">The authentication provider which to use.</param>
 		/// <param name="parameters">The parameters used for authentication.</param>
-		/// <returns>Returns the authenticated <see cref="UserState"/> or null.</returns>
-		protected abstract UserState DoAuthenticate(IMansionContext securityContext, AuthenticationProvider authenicationProvider, IPropertyBag parameters);
+		/// <returns>Returns the <see cref="AuthenticationResult"/>.</returns>
+		protected abstract AuthenticationResult DoAuthenticate(IMansionContext securityContext, AuthenticationProvider authenicationProvider, IPropertyBag parameters);
 		/// <summary>
 		/// Logs the user of from the current <see cref="IMansionContext"/>.
 		/// </summary>

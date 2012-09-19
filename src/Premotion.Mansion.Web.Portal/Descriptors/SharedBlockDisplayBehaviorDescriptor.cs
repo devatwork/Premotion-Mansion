@@ -17,14 +17,8 @@ namespace Premotion.Mansion.Web.Portal.Descriptors
 		/// <summary>
 		/// </summary>
 		/// <param name="portalService">The <see cref="IPortalService"/>.</param>
-		public SharedBlockDisplayBehaviorDescriptor(IPortalService portalService)
+		public SharedBlockDisplayBehaviorDescriptor(IPortalService portalService) : base(portalService)
 		{
-			// validate arguments
-			if (portalService == null)
-				throw new ArgumentNullException("portalService");
-
-			// set values
-			this.portalService = portalService;
 		}
 		#endregion
 		#region Overrides of BlockBehaviorDescriptor
@@ -41,9 +35,9 @@ namespace Premotion.Mansion.Web.Portal.Descriptors
 			if (!blockProperties.TryGet(context, "blockGuid", out displayedBlockGuid))
 				throw new InvalidOperationException("Block guid not found for shared block display");
 			var displayedBlockNode = context.Repository.RetrieveSingleNode(context, new PropertyBag
-			                                                                    {
-			                                                                    	{"guid", displayedBlockGuid}
-			                                                                    });
+			                                                                        {
+			                                                                        	{"guid", displayedBlockGuid}
+			                                                                        });
 			if (displayedBlockNode == null)
 				throw new InvalidOperationException(string.Format("Could not find block with guid '{0}'", displayedBlockGuid));
 
@@ -54,11 +48,8 @@ namespace Premotion.Mansion.Web.Portal.Descriptors
 			mergedBlockProperties.Set("id", blockProperties.Get<int>(context, "id"));
 
 			// finally re-render the combined block using the portal service
-			portalService.RenderBlock(context, mergedBlockProperties, targetField);
+			PortalService.RenderBlock(context, mergedBlockProperties, targetField);
 		}
-		#endregion
-		#region Private Fields
-		private readonly IPortalService portalService;
 		#endregion
 	}
 }
