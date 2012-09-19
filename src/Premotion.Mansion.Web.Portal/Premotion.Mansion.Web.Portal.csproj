@@ -47,6 +47,8 @@
     <Compile Include="Descriptors\BlockBehaviorDescriptor.cs" />
     <Compile Include="Descriptors\ColumnSchema.cs" />
     <Compile Include="Descriptors\ColumnSchemaDescriptor.cs" />
+    <Compile Include="Descriptors\PageBlockBehaviorDescriptor.cs" />
+    <Compile Include="Descriptors\PersonalizedPageDescriptor.cs" />
     <Compile Include="Descriptors\SharedBlockDescriptor.cs" />
     <Compile Include="Descriptors\DefaultBlockBehaviorDescriptor.cs" />
     <Compile Include="Descriptors\DelayedRenderingBlockBehaviorDescriptor.cs" />
