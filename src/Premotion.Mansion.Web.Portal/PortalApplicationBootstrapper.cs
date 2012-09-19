@@ -1,6 +1,9 @@
 ﻿using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Caching;
+using Premotion.Mansion.Core.Conversion;
+using Premotion.Mansion.Core.IO;
 using Premotion.Mansion.Core.Nucleus;
+using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Templating;
 using Premotion.Mansion.Web.Portal.Service;
 
@@ -26,7 +29,13 @@ namespace Premotion.Mansion.Web.Portal
 		protected override void DoBoostrap(IConfigurableNucleus nucleus)
 		{
 			// registers the portal service
-			nucleus.Register<IPortalService>(resolver => new PortalService(resolver.ResolveSingle<ICachingService>(), resolver.ResolveSingle<ITemplateService>()));
+			nucleus.Register<IPortalService>(resolver => new PortalService(
+			                                             	resolver.ResolveSingle<ICachingService>(),
+			                                             	resolver.ResolveSingle<ITemplateService>(),
+			                                             	resolver.ResolveSingle<IApplicationResourceService>(),
+			                                             	resolver.ResolveSingle<ITagScriptService>(),
+			                                             	resolver.ResolveSingle<IConversionService>()
+			                                             	));
 		}
 		#endregion
 	}

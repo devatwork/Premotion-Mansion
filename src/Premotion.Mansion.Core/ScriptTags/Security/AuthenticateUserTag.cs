@@ -38,14 +38,20 @@ namespace Premotion.Mansion.Core.ScriptTags.Security
 			if (!attributes.TryGetAndRemove(context, "authenticationProvider", out authenticationProvider) || string.IsNullOrEmpty(authenticationProvider))
 				throw new InvalidOperationException("The attribute authenticationProvider can not be null or empty");
 
+			// perform the authentication
+			var result = securityService.Authenticate(context, authenticationProvider, attributes);
+
 			// try to authenticate the user
-			if (securityService.Authenticate(context, authenticationProvider, attributes))
-				ExecuteChildTags(context);
-			else
+			using (context.Stack.Push("AuthenticationResult", result.Properties))
 			{
-				FailedTag failedTag;
-				if (TryGetAlternativeChildTag(out failedTag))
-					failedTag.Execute(context);
+				if (result.WasSuccesful)
+					ExecuteChildTags(context);
+				else
+				{
+					FailedTag failedTag;
+					if (TryGetAlternativeChildTag(out failedTag))
+						failedTag.Execute(context);
+				}
 			}
 		}
 		#endregion

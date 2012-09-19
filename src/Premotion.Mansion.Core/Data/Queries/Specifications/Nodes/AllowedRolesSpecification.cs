@@ -10,13 +10,13 @@ namespace Premotion.Mansion.Core.Data.Queries.Specifications.Nodes
 	public class AllowedRolesSpecification : Specification
 	{
 		#region Constants
-		private static readonly AllowedRolesSpecification AnyInstance = new AllowedRolesSpecification(new string[] {});
+		private static readonly AllowedRolesSpecification AnyInstance = new AllowedRolesSpecification(new Guid[] {});
 		#endregion
 		#region Constructors
 		/// <summary>
 		/// </summary>
 		/// <param name="allowedRoleIds"></param>
-		private AllowedRolesSpecification(string[] allowedRoleIds)
+		private AllowedRolesSpecification(Guid[] allowedRoleIds)
 		{
 			// validate arguments
 			if (allowedRoleIds == null)
@@ -74,7 +74,7 @@ namespace Premotion.Mansion.Core.Data.Queries.Specifications.Nodes
 		/// <summary>
 		/// Gets the IDs of the roles.
 		/// </summary>
-		public string[] RoleIds { get; private set; }
+		public Guid[] RoleIds { get; private set; }
 		#endregion
 	}
 }

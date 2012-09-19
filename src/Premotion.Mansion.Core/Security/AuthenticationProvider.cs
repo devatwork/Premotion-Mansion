@@ -30,8 +30,8 @@ namespace Premotion.Mansion.Core.Security
 		/// </summary>
 		/// <param name="context">The security context.</param>
 		/// <param name="parameters">The parameters used for authentication.</param>
-		/// <returns>Returns the user when authenticated otherwise null.</returns>
-		public UserState Authenticate(IMansionContext context, IPropertyBag parameters)
+		/// <returns>Returns the <see cref="AuthenticationResult"/>.</returns>
+		public AuthenticationResult Authenticate(IMansionContext context, IPropertyBag parameters)
 		{
 			// validate arguments
 			if (context == null)
@@ -40,7 +40,13 @@ namespace Premotion.Mansion.Core.Security
 				throw new ArgumentNullException("parameters");
 
 			// invoke template method
-			return DoAuthenticate(context, parameters);
+			var result = DoAuthenticate(context, parameters);
+
+			// guard against invalid results
+			if (result == null)
+				throw new InvalidOperationException(string.Format("Authentication provider '{0}' did not return a valid authentication result, please check implementation", GetType().FullName));
+
+			return result;
 		}
 		/// <summary>
 		/// Logs the current user off.
@@ -60,8 +66,8 @@ namespace Premotion.Mansion.Core.Security
 		/// </summary>
 		/// <param name="context">The security context.</param>
 		/// <param name="parameters">The parameters used for authentication.</param>
-		/// <returns>Returns the user when authenticated otherwise null.</returns>
-		protected abstract UserState DoAuthenticate(IMansionContext context, IPropertyBag parameters);
+		/// <returns>Returns the <see cref="AuthenticationResult"/>.</returns>
+		protected abstract AuthenticationResult DoAuthenticate(IMansionContext context, IPropertyBag parameters);
 		/// <summary>
 		/// Template method for <see cref="AuthenticationProvider.Logoff"/>.
 		/// </summary>

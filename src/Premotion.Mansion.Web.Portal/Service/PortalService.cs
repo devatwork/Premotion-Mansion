@@ -4,7 +4,11 @@ using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Caching;
 using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Conversion;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.IO;
+using Premotion.Mansion.Core.Scripting;
+using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Templating;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Web.Portal.Descriptors;
@@ -38,18 +42,30 @@ namespace Premotion.Mansion.Web.Portal.Service
 		/// </summary>
 		/// <param name="cachingService"></param>
 		/// <param name="templateService"></param>
+		/// <param name="applicationResourceService"></param>
+		/// <param name="tagScriptService"></param>
+		/// <param name="conversionService"></param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public PortalService(ICachingService cachingService, ITemplateService templateService)
+		public PortalService(ICachingService cachingService, ITemplateService templateService, IApplicationResourceService applicationResourceService, ITagScriptService tagScriptService, IConversionService conversionService)
 		{
 			// validaet arguments
 			if (cachingService == null)
 				throw new ArgumentNullException("cachingService");
 			if (templateService == null)
 				throw new ArgumentNullException("templateService");
+			if (applicationResourceService == null)
+				throw new ArgumentNullException("applicationResourceService");
+			if (tagScriptService == null)
+				throw new ArgumentNullException("tagScriptService");
+			if (conversionService == null)
+				throw new ArgumentNullException("conversionService");
 
 			// set values
 			this.cachingService = cachingService;
 			this.templateService = templateService;
+			this.applicationResourceService = applicationResourceService;
+			this.tagScriptService = tagScriptService;
+			this.conversionService = conversionService;
 		}
 		#endregion
 		#region Template Page Methods
@@ -218,13 +234,78 @@ namespace Premotion.Mansion.Web.Portal.Service
 			// perform the rendering on the behavior
 			behavior.Render(context, blockProperties, targetField);
 		}
+		/// <summary>
+		/// Renders the given block, defined by <paramref name="blockProperties"/>, directly to the output.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="blockProperties">The <see cref="IPropertyBag"/> of the block which to render.</param>
+		/// <param name="targetField">The name of the field to which to render.</param>
+		/// <exception cref="ArgumentNullException">Thrown if one of the paramters is null.</exception>
+		public void RenderBlockToOutput(IMansionContext context, IPropertyBag blockProperties, string targetField)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (blockProperties == null)
+				throw new ArgumentNullException("blockProperties");
+			if (string.IsNullOrEmpty(targetField))
+				throw new ArgumentNullException("targetField");
+
+			// get the resource paths
+			var templateResourcePath = applicationResourceService.ParsePath(context, new PropertyBag
+			                                                                         {
+			                                                                         	{"type", blockProperties.Get<string>(context, "type")},
+			                                                                         	{"extension", TemplateServiceConstants.DefaultTemplateExtension}
+			                                                                         });
+			var scriptResourcePath = applicationResourceService.ParsePath(context, new PropertyBag
+			                                                                       {
+			                                                                       	{"type", blockProperties.Get<string>(context, "type")},
+			                                                                       	{"extension", "xinclude"}
+			                                                                       });
+
+			// open the block template and script
+			using (templateService.Open(context, applicationResourceService.Get(context, templateResourcePath)))
+			using (tagScriptService.Open(context, applicationResourceService.Get(context, scriptResourcePath)))
+			using (context.Stack.Push("BlockProperties", blockProperties))
+			using (templateService.Render(context, "BlockContainer", targetField))
+				context.ProcedureStack.Peek<IScript>("RenderBlock").Execute(context);
+		}
+		/// <summary>
+		/// Renders the given block, defined by <paramref name="blockProperties"/>, as a delayed block to the output.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="blockProperties">The <see cref="IPropertyBag"/> of the block which to render.</param>
+		/// <param name="targetField">The name of the field to which to render.</param>
+		/// <exception cref="ArgumentNullException">Thrown if one of the paramters is null.</exception>
+		public void RenderDelayedBlockToOutput(IMansionContext context, IPropertyBag blockProperties, string targetField)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (blockProperties == null)
+				throw new ArgumentNullException("blockProperties");
+			if (string.IsNullOrEmpty(targetField))
+				throw new ArgumentNullException("targetField");
+
+			// disable the output cache
+			WebUtilities.DisableOutputCache(context);
+
+			// serialize the block properties to a string
+			var serializedBlockProperties = conversionService.Convert<string>(context, blockProperties);
+
+			// write the function to the target field
+			templateService.RenderContent(context, "{RenderBlockDelayed( '" + serializedBlockProperties + "' )}", targetField);
+		}
 		#endregion
 		#region Private Fields
+		private readonly IApplicationResourceService applicationResourceService;
 		/// <summary>
 		/// This prefix uniquely identifies this response template tag. different tags with the same cacheKey will yield different results.
 		/// </summary>
 		private readonly string cacheKeyPrefix = "PortalService" + "_" + Guid.NewGuid() + "_";
 		private readonly ICachingService cachingService;
+		private readonly IConversionService conversionService;
+		private readonly ITagScriptService tagScriptService;
 		private readonly ITemplateService templateService;
 		#endregion
 	}

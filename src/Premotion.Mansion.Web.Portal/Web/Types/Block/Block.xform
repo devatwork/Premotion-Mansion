@@ -34,13 +34,13 @@
 		
 		<!-- Look & feel of the block -->
 		<forms:fieldset label="Look &amp; Feel">
-			<forms:selectbox name="borderStyle" label="Border type">
+			<forms:selectbox name="borderStyle" label="Border type" defaultValue="border">
 				<providers:scriptedDatasetProvider>
 					<invokeProcedure procedureName="GetAllowedBlockBorders" />
 				</providers:scriptedDatasetProvider>
 				<forms:requiredFieldValidator/>
 			</forms:selectbox>
-			<forms:selectbox name="blockStyle" label="Block style">
+			<forms:selectbox name="blockStyle" label="Block style" defaultValue="normal">
 				<providers:scriptedDatasetProvider>
 					<invokeProcedure procedureName="GetAllowedBlockStyles" />
 				</providers:scriptedDatasetProvider>

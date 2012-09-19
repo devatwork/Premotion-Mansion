@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Premotion.Mansion.Core.Security
 {
@@ -11,8 +12,8 @@ namespace Premotion.Mansion.Core.Security
 		/// <summary>
 		/// Constructs a UserGroup.
 		/// </summary>
-		/// <param name="id">The ID of the user group.</param>
-		public UserGroup(string id) : base(id)
+		/// <param name="id">The permanent ID of the user group.</param>
+		public UserGroup(Guid id) : base(id)
 		{
 		}
 		#endregion
