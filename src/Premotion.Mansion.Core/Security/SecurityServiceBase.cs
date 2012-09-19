@@ -110,6 +110,10 @@ namespace Premotion.Mansion.Core.Security
 			if (context == null)
 				throw new ArgumentNullException("context");
 
+			// if the user was not authenticated, there is noone to logoff
+			if (!context.CurrentUserState.IsAuthenticated)
+				return;
+
 			// get the authentication provider name of the user being logged off
 			var authenticationProviderName = context.CurrentUserState.AuthenticationProviderName;
 			var authenicationProvider = ResolveAuthenticationProvider(context, authenticationProviderName);
