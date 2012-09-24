@@ -39,20 +39,10 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 		{
 			// construct the statement
 			var buffer = new StringBuilder();
-			var first = true;
 			using (commandContext.QueryBuilder.WhereBuilderStack.Push(buffer))
 			{
 				foreach (var component in specification.Components)
-				{
-					// check separator
-					if (first)
-						first = false;
-					else
-						buffer.Append(" AND ");
-
-					// append the specification
 					converterFactory.Value.Elect(context, component).Convert(context, component, commandContext);
-				}
 			}
 
 			// append the statement

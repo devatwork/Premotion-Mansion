@@ -24,6 +24,10 @@ namespace Premotion.Mansion.Core.Security
 		/// Invalid credentials were specified.
 		/// </summary>
 		public const string InvalidCredentialsReason = "invalid-credentials";
+		/// <summary>
+		/// The account is not published.
+		/// </summary>
+		public const string AccounDeactivatedReason = "account-deactivated";
 		#endregion
 		#region Constructors
 		/// <summary>

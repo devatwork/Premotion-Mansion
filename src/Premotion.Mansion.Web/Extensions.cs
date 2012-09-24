@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
@@ -13,6 +14,12 @@ namespace Premotion.Mansion.Web
 	/// </summary>
 	public static class Extensions
 	{
+		#region Constants
+		/// <summary>
+		/// RFC 2822, http://www.regular-expressions.info/email.html
+		/// </summary>
+		private static readonly Regex emailRegularExpression = new Regex(@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\b", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+		#endregion
 		#region HttpContextBase Extensions
 		/// <summary>
 		/// Gets a flag indicating whether the <paramref name="httpContext"/> has a session.
@@ -139,6 +146,20 @@ namespace Premotion.Mansion.Web
 		public static string HtmlDecode(this string input)
 		{
 			return string.IsNullOrEmpty(input) ? string.Empty : HttpUtility.HtmlDecode(input);
+		}
+		/// <summary>
+		/// Checks wether the given <paramref name="input"/> is a valid emailaddress or not.
+		/// </summary>
+		/// <param name="input">The input which to check.</param>
+		/// <returns>Returns true if the <paramref name="input"/> is a valid emailaddress, otherwise false.</returns>
+		public static bool IsValidEmailAddress(this string input)
+		{
+			// guard
+			if (string.IsNullOrEmpty(input))
+				return false;
+
+			// check
+			return emailRegularExpression.IsMatch(input);
 		}
 		#endregion
 		#region IPropertyBag Extensions

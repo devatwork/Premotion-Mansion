@@ -316,7 +316,7 @@
 
 <tpl:section name="ValidationResult">
 	<li>
-		<strong>{ValidationResult.controlName}:</strong> {ValidationResult.message}
+		<strong>{ValidationResult.controlLabel}:</strong> {ValidationResult.message}
 	</li>
 </tpl:section>
 

@@ -37,7 +37,7 @@ using Premotion.Mansion.Core.Nucleus;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.2.9")]
-[assembly: AssemblyFileVersion("1.2.9")]
+[assembly: AssemblyVersion("1.2.10")]
+[assembly: AssemblyFileVersion("1.2.10")]
 [assembly: CLSCompliant(true)]
 [assembly: ScanAssembly]
