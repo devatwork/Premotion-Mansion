@@ -28,6 +28,47 @@ namespace Premotion.Mansion.Web.Security
 		/// <returns>Returns the <see cref="AuthenticationResult"/>.</returns>
 		protected override AuthenticationResult DoAuthenticate(IMansionContext context, IPropertyBag parameters)
 		{
+			return parameters.Contains("userId") ? AuthenticateWithId(context, parameters) : AuthenticateWithUsernamePassword(context, parameters);
+		}
+		/// <summary>
+		/// Authenticates using ID.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="parameters"></param>
+		/// <returns></returns>
+		private AuthenticationResult AuthenticateWithId(IMansionContext context, IPropertyBag parameters)
+		{
+			// get the credentials
+			var userId = parameters.Get<int>(context, "userId");
+
+			// perform a query
+			var userNode = context.Repository.RetrieveSingleNode(context, new PropertyBag
+			                                                              {
+			                                                              	{"baseType", "User"},
+			                                                              	{"id", userId},
+			                                                              	{"status", "any"},
+			                                                              	{"bypassAuthorization", true},
+			                                                              	{"cache", false}
+			                                                              });
+			if (userNode == null)
+			{
+				return AuthenticationResult.Failed(new PropertyBag
+				                                   {
+				                                   	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.InvalidCredentialsReason}
+				                                   });
+			}
+
+			// create and return the user state
+			return AuthenticationResult.Success(CreateUserState(context, userNode), new PropertyBag());
+		}
+		/// <summary>
+		/// Authenticates using username/password.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="parameters"></param>
+		/// <returns></returns>
+		private AuthenticationResult AuthenticateWithUsernamePassword(IMansionContext context, IPropertyBag parameters)
+		{
 			// get the credentials
 			var username = parameters.Get(context, "username", string.Empty);
 			if (string.IsNullOrEmpty(username))
@@ -61,6 +102,15 @@ namespace Premotion.Mansion.Web.Security
 				return AuthenticationResult.Failed(new PropertyBag
 				                                   {
 				                                   	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.InvalidCredentialsReason}
+				                                   });
+			}
+
+			// check against unpublished users
+			if (userNode.Status != NodeStatus.Published)
+			{
+				return AuthenticationResult.Failed(new PropertyBag
+				                                   {
+				                                   	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.AccounDeactivatedReason}
 				                                   });
 			}
 

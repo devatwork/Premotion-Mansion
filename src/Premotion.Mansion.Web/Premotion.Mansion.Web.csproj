@@ -226,6 +226,7 @@
     <Compile Include="ParameterizedUri.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptFunctions\ChangeQueryString.cs" />
+    <Compile Include="ScriptFunctions\IsEmailAddress.cs" />
     <Compile Include="ScriptFunctions\CopyQueryString.cs" />
     <Compile Include="ScriptFunctions\DataspaceToQueryString.cs" />
     <Compile Include="ScriptFunctions\DynamicResourceUrl.cs" />

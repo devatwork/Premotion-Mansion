@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
@@ -31,12 +30,6 @@ namespace Premotion.Mansion.Web.Controls.Forms.Validation
 			#endregion
 		}
 		#endregion
-		#region Constants
-		/// <summary>
-		/// RFC 2822, http://www.regular-expressions.info/email.html
-		/// </summary>
-		private static readonly Regex emailRegularExpression = new Regex(@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\b", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
-		#endregion
 		#region Constructors
 		/// <summary>
 		/// Constructs the validation rule.
@@ -61,7 +54,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Validation
 				return;
 
 			// add the result
-			if (!emailRegularExpression.IsMatch(control.GetValue(context)))
+			if (!control.GetValue(context).IsValidEmailAddress())
 				results.AddResult(context, GetFormattedMessage(context), control);
 		}
 		#endregion

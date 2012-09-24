@@ -26,7 +26,8 @@ namespace Premotion.Mansion.Web.Controls.Forms
 				throw new ArgumentNullException("control");
 
 			// set values
-			ControlName = control.Definition.Properties.Get(context, "label", control.Definition.Properties.Get<string>(context, "name"));
+			ControlName = control.Definition.Properties.Get<string>(context, "name");
+			ControlLabel = control.Definition.Properties.Get(context, "label", ControlName);
 			Message = message;
 		}
 		#endregion
@@ -35,6 +36,10 @@ namespace Premotion.Mansion.Web.Controls.Forms
 		/// Gets the name of the control.
 		/// </summary>
 		public string ControlName { get; private set; }
+		/// <summary>
+		/// Gets the label of the control.
+		/// </summary>
+		public string ControlLabel { get; private set; }
 		/// <summary>
 		/// Gets the message.
 		/// </summary>

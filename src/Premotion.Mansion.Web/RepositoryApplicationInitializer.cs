@@ -53,26 +53,31 @@ namespace Premotion.Mansion.Web
 				                                                                    {
 				                                                                    	{"type", "SecurityIndex"},
 				                                                                    	{"name", "Security"},
+				                                                                    	{"approved", true},
 				                                                                    });
 				var roleIndexNode = context.Repository.CreateNode(context, securityNode, new PropertyBag
 				                                                                         {
 				                                                                         	{"type", "RoleIndex"},
 				                                                                         	{"name", "Roles"},
+				                                                                         	{"approved", true},
 				                                                                         });
 				var adminRoleNode = context.Repository.CreateNode(context, roleIndexNode, new PropertyBag
 				                                                                          {
 				                                                                          	{"type", "Role"},
 				                                                                          	{"name", "Administrator"},
+				                                                                          	{"approved", true},
 				                                                                          });
 				var visitorRoleNode = context.Repository.CreateNode(context, roleIndexNode, new PropertyBag
 				                                                                            {
 				                                                                            	{"type", "Role"},
 				                                                                            	{"name", "Visitor"},
+				                                                                            	{"approved", true},
 				                                                                            });
 				var userIndexNode = context.Repository.CreateNode(context, securityNode, new PropertyBag
 				                                                                         {
 				                                                                         	{"type", "UserIndex"},
 				                                                                         	{"name", "Users"},
+				                                                                         	{"approved", true},
 				                                                                         });
 				var adminUserNode = context.Repository.CreateNode(context, userIndexNode, new PropertyBag
 				                                                                          {
@@ -80,6 +85,7 @@ namespace Premotion.Mansion.Web
 				                                                                          	{"name", "Administrator"},
 				                                                                          	{"login", "admin@premotion.nl"},
 				                                                                          	{"password", "admin"},
+				                                                                          	{"approved", true},
 				                                                                          });
 				context.Repository.CreateNode(context, userIndexNode, new PropertyBag
 				                                                      {
@@ -87,12 +93,14 @@ namespace Premotion.Mansion.Web
 				                                                      	{"name", "Visitor"},
 				                                                      	{"key", "AnonymousUser"},
 				                                                      	{"allowedRoleGuids", adminRoleNode.PermanentId},
+				                                                      	{"approved", true},
 				                                                      });
 				var userGroupIndexNode = context.Repository.CreateNode(context, securityNode, new PropertyBag
 				                                                                              {
 				                                                                              	{"type", "UserGroupIndex"},
 				                                                                              	{"name", "Groups"},
 				                                                                              	{"allowedRoleGuids", adminRoleNode.PermanentId},
+				                                                                              	{"approved", true},
 				                                                                              });
 				var adminUserGroup = context.Repository.CreateNode(context, userGroupIndexNode, new PropertyBag
 				                                                                                {
@@ -101,6 +109,7 @@ namespace Premotion.Mansion.Web
 				                                                                                	{"allowedRoleGuids", adminRoleNode.PermanentId},
 				                                                                                	{"assignedRoleGuids", adminRoleNode.PermanentId},
 				                                                                                	{"userGuids", adminUserNode.PermanentId},
+				                                                                                	{"approved", true},
 				                                                                                });
 
 				// update the root node
