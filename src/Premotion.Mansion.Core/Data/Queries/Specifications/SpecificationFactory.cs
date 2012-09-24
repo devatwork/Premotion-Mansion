@@ -15,6 +15,16 @@ namespace Premotion.Mansion.Core.Data.Queries.Specifications
 		/// <param name="specifications">The <see cref="Specification"/>s which to combine.</param>
 		/// <returns>Returns the created <see cref="Specification"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="specifications"/> is null.</exception>
+		public static Specification And(params Specification[] specifications)
+		{
+			return And((IEnumerable<Specification>) specifications);
+		}
+		/// <summary>
+		/// Constructs an specification which combines the given <paramref name="specifications"/> using the logical AND operator.
+		/// </summary>
+		/// <param name="specifications">The <see cref="Specification"/>s which to combine.</param>
+		/// <returns>Returns the created <see cref="Specification"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="specifications"/> is null.</exception>
 		public static Specification And(IEnumerable<Specification> specifications)
 		{
 			// validate arguments
@@ -23,6 +33,16 @@ namespace Premotion.Mansion.Core.Data.Queries.Specifications
 
 			// create the specification
 			return new Conjunction().Add(specifications);
+		}
+		/// <summary>
+		/// Constructs an specification which combines the given <paramref name="specifications"/> using the logical OR operator.
+		/// </summary>
+		/// <param name="specifications">The <see cref="Specification"/>s which to combine.</param>
+		/// <returns>Returns the created <see cref="Specification"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="specifications"/> is null.</exception>
+		public static Specification Or(params Specification[] specifications)
+		{
+			return Or((IEnumerable<Specification>) specifications);
 		}
 		/// <summary>
 		/// Constructs an specification which combines the given <paramref name="specifications"/> using the logical OR operator.
