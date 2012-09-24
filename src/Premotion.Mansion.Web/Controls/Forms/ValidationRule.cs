@@ -118,6 +118,15 @@ namespace Premotion.Mansion.Web.Controls.Forms
 			return properties.Get<string>(context, "message");
 		}
 		#endregion
+		#region Properties
+		/// <summary>
+		/// Gets the properties of this validation rule.
+		/// </summary>
+		protected IPropertyBag Properties
+		{
+			get { return properties; }
+		}
+		#endregion
 		#region Private Fields
 		private readonly IPropertyBag properties;
 		#endregion
