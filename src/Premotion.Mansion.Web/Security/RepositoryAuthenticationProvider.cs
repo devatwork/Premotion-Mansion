@@ -64,6 +64,15 @@ namespace Premotion.Mansion.Web.Security
 				                                   });
 			}
 
+			// check against unpublished users
+			if (userNode.Status != NodeStatus.Published)
+			{
+				return AuthenticationResult.Failed(new PropertyBag
+				                                   {
+				                                   	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.AccounDeactivatedReason}
+				                                   });
+			}
+
 			// create and return the user state
 			return AuthenticationResult.Success(CreateUserState(context, userNode), new PropertyBag());
 		}
