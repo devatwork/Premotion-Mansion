@@ -60,8 +60,17 @@ namespace Premotion.Mansion.Web.Portal.Service
 				if (subject == null)
 					throw new ArgumentNullException("subject");
 
+				// get the allowed content type
+				string allowedContentTypeName;
+				if (TemplatePageNode.TryGet(context, "contentType", out allowedContentTypeName))
+				{
+					var typeService = context.Nucleus.ResolveSingle<ITypeService>();
+					var allowedContentType = typeService.Load(context, allowedContentTypeName);
+					var currentContentType = typeService.Load(context, subject.Pointer.Type);
+					return currentContentType.IsAssignable(allowedContentType) ? VoteResult.MediumInterest : VoteResult.Refrain;
+				}
+
 				// return the result
-				// TODO: add more complex rules heree
 				return VoteResult.LowInterest;
 			}
 			#endregion

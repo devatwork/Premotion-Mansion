@@ -5,6 +5,7 @@
 	<declareProcedure procedureName="RenderXFormContent">
 		<invokeProcedure procedureName="IncludeGroupPageProperties" />
 		<invokeProcedure procedureName="IncludeGroupContentPointer" />
+		<invokeProcedure procedureName="IncludeGroupContentType" />
 		<invokeProcedure procedureName="IncludeGroupLookAndFeel" />
 		<invokeProcedure procedureName="IncludeGroupPublication"/>
 		<invokeProcedure procedureName="IncludeGroupIdentity"/>
@@ -21,6 +22,18 @@
 				<forms:nodeSelectorProperties rootPointer="{ContentIndexRootNode.pointer}" disabledExpression="{\Not( Or( IsAssignable( Node.type, 'ContentIndexRoot' ), IsAssignable( Node.type, 'ContentIndex' ) ) )}" />
 				<forms:requiredFieldValidator />
 			</forms:singleNodeSelector>
+		</forms:fieldset>
+	</declareProcedure>
+
+
+
+	<!-- Group: ContentType -->
+	<declareProcedure procedureName="IncludeGroupContentType">
+		<forms:fieldset label="Content type">
+			<forms:infoMessage>Select the type of content displayed by this template page.</forms:infoMessage>
+			<forms:selectbox name="contentType" label="">
+				<providers:inhertingTypesDefinitionDatasetProvider type="Content" />
+			</forms:selectbox>
 		</forms:fieldset>
 	</declareProcedure>
 	
