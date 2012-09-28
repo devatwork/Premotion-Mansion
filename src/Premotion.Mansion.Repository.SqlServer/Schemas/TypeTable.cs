@@ -64,8 +64,8 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context">The request context.</param>
 		/// <param name="bulkContext"></param>
-		/// <param name="nodes"></param>
-		protected override void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Node> nodes)
+		/// <param name="records"></param>
+		protected override void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Record> records)
 		{
 			// start by clearing the table
 			bulkContext.Add(command =>
@@ -75,19 +75,19 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 			                });
 
 			// loop through all the properties
-			foreach (var node in nodes)
+			foreach (var record in records)
 			{
 				// prepare the query
 				var columnText = new StringBuilder();
 				var valueText = new StringBuilder();
 
 				// finish the query
-				var node1 = node;
+				var currentRecord = record;
 				bulkContext.Add(command =>
 				                {
 				                	// loop through all the columns
 				                	foreach (var column in Columns)
-				                		column.ToSyncStatement(context, command, node1, columnText, valueText);
+				                		column.ToSyncStatement(context, command, currentRecord, columnText, valueText);
 
 				                	// construct the command
 				                	command.CommandType = CommandType.Text;

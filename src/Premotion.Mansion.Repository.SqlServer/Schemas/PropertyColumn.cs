@@ -175,13 +175,13 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="command"></param>
-		/// <param name="node"></param>
+		/// <param name="record"></param>
 		/// <param name="columnText"></param>
 		/// <param name="valueText"></param>
-		protected override void DoToSyncStatement(IMansionContext context, SqlCommand command, Node node, StringBuilder columnText, StringBuilder valueText)
+		protected override void DoToSyncStatement(IMansionContext context, SqlCommand command, Record record, StringBuilder columnText, StringBuilder valueText)
 		{
 			// determine the value
-			var value = GetValue(context, node.Get<object>(context, PropertyName));
+			var value = GetValue(context, record.Get<object>(context, PropertyName));
 
 			// write the SQL statement
 			columnText.AppendFormat("[{0}], ", ColumnName);

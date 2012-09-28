@@ -65,17 +65,20 @@ namespace Premotion.Mansion.Repository.SqlServer.ScriptTags
 			                         		// get the node entries for this type, ignore types with zero nodes
 			                         		var query = parser.Parse(context, new PropertyBag
 			                         		                                  {
-			                         		                                  	{"baseType", type.Name}
+			                         		                                  	{"baseType", type.Name},
+			                         		                                  	{"status", "any"},
+			                         		                                  	{"bypassAuthorization", true}
 			                         		                                  });
-			                         		var nodeset = repository.RetrieveNodeset(context, query);
-			                         		if (nodeset.RowCount == 0)
+			                         		var recordSet = repository.Retrieve(context, query);
+			                         		if (recordSet.RowCount == 0)
 			                         			continue;
 
 			                         		// loop through all the tables except the root table
+			                         		var records = recordSet.Records.ToList();
 			                         		foreach (var table in tableList.Where(candidate => !(candidate is RootTable)))
 			                         		{
 			                         			// sync this table
-			                         			table.ToSyncStatement(context, bulkContext, nodeset.Nodes.ToList());
+			                         			table.ToSyncStatement(context, bulkContext, records);
 			                         		}
 			                         	}
 			                         });
