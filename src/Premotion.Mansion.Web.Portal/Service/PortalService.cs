@@ -7,6 +7,7 @@ using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Conversion;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.IO;
+using Premotion.Mansion.Core.Patterns.Voting;
 using Premotion.Mansion.Core.Scripting;
 using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Templating;
@@ -20,17 +21,73 @@ namespace Premotion.Mansion.Web.Portal.Service
 	/// </summary>
 	public class PortalService : IPortalService
 	{
-		#region Nested Class: TemplatePageMapCachedObject
+		#region Nested type: TemplatePage
+		/// <summary>
+		/// Represents a template page.
+		/// </summary>
+		private class TemplatePage : ICandidate<Node>
+		{
+			#region Constructors
+			/// <summary>
+			/// </summary>
+			/// <param name="templatePageNode"></param>
+			/// <param name="contentSourceNode"></param>
+			public TemplatePage(Node templatePageNode, Node contentSourceNode)
+			{
+				// validate arguments
+				if (templatePageNode == null)
+					throw new ArgumentNullException("templatePageNode");
+				if (contentSourceNode == null)
+					throw new ArgumentNullException("contentSourceNode");
+
+				// set the values
+				TemplatePageNode = templatePageNode;
+				ContentSourceNode = contentSourceNode;
+			}
+			#endregion
+			#region Implementation of ICandidate<in Node>
+			/// <summary>
+			/// Requests this voter to cast a vote.
+			/// </summary>
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
+			/// <param name="subject">The subject.</param>
+			/// <returns>Returns the result of the vote.</returns>
+			public VoteResult Vote(IMansionContext context, Node subject)
+			{
+				//  validate arguments
+				if (context == null)
+					throw new ArgumentNullException("context");
+				if (subject == null)
+					throw new ArgumentNullException("subject");
+
+				// return the result
+				// TODO: add more complex rules heree
+				return VoteResult.LowInterest;
+			}
+			#endregion
+			#region Properties
+			/// <summary>
+			/// Gets the content source <see cref="Node"/> of this template page.
+			/// </summary>
+			public Node ContentSourceNode { get; private set; }
+			/// <summary>
+			/// Gets the page <see cref="Node"/> of this template page.
+			/// </summary>
+			public Node TemplatePageNode { get; private set; }
+			#endregion
+		}
+		#endregion
+		#region Nested type: TemplatePageMapCachedObject
 		/// <summary>
 		/// Contains the template page map for a site.
 		/// </summary>
-		private class TemplatePageMapCachedObject : CachedObject<Dictionary<NodePointer, Node>>, IDependableCachedObject
+		private class TemplatePageMapCachedObject : CachedObject<Dictionary<NodePointer, List<TemplatePage>>>, IDependableCachedObject
 		{
 			#region Constructors
 			/// <summary>
 			/// </summary>
 			/// <param name="obj"></param>
-			public TemplatePageMapCachedObject(Dictionary<NodePointer, Node> obj) : base(obj)
+			public TemplatePageMapCachedObject(Dictionary<NodePointer, List<TemplatePage>> obj) : base(obj)
 			{
 			}
 			#endregion
@@ -102,21 +159,30 @@ namespace Premotion.Mansion.Web.Portal.Service
 			                                                                                  	                                                  	{"baseType", "TemplatePage"}
 			                                                                                  	                                                  });
 
-			                                                                                  	// create the map of all the pages
-			                                                                                  	var map = nodeset.Nodes.ToDictionary(node =>
-			                                                                                  	                                     {
-			                                                                                  	                                     	// get the content source guid
-			                                                                                  	                                     	var contentSourceGuid = node.Get<Guid>(context, "contentSourceGuid");
+			                                                                                  	// turn each found node into a template page object
+			                                                                                  	var templatePages = nodeset.Nodes.Select(node =>
+			                                                                                  	                                         {
+			                                                                                  	                                         	// get the content source guid
+			                                                                                  	                                         	var contentSourceGuid = node.Get<Guid>(context, "contentSourceGuid");
 
-			                                                                                  	                                     	// retrieve the intended node
-			                                                                                  	                                     	var contentSourceNode = repository.RetrieveSingleNode(context, new PropertyBag
-			                                                                                  	                                     	                                                               {
-			                                                                                  	                                     	                                                               	{"guid", contentSourceGuid}
-			                                                                                  	                                     	                                                               });
+			                                                                                  	                                         	// retrieve the intended node
+			                                                                                  	                                         	var contentSourceNode = repository.RetrieveSingleNode(context, new PropertyBag
+			                                                                                  	                                         	                                                               {
+			                                                                                  	                                         	                                                               	{"guid", contentSourceGuid}
+			                                                                                  	                                         	                                                               });
+			                                                                                  	                                         	// create temp
+			                                                                                  	                                         	return new
+			                                                                                  	                                         	       {
+			                                                                                  	                                         	       	PageNode = node,
+			                                                                                  	                                         	       	ContentSourceNode = contentSourceNode
+			                                                                                  	                                         	       };
+			                                                                                  	                                         }).Where(candidate => candidate.ContentSourceNode != null).Select(entry => new TemplatePage(entry.PageNode, entry.ContentSourceNode));
 
-			                                                                                  	                                     	// return the pointer of that node
-			                                                                                  	                                     	return contentSourceNode.Pointer;
-			                                                                                  	                                     });
+			                                                                                  	//  group all the template pages by their content pointer
+			                                                                                  	var groupedTemplatePages = templatePages.GroupBy(templatePage => templatePage.ContentSourceNode.Pointer);
+
+			                                                                                  	// turn the groups into a dictionary
+			                                                                                  	var map = groupedTemplatePages.ToDictionary(group => group.Key, group => group.ToList());
 
 			                                                                                  	// return the cached object
 			                                                                                  	return new TemplatePageMapCachedObject(map);
@@ -125,8 +191,18 @@ namespace Premotion.Mansion.Web.Portal.Service
 			// loop over the pointer
 			foreach (var pointer in contentNode.Pointer.HierarchyReverse)
 			{
-				if (templatePageMap.TryGetValue(pointer, out templatePageNode))
-					return true;
+				// check if there are any filters
+				List<TemplatePage> templatePageList;
+				if (templatePageMap.TryGetValue(pointer, out templatePageList))
+				{
+					// filter the pages
+					TemplatePage winner;
+					if (Election<TemplatePage, Node>.TryElect(context, templatePageList, contentNode, out winner))
+					{
+						templatePageNode = winner.TemplatePageNode;
+						return true;
+					}
+				}
 			}
 
 			// no template page found
