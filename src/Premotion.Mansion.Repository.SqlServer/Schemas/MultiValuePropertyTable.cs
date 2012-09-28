@@ -109,7 +109,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, IPropertyBag properties)
 		{
 			// loop through all the properties
-			foreach (var propertyName in propertyNames)
+			foreach (var propertyName in Columns.Select(column => column.PropertyName))
 			{
 				// check if there are any properties
 				var values = properties.Get(context, propertyName, string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
@@ -145,7 +145,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 			var idParameterName = queryBuilder.AddParameter("id", record.Id, DbType.Int32);
 
 			// loop through all the properties
-			foreach (var propertyName in propertyNames)
+			foreach (var propertyName in Columns.Select(column => column.PropertyName))
 			{
 				// check if the property is modified
 				string rawModifiedValue;
@@ -211,7 +211,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 			                });
 
 			// loop through all the properties
-			foreach (var propertyName in propertyNames)
+			foreach (var propertyName in Columns.Select(column => column.PropertyName))
 			{
 				// loop through all the nodes
 				foreach (var node in nodes)
@@ -271,12 +271,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 				}
 			}
 		}
-		#endregion
-		#region Private Fields
-		/// <summary>
-		/// Gets the names of the properties which to store.
-		/// </summary>
-		private readonly List<string> propertyNames = new List<string>();
 		#endregion
 	}
 }
