@@ -676,6 +676,9 @@
     <EmbeddedResource Include="Web\Types\CmsSiteManagerPlugin\CmsSiteManagerPlugin.xinclude" />
     <EmbeddedResource Include="Web\Types\CmsSiteManagerPlugin\CmsSiteManagerPlugin.xdef" />
     <EmbeddedResource Include="Web\Types\Cms\Cms.xdef" />
+    <EmbeddedResource Include="Web\Types\CmsAdminPlugin\CmsAdminPlugin.tpl" />
+    <EmbeddedResource Include="Web\Types\CmsAdminPlugin\CmsAdminPlugin.xdef" />
+    <EmbeddedResource Include="Web\Types\CmsAdminPlugin\CmsAdminPlugin.xinclude" />
     <EmbeddedResource Include="Web\Types\DefaultIndex\DefaultIndex.png" />
     <EmbeddedResource Include="Web\Types\DefaultIndex\DefaultIndex.xdef" />
     <EmbeddedResource Include="Web\Types\Default\Default.MultiNodeSelector.Dialog.xform" />
