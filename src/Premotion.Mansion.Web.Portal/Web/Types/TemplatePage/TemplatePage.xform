@@ -18,7 +18,7 @@
 	<declareProcedure procedureName="IncludeGroupContentPointer">
 		<forms:fieldset label="Content source">
 			<forms:instructionMessage><![CDATA[Select the folder in which the content, displayed by this template page, resides.]]></forms:instructionMessage>
-			<forms:singleNodeSelector name="contentSourceGuid" label="Folder" defaultValue="{ContentIndexRootNode.pointer}">
+			<forms:singleNodeSelector name="contentSourceGuid" label="Folder" defaultValue="{ContentIndexRootNode.guid}">
 				<forms:nodeSelectorProperties rootPointer="{ContentIndexRootNode.pointer}" disabledExpression="{\Not( Or( IsAssignable( Node.type, 'ContentIndexRoot' ), IsAssignable( Node.type, 'ContentIndex' ) ) )}" />
 				<forms:requiredFieldValidator />
 			</forms:singleNodeSelector>
