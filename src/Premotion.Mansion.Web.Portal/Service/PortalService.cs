@@ -62,7 +62,7 @@ namespace Premotion.Mansion.Web.Portal.Service
 
 				// get the allowed content type
 				string allowedContentTypeName;
-				if (TemplatePageNode.TryGet(context, "contentType", out allowedContentTypeName))
+				if (TemplatePageNode.TryGet(context, "contentType", out allowedContentTypeName) && !string.IsNullOrEmpty(allowedContentTypeName))
 				{
 					var typeService = context.Nucleus.ResolveSingle<ITypeService>();
 					var allowedContentType = typeService.Load(context, allowedContentTypeName);
