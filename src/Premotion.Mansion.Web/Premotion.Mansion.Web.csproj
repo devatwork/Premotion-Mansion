@@ -270,6 +270,7 @@
     <Compile Include="Web\Types\Default\PropagateListener.cs" />
     <Compile Include="Web\Types\Default\TagListener.cs" />
     <Compile Include="Web\Types\Tag\TagListener.cs" />
+    <EmbeddedResource Include="Web\Application.tpl" />
     <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.eot" />
     <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.ttf" />
     <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.woff" />
@@ -899,6 +900,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap-icons.css" />
     <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap-icons.min.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Shared\js\modernizr\modernizr.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
