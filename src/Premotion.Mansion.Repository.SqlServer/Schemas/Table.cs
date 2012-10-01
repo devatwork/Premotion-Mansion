@@ -145,27 +145,27 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context">The request context.</param>
 		/// <param name="bulkContext"></param>
-		/// <param name="nodes"></param>
-		public void ToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Node> nodes)
+		/// <param name="records"></param>
+		public void ToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Record> records)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (bulkContext == null)
 				throw new ArgumentNullException("bulkContext");
-			if (nodes == null)
-				throw new ArgumentNullException("nodes");
+			if (records == null)
+				throw new ArgumentNullException("records");
 
 			// invoke template method
-			DoToSyncStatement(context, bulkContext, nodes);
+			DoToSyncStatement(context, bulkContext, records);
 		}
 		/// <summary>
 		/// Generates an table sync statement for this table.
 		/// </summary>
 		/// <param name="context">The request context.</param>
 		/// <param name="bulkContext"></param>
-		/// <param name="nodes"></param>
-		protected virtual void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Node> nodes)
+		/// <param name="records"></param>
+		protected virtual void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Record> records)
 		{
 			throw new NotSupportedException();
 		}

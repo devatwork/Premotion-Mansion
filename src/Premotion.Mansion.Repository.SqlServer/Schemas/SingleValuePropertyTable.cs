@@ -177,8 +177,8 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context">The request context.</param>
 		/// <param name="bulkContext"></param>
-		/// <param name="nodes"></param>
-		protected override void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Node> nodes)
+		/// <param name="records"></param>
+		protected override void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Record> records)
 		{
 			// start by clearing the table
 			bulkContext.Add(command =>
@@ -188,22 +188,22 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 			                });
 
 			// loop through all the properties
-			foreach (var node in nodes)
+			foreach (var record in records)
 			{
 				// check if there are any properties
-				var values = node.Get(context, PropertyName, string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+				var values = record.Get(context, PropertyName, string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
 				if (values.Length == 0)
 					continue;
 
 				// loop through each value and write an insert statement
 				foreach (var value in values)
 				{
-					var node1 = node;
+					var currentRecord = record;
 					var value1 = value;
 					bulkContext.Add(command =>
 					                {
 					                	command.CommandType = CommandType.Text;
-					                	command.CommandText = string.Format("INSERT INTO [{0}] ([id], [value]) VALUES ({1}, @{2});", Name, node1.Pointer.Id, command.AddParameter(value1));
+					                	command.CommandText = string.Format("INSERT INTO [{0}] ([id], [value]) VALUES ({1}, @{2});", Name, currentRecord.Id, command.AddParameter(value1));
 					                });
 				}
 			}

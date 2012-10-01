@@ -67,6 +67,9 @@
 									 
 			target="ResultSet">
 			<executeNestedTags />
+			<notFound>
+				<invokeProcedure procedureName="RenderNoResults" />
+			</notFound>
 		</retrieveChildNodeset>
 
 	</declareProcedure>

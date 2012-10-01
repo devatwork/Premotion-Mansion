@@ -161,7 +161,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="node"></param>
 		/// <param name="columnText"></param>
 		/// <param name="valueText"></param>
-		public void ToSyncStatement(IMansionContext context, SqlCommand command, Node node, StringBuilder columnText, StringBuilder valueText)
+		public void ToSyncStatement(IMansionContext context, SqlCommand command, Record node, StringBuilder columnText, StringBuilder valueText)
 		{
 			// validate arguments
 			if (context == null)
@@ -183,10 +183,10 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="command"></param>
-		/// <param name="node"></param>
+		/// <param name="record"></param>
 		/// <param name="columnText"></param>
 		/// <param name="valueText"></param>
-		protected virtual void DoToSyncStatement(IMansionContext context, SqlCommand command, Node node, StringBuilder columnText, StringBuilder valueText)
+		protected virtual void DoToSyncStatement(IMansionContext context, SqlCommand command, Record record, StringBuilder columnText, StringBuilder valueText)
 		{
 			throw new NotSupportedException(string.Format("Column type '{0}' can not be synced", GetType()));
 		}

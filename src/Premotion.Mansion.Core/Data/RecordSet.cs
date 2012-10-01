@@ -126,7 +126,7 @@ namespace Premotion.Mansion.Core.Data
 		/// </summary>
 		public IEnumerable<Record> Records
 		{
-			get { return RowCollection.Select(x => (Node) x); }
+			get { return RowCollection.Select(row => (Record) row); }
 		}
 		#endregion
 		#region Private Fields
