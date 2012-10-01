@@ -15,11 +15,8 @@
 		<link rel="stylesheet" href="{StaticResourceUrl( '/Shared/css/fontawesome/font-awesome-ie7.css' )}">
 		<![endif]-->
 		<link rel="stylesheet" href="{DynamicResourceUrl( '/Cms/css/cms.css' )}">
+		{@IncludeModernizrJS}
 		{Header}
-		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-		<!--[if lt IE 9]>
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
 	</head>
 	<body>
 
@@ -28,6 +25,7 @@
 		<!-- Le javascript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
+		{@IncludeSelectivizrJS}
 		<script src="{StaticResourceUrl( '/Shared/js/jquery/jquery.js' )}"></script>
 		<script src="{StaticResourceUrl( '/Shared/js/jquery/jquery-ui.js' )}"></script>
 		<script src="{DynamicResourceUrl( '/Controls/Js/Controls.js' )}"></script>
