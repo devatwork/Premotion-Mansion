@@ -51,14 +51,14 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="command"></param>
-		/// <param name="node"></param>
+		/// <param name="record"></param>
 		/// <param name="columnText"></param>
 		/// <param name="valueText"></param>
-		protected override void DoToSyncStatement(IMansionContext context, SqlCommand command, Node node, StringBuilder columnText, StringBuilder valueText)
+		protected override void DoToSyncStatement(IMansionContext context, SqlCommand command, Record record, StringBuilder columnText, StringBuilder valueText)
 		{
 			// join the two tables on ID
 			columnText.Append("[id], ");
-			valueText.Append(node.Pointer.Id + ", ");
+			valueText.Append(record.Id + ", ");
 		}
 		#endregion
 	}

@@ -69,8 +69,8 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context">The request context.</param>
 		/// <param name="bulkContext"></param>
-		/// <param name="nodes"></param>
-		protected override void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Node> nodes)
+		/// <param name="records"></param>
+		protected override void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Record> records)
 		{
 			// this is only invoked when there is a issue in mansion framwork
 			throw new NotSupportedException("Root tables will not be synced");

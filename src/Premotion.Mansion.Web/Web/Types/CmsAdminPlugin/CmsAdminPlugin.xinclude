@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.tags.xsd">
+
+	<!-- ############################### -->
+	<!-- Overrides of CmsPlugin.xinclude -->
+	<!-- ############################### -->
+	<declareProcedure procedureName="RenderPluginNavigation">
+		<invokeProcedure procedureName="RenderPluginViewNavigationHeader" label="Content" />
+		<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="Administrate" iconClass="icon-wrench" url="{CmsNodeUrl( RootNode.id, 'CmsAdminPlugin', 'Administrate' )}" active="{And( IsEqual( ActivePluginProperties.pluginType, 'CmsAdminPlugin' ), IsEqual( ActivePluginProperties.viewName, 'Administrate' ) )}" />
+	</declareProcedure>
+
+
+
+	<!-- ################################### -->
+	<!-- Overrides of CmsHomePlugin.xinclude -->
+	<!-- ################################### -->
+	<declareProcedure procedureName="RenderPluginHomeBlocks">
+		<invokeProcedure procedureName="RenderPluginHomeBlock" label="Administrate" description="Administrate this aplication." iconClass="icon-wrench" url="{CmsNodeUrl( RootNode.id, 'CmsAdminPlugin', 'Administrate' )}" />
+	</declareProcedure>
+
+
+
+
+	<!-- ############################### -->
+	<!-- Views                           -->
+	<!-- ############################### -->
+	<declareProcedure procedureName="RenderPluginAdministrateDetailView">
+		<renderSection name="Administrate">
+			<!-- implement Cache form -->
+			<forms:form name="clear-cache" targetField="CacheForm">
+				<forms:step label="Cache options">
+					<forms:buttonBar>
+						<forms:button action="clear" label="Clear cache" cssClass="btn-warning" />
+					</forms:buttonBar>
+				</forms:step>
+
+				<!-- actions -->
+				<forms:processScriptAction supportedActions="clear">
+					<clearCache />
+				</forms:processScriptAction>
+
+			</forms:form>
+			
+			<!-- implement SQL server form -->
+			<forms:form name="sqlserver" targetField="SqlServerForm">
+				<forms:step label="Maintenance">
+					<forms:buttonBar>
+						<forms:button action="sync" label="Sync tables" cssClass="btn-danger" />
+					</forms:buttonBar>
+				</forms:step>
+
+				<!-- actions -->
+				<forms:processScriptAction supportedActions="sync">
+					<sqlserver:syncTables/>
+					<clearCache/>
+				</forms:processScriptAction>
+
+			</forms:form>
+			
+		</renderSection>
+	</declareProcedure>
+
+</mansion>

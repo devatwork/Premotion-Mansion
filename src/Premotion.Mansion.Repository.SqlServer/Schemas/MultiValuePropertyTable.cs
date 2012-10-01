@@ -109,7 +109,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, IPropertyBag properties)
 		{
 			// loop through all the properties
-			foreach (var propertyName in propertyNames)
+			foreach (var propertyName in Columns.Select(column => column.PropertyName))
 			{
 				// check if there are any properties
 				var values = properties.Get(context, propertyName, string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
@@ -145,7 +145,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 			var idParameterName = queryBuilder.AddParameter("id", record.Id, DbType.Int32);
 
 			// loop through all the properties
-			foreach (var propertyName in propertyNames)
+			foreach (var propertyName in Columns.Select(column => column.PropertyName))
 			{
 				// check if the property is modified
 				string rawModifiedValue;
@@ -200,38 +200,38 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context">The request context.</param>
 		/// <param name="bulkContext"></param>
-		/// <param name="nodes"></param>
-		protected override void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Node> nodes)
+		/// <param name="records"></param>
+		protected override void DoToSyncStatement(IMansionContext context, BulkOperationContext bulkContext, List<Record> records)
 		{
-			// start by clearing the table
-			bulkContext.Add(command =>
-			                {
-			                	command.CommandType = CommandType.Text;
-			                	command.CommandText = string.Format("TRUNCATE TABLE [{0}]", Name);
-			                });
-
 			// loop through all the properties
-			foreach (var propertyName in propertyNames)
+			foreach (var propertyName in Columns.Select(column => column.PropertyName))
 			{
 				// loop through all the nodes
-				foreach (var node in nodes)
+				var currentPropertyName = propertyName;
+				foreach (var record in records)
 				{
+					// start by cleaning up the table
+					var currentRecord = record;
+					bulkContext.Add(command =>
+					                {
+					                	command.CommandType = CommandType.Text;
+					                	command.CommandText = string.Format("DELETE FROM [{0}] WHERE [id] = {1} AND [name] = '{2}'", Name, currentRecord.Id, currentPropertyName);
+					                });
+
 					// check if there are any properties
-					var values = node.Get(context, propertyName, string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+					var values = record.Get(context, currentPropertyName, string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
 					if (values.Length == 0)
 						continue;
 
 					// create the command
-					var name = propertyName;
-					var node1 = node;
 					bulkContext.Add(command =>
 					                {
 					                	command.CommandType = CommandType.Text;
-					                	var nameColumnValue = command.AddParameter(name);
+					                	var nameColumnValue = command.AddParameter(currentPropertyName);
 
 					                	// loop through each value and write an insert statement
 					                	foreach (var value in values)
-					                		command.CommandText = string.Format("INSERT INTO [{0}] ([id], [name], [value]) VALUES ({1}, @{2}, @{3});", Name, node1.Pointer.Id, nameColumnValue, command.AddParameter(value));
+					                		command.CommandText = string.Format("INSERT INTO [{0}] ([id], [name], [value]) VALUES ({1}, @{2}, @{3});", Name, currentRecord.Id, nameColumnValue, command.AddParameter(value));
 					                });
 				}
 			}
@@ -271,12 +271,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 				}
 			}
 		}
-		#endregion
-		#region Private Fields
-		/// <summary>
-		/// Gets the names of the properties which to store.
-		/// </summary>
-		private readonly List<string> propertyNames = new List<string>();
 		#endregion
 	}
 }
