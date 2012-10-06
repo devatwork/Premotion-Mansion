@@ -136,7 +136,8 @@ namespace Premotion.Mansion.Web.Security
 					// store it in a cookie
 					var revivalCookie = new HttpCookie(revivalCookieName, encryptedRevivalData)
 					                    {
-					                    	Expires = DateTime.Now.AddDays(14)
+					                    	Expires = DateTime.Now.AddDays(14),
+												HttpOnly = true
 					                    };
 					httpContext.Response.SetCookie(revivalCookie);
 				}
