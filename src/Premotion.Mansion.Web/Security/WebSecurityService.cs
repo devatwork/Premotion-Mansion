@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Web;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
@@ -17,7 +18,11 @@ namespace Premotion.Mansion.Web.Security
 		/// <summary>
 		/// Part of the salt used for cookie encryption.
 		/// </summary>
-		private readonly byte[] CookieSalt = {0x2a, 0x3b, 0x57, 0x7b, 0x73, 0x1b, 0xcf, 0x19, 0x6c, 0x38, 0xe1, 0x6d, 0xec, 0xd9, 0x00, 0x11};
+		private readonly byte[] cookieSalt = {0x2a, 0x3b, 0x57, 0x7b, 0x73, 0x1b, 0xcf, 0x19, 0x6c, 0x38, 0xe1, 0x6d, 0xec, 0xd9, 0x00, 0x11};
+		/// <summary>
+		/// The salt used to check for cookie theft.
+		/// </summary>
+		private readonly byte[] cookieTheftSalt = {0xec, 0x07, 0x96, 0xf7, 0x39, 0x49, 0xfe, 0x7b, 0x95, 0xb8};
 		#endregion
 		#region Constructors
 		/// <summary>
@@ -67,7 +72,8 @@ namespace Premotion.Mansion.Web.Security
 		private UserState InitializeUserFromCookie(IMansionContext context, string cookieName)
 		{
 			// get the web request context
-			var httpContext = context.Cast<IMansionWebContext>().HttpContext;
+			var webContext = context.Cast<IMansionWebContext>();
+			var httpContext = webContext.HttpContext;
 			if (!httpContext.HasSession())
 				return null;
 
@@ -81,10 +87,19 @@ namespace Premotion.Mansion.Web.Security
 			if (revivalCookie == null || string.IsNullOrEmpty(revivalCookie.Value))
 				return null;
 
-			// deserialize the properties, TODO: check for cookie theft
+			// deserialize the properties
 			var revivalDataStringBytes = conversionService.Convert<byte[]>(context, revivalCookie.Value);
-			var decryptedRevivalDataBytes = encryptionService.Decrypt(context, CookieSalt, revivalDataStringBytes);
+			var decryptedRevivalDataBytes = encryptionService.Decrypt(context, cookieSalt, revivalDataStringBytes);
 			var revivalProperties = conversionService.Convert<IPropertyBag>(context, decryptedRevivalDataBytes, new PropertyBag());
+
+			// check against cookie theft
+			var currentUserSignature = GetUserSignatureHash(webContext);
+			var cookieUserSignature = revivalProperties.Get(context, "userSignature", string.Empty);
+			if (!cookieUserSignature.Equals(currentUserSignature))
+			{
+				httpContext.DeleteCookie(cookieName);
+				return null;
+			}
 
 			// get the authentication provider
 			String authenticationProviderName;
@@ -124,7 +139,8 @@ namespace Premotion.Mansion.Web.Security
 			var user = result.UserState;
 
 			// get the web request context
-			var httpContext = context.Cast<IMansionWebContext>().HttpContext;
+			var webContext = context.Cast<IMansionWebContext>();
+			var httpContext = webContext.HttpContext;
 
 			// store this user in the session
 			if (!httpContext.HasSession())
@@ -141,10 +157,11 @@ namespace Premotion.Mansion.Web.Security
 				{
 					// add additional revival properties
 					revivalData.Set("authenticationProviderName", authenicationProvider.Name);
+					revivalData.Set("userSignature", GetUserSignatureHash(webContext));
 
 					// encrypt it
 					var serializedRevivalData = conversionService.Convert<byte[]>(context, revivalData);
-					var encryptedRevivalData = encryptionService.Encrypt(context, CookieSalt, serializedRevivalData);
+					var encryptedRevivalData = encryptionService.Encrypt(context, cookieSalt, serializedRevivalData);
 					var revivalDataString = conversionService.Convert<string>(context, encryptedRevivalData);
 
 					// store it in a cookie
@@ -192,6 +209,25 @@ namespace Premotion.Mansion.Web.Security
 		private static string GetRevivalCookieName(IMansionContext context)
 		{
 			return context.IsBackoffice ? Constants.BackofficeUserRevivalDataCookieName : Constants.FrontofficeUserRevivalDataCookieName;
+		}
+		#endregion
+		#region Helper Methods
+		/// <summary>
+		/// Gets the user signature hash.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+		/// <returns>Returns the hash for this user.</returns>
+		private string GetUserSignatureHash(IMansionWebContext context)
+		{
+			// get the user agent string
+			var userAgentString = context.HttpContext.Request.UserAgent ?? string.Empty;
+
+			// calculate the hash
+			var userAgentBytes = Encoding.UTF8.GetBytes(userAgentString);
+			var hashBytes = encryptionService.Hash(context, cookieTheftSalt, userAgentBytes);
+
+			// turn the result into a string
+			return conversionService.Convert<string>(context, hashBytes);
 		}
 		#endregion
 		#region Private Fields
