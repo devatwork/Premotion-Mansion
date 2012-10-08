@@ -45,6 +45,7 @@
       <HintPath>..\packages\Newtonsoft.Json.4.5.9\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
@@ -451,8 +452,11 @@
     <Compile Include="Security\AuthenticationResult.cs" />
     <Compile Include="Security\ConfigurationFileAuthenticationProvider.cs" />
     <Compile Include="Security\Constants.cs" />
+    <Compile Include="Security\DotNetCryptoEncryptionServiceApplicationBootstrapper.cs" />
     <Compile Include="Security\Descriptors\OperationDescriptor.cs" />
     <Compile Include="Security\Descriptors\SecurityDescriptor.cs" />
+    <Compile Include="Security\DotNetCryptoEncryptionService.cs" />
+    <Compile Include="Security\IEncryptionService.cs" />
     <Compile Include="Security\ISecurityModelService.cs" />
     <Compile Include="Security\ISecurityPersistenceService.cs" />
     <Compile Include="Security\ISecurityService.cs" />
@@ -501,6 +505,7 @@
     <Compile Include="Types\Xml\XmlTypeService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config.transform" />
     <None Include="Caching\Mansion.Core.Caching.cd" />
     <None Include="Collections\Mansion.Core.Collections.cd" />
     <None Include="Conversion\Mansion.Core.Conversion.cd" />
@@ -564,6 +569,7 @@
     <None Include="Types\Xml\type.definition.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="web.config.transform" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

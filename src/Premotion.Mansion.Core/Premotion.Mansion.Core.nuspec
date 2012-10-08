@@ -10,6 +10,7 @@
 		<description>Contains the Premotion Mansion Framework core types.</description>
 		<frameworkAssemblies>
 			<frameworkAssembly assemblyName="System" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Configuration" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Xml" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net40" />
@@ -26,5 +27,7 @@
 		<file src="bin\Premotion.Mansion.Core.dll" target="lib\net40" />
 		<file src="bin\Premotion.Mansion.Core.xml" target="lib\net40" />
 		<file src="**\*.xsd" target="content\Schemas" />
+		<file src="app.config.transform" target="content" />
+		<file src="web.config.transform" target="content" />
 	</files>
 </package>
