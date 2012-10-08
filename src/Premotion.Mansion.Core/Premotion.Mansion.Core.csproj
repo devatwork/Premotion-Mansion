@@ -72,6 +72,8 @@
     <Compile Include="Collections\PropertyBag.cs" />
     <Compile Include="Collections\PropertyBagAdapterFactory.cs" />
     <Compile Include="Collections\Sort.cs" />
+    <Compile Include="Conversion\Converters\ByteArrayToStringConverter.cs" />
+    <Compile Include="Conversion\Converters\StringToByteArrayConverter.cs" />
     <Compile Include="Conversion\Converters\Int32ToIntDoubleConverter.cs" />
     <Compile Include="Conversion\Converters\StringToCharConverter.cs" />
     <Compile Include="Conversion\Converters\DoubleToInt32Converter.cs" />

@@ -13,20 +13,30 @@ namespace Premotion.Mansion.Web.Security
 	/// </summary>
 	public class WebSecurityService : SecurityServiceBase
 	{
+		#region Constants
+		/// <summary>
+		/// Part of the salt used for cookie encryption.
+		/// </summary>
+		private readonly byte[] CookieSalt = {0x2a, 0x3b, 0x57, 0x7b, 0x73, 0x1b, 0xcf, 0x19, 0x6c, 0x38, 0xe1, 0x6d, 0xec, 0xd9, 0x00, 0x11};
+		#endregion
 		#region Constructors
 		/// <summary>
 		/// Constructs the web security service.
 		/// </summary>
 		/// <param name="conversionService">The <see cref="IConversionService"/>.</param>
 		/// <param name="authenticationProviders">The <see cref="IEnumerable{T}"/>s.</param>
-		public WebSecurityService(IConversionService conversionService, IEnumerable<AuthenticationProvider> authenticationProviders) : base(authenticationProviders)
+		/// <param name="encryptionService">The <see cref="IEncryptionService"/>.</param>
+		public WebSecurityService(IConversionService conversionService, IEnumerable<AuthenticationProvider> authenticationProviders, IEncryptionService encryptionService) : base(authenticationProviders)
 		{
 			//validate arguments
 			if (conversionService == null)
 				throw new ArgumentNullException("conversionService");
+			if (encryptionService == null)
+				throw new ArgumentNullException("encryptionService");
 
 			// set values
 			this.conversionService = conversionService;
+			this.encryptionService = encryptionService;
 		}
 		#endregion
 		#region Initialize Methods
@@ -71,8 +81,10 @@ namespace Premotion.Mansion.Web.Security
 			if (revivalCookie == null || string.IsNullOrEmpty(revivalCookie.Value))
 				return null;
 
-			// deserialize the properties, TODO: add proper decryption, TODO: check for cookie theft
-			var revivalProperties = conversionService.Convert<IPropertyBag>(context, revivalCookie.Value, new PropertyBag());
+			// deserialize the properties, TODO: check for cookie theft
+			var revivalDataStringBytes = conversionService.Convert<byte[]>(context, revivalCookie.Value);
+			var decryptedRevivalDataBytes = encryptionService.Decrypt(context, CookieSalt, revivalDataStringBytes);
+			var revivalProperties = conversionService.Convert<IPropertyBag>(context, decryptedRevivalDataBytes, new PropertyBag());
 
 			// get the authentication provider
 			String authenticationProviderName;
@@ -130,14 +142,16 @@ namespace Premotion.Mansion.Web.Security
 					// add additional revival properties
 					revivalData.Set("authenticationProviderName", authenicationProvider.Name);
 
-					// encrypt it, TODO: add proper encryption
-					var encryptedRevivalData = conversionService.Convert<string>(context, revivalData);
+					// encrypt it
+					var serializedRevivalData = conversionService.Convert<byte[]>(context, revivalData);
+					var encryptedRevivalData = encryptionService.Encrypt(context, CookieSalt, serializedRevivalData);
+					var revivalDataString = conversionService.Convert<string>(context, encryptedRevivalData);
 
 					// store it in a cookie
-					var revivalCookie = new HttpCookie(revivalCookieName, encryptedRevivalData)
+					var revivalCookie = new HttpCookie(revivalCookieName, revivalDataString)
 					                    {
 					                    	Expires = DateTime.Now.AddDays(14),
-												HttpOnly = true
+					                    	HttpOnly = true
 					                    };
 					httpContext.Response.SetCookie(revivalCookie);
 				}
@@ -182,6 +196,7 @@ namespace Premotion.Mansion.Web.Security
 		#endregion
 		#region Private Fields
 		private readonly IConversionService conversionService;
+		private readonly IEncryptionService encryptionService;
 		#endregion
 	}
 }

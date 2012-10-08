@@ -45,7 +45,7 @@ namespace Premotion.Mansion.Web.TestWebApp
 			nucleus.Register<IConversionService>(resolver => new ConversionService(resolver.Resolve<IConverter>(), resolver.Resolve<IComparer>()));
 			nucleus.Register<ITemplateService>(resolver => new HtmlTemplateService(resolver.Resolve<SectionInterpreter>(), resolver.ResolveSingle<ICachingService>()));
 			nucleus.Register<ITypeService>(resolver => new XmlTypeService(resolver.ResolveSingle<ICachingService>(), resolver.ResolveSingle<IApplicationResourceService>()));
-			nucleus.Register<ISecurityService>(resolver => new WebSecurityService(resolver.ResolveSingle<IConversionService>(), resolver.Resolve<AuthenticationProvider>()));
+			nucleus.Register<ISecurityService>(resolver => new WebSecurityService(resolver.ResolveSingle<IConversionService>(), resolver.Resolve<AuthenticationProvider>(), resolver.ResolveSingle<IEncryptionService>()));
 			nucleus.Register<ISecurityPersistenceService>(resolver => new RepositorySecurityPersistenceService());
 			nucleus.Register<ISecurityModelService>(resolver => new SecurityModelService(resolver.ResolveSingle<ISecurityPersistenceService>()));
 			nucleus.Register<ITagScriptService>(resolver => new TagScriptService(resolver.ResolveSingle<ICachingService>()));
