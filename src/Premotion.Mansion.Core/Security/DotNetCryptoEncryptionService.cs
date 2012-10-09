@@ -169,8 +169,8 @@ namespace Premotion.Mansion.Core.Security
 			// create the password derive bytes in order to set the key and initialization vector (IV)
 			using (var pdb = new Rfc2898DeriveBytes(key, applicationWideSalt, 1000))
 			{
-				algorithm.Key = pdb.GetBytes(algorithm.KeySize / 8);
-				algorithm.IV = pdb.GetBytes(algorithm.BlockSize / 8);
+				algorithm.Key = pdb.GetBytes(algorithm.KeySize/8);
+				algorithm.IV = pdb.GetBytes(algorithm.BlockSize/8);
 			}
 
 			// return the created algoritm;
