@@ -163,18 +163,18 @@ namespace Premotion.Mansion.Core.Security
 		/// <returns>Returns the created <see cref="SymmetricAlgorithm"/>.</returns>
 		private SymmetricAlgorithm CreateSymmetricAlgorithm(byte[] key)
 		{
-			// create the rijndael class
-			var rijndael = Rijndael.Create();
+			// create the Rijndael class
+			var algorithm = Rijndael.Create();
 
 			// create the password derive bytes in order to set the key and initialization vector (IV)
 			using (var pdb = new Rfc2898DeriveBytes(key, applicationWideSalt, 1000))
 			{
-				rijndael.Key = pdb.GetBytes(32);
-				rijndael.IV = pdb.GetBytes(16);
+				algorithm.Key = pdb.GetBytes(algorithm.KeySize / 8);
+				algorithm.IV = pdb.GetBytes(algorithm.BlockSize / 8);
 			}
 
 			// return the created algoritm;
-			return rijndael;
+			return algorithm;
 		}
 		#endregion
 		#region Private Fields
