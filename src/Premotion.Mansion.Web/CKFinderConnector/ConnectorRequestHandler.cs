@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.IO;
 using Premotion.Mansion.Web.CKFinderConnector.Handlers;
 using Premotion.Mansion.Web.Hosting;
 
@@ -22,15 +21,8 @@ namespace Premotion.Mansion.Web.CKFinderConnector
 		{
 			#region Constructors
 			/// <summary></summary>
-			/// <param name="resourceService"></param>
-			public ConnectorRequestHandlerFactory(IApplicationResourceService resourceService) : base(new UrlPrefixSpecification(Prefix))
+			public ConnectorRequestHandlerFactory() : base(new UrlPrefixSpecification(Prefix))
 			{
-				// validate arguments
-				if (resourceService == null)
-					throw new ArgumentNullException("resourceService");
-
-				// set values
-				this.resourceService = resourceService;
 			}
 			#endregion
 			#region Overrides of RequestHandlerFactory
@@ -41,11 +33,8 @@ namespace Premotion.Mansion.Web.CKFinderConnector
 			/// <returns>Returns the constructed <see cref="RequestHandler"/>.</returns>
 			protected override RequestHandler DoCreate(IMansionContext applicationContext)
 			{
-				return new StaticResourceRequestHandler(resourceService);
+				return new ConnectorRequestHandler();
 			}
-			#endregion
-			#region Private Fields
-			private readonly IApplicationResourceService resourceService;
 			#endregion
 		}
 		#endregion
