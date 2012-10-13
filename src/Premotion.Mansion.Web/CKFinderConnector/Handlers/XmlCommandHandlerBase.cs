@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.Threading;
-using System.Web;
 using System.Xml.Linq;
 using Premotion.Mansion.Core;
 
@@ -25,7 +24,7 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 			Response.ContentType = "text/xml";
 
 			// never cache the response
-			Response.Cache.SetCacheability(HttpCacheability.NoCache);
+			Response.CacheSettings.OutputCacheEnabled = false;
 
 			// create the XML document of the response
 			var document = new XDocument(new XDeclaration("1.0", "utf-8", null));
@@ -61,7 +60,7 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 			}
 
 			// write the document to the output
-			document.Save(Response.Output, SaveOptions.DisableFormatting);
+			Response.Contents = stream => document.Save(stream, SaveOptions.DisableFormatting);
 		}
 		/// <summary>
 		/// Handels the incomming CKFinder command.

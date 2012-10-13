@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Text;
-using System.Web;
 using Premotion.Mansion.Core.IO;
 using Premotion.Mansion.Core.Patterns;
 
@@ -16,15 +17,15 @@ namespace Premotion.Mansion.Web
 		/// <summary>
 		/// Constructs a web output pipe.
 		/// </summary>
-		/// <param name="httpContext">The responce stream.</param>
-		public WebOutputPipe(HttpContextBase httpContext)
+		/// <param name="response">The responce stream.</param>
+		public WebOutputPipe(WebResponse response)
 		{
 			// validate arguments
-			if (httpContext == null)
-				throw new ArgumentNullException("httpContext");
+			if (response == null)
+				throw new ArgumentNullException("response");
 
 			// set values
-			this.httpContext = httpContext;
+			this.response = response;
 
 			bufferedWriter = new StreamWriter(buffer);
 		}
@@ -35,16 +36,8 @@ namespace Premotion.Mansion.Web
 		/// </summary>
 		public Encoding Encoding
 		{
-			get
-			{
-				CheckDisposed();
-				return httpContext.Response.ContentEncoding;
-			}
-			set
-			{
-				CheckDisposed();
-				httpContext.Response.ContentEncoding = value;
-			}
+			get { return response.ContentEncoding; }
+			set { response.ContentEncoding = value; }
 		}
 		#endregion
 		#region Implementation of IOutputPipe
@@ -71,51 +64,6 @@ namespace Premotion.Mansion.Web
 			}
 		}
 		#endregion
-		#region Cache Control Operations
-		/// <summary>
-		/// Gets/Set a flag indicating whether the output cache of this response is disabled.
-		/// </summary>
-		public bool OutputCacheEnabled { get; set; }
-		/// <summary>
-		/// Flushes this pipe to the response output.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
-		/// <returns>Returns the content of the response in a byte array.</returns>
-		public byte[] Flush(IMansionWebContext context)
-		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
-			CheckDisposed();
-
-			// get the content
-			bufferedWriter.Flush();
-			var contentBytes = new byte[buffer.Length];
-			buffer.Position = 0;
-			buffer.Read(contentBytes, 0, contentBytes.Length);
-
-			// return the content in bytes
-			return contentBytes;
-		}
-		#endregion
-		#region Response Methods
-		/// <summary>
-		/// Appends an header to the response.
-		/// </summary>
-		/// <param name="name">The name of the header.</param>
-		/// <param name="value">The value of the header.</param>
-		public void AddHeader(string name, string value)
-		{
-			//  validate argugments
-			if (string.IsNullOrEmpty(name))
-				throw new ArgumentNullException("name");
-			if (string.IsNullOrEmpty(value))
-				throw new ArgumentNullException("value");
-
-			// set the header
-			httpContext.Response.AddHeader(name, value);
-		}
-		#endregion
 		#region Overrides of DisposableBase
 		/// <summary>
 		/// Dispose resources. Override this method in derived classes. Unmanaged resources should always be released
@@ -127,33 +75,242 @@ namespace Premotion.Mansion.Web
 			if (!disposeManagedResources)
 				return;
 
-			// clean up
+			// clean up the writer
+			bufferedWriter.Flush();
 			bufferedWriter.Dispose();
+
+			// get the content bytes
+			buffer.Flush();
+			var contentBytes = buffer.ToArray();
+
+			// set the contents
+			response.Contents = stream => stream.Write(contentBytes, 0, contentBytes.Length);
+
+			// clean up the buffer
 			buffer.Dispose();
 		}
 		#endregion
 		#region Properties
 		/// <summary>
-		/// Gets/Sets the content type of the HTTP response.
+		/// Gets the <see cref="WebResponse"/> of this pipe.
 		/// </summary>
-		public string ContentType
+		public WebResponse Response
 		{
-			get { return httpContext.Response.ContentType; }
-			set
-			{
-				CheckDisposed();
-				httpContext.Response.ContentType = value;
-			}
+			get { return response; }
 		}
-		/// <summary>
-		/// Gets or sets the absolute date and time at which cached information expires in the cache.
-		/// </summary>
-		public DateTime? Expires { get; set; }
 		#endregion
 		#region Private Fields
 		private readonly MemoryStream buffer = new MemoryStream();
 		private readonly StreamWriter bufferedWriter;
-		private readonly HttpContextBase httpContext;
+		private readonly WebResponse response;
+		#endregion
+	}
+	/// <summary>
+	/// Represents a response.
+	/// </summary>
+	public class WebResponse
+	{
+		#region Constants
+		/// <summary>
+		/// Null object representing no body    
+		/// </summary>
+		private static readonly Action<Stream> NoBody = s => { };
+		#endregion
+		#region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WebResponse"/> class.
+		/// </summary>
+		protected WebResponse()
+		{
+			Contents = NoBody;
+			ContentEncoding = Encoding.UTF8;
+			ContentType = "text/html";
+			Headers = new Dictionary<string, string>();
+			StatusCode = HttpStatusCode.OK;
+			Cookies = new List<WebCookie>(2);
+			CacheSettings = new WebResponseSettings();
+		}
+		#endregion
+		#region Factory Methods
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		/// <returns></returns>
+		/// <exception cref="NotImplementedException"></exception>
+		public static WebResponse Create(IMansionWebContext context)
+		{
+			return new WebResponse();
+		}
+		#endregion
+		#region Clone Methods
+		/// <summary>
+		/// Clones this <see cref="WebResponse"/>.
+		/// </summary>
+		/// <returns>Returns the cloned instance.</returns>
+		/// <remarks>Creates a deep copy, except for the <see cref="Contents"/>.</remarks>
+		public virtual WebResponse Clone()
+		{
+			// get the buffer of the current web response
+			byte[] contentBytes;
+			using (var buffer = new MemoryStream())
+			{
+				// write out the current response
+				Contents(buffer);
+
+				// get the buffer
+				contentBytes = buffer.ToArray();
+			}
+
+			// set the new contents
+			Contents = stream => stream.Write(contentBytes, 0, contentBytes.Length);
+
+			// create the clone
+			var cloned = new WebResponse
+			             {
+			             	CacheSettings = CacheSettings.Clone(),
+			             	ContentEncoding = ContentEncoding,
+			             	Contents = stream => stream.Write(contentBytes, 0, contentBytes.Length),
+			             	ContentType = ContentType,
+			             	//Contents =  Contents,
+			             	Cookies = new List<WebCookie>(Cookies),
+			             	Headers = new Dictionary<string, string>(Headers),
+			             	StatusCode = StatusCode,
+			             	StatusDescription = StatusDescription,
+			             	RedirectLocation = RedirectLocation
+			             };
+
+			// return the cloned object
+			return cloned;
+		}
+		#endregion
+		#region Properties
+		/// <summary>
+		/// Gets or sets the <see cref="Encoding"/> of the content.
+		/// </summary>
+		/// <value>The <see cref="Encoding"/> of the content.</value>
+		/// <remarks>The default value is <c>utf-8</c>.</remarks>
+		public Encoding ContentEncoding { get; set; }
+		/// <summary>
+		/// Gets or sets the type of the content.
+		/// </summary>
+		/// <value>The type of the content.</value>
+		/// <remarks>The default value is <c>text/html</c>.</remarks>
+		public string ContentType { get; set; }
+		/// <summary>
+		/// Gets the delegate that will render contents to the response stream.
+		/// </summary>
+		/// <value>An <see cref="Action{T}"/> delegate, containing the code that will render contents to the response stream.</value>
+		/// <remarks>The host of Nancy will pass in the output stream after the response has been handed back to it by Nancy.</remarks>
+		public Action<Stream> Contents { get; set; }
+		/// <summary>
+		/// Gets the collection of HTTP response headers that should be sent back to the client.
+		/// </summary>
+		/// <value>An <see cref="IDictionary{TKey,TValue}"/> instance, contaning the key/value pair of headers.</value>
+		public IDictionary<string, string> Headers { get; set; }
+		/// <summary>
+		/// Gets or sets the HTTP status code that should be sent back to the client.
+		/// </summary>
+		/// <value>A <see cref="HttpStatusCode"/> value.</value>
+		public HttpStatusCode StatusCode { get; set; }
+		/// <summary>
+		/// Gets or sets the HTTP status description that should be sent back to the client.
+		/// </summary>
+		/// <value>A <see cref="HttpStatusCode"/> value.</value>
+		public string StatusDescription { get; set; }
+		/// <summary>
+		/// Gets the <see cref="WebCookie"/> that should be sent back to the client.
+		/// </summary>
+		public IList<WebCookie> Cookies { get; protected set; }
+		/// <summary>
+		/// Gets the <see cref="WebResponseSettings"/> settings of this response.
+		/// </summary>
+		public WebResponseSettings CacheSettings { get; protected set; }
+		/// <summary>
+		/// Gets or sets the redirect location of the request if there is one.
+		/// </summary>
+		public string RedirectLocation { get; set; }
+		#endregion
+	}
+	/// <summary>
+	/// Defines the cache settings for a <see cref="WebResponse"/>
+	/// </summary>
+	public class WebResponseSettings
+	{
+		#region Constructors
+		/// <summary></summary>
+		public WebResponseSettings()
+		{
+			LastModified = DateTime.Now;
+			OutputCacheEnabled = true;
+		}
+		#endregion
+		#region Clone Methods
+		/// <summary>
+		/// Clones this <see cref="WebResponseSettings"/>.
+		/// </summary>
+		/// <returns>Returns the cloned instance.</returns>
+		public WebResponseSettings Clone()
+		{
+			return new WebResponseSettings
+			       {
+			       	ETag = ETag,
+			       	Expires = Expires,
+			       	LastModified = LastModified,
+			       	OutputCacheEnabled = OutputCacheEnabled
+			       };
+		}
+		#endregion
+		#region Properties
+		/// <summary>
+		/// Gets or sets the last modified date and time at which the cached information was creaded.
+		/// </summary>
+		public DateTime LastModified { get; set; }
+		/// <summary>
+		/// Gets or sets the absolute date and time at which cached information expires in the cache.
+		/// </summary>
+		public DateTime? Expires { get; set; }
+		/// <summary>
+		/// Gets/Set a flag indicating whether the output cache of this response is disabled.
+		/// </summary>
+		public bool OutputCacheEnabled { get; set; }
+		/// <summary>
+		/// Gets or sets the ETag of the current <see cref="WebResponse"/>.
+		/// </summary>
+		public string ETag { get; set; }
+		#endregion
+	}
+	/// <summary>
+	/// Represents a web cookie.
+	/// </summary>
+	public class WebCookie
+	{
+		#region Properties
+		/// <summary>
+		/// The domain to restrict the cookie to
+		/// </summary>
+		public string Domain { get; set; }
+		/// <summary>
+		/// When the cookie should expire
+		/// </summary>
+		/// <value>A <see cref="DateTime"/> instance containing the date and time when the cookie should expire; otherwise <see langword="null"/> if it should never expire.</value>
+		public DateTime? Expires { get; set; }
+		/// <summary>
+		/// Whether the cookie is http only
+		/// </summary>
+		public bool HttpOnly { get; set; }
+		/// <summary>
+		/// The name of the cookie
+		/// </summary>
+		public string Name { get; set; }
+		/// <summary>
+		/// Whether the cookie is secure (i.e. HTTPS only)
+		/// </summary>
+		public bool Secure { get; set; }
+		/// <summary>
+		/// The value of the cookie
+		/// </summary>
+		public string Value { get; set; }
 		#endregion
 	}
 }

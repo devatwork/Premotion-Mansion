@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Web;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Conversion;
@@ -97,7 +96,7 @@ namespace Premotion.Mansion.Web.Security
 			var cookieUserSignature = revivalProperties.Get(context, "userSignature", string.Empty);
 			if (!cookieUserSignature.Equals(currentUserSignature))
 			{
-				httpContext.DeleteCookie(cookieName);
+				context.DeleteCookie(cookieName);
 				return null;
 			}
 
@@ -105,20 +104,20 @@ namespace Premotion.Mansion.Web.Security
 			String authenticationProviderName;
 			if (!revivalProperties.TryGetAndRemove(context, "authenticationProviderName", out authenticationProviderName) || string.IsNullOrEmpty(authenticationProviderName))
 			{
-				httpContext.DeleteCookie(cookieName);
+				context.DeleteCookie(cookieName);
 				return null;
 			}
 			AuthenticationProvider authenticationProvider;
 			if (!TryResolveAuthenticationProvider(context, authenticationProviderName, out authenticationProvider))
 			{
-				httpContext.DeleteCookie(cookieName);
+				context.DeleteCookie(cookieName);
 				return null;
 			}
 
 			// try to revive the user
 			var revivedUser = authenticationProvider.ReviveUser(context, revivalProperties);
 			if (revivedUser == null)
-				httpContext.DeleteCookie(cookieName);
+				context.DeleteCookie(cookieName);
 			return revivedUser;
 		}
 		#endregion
@@ -165,16 +164,18 @@ namespace Premotion.Mansion.Web.Security
 					var revivalDataString = conversionService.Convert<string>(context, encryptedRevivalData);
 
 					// store it in a cookie
-					var revivalCookie = new HttpCookie(revivalCookieName, revivalDataString)
+					var revivalCookie = new WebCookie
 					                    {
+					                    	Name = revivalCookieName,
+					                    	Value = revivalDataString,
 					                    	Expires = DateTime.Now.AddDays(14),
 					                    	HttpOnly = true
 					                    };
-					httpContext.Response.SetCookie(revivalCookie);
+					context.SetCookie(revivalCookie);
 				}
 			}
 			else
-				httpContext.DeleteCookie(revivalCookieName);
+				context.DeleteCookie(revivalCookieName);
 
 			// authentication was successful
 			return result;
@@ -197,7 +198,7 @@ namespace Premotion.Mansion.Web.Security
 				httpContext.Session.Remove(GetRevivalCookieName(context));
 
 			// delete any revival cookies
-			httpContext.DeleteCookie(GetRevivalCookieName(context));
+			context.DeleteCookie(GetRevivalCookieName(context));
 		}
 		#endregion
 		#region Revival Methods

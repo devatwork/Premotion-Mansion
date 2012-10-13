@@ -45,5 +45,9 @@
 		/// The default frontoffice script name.
 		/// </summary>
 		public const string DefaultFrontofficeScriptName = "Default.xts";
+		/// <summary>
+		/// Defines extensions used by the script engine.
+		/// </summary>
+		public static readonly string[] ScriptExtensions = new[] {".xts"};
 	}
 }

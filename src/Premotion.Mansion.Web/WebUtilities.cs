@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.ScriptTags.Rendering;
 
@@ -22,12 +23,10 @@ namespace Premotion.Mansion.Web
 				throw new ArgumentNullException("context");
 
 			// get the output pipe
-			var webOutputPipe = (WebOutputPipe) context.OutputPipeStack.FirstOrDefault(x => x is WebOutputPipe);
-			if (webOutputPipe == null)
-				throw new InvalidOperationException("No web output pipe was found on thet stack.");
+			var webOutputPipe = context.GetWebOuputPipe();
 
 			// disable the cache
-			webOutputPipe.OutputCacheEnabled = false;
+			webOutputPipe.Response.CacheSettings.OutputCacheEnabled = false;
 		}
 		/// <summary>
 		/// Executes this tag.
@@ -53,17 +52,16 @@ namespace Premotion.Mansion.Web
 		/// <param name="permanent">Flag indicating whether the redirect is permanent or not.</param>
 		public static void RedirectRequest(IMansionContext context, Uri url, bool permanent = false)
 		{
-			// get the web context
-			var webContext = context.Cast<IMansionWebContext>();
+			// get the output pipe
+			var webOutputPipe = context.GetWebOuputPipe();
 
 			// disable the caches
 			DisableOutputCache(context);
 			DisableResponseTemplateCache(context);
 
 			// set redirect
-			webContext.HttpContext.Response.RedirectLocation = url.ToString();
-			webContext.HttpContext.Response.StatusCode = permanent ? 301 : 302;
-			webContext.HttpContext.ApplicationInstance.CompleteRequest();
+			webOutputPipe.Response.RedirectLocation = url.ToString();
+			webOutputPipe.Response.StatusCode = permanent ? HttpStatusCode.MovedPermanently : HttpStatusCode.TemporaryRedirect;
 
 			// halt execution
 			context.BreakExecution = true;

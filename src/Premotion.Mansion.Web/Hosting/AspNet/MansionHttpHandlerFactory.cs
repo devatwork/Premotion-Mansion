@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.SessionState;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Patterns.Prioritized;
+using Premotion.Mansion.Core.Patterns.Voting;
 using Premotion.Mansion.Core.Security;
 
 namespace Premotion.Mansion.Web.Hosting.AspNet
@@ -73,9 +73,9 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			/// <summary>
 			/// Constructs this <see cref="MansionHttpHandlerBase"/> with the given <paramref name="requestHandler"/>.
 			/// </summary>
-			/// <param name="requestHandler">The <see cref="MansionRequestHandlerBase"/> which does the actual work of handling the request.</param>
+			/// <param name="requestHandler">The <see cref="RequestHandler"/> which does the actual work of handling the request.</param>
 			/// <exception cref="ArgumentNullException">Thrown if <paramref name="requestHandler"/> is null.</exception>
-			protected MansionHttpHandlerBase(MansionRequestHandlerBase requestHandler)
+			protected MansionHttpHandlerBase(RequestHandler requestHandler)
 			{
 				// validate arguments
 				if (requestHandler == null)
@@ -100,7 +100,7 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 					requestContext.Nucleus.ResolveSingle<ISecurityService>().InitializeSecurityContext(requestContext);
 
 				// create the request context
-				DoProcessRequest(requestContext);
+				DoProcessRequest(context, requestContext);
 
 				// dispose the request context
 				requestContext.Dispose();
@@ -111,13 +111,67 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			/// Enables processing of HTTP Web requests by a custom HttpHandler that implements the <see cref="T:System.Web.IHttpHandler"/> interface.
 			/// </summary>
 			/// <param name="context">An <see cref="IMansionWebContext"/> object that provides references to the intrinsic mansion objects used to service HTTP requests. </param>
-			protected virtual void DoProcessRequest(IMansionWebContext context)
+			/// <param name="requestContext">The <see cref="IMansionWebContext"/>.</param>
+			protected virtual void DoProcessRequest(HttpContextBase context, IMansionWebContext requestContext)
 			{
-				requestHandler.Execute(context);
+				// get the response
+				var webResponse = requestHandler.Execute(requestContext);
+
+				// map the response to the http output
+				var httpResponse = context.Response;
+				httpResponse.ContentEncoding = webResponse.ContentEncoding;
+				httpResponse.ContentType = webResponse.ContentType;
+				httpResponse.StatusCode = (int) webResponse.StatusCode;
+				httpResponse.StatusDescription = webResponse.StatusDescription;
+
+				// flush the content
+				webResponse.Contents(httpResponse.OutputStream);
+
+				// copy headers
+				foreach (var header in webResponse.Headers)
+					httpResponse.AddHeader(header.Key, header.Value);
+
+				// copy cookies
+				foreach (var cookie in webResponse.Cookies)
+				{
+					// create the http cookie
+					var httpCookie = new HttpCookie(cookie.Name, cookie.Value)
+					                 {
+					                 	Secure = cookie.Secure,
+					                 	HttpOnly = cookie.HttpOnly
+					                 };
+
+					// check for domain
+					if (!string.IsNullOrEmpty(cookie.Domain))
+						httpCookie.Domain = cookie.Domain;
+
+					// check expires
+					if (cookie.Expires.HasValue)
+						httpCookie.Expires = cookie.Expires.Value;
+
+					// add the cookie to the response
+					httpResponse.Cookies.Add(httpCookie);
+				}
+
+				// set cache properties
+				if (webResponse.CacheSettings.OutputCacheEnabled)
+				{
+					if (webResponse.CacheSettings.Expires.HasValue)
+						httpResponse.Cache.SetExpires(webResponse.CacheSettings.Expires.Value);
+					else if (!string.IsNullOrEmpty(webResponse.CacheSettings.ETag))
+					{
+						httpResponse.Cache.SetLastModified(webResponse.CacheSettings.LastModified);
+						httpResponse.Cache.SetETag(webResponse.CacheSettings.ETag);
+					}
+				}
+
+				// check for redirect
+				if (!string.IsNullOrEmpty(webResponse.RedirectLocation))
+					httpResponse.RedirectLocation = webResponse.RedirectLocation;
 			}
 			#endregion
 			#region Private Fields
-			private readonly MansionRequestHandlerBase requestHandler;
+			private readonly RequestHandler requestHandler;
 			#endregion
 		}
 		#endregion
@@ -131,9 +185,9 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			/// <summary>
 			/// Constructs this <see cref="MansionHttpHandlerBase"/> with the given <paramref name="requestHandler"/>.
 			/// </summary>
-			/// <param name="requestHandler">The <see cref="MansionRequestHandlerBase"/> which does the actual work of handling the request.</param>
+			/// <param name="requestHandler">The <see cref="RequestHandler"/> which does the actual work of handling the request.</param>
 			/// <exception cref="ArgumentNullException">Thrown if <paramref name="requestHandler"/> is null.</exception>
-			public ReadOnlyStateHttpHandler(MansionRequestHandlerBase requestHandler) : base(requestHandler)
+			public ReadOnlyStateHttpHandler(RequestHandler requestHandler) : base(requestHandler)
 			{
 			}
 			#endregion
@@ -149,9 +203,9 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			/// <summary>
 			/// Constructs this <see cref="MansionHttpHandlerBase"/> with the given <paramref name="requestHandler"/>.
 			/// </summary>
-			/// <param name="requestHandler">The <see cref="MansionRequestHandlerBase"/> which does the actual work of handling the request.</param>
+			/// <param name="requestHandler">The <see cref="RequestHandler"/> which does the actual work of handling the request.</param>
 			/// <exception cref="ArgumentNullException">Thrown if <paramref name="requestHandler"/> is null.</exception>
-			public StatefulHttpHandler(MansionRequestHandlerBase requestHandler) : base(requestHandler)
+			public StatefulHttpHandler(RequestHandler requestHandler) : base(requestHandler)
 			{
 			}
 			#endregion
@@ -167,9 +221,9 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			/// <summary>
 			/// Constructs this <see cref="MansionHttpHandlerBase"/> with the given <paramref name="requestHandler"/>.
 			/// </summary>
-			/// <param name="requestHandler">The <see cref="MansionRequestHandlerBase"/> which does the actual work of handling the request.</param>
+			/// <param name="requestHandler">The <see cref="RequestHandler"/> which does the actual work of handling the request.</param>
 			/// <exception cref="ArgumentNullException">Thrown if <paramref name="requestHandler"/> is null.</exception>
-			public StatelesHttpHander(MansionRequestHandlerBase requestHandler) : base(requestHandler)
+			public StatelesHttpHander(RequestHandler requestHandler) : base(requestHandler)
 			{
 			}
 			#endregion
@@ -198,15 +252,23 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			// wrap the http context
 			var wrappedContext = new HttpContextWrapper(context);
 
+			// get the mansion application context
+			var applicationContext = MansionWebApplicationContextFactory.Instance;
+
 			// get the mansion request context
-			var requestContext = MansionWebContext.Create(MansionWebApplicationContextFactory.Instance, wrappedContext);
+			var requestContext = MansionWebContext.Create(applicationContext, wrappedContext);
 
 			// select the handler
-			var handler = HandlerList.Value.FirstOrDefault(candidate => candidate.IsSatisfiedBy(requestContext));
+			RequestHandlerFactory handlerFactory;
+			if (!Election<RequestHandlerFactory, IMansionWebContext>.TryElect(applicationContext, HandlerFactories.Value, requestContext, out handlerFactory))
+				return null;
 
-			// if no handler is found, it is considered an application bug
-			if (handler == null)
-				throw new InvalidOperationException("Could not handle request");
+			// create the handler
+			var handler = handlerFactory.Create(applicationContext);
+
+			// allow the configurators to configure the request handler
+			foreach (var configurator in HandlerConfigurators.Value)
+				configurator.Configure(requestContext, handler);
 
 			// select the proper handler type
 			return DoGetHandler(requestContext, handler);
@@ -226,8 +288,8 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 		/// A new <see cref="T:System.Web.IHttpHandler"/> object that processes the request.
 		/// </returns>
 		/// <param name="context">An instance of the <see cref="T:System.Web.HttpContextBase"/> class that provides references to intrinsic server objects (for example, Request, Response, Session, and Server) used to service HTTP requests. </param>
-		/// <param name="requestHandler">The <see cref="MansionRequestHandlerBase"/> which does the actual work of handling the request.</param>
-		protected virtual IHttpHandler DoGetHandler(IMansionWebContext context, MansionRequestHandlerBase requestHandler)
+		/// <param name="requestHandler">The <see cref="RequestHandler"/> which does the actual work of handling the request.</param>
+		protected virtual IHttpHandler DoGetHandler(IMansionWebContext context, RequestHandler requestHandler)
 		{
 			// determine if the request is stateful or not
 			var requiredStateString = context.HttpContext.Request.QueryString[StateQueryStringParameterName] ?? String.Empty;
@@ -236,7 +298,7 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			var requiredByQueryString = RequiresSessionState.Parse(requiredStateString);
 
 			// determine the highest state
-			var highestStateDemanded = RequiresSessionState.DetermineHighestDemand(requiredByQueryString, requestHandler.MinimalStateDemand);
+			var highestStateDemanded = RequiresSessionState.DetermineHighestDemand(requiredByQueryString, requestHandler.MinimalSessionStateDemand);
 
 			// switch to the corrent http handler
 			if (highestStateDemanded == RequiresSessionState.Full)
@@ -249,17 +311,28 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 		}
 		#endregion
 		#region Private Fields
-		private static readonly Lazy<IEnumerable<MansionRequestHandlerBase>> HandlerList = new Lazy<IEnumerable<MansionRequestHandlerBase>>(() =>
-		                                                                                                                                    {
-		                                                                                                                                    	// get the application context
-		                                                                                                                                    	var applicationContext = MansionWebApplicationContextFactory.Instance;
+		private static readonly Lazy<IEnumerable<RequestHandlerFactory>> HandlerFactories = new Lazy<IEnumerable<RequestHandlerFactory>>(() =>
+		                                                                                                                                 {
+		                                                                                                                                 	// get the application context
+		                                                                                                                                 	var applicationContext = MansionWebApplicationContextFactory.Instance;
 
-		                                                                                                                                    	// resolve the MansionRequestHandlerBase implementations
-		                                                                                                                                    	var handlers = applicationContext.Nucleus.Resolve<MansionRequestHandlerBase>();
+		                                                                                                                                 	// resolve the RequestHandler implementations
+		                                                                                                                                 	var factories = applicationContext.Nucleus.Resolve<RequestHandlerFactory>();
 
-		                                                                                                                                    	// return the sorted request handler array
-		                                                                                                                                    	return handlers.OrderByPriority().ToArray();
-		                                                                                                                                    });
+		                                                                                                                                 	// return the sorted request handler array
+		                                                                                                                                 	return factories.ToArray();
+		                                                                                                                                 });
+		private static readonly Lazy<IEnumerable<RequestHandlerConfigurator>> HandlerConfigurators = new Lazy<IEnumerable<RequestHandlerConfigurator>>(() =>
+		                                                                                                                                               {
+		                                                                                                                                               	// get the application context
+		                                                                                                                                               	var applicationContext = MansionWebApplicationContextFactory.Instance;
+
+		                                                                                                                                               	// resolve the RequestHandler implementations
+		                                                                                                                                               	var configurators = applicationContext.Nucleus.Resolve<RequestHandlerConfigurator>();
+
+		                                                                                                                                               	// return the sorted request handler array
+		                                                                                                                                               	return configurators.ToArray();
+		                                                                                                                                               });
 		#endregion
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Security;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -51,10 +52,10 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 			}
 
 			// send feedback
-			Response.Cache.SetCacheability(HttpCacheability.NoCache);
+			Response.CacheSettings.OutputCacheEnabled = false;
 			if ("txt".Equals(Request.QueryString["response_type"]))
 			{
-				Response.ContentType = "text/plaing";
+				Response.ContentType = "text/plain";
 				var errorMessage = string.Empty;
 				if (errorCode > ErrorCodes.None)
 				{
@@ -62,14 +63,24 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 					if (errorCode != ErrorCodes.UploadedFileRenamed && errorCode != ErrorCodes.UploadedInvalidNameRenamed)
 						filename = string.Empty;
 				}
-				Response.Write(filename + "|" + errorMessage);
+				Response.Contents = stream =>
+				                    {
+				                    	using (var writer = new StreamWriter(stream, Response.ContentEncoding))
+				                    		writer.Write(filename + "|" + errorMessage);
+				                    };
 			}
 			else
 			{
 				Response.ContentType = "text/html";
-				Response.Write("<script type=\"text/javascript\">");
-				Response.Write(GetJavaScriptCode(Request, errorCode, filename, CurrentAssetFolder + filename));
-				Response.Write("</script>");
+				Response.Contents = stream =>
+				                    {
+				                    	using (var writer = new StreamWriter(stream, Response.ContentEncoding))
+				                    	{
+				                    		writer.Write("<script type=\"text/javascript\">");
+				                    		writer.Write(GetJavaScriptCode(Request, errorCode, filename, CurrentAssetFolder + filename));
+				                    		writer.Write("</script>");
+				                    	}
+				                    };
 			}
 		}
 		/// <summary>

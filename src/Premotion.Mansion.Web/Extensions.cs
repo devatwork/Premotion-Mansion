@@ -34,25 +34,6 @@ namespace Premotion.Mansion.Web
 				throw new ArgumentNullException("httpContext");
 			return httpContext.Session != null;
 		}
-		/// <summary>
-		/// Deletes a cookie from the <see cref="HttpContext"/>.
-		/// </summary>
-		/// <param name="httpContext">The http context.</param>
-		/// <param name="cookieName">The name of the cookie which to delete.</param>
-		public static void DeleteCookie(this HttpContextBase httpContext, string cookieName)
-		{
-			// validate arguments
-			if (httpContext == null)
-				throw new ArgumentNullException("httpContext");
-			if (string.IsNullOrEmpty(cookieName))
-				throw new ArgumentNullException("cookieName");
-
-			// expire the cookie
-			httpContext.Response.SetCookie(new HttpCookie(cookieName)
-			                               {
-			                               	Expires = DateTime.Now.AddDays(-1)
-			                               });
-		}
 		#endregion
 		#region HttpRequestBase Extensions
 		/// <summary>
@@ -175,6 +156,70 @@ namespace Premotion.Mansion.Web
 				throw new ArgumentNullException("properties");
 
 			return string.Join("&", properties.Where(property => property.Value != null).Select(property => property.Key.UrlEncode() + "=" + property.Value.ToString().UrlEncode()).ToArray());
+		}
+		#endregion
+		#region IMansionWebContext Extensions
+		/// <summary>
+		/// Gets the <see cref="WebOutputPipe"/> from <paramref name="context"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <returns>Returns the <see cref="WebOutputPipe"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> is null.</exception>
+		/// <exception cref="InvalidOperationException">Thrown if <paramref name="context"/> does not contain a <see cref="WebOutputPipe"/>.</exception>
+		public static WebOutputPipe GetWebOuputPipe(this IMansionContext context)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+
+			// try to find the output pipe
+			var webOutputPipe = (WebOutputPipe) context.OutputPipeStack.FirstOrDefault(x => x is WebOutputPipe);
+			if (webOutputPipe == null)
+				throw new InvalidOperationException("No web output pipe was found on the stack.");
+
+			return webOutputPipe;
+		}
+		/// <summary>
+		/// Deletes a cookie from the <paramref name="context"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="cookieName">The name of the cookie which to delete.</param>
+		public static void DeleteCookie(this IMansionContext context, string cookieName)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (string.IsNullOrEmpty(cookieName))
+				throw new ArgumentNullException("cookieName");
+
+			// get the output pipe
+			var outputPipe = context.GetWebOuputPipe();
+
+			// expire the cookie
+			context.SetCookie(new WebCookie
+			                  {
+			                  	Name = cookieName,
+			                  	Expires = DateTime.Now.AddDays(-1)
+			                  });
+		}
+		/// <summary>
+		/// Sets a cookie in the <paramref name="context"/>
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="cookie">The <see cref="WebCookie"/>.</param>
+		public static void SetCookie(this IMansionContext context, WebCookie cookie)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (cookie == null)
+				throw new ArgumentNullException("cookie");
+
+			// get the output pipe
+			var outputPipe = context.GetWebOuputPipe();
+
+			// expire the cookie
+			outputPipe.Response.Cookies.Add(cookie);
 		}
 		#endregion
 	}

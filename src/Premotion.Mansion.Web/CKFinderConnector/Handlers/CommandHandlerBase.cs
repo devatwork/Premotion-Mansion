@@ -18,18 +18,21 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// Handels the incomming CKFinder command.
 		/// </summary>
 		/// <param name="context">The incoming <see cref="IMansionWebContext"/>.</param>
+		/// <param name="response"> </param>
 		/// <exception cref="ConnectorException">Thrown when an error occured while handling the command.</exception>
-		public void Handle(IMansionWebContext context)
+		public void Handle(IMansionWebContext context, WebResponse response)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
+			if (response == null)
+				throw new ArgumentNullException("response");
 
 			try
 			{
 				//set values
 				Request = context.HttpContext.Request;
-				Response = context.HttpContext.Response;
+				Response = response;
 
 				// get the upload service
 				AssetService = context.Nucleus.ResolveSingle<IAssetService>();
@@ -145,7 +148,7 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// <summary>
 		/// Gets the <see cref="HttpResponseBase"/> of the current request.
 		/// </summary>
-		protected HttpResponseBase Response { get; private set; }
+		protected WebResponse Response { get; private set; }
 		#endregion
 	}
 }

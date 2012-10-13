@@ -199,15 +199,22 @@
     <Compile Include="Dispatcher\ScriptTags\InvokeActionTag.cs" />
     <Compile Include="Dispatcher\ScriptTags\ParseRouteTag.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Hosting\AfterPipeline.cs" />
+    <Compile Include="Hosting\BeforePipeline.cs" />
+    <Compile Include="Hosting\Caching\WebOutputCacheRequestHandlerConfigurator.cs" />
+    <Compile Include="Hosting\ExtensionWhiteListSpecification.cs" />
+    <Compile Include="Hosting\RequestHandler.cs" />
+    <Compile Include="Hosting\RequestHandlerConfigurator.cs" />
+    <Compile Include="Hosting\RequestHandlerFactory.cs" />
+    <Compile Include="Hosting\SpecificationRequestHandlerFactory.cs" />
+    <Compile Include="Hosting\UrlPrefixSpecification.cs" />
+    <Compile Include="Hosting\WebOutputRequestHandler.cs" />
     <Compile Include="MansionWebApplicationContextFactory.cs" />
     <Compile Include="MansionWebContext.cs" />
-    <Compile Include="Hosting\OutputCacheRequestHandler.cs" />
     <Compile Include="Hosting\RequiresSessionState.cs" />
     <Compile Include="Hosting\DynamicResourceRequestHandler.cs" />
     <Compile Include="Hosting\IRequestHandlerSpecification.cs" />
-    <Compile Include="Hosting\MansionRequestHandlerBase.cs" />
     <Compile Include="Hosting\MergeResourceRequestHandler.cs" />
-    <Compile Include="Hosting\OutputCachableMansionRequestHandlerBase.cs" />
     <Compile Include="Hosting\ScriptRequestHandler.cs" />
     <Compile Include="Hosting\StaticContentRequestHandler.cs" />
     <Compile Include="Hosting\StaticResourceRequestHandler.cs" />
@@ -257,6 +264,7 @@
     <None Include="Cms\ScriptTags\web.cms.tags.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Hosting\Hosting.cd" />
     <None Include="MyApplicationBootstrapper.cs.pp" />
     <Compile Include="Url\RouteUrlBuilder.cs" />
     <Compile Include="Url\INodeUrlService.cs" />
