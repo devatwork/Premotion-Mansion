@@ -4,7 +4,7 @@ using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.ScriptTags.Repository;
 using Premotion.Mansion.Core.Scripting.TagScript;
-using Premotion.Mansion.Web.Url;
+using Premotion.Mansion.Web.Urls;
 
 namespace Premotion.Mansion.Web.ScriptTags
 {
@@ -43,9 +43,9 @@ namespace Premotion.Mansion.Web.ScriptTags
 		protected override Record Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository, IQueryParser parser)
 		{
 			// get the url
-			Uri url;
+			Url url;
 			if (!arguments.TryGet(context, "url", out url))
-				url = context.Cast<IMansionWebContext>().HttpContext.Request.Url;
+				url = context.Cast<IMansionWebContext>().Request.Url;
 
 			// parse the URL for identifiers
 			IPropertyBag queryAttributes;

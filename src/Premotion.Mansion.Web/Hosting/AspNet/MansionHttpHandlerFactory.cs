@@ -292,7 +292,7 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 		protected virtual IHttpHandler DoGetHandler(IMansionWebContext context, RequestHandler requestHandler)
 		{
 			// determine if the request is stateful or not
-			var requiredStateString = context.HttpContext.Request.QueryString[StateQueryStringParameterName] ?? String.Empty;
+			var requiredStateString = context.Request.QueryString[StateQueryStringParameterName] ?? String.Empty;
 
 			// parse the required session state from the query srting
 			var requiredByQueryString = RequiresSessionState.Parse(requiredStateString);

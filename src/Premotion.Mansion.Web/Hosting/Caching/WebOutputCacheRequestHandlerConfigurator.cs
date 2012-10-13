@@ -37,16 +37,13 @@ namespace Premotion.Mansion.Web.Hosting.Caching
 				return;
 
 			// generate the cache key
-			var requestCacheKey = GenerateCacheKeyForRequest(context.HttpContext);
+			var requestCacheKey = GenerateCacheKeyForRequest(context.Request);
 
 			// add a hook which checks for response already in cache
 			handler.BeforePipeline.AddStageToBeginOfPipeline(ctx =>
 			                                                 {
-			                                                 	// get the context
-			                                                 	var httpRequest = ctx.HttpContext.Request;
-
 			                                                 	// check if the browser requests a hard refresh
-			                                                 	if (httpRequest.Headers["Cache-Control"] != null && httpRequest.Headers["Cache-Control"].IndexOf("no-cache", StringComparison.OrdinalIgnoreCase) > -1)
+			                                                 	if (ctx.Request.Headers["Cache-Control"] != null && ctx.Request.Headers["Cache-Control"].IndexOf("no-cache", StringComparison.OrdinalIgnoreCase) > -1)
 			                                                 		return null;
 
 			                                                 	// check if the response is not cached
@@ -59,12 +56,12 @@ namespace Premotion.Mansion.Web.Hosting.Caching
 
 			                                                 	// check if the If-Modified-Since request header is not set
 			                                                 	DateTime modifiedSince;
-			                                                 	var ifModifiedSinceHeader = httpRequest.Headers["If-Modified-Since"];
+			                                                 	var ifModifiedSinceHeader = ctx.Request.Headers["If-Modified-Since"];
 			                                                 	if (string.IsNullOrEmpty(ifModifiedSinceHeader) || !DateTime.TryParse(ifModifiedSinceHeader, out modifiedSince))
 			                                                 		modifiedSince = DateTime.MinValue;
 
 			                                                 	// check if the If-None-Match header request header is not set
-			                                                 	var eTag = httpRequest.Headers["If-None-Match"] ?? string.Empty;
+			                                                 	var eTag = ctx.Request.Headers["If-None-Match"] ?? string.Empty;
 
 			                                                 	// check if the ETag and LastModified date match
 			                                                 	if (eTag.Equals(response.CacheSettings.ETag, StringComparison.OrdinalIgnoreCase) && modifiedSince.AddSeconds(1) >= response.CacheSettings.LastModified)
@@ -109,15 +106,11 @@ namespace Premotion.Mansion.Web.Hosting.Caching
 		/// <summary>
 		/// Generates a cache key for the request.
 		/// </summary>
-		/// <param name="httpContext">The <see cref="HttpContextBase"/> for which to generate the request.</param>
+		/// <param name="request">The <see cref="HttpContextBase"/> for which to generate the request.</param>
 		/// <returns>Returns the generated <see cref="CacheKey"/>.</returns>
-		private static CacheKey GenerateCacheKeyForRequest(HttpContextBase httpContext)
+		private static CacheKey GenerateCacheKeyForRequest(WebRequest request)
 		{
-			return (StringCacheKey) string.Format("host={0}&port={1}&path={2}&get={3}",
-			                                      httpContext.Request["HTTP_HOST"],
-			                                      httpContext.Request["SERVER_PORT"],
-			                                      httpContext.Request.Path,
-			                                      httpContext.Request["QUERY_STRING"]);
+			return (StringCacheKey) string.Format(request.Url);
 		}
 		/// <summary>
 		/// Gets a flag indicating wether this request is cachable.
@@ -132,7 +125,7 @@ namespace Premotion.Mansion.Web.Hosting.Caching
 				return false;
 
 			// only GET request can be cached
-			return "GET".Equals(context.HttpContext.Request.HttpMethod, StringComparison.OrdinalIgnoreCase);
+			return "GET".Equals(context.Request.Method, StringComparison.OrdinalIgnoreCase);
 		}
 		#endregion
 		#region Private Fields

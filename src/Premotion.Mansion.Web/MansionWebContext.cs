@@ -134,6 +134,13 @@ namespace Premotion.Mansion.Web
 		#endregion
 		#region Implementation of IMansionWebContext
 		/// <summary>
+		/// Gets the <see cref="HttpContextBase"/>.
+		/// </summary>
+		public HttpContextBase HttpContext
+		{
+			get { return httpContext; }
+		}
+		/// <summary>
 		/// Generates a new control ID.
 		/// </summary>
 		/// <returns>Returns the generated control id.</returns>
@@ -200,11 +207,18 @@ namespace Premotion.Mansion.Web
 			get { return messageStack; }
 		}
 		/// <summary>
-		/// Gets the <see cref="HttpContextBase"/>.
+		/// Gets the <see cref="WebRequest"/>.
 		/// </summary>
-		public HttpContextBase HttpContext
+		public WebRequest Request
 		{
-			get { return httpContext; }
+			get { throw new NotImplementedException(); }
+		}
+		/// <summary>
+		/// Gets the <see cref="ISession"/>.
+		/// </summary>
+		public ISession Session
+		{
+			get { throw new NotImplementedException(); }
 		}
 		/// <summary>
 		/// Gets the application <see cref="Uri"/>.

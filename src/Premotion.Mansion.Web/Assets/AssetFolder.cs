@@ -67,7 +67,7 @@ namespace Premotion.Mansion.Web.Assets
 		/// <summary>
 		/// Gets the <see cref="Uri"/> to this folder.
 		/// </summary>
-		public Uri Url { get; private set; }
+		public Url Url { get; private set; }
 		#endregion
 		#region Private Fields
 		private static readonly AssetFolder unknown = new AssetFolder

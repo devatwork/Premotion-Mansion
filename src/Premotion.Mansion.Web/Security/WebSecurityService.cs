@@ -72,17 +72,14 @@ namespace Premotion.Mansion.Web.Security
 		{
 			// get the web request context
 			var webContext = context.Cast<IMansionWebContext>();
-			var httpContext = webContext.HttpContext;
-			if (!httpContext.HasSession())
-				return null;
 
 			// check sesssion
-			var sessionUser = httpContext.Session[cookieName] as UserState;
+			var sessionUser = webContext.Session[cookieName] as UserState;
 			if (sessionUser != null)
 				return sessionUser;
 
 			// check for revival cookie
-			var revivalCookie = httpContext.Request.Cookies[cookieName];
+			var revivalCookie = webContext.Request.Cookies[cookieName];
 			if (revivalCookie == null || string.IsNullOrEmpty(revivalCookie.Value))
 				return null;
 
@@ -139,12 +136,9 @@ namespace Premotion.Mansion.Web.Security
 
 			// get the web request context
 			var webContext = context.Cast<IMansionWebContext>();
-			var httpContext = webContext.HttpContext;
 
 			// store this user in the session
-			if (!httpContext.HasSession())
-				return null;
-			httpContext.Session.Add(GetRevivalCookieName(context), user);
+			webContext.Session[GetRevivalCookieName(context)] = user;
 
 			// check if the authentication provider support user revival and the rememberMe flag was set
 			var revivalCookieName = GetRevivalCookieName(context);
@@ -191,11 +185,10 @@ namespace Premotion.Mansion.Web.Security
 			authenicationProvider.Logoff(context);
 
 			// get the web request context
-			var httpContext = context.Cast<IMansionWebContext>().HttpContext;
+			var webContext = context.Cast<IMansionWebContext>();
 
 			// clear the user from the session
-			if (httpContext.HasSession())
-				httpContext.Session.Remove(GetRevivalCookieName(context));
+			webContext.Session.Remove(GetRevivalCookieName(context));
 
 			// delete any revival cookies
 			context.DeleteCookie(GetRevivalCookieName(context));
@@ -221,7 +214,7 @@ namespace Premotion.Mansion.Web.Security
 		private string GetUserSignatureHash(IMansionWebContext context)
 		{
 			// get the user agent string
-			var userAgentString = context.HttpContext.Request.UserAgent ?? string.Empty;
+			var userAgentString = context.Request.UserAgent ?? string.Empty;
 
 			// calculate the hash
 			var userAgentBytes = Encoding.UTF8.GetBytes(userAgentString);

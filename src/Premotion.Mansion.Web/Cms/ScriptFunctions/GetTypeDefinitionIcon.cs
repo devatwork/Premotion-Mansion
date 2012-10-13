@@ -58,11 +58,11 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 
 			// get the url
 			var webContext = context.Cast<IMansionWebContext>();
-			var prefixedRelativePath = HttpUtilities.CombineIntoRelativeUrl(webContext.HttpContext.Request.ApplicationPath, StaticResourceRequestHandler.Prefix, behavior.PathToIcon);
-			var imageUrl = new Uri(webContext.ApplicationBaseUri, prefixedRelativePath);
+			var url = Url.CreateUrl(webContext);
+			url.Path = HttpUtilities.CombineIntoRelativeUrl(StaticResourceRequestHandler.Prefix, behavior.PathToIcon);
 
 			// build the icon html
-			return string.Format("<i><img class=\"icon\" src=\"{0}\" alt=\"{1}\"></i>", imageUrl, behavior.Label ?? string.Empty);
+			return string.Format("<i><img class=\"icon\" src=\"{0}\" alt=\"{1}\"></i>", url, behavior.Label ?? string.Empty);
 		}
 		#endregion
 		#region Private Fields

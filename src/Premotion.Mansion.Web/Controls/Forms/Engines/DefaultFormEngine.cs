@@ -117,14 +117,15 @@ namespace Premotion.Mansion.Web.Controls.Forms.Engines
 		protected override void DoAdvanceTo(IMansionWebContext context, Form form, Step step)
 		{
 			// build the new URL
-			var url = new ParameterizedUri(context.HttpContext.Request.Url).SetParameter(form.Prefix + "current-step", (form.Steps.ToList().IndexOf(step)).ToString(CultureInfo.InvariantCulture));
+			var url = context.Request.Url.Clone();
+			url.QueryString.Set(form.Prefix + "current-step", (form.Steps.ToList().IndexOf(step)).ToString(CultureInfo.InvariantCulture));
 
 			// copy all non form field properties to the query string
 			foreach (var parameter in context.Stack.Peek<IPropertyBag>("Post").Where(candidate => !candidate.Key.StartsWith(form.Prefix, StringComparison.OrdinalIgnoreCase)))
-				url.SetParameter(parameter.Key, parameter.Value != null ? parameter.Value.ToString() : string.Empty);
+				url.QueryString.Set(parameter.Key, parameter.Value != null ? parameter.Value.ToString() : string.Empty);
 
 			// set the form state
-			url.SetParameter(form.Prefix + "state", context.Nucleus.ResolveSingle<IConversionService>().Convert<string>(context, form.State.FieldProperties));
+			url.QueryString.Set(form.Prefix + "state", context.Nucleus.ResolveSingle<IConversionService>().Convert<string>(context, form.State.FieldProperties));
 
 			// set redirect
 			WebUtilities.RedirectRequest(context, url);

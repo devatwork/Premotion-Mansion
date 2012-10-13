@@ -17,7 +17,7 @@ using Premotion.Mansion.Web.Caching;
 using Premotion.Mansion.Web.Mail;
 using Premotion.Mansion.Web.Mail.Standard;
 using Premotion.Mansion.Web.Security;
-using Premotion.Mansion.Web.Url;
+using Premotion.Mansion.Web.Urls;
 
 namespace Premotion.Mansion.Web.TestWebApp
 {

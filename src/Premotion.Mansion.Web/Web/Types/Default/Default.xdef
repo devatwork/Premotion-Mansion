@@ -43,7 +43,7 @@
 	<sqlserver:fullText properties="name,description,body" />
 	
 	<!-- url generator -->
-	<webdescriptors:nodeUrlGenerator type="Premotion.Mansion.Web.Url.NamedUrlGenerator,Premotion.Mansion.Web" />
+	<webdescriptors:nodeUrlGenerator type="Premotion.Mansion.Web.Urls.NamedUrlGenerator,Premotion.Mansion.Web" />
 
 	<!-- cms behavior -->
 	<cms:behavior label="Root" abstract="true" icon="Types/Default/Default.png" />

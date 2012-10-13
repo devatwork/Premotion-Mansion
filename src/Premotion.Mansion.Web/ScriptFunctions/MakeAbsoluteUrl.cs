@@ -16,7 +16,7 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 		/// <param name="context">The request context.</param>
 		/// <param name="url">The <see cref="Uri"/> which to make absolute.</param>
 		/// <returns>The <see cref="Uri"/> ot the static resource.</returns>
-		public string Evaluate(IMansionContext context, Uri url)
+		public Url Evaluate(IMansionContext context, Url url)
 		{
 			// validate arguments
 			if (context == null)
@@ -24,15 +24,11 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 			if (url == null)
 				throw new ArgumentNullException("url");
 
-			// if the url is an absolute url, return it
-			if (url.IsAbsoluteUri)
-				return url.ToString();
-
 			// get the web context
 			var webContext = context.Cast<IMansionWebContext>();
 
 			// create the uri
-			return new Uri(webContext.ApplicationBaseUri, url).ToString();
+			return url.MakeAbsolute(webContext);
 		}
 	}
 }

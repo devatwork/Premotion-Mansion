@@ -90,11 +90,8 @@ namespace Premotion.Mansion.Web.Hosting
 			if (context.BackofficeUserState.IsAuthenticated)
 				outputPipe.Response.CacheSettings.OutputCacheEnabled = false;
 
-			// get the application path
-			var applicationPath = context.HttpContext.Request.ApplicationPath ?? string.Empty;
-
 			// determine path to the script which to execute
-			var scriptPath = new RelativeResourcePath(context.HttpContext.Request.Path.Substring(applicationPath.Length), false);
+			var scriptPath = new RelativeResourcePath(context.Request.Url.Path, false);
 
 			// check if the request is to an actual script file, use the default script in that case
 			if (!resourceService.Exists(context, scriptPath))

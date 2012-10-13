@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Security;
 using System.Text.RegularExpressions;
-using System.Web;
 
 namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 {
@@ -20,7 +20,7 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		protected override void DoHandle(IMansionWebContext context)
 		{
 			// get the uploaded file
-			var uploadedFile = Request.Files[Request.Files.AllKeys[0]];
+			var uploadedFile = Request.Files.Values.First();
 			var filename = uploadedFile.FileName;
 			var errorCode = ErrorCodes.None;
 
@@ -91,7 +91,7 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// <param name="fileName"></param>
 		/// <param name="fileUrl"></param>
 		/// <returns></returns>
-		private static string GetJavaScriptCode(HttpRequestBase request, ErrorCodes errorNumber, string fileName, string fileUrl)
+		private static string GetJavaScriptCode(WebRequest request, ErrorCodes errorNumber, string fileName, string fileUrl)
 		{
 			var funcNum = request.QueryString["CKFinderFuncNum"];
 			var errorMessage = string.Empty;

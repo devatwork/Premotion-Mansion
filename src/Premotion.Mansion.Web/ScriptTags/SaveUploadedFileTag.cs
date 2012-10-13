@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.IO;
@@ -40,11 +41,11 @@ namespace Premotion.Mansion.Web.ScriptTags
 			var webContext = context.Cast<IMansionWebContext>();
 
 			// check if there is exactly one uploaded file
-			if (webContext.HttpContext.Request.Files.Count != 1)
-				throw new InvalidOperationException(string.Format("There were {0} uploaded files instead of 1", webContext.HttpContext.Request.Files.Count));
+			if (webContext.Request.Files.Count != 1)
+				throw new InvalidOperationException(string.Format("There were {0} uploaded files instead of 1", webContext.Request.Files.Count));
 
 			// get the uploaded file
-			var uploadedFile = webContext.HttpContext.Request.Files[0];
+			var uploadedFile = webContext.Request.Files.Values.ToArray()[0];
 
 			// store the file
 			var resourcePath = contentResourceService.ParsePath(context, new PropertyBag

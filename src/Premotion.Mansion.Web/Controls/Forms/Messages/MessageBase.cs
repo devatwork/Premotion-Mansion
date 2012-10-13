@@ -9,7 +9,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Messages
 	{
 		#region Nested type: MessageBaseTag
 		/// <summary>
-		/// This tag creates a <see cref="Textbox"/>.
+		/// This tag creates a <see cref="TextboxField"/>.
 		/// </summary>
 		public abstract class MessageBaseTag : FormControlFactoryTag<MessageBase>
 		{

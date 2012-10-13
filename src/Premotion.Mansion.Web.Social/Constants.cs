@@ -8,6 +8,6 @@
 		/// <summary>
 		/// The namespace in which the portal tags live.
 		/// </summary>
-		public const string TagNamespaceUri = "http://schemas.premotion.nl/mansion/1.0/web/social/tags.xsd";
+		public const string TagNamespaceUrl = "http://schemas.premotion.nl/mansion/1.0/web/social/tags.xsd";
 	}
 }

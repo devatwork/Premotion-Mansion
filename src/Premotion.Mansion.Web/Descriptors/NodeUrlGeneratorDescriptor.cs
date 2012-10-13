@@ -1,7 +1,7 @@
 ﻿using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Types;
-using Premotion.Mansion.Web.Url;
+using Premotion.Mansion.Web.Urls;
 
 namespace Premotion.Mansion.Web.Descriptors
 {

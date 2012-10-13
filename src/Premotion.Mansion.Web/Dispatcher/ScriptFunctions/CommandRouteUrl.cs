@@ -1,7 +1,7 @@
 ﻿using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
-using Premotion.Mansion.Web.Url;
+using Premotion.Mansion.Web.Urls;
 
 namespace Premotion.Mansion.Web.Dispatcher.ScriptFunctions
 {
@@ -19,7 +19,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptFunctions
 		/// <param name="action">The action of the controller.</param>
 		/// <param name="parameters">The parameters for the route URL.</param>
 		/// <returns>Return the relative URL.</returns>
-		public Uri Evaluate(IMansionContext context, string controller, string action, params string[] parameters)
+		public Url Evaluate(IMansionContext context, string controller, string action, params string[] parameters)
 		{
 			// validate arguments
 			if (context == null)
@@ -40,7 +40,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptFunctions
 		/// <param name="action">The action of the controller.</param>
 		/// <param name="parameters">The parameters for the route URL.</param>
 		/// <returns>Return the relative URL.</returns>
-		public Uri Evaluate(IMansionContext context, string area, string controller, string action, params string[] parameters)
+		public Url Evaluate(IMansionContext context, string area, string controller, string action, params string[] parameters)
 		{
 			// validate arguments
 			if (context == null)

@@ -19,9 +19,9 @@ namespace Premotion.Mansion.Web.Social
 		/// Exchanges the OAuth code for an access token.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
-		/// <returns>Returns the <see cref="Uri"/> of the request before starting the OAuth workflow.</returns>
+		/// <returns>Returns the <see cref="Url"/> of the request before starting the OAuth workflow.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> is null.</exception>
-		Result<Uri> ExchangeCodeForAccessToken(IMansionWebContext context);
+		Result<Url> ExchangeCodeForAccessToken(IMansionWebContext context);
 		#endregion
 		#region Properties
 		/// <summary>

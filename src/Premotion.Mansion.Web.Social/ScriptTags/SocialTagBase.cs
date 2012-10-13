@@ -48,7 +48,7 @@ namespace Premotion.Mansion.Web.Social.ScriptTags
 			else if (result.IsOAuthRedirect)
 			{
 				// redirect to oAuth flow
-				WebUtilities.RedirectRequest(context, result.RedirectUri);
+				WebUtilities.RedirectRequest(context, result.RedirectUrl);
 			}
 			else
 			{

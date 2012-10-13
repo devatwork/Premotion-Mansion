@@ -24,13 +24,13 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 			var webRequest = context.Cast<IMansionWebContext>();
 
 			// get the url
-			Uri url;
+			Url url;
 			if (!attributes.TryGet(context, "url", out url))
-				url = webRequest.HttpContext.Request.Url;
+				url = webRequest.Request.Url;
 
 			// get the area prefix
 			var routeProperties = new PropertyBag();
-			var routeUrlIndex = Array.FindIndex(url.Segments, x => x.Equals(Constants.RouteUrlPrefix + "/", StringComparison.OrdinalIgnoreCase));
+			var routeUrlIndex = Array.FindIndex(url.PathSegments, x => x.Equals(Constants.RouteUrlPrefix + "/", StringComparison.OrdinalIgnoreCase));
 
 			// check if this is no route url
 			if (routeUrlIndex == -1)
@@ -43,8 +43,8 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 			}
 
 			// determine the number of route url parts
-			var parameterRouteUrlIndex = Array.FindIndex(url.Segments, x => x.Equals(Constants.RouteParameterPrefix + "/", StringComparison.OrdinalIgnoreCase));
-			var routeUrlPartLength = (parameterRouteUrlIndex != -1 ? parameterRouteUrlIndex : url.Segments.Length) - routeUrlIndex;
+			var parameterRouteUrlIndex = Array.FindIndex(url.PathSegments, x => x.Equals(Constants.RouteParameterPrefix + "/", StringComparison.OrdinalIgnoreCase));
+			var routeUrlPartLength = (parameterRouteUrlIndex != -1 ? parameterRouteUrlIndex : url.PathSegments.Length) - routeUrlIndex;
 
 			// parse the route parts
 			if (routeUrlIndex != -1 && routeUrlPartLength == 4)
@@ -70,7 +70,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 			if (parameterRouteUrlIndex > -1)
 			{
 				// set all the parameters
-				for (var paremeterIndex = parameterRouteUrlIndex + 1; paremeterIndex < url.Segments.Length; paremeterIndex++)
+				for (var paremeterIndex = parameterRouteUrlIndex + 1; paremeterIndex < url.PathSegments.Length; paremeterIndex++)
 					routeProperties.Set("routeParameter" + ((paremeterIndex - parameterRouteUrlIndex) - 1), GetSegment(url, paremeterIndex));
 			}
 
@@ -83,16 +83,16 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 		/// <param name="url">The <see cref="Uri"/> from which to get the segment.</param>
 		/// <param name="index">The index of the segment which to get.</param>
 		/// <returns>Returns the trimmed segment.</returns>
-		private static string GetSegment(Uri url, int index)
+		private static string GetSegment(Url url, int index)
 		{
 			// validate arguments
 			if (url == null)
 				throw new ArgumentNullException("url");
-			if (index < 0 || index >= url.Segments.Length)
+			if (index < 0 || index >= url.PathSegments.Length)
 				throw new ArgumentOutOfRangeException("index");
 
 			// trim the segment
-			var segment = url.Segments[index];
+			var segment = url.PathSegments[index];
 			segment = segment.Trim(Constants.UrlPartTrimCharacters);
 			return segment;
 		}

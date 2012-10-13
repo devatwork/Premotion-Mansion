@@ -47,9 +47,9 @@ namespace Premotion.Mansion.Web.Assets
 		/// </summary>
 		public Node Node { get; private set; }
 		/// <summary>
-		/// Gets the <see cref="Uri"/> to this asset type.
+		/// Gets the <see cref="Mansion.Web.Url"/> to this asset type.
 		/// </summary>
-		public Uri Url { get; private set; }
+		public Url Url { get; private set; }
 		#endregion
 		#region Static Properties
 		/// <summary>

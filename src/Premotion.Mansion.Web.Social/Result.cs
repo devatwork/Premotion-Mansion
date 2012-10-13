@@ -38,19 +38,19 @@ namespace Premotion.Mansion.Web.Social
 		/// <summary>
 		/// Constructs a OAuth redirect result.
 		/// </summary>
-		/// <param name="redirectUri">The <see cref="Uri"/> to which to redirect.</param>
+		/// <param name="redirectUrl">The <see cref="Url"/> to which to redirect.</param>
 		/// <returns>Returns the created <see cref="Result{TModel}"/>.</returns>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="redirectUri"/>  is null.</exception>
-		public static Result<TModel> Redirect(Uri redirectUri)
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="redirectUrl"/>  is null.</exception>
+		public static Result<TModel> Redirect(Url redirectUrl)
 		{
 			// validate arguments
-			if (redirectUri == null)
-				throw new ArgumentNullException("redirectUri");
+			if (redirectUrl == null)
+				throw new ArgumentNullException("redirectUrl");
 
 			// set values
 			return new Result<TModel>
 			       {
-			       	redirectUri = redirectUri
+			       	redirectUrl = redirectUrl
 			       };
 		}
 		/// <summary>
@@ -84,7 +84,7 @@ namespace Premotion.Mansion.Web.Social
 				// check if a model was supplied
 				if (model == null)
 				{
-					if (redirectUri != null)
+					if (redirectUrl != null)
 						throw new InvalidOperationException("The result does not contain a model, the request is redirected to the OAuth flow.");
 					if (exception != null)
 						throw new InvalidOperationException("The result does not contain a model, the request resulted in an exception.");
@@ -96,25 +96,25 @@ namespace Premotion.Mansion.Web.Social
 			}
 		}
 		/// <summary>
-		/// Gets the OAuth redirect <see cref="Uri"/>.
+		/// Gets the OAuth redirect <see cref="Url"/>.
 		/// </summary>
 		/// <exception cref="InvalidOperationException">Thrown if <see cref="IsOAuthRedirect"/> is false .</exception>
-		public Uri RedirectUri
+		public Url RedirectUrl
 		{
 			get
 			{
 				// check if a model was supplied
-				if (redirectUri == null)
+				if (redirectUrl == null)
 				{
 					if (model != null)
-						throw new InvalidOperationException("The result does not contain a redirect uri, the request is succesful.");
+						throw new InvalidOperationException("The result does not contain a redirect Url, the request is succesful.");
 					if (exception != null)
-						throw new InvalidOperationException("The result does not contain a redirect uri, the request resulted in an exception.");
+						throw new InvalidOperationException("The result does not contain a redirect Url, the request resulted in an exception.");
 
-					throw new InvalidOperationException("The result does not contain a redirect uri.");
+					throw new InvalidOperationException("The result does not contain a redirect Url.");
 				}
 
-				return redirectUri;
+				return redirectUrl;
 			}
 		}
 		/// <summary>
@@ -130,7 +130,7 @@ namespace Premotion.Mansion.Web.Social
 				{
 					if (model != null)
 						throw new InvalidOperationException("The result does not contain an exception, the request is succesful.");
-					if (redirectUri != null)
+					if (redirectUrl != null)
 						throw new InvalidOperationException("The result does not contain an exception, the request is redirected to the OAuth flow.");
 
 					throw new InvalidOperationException("The result does not contain an exception.");
@@ -151,7 +151,7 @@ namespace Premotion.Mansion.Web.Social
 		/// </summary>
 		public bool IsOAuthRedirect
 		{
-			get { return redirectUri != null; }
+			get { return redirectUrl != null; }
 		}
 		/// <summary>
 		/// Flag indicating whether the request resulted in an <see cref="Exception"/>.
@@ -164,7 +164,7 @@ namespace Premotion.Mansion.Web.Social
 		#region Private Fields
 		private Exception exception;
 		private TModel model;
-		private Uri redirectUri;
+		private Url redirectUrl;
 		#endregion
 	}
 }

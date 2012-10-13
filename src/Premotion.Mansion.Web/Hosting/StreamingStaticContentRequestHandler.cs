@@ -80,7 +80,7 @@ namespace Premotion.Mansion.Web.Hosting
 			var response = WebResponse.Create(context);
 
 			// retrieve the resource
-			var originalResourcePath = context.HttpContext.Request.GetPathWithoutHandlerPrefix();
+			var originalResourcePath = context.Request.Url.Path.Substring(Prefix.Length + 1);
 
 			// split the path
 			var pathParts = originalResourcePath.Split(Dispatcher.Constants.UrlPartTrimCharacters, StringSplitOptions.RemoveEmptyEntries);

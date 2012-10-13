@@ -1,7 +1,7 @@
 ﻿using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
-using Premotion.Mansion.Web.Url;
+using Premotion.Mansion.Web.Urls;
 
 namespace Premotion.Mansion.Web.Dispatcher.ScriptFunctions
 {
@@ -18,7 +18,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptFunctions
 		/// <param name="controller">The name of the controller.</param>
 		/// <param name="action">The action of the controller.</param>
 		/// <returns>Return the relative URL.</returns>
-		public Uri Evaluate(IMansionContext context, string controller, string action)
+		public Url Evaluate(IMansionContext context, string controller, string action)
 		{
 			// validate arguments
 			if (context == null)
@@ -38,7 +38,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptFunctions
 		/// <param name="action">The action of the controller.</param>
 		/// <param name="nodeId">The ID of the node.</param>
 		/// <returns>Return the relative URL.</returns>
-		public Uri Evaluate(IMansionContext context, string controller, string action, int nodeId)
+		public Url Evaluate(IMansionContext context, string controller, string action, int nodeId)
 		{
 			// validate arguments
 			if (context == null)
@@ -59,7 +59,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptFunctions
 		/// <param name="nodeId">The ID of the node.</param>
 		/// <param name="parameters">The parameters for the route URL.</param>
 		/// <returns>Return the relative URL.</returns>
-		public Uri Evaluate(IMansionContext context, string controller, string action, int nodeId, params string[] parameters)
+		public Url Evaluate(IMansionContext context, string controller, string action, int nodeId, params string[] parameters)
 		{
 			// validate arguments
 			if (context == null)

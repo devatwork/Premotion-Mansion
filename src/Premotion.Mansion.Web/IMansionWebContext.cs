@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.Mail;
-using System.Web;
+﻿using System.Net.Mail;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Web.Controls;
@@ -44,14 +42,6 @@ namespace Premotion.Mansion.Web
 		/// </summary>
 		IAutoPopStack<MailMessage> MessageStack { get; }
 		/// <summary>
-		/// Gets the <see cref="HttpContextBase"/>.
-		/// </summary>
-		HttpContextBase HttpContext { get; }
-		/// <summary>
-		/// Gets the application <see cref="Uri"/>.
-		/// </summary>
-		Uri ApplicationBaseUri { get; }
-		/// <summary>
 		/// Gets the <see cref="Control"/> stack.
 		/// </summary>
 		IAutoPopStack<IControl> ControlStack { get; }
@@ -63,6 +53,14 @@ namespace Premotion.Mansion.Web
 		/// Get the current <see cref="Form"/> from the <see cref="FormStack"/>.
 		/// </summary>
 		Form CurrentForm { get; }
+		/// <summary>
+		/// Gets the <see cref="WebRequest"/>.
+		/// </summary>
+		WebRequest Request { get; }
+		/// <summary>
+		/// Gets the <see cref="ISession"/>.
+		/// </summary>
+		ISession Session { get; }
 		#endregion
 	}
 }

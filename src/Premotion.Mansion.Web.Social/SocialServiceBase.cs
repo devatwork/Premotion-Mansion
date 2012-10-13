@@ -1,6 +1,6 @@
 using System;
 using Premotion.Mansion.Core.Conversion;
-using Premotion.Mansion.Web.Url;
+using Premotion.Mansion.Web.Urls;
 
 namespace Premotion.Mansion.Web.Social
 {
@@ -55,27 +55,27 @@ namespace Premotion.Mansion.Web.Social
 		/// Exchanges the OAuth code for an access token.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
-		/// <returns>Returns the <see cref="Uri"/> of the request before starting the OAuth workflow.</returns>
+		/// <returns>Returns the <see cref="Url"/> of the request before starting the OAuth workflow.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> is null.</exception>
-		public Result<Uri> ExchangeCodeForAccessToken(IMansionWebContext context)
+		public Result<Url> ExchangeCodeForAccessToken(IMansionWebContext context)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 
-			// retrieve the request uri
-			var requestUri = context.HttpContext.Request.Url;
-			if (requestUri == null)
+			// retrieve the request Url
+			var requestUrl = context.Request.Url;
+			if (requestUrl == null)
 				throw new InvalidOperationException("This is not a request");
 
 			// invoke template method
 			try
 			{
-				return DoExchangeCodeForAccessToken(context, requestUri);
+				return DoExchangeCodeForAccessToken(context, requestUrl);
 			}
 			catch (Exception ex)
 			{
-				return Result<Uri>.Error(ex);
+				return Result<Url>.Error(ex);
 			}
 		}
 		#endregion
@@ -91,25 +91,25 @@ namespace Premotion.Mansion.Web.Social
 		/// Exchanges the OAuth code for an access token.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
-		/// <param name="requestUri">The <see cref="Uri"/> of the current request, which usually contains the result of the OAuth workflow.</param>
-		/// <returns>Returns the <see cref="Uri"/> of the request before starting the OAuth workflow.</returns>
+		/// <param name="requestUrl">The <see cref="Url"/> of the current request, which usually contains the result of the OAuth workflow.</param>
+		/// <returns>Returns the <see cref="Url"/> of the request before starting the OAuth workflow.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> is null.</exception>
-		protected abstract Result<Uri> DoExchangeCodeForAccessToken(IMansionWebContext context, Uri requestUri);
+		protected abstract Result<Url> DoExchangeCodeForAccessToken(IMansionWebContext context, Url requestUrl);
 		#endregion
 		#region Helper Methods
 		/// <summary>
-		/// Constructs a <see cref="Uri"/> to which the OAuth provider will redirect.
+		/// Constructs a <see cref="Url"/> to which the OAuth provider will redirect.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
-		/// <returns>Returns the generated <see cref="Uri"/>.</returns>
+		/// <returns>Returns the generated <see cref="Url"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> is null.</exception>
-		protected Uri BuildExchangeTokenRedirectUri(IMansionWebContext context)
+		protected Url BuildExchangeTokenRedirectUrl(IMansionWebContext context)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 
-			// build the redirect uri
+			// build the redirect Url
 			return RouteUrlBuilder.BuildRoute(context, "OAuth", "ExchangeCodeForAccessToken", ProviderName);
 		}
 		/// <summary>
@@ -131,12 +131,10 @@ namespace Premotion.Mansion.Web.Social
 				throw new ArgumentNullException("value");
 
 			// get the session
-			var session = context.HttpContext.Session;
-			if (session == null)
-				throw new InvalidOperationException("No session provided");
+			var session = context.Session;
 
 			// set the value
-			session.Add(ProviderName + "_" + name, value);
+			session[ProviderName + "_" + name] = value;
 		}
 		/// <summary>
 		/// Try to get a value name.
@@ -156,12 +154,7 @@ namespace Premotion.Mansion.Web.Social
 				throw new ArgumentNullException("name");
 
 			// get the session
-			var session = context.HttpContext.Session;
-			if (session == null)
-			{
-				value = null;
-				return false;
-			}
+			var session = context.Session;
 
 			// get the value
 			var valueObject = session[ProviderName + "_" + name];
