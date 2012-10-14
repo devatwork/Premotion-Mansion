@@ -75,48 +75,48 @@
 
 <!-- Field controls sections -->
 
-<tpl:section name="HiddenControl" field="Hidden">
+<tpl:section name="HiddenFieldControl" field="Hidden">
 	<input type="hidden" id="{@ControlId}" name="{@FieldName}" class="field hidden" value="{ControlProperties.Value}">
 </tpl:section>
 
-<tpl:section name="ReadonlyControl" field="Field">
+<tpl:section name="ReadonlyFieldControl" field="Field">
 	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge readonly" value="{FieldProperties.Value}" disabled>
 </tpl:section>
 
-<tpl:section name="TextboxControl" field="Field">
+<tpl:section name="TextboxFieldControl" field="Field">
 	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
-<tpl:section name="PasswordControl" field="Field">
+<tpl:section name="PasswordFieldControl" field="Field">
 	<input type="password" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text password {ControlProperties.cssClass}" value="{ControlProperties.value}">
 </tpl:section>
 
-<tpl:section name="TextareaControl" field="Field">
+<tpl:section name="TextareaFieldControl" field="Field">
 	<textarea id="{@ControlId}" name="{@FieldName}" class="field input-xlarge textarea {ControlProperties.cssClass}" {@FieldReadonlyAttribute}>{ControlProperties.Value}</textarea>
 </tpl:section>
 
-<tpl:section name="EmailControl" field="Field">
+<tpl:section name="EmailFieldControl" field="Field">
 	<input type="email" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text email {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
-<tpl:section name="UrlControl" field="Field">
+<tpl:section name="UrlFieldControl" field="Field">
 	<input type="url" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text url {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
-<tpl:section name="RichTextAreaControl" field="Field">
+<tpl:section name="RichTextAreaFieldControl" field="Field">
 	<textarea id="{@ControlId}" name="{@FieldName}" class="field input-xlarge rich-text {ControlProperties.cssClass}" {@FieldReadonlyAttribute}>{ControlProperties.Value}</textarea>
 </tpl:section>
 
 
-<tpl:section name="TagTextboxControl" field="Field">
+<tpl:section name="TagTextboxFieldControl" field="Field">
 	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text tags {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute} data-autocomplete-url="{RouteUrlWithArea( 'Controls', 'Async', 'AutoComplete', TagIndexNode.id )}">
 </tpl:section>
 
-<tpl:section name="CheckboxControl" field="Field">
+<tpl:section name="CheckboxFieldControl" field="Field">
 	<input type="checkbox" id="{@ControlId}" name="{@FieldName}" class="input-small checkbox {ControlProperties.cssClass}" {If( IsTrue( ControlProperties.value ), 'checked' )} {@FieldReadonlyAttribute}>
 </tpl:section>
 
-<tpl:section name="SelectboxControl" field="Field">
+<tpl:section name="SelectboxFieldControl" field="Field">
 	<select id="{@ControlId}" name="{@FieldName}" class="field input-xlarge selectbox {ControlProperties.cssClass}" {@FieldReadonlyAttribute}>
 		{@SelectboxControlDefaultOption}
 		{SelectboxControlOption}
@@ -131,7 +131,7 @@
 		<option value="{HtmlEncode( OptionProperties.value )}" {If( InList( OptionProperties.value, GetStackValue( 'FieldProperties', ControlProperties.name, '' ) ), 'selected')}>{OptionProperties.label}</option>
 	</tpl:section>
 
-<tpl:section name="MultiSelectControl" field="Field">
+<tpl:section name="MultiSelectFieldControl" field="Field">
 	<select id="{@ControlId}" name="{@FieldName}" class="field input-xlarge multiselect {ControlProperties.cssClass}" {@FieldReadonlyAttribute} multiple="multiple">
 		{MultiSelectControlOption}
 	</select>
@@ -141,7 +141,7 @@
 		<option value="{HtmlEncode( OptionProperties.value )}" {If( InList( OptionProperties.value, GetStackValue( 'FieldProperties', ControlProperties.name, '' ) ), 'selected')}>{OptionProperties.label}</option>
 	</tpl:section>
 
-<tpl:section name="CheckboxListControl" field="Field">
+<tpl:section name="CheckboxListFieldControl" field="Field">
 	<div id="{@ControlId}" class="field input-xlarge checkbox-list {ControlProperties.cssClass}">
 		{CheckboxListControlOption}
 	</div>
@@ -154,7 +154,7 @@
 		</label>
 	</tpl:section>
 
-<tpl:section name="SingleNodeSelectorControl" field="Field">
+<tpl:section name="SingleNodeSelectorFieldControl" field="Field">
 	<div id="{@ControlId}" class="field input-xlarge node-selector single-node-selector">
 		<div id="{@ControlId}-label">{ControlProperties.displayValue}</div>
 		<div class="btn-group">
@@ -165,7 +165,7 @@
 	</div>
 </tpl:section>
 
-<tpl:section name="MultiNodeSelectorControl" field="Field">
+<tpl:section name="MultiNodeSelectorFieldControl" field="Field">
 	<div id="{@ControlId}" class="field input-xlarge node-selector multi-node-selector">
 		<ul id="{@ControlId}-labels" class="unstyled">{MultiNodeSelectorControlOption}</ul>
 		<div class="btn-group">
@@ -180,7 +180,7 @@
 		<li data-value="{Row.value}">{Row.label}</li>
 	</tpl:section>
 
-<tpl:section name="NodeTreeSelectControl" field="Field">
+<tpl:section name="NodeTreeSelectFieldControl" field="Field">
 	<ul class="field tree-select node-tree">
 		{Leaf}
 	</ul>
@@ -204,7 +204,7 @@
 		</ul>
 	</tpl:section>
 
-<tpl:section name="DateControl" field="Field">
+<tpl:section name="DateFieldControl" field="Field">
 	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge date {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy' )}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
@@ -212,7 +212,7 @@
 	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge datetime {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy HH:mm' )}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
-<tpl:section name="UploadControl" field="Field">
+<tpl:section name="UploadFieldControl" field="Field">
 	<div id="{@ControlId}" class="field input-small upload {ControlProperties.cssClass}">
 		{@UploadControlPreview}
 		<input type="file" id="{@ControlId}-upload" name="{@FieldName}-upload" {@FieldReadonlyAttribute}>
@@ -227,7 +227,7 @@
 	
 
 
-<tpl:section name="ImageUploadControl" field="Field">
+<tpl:section name="ImageUploadFieldControl" field="Field">
 	<div id="{@ControlId}" class="field input-small image-upload {ControlProperties.cssClass}">
 		{@ImageUploadControlPreview}
 		<input type="file" id="{@ControlId}-upload" name="{@FieldName}-upload" {@FieldReadonlyAttribute} value="{ControlProperties.value}">
@@ -240,15 +240,15 @@
 		<a href="#" id="{@ControlId}-clear" name="{@FieldName}-clear">Remove</a>
 	</tpl:section>
 
-<tpl:section name="NumberControl" field="Field">
+<tpl:section name="NumberFieldControl" field="Field">
 	<input type="number" id="{@ControlId}" name="{@FieldName}" class="field input-small number {ControlProperties.cssClass}" value="{ControlProperties.value}" {If( Not( IsEmpty( ControlProperties.min ) ), Concat( ' min="', ControlProperties.min, '"'  ) )} {If( Not( IsEmpty( ControlProperties.max ) ), Concat( ' max="', ControlProperties.max, '"'  ) )} {@FieldReadonlyAttribute}>
 </tpl:section>
 
-<tpl:section name="DecimalNumberControl" field="Field">
+<tpl:section name="DecimalFieldControl" field="Field">
 	<input type="number" id="{@ControlId}" name="{@FieldName}" class="field input-small number decimal {ControlProperties.cssClass}" value="{ControlProperties.value}" {If( Not( IsEmpty( ControlProperties.min ) ), Concat( ' min="', ControlProperties.min, '"'  ) )} {If( Not( IsEmpty( ControlProperties.max ) ), Concat( ' max="', ControlProperties.max, '"'  ) )} {@FieldReadonlyAttribute}>
 </tpl:section>
 
-<tpl:section name="RangeControl" field="Field">
+<tpl:section name="RangeFieldControl" field="Field">
 	<input type="range" id="{@ControlId}" name="{@FieldName}" class="field input-small range {ControlProperties.cssClass}" value="{ControlProperties.value}" {If( Not( IsEmpty( ControlProperties.min ) ), Concat( ' min="', ControlProperties.min, '"'  ) )} {If( Not( IsEmpty( ControlProperties.max ) ), Concat( ' max="', ControlProperties.max, '"'  ) )} {@FieldReadonlyAttribute}>
 </tpl:section>
 
