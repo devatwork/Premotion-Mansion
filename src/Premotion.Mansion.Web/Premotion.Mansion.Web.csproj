@@ -244,8 +244,6 @@
     <Compile Include="ScriptFunctions\DataspaceToQueryString.cs" />
     <Compile Include="ScriptFunctions\DynamicResourceUrl.cs" />
     <Compile Include="ScriptFunctions\HtmlEncode.cs" />
-    <Compile Include="ScriptFunctions\MakeAbsoluteUrl.cs" />
-    <Compile Include="ScriptFunctions\MakeRelativeUrl.cs" />
     <Compile Include="ScriptFunctions\MergeResourceUrl.cs" />
     <Compile Include="ScriptFunctions\NodeURL.cs" />
     <Compile Include="ScriptFunctions\StaticContentUrl.cs" />
