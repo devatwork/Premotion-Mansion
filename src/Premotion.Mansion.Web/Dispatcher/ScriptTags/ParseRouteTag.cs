@@ -30,7 +30,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 
 			// get the area prefix
 			var routeProperties = new PropertyBag();
-			var routeUrlIndex = Array.FindIndex(url.PathSegments, x => x.Equals(Constants.RouteUrlPrefix + "/", StringComparison.OrdinalIgnoreCase));
+			var routeUrlIndex = Array.FindIndex(url.PathSegments, x => x.Equals(Constants.RouteUrlPrefix, StringComparison.OrdinalIgnoreCase));
 
 			// check if this is no route url
 			if (routeUrlIndex == -1)
@@ -43,7 +43,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 			}
 
 			// determine the number of route url parts
-			var parameterRouteUrlIndex = Array.FindIndex(url.PathSegments, x => x.Equals(Constants.RouteParameterPrefix + "/", StringComparison.OrdinalIgnoreCase));
+			var parameterRouteUrlIndex = Array.FindIndex(url.PathSegments, x => x.Equals(Constants.RouteParameterPrefix, StringComparison.OrdinalIgnoreCase));
 			var routeUrlPartLength = (parameterRouteUrlIndex != -1 ? parameterRouteUrlIndex : url.PathSegments.Length) - routeUrlIndex;
 
 			// parse the route parts
