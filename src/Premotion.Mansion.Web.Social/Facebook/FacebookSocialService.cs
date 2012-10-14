@@ -68,24 +68,24 @@ namespace Premotion.Mansion.Web.Social.Facebook
 			var getParameters = requestUrl.QueryString;
 
 			// extract the state and possible error codes
-			var state = getParameters.Get<Url>(context, "state");
-			var errorReason = getParameters.Get<string>(context, "error_reason");
-			var error = getParameters.Get<string>(context, "error");
-			var errorDescription = getParameters.Get<string>(context, "error_description");
+			var state = Url.CreateUrl(context);
+			var errorReason = getParameters["error_reason"];
+			var error = getParameters["error"];
+			var errorDescription = getParameters["error_description"];
 
 			// check for errors
 			if (!string.IsNullOrEmpty(errorReason) || !string.IsNullOrEmpty(error) || !string.IsNullOrEmpty(errorDescription))
 			{
 				// authentication failed because user clicked cancel,
 				// redirect back with reason
-				var modifiableUrl = Url.CreateUrl(context, context.Request.Url);
-				modifiableUrl.QueryString.Set("status", "failed");
-				modifiableUrl.QueryString.Set("reason", "cancelled-by-user");
+				var modifiableUrl = context.Request.RequestUrl.Clone();
+				modifiableUrl.QueryString.Add("status", "failed");
+				modifiableUrl.QueryString.Add("reason", "cancelled-by-user");
 				return Result<Url>.Redirect(modifiableUrl);
 			}
 
 			// get the code and state
-			var code = getParameters.Get<string>(context, "code");
+			var code = getParameters["code"];
 
 			// creat the client
 			var client = new RestClient(GraphApiEndpoint);
@@ -175,7 +175,7 @@ namespace Premotion.Mansion.Web.Social.Facebook
 				throw new ArgumentNullException("context");
 
 			// state
-			var state = context.Request.Url;
+			var state = context.Request.RequestUrl;
 			if (state == null)
 				throw new InvalidOperationException("Must have a state");
 
@@ -194,7 +194,7 @@ namespace Premotion.Mansion.Web.Social.Facebook
 				request.AddParameter("scope", scope);
 
 			// get the Url of the request
-			return Url.CreateUrl(context, client.BuildUri(request));
+			return Url.ParseUri(context.Request.ApplicationUrl, client.BuildUri(request));
 		}
 		#endregion
 		#region Private Fields

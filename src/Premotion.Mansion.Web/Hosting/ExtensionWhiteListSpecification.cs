@@ -40,12 +40,12 @@ namespace Premotion.Mansion.Web.Hosting
 				throw new ArgumentNullException("subject");
 
 			// get the dot index
-			var dotIndex = subject.Request.Url.Path.LastIndexOf('.');
+			var dotIndex = subject.Request.RequestUrl.Path.LastIndexOf('.');
 			if (dotIndex == -1)
 				return allowNoExtension;
 
 			// get the relative url of the current reqest
-			var extension = subject.Request.Url.Path.Substring(dotIndex);
+			var extension = subject.Request.RequestUrl.Path.Substring(dotIndex);
 
 			// check if the requests starts with the given prefix
 			return allowedExtensions.Any(candidate => extension.Equals(candidate, StringComparison.OrdinalIgnoreCase));

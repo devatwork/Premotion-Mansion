@@ -36,7 +36,7 @@ namespace Premotion.Mansion.Web.Hosting
 				throw new ArgumentNullException("subject");
 
 			// get the relative url of the current reqest
-			var relativeUrl = subject.Request.Url.Path;
+			var relativeUrl = subject.Request.RequestUrl.Path;
 
 			// check if the requests starts with the given prefix
 			return relativeUrl.StartsWith(prefix, StringComparison.OrdinalIgnoreCase);

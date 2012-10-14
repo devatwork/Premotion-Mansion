@@ -14,9 +14,9 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 		/// Gets the <see cref="Uri"/> without the query string.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="source">The source <see cref="Uri"/> from which to copy the query string.</param>
-		/// <returns>The <see cref="Uri"/> with the modified query string.</returns>
-		public Uri Evaluate(IMansionContext context, Uri source)
+		/// <param name="source">The source <see cref="Url"/> from which to copy the query string.</param>
+		/// <returns>The <see cref="Url"/> with the modified query string.</returns>
+		public Url Evaluate(IMansionContext context, Url source)
 		{
 			// validate arguments
 			if (context == null)
@@ -24,7 +24,10 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 			if (source == null)
 				throw new ArgumentNullException("source");
 
-			return new Uri(source.GetLeftPart(UriPartial.Path));
+			var clone = source.Clone();
+			clone.QueryString.Clear();
+			clone.Fragment = string.Empty;
+			return clone;
 		}
 	}
 }

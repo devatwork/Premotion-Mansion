@@ -50,7 +50,7 @@ namespace Premotion.Mansion.Web.CKFinderConnector
 			var response = WebResponse.Create(context);
 
 			// get the command name
-			var commandName = context.Request.QueryString["command"];
+			var commandName = context.Request.RequestUrl.QueryString["command"];
 			if (string.IsNullOrEmpty(commandName))
 				throw new ConnectorException(ErrorCodes.InvalidCommand);
 

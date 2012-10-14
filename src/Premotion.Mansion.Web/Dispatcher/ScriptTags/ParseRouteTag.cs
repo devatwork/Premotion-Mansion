@@ -26,7 +26,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 			// get the url
 			Url url;
 			if (!attributes.TryGet(context, "url", out url))
-				url = webRequest.Request.Url;
+				url = webRequest.Request.RequestUrl;
 
 			// get the area prefix
 			var routeProperties = new PropertyBag();

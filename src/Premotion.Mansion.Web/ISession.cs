@@ -6,6 +6,14 @@ namespace Premotion.Mansion.Web
 	public interface ISession
 	{
 		/// <summary>
+		/// Gets a flag indicating wether this session is writeable or not.
+		/// </summary>
+		bool IsWritable { get; }
+		/// <summary>
+		/// Gets a flag indicating wether this session is readable or not.
+		/// </summary>
+		bool IsReadable { get; }
+		/// <summary>
 		/// Gets/Sets an object in this ession.
 		/// </summary>
 		/// <param name="key">The key.</param>

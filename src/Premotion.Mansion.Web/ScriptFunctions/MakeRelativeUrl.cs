@@ -7,7 +7,7 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 	/// <summary>
 	/// Generates an relative url from the <see cref="Uri"/>.
 	/// </summary>
-	[ScriptFunction("MakeRelativeUrl")]
+	[ScriptFunction("MakeRelativeUrl"), Obsolete]
 	public class MakeRelativeUrl : FunctionExpression
 	{
 		/// <summary>
@@ -18,17 +18,7 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 		/// <returns>The <see cref="Uri"/> ot the static resource.</returns>
 		public Url Evaluate(IMansionContext context, Url url)
 		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
-			if (url == null)
-				throw new ArgumentNullException("url");
-
-			// get the web context
-			var webContext = context.Cast<IMansionWebContext>();
-
-			// create the uri
-			return url.MakeRelative(webContext);
+			throw new NotSupportedException("No longer supported");
 		}
 	}
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using Premotion.Mansion.Core.Caching;
 
@@ -43,7 +45,8 @@ namespace Premotion.Mansion.Web.Hosting.Caching
 			handler.BeforePipeline.AddStageToBeginOfPipeline(ctx =>
 			                                                 {
 			                                                 	// check if the browser requests a hard refresh
-			                                                 	if (ctx.Request.Headers["Cache-Control"] != null && ctx.Request.Headers["Cache-Control"].IndexOf("no-cache", StringComparison.OrdinalIgnoreCase) > -1)
+			                                                 	string cacheControlHeader;
+			                                                 	if (ctx.Request.Headers.TryGetValue("Cache-Control", out cacheControlHeader) && cacheControlHeader.IndexOf("no-cache", StringComparison.OrdinalIgnoreCase) > -1)
 			                                                 		return null;
 
 			                                                 	// check if the response is not cached
@@ -56,12 +59,14 @@ namespace Premotion.Mansion.Web.Hosting.Caching
 
 			                                                 	// check if the If-Modified-Since request header is not set
 			                                                 	DateTime modifiedSince;
-			                                                 	var ifModifiedSinceHeader = ctx.Request.Headers["If-Modified-Since"];
-			                                                 	if (string.IsNullOrEmpty(ifModifiedSinceHeader) || !DateTime.TryParse(ifModifiedSinceHeader, out modifiedSince))
+			                                                 	string ifModifiedSinceHeader;
+			                                                 	if (!ctx.Request.Headers.TryGetValue("If-Modified-Since", out ifModifiedSinceHeader) || !DateTime.TryParse(ifModifiedSinceHeader, out modifiedSince))
 			                                                 		modifiedSince = DateTime.MinValue;
 
 			                                                 	// check if the If-None-Match header request header is not set
-			                                                 	var eTag = ctx.Request.Headers["If-None-Match"] ?? string.Empty;
+			                                                 	string eTag;
+			                                                 	if (!ctx.Request.Headers.TryGetValue("If-None-Match", out eTag))
+			                                                 		eTag = string.Empty;
 
 			                                                 	// check if the ETag and LastModified date match
 			                                                 	if (eTag.Equals(response.CacheSettings.ETag, StringComparison.OrdinalIgnoreCase) && modifiedSince.AddSeconds(1) >= response.CacheSettings.LastModified)
@@ -82,6 +87,19 @@ namespace Premotion.Mansion.Web.Hosting.Caching
 			                                              	// check if the response can not be cached
 			                                              	if (!response.CacheSettings.OutputCacheEnabled)
 			                                              		return;
+
+			                                              	// assemble header string
+			                                              	var headerStringBuilder = new StringBuilder();
+			                                              	foreach (var header in response.Headers)
+			                                              		headerStringBuilder.AppendFormat("{0}={1}", header.Key, header.Value);
+
+			                                              	// generate the etag
+			                                              	var eTagString = ctx.Request.RequestUrl + response.ContentType + response.ContentEncoding.EncodingName + response.RedirectLocation + response.StatusCode + response.StatusDescription + headerStringBuilder;
+			                                              	var eTagBytes = Encoding.UTF8.GetBytes(eTagString);
+			                                              	byte[] eTagHash;
+			                                              	using (var md5Service = new MD5CryptoServiceProvider())
+			                                              		eTagHash = md5Service.ComputeHash(eTagBytes);
+			                                              	response.CacheSettings.ETag = Convert.ToBase64String(eTagHash);
 
 			                                              	// clone the response
 			                                              	var clonedResponse = response.Clone();
@@ -110,7 +128,7 @@ namespace Premotion.Mansion.Web.Hosting.Caching
 		/// <returns>Returns the generated <see cref="CacheKey"/>.</returns>
 		private static CacheKey GenerateCacheKeyForRequest(WebRequest request)
 		{
-			return (StringCacheKey) string.Format(request.Url);
+			return (StringCacheKey) string.Format(request.RequestUrl);
 		}
 		/// <summary>
 		/// Gets a flag indicating wether this request is cachable.

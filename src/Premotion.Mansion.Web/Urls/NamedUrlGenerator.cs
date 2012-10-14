@@ -19,7 +19,7 @@ namespace Premotion.Mansion.Web.Urls
 		/// <param name="url">The <see cref="Url"/> which to use to build the url.</param>
 		protected override void DoGenerate(IMansionWebContext context, Node node, ITypeDefinition nodeType, Url url)
 		{
-			url.Path = HttpUtilities.CombineIntoRelativeUrl(node.Pointer.Id + "/" + string.Join("/", node.Pointer.Path.Skip(2).Select(HttpUtilities.EscapeUriString)));
+			url.PathSegments = HttpUtilities.CombineIntoRelativeUrl(node.Pointer.Id + "/" + string.Join("/", node.Pointer.Path.Skip(2).Select(HttpUtilities.EscapeUriString)));
 		}
 		#endregion
 	}

@@ -35,7 +35,7 @@ namespace Premotion.Mansion.Web.ScriptTags
 			// get the url
 			Url url;
 			if (!arguments.TryGet(context, "url", out url))
-				url = context.Cast<IMansionWebContext>().Request.Url;
+				url = context.Cast<IMansionWebContext>().Request.RequestUrl;
 
 			// parse the query
 			var query = parser.Parse(context, new PropertyBag

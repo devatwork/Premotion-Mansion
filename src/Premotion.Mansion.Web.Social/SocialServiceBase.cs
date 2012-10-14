@@ -64,7 +64,7 @@ namespace Premotion.Mansion.Web.Social
 				throw new ArgumentNullException("context");
 
 			// retrieve the request Url
-			var requestUrl = context.Request.Url;
+			var requestUrl = context.Request.RequestUrl;
 			if (requestUrl == null)
 				throw new InvalidOperationException("This is not a request");
 

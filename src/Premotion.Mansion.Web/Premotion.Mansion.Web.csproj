@@ -200,6 +200,10 @@
     <Compile Include="Dispatcher\ScriptTags\ParseRouteTag.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Hosting\AfterPipeline.cs" />
+    <Compile Include="Hosting\AspNet\AspNetReadOnlySession.cs" />
+    <Compile Include="Hosting\AspNet\AspNetSession.cs" />
+    <Compile Include="Hosting\AspNet\HttpContextAdapter.cs" />
+    <Compile Include="Hosting\AspNet\NoSession.cs" />
     <Compile Include="Hosting\BeforePipeline.cs" />
     <Compile Include="Hosting\Caching\WebOutputCacheRequestHandlerConfigurator.cs" />
     <Compile Include="Hosting\ExtensionWhiteListSpecification.cs" />
@@ -234,6 +238,7 @@
     <Compile Include="IMansionWebContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptFunctions\ChangeQueryString.cs" />
+    <Compile Include="ScriptFunctions\MakeUrl.cs" />
     <Compile Include="ScriptFunctions\IsEmailAddress.cs" />
     <Compile Include="ScriptFunctions\CopyQueryString.cs" />
     <Compile Include="ScriptFunctions\DataspaceToQueryString.cs" />

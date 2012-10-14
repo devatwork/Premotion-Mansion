@@ -91,7 +91,7 @@ namespace Premotion.Mansion.Web.Hosting
 				outputPipe.Response.CacheSettings.OutputCacheEnabled = false;
 
 			// determine path to the script which to execute
-			var scriptPath = new RelativeResourcePath(context.Request.Url.Path, false);
+			var scriptPath = new RelativeResourcePath(context.Request.RequestUrl.Path, false);
 
 			// check if the request is to an actual script file, use the default script in that case
 			if (!resourceService.Exists(context, scriptPath))

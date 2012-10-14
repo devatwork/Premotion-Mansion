@@ -52,8 +52,7 @@ namespace Premotion.Mansion.Web.Portal.Urls
 			var sitePathParts = templatePageNode.Pointer.Hierarchy.SkipWhile(candidate => !siteNode.Pointer.IsParentOf(candidate)).TakeWhile(candidate => candidate.Id != templatePageNode.Pointer.Id).ToArray();
 			var contentPathParts = node.Pointer.Hierarchy.Skip(2).ToArray();
 
-			url.Path = HttpUtilities.CombineIntoRelativeUrl(node.Pointer.Id + "/" + string.Join("/", sitePathParts.Select(pointer => HttpUtilities.EscapeUriString(pointer.Name))), string.Join("/", contentPathParts.Select(pointer => HttpUtilities.EscapeUriString(pointer.Name))));
-			url.Fragment = string.Empty;
+			url.PathSegments = HttpUtilities.CombineIntoRelativeUrl(node.Pointer.Id + "/" + string.Join("/", sitePathParts.Select(pointer => HttpUtilities.EscapeUriString(pointer.Name))), string.Join("/", contentPathParts.Select(pointer => HttpUtilities.EscapeUriString(pointer.Name))));
 		}
 		#endregion
 		#region Private Fields

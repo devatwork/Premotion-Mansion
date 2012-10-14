@@ -221,7 +221,7 @@ var CKEDITOR_BASEPATH = "{Request.baseUrl}/static-resources/Shared/js/ckeditor/"
 	});
 	CKFinder.setupCKEditor( null, {
 		basePath: "{StaticResourcePathUrl( 'Shared/js/ckfinder' )}",
-		connectorPath: "{MakeAbsoluteUrl( 'CKFinder.Connector' )}"
+		connectorPath: "{MakeUrl( 'CKFinder.Connector' )}"
 	});
 	
 })(window.jQuery);

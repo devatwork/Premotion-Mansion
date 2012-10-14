@@ -75,7 +75,7 @@ namespace Premotion.Mansion.Web.Hosting
 		protected override void DoExecute(IMansionWebContext context, WebOutputPipe outputPipe)
 		{
 			// retrieve the resource
-			var originalResourcePath = context.Request.Url.Path.Substring(Prefix.Length + 1);
+			var originalResourcePath = context.Request.RequestUrl.Path.Substring(Prefix.Length + 1);
 			var resourcePath = new RelativeResourcePath(originalResourcePath, false);
 
 			// set output pipe properties

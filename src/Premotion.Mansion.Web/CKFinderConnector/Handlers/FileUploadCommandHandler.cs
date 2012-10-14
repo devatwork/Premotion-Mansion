@@ -53,7 +53,7 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 
 			// send feedback
 			Response.CacheSettings.OutputCacheEnabled = false;
-			if ("txt".Equals(Request.QueryString["response_type"]))
+			if ("txt".Equals(Request.RequestUrl.QueryString["response_type"]))
 			{
 				Response.ContentType = "text/plain";
 				var errorMessage = string.Empty;
@@ -93,7 +93,7 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// <returns></returns>
 		private static string GetJavaScriptCode(WebRequest request, ErrorCodes errorNumber, string fileName, string fileUrl)
 		{
-			var funcNum = request.QueryString["CKFinderFuncNum"];
+			var funcNum = request.RequestUrl.QueryString["CKFinderFuncNum"];
 			var errorMessage = string.Empty;
 
 			if (errorNumber > 0)

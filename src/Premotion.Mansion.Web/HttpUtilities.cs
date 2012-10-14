@@ -245,17 +245,14 @@ namespace Premotion.Mansion.Web
 		/// </summary>
 		/// <param name="parts">The parts which to combine.</param>
 		/// <returns>Returns the combined URL.</returns>
-		public static string CombineIntoRelativeUrl(params string[] parts)
+		public static string[] CombineIntoRelativeUrl(params string[] parts)
 		{
 			// validate arguments
 			if (parts == null)
 				throw new ArgumentNullException("parts");
 
 			// split all the incoming parts on dash
-			var dashSeparatedParts = parts.SelectMany(part => part.Split(Dispatcher.Constants.UrlPartTrimCharacters, StringSplitOptions.RemoveEmptyEntries));
-
-			// join the parts
-			return dashSeparatedParts.Aggregate(string.Empty, (current, part) => current + "/" + part);
+			return parts.SelectMany(part => part.Split(Dispatcher.Constants.UrlPartTrimCharacters, StringSplitOptions.RemoveEmptyEntries)).ToArray();
 		}
 		/// <summary>
 		/// URL encodes the <paramref name="input"/>.

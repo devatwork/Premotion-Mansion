@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.SessionState;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Patterns;
 using Premotion.Mansion.Core.Patterns.Voting;
 using Premotion.Mansion.Core.Security;
 
@@ -24,7 +25,7 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 		/// <summary>
 		/// Abstract implementation of the <see cref="IHttpHandler"/>.
 		/// </summary>
-		protected abstract class HttpHandlerBase : IHttpHandler
+		protected abstract class HttpHandlerBase : DisposableBase, IHttpHandler
 		{
 			#region Implementation of IHttpHandler
 			/// <summary>
@@ -73,15 +74,19 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			/// <summary>
 			/// Constructs this <see cref="MansionHttpHandlerBase"/> with the given <paramref name="requestHandler"/>.
 			/// </summary>
+			/// <param name="requestContext">The <see cref="MansionWebContext"/> for this request.</param>
 			/// <param name="requestHandler">The <see cref="RequestHandler"/> which does the actual work of handling the request.</param>
 			/// <exception cref="ArgumentNullException">Thrown if <paramref name="requestHandler"/> is null.</exception>
-			protected MansionHttpHandlerBase(RequestHandler requestHandler)
+			protected MansionHttpHandlerBase(MansionWebContext requestContext, RequestHandler requestHandler)
 			{
 				// validate arguments
+				if (requestContext == null)
+					throw new ArgumentNullException("requestContext");
 				if (requestHandler == null)
 					throw new ArgumentNullException("requestHandler");
 
 				// set values
+				webRequestContext = requestContext;
 				this.requestHandler = requestHandler;
 			}
 			#endregion
@@ -92,86 +97,54 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			/// <param name="context">An <see cref="T:System.Web.HttpContextBase"/> object that provides references to the intrinsic server objects (for example, Request, Response, Session, and Server) used to service HTTP requests. </param>
 			protected override sealed void DoProcessRequest(HttpContextBase context)
 			{
-				// get the request context
-				var requestContext = MansionWebContext.FetchFromHttpContext(context) as MansionWebContext;
+				// set the session
+				webRequestContext.Session = GetSession(context);
 
-				// initialize the the security service when there is state
-				if (requestContext.HttpContext.HasSession())
-					requestContext.Nucleus.ResolveSingle<ISecurityService>().InitializeSecurityContext(requestContext);
+				// initialize the security service
+				webRequestContext.Nucleus.ResolveSingle<ISecurityService>().InitializeSecurityContext(webRequestContext);
 
 				// create the request context
-				DoProcessRequest(context, requestContext);
+				var response = DoProcessRequest(webRequestContext);
 
-				// dispose the request context
-				requestContext.Dispose();
+				// transfer the response
+				HttpContextAdapter.Transfer(response, context.Response);
 			}
 			#endregion
 			#region Template Methods
 			/// <summary>
 			/// Enables processing of HTTP Web requests by a custom HttpHandler that implements the <see cref="T:System.Web.IHttpHandler"/> interface.
 			/// </summary>
-			/// <param name="context">An <see cref="IMansionWebContext"/> object that provides references to the intrinsic mansion objects used to service HTTP requests. </param>
 			/// <param name="requestContext">The <see cref="IMansionWebContext"/>.</param>
-			protected virtual void DoProcessRequest(HttpContextBase context, IMansionWebContext requestContext)
+			protected virtual WebResponse DoProcessRequest(IMansionWebContext requestContext)
 			{
 				// get the response
-				var webResponse = requestHandler.Execute(requestContext);
+				return requestHandler.Execute(requestContext);
+			}
+			/// <summary>
+			/// Gets the <see cref="ISession"/>.
+			/// </summary>
+			/// <param name="context">The <see cref="HttpContextBase"/>.</param>
+			/// <returns>Returns the <see cref="ISession"/>.</returns>
+			protected abstract ISession GetSession(HttpContextBase context);
+			#endregion
+			#region Overrides of DisposableBase
+			/// <summary>
+			/// Dispose resources. Override this method in derived classes. Unmanaged resources should always be released
+			/// when this method is called. Managed resources may only be disposed of if disposeManagedResources is true.
+			/// </summary>
+			/// <param name="disposeManagedResources">A value which indicates whether managed resources may be disposed of.</param>
+			protected override void DisposeResources(bool disposeManagedResources)
+			{
+				if (!disposeManagedResources)
+					return;
 
-				// map the response to the http output
-				var httpResponse = context.Response;
-				httpResponse.ContentEncoding = webResponse.ContentEncoding;
-				httpResponse.ContentType = webResponse.ContentType;
-				httpResponse.StatusCode = (int) webResponse.StatusCode;
-				httpResponse.StatusDescription = webResponse.StatusDescription;
-
-				// flush the content
-				webResponse.Contents(httpResponse.OutputStream);
-
-				// copy headers
-				foreach (var header in webResponse.Headers)
-					httpResponse.AddHeader(header.Key, header.Value);
-
-				// copy cookies
-				foreach (var cookie in webResponse.Cookies)
-				{
-					// create the http cookie
-					var httpCookie = new HttpCookie(cookie.Name, cookie.Value)
-					                 {
-					                 	Secure = cookie.Secure,
-					                 	HttpOnly = cookie.HttpOnly
-					                 };
-
-					// check for domain
-					if (!string.IsNullOrEmpty(cookie.Domain))
-						httpCookie.Domain = cookie.Domain;
-
-					// check expires
-					if (cookie.Expires.HasValue)
-						httpCookie.Expires = cookie.Expires.Value;
-
-					// add the cookie to the response
-					httpResponse.Cookies.Add(httpCookie);
-				}
-
-				// set cache properties
-				if (webResponse.CacheSettings.OutputCacheEnabled)
-				{
-					if (webResponse.CacheSettings.Expires.HasValue)
-						httpResponse.Cache.SetExpires(webResponse.CacheSettings.Expires.Value);
-					else if (!string.IsNullOrEmpty(webResponse.CacheSettings.ETag))
-					{
-						httpResponse.Cache.SetLastModified(webResponse.CacheSettings.LastModified);
-						httpResponse.Cache.SetETag(webResponse.CacheSettings.ETag);
-					}
-				}
-
-				// check for redirect
-				if (!string.IsNullOrEmpty(webResponse.RedirectLocation))
-					httpResponse.RedirectLocation = webResponse.RedirectLocation;
+				// dispose
+				webRequestContext.Dispose();
 			}
 			#endregion
 			#region Private Fields
 			private readonly RequestHandler requestHandler;
+			private readonly MansionWebContext webRequestContext;
 			#endregion
 		}
 		#endregion
@@ -185,10 +158,22 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			/// <summary>
 			/// Constructs this <see cref="MansionHttpHandlerBase"/> with the given <paramref name="requestHandler"/>.
 			/// </summary>
+			/// <param name="requestContext">The <see cref="MansionWebContext"/> for this request.</param>
 			/// <param name="requestHandler">The <see cref="RequestHandler"/> which does the actual work of handling the request.</param>
 			/// <exception cref="ArgumentNullException">Thrown if <paramref name="requestHandler"/> is null.</exception>
-			public ReadOnlyStateHttpHandler(RequestHandler requestHandler) : base(requestHandler)
+			public ReadOnlyStateHttpHandler(MansionWebContext requestContext, RequestHandler requestHandler) : base(requestContext, requestHandler)
 			{
+			}
+			#endregion
+			#region Overrides of MansionHttpHandlerBase
+			/// <summary>
+			/// Gets the <see cref="ISession"/>.
+			/// </summary>
+			/// <param name="context">The <see cref="HttpContextBase"/>.</param>
+			/// <returns>Returns the <see cref="ISession"/>.</returns>
+			protected override ISession GetSession(HttpContextBase context)
+			{
+				return new AspNetReadOnlySession(context.Session);
 			}
 			#endregion
 		}
@@ -203,28 +188,52 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			/// <summary>
 			/// Constructs this <see cref="MansionHttpHandlerBase"/> with the given <paramref name="requestHandler"/>.
 			/// </summary>
+			/// <param name="requestContext">The <see cref="MansionWebContext"/> for this request.</param>
 			/// <param name="requestHandler">The <see cref="RequestHandler"/> which does the actual work of handling the request.</param>
 			/// <exception cref="ArgumentNullException">Thrown if <paramref name="requestHandler"/> is null.</exception>
-			public StatefulHttpHandler(RequestHandler requestHandler) : base(requestHandler)
+			public StatefulHttpHandler(MansionWebContext requestContext, RequestHandler requestHandler) : base(requestContext, requestHandler)
 			{
+			}
+			#endregion
+			#region Overrides of MansionHttpHandlerBase
+			/// <summary>
+			/// Gets the <see cref="ISession"/>.
+			/// </summary>
+			/// <param name="context">The <see cref="HttpContextBase"/>.</param>
+			/// <returns>Returns the <see cref="ISession"/>.</returns>
+			protected override ISession GetSession(HttpContextBase context)
+			{
+				return new AspNetSession(context.Session);
 			}
 			#endregion
 		}
 		#endregion
-		#region Nested type: StatelesHttpHander
+		#region Nested type: StatelessHttpHander
 		/// <summary>
 		/// Implements <see cref="MansionHttpHandlerBase"/> without session state. Requests originating from the same session can always be handled simultaneously by IIS.
 		/// </summary>
-		protected class StatelesHttpHander : MansionHttpHandlerBase
+		protected class StatelessHttpHander : MansionHttpHandlerBase
 		{
 			#region Constructors
 			/// <summary>
 			/// Constructs this <see cref="MansionHttpHandlerBase"/> with the given <paramref name="requestHandler"/>.
 			/// </summary>
+			/// <param name="requestContext">The <see cref="MansionWebContext"/> for this request.</param>
 			/// <param name="requestHandler">The <see cref="RequestHandler"/> which does the actual work of handling the request.</param>
 			/// <exception cref="ArgumentNullException">Thrown if <paramref name="requestHandler"/> is null.</exception>
-			public StatelesHttpHander(RequestHandler requestHandler) : base(requestHandler)
+			public StatelessHttpHander(MansionWebContext requestContext, RequestHandler requestHandler) : base(requestContext, requestHandler)
 			{
+			}
+			#endregion
+			#region Overrides of MansionHttpHandlerBase
+			/// <summary>
+			/// Gets the <see cref="ISession"/>.
+			/// </summary>
+			/// <param name="context">The <see cref="HttpContextBase"/>.</param>
+			/// <returns>Returns the <see cref="ISession"/>.</returns>
+			protected override ISession GetSession(HttpContextBase context)
+			{
+				return new NoSession();
 			}
 			#endregion
 		}
@@ -255,8 +264,11 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			// get the mansion application context
 			var applicationContext = MansionWebApplicationContextFactory.Instance;
 
+			// create the request
+			var request = HttpContextAdapter.Adapt(wrappedContext);
+
 			// get the mansion request context
-			var requestContext = MansionWebContext.Create(applicationContext, wrappedContext);
+			var requestContext = MansionWebContext.Create(applicationContext, request);
 
 			// select the handler
 			RequestHandlerFactory handlerFactory;
@@ -279,7 +291,10 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 		/// <param name="handler">The <see cref="T:System.Web.IHttpHandler"/> object to reuse. </param>
 		public void ReleaseHandler(IHttpHandler handler)
 		{
-			// do nothing
+			// dispose the handler
+			var disposableHandler = handler as IDisposable;
+			if (disposableHandler != null)
+				disposableHandler.Dispose();
 		}
 		/// <summary>
 		/// Returns an instance of a class that implements the <see cref="T:System.Web.IHttpHandler"/> interface.
@@ -289,10 +304,12 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 		/// </returns>
 		/// <param name="context">An instance of the <see cref="T:System.Web.HttpContextBase"/> class that provides references to intrinsic server objects (for example, Request, Response, Session, and Server) used to service HTTP requests. </param>
 		/// <param name="requestHandler">The <see cref="RequestHandler"/> which does the actual work of handling the request.</param>
-		protected virtual IHttpHandler DoGetHandler(IMansionWebContext context, RequestHandler requestHandler)
+		protected virtual IHttpHandler DoGetHandler(MansionWebContext context, RequestHandler requestHandler)
 		{
 			// determine if the request is stateful or not
-			var requiredStateString = context.Request.QueryString[StateQueryStringParameterName] ?? String.Empty;
+			string requiredStateString;
+			if (!context.Request.RequestUrl.QueryString.TryGetValue(StateQueryStringParameterName, out requiredStateString))
+				requiredStateString = string.Empty;
 
 			// parse the required session state from the query srting
 			var requiredByQueryString = RequiresSessionState.Parse(requiredStateString);
@@ -302,11 +319,11 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 
 			// switch to the corrent http handler
 			if (highestStateDemanded == RequiresSessionState.Full)
-				return new StatefulHttpHandler(requestHandler);
+				return new StatefulHttpHandler(context, requestHandler);
 			if (highestStateDemanded == RequiresSessionState.ReadOnly)
-				return new ReadOnlyStateHttpHandler(requestHandler);
+				return new ReadOnlyStateHttpHandler(context, requestHandler);
 			if (highestStateDemanded == RequiresSessionState.No)
-				return new StatelesHttpHander(requestHandler);
+				return new StatelessHttpHander(context, requestHandler);
 			throw new InvalidOperationException("Uknown session state demanded");
 		}
 		#endregion

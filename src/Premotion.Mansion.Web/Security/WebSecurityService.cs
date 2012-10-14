@@ -74,13 +74,15 @@ namespace Premotion.Mansion.Web.Security
 			var webContext = context.Cast<IMansionWebContext>();
 
 			// check sesssion
+			if (!webContext.Session.IsReadable)
+				return null;
 			var sessionUser = webContext.Session[cookieName] as UserState;
 			if (sessionUser != null)
 				return sessionUser;
 
 			// check for revival cookie
-			var revivalCookie = webContext.Request.Cookies[cookieName];
-			if (revivalCookie == null || string.IsNullOrEmpty(revivalCookie.Value))
+			WebCookie revivalCookie;
+			if (!webContext.Request.Cookies.TryGetValue(cookieName, out revivalCookie) || string.IsNullOrEmpty(revivalCookie.Value))
 				return null;
 
 			// deserialize the properties
@@ -137,6 +139,10 @@ namespace Premotion.Mansion.Web.Security
 			// get the web request context
 			var webContext = context.Cast<IMansionWebContext>();
 
+			// check session
+			if (!webContext.Session.IsWritable)
+				throw new InvalidOperationException("Could not authenticate user because the session is not writeable");
+
 			// store this user in the session
 			webContext.Session[GetRevivalCookieName(context)] = user;
 
@@ -186,6 +192,10 @@ namespace Premotion.Mansion.Web.Security
 
 			// get the web request context
 			var webContext = context.Cast<IMansionWebContext>();
+
+			// check session
+			if (!webContext.Session.IsWritable)
+				throw new InvalidOperationException("Could not log off user because the session is not writeable");
 
 			// clear the user from the session
 			webContext.Session.Remove(GetRevivalCookieName(context));

@@ -7,7 +7,7 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 	/// <summary>
 	/// Generates an absulute url from the <see cref="Uri"/>.
 	/// </summary>
-	[ScriptFunction("MakeAbsoluteUrl")]
+	[ScriptFunction("MakeAbsoluteUrl"), Obsolete]
 	public class MakeAbsoluteUrl : FunctionExpression
 	{
 		/// <summary>
@@ -18,17 +18,7 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 		/// <returns>The <see cref="Uri"/> ot the static resource.</returns>
 		public Url Evaluate(IMansionContext context, Url url)
 		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
-			if (url == null)
-				throw new ArgumentNullException("url");
-
-			// get the web context
-			var webContext = context.Cast<IMansionWebContext>();
-
-			// create the uri
-			return url.MakeAbsolute(webContext);
+			throw new NotSupportedException("No longer supported");
 		}
 	}
 }

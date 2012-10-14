@@ -65,7 +65,7 @@ namespace Premotion.Mansion.Web.Assets
 			get { return unknown; }
 		}
 		/// <summary>
-		/// Gets the <see cref="Uri"/> to this folder.
+		/// Gets the <see cref="Url"/> to this folder.
 		/// </summary>
 		public Url Url { get; private set; }
 		#endregion

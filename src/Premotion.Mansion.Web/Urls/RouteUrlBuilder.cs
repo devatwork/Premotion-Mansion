@@ -199,7 +199,7 @@ namespace Premotion.Mansion.Web.Urls
 			var url = Url.CreateUrl(context);
 
 			// assemble the relative url
-			url.Path = string.Join("/", urlParts.Select(part => part.Trim(Dispatcher.Constants.UrlPartTrimCharacters)));
+			url.PathSegments = urlParts.Select(part => part.Trim(Dispatcher.Constants.UrlPartTrimCharacters)).ToArray();
 
 			// return the Url
 			return url;

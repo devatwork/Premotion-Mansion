@@ -48,7 +48,7 @@ namespace Premotion.Mansion.Web.Assets
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="assetTypeNode">The asset type node.</param>
 		/// <param name="folderNode">The asset folder node.</param>
-		/// <returns>Returns the <see cref="Uri"/>.</returns>
+		/// <returns>Returns the <see cref="Url"/>.</returns>
 		public static Url GetUrl(IMansionContext context, Node assetTypeNode, Node folderNode)
 		{
 			// validate arguments
@@ -69,9 +69,9 @@ namespace Premotion.Mansion.Web.Assets
 			var url = Url.CreateUrl(webContext);
 
 			// create the relative path
-			url.Path = HttpUtilities.CombineIntoRelativeUrl(StaticContentRequestHandler.Prefix, folderPath);
+			url.PathSegments = HttpUtilities.CombineIntoRelativeUrl(StaticContentRequestHandler.Prefix, folderPath);
 
-			// create the uri
+			// create the url
 			return url;
 		}
 	}

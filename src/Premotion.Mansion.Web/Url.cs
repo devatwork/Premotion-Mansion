@@ -1,5 +1,10 @@
 using System;
-using Premotion.Mansion.Core;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Web;
 
 namespace Premotion.Mansion.Web
 {
@@ -8,98 +13,328 @@ namespace Premotion.Mansion.Web
 	/// </summary>
 	public class Url
 	{
+		#region Constuctors
+		/// <summary>
+		/// Create using factory methods.
+		/// </summary>
+		private Url()
+		{
+		}
+		#endregion
+		#region Methods
+		/// <summary>
+		/// Clones the this <see cref="Url"/>.
+		/// </summary>
+		/// <returns>Returns the cloned <see cref="Url"/>.</returns>
+		public Url Clone()
+		{
+			// create the clone
+			var clone = new Url
+			            {
+			            	Scheme = Scheme,
+			            	HostName = HostName,
+			            	Port = Port,
+			            	BasePathSegments = BasePathSegments.ToArray(),
+			            	PathSegments = PathSegments.ToArray(),
+			            	Fragment = Fragment
+			            };
+
+			// copy the query string
+			foreach (var kvp in QueryString)
+				clone.QueryString.Add(kvp);
+
+			// return the clone
+			return clone;
+		}
+		/// <summary>
+		/// Creates a new <see cref="Url"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+		/// <returns>Returns the created <see cref="Url"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> is null.</exception>
+		public static Url CreateUrl(IMansionWebContext context)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+
+			// get the application url
+			var applicationUrl = context.Request.ApplicationUrl;
+
+			return new Url
+			       {
+			       	Scheme = applicationUrl.Scheme,
+			       	HostName = applicationUrl.HostName,
+			       	Port = applicationUrl.Port,
+			       	BasePathSegments = applicationUrl.BasePathSegments,
+			       	PathSegments = new string[0]
+			       };
+		}
+		/// <summary>
+		/// Parses the given <paramref name="uri"/> as an url.
+		/// </summary>
+		/// <param name="applicationUrl">The <see cref="IMansionWebContext"/>.</param>
+		/// <param name="uri">The <see cref="Uri"/> which to parse.</param>
+		/// <returns>Returns the parsed <see cref="Url"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="uri"/> is null.</exception>
+		public static Url ParseUri(Url applicationUrl, Uri uri)
+		{
+			// validate arguments
+			if (applicationUrl == null)
+				throw new ArgumentNullException("applicationUrl");
+			if (uri == null)
+				throw new ArgumentNullException("uri");
+
+			// create the url
+			var url = new Url
+			          {
+			          	Scheme = applicationUrl.Scheme,
+			          	HostName = applicationUrl.HostName,
+			          	Port = applicationUrl.Port,
+			          	BasePathSegments = applicationUrl.BasePathSegments,
+			          	PathSegments = uri.Segments.Select(candidate => candidate.Trim(Dispatcher.Constants.UrlPartTrimCharacters)).Where(candidate => candidate.Length > 0).Skip(applicationUrl.BasePathSegments.Length).ToArray()
+			          };
+
+			// parse the query string
+			var nvc = HttpUtility.ParseQueryString(uri.Query);
+			foreach (var key in nvc.Cast<string>())
+				url.QueryString[key] = nvc[key];
+
+			// return the parsed url
+			return url;
+		}
+		/// <summary>
+		/// Parses the given <paramref name="uri"/> as the application url.
+		/// </summary>
+		/// <param name="uri">The <see cref="Uri"/> which to parse.</param>
+		/// <returns>Returns the parsed <see cref="Url"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="uri"/> is null.</exception>
+		public static Url ParseApplicationUri(Uri uri)
+		{
+			// validate arguments
+			if (uri == null)
+				throw new ArgumentNullException("uri");
+
+			// return the url
+			return new Url
+			       {
+			       	Scheme = uri.Scheme,
+			       	HostName = uri.Host,
+			       	Port = uri.Port,
+			       	BasePathSegments = uri.Segments.Select(candidate => candidate.Trim(Dispatcher.Constants.UrlPartTrimCharacters)).Where(candidate => candidate.Length > 0).ToArray(),
+			       	PathSegments = new string[0]
+			       };
+		}
+		/// <summary>
+		/// Parses the given <paramref name="relativeUrl"/> into a <see cref="Url"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+		/// <param name="relativeUrl">The relative url, may contain path, query string and fragment.</param>
+		/// <returns>Returns the parsed <see cref="Url"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public static Url ParseUrl(IMansionWebContext context, string relativeUrl)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (relativeUrl == null)
+				throw new ArgumentNullException("relativeUrl");
+
+			// begin by creating a copy of the application url
+			var url = context.Request.ApplicationUrl.Clone();
+
+			// tracks how far the end of the relative url has already been parsed
+			var parsedIndex = relativeUrl.Length - 1;
+
+			// check if the relative url contains a fragment
+			var fragmentStart = relativeUrl.LastIndexOf('#', parsedIndex, parsedIndex);
+			if (fragmentStart > -1)
+			{
+				url.Fragment = relativeUrl.Substring(fragmentStart);
+				parsedIndex -= url.Fragment.Length;
+				if (parsedIndex == 0)
+					return url;
+			}
+
+			// check if the relative url contains a query string
+			var queryStringStart = relativeUrl.LastIndexOf('?', parsedIndex, parsedIndex);
+			if (queryStringStart > -1)
+			{
+				var queryString = relativeUrl.Substring(queryStringStart, parsedIndex - queryStringStart + 1);
+				var nvc = HttpUtility.ParseQueryString(queryString);
+				foreach (var key in nvc.Cast<string>())
+					url.QueryString[key] = nvc[key];
+				parsedIndex -= queryString.Length;
+				if (parsedIndex == 0)
+					return url;
+			}
+
+			// intepret the remainder as the path
+			url.PathSegments = relativeUrl.Substring(0, parsedIndex + 1).Split(Dispatcher.Constants.UrlPartTrimCharacters, StringSplitOptions.RemoveEmptyEntries);
+
+			// return the parsed url
+			return url;
+		}
+		#endregion
+		#region Properties
+		/// <summary>
+		/// Gets or sets the HTTP protocol used by the client.
+		/// </summary>
+		/// <value>The protocol.</value>
+		public string Scheme
+		{
+			get { return scheme.ToLower(); }
+			set { scheme = (value ?? string.Empty).ToLower(); }
+		}
+		/// <summary>
+		/// Gets or sets the host name.
+		/// </summary>
+		public string HostName { get; set; }
+		/// <summary>
+		/// Gets or sets the port name.
+		/// </summary>
+		public int? Port { get; set; }
+		/// <summary>
+		/// Gets the base path segments.
+		/// </summary>
+		private string[] BasePathSegments { get; set; }
 		/// <summary>
 		/// Gets the path of the request, relative to the base path.
 		/// 
 		/// This property drives the route matching
 		/// </summary>
-		public string Path { get; set; }
-		/// <summary>
-		/// Gets the query string of this url.
-		/// </summary>
-		public IPropertyBag QueryString { get; private set; }
+		public string Path
+		{
+			get { return FormatPath(PathSegments).Trim(Dispatcher.Constants.UrlPartTrimCharacters); }
+		}
 		/// <summary>
 		/// Gets the segments of the path.
 		/// </summary>
 		public string[] PathSegments { get; set; }
 		/// <summary>
-		/// Gets the host name
+		/// Gets the query string of this url.
 		/// </summary>
-		public string HostName { get; set; }
+		public IDictionary<string, string> QueryString
+		{
+			get { return queryString; }
+		}
 		/// <summary>
 		/// Gets/Sets the fragment of this url.
 		/// </summary>
-		public string Fragment { get; set; }
+		public string Fragment
+		{
+			get { return fragment.Trim('#'); }
+			set { fragment = (value ?? string.Empty).Trim('#'); }
+		}
+		#endregion
+		#region Overrides of Object
 		/// <summary>
-		/// 
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 		/// </summary>
-		/// <param name="url"></param>
-		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
+		/// <returns>
+		/// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+		/// </returns>
+		/// <filterpriority>2</filterpriority>
+		public override string ToString()
+		{
+			// create a buffer
+			return new StringBuilder()
+				.Append(Scheme)
+				.Append("://")
+				.Append(FormatHostName(HostName))
+				.Append(FormatPort(Port))
+				.Append(FormatPath(BasePathSegments))
+				.Append(FormatPath(PathSegments))
+				.Append(FormatQueryString(QueryString))
+				.Append(FormatFragment(Fragment))
+				.ToString();
+		}
+		#endregion
+		#region Operators
+		/// <summary>
+		/// Converts the given <paramref name="url"/> into a <see cref="String"/>.
+		/// </summary>
+		/// <param name="url">The <see cref="Url"/>.</param>
+		/// <returns>Returns the string representation of the <paramref name="url"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="url"/> is null.</exception>
 		public static implicit operator string(Url url)
 		{
-			throw new NotImplementedException();
+			// validate arguments
+			if (url == null)
+				throw new ArgumentNullException("url");
+
+			// return the string
+			return url.ToString();
+		}
+		#endregion
+		#region Helper Methods
+		/// <summary>
+		/// Gets the formatted host name.
+		/// </summary>
+		/// <param name="hostName"></param>
+		/// <returns></returns>
+		private static string FormatHostName(string hostName)
+		{
+			IPAddress address;
+
+			if (IPAddress.TryParse(hostName, out address))
+				return (address.AddressFamily == AddressFamily.InterNetworkV6) ? string.Concat("[", address.ToString(), "]") : address.ToString();
+
+			return hostName;
 		}
 		/// <summary>
-		/// 
+		/// Gets the formatted port number
 		/// </summary>
+		/// <param name="port"></param>
 		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
-		public Url Clone()
+		private string FormatPort(int? port)
 		{
-			throw new NotImplementedException();
+			// check if a port is specified
+			if (!port.HasValue)
+				return string.Empty;
+
+			if (port.Value == 80 && "http".Equals(Scheme))
+				return string.Empty;
+
+			if (port.Value == 443 && "https".Equals(Scheme))
+				return string.Empty;
+
+			return string.Concat(":", port.Value);
 		}
 		/// <summary>
-		/// 
+		/// Formats the path.
 		/// </summary>
-		/// <param name="webContext"></param>
+		/// <param name="segments"></param>
 		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
-		public static Url CreateUrl(IMansionWebContext webContext)
+		private static string FormatPath(IEnumerable<string> segments)
 		{
-			throw new NotImplementedException();
+			if (segments == null)
+				throw new ArgumentNullException("segments");
+			return segments.Aggregate(string.Empty, (current, part) => current + "/" + part);
 		}
 		/// <summary>
-		/// 
+		/// Formats the given query string.
 		/// </summary>
-		/// <param name="webContext"></param>
-		/// <param name="url"></param>
+		/// <param name="query"></param>
 		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
-		public static Url CreateUrl(IMansionWebContext webContext, Url url)
+		private static string FormatQueryString(IDictionary<string, string> query)
 		{
-			throw new NotImplementedException();
+			return (query.Count == 0) ? string.Empty : "?" + string.Join("&", query.Select(kvp => HttpUtilities.UrlEncode(kvp.Key) + "=" + HttpUtilities.UrlEncode(kvp.Value)));
 		}
 		/// <summary>
-		/// 
+		/// Formats the given fragment.
 		/// </summary>
-		/// <param name="webContext"></param>
-		/// <param name="uri"></param>
+		/// <param name="fragment"></param>
 		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
-		public static Url CreateUrl(IMansionWebContext webContext, Uri uri)
+		private static string FormatFragment(string fragment)
 		{
-			throw new NotImplementedException();
+			return (string.IsNullOrEmpty(fragment)) ? string.Empty : string.Concat("#", fragment);
 		}
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="webContext"></param>
-		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
-		public Url MakeRelative(IMansionWebContext webContext)
-		{
-			throw new NotImplementedException();
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="webContext"></param>
-		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
-		public Url MakeAbsolute(IMansionWebContext webContext)
-		{
-			throw new NotImplementedException();
-		}
+		#endregion
+		#region Private Fields
+		private readonly Dictionary<string, string> queryString = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+		private string fragment = string.Empty;
+		private string scheme;
+		#endregion
 	}
 }

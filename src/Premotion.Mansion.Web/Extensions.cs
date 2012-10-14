@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -18,67 +17,7 @@ namespace Premotion.Mansion.Web
 		/// <summary>
 		/// RFC 2822, http://www.regular-expressions.info/email.html
 		/// </summary>
-		private static readonly Regex emailRegularExpression = new Regex(@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\b", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
-		#endregion
-		#region HttpContextBase Extensions
-		/// <summary>
-		/// Gets a flag indicating whether the <paramref name="httpContext"/> has a session.
-		/// </summary>
-		/// <param name="httpContext">The <see cref="HttpContextBase"/>.</param>
-		/// <returns>Returns true when the <paramref name="httpContext"/> has a sessions, otherwise false.</returns>
-		/// <exception cref="ArgumentNullException">Thrown when <paramref name="httpContext"/> is null.</exception>
-		public static bool HasSession(this HttpContextBase httpContext)
-		{
-			// validate arguments
-			if (httpContext == null)
-				throw new ArgumentNullException("httpContext");
-			return httpContext.Session != null;
-		}
-		#endregion
-		#region HttpRequestBase Extensions
-		/// <summary>
-		/// Gets the path of the request without the handler prefix.
-		/// </summary>
-		/// <param name="request">The <see cref="HttpRequestBase"/>.</param>
-		/// <returns>Returns the path.</returns>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="request"/> is null.</exception>
-		public static string GetPathWithoutHandlerPrefix(this HttpRequestBase request)
-		{
-			// validate arguments
-			if (request == null)
-				throw new ArgumentNullException("request");
-
-			// get the raw uri
-			var path = request.Path.Substring(request.ApplicationPath.Length);
-
-			// split the path
-			var pathParts = path.Split(Dispatcher.Constants.UrlPartTrimCharacters, StringSplitOptions.RemoveEmptyEntries);
-			if (pathParts.Length < 1)
-				return path;
-
-			// rejoin without the first part
-			return String.Join("/", pathParts, 1, pathParts.Length - 1);
-		}
-		#endregion
-		#region NameValueCollection Extensions
-		/// <summary>
-		/// Converts this NameValueCollection to a property bag.
-		/// </summary>
-		/// <param name="collection">The collection which to convert.</param>
-		/// <returns>Return the property bag.</returns>
-		public static IPropertyBag ToPropertyBag(this NameValueCollection collection)
-		{
-			// validate arguments
-			if (collection == null)
-				throw new ArgumentNullException("collection");
-
-			// extracts needed dataspaces
-			var bag = new PropertyBag();
-			foreach (var key in collection.AllKeys.Where(candidate => !string.IsNullOrWhiteSpace(candidate)))
-				bag.Set(key, collection[key]);
-
-			return bag;
-		}
+		private static readonly Regex EmailRegularExpression = new Regex(@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\b", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
 		#endregion
 		#region String Extensions
 		/// <summary>
@@ -88,7 +27,14 @@ namespace Premotion.Mansion.Web
 		/// <returns>Returns the dictionary containing parameter value pairs from the <paramref name="query"/>.</returns>
 		public static IPropertyBag ParseQueryString(this string query)
 		{
-			return string.IsNullOrEmpty(query) ? new PropertyBag() : HttpUtility.ParseQueryString(query).ToPropertyBag();
+			// validate arguments
+			if (string.IsNullOrEmpty(query))
+				return new PropertyBag();
+
+			// get the parsed values
+			var parsedQueryString = HttpUtility.ParseQueryString(query);
+
+			return parsedQueryString.Cast<string>().Select(x => new KeyValuePair<string, string>(x, parsedQueryString[x])).ToPropertyBag();
 		}
 		/// <summary>
 		/// URL encodes the <paramref name="input"/> string.
@@ -140,7 +86,7 @@ namespace Premotion.Mansion.Web
 				return false;
 
 			// check
-			return emailRegularExpression.IsMatch(input);
+			return EmailRegularExpression.IsMatch(input);
 		}
 		#endregion
 		#region IPropertyBag Extensions
@@ -156,6 +102,20 @@ namespace Premotion.Mansion.Web
 				throw new ArgumentNullException("properties");
 
 			return string.Join("&", properties.Where(property => property.Value != null).Select(property => property.Key.UrlEncode() + "=" + property.Value.ToString().UrlEncode()).ToArray());
+		}
+		/// <summary>
+		/// Converts this NameValueCollection to a property bag.
+		/// </summary>
+		/// <param name="collection">The collection which to convert.</param>
+		/// <returns>Return the property bag.</returns>
+		public static IPropertyBag ToPropertyBag(this IEnumerable<KeyValuePair<string, string>> collection)
+		{
+			// validate arguments
+			if (collection == null)
+				throw new ArgumentNullException("collection");
+
+			// extracts needed dataspaces
+			return new PropertyBag(collection.Select(x => new KeyValuePair<string, object>(x.Key, x.Value)));
 		}
 		#endregion
 		#region IMansionWebContext Extensions
@@ -191,9 +151,6 @@ namespace Premotion.Mansion.Web
 				throw new ArgumentNullException("context");
 			if (string.IsNullOrEmpty(cookieName))
 				throw new ArgumentNullException("cookieName");
-
-			// get the output pipe
-			var outputPipe = context.GetWebOuputPipe();
 
 			// expire the cookie
 			context.SetCookie(new WebCookie

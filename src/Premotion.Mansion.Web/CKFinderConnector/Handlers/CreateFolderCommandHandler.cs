@@ -19,7 +19,7 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		protected override void DoHandle(IMansionWebContext context, XElement connectorNode, XElement currentFolderElement)
 		{
 			// get the new folder name
-			var folderName = (Request.QueryString["newFolderName"] ?? string.Empty);
+			var folderName = (Request.RequestUrl.QueryString["newFolderName"] ?? string.Empty);
 
 			// create the folder
 			var createdFolder = AssetService.CreateFolder(context, CurrentAssetFolder, folderName);

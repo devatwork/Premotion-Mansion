@@ -38,10 +38,10 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 				AssetService = context.Nucleus.ResolveSingle<IAssetService>();
 
 				// get the asset type
-				AssetType = AssetService.ParseResourceType(context, Request.QueryString["type"] ?? string.Empty);
+				AssetType = AssetService.ParseResourceType(context, Request.RequestUrl.QueryString["type"] ?? string.Empty);
 
 				// get the current folder
-				CurrentAssetFolder = AssetService.ParseFolder(context, AssetType, Request.QueryString["currentFolder"] ?? "/");
+				CurrentAssetFolder = AssetService.ParseFolder(context, AssetType, Request.RequestUrl.QueryString["currentFolder"] ?? "/");
 
 				// invoke concrete implementation
 				DoHandle(context);
