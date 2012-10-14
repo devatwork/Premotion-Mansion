@@ -61,7 +61,7 @@ namespace Premotion.Mansion.Web
 
 			// set redirect
 			webOutputPipe.Response.RedirectLocation = url;
-			webOutputPipe.Response.StatusCode = permanent ? HttpStatusCode.MovedPermanently : HttpStatusCode.TemporaryRedirect;
+			webOutputPipe.Response.StatusCode = permanent ? HttpStatusCode.MovedPermanently : HttpStatusCode.Found;
 
 			// halt execution
 			context.BreakExecution = true;
