@@ -118,36 +118,36 @@
 
 <tpl:section name="SelectboxFieldControl" field="Field">
 	<select id="{@ControlId}" name="{@FieldName}" class="field input-xlarge selectbox {ControlProperties.cssClass}" {@FieldReadonlyAttribute}>
-		{@SelectboxControlDefaultOption}
-		{SelectboxControlOption}
+		{@SelectboxFieldControlDefaultOption}
+		{SelectboxFieldControlOption}
 	</select>
 </tpl:section>
 
-	<tpl:section name="SelectboxControlDefaultOption" requires="{Not( IsTrue( ControlProperties.isRequired ) )}">
+	<tpl:section name="SelectboxFieldControlDefaultOption" requires="{Not( IsTrue( ControlProperties.isRequired ) )}">
 		<option value="" {If( IsEmpty( GetStackValue( 'FieldProperties', ControlProperties.name, '' ) ), 'selected')}></option>
 	</tpl:section>
 
-	<tpl:section name="SelectboxControlOption">
+	<tpl:section name="SelectboxFieldControlOption">
 		<option value="{HtmlEncode( OptionProperties.value )}" {If( InList( OptionProperties.value, GetStackValue( 'FieldProperties', ControlProperties.name, '' ) ), 'selected')}>{OptionProperties.label}</option>
 	</tpl:section>
 
 <tpl:section name="MultiSelectFieldControl" field="Field">
 	<select id="{@ControlId}" name="{@FieldName}" class="field input-xlarge multiselect {ControlProperties.cssClass}" {@FieldReadonlyAttribute} multiple="multiple">
-		{MultiSelectControlOption}
+		{MultiSelectFieldControlOption}
 	</select>
 </tpl:section>
 
-	<tpl:section name="MultiSelectControlOption">
+	<tpl:section name="MultiSelectFieldControlOption">
 		<option value="{HtmlEncode( OptionProperties.value )}" {If( InList( OptionProperties.value, GetStackValue( 'FieldProperties', ControlProperties.name, '' ) ), 'selected')}>{OptionProperties.label}</option>
 	</tpl:section>
 
 <tpl:section name="CheckboxListFieldControl" field="Field">
 	<div id="{@ControlId}" class="field input-xlarge checkbox-list {ControlProperties.cssClass}">
-		{CheckboxListControlOption}
+		{CheckboxListFieldControlOption}
 	</div>
 </tpl:section>
 
-	<tpl:section name="CheckboxListControlOption">
+	<tpl:section name="CheckboxListFieldControlOption">
 		<label for="{@ControlId}-{Loop.current}">
 			<input type="checkbox" id="{@ControlId}-{Loop.current}" name="{@FieldName}" value="{HtmlEncode( OptionProperties.value )}" {@FieldReadonlyAttribute} {If( InList( OptionProperties.value, GetStackValue( 'FieldProperties', ControlProperties.name, '' ) ), 'checked')}>
 			{OptionProperties.label}
@@ -167,7 +167,7 @@
 
 <tpl:section name="MultiNodeSelectorFieldControl" field="Field">
 	<div id="{@ControlId}" class="field input-xlarge node-selector multi-node-selector">
-		<ul id="{@ControlId}-labels" class="unstyled">{MultiNodeSelectorControlOption}</ul>
+		<ul id="{@ControlId}-labels" class="unstyled">{MultiNodeSelectorFieldControlOption}</ul>
 		<div class="btn-group">
 			<a id="{@ControlId}-select" class="btn btn-popup btn-primary" href="#" data-href="{DataspaceToQueryString( CmsRouteUrl( 'Dialog', 'MultiNodeSelector', '1' ), $SelectorProperties )}"><i class="icon-pushpin"></i> Select</a>
 			<a id="{@ControlId}-clear" class="btn" href="#"><i class="icon-remove-sign"></i> Clear</a>
@@ -176,7 +176,7 @@
 	</div>
 </tpl:section>
 
-	<tpl:section name="MultiNodeSelectorControlOption">
+	<tpl:section name="MultiNodeSelectorFieldControlOption">
 		<li data-value="{Row.value}">{Row.label}</li>
 	</tpl:section>
 
@@ -186,19 +186,19 @@
 	</ul>
 </tpl:section>
 	
-	<tpl:section name="NodeTreeSelectControlLeaf" field="Leaf">
+	<tpl:section name="NodeTreeSelectFieldControlLeaf" field="Leaf">
 		<li>
 			<label for="{@FieldName}-{LeafProperties.id}">
-				{@NodeTreeSelectControlLeafButton}
+				{@NodeTreeSelectFieldControlLeafButton}
 				{LeafProperties.label}
 			</label>
 			{Children}
 		</li>
 	</tpl:section>
 
-		<tpl:section name="NodeTreeSelectControlLeafButton" requires="{Not( LeafProperties.disabled )}"><input type="{If( ControlProperties.allowMultiple, 'checkbox', 'radio' )}" name="{@FieldName}" id="{@FieldName}-{LeafProperties.id}" value="{LeafProperties.value}" {If( InList( LeafProperties.value, ControlProperties.value ), 'checked')} {If( LeafProperties.disabled, 'disabled' )}></tpl:section>
+		<tpl:section name="NodeTreeSelectFieldControlLeafButton" requires="{Not( LeafProperties.disabled )}"><input type="{If( ControlProperties.allowMultiple, 'checkbox', 'radio' )}" name="{@FieldName}" id="{@FieldName}-{LeafProperties.id}" value="{LeafProperties.value}" {If( InList( LeafProperties.value, ControlProperties.value ), 'checked')} {If( LeafProperties.disabled, 'disabled' )}></tpl:section>
 	
-	<tpl:section name="NodeTreeSelectControlWithChildren" field="Children">
+	<tpl:section name="NodeTreeSelectFieldControlWithChildren" field="Children">
 		<ul>
 			{Leaf}
 		</ul>
@@ -214,13 +214,13 @@
 
 <tpl:section name="UploadFieldControl" field="Field">
 	<div id="{@ControlId}" class="field input-small upload {ControlProperties.cssClass}">
-		{@UploadControlPreview}
+		{@UploadFieldControlPreview}
 		<input type="file" id="{@ControlId}-upload" name="{@FieldName}-upload" {@FieldReadonlyAttribute}>
 		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">
 	</div>
 </tpl:section>
 
-	<tpl:section name="UploadControlPreview" requires="{Not( IsEmpty( ControlProperties.value ) )}">
+	<tpl:section name="UploadFieldControlPreview" requires="{Not( IsEmpty( ControlProperties.value ) )}">
 		<a href="{StaticContentUrl( ControlProperties.value )}" id="{@ControlId}-preview">{ControlProperties.value}</a>
 		<a href="#" id="{@ControlId}-clear" name="{@FieldName}-clear">Remove</a>
 	</tpl:section>
@@ -229,13 +229,13 @@
 
 <tpl:section name="ImageUploadFieldControl" field="Field">
 	<div id="{@ControlId}" class="field input-small image-upload {ControlProperties.cssClass}">
-		{@ImageUploadControlPreview}
+		{@ImageUploadFieldControlPreview}
 		<input type="file" id="{@ControlId}-upload" name="{@FieldName}-upload" {@FieldReadonlyAttribute} value="{ControlProperties.value}">
 		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">
 	</div>
 </tpl:section>
 
-	<tpl:section name="ImageUploadControlPreview" requires="{Not( IsEmpty( ControlProperties.value ) )}">
+	<tpl:section name="ImageUploadFieldControlPreview" requires="{Not( IsEmpty( ControlProperties.value ) )}">
 		<img id="{@ControlId}-preview" src="{StaticContentUrl( ControlProperties.value )}">
 		<a href="#" id="{@ControlId}-clear" name="{@FieldName}-clear">Remove</a>
 	</tpl:section>
