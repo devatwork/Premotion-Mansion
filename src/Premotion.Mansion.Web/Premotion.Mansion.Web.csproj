@@ -213,7 +213,7 @@
     <Compile Include="Hosting\SpecificationRequestHandlerFactory.cs" />
     <Compile Include="Hosting\UrlPrefixSpecification.cs" />
     <Compile Include="Hosting\WebOutputRequestHandler.cs" />
-    <Compile Include="HttpFile.cs" />
+    <Compile Include="WebFile.cs" />
     <Compile Include="ISession.cs" />
     <Compile Include="MansionWebApplicationContextFactory.cs" />
     <Compile Include="MansionWebContext.cs" />
@@ -278,8 +278,11 @@
     <Compile Include="Urls\NodeUrlService.cs" />
     <Compile Include="Urls\SiteUrlGenerator.cs" />
     <Compile Include="RepositoryApplicationInitializer.cs" />
+    <Compile Include="WebCookie.cs" />
     <Compile Include="WebOutputPipe.cs" />
     <Compile Include="WebRequest.cs" />
+    <Compile Include="WebResponse.cs" />
+    <Compile Include="WebResponseSettings.cs" />
     <Compile Include="WebUtilities.cs" />
     <Compile Include="Web\Types\Default\PropagateListener.cs" />
     <Compile Include="Web\Types\Default\TagListener.cs" />

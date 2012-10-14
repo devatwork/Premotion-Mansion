@@ -6,7 +6,7 @@ namespace Premotion.Mansion.Web
 	/// <summary>
 	/// Represents a file that was captures in a HTTP multipart/form-data request
 	/// </summary>
-	public class HttpFile : DisposableBase
+	public class WebFile : DisposableBase
 	{
 		#region Properties
 		/// <summary>

@@ -65,7 +65,7 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			// map the files
 			foreach (var entry in httpRequest.Files.Cast<string>().Select(key => new KeyValuePair<string, HttpPostedFileBase>(key, httpRequest.Files[key])))
 			{
-				request.Files.Add(entry.Key, new HttpFile
+				request.Files.Add(entry.Key, new WebFile
 				                             {
 				                             	ContentLength = entry.Value.ContentLength,
 				                             	ContentType = entry.Value.ContentType,

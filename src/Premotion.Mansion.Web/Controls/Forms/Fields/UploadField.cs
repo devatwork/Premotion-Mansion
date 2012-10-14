@@ -55,7 +55,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 				return;
 
 			// check if the file is uploaded for this field
-			HttpFile uploadedFile;
+			WebFile uploadedFile;
 			if (context.Request.Files.TryGetValue(form.FieldPrefix + Name + "-upload", out uploadedFile) && !string.IsNullOrEmpty(uploadedFile.FileName) && uploadedFile.ContentLength != 0)
 			{
 				// store the file

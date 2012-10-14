@@ -17,7 +17,7 @@ namespace Premotion.Mansion.Web
 		public WebRequest()
 		{
 			Cookies = new Dictionary<string, WebCookie>(StringComparer.OrdinalIgnoreCase);
-			Files = new Dictionary<string, HttpFile>(StringComparer.OrdinalIgnoreCase);
+			Files = new Dictionary<string, WebFile>(StringComparer.OrdinalIgnoreCase);
 			Form = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 			Headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 		}
@@ -35,8 +35,8 @@ namespace Premotion.Mansion.Web
 		/// <summary>
 		/// Gets a collection of files sent by the client-
 		/// </summary>
-		/// <value>An <see cref="IEnumerable{T}"/> instance, containing an <see cref="HttpFile"/> instance for each uploaded file.</value>
-		public IDictionary<string, HttpFile> Files { get; private set; }
+		/// <value>An <see cref="IEnumerable{T}"/> instance, containing an <see cref="WebFile"/> instance for each uploaded file.</value>
+		public IDictionary<string, WebFile> Files { get; private set; }
 		/// <summary>
 		/// Gets the form data of this request.
 		/// </summary>
