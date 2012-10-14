@@ -93,8 +93,11 @@ namespace Premotion.Mansion.Web.Urls
 			if (url.PathSegments.Length == 0)
 				return false;
 
+			// determine the id offset
+			var segmentOffset = context.IsBackoffice ? 1 : 0;
+
 			// get the last segment which is the document name
-			var candidateId = url.PathSegments[0].Trim(Dispatcher.Constants.UrlPartTrimCharacters);
+			var candidateId = url.PathSegments[segmentOffset].Trim(Dispatcher.Constants.UrlPartTrimCharacters);
 
 			// check if the candidate id is an actual number
 			var isNumber = candidateId.IsNumber();
