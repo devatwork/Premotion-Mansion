@@ -8,11 +8,11 @@
 		/// <summary>
 		/// The prefix for route URLs.
 		/// </summary>
-		public const string RouteUrlPrefix = @"-route-";
+		public const string RouteUrlPrefix = @"_route_";
 		/// <summary>
 		/// The prefix for route URL parameters.
 		/// </summary>
-		public const string RouteParameterPrefix = @"-";
+		public const string RouteParameterPrefix = @"_";
 		/// <summary>
 		/// The namespace in which the dispatcher tags live.
 		/// </summary>

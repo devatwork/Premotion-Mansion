@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using Premotion.Mansion.Core;
@@ -18,6 +19,10 @@ namespace Premotion.Mansion.Web
 		/// RFC 2822, http://www.regular-expressions.info/email.html
 		/// </summary>
 		private static readonly Regex EmailRegularExpression = new Regex(@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\b", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+		/// <summary>
+		/// Unreserved URL path characters.
+		/// </summary>
+		private static readonly char[] UnreservedUrlPathEncodingCharacters = new[] {'-', '_', '.', '!', '~', '*', '\'', '(', ')'};
 		#endregion
 		#region String Extensions
 		/// <summary>
@@ -43,11 +48,50 @@ namespace Premotion.Mansion.Web
 		/// <returns>Returns the encoded string.</returns>
 		public static string UrlEncode(this string input)
 		{
-			// validate arguments
-			if (string.IsNullOrEmpty(input))
-				return string.Empty;
+			return string.IsNullOrEmpty(input) ? string.Empty : HttpUtility.UrlEncode(input);
+		}
+		/// <summary>
+		/// URL path encodes the <paramref name="input"/> string.
+		/// </summary>
+		/// <param name="input">The string which to encode.</param>
+		/// <returns>Returns the path encoded string.</returns>
+		public static string UrlPathEncode(this string input)
+		{
+			// normalize the string
+			var normalized = input.Normalize(NormalizationForm.FormKD);
+			var removal = Encoding.GetEncoding(Encoding.ASCII.CodePage, new EncoderReplacementFallback(""), new DecoderReplacementFallback(""));
+			var bytes = removal.GetBytes(normalized);
+			normalized = Encoding.ASCII.GetString(bytes);
 
-			return HttpUtility.UrlEncode(input);
+			// remove all spaces and replace them
+			var buffer = new StringBuilder(normalized.Length);
+			var previousCharacter = 'a';
+			foreach (var currentChar in normalized)
+			{
+				if (Char.IsLetterOrDigit(currentChar) || UnreservedUrlPathEncodingCharacters.Contains(currentChar))
+				{
+					previousCharacter = currentChar;
+					buffer.Append(currentChar);
+					continue;
+				}
+
+				// check if the previous character was an non spacing character
+				if (Char.IsLetterOrDigit(previousCharacter))
+					buffer.Append('-');
+
+				// ignore this character and move on
+				previousCharacter = currentChar;
+			}
+			return buffer.ToString().Trim('-');
+		}
+		/// <summary>
+		/// URL decodes the <paramref name="input"/> string.
+		/// </summary>
+		/// <param name="input">The string which to decode.</param>
+		/// <returns>Returns the decoded string.</returns>
+		public static string UrlDecode(this string input)
+		{
+			return string.IsNullOrEmpty(input) ? string.Empty : HttpUtility.UrlDecode(input);
 		}
 		/// <summary>
 		/// HTML encodes the <paramref name="input"/>.
@@ -81,28 +125,10 @@ namespace Premotion.Mansion.Web
 		/// <returns>Returns true if the <paramref name="input"/> is a valid emailaddress, otherwise false.</returns>
 		public static bool IsValidEmailAddress(this string input)
 		{
-			// guard
-			if (string.IsNullOrEmpty(input))
-				return false;
-
-			// check
-			return EmailRegularExpression.IsMatch(input);
+			return !string.IsNullOrEmpty(input) && EmailRegularExpression.IsMatch(input);
 		}
 		#endregion
 		#region IPropertyBag Extensions
-		/// <summary>
-		/// Parses the <paramref name="properties"/> into a <see cref="IPropertyBag"/>.
-		/// </summary>
-		/// <param name="properties">The query string which to parse.</param>
-		/// <returns>Returns the dictionary containing parameter value pairs from the <paramref name="properties"/>.</returns>
-		public static string ToHttpSafeString(this IEnumerable<KeyValuePair<string, object>> properties)
-		{
-			// validate arguments
-			if (properties == null)
-				throw new ArgumentNullException("properties");
-
-			return string.Join("&", properties.Where(property => property.Value != null).Select(property => property.Key.UrlEncode() + "=" + property.Value.ToString().UrlEncode()).ToArray());
-		}
 		/// <summary>
 		/// Converts this NameValueCollection to a property bag.
 		/// </summary>

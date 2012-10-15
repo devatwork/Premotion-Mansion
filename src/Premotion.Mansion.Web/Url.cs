@@ -310,6 +310,17 @@ namespace Premotion.Mansion.Web
 		{
 			if (segments == null)
 				throw new ArgumentNullException("segments");
+
+			// decode all the segments
+			segments = segments.Select(segment => segment.UrlDecode().HtmlDecode().Trim(' ').Trim(Dispatcher.Constants.UrlPartTrimCharacters));
+
+			// url path encode the remaining segments
+			segments = segments.Select(segment => segment.UrlPathEncode());
+
+			// filter out empty segments
+			segments = segments.Where(segment => !string.IsNullOrEmpty(segment));
+
+			// assemble the path
 			return segments.Aggregate(string.Empty, (current, part) => current + "/" + part);
 		}
 		/// <summary>
