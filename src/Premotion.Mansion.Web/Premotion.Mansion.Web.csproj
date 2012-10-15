@@ -190,6 +190,8 @@
     <Compile Include="Controls\Providers\Trees\NodeTreeSelectProvider.cs" />
     <Compile Include="Controls\ScriptFunctions\GetControlPropertyName.cs" />
     <Compile Include="Controls\ScriptFunctions\GetControlPropertyValue.cs" />
+    <Compile Include="Converters\StringToUrlConverter.cs" />
+    <Compile Include="Converters\UrlToStringConverter.cs" />
     <Compile Include="Converters\UriToStringConverter.cs" />
     <Compile Include="Descriptors\NodeUrlGeneratorDescriptor.cs" />
     <Compile Include="Dispatcher\Constants.cs" />
