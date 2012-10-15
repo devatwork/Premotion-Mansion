@@ -16,7 +16,7 @@
 	<cms:behavior label="Content" abstract="true" />
 
 	<!-- url generator -->
-	<webdescriptors:nodeUrlGenerator type="Premotion.Mansion.Web.Portal.Url.ContentUrlGenerator,Premotion.Mansion.Web.Portal" />
+	<webdescriptors:nodeUrlGenerator type="Premotion.Mansion.Web.Portal.Urls.ContentUrlGenerator,Premotion.Mansion.Web.Portal" />
 
 
 
