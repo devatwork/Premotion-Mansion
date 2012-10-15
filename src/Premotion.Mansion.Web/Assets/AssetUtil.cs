@@ -69,7 +69,7 @@ namespace Premotion.Mansion.Web.Assets
 			var url = Url.CreateUrl(webContext);
 
 			// create the relative path
-			url.PathSegments = HttpUtilities.CombineIntoRelativeUrl(StaticContentRequestHandler.Prefix, folderPath);
+			url.PathSegments = WebUtilities.CombineIntoRelativeUrl(StaticContentRequestHandler.Prefix, folderPath);
 
 			// create the url
 			return url;

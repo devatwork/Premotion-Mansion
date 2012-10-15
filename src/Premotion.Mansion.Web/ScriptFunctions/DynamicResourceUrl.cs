@@ -32,7 +32,7 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 			var url = Url.CreateUrl(webContext);
 
 			// create the relative path
-			url.PathSegments = HttpUtilities.CombineIntoRelativeUrl(DynamicResourceRequestHandler.Prefix, relativePath);
+			url.PathSegments = WebUtilities.CombineIntoRelativeUrl(DynamicResourceRequestHandler.Prefix, relativePath);
 
 			// create the uri
 			return url;

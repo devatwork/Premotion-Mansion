@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Linq;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Types;
@@ -19,7 +20,7 @@ namespace Premotion.Mansion.Web.Urls
 		/// <param name="url">The <see cref="Url"/> which to use to build the url.</param>
 		protected override void DoGenerate(IMansionWebContext context, Node node, ITypeDefinition nodeType, Url url)
 		{
-			url.PathSegments = HttpUtilities.CombineIntoRelativeUrl(node.Pointer.Id + "/" + string.Join("/", node.Pointer.Path.Skip(2).Select(HttpUtilities.EscapeUriString)));
+			url.PathSegments = new[] {node.Pointer.Id.ToString(CultureInfo.InvariantCulture)}.Concat(node.Pointer.Path.Skip(2)).ToArray();
 		}
 		#endregion
 	}

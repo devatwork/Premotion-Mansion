@@ -37,6 +37,12 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AntiXssLibrary">
+      <HintPath>..\packages\AntiXSS.4.2.1\lib\net40\AntiXssLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlSanitizationLibrary">
+      <HintPath>..\packages\AntiXSS.4.2.1\lib\net40\HtmlSanitizationLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.4.5.9\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -231,7 +237,6 @@
     <Compile Include="Hosting\StaticContentRequestHandler.cs" />
     <Compile Include="Hosting\StaticResourceRequestHandler.cs" />
     <Compile Include="Hosting\StreamingStaticContentRequestHandler.cs" />
-    <Compile Include="HttpUtilities.cs" />
     <Compile Include="Hosting\AspNet\MansionHttpHandlerFactory.cs" />
     <Compile Include="Mail\Constants.cs" />
     <Compile Include="Mail\Extensions.cs" />

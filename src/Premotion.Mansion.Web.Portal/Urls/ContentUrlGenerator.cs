@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Types;
@@ -52,7 +53,7 @@ namespace Premotion.Mansion.Web.Portal.Urls
 			var sitePathParts = templatePageNode.Pointer.Hierarchy.SkipWhile(candidate => !siteNode.Pointer.IsParentOf(candidate)).TakeWhile(candidate => candidate.Id != templatePageNode.Pointer.Id).ToArray();
 			var contentPathParts = node.Pointer.Hierarchy.Skip(2).ToArray();
 
-			url.PathSegments = HttpUtilities.CombineIntoRelativeUrl(node.Pointer.Id + "/" + string.Join("/", sitePathParts.Select(pointer => HttpUtilities.EscapeUriString(pointer.Name))), string.Join("/", contentPathParts.Select(pointer => HttpUtilities.EscapeUriString(pointer.Name))));
+			url.PathSegments = new[] {node.Pointer.Id.ToString(CultureInfo.InvariantCulture)}.Concat(sitePathParts.Select(pointer => pointer.Name)).Concat(contentPathParts.Select(pointer => pointer.Name)).ToArray();
 		}
 		#endregion
 		#region Private Fields

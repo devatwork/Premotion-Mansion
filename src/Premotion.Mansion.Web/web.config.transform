@@ -3,7 +3,7 @@
 <configuration>
 	<system.web>
 		<compilation targetFramework="4.0" />
-		<httpRuntime requestValidationMode="2.0" requestPathInvalidCharacters="" />
+		<httpRuntime requestValidationMode="2.0" requestPathInvalidCharacters="" encoderType="Microsoft.Security.Application.AntiXssEncoder, AntiXssLibrary" />
 	</system.web>
 	<appSettings>
 		<add key="APPLICATION_IS_LIVE" value="false" />

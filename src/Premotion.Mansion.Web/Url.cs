@@ -319,7 +319,7 @@ namespace Premotion.Mansion.Web
 		/// <returns></returns>
 		private static string FormatQueryString(IDictionary<string, string> query)
 		{
-			return (query.Count == 0) ? string.Empty : "?" + string.Join("&", query.Select(kvp => HttpUtilities.UrlEncode(kvp.Key) + "=" + HttpUtilities.UrlEncode(kvp.Value)));
+			return (query.Count == 0) ? string.Empty : "?" + string.Join("&", query.Select(kvp => kvp.Key.UrlEncode() + "=" + kvp.Value.UrlEncode()));
 		}
 		/// <summary>
 		/// Formats the given fragment.

@@ -59,7 +59,7 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 			// get the url
 			var webContext = context.Cast<IMansionWebContext>();
 			var url = Url.CreateUrl(webContext);
-			url.PathSegments = HttpUtilities.CombineIntoRelativeUrl(StaticResourceRequestHandler.Prefix, behavior.PathToIcon);
+			url.PathSegments = WebUtilities.CombineIntoRelativeUrl(StaticResourceRequestHandler.Prefix, behavior.PathToIcon);
 
 			// build the icon html
 			return string.Format("<i><img class=\"icon\" src=\"{0}\" alt=\"{1}\"></i>", url, behavior.Label ?? string.Empty);

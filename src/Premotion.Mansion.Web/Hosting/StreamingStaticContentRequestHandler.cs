@@ -107,7 +107,7 @@ namespace Premotion.Mansion.Web.Hosting
 
 			// set the headers
 			response.Headers.Add("Content-Length", len.ToString(CultureInfo.InvariantCulture));
-			response.ContentType = HttpUtilities.GetMimeType(originalResourcePath);
+			response.ContentType = WebUtilities.GetMimeType(originalResourcePath);
 
 			// set the content response
 			response.Contents = stream =>

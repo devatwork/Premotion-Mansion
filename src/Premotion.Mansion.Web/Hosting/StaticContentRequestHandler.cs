@@ -91,7 +91,7 @@ namespace Premotion.Mansion.Web.Hosting
 			                                                    });
 
 			// set output pipe properties
-			outputPipe.Response.ContentType = HttpUtilities.GetMimeType(originalResourcePath);
+			outputPipe.Response.ContentType = WebUtilities.GetMimeType(originalResourcePath);
 			outputPipe.Encoding = Encoding.UTF8;
 
 			// if the resource exist process it otherwise 404
