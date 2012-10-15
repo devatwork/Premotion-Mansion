@@ -210,6 +210,10 @@
     <Compile Include="Hosting\RequestHandler.cs" />
     <Compile Include="Hosting\RequestHandlerConfigurator.cs" />
     <Compile Include="Hosting\RequestHandlerFactory.cs" />
+    <Compile Include="Hosting\Security\Base64ToCsrfTokenConverter.cs" />
+    <Compile Include="Hosting\Security\CsrfProtectionRequestHandlerConfigurator.cs" />
+    <Compile Include="Hosting\Security\CsrfToken.cs" />
+    <Compile Include="Hosting\Security\CsrfTokenToBase64Converter.cs" />
     <Compile Include="Hosting\SpecificationRequestHandlerFactory.cs" />
     <Compile Include="Hosting\UrlPrefixSpecification.cs" />
     <Compile Include="Hosting\WebOutputRequestHandler.cs" />

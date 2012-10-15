@@ -51,7 +51,7 @@ namespace Premotion.Mansion.Web.Hosting
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="handler">The <see cref="RequestHandler"/> selected to handle the request.</param>
-		protected override void DoConfigure(IMansionWebContext context, RequestHandler handler)
+		protected override sealed void DoConfigure(IMansionWebContext context, RequestHandler handler)
 		{
 			// cast the handler to the determined type
 			var typedHandler = handler as TRequestHandler;
