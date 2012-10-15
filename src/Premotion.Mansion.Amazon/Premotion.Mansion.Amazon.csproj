@@ -42,6 +42,7 @@
       <HintPath>..\packages\AWSSDK.1.5.4.1\lib\AWSSDK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
