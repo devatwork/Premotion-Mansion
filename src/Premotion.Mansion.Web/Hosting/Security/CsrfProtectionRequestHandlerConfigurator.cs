@@ -68,7 +68,7 @@ namespace Premotion.Mansion.Web.Hosting.Security
 
 			                                                 	// redirect to homepage and clear all the cookie data
 			                                                 	var response = WebResponse.Create(ctx);
-			                                                 	response.RedirectLocation = ctx.Request.ApplicationUrl;
+			                                                 	response.RedirectLocation = ctx.IsBackoffice ? Url.ParseUrl(ctx, Constants.BackofficeUrlPrefix) : ctx.Request.ApplicationUrl;
 			                                                 	response.StatusCode = HttpStatusCode.Found;
 			                                                 	response.StatusDescription = "Tampered request";
 
