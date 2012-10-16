@@ -42,8 +42,8 @@ namespace Premotion.Mansion.Web.Hosting.Security
 		{
 			handler.BeforePipeline.AddStageToBeginOfPipeline(ctx =>
 			                                                 {
-			                                                 	// check for post only
-			                                                 	if ("POST".Equals(context.Request.Method, StringComparison.OrdinalIgnoreCase))
+			                                                 	// only check CSRF on post request
+			                                                 	if (!"POST".Equals(context.Request.Method, StringComparison.OrdinalIgnoreCase))
 			                                                 		return null;
 
 			                                                 	// check for CSRF token in session
