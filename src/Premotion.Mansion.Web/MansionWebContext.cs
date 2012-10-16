@@ -40,7 +40,10 @@ namespace Premotion.Mansion.Web
 			Stack.Push("Request", new PropertyBag
 			                      {
 			                      	{"url", request.RequestUrl},
-			                      	{"baseUrl", request.ApplicationUrl}
+			                      	{"path", request.RequestUrl.Path},
+			                      	{"filename", request.RequestUrl.Filename},
+			                      	{"basePath", request.RequestUrl.BasePath},
+			                      	{"applicationUrl", request.ApplicationUrl}
 			                      }, true);
 
 			// set context location flag

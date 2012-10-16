@@ -34,7 +34,7 @@ namespace Premotion.Mansion.Web
 			            	Scheme = Scheme,
 			            	HostName = HostName,
 			            	Port = Port,
-			            	BasePathSegments = BasePathSegments.ToArray(),
+			            	ApplicationPathSegments = ApplicationPathSegments.ToArray(),
 			            	PathSegments = PathSegments.ToArray(),
 			            	Fragment = Fragment
 			            };
@@ -66,7 +66,7 @@ namespace Premotion.Mansion.Web
 			       	Scheme = applicationUrl.Scheme,
 			       	HostName = applicationUrl.HostName,
 			       	Port = applicationUrl.Port,
-			       	BasePathSegments = applicationUrl.BasePathSegments,
+			       	ApplicationPathSegments = applicationUrl.ApplicationPathSegments,
 			       	PathSegments = new string[0]
 			       };
 		}
@@ -91,8 +91,8 @@ namespace Premotion.Mansion.Web
 			          	Scheme = applicationUrl.Scheme,
 			          	HostName = applicationUrl.HostName,
 			          	Port = applicationUrl.Port,
-			          	BasePathSegments = applicationUrl.BasePathSegments,
-			          	PathSegments = uri.Segments.Select(candidate => candidate.Trim(Dispatcher.Constants.UrlPartTrimCharacters)).Where(candidate => candidate.Length > 0).Skip(applicationUrl.BasePathSegments.Length).ToArray()
+			          	ApplicationPathSegments = applicationUrl.ApplicationPathSegments,
+			          	PathSegments = uri.Segments.Select(candidate => candidate.Trim(Dispatcher.Constants.UrlPartTrimCharacters)).Where(candidate => candidate.Length > 0).Skip(applicationUrl.ApplicationPathSegments.Length).ToArray()
 			          };
 
 			// parse the query string
@@ -121,7 +121,7 @@ namespace Premotion.Mansion.Web
 			       	Scheme = uri.Scheme,
 			       	HostName = uri.Host,
 			       	Port = uri.Port,
-			       	BasePathSegments = uri.Segments.Select(candidate => candidate.Trim(Dispatcher.Constants.UrlPartTrimCharacters)).Where(candidate => candidate.Length > 0).ToArray(),
+			       	ApplicationPathSegments = uri.Segments.Select(candidate => candidate.Trim(Dispatcher.Constants.UrlPartTrimCharacters)).Where(candidate => candidate.Length > 0).ToArray(),
 			       	PathSegments = new string[0]
 			       };
 		}
@@ -197,7 +197,7 @@ namespace Premotion.Mansion.Web
 		/// <summary>
 		/// Gets the base path segments.
 		/// </summary>
-		private string[] BasePathSegments { get; set; }
+		private string[] ApplicationPathSegments { get; set; }
 		/// <summary>
 		/// Gets the path of the request, relative to the base path.
 		/// 
@@ -206,6 +206,41 @@ namespace Premotion.Mansion.Web
 		public string Path
 		{
 			get { return FormatPath(PathSegments).Trim(Dispatcher.Constants.UrlPartTrimCharacters); }
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Filename
+		{
+			get
+			{
+				// check if there is at least one segment
+				if (PathSegments.Length == 0)
+					return string.Empty;
+
+				// if the last segment contains a dot, it is a file name
+				var lastSegment = PathSegments[PathSegments.Length - 1];
+				var dotIndexOfLastSegment = lastSegment.LastIndexOf('.');
+				return dotIndexOfLastSegment == -1 ? string.Empty : lastSegment.Trim(Dispatcher.Constants.UrlPartTrimCharacters);
+			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string BasePath
+		{
+			get
+			{
+				// check if there is at least one segment
+				if (PathSegments.Length == 0)
+					return string.Empty;
+
+				// check if the last segment is a file name
+				var basePathSegmentCount = PathSegments.Length - (string.IsNullOrEmpty(Filename) ? 0 : 1);
+
+				// return the base path
+				return FormatPath(PathSegments.Take(basePathSegmentCount)).Trim(Dispatcher.Constants.UrlPartTrimCharacters);
+			}
 		}
 		/// <summary>
 		/// Gets the segments of the path.
@@ -243,7 +278,7 @@ namespace Premotion.Mansion.Web
 				.Append("://")
 				.Append(FormatHostName(HostName))
 				.Append(FormatPort(Port))
-				.Append(FormatPath(BasePathSegments))
+				.Append(FormatPath(ApplicationPathSegments))
 				.Append(FormatPath(PathSegments))
 				.Append(FormatQueryString(QueryString))
 				.Append(FormatFragment(Fragment))
@@ -306,7 +341,7 @@ namespace Premotion.Mansion.Web
 		/// </summary>
 		/// <param name="segments"></param>
 		/// <returns></returns>
-		private static string FormatPath(IEnumerable<string> segments)
+		public static string FormatPath(IEnumerable<string> segments)
 		{
 			if (segments == null)
 				throw new ArgumentNullException("segments");
