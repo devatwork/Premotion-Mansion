@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+
+	<!-- Invoked when a 404 is thrown -->
+	<declareProcedure procedureName="HandleNotFound">
+		
+		<!-- parse the url -->
+		<web:parseApplicationUrl url="{NotEmpty( Headers.Mansion-Forwarded-From-404, Request.url )}" target="Url">
+			<!-- check if there is a specific handling procedure for the 404 -->
+			<if condition="{ProcedureExists( Concat( 'Handle404For_',  Url.path ) )}">
+				<invokeProcedure procedureName="{Concat( 'Handle404For_',  Url.path )}" />
+			</if>
+		</web:parseApplicationUrl>
+		
+	</declareProcedure>
+	
+	
+	
+	<!-- serves the robots.txt -->
+	<declareProcedure procedureName="Handle404For_robots.txt">
+		<web:respondDocument contentType="text/plain" cache="true" encoding="UTF-8">
+			<if condition="{Application.APPLICATION_IS_LIVE}">
+				<renderText>
+					<![CDATA[User-agent: *
+Allow: /]]></renderText>
+				<else>
+					<renderText>
+						<![CDATA[User-agent: *
+Disallow: /]]></renderText>
+				</else>
+			</if>
+		</web:respondDocument>
+	</declareProcedure>
+
+</mansion>
