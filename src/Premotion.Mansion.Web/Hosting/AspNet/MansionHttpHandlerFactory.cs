@@ -273,7 +273,21 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			// select the handler
 			RequestHandlerFactory handlerFactory;
 			if (!Election<RequestHandlerFactory, IMansionWebContext>.TryElect(applicationContext, HandlerFactories.Value, requestContext, out handlerFactory))
+			{
+				// check for integrated pipeline
+				if (!HttpRuntime.UsingIntegratedPipeline)
+					throw new NotSupportedException("Can not do 404 redirect on non-integrated pipeline applications");
+
+				// add new headers
+				wrappedContext.Request.Headers.Add(Dispatcher.Constants.ForwardedFrom404HeaderKey, request.RequestUrl);
+
+				// transfer the request
+				wrappedContext.Server.TransferRequest("~/Default.xts", true, wrappedContext.Request.HttpMethod, wrappedContext.Request.Headers);
+				wrappedContext.ApplicationInstance.CompleteRequest();
+
+				// do not return a handler
 				return null;
+			}
 
 			// create the handler
 			var handler = handlerFactory.Create(applicationContext);

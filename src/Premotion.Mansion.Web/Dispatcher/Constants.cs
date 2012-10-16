@@ -21,5 +21,9 @@
 		/// The charachters which will be trimmed from a url part.
 		/// </summary>
 		public static readonly char[] UrlPartTrimCharacters = new[] {'/', '\\'};
+		/// <summary>
+		/// The key of the Forwared from 404 header.
+		/// </summary>
+		public const string ForwardedFrom404HeaderKey = "Mansion-Forwarded-From-404";
 	}
 }

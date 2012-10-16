@@ -37,14 +37,10 @@ namespace Premotion.Mansion.Web
 			// extracts needed dataspaces
 			Stack.Push("Get", request.RequestUrl.QueryString.ToPropertyBag(), true);
 			Stack.Push("Post", request.Form.ToPropertyBag(), true);
-			Stack.Push("Request", new PropertyBag
-			                      {
-			                      	{"url", request.RequestUrl},
-			                      	{"path", request.RequestUrl.Path},
-			                      	{"filename", request.RequestUrl.Filename},
-			                      	{"basePath", request.RequestUrl.BasePath},
-			                      	{"applicationUrl", request.ApplicationUrl}
-			                      }, true);
+			Stack.Push("Headers", request.Headers.ToPropertyBag(), true);
+			var requestUrlProperties = request.RequestUrl.ToPropertyBag();
+			requestUrlProperties.Set("applicationUrl", request.ApplicationUrl);
+			Stack.Push("Request", requestUrlProperties, true);
 
 			// set context location flag
 			IsBackoffice = request.RequestUrl.PathSegments.Length > 0 && request.RequestUrl.PathSegments[0].Equals(Constants.BackofficeUrlPrefix, StringComparison.OrdinalIgnoreCase);

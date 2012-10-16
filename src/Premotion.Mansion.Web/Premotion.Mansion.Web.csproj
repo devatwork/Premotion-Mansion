@@ -226,6 +226,7 @@
     <Compile Include="Hosting\SpecificationRequestHandlerFactory.cs" />
     <Compile Include="Hosting\UrlPrefixSpecification.cs" />
     <Compile Include="Hosting\WebOutputRequestHandler.cs" />
+    <Compile Include="ScriptTags\ParseApplicationUrlTag.cs" />
     <Compile Include="WebFile.cs" />
     <Compile Include="ISession.cs" />
     <Compile Include="MansionWebApplicationContextFactory.cs" />

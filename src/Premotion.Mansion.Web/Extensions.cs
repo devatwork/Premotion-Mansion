@@ -205,5 +205,28 @@ namespace Premotion.Mansion.Web
 			outputPipe.Response.Cookies.Add(cookie);
 		}
 		#endregion
+		#region Url Extensions
+		/// <summary>
+		/// Converts the given <paramref name="url"/> to a <see cref="IPropertyBag"/>.
+		/// </summary>
+		/// <param name="url">The <see cref="Url"/> which to convert.</param>
+		/// <returns>Returns the converted <see cref="IPropertyBag"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="url"/> is null.</exception>
+		public static IPropertyBag ToPropertyBag(this Url url)
+		{
+			// validate arguments
+			if (url == null)
+				throw new ArgumentNullException("url");
+
+			// create the property bag
+			return new PropertyBag
+			       {
+			       	{"url", url},
+			       	{"path", url.Path},
+			       	{"filename", url.Filename},
+			       	{"basePath", url.BasePath}
+			       };
+		}
+		#endregion
 	}
 }

@@ -148,6 +148,24 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="parseApplicationUrl" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Parses the given url as an application URL.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="stl:defaultContentGroup" />
+			<!-- attributes -->
+			<xs:attribute name="url" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specified a specific URL from which to get the node.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attributeGroup ref="stl:targetAttributes" />
+		</xs:complexType>
+	</xs:element>
+
 	<xs:element name="redirectRequest" substitutionGroup="stl:scriptTag">
 		<xs:annotation>
 			<xs:documentation>Redirects the client to another url.</xs:documentation>

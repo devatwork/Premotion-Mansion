@@ -30,6 +30,17 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 
 			// get the area prefix
 			var routeProperties = new PropertyBag();
+
+			// if the request was forwarded from a 404, do not parse the route
+			string forwardedFrom404;
+			if (webRequest.Request.Headers.TryGetValue(Constants.ForwardedFrom404HeaderKey, out forwardedFrom404))
+			{
+				routeProperties.Set("controller", "404");
+				routeProperties.Set("action", "NotFound");
+				return routeProperties;
+			}
+
+			// get the route index
 			var routeUrlIndex = Array.FindIndex(url.PathSegments, x => x.Equals(Constants.RouteUrlPrefix, StringComparison.OrdinalIgnoreCase));
 
 			// check if this is no route url
