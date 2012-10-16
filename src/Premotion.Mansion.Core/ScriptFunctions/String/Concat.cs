@@ -12,31 +12,17 @@ namespace Premotion.Mansion.Core.ScriptFunctions.String
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
-		/// <param name="one"></param>
-		/// <param name="two"></param>
+		/// <param name="parts"> </param>
 		/// <returns></returns>
-		public string Evaluate(IMansionContext context, string one, string two)
+		public string Evaluate(IMansionContext context, params string[] parts)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
+			if (parts == null)
+				throw new ArgumentNullException("parts");
 
-			return one + two;
-		}
-		/// <summary>
-		/// </summary>
-		/// <param name="context"></param>
-		/// <param name="one"></param>
-		/// <param name="two"></param>
-		/// <param name="three"></param>
-		/// <returns></returns>
-		public string Evaluate(IMansionContext context, string one, string two, string three)
-		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
-
-			return one + two + three;
+			return string.Join(string.Empty, parts);
 		}
 	}
 }
