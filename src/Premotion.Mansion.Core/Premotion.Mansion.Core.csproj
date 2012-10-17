@@ -379,6 +379,7 @@
     <Compile Include="ScriptTags\Constants.cs" />
     <Compile Include="ScriptTags\ExecuteNestedTagsTag.cs" />
     <Compile Include="ScriptTags\Media\JSon\GetDatasetFromJSonTag.cs" />
+    <Compile Include="ScriptTags\Media\Xml\RenderXmlContentTag.cs" />
     <Compile Include="ScriptTags\Media\Xml\RegisterXmlPrefixTag.cs" />
     <Compile Include="ScriptTags\Repository\DeleteRecordTag.cs" />
     <Compile Include="ScriptTags\Repository\UpdateRecordTag.cs" />

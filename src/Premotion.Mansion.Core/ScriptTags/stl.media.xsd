@@ -70,6 +70,23 @@
 			<xs:anyAttribute namespace="##any" processContents="skip" />
 		</xs:complexType>
 	</xs:element>
+
+	<xs:element name="renderXmlContent" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Renders XML content to the XML output pipe. This tag must be used within and RenderXmlDocument tag.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType mixed="true">
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!--attributes -->
+			<xs:attribute name="inCData" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Flag indicatating wether the content should be wrapped in a CDATA section or not. Default is false.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
 	
 	
 	
