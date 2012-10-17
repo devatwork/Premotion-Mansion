@@ -43,6 +43,11 @@
 					<xs:documentation>Returns JavaScript.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
+			<xs:enumeration value="application/xml">
+				<xs:annotation>
+					<xs:documentation>Returns a XML document.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 			<xs:enumeration value="application/rss+xml">
 				<xs:annotation>
 					<xs:documentation>Returns a RSS XML document.</xs:documentation>
