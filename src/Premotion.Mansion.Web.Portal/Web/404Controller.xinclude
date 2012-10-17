@@ -47,4 +47,80 @@ Disallow: /]]></renderText>
 		<web:redirectRequest url="{StaticResourcePathUrl( Concat( '/Types/', ThemeNode.theme, '/img/icons/favicon.ico' ) )}" permanent="true" />
 	</declareProcedure>
 
+	
+	
+	<!-- serves the sitemap.xml -->
+	<declareProcedure procedureName="Handle404For_Sitemap.xml">
+		
+		<!-- start the sitemap -->
+		<web:respondDocument contentType="application/xml" encoding="UTF-8" cache="true">
+			<renderXmlDocument defaultNamespace="http://www.sitemaps.org/schemas/sitemap/0.9">
+				<registerXmlPrefix prefix="video" namespace="http://www.google.com/schemas/sitemap-video/1.1" />
+				
+				<!-- render the url set element -->
+				<renderXmlElement elementName="urlset">
+					<!-- render the site -->
+					<invokeProcedure procedureName="PrepareXmlSitemapEntry" source="{$SiteNode}" />
+				
+					<!-- retrieve and render the pages within this site -->
+					<retrieveChildNodeset
+						parentSource="{$SiteNode}"
+						depth="any"
+						baseType="PresentationPage"
+						status="published"
+						target="PageNodeset">
+						<loopNodeset source="{$PageNodeset}" target="PageNode">
+							<invokeProcedure procedureName="PrepareXmlSitemapEntry" source="{$PageNode}" />
+						</loopNodeset>
+					</retrieveChildNodeset>
+				
+					<!-- retrieve and render the content within this site -->
+					<retrieveChildNode parentPointer="1" type="ContentIndexRoot" target="ContentIndexRootNode" global="true" />
+					<retrieveChildNodeset
+						parentSource="{$ContentIndexRootNode}"
+						depth="any"
+						baseType="Content"
+						siteGuids="{SiteNode.guid}"
+						status="published"
+						target="ContentNodeset">
+						<loopNodeset source="{$ContentNodeset}" target="ContentNode">
+							<invokeProcedure procedureName="PrepareXmlSitemapEntry" source="{$ContentNode}" />
+						</loopNodeset>
+					</retrieveChildNodeset>
+				</renderXmlElement>
+			</renderXmlDocument>
+		</web:respondDocument>
+	</declareProcedure>
+
+		<declareProcedure procedureName="PrepareXmlSitemapEntry">
+			<fetchNode source="{Arguments.source}" target="EntryNode">
+				<openScript type="{EntryNode.type}" checkExists="false">
+					<!-- render the entry -->
+					<invokeProcedure procedureName="RenderXmlSitemapEntry" checkExists="false" />
+				</openScript>
+			</fetchNode>
+		</declareProcedure>
+
+			<!-- renders a individual XML sitemap entry -->
+			<declareProcedure procedureName="RenderXmlSitemapEntry">
+				<renderXmlElement elementName="url">
+					<!-- render default elements -->
+					<renderXmlElement elementName="loc">
+						<renderXmlContent>{NodeUrl( $EntryNode )}</renderXmlContent>
+					</renderXmlElement>
+					<renderXmlElement elementName="lastmod">
+						<renderXmlContent>{FormatDate( EntryNode.modified, 'yyyy-MM-ddTHH:mm:ss.fffffffzzz' )}</renderXmlContent>
+					</renderXmlElement>
+					<renderXmlElement elementName="changefreq">
+						<renderXmlContent>daily</renderXmlContent>
+					</renderXmlElement>
+					<renderXmlElement elementName="priority">
+						<renderXmlContent>0.5</renderXmlContent>
+					</renderXmlElement>
+
+					<!-- allow rendering of custom content -->
+					<invokeProcedure procedureName="RenderXmlSitemapEntryContent" checkExists="false" />
+				</renderXmlElement>
+			</declareProcedure>
+
 </mansion>
