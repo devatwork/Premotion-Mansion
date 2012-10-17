@@ -205,6 +205,7 @@
     <EmbeddedResource Include="Web\Types\TextPage\TextPage.xdef" />
     <EmbeddedResource Include="Web\Types\TextPage\TextPage.xform" />
     <EmbeddedResource Include="Web\Types\TextPage\TextPage.xinclude" />
+    <EmbeddedResource Include="Web\Types\Theme\Theme.tpl" />
     <EmbeddedResource Include="Web\Types\Theme\Theme.xdef" />
     <EmbeddedResource Include="Web\Types\Theme\Theme.xinclude" />
     <EmbeddedResource Include="Web\Types\ThreeColumnLayout\ThreeColumnLayout.tpl" />
@@ -236,6 +237,7 @@
     <EmbeddedResource Include="Web\Types\ConfigurationPanel\ConfigurationPanel.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Web\Types\DefaultTheme\img\icons\favicon.ico" />
     <Content Include="Web\Types\DefaultTheme\css\theme.css" />
     <Content Include="Web\Types\DefaultTheme\js\script.js" />
   </ItemGroup>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:portal="http://schemas.premotion.nl/mansion/1.0/web/portal/tags.xsd">
 
 	<!-- Invoked when a 404 is thrown -->
 	<declareProcedure procedureName="HandleNotFound">
@@ -30,6 +30,21 @@ Disallow: /]]></renderText>
 				</else>
 			</if>
 		</web:respondDocument>
+	</declareProcedure>
+
+	
+	
+	<!-- serves the default favicon.ico -->
+	<declareProcedure procedureName="Handle404For_Favicon.ico">
+		<!-- check if there is a theme node -->
+		<portal:retrieveThemeNode source="{$SiteNode}" target="ThemeNode" global="true">
+			<notFound>
+				<throw message="Could not determine theme for page, please check configuration" />
+			</notFound>
+		</portal:retrieveThemeNode>
+		
+		<!-- redirect request to favicon -->
+		<web:redirectRequest url="{StaticResourcePathUrl( Concat( '/Types/', ThemeNode.theme, '/img/icons/favicon.ico' ) )}" permanent="true" />
 	</declareProcedure>
 
 </mansion>
