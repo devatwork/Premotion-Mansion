@@ -26,8 +26,19 @@ namespace Premotion.Mansion.Core.ScriptTags.Media.Xml
 			if (outputPipe == null)
 				throw new InvalidOperationException("No XML output pipe found on thet stack. Open an XML output pipe first.");
 
+			// get the namespace uri
+			string elementPrefix;
+			string elementNamespace = null;
+			if ((attributes.TryGetAndRemove(context, "elementPrefix", out elementPrefix) && !string.IsNullOrEmpty(elementPrefix)) || !string.IsNullOrEmpty(outputPipe.NamespaceManager.DefaultNamespace))
+			{
+				// get the namespace of this prefix
+				elementNamespace = outputPipe.NamespaceManager.LookupNamespace(elementPrefix ?? string.Empty);
+				if (string.IsNullOrEmpty(elementNamespace))
+					throw new InvalidOperationException(elementPrefix + " is not a registered prefix");
+			}
+
 			// start the element
-			outputPipe.XmlWriter.WriteStartElement(elementName);
+			outputPipe.XmlWriter.WriteStartElement(elementPrefix, elementName, elementNamespace);
 
 			// render the attributes
 			foreach (var attributeName in attributes.Names)

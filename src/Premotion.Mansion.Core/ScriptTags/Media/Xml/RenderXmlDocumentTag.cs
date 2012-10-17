@@ -18,6 +18,11 @@ namespace Premotion.Mansion.Core.ScriptTags.Media.Xml
 			using (var xmlOutputPipe = new XmlOutputPipe(context.OutputPipe))
 			using (context.OutputPipeStack.Push(xmlOutputPipe))
 			{
+				// add the default namespace
+				string defaultNamespace;
+				if (TryGetAttribute(context, "defaultNamespace", out defaultNamespace))
+					xmlOutputPipe.NamespaceManager.AddNamespace(string.Empty, defaultNamespace);
+
 				// start the document
 				xmlOutputPipe.XmlWriter.WriteStartDocument();
 
