@@ -22,6 +22,7 @@
 			<if condition="{Application.APPLICATION_IS_LIVE}">
 				<renderText>
 					<![CDATA[User-agent: *
+Sitemap: {NodeUrl( $SiteNode )}/Sitemap.xml
 Allow: /]]></renderText>
 				<else>
 					<renderText>
