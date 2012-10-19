@@ -39,7 +39,7 @@ namespace Premotion.Mansion.Web.TestWebApp
 		/// Registers all the services used by the application in the <paramref name="nucleus"/>.
 		/// </summary>
 		/// <param name="nucleus">The <see cref="IConfigurableNucleus"/> in which to register the services used by the application.</param>
-		protected override void DoBoostrap(IConfigurableNucleus nucleus)
+		protected override void DoBootstrap(IConfigurableNucleus nucleus)
 		{
 			nucleus.Register<ICachingService>(resolver => new HttpCachingService());
 			nucleus.Register<IConversionService>(resolver => new ConversionService(resolver.Resolve<IConverter>(), resolver.Resolve<IComparer>()));

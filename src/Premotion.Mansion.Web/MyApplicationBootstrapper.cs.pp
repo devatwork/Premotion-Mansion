@@ -37,7 +37,7 @@ namespace $rootnamespace$
 		/// Registers all the services used by the application in the <paramref name="nucleus"/>.
 		/// </summary>
 		/// <param name="nucleus">The <see cref="IConfigurableNucleus"/> in which to register the services used by the application.</param>
-		protected override void DoBoostrap(IConfigurableNucleus nucleus)
+		protected override void DoBootstrap(IConfigurableNucleus nucleus)
 		{
 			// register default services
 			nucleus.Register<ICachingService>(resolver => new HttpCachingService());
