@@ -5,7 +5,7 @@
 		<authors>Premotion Software Solutions</authors>
 		<owners>Premotion Software Solutions</owners>
 		<id>Premotion.Mansion.Core</id>
-		<title>Premotion Mansion Framewok Core</title>
+		<title>Premotion Mansion Framework Core</title>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>Contains the Premotion Mansion Framework core types.</description>
 		<frameworkAssemblies>
