@@ -3,20 +3,16 @@
 <configuration>
 	<system.web>
 		<compilation targetFramework="4.0" />
-		<httpRuntime requestValidationMode="2.0" requestPathInvalidCharacters="" />
+		<httpRuntime requestValidationMode="2.0" requestPathInvalidCharacters="" encoderType="Microsoft.Security.Application.AntiXssEncoder, AntiXssLibrary" />
 	</system.web>
 	<appSettings>
 		<add key="APPLICATION_IS_LIVE" value="false" />
 	</appSettings>
 	<system.webServer>
 		<handlers>
-			<remove name="MansionHandler" />
+			<clear />
 			<add name="MansionHandler" path="*" verb="*" type="Premotion.Mansion.Web.Hosting.AspNet.MansionHttpHandlerFactory, Premotion.Mansion.Web" />
 		</handlers>
-		<httpErrors>
-			<remove statusCode="404" subStatusCode="-1" />
-			<error statusCode="404" path="/" responseMode="ExecuteURL" />
-		</httpErrors>
 		<defaultDocument>
 			<files>
 				<clear />

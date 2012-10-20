@@ -17,7 +17,7 @@ namespace Premotion.Mansion.Web.ScriptTags
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		protected override void DoExecute(IMansionContext context)
 		{
-			WebUtilities.RedirectRequest(context, GetRequiredAttribute<Uri>(context, "url"), GetAttribute<bool>(context, "permanent"));
+			WebUtilities.RedirectRequest(context, GetRequiredAttribute<Url>(context, "url"), GetAttribute<bool>(context, "permanent"));
 		}
 		#endregion
 	}

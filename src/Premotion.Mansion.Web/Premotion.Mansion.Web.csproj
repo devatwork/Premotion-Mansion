@@ -37,8 +37,14 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AntiXssLibrary">
+      <HintPath>..\packages\AntiXSS.4.2.1\lib\net40\AntiXssLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlSanitizationLibrary">
+      <HintPath>..\packages\AntiXSS.4.2.1\lib\net40\HtmlSanitizationLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.9\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.10\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -110,36 +116,36 @@
     <Compile Include="Controls\Forms\DefaultRowMappingStrategy.cs" />
     <Compile Include="Controls\Forms\Engines\DefaultFormEngine.cs" />
     <Compile Include="Controls\Forms\Field.cs" />
-    <Compile Include="Controls\Forms\Fields\Checkbox.cs" />
-    <Compile Include="Controls\Forms\Fields\CheckboxList.cs" />
+    <Compile Include="Controls\Forms\Fields\CheckboxField.cs" />
+    <Compile Include="Controls\Forms\Fields\CheckboxListField.cs" />
     <Compile Include="Controls\Grid\Column.cs" />
     <Compile Include="Controls\Grid\ColumnFilter.cs" />
     <Compile Include="Controls\Grid\ColumnSort.cs" />
     <Compile Include="Controls\Grid\ExpressionColumn.cs" />
     <Compile Include="Controls\Grid\Grid.cs" />
-    <Compile Include="Controls\Forms\Fields\MultiNodeSelector.cs" />
+    <Compile Include="Controls\Forms\Fields\MultiNodeSelectorField.cs" />
     <Compile Include="Controls\Forms\Fields\NodeSelectorBase.cs" />
-    <Compile Include="Controls\Forms\Fields\SingleNodeSelector.cs" />
+    <Compile Include="Controls\Forms\Fields\SingleNodeSelectorField.cs" />
     <Compile Include="Controls\Forms\Fields\NodeSelectorPropertiesTag.cs" />
     <Compile Include="Controls\Forms\Fields\DateTimeField.cs" />
-    <Compile Include="Controls\Forms\Fields\Date.cs" />
-    <Compile Include="Controls\Forms\Fields\DecimalNumber.cs" />
-    <Compile Include="Controls\Forms\Fields\Email.cs" />
-    <Compile Include="Controls\Forms\Fields\Hidden.cs" />
-    <Compile Include="Controls\Forms\Fields\ImageUpload.cs" />
-    <Compile Include="Controls\Forms\Fields\MultiSelect.cs" />
-    <Compile Include="Controls\Forms\Fields\NodeTreeSelect.cs" />
-    <Compile Include="Controls\Forms\Fields\Number.cs" />
-    <Compile Include="Controls\Forms\Fields\Password.cs" />
-    <Compile Include="Controls\Forms\Fields\Range.cs" />
-    <Compile Include="Controls\Forms\Fields\Readonly.cs" />
-    <Compile Include="Controls\Forms\Fields\RichTextArea.cs" />
-    <Compile Include="Controls\Forms\Fields\Selectbox.cs" />
-    <Compile Include="Controls\Forms\Fields\TagTextbox.cs" />
-    <Compile Include="Controls\Forms\Fields\Textarea.cs" />
-    <Compile Include="Controls\Forms\Fields\Textbox.cs" />
-    <Compile Include="Controls\Forms\Fields\Upload.cs" />
-    <Compile Include="Controls\Forms\Fields\Url.cs" />
+    <Compile Include="Controls\Forms\Fields\DateField.cs" />
+    <Compile Include="Controls\Forms\Fields\DecimalField.cs" />
+    <Compile Include="Controls\Forms\Fields\EmailField.cs" />
+    <Compile Include="Controls\Forms\Fields\HiddenField.cs" />
+    <Compile Include="Controls\Forms\Fields\ImageUploadField.cs" />
+    <Compile Include="Controls\Forms\Fields\MultiSelectField.cs" />
+    <Compile Include="Controls\Forms\Fields\NodeTreeSelectField.cs" />
+    <Compile Include="Controls\Forms\Fields\NumberField.cs" />
+    <Compile Include="Controls\Forms\Fields\PasswordField.cs" />
+    <Compile Include="Controls\Forms\Fields\RangeField.cs" />
+    <Compile Include="Controls\Forms\Fields\ReadonlyField.cs" />
+    <Compile Include="Controls\Forms\Fields\RichTextAreaField.cs" />
+    <Compile Include="Controls\Forms\Fields\SelectboxField.cs" />
+    <Compile Include="Controls\Forms\Fields\TagTextboxField.cs" />
+    <Compile Include="Controls\Forms\Fields\TextareaField.cs" />
+    <Compile Include="Controls\Forms\Fields\TextboxField.cs" />
+    <Compile Include="Controls\Forms\Fields\UploadField.cs" />
+    <Compile Include="Controls\Forms\Fields\UrlField.cs" />
     <Compile Include="Controls\Forms\Form.cs" />
     <Compile Include="Controls\Forms\FormActionContainer.cs" />
     <Compile Include="Controls\Forms\FormControl.cs" />
@@ -190,6 +196,9 @@
     <Compile Include="Controls\Providers\Trees\NodeTreeSelectProvider.cs" />
     <Compile Include="Controls\ScriptFunctions\GetControlPropertyName.cs" />
     <Compile Include="Controls\ScriptFunctions\GetControlPropertyValue.cs" />
+    <Compile Include="Converters\StringToUrlConverter.cs" />
+    <Compile Include="Converters\UrlComparer.cs" />
+    <Compile Include="Converters\UrlToStringConverter.cs" />
     <Compile Include="Converters\UriToStringConverter.cs" />
     <Compile Include="Descriptors\NodeUrlGeneratorDescriptor.cs" />
     <Compile Include="Dispatcher\Constants.cs" />
@@ -199,20 +208,37 @@
     <Compile Include="Dispatcher\ScriptTags\InvokeActionTag.cs" />
     <Compile Include="Dispatcher\ScriptTags\ParseRouteTag.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Hosting\AfterPipeline.cs" />
+    <Compile Include="Hosting\AspNet\AspNetReadOnlySession.cs" />
+    <Compile Include="Hosting\AspNet\AspNetSession.cs" />
+    <Compile Include="Hosting\AspNet\HttpContextAdapter.cs" />
+    <Compile Include="Hosting\AspNet\NoSession.cs" />
+    <Compile Include="Hosting\BeforePipeline.cs" />
+    <Compile Include="Hosting\Caching\WebOutputCacheRequestHandlerConfigurator.cs" />
+    <Compile Include="Hosting\ExtensionWhiteListSpecification.cs" />
+    <Compile Include="Hosting\RequestHandler.cs" />
+    <Compile Include="Hosting\RequestHandlerConfigurator.cs" />
+    <Compile Include="Hosting\RequestHandlerFactory.cs" />
+    <Compile Include="Hosting\Security\Base64ToCsrfTokenConverter.cs" />
+    <Compile Include="Hosting\Security\CsrfProtectionRequestHandlerConfigurator.cs" />
+    <Compile Include="Hosting\Security\CsrfToken.cs" />
+    <Compile Include="Hosting\Security\CsrfTokenToBase64Converter.cs" />
+    <Compile Include="Hosting\SpecificationRequestHandlerFactory.cs" />
+    <Compile Include="Hosting\UrlPrefixSpecification.cs" />
+    <Compile Include="Hosting\WebOutputRequestHandler.cs" />
+    <Compile Include="ScriptTags\ParseApplicationUrlTag.cs" />
+    <Compile Include="WebFile.cs" />
+    <Compile Include="ISession.cs" />
     <Compile Include="MansionWebApplicationContextFactory.cs" />
     <Compile Include="MansionWebContext.cs" />
-    <Compile Include="Hosting\OutputCacheRequestHandler.cs" />
     <Compile Include="Hosting\RequiresSessionState.cs" />
     <Compile Include="Hosting\DynamicResourceRequestHandler.cs" />
     <Compile Include="Hosting\IRequestHandlerSpecification.cs" />
-    <Compile Include="Hosting\MansionRequestHandlerBase.cs" />
     <Compile Include="Hosting\MergeResourceRequestHandler.cs" />
-    <Compile Include="Hosting\OutputCachableMansionRequestHandlerBase.cs" />
     <Compile Include="Hosting\ScriptRequestHandler.cs" />
     <Compile Include="Hosting\StaticContentRequestHandler.cs" />
     <Compile Include="Hosting\StaticResourceRequestHandler.cs" />
     <Compile Include="Hosting\StreamingStaticContentRequestHandler.cs" />
-    <Compile Include="HttpUtilities.cs" />
     <Compile Include="Hosting\AspNet\MansionHttpHandlerFactory.cs" />
     <Compile Include="Mail\Constants.cs" />
     <Compile Include="Mail\Extensions.cs" />
@@ -223,16 +249,14 @@
     <Compile Include="Mail\ScriptTags\SendMailTag.cs" />
     <Compile Include="Mail\Standard\StandardMailService.cs" />
     <Compile Include="IMansionWebContext.cs" />
-    <Compile Include="ParameterizedUri.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptFunctions\ChangeQueryString.cs" />
+    <Compile Include="ScriptFunctions\MakeUrl.cs" />
     <Compile Include="ScriptFunctions\IsEmailAddress.cs" />
     <Compile Include="ScriptFunctions\CopyQueryString.cs" />
     <Compile Include="ScriptFunctions\DataspaceToQueryString.cs" />
     <Compile Include="ScriptFunctions\DynamicResourceUrl.cs" />
     <Compile Include="ScriptFunctions\HtmlEncode.cs" />
-    <Compile Include="ScriptFunctions\MakeAbsoluteUrl.cs" />
-    <Compile Include="ScriptFunctions\MakeRelativeUrl.cs" />
     <Compile Include="ScriptFunctions\MergeResourceUrl.cs" />
     <Compile Include="ScriptFunctions\NodeURL.cs" />
     <Compile Include="ScriptFunctions\StaticContentUrl.cs" />
@@ -257,15 +281,21 @@
     <None Include="Cms\ScriptTags\web.cms.tags.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Hosting\Hosting.cd" />
     <None Include="MyApplicationBootstrapper.cs.pp" />
-    <Compile Include="Url\RouteUrlBuilder.cs" />
-    <Compile Include="Url\INodeUrlService.cs" />
-    <Compile Include="Url\NamedUrlGenerator.cs" />
-    <Compile Include="Url\NodeUrlGenerator.cs" />
-    <Compile Include="Url\NodeUrlService.cs" />
-    <Compile Include="Url\SiteUrlGenerator.cs" />
+    <Compile Include="Url.cs" />
+    <Compile Include="Urls\RouteUrlBuilder.cs" />
+    <Compile Include="Urls\INodeUrlService.cs" />
+    <Compile Include="Urls\NamedUrlGenerator.cs" />
+    <Compile Include="Urls\NodeUrlGenerator.cs" />
+    <Compile Include="Urls\NodeUrlService.cs" />
+    <Compile Include="Urls\SiteUrlGenerator.cs" />
     <Compile Include="RepositoryApplicationInitializer.cs" />
+    <Compile Include="WebCookie.cs" />
     <Compile Include="WebOutputPipe.cs" />
+    <Compile Include="WebRequest.cs" />
+    <Compile Include="WebResponse.cs" />
+    <Compile Include="WebResponseSettings.cs" />
     <Compile Include="WebUtilities.cs" />
     <Compile Include="Web\Types\Default\PropagateListener.cs" />
     <Compile Include="Web\Types\Default\TagListener.cs" />

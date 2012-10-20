@@ -10,7 +10,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Messages
 	{
 		#region Nested type: SuccessMessageTag
 		/// <summary>
-		/// This tag creates a <see cref="Textbox"/>.
+		/// This tag creates a <see cref="TextboxField"/>.
 		/// </summary>
 		[ScriptTag(Constants.FormTagNamespaceUri, "successMessage")]
 		public class SuccessMessageTag : MessageBaseTag

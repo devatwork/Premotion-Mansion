@@ -15,7 +15,7 @@
 	</cms:behavior>
 
 	<!-- url generator -->
-	<webdescriptors:nodeUrlGenerator type="Premotion.Mansion.Web.Url.SiteUrlGenerator,Premotion.Mansion.Web" />
+	<webdescriptors:nodeUrlGenerator type="Premotion.Mansion.Web.Urls.SiteUrlGenerator,Premotion.Mansion.Web" />
 
 	<!-- register the listeners for this type -->
 	<listeners:register type="Premotion.Mansion.Web.Portal.Web.Types.Site.SiteCreatedListener, Premotion.Mansion.Web.Portal" />

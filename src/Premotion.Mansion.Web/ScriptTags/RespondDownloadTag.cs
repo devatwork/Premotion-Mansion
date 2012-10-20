@@ -28,17 +28,17 @@ namespace Premotion.Mansion.Web.ScriptTags
 				throw new InvalidOperationException("No web output pipe was found on thet stack.");
 
 			// set the properties of the output pipe
-			outputPipe.ContentType = GetAttribute(webRequest, "contentType", "text/html");
+			outputPipe.Response.ContentType = GetAttribute(webRequest, "contentType", "text/html");
 			outputPipe.Encoding = GetAttribute(webRequest, "encoding", Encoding.UTF8);
-			outputPipe.OutputCacheEnabled = GetAttribute(webRequest, "cache", false);
+			outputPipe.Response.CacheSettings.OutputCacheEnabled = GetAttribute(webRequest, "cache", false);
 
 			// set the file name
-			outputPipe.AddHeader("Content-Disposition", "attachment; filename=" + GetRequiredAttribute<string>(context, "fileName"));
+			outputPipe.Response.Headers.Add("Content-Disposition", "attachment; filename=" + GetRequiredAttribute<string>(context, "fileName"));
 
 			// optionally set size
 			var sizeInBytes = GetAttribute(context, "fileSize", -1);
 			if (sizeInBytes != -1)
-				outputPipe.AddHeader("Content-Length", sizeInBytes.ToString(CultureInfo.InvariantCulture));
+				outputPipe.Response.Headers.Add("Content-Length", sizeInBytes.ToString(CultureInfo.InvariantCulture));
 
 			// push the repsonse pipe to the stack and execute child tags)
 			using (webRequest.OutputPipeStack.Push(outputPipe))

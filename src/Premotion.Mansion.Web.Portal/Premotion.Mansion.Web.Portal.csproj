@@ -74,7 +74,7 @@
     <Compile Include="Service\IPortalService.cs" />
     <Compile Include="Service\PortalService.cs" />
     <Compile Include="PortalApplicationBootstrapper.cs" />
-    <Compile Include="Url\ContentUrlGenerator.cs" />
+    <Compile Include="Urls\ContentUrlGenerator.cs" />
     <Compile Include="Web\Types\Page\PageLayoutChangeListener.cs" />
     <Compile Include="Web\Types\Page\PageThemeChangeListener.cs" />
     <Compile Include="Web\Types\PresentationPage\PresentationPageListener.cs" />
@@ -102,6 +102,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Web\404Controller.xinclude" />
     <EmbeddedResource Include="Web\SliceController.xinclude" />
     <EmbeddedResource Include="Web\Css\Portal.css" />
     <EmbeddedResource Include="Web\Images\Icons\configure-block.png" />
@@ -204,6 +205,7 @@
     <EmbeddedResource Include="Web\Types\TextPage\TextPage.xdef" />
     <EmbeddedResource Include="Web\Types\TextPage\TextPage.xform" />
     <EmbeddedResource Include="Web\Types\TextPage\TextPage.xinclude" />
+    <EmbeddedResource Include="Web\Types\Theme\Theme.tpl" />
     <EmbeddedResource Include="Web\Types\Theme\Theme.xdef" />
     <EmbeddedResource Include="Web\Types\Theme\Theme.xinclude" />
     <EmbeddedResource Include="Web\Types\ThreeColumnLayout\ThreeColumnLayout.tpl" />
@@ -235,6 +237,7 @@
     <EmbeddedResource Include="Web\Types\ConfigurationPanel\ConfigurationPanel.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Web\Types\DefaultTheme\img\icons\favicon.ico" />
     <Content Include="Web\Types\DefaultTheme\css\theme.css" />
     <Content Include="Web\Types\DefaultTheme\js\script.js" />
   </ItemGroup>

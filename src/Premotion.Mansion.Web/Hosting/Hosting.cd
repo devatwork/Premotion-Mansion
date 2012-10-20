@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Premotion.Mansion.Web.Hosting.AfterPipeline">
+    <Position X="8" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Hosting\AfterPipeline.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Hosting.WebOutputRequestHandler">
+    <Position X="11" Y="6" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Hosting\WebOutputRequestHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Hosting.BeforePipeline">
+    <Position X="6" Y="3.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Hosting\BeforePipeline.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Hosting.DynamicResourceRequestHandler">
+    <Position X="10.75" Y="8" Width="2.5" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Web.Hosting.DynamicResourceRequestHandler.DynamicResourceRequestHandlerFactory" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Hosting\DynamicResourceRequestHandler.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAgAAAAACAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Hosting\DynamicResourceRequestHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Hosting.ExtensionWhiteListSpecification" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAEAAAQ=</HashCode>
+      <FileName>Hosting\ExtensionWhiteListSpecification.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Hosting.MergeResourceRequestHandler">
+    <Position X="5" Y="8" Width="2.5" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Web.Hosting.MergeResourceRequestHandler.MergeResourceRequestHandlerFactory" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Hosting\MergeResourceRequestHandler.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAgAAAAACAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Hosting\MergeResourceRequestHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Hosting.RequestHandler">
+    <Position X="9.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACIAAAACAAAAAAQAACAAAAAAAAABAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Hosting\RequestHandler.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="AfterPipeline" />
+      <Property Name="BeforePipeline" />
+      <Property Name="MinimalSessionStateDemand" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Hosting.RequestHandlerConfigurator" Collapsed="true">
+    <Position X="22" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Hosting\RequestHandlerConfigurator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Hosting.RequestHandlerFactory">
+    <Position X="1" Y="9.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAEAAAAAAAAABAAA=</HashCode>
+      <FileName>Hosting\RequestHandlerFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Hosting.RequiresSessionState">
+    <Position X="12.25" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAwAgAAAAAAABAAAAAAAAAAACAAAAAgAgAIAAAAAAA=</HashCode>
+      <FileName>Hosting\RequiresSessionState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Hosting.ScriptRequestHandler">
+    <Position X="8.25" Y="8" Width="1.75" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Web.Hosting.ScriptRequestHandler.ScriptRequestHandlerFactory" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Hosting\ScriptRequestHandler.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAEAAAgAAAAAAAAABAAAAACAAQAAAAAA=</HashCode>
+      <FileName>Hosting\ScriptRequestHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Hosting.SpecificationRequestHandlerFactory">
+    <Position X="0.5" Y="11.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Hosting\SpecificationRequestHandlerFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Hosting.StaticContentRequestHandler">
+    <Position X="14" Y="8" Width="2.25" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Web.Hosting.StaticContentRequestHandler.StaticContentRequestHandlerFactory" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Hosting\StaticContentRequestHandler.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAAAAAABCAAAAAAAAA=</HashCode>
+      <FileName>Hosting\StaticContentRequestHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Hosting.StaticResourceRequestHandler">
+    <Position X="17" Y="8" Width="2.25" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Web.Hosting.StaticResourceRequestHandler.StaticResourceRequestHandlerFactory" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Hosting\StaticResourceRequestHandler.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAACAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Hosting\StaticResourceRequestHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Hosting.StreamingStaticContentRequestHandler">
+    <Position X="1.25" Y="6" Width="3" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Web.Hosting.StreamingStaticContentRequestHandler.StreamingStaticContentRequestHandlerFactory" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Hosting\StreamingStaticContentRequestHandler.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAABAAAABCAAAAAAAAA=</HashCode>
+      <FileName>Hosting\StreamingStaticContentRequestHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Web.Hosting.UrlPrefixSpecification" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgBAAAAAAAAAAAA=</HashCode>
+      <FileName>Hosting\UrlPrefixSpecification.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="Premotion.Mansion.Web.Hosting.IRequestHandlerSpecification" Collapsed="true">
+    <Position X="20.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Hosting\IRequestHandlerSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

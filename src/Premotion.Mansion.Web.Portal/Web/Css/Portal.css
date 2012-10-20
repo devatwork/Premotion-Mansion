@@ -39,10 +39,10 @@
 		float: left;
 	}
 		
-		.block > .block-toolbar .command.configure { background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Images/Icons/configure-block.png' ) )}'); }
-		.block > .block-toolbar .command.move {	background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Images/Icons/move-block.png' ) )}'); cursor: move; }
-		.block > .block-toolbar .command.remove { background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Images/Icons/remove-block.png' ) )}'); }
-		.block > .block-toolbar .command.style { background-image: url('{MakeAbsoluteUrl( StaticResourceUrl('/Images/Icons/style-block.png' ) )}'); }
+		.block > .block-toolbar .command.configure { background-image: url('{StaticResourceUrl('/Images/Icons/configure-block.png' )}'); }
+		.block > .block-toolbar .command.move {	background-image: url('{StaticResourceUrl('/Images/Icons/move-block.png' )}'); cursor: move; }
+		.block > .block-toolbar .command.remove { background-image: url('{StaticResourceUrl('/Images/Icons/remove-block.png' )}'); }
+		.block > .block-toolbar .command.style { background-image: url('{StaticResourceUrl('/Images/Icons/style-block.png' )}'); }
 			
 			
 

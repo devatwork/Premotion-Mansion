@@ -10,7 +10,7 @@
 	<cms:behavior label="Website" icon="Types/Site/Site.png" />
 
 	<!-- url generator -->
-	<webdescriptors:nodeUrlGenerator type="Premotion.Mansion.Web.Url.SiteUrlGenerator,Premotion.Mansion.Web" />
+	<webdescriptors:nodeUrlGenerator type="Premotion.Mansion.Web.Urls.SiteUrlGenerator,Premotion.Mansion.Web" />
 
 
 

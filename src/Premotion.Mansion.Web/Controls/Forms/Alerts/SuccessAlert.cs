@@ -10,7 +10,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Alerts
 	{
 		#region Nested type: SuccessAlertTag
 		/// <summary>
-		/// This tag creates a <see cref="Textbox"/>.
+		/// This tag creates a <see cref="TextboxField"/>.
 		/// </summary>
 		[ScriptTag(Constants.FormTagNamespaceUri, "SuccessAlert")]
 		public class SuccessAlertTag : AlertBaseTag

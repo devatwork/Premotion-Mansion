@@ -37,14 +37,15 @@
     <DocumentationFile>bin\Premotion.Mansion.Core.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dynamo.Ioc, Version=3.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Dynamo.Ioc, Version=3.0.1.0, Culture=neutral, PublicKeyToken=584702d813863cbd, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Dynamo.Ioc.3.0.0.4\lib\net40\Dynamo.Ioc.dll</HintPath>
+      <HintPath>..\packages\Dynamo.Ioc.3.0.1.0\lib\net40\Dynamo.Ioc.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.9\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.10\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
@@ -71,6 +72,8 @@
     <Compile Include="Collections\PropertyBag.cs" />
     <Compile Include="Collections\PropertyBagAdapterFactory.cs" />
     <Compile Include="Collections\Sort.cs" />
+    <Compile Include="Conversion\Converters\ByteArrayToStringConverter.cs" />
+    <Compile Include="Conversion\Converters\StringToByteArrayConverter.cs" />
     <Compile Include="Conversion\Converters\Int32ToIntDoubleConverter.cs" />
     <Compile Include="Conversion\Converters\StringToCharConverter.cs" />
     <Compile Include="Conversion\Converters\DoubleToInt32Converter.cs" />
@@ -218,7 +221,6 @@
     <Compile Include="Nucleus\IConfigurableNucleus.cs" />
     <Compile Include="Nucleus\INucleus.cs" />
     <Compile Include="Nucleus\NamedAttribute.cs" />
-    <Compile Include="Nucleus\ScanAssemblyAttribute.cs" />
     <Compile Include="Nucleus\StrongNameGenerator.cs" />
     <Compile Include="Nucleus\NucleusBase.cs" />
     <Compile Include="Patterns\ComparisonComparer.cs" />
@@ -234,6 +236,8 @@
     <Compile Include="Patterns\DisposableChain.cs" />
     <Compile Include="Patterns\Interpreting\IInterpreter.cs" />
     <Compile Include="Patterns\Interpreting\IVotingInterpreter.cs" />
+    <Compile Include="Patterns\Pipes\Pipeline.cs" />
+    <Compile Include="Patterns\Pipes\Stage.cs" />
     <Compile Include="Patterns\Prioritized\IPrioritized.cs" />
     <Compile Include="Patterns\Prioritized\PrioritizedExtensions.cs" />
     <Compile Include="Patterns\Processing\IProcessor.cs" />
@@ -374,6 +378,8 @@
     <Compile Include="ScriptTags\Constants.cs" />
     <Compile Include="ScriptTags\ExecuteNestedTagsTag.cs" />
     <Compile Include="ScriptTags\Media\JSon\GetDatasetFromJSonTag.cs" />
+    <Compile Include="ScriptTags\Media\Xml\RenderXmlContentTag.cs" />
+    <Compile Include="ScriptTags\Media\Xml\RegisterXmlPrefixTag.cs" />
     <Compile Include="ScriptTags\Repository\DeleteRecordTag.cs" />
     <Compile Include="ScriptTags\Repository\UpdateRecordTag.cs" />
     <Compile Include="ScriptTags\Repository\CreateRecordTag.cs" />
@@ -451,8 +457,11 @@
     <Compile Include="Security\AuthenticationResult.cs" />
     <Compile Include="Security\ConfigurationFileAuthenticationProvider.cs" />
     <Compile Include="Security\Constants.cs" />
+    <Compile Include="Security\DotNetCryptoEncryptionServiceApplicationBootstrapper.cs" />
     <Compile Include="Security\Descriptors\OperationDescriptor.cs" />
     <Compile Include="Security\Descriptors\SecurityDescriptor.cs" />
+    <Compile Include="Security\DotNetCryptoEncryptionService.cs" />
+    <Compile Include="Security\IEncryptionService.cs" />
     <Compile Include="Security\ISecurityModelService.cs" />
     <Compile Include="Security\ISecurityPersistenceService.cs" />
     <Compile Include="Security\ISecurityService.cs" />
@@ -501,6 +510,7 @@
     <Compile Include="Types\Xml\XmlTypeService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config.transform" />
     <None Include="Caching\Mansion.Core.Caching.cd" />
     <None Include="Collections\Mansion.Core.Collections.cd" />
     <None Include="Conversion\Mansion.Core.Conversion.cd" />
@@ -508,6 +518,7 @@
     <None Include="Data\Queries\Parser\Mansion.Core.Data.Queries.Parser.cd" />
     <None Include="Data\Queries\Specifications\Mansion.Core.Data.Queries.Specifications.cd" />
     <None Include="Data\Facets\Premotion.Mansion.Core.Data.Facets.cd" />
+    <None Include="Patterns\Pipes\Pipes.cd" />
     <None Include="Premotion.Mansion.Core.symbols.nuspec" />
     <None Include="Data\Mansion.Core.Data.cd" />
     <None Include="Data\Listeners\data.listeners.descriptors.xsd">
@@ -564,6 +575,7 @@
     <None Include="Types\Xml\type.definition.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="web.config.transform" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

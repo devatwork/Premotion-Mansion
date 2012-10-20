@@ -1,4 +1,5 @@
-﻿using Premotion.Mansion.Core;
+﻿using System.Net;
+using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.ScriptTags
@@ -16,12 +17,12 @@ namespace Premotion.Mansion.Web.ScriptTags
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		protected override void DoExecute(IMansionContext context)
 		{
-			// get the web context
-			var webContext = context.Cast<IMansionWebContext>();
+			// get the current output pipe
+			var outputPipe = context.GetWebOuputPipe();
 
 			// get the status code
-			webContext.HttpContext.Response.StatusCode = GetRequiredAttribute<int>(context, "code");
-			webContext.HttpContext.Response.StatusDescription = GetAttribute<string>(context, "description");
+			outputPipe.Response.StatusCode = (HttpStatusCode) GetRequiredAttribute<int>(context, "code");
+			outputPipe.Response.StatusDescription = "Not Found";
 		}
 		#endregion
 	}

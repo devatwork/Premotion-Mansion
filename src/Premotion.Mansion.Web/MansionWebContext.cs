@@ -17,50 +17,33 @@ namespace Premotion.Mansion.Web
 	/// </summary>
 	public class MansionWebContext : MansionContext, IMansionWebContext
 	{
-		#region Constants
-		/// <summary>
-		/// Key under which the <see cref="IMansionWebContext"/> is stored in the <see cref="HttpContextBase.Items"/> collection.
-		/// </summary>
-		private const string RequestContextKey = "mansion-request-context";
-		#endregion
 		#region Constructors
-		private MansionWebContext(IMansionContext applicationContext, HttpContextBase httpContext, IEnumerable<KeyValuePair<string, IEnumerable<IPropertyBag>>> initialStack) : base(applicationContext.Nucleus)
+		private MansionWebContext(IMansionContext applicationContext, WebRequest request, IEnumerable<KeyValuePair<string, IEnumerable<IPropertyBag>>> initialStack) : base(applicationContext.Nucleus)
 		{
 			// validate arguments
-			if (httpContext == null)
-				throw new ArgumentNullException("httpContext");
+			if (applicationContext == null)
+				throw new ArgumentNullException("applicationContext");
+			if (request == null)
+				throw new ArgumentNullException("request");
 			if (initialStack == null)
 				throw new ArgumentNullException("initialStack");
 
 			// set value
-			this.httpContext = httpContext;
-			applicationBaseUri = new UriBuilder(httpContext.Request.Url)
-			                     {
-			                     	Fragment = String.Empty,
-			                     	Query = String.Empty,
-			                     	Path = (httpContext.Request.ApplicationPath ?? String.Empty).Trim('/') + "/"
-			                     }.Uri;
+			Request = request;
 
 			// create thet stack
 			Stack = new AutoPopDictionaryStack<string, IPropertyBag>(StringComparer.OrdinalIgnoreCase, initialStack);
 
 			// extracts needed dataspaces
-			Stack.Push("Get", httpContext.Request.QueryString.ToPropertyBag(), true);
-			Stack.Push("Post", httpContext.Request.Form.ToPropertyBag(), true);
-			Stack.Push("Server", httpContext.Request.ServerVariables.ToPropertyBag(), true);
-
-			// create the application dataspace
-			var baseUrl = ApplicationBaseUri.ToString().TrimEnd(Dispatcher.Constants.UrlPartTrimCharacters);
-			var url = httpContext.Request.Url.ToString();
-			Stack.Push("Request", new PropertyBag
-			                      {
-			                      	{"url", url},
-			                      	{"urlPath", httpContext.Request.Url.GetLeftPart(UriPartial.Path)},
-			                      	{"baseUrl", baseUrl}
-			                      }, true);
+			Stack.Push("Get", request.RequestUrl.QueryString.ToPropertyBag(), true);
+			Stack.Push("Post", request.Form.ToPropertyBag(), true);
+			Stack.Push("Headers", request.Headers.ToPropertyBag(), true);
+			var requestUrlProperties = request.RequestUrl.ToPropertyBag();
+			requestUrlProperties.Set("applicationUrl", request.ApplicationUrl);
+			Stack.Push("Request", requestUrlProperties, true);
 
 			// set context location flag
-			IsBackoffice = url.IndexOf("/" + Constants.BackofficeUrlPrefix + "/", baseUrl.Length, StringComparison.OrdinalIgnoreCase) == baseUrl.Length;
+			IsBackoffice = request.RequestUrl.PathSegments.Length > 0 && request.RequestUrl.PathSegments[0].Equals(Constants.BackofficeUrlPrefix, StringComparison.OrdinalIgnoreCase);
 
 			// initialize the context
 			IPropertyBag applicationSettings;
@@ -91,45 +74,21 @@ namespace Premotion.Mansion.Web
 		/// Constructs an instance of <see cref="MansionWebContext"/>.
 		/// </summary>
 		/// <param name="applicationContext">The global application context.</param>
-		/// <param name="httpContext">The <see cref="HttpContextBase"/> of the current request.</param>
+		/// <param name="request">The <see cref="HttpContextBase"/> of the current request.</param>
 		/// <returns>Returns the constructed <see cref="IMansionWebContext"/>.</returns>
-		public static IMansionWebContext Create(IMansionContext applicationContext, HttpContextBase httpContext)
+		public static MansionWebContext Create(IMansionContext applicationContext, WebRequest request)
 		{
 			// validate arguments
 			if (applicationContext == null)
 				throw new ArgumentNullException("applicationContext");
-			if (httpContext == null)
-				throw new ArgumentNullException("httpContext");
+			if (request == null)
+				throw new ArgumentNullException("request");
 
 			// create the context
-			var requestContext = new MansionWebContext(applicationContext, httpContext, applicationContext.Stack);
-
-			// store the mansion request context in the http context
-			httpContext.Items[RequestContextKey] = requestContext;
-
-			// return teh context
-			return requestContext;
-		}
-		/// <summary>
-		/// Gets the Mansion request <see cref="IMansionWebContext"/> from <paramref name="httpContext"/>.
-		/// </summary>
-		/// <param name="httpContext">The <see cref="HttpContextBase"/> from which to get the Mansion request context.</param>
-		/// <returns>Returnss the Mansion request <see cref="IMansionWebContext"/>.</returns>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="httpContext"/> is null.</exception>
-		/// <exception cref="InvalidOperationException">Thrown if the <see cref="IMansionWebContext"/> was not found on the <paramref name="httpContext"/>.</exception>
-		public static IMansionWebContext FetchFromHttpContext(HttpContextBase httpContext)
-		{
-			// validate arguments
-			if (httpContext == null)
-				throw new ArgumentNullException("httpContext");
-
-			// get the request context
-			var requestContext = httpContext.Items[RequestContextKey] as IMansionWebContext;
-			if (requestContext == null)
-				throw new InvalidOperationException("The request context was not found on the http context, please make sure the mansion http module is the first module");
+			var context = new MansionWebContext(applicationContext, request, applicationContext.Stack);
 
 			// return the context
-			return requestContext;
+			return context;
 		}
 		#endregion
 		#region Implementation of IMansionWebContext
@@ -200,19 +159,13 @@ namespace Premotion.Mansion.Web
 			get { return messageStack; }
 		}
 		/// <summary>
-		/// Gets the <see cref="HttpContextBase"/>.
+		/// Gets the <see cref="WebRequest"/>.
 		/// </summary>
-		public HttpContextBase HttpContext
-		{
-			get { return httpContext; }
-		}
+		public WebRequest Request { get; private set; }
 		/// <summary>
-		/// Gets the application <see cref="Uri"/>.
+		/// Gets the <see cref="ISession"/>.
 		/// </summary>
-		public Uri ApplicationBaseUri
-		{
-			get { return applicationBaseUri; }
-		}
+		public ISession Session { get; set; }
 		/// <summary>
 		/// Gets the <see cref="Control"/> stack.
 		/// </summary>
@@ -256,13 +209,12 @@ namespace Premotion.Mansion.Web
 				return;
 
 			repositoryDisposable.Dispose();
+			Request.Dispose();
 		}
 		#endregion
 		#region Private Fields
-		private readonly Uri applicationBaseUri;
 		private readonly IAutoPopStack<IControl> controlStack = new AutoPopStack<IControl>();
 		private readonly IAutoPopStack<Form> formStack = new AutoPopStack<Form>();
-		private readonly HttpContextBase httpContext;
 		private readonly IAutoPopStack<MailMessage> messageStack = new AutoPopStack<MailMessage>();
 		private readonly IDisposable repositoryDisposable;
 		private int controlIdGenerator;

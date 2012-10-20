@@ -19,6 +19,32 @@
 		<xs:complexType>
 			<!-- content -->
 			<xs:group ref="defaultContentGroup" />
+			<!-- attribbute -->
+			<xs:attribute name="defaultNamespace" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specifies the default namespace of this document. If empty, it uses no namespace.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="registerXmlPrefix" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Registers a namespace prefix in an XML document.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- attribbute -->
+			<xs:attribute name="prefix" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Specifies the namespace prefix.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="namespace" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Specifies the namespace uri.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 
@@ -36,7 +62,29 @@
 					<xs:documentation>Specifies the name of this element.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+			<xs:attribute name="elementPrefix" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specifies the namespace prefix of this element. If set, the namespace must be registered first. If empty, it uses the default namespace of the document.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 			<xs:anyAttribute namespace="##any" processContents="skip" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="renderXmlContent" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Renders XML content to the XML output pipe. This tag must be used within and RenderXmlDocument tag.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType mixed="true">
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!--attributes -->
+			<xs:attribute name="inCData" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Flag indicatating wether the content should be wrapped in a CDATA section or not. Default is false.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 	

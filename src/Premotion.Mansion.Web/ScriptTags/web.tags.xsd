@@ -43,6 +43,11 @@
 					<xs:documentation>Returns JavaScript.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
+			<xs:enumeration value="application/xml">
+				<xs:annotation>
+					<xs:documentation>Returns a XML document.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 			<xs:enumeration value="application/rss+xml">
 				<xs:annotation>
 					<xs:documentation>Returns a RSS XML document.</xs:documentation>
@@ -145,6 +150,24 @@
 					</xs:attribute>
 				</xs:extension>
 			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="parseApplicationUrl" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Parses the given url as an application URL.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="stl:defaultContentGroup" />
+			<!-- attributes -->
+			<xs:attribute name="url" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specified a specific URL from which to get the node.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attributeGroup ref="stl:targetAttributes" />
 		</xs:complexType>
 	</xs:element>
 

@@ -1,14 +1,15 @@
 using System;
+using System.Net;
 using System.Text;
-using Premotion.Mansion.Core.Caching;
+using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.IO;
 
 namespace Premotion.Mansion.Web.Hosting
 {
 	/// <summary>
-	/// Implements the <see cref="MansionRequestHandlerBase"/> for static application resources like CSS and JavaScript.
+	/// Implements the <see cref="RequestHandler"/> for static application resources like CSS and JavaScript.
 	/// </summary>
-	public class StaticResourceRequestHandler : OutputCachableMansionRequestHandlerBase
+	public class StaticResourceRequestHandler : WebOutputRequestHandler
 	{
 		#region Constants
 		/// <summary>
@@ -16,13 +17,46 @@ namespace Premotion.Mansion.Web.Hosting
 		/// </summary>
 		public const string Prefix = "static-resources";
 		#endregion
+		#region Nested type: StaticResourceRequestHandlerFactory
+		/// <summary>
+		/// </summary>
+		public class StaticResourceRequestHandlerFactory : SpecificationRequestHandlerFactory
+		{
+			#region Constructors
+			/// <summary></summary>
+			/// <param name="resourceService"></param>
+			public StaticResourceRequestHandlerFactory(IApplicationResourceService resourceService) : base(new UrlPrefixSpecification(Prefix))
+			{
+				// validate arguments
+				if (resourceService == null)
+					throw new ArgumentNullException("resourceService");
+
+				// set values
+				this.resourceService = resourceService;
+			}
+			#endregion
+			#region Overrides of RequestHandlerFactory
+			/// <summary>
+			/// Constructs a <see cref="RequestHandler"/>.
+			/// </summary>
+			/// <param name="applicationContext">The <see cref="IMansionContext"/> of the application.</param>
+			/// <returns>Returns the constructed <see cref="RequestHandler"/>.</returns>
+			protected override RequestHandler DoCreate(IMansionContext applicationContext)
+			{
+				return new StaticResourceRequestHandler(resourceService);
+			}
+			#endregion
+			#region Private Fields
+			private readonly IApplicationResourceService resourceService;
+			#endregion
+		}
+		#endregion
 		#region Constructors
 		/// <summary>
 		/// Constructs a <see cref="DynamicResourceRequestHandler"/>.
 		/// </summary>
-		/// <param name="cachingService">The <see cref="ICachingService"/>.</param>
 		/// <param name="resourceService">The <see cref="IApplicationResourceService"/>.</param>
-		public StaticResourceRequestHandler(ICachingService cachingService, IApplicationResourceService resourceService) : base(cachingService, 50, new UrlPrefixSpeficiation(Prefix))
+		public StaticResourceRequestHandler(IApplicationResourceService resourceService)
 		{
 			// validate arguments
 			if (resourceService == null)
@@ -32,7 +66,7 @@ namespace Premotion.Mansion.Web.Hosting
 			this.resourceService = resourceService;
 		}
 		#endregion
-		#region Overrides of OutputCachableMansionRequestHandlerBase
+		#region Overrides of WebOutputRequestHandler
 		/// <summary>
 		/// Executes the handler within the given <paramref name="context"/>.
 		/// </summary>
@@ -41,19 +75,19 @@ namespace Premotion.Mansion.Web.Hosting
 		protected override void DoExecute(IMansionWebContext context, WebOutputPipe outputPipe)
 		{
 			// retrieve the resource
-			var originalResourcePath = context.HttpContext.Request.GetPathWithoutHandlerPrefix();
+			var originalResourcePath = context.Request.RequestUrl.Path.Substring(Prefix.Length + 1);
 			var resourcePath = new RelativeResourcePath(originalResourcePath, false);
 
 			// set output pipe properties
-			outputPipe.ContentType = HttpUtilities.GetMimeType(originalResourcePath);
+			outputPipe.Response.ContentType = WebUtilities.GetMimeType(originalResourcePath);
 			outputPipe.Encoding = Encoding.UTF8;
 
 			// if the resource exist process it otherwise 404
 			if (!resourceService.Exists(context, resourcePath))
 			{
 				// send 404
-				context.HttpContext.Response.StatusCode = 404;
-				context.HttpContext.Response.StatusDescription = "Not Found";
+				outputPipe.Response.StatusCode = HttpStatusCode.NotFound;
+				outputPipe.Response.StatusDescription = "Not Found";
 				return;
 			}
 
@@ -65,7 +99,7 @@ namespace Premotion.Mansion.Web.Hosting
 				reader.RawStream.CopyTo(outputPipe.RawStream);
 
 			// set expires header age
-			outputPipe.Expires = DateTime.Now.AddYears(1);
+			outputPipe.Response.CacheSettings.Expires = DateTime.Now.AddYears(1);
 		}
 		#endregion
 		#region Private Fields

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using System.Web;
 using Premotion.Mansion.Core.IO;
 using Premotion.Mansion.Core.Patterns;
 
@@ -16,15 +15,15 @@ namespace Premotion.Mansion.Web
 		/// <summary>
 		/// Constructs a web output pipe.
 		/// </summary>
-		/// <param name="httpContext">The responce stream.</param>
-		public WebOutputPipe(HttpContextBase httpContext)
+		/// <param name="response">The responce stream.</param>
+		public WebOutputPipe(WebResponse response)
 		{
 			// validate arguments
-			if (httpContext == null)
-				throw new ArgumentNullException("httpContext");
+			if (response == null)
+				throw new ArgumentNullException("response");
 
 			// set values
-			this.httpContext = httpContext;
+			this.response = response;
 
 			bufferedWriter = new StreamWriter(buffer);
 		}
@@ -35,16 +34,8 @@ namespace Premotion.Mansion.Web
 		/// </summary>
 		public Encoding Encoding
 		{
-			get
-			{
-				CheckDisposed();
-				return httpContext.Response.ContentEncoding;
-			}
-			set
-			{
-				CheckDisposed();
-				httpContext.Response.ContentEncoding = value;
-			}
+			get { return response.ContentEncoding; }
+			set { response.ContentEncoding = value; }
 		}
 		#endregion
 		#region Implementation of IOutputPipe
@@ -71,51 +62,6 @@ namespace Premotion.Mansion.Web
 			}
 		}
 		#endregion
-		#region Cache Control Operations
-		/// <summary>
-		/// Gets/Set a flag indicating whether the output cache of this response is disabled.
-		/// </summary>
-		public bool OutputCacheEnabled { get; set; }
-		/// <summary>
-		/// Flushes this pipe to the response output.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
-		/// <returns>Returns the content of the response in a byte array.</returns>
-		public byte[] Flush(IMansionWebContext context)
-		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
-			CheckDisposed();
-
-			// get the content
-			bufferedWriter.Flush();
-			var contentBytes = new byte[buffer.Length];
-			buffer.Position = 0;
-			buffer.Read(contentBytes, 0, contentBytes.Length);
-
-			// return the content in bytes
-			return contentBytes;
-		}
-		#endregion
-		#region Response Methods
-		/// <summary>
-		/// Appends an header to the response.
-		/// </summary>
-		/// <param name="name">The name of the header.</param>
-		/// <param name="value">The value of the header.</param>
-		public void AddHeader(string name, string value)
-		{
-			//  validate argugments
-			if (string.IsNullOrEmpty(name))
-				throw new ArgumentNullException("name");
-			if (string.IsNullOrEmpty(value))
-				throw new ArgumentNullException("value");
-
-			// set the header
-			httpContext.Response.AddHeader(name, value);
-		}
-		#endregion
 		#region Overrides of DisposableBase
 		/// <summary>
 		/// Dispose resources. Override this method in derived classes. Unmanaged resources should always be released
@@ -127,33 +73,34 @@ namespace Premotion.Mansion.Web
 			if (!disposeManagedResources)
 				return;
 
-			// clean up
+			// clean up the writer
+			bufferedWriter.Flush();
 			bufferedWriter.Dispose();
+
+			// get the content bytes
+			buffer.Flush();
+			var contentBytes = buffer.ToArray();
+
+			// set the contents
+			response.Contents = stream => stream.Write(contentBytes, 0, contentBytes.Length);
+
+			// clean up the buffer
 			buffer.Dispose();
 		}
 		#endregion
 		#region Properties
 		/// <summary>
-		/// Gets/Sets the content type of the HTTP response.
+		/// Gets the <see cref="WebResponse"/> of this pipe.
 		/// </summary>
-		public string ContentType
+		public WebResponse Response
 		{
-			get { return httpContext.Response.ContentType; }
-			set
-			{
-				CheckDisposed();
-				httpContext.Response.ContentType = value;
-			}
+			get { return response; }
 		}
-		/// <summary>
-		/// Gets or sets the absolute date and time at which cached information expires in the cache.
-		/// </summary>
-		public DateTime? Expires { get; set; }
 		#endregion
 		#region Private Fields
 		private readonly MemoryStream buffer = new MemoryStream();
 		private readonly StreamWriter bufferedWriter;
-		private readonly HttpContextBase httpContext;
+		private readonly WebResponse response;
 		#endregion
 	}
 }

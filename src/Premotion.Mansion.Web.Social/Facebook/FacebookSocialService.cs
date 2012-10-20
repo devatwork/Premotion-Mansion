@@ -59,35 +59,33 @@ namespace Premotion.Mansion.Web.Social.Facebook
 		/// Exchanges the OAuth code for an access token.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
-		/// <param name="requestUri">The <see cref="Uri"/> of the current request, which usually contains the result of the OAuth workflow.</param>
-		/// <returns>Returns the <see cref="Uri"/> of the request before starting the OAuth workflow.</returns>
+		/// <param name="requestUrl">The <see cref="Url"/> of the current request, which usually contains the result of the OAuth workflow.</param>
+		/// <returns>Returns the <see cref="Url"/> of the request before starting the OAuth workflow.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> is null.</exception>
-		protected override Result<Uri> DoExchangeCodeForAccessToken(IMansionWebContext context, Uri requestUri)
+		protected override Result<Url> DoExchangeCodeForAccessToken(IMansionWebContext context, Url requestUrl)
 		{
 			// parse the query string
-			var getParameters = requestUri.Query.ParseQueryString();
+			var getParameters = requestUrl.QueryString;
 
 			// extract the state and possible error codes
-			var state = getParameters.Get<Uri>(context, "state");
-			var errorReason = getParameters.Get<string>(context, "error_reason");
-			var error = getParameters.Get<string>(context, "error");
-			var errorDescription = getParameters.Get<string>(context, "error_description");
+			var state = Url.CreateUrl(context);
+			var errorReason = getParameters["error_reason"];
+			var error = getParameters["error"];
+			var errorDescription = getParameters["error_description"];
 
 			// check for errors
 			if (!string.IsNullOrEmpty(errorReason) || !string.IsNullOrEmpty(error) || !string.IsNullOrEmpty(errorDescription))
 			{
 				// authentication failed because user clicked cancel,
 				// redirect back with reason
-				var modifiableUri = new UriBuilder(state);
-				var queryString = modifiableUri.Query.ParseQueryString();
-				queryString.Set("status", "failed");
-				queryString.Set("reason", "cancelled-by-user");
-				modifiableUri.Query = queryString.ToHttpSafeString();
-				return Result<Uri>.Redirect(modifiableUri.Uri);
+				var modifiableUrl = context.Request.RequestUrl.Clone();
+				modifiableUrl.QueryString.Add("status", "failed");
+				modifiableUrl.QueryString.Add("reason", "cancelled-by-user");
+				return Result<Url>.Redirect(modifiableUrl);
 			}
 
 			// get the code and state
-			var code = getParameters.Get<string>(context, "code");
+			var code = getParameters["code"];
 
 			// creat the client
 			var client = new RestClient(GraphApiEndpoint);
@@ -95,7 +93,7 @@ namespace Premotion.Mansion.Web.Social.Facebook
 			// create the request
 			var request = new RestRequest("oauth/access_token")
 				.AddParameter("client_id", clientId)
-				.AddParameter("redirect_uri", BuildExchangeTokenRedirectUri(context).ToString())
+				.AddParameter("redirect_Url", BuildExchangeTokenRedirectUrl(context).ToString())
 				.AddParameter("client_secret", clientSecret)
 				.AddParameter("code", code);
 
@@ -111,7 +109,7 @@ namespace Premotion.Mansion.Web.Social.Facebook
 			SetOAuthVariable(context, "accessToken", accessToken);
 
 			// return the state, which is the url of the page before authentication took place
-			return Result<Uri>.Success(state);
+			return Result<Url>.Success(state);
 		}
 		#endregion
 		#region Helper Methods
@@ -135,10 +133,10 @@ namespace Premotion.Mansion.Web.Social.Facebook
 			if (!TryGetOAuthVariable(context, "accessToken", out accessToken))
 			{
 				//  start the OAuth workflow
-				var redirectUri = BuildRedirectToFacebookDialogUri(context, scope);
+				var redirectUrl = BuildRedirectToFacebookDialogUrl(context, scope);
 
 				// return the result
-				return Result<TModel>.Redirect(redirectUri);
+				return Result<TModel>.Redirect(redirectUrl);
 			}
 			client.AddDefaultParameter("access_token", accessToken);
 
@@ -151,10 +149,10 @@ namespace Premotion.Mansion.Web.Social.Facebook
 				if ("OAuthException".Equals(response.Data.Error.Type, StringComparison.OrdinalIgnoreCase))
 				{
 					//  start the OAuth workflow
-					var redirectUri = BuildRedirectToFacebookDialogUri(context, scope);
+					var redirectUrl = BuildRedirectToFacebookDialogUrl(context, scope);
 
 					// return the result
-					return Result<TModel>.Redirect(redirectUri);
+					return Result<TModel>.Redirect(redirectUrl);
 				}
 
 				// unknown error
@@ -165,19 +163,19 @@ namespace Premotion.Mansion.Web.Social.Facebook
 			return Result<TModel>.Success(mapper(response.Data));
 		}
 		/// <summary>
-		/// Builds the Facebook dialg <see cref="Uri"/>.
+		/// Builds the Facebook dialg <see cref="Url"/>.
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="scope"></param>
 		/// <returns></returns>
-		private Uri BuildRedirectToFacebookDialogUri(IMansionWebContext context, string scope = null)
+		private Url BuildRedirectToFacebookDialogUrl(IMansionWebContext context, string scope = null)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 
 			// state
-			var state = context.HttpContext.Request.Url;
+			var state = context.Request.RequestUrl;
 			if (state == null)
 				throw new InvalidOperationException("Must have a state");
 
@@ -187,7 +185,7 @@ namespace Premotion.Mansion.Web.Social.Facebook
 			// create the request
 			var request = new RestRequest()
 				.AddParameter("client_id", clientId)
-				.AddParameter("redirect_uri", BuildExchangeTokenRedirectUri(context).ToString())
+				.AddParameter("redirect_Url", BuildExchangeTokenRedirectUrl(context).ToString())
 				.AddParameter("state", state.ToString())
 				.AddParameter("display", "popup");
 
@@ -195,8 +193,8 @@ namespace Premotion.Mansion.Web.Social.Facebook
 			if (scope != null)
 				request.AddParameter("scope", scope);
 
-			// get the uri of the request
-			return client.BuildUri(request);
+			// get the Url of the request
+			return Url.ParseUri(context.Request.ApplicationUrl, client.BuildUri(request));
 		}
 		#endregion
 		#region Private Fields

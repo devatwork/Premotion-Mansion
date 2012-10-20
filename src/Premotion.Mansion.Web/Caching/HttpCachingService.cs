@@ -81,6 +81,10 @@ namespace Premotion.Mansion.Web.Caching
 		/// Defines the gloval eviction key which is used to evict all items from the cache.
 		/// </summary>
 		private const string GlobalEvictionKey = "Global_A17DBFAD-B360-4867-868C-783D0EB03434";
+		/// <summary>
+		/// Max sliding expiration.
+		/// </summary>
+		private static readonly TimeSpan OneYear = new TimeSpan(365, 0, 0, 0);
 		#endregion
 		#region Implementation of ICacheService
 		/// <summary>
@@ -267,7 +271,16 @@ namespace Premotion.Mansion.Web.Caching
 
 				// check for timespan dependency);
 				if (dependency is TimeSpanDependency)
-					slidingExpiration = ((TimeSpanDependency) dependency).Timespan;
+				{
+					// get the timestamp
+					var timespan = ((TimeSpanDependency) dependency).Timespan;
+
+					// make sure no values greater than one year are cached
+					if (timespan.TotalDays > 365)
+						timespan = OneYear;
+
+					slidingExpiration = timespan;
+				}
 			}
 
 			// create cache dependency
