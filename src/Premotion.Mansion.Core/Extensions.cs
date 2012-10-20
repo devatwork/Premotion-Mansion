@@ -461,7 +461,9 @@ namespace Premotion.Mansion.Core
 			if (candidate == null)
 				throw new ArgumentNullException("candidate");
 
-			return candidate.GetCustomAttributes(typeof (ScanAssemblyAttribute), false).Length > 0;
+			// check if the assembly is or references 'Premotion.Mansion.Core'
+			const string coreAssemblyName = "Premotion.Mansion.Core";
+			return candidate.GetName().Name.Equals(coreAssemblyName) || candidate.GetReferencedAssemblies().Any(referenced => referenced.Name.Equals(coreAssemblyName));
 		}
 		/// <summary>
 		/// Checks wether the givens <paramref name="candidate"/> is in fact a manion assembly.

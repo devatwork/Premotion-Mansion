@@ -221,7 +221,6 @@
     <Compile Include="Nucleus\IConfigurableNucleus.cs" />
     <Compile Include="Nucleus\INucleus.cs" />
     <Compile Include="Nucleus\NamedAttribute.cs" />
-    <Compile Include="Nucleus\ScanAssemblyAttribute.cs" />
     <Compile Include="Nucleus\StrongNameGenerator.cs" />
     <Compile Include="Nucleus\NucleusBase.cs" />
     <Compile Include="Patterns\ComparisonComparer.cs" />
