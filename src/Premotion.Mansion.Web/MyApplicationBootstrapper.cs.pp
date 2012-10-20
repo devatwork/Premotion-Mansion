@@ -52,6 +52,8 @@ namespace $rootnamespace$
 			nucleus.Register<IMailService>(resolver => new StandardMailService());
 			nucleus.Register<INodeUrlService>(resolver => new NodeUrlService(resolver, resolver.ResolveSingle<ITypeService>()));
 			nucleus.Register<IApplicationResourceService>(resolver => new EmbeddedApplicationResourceService("Web", resolver.Resolve<ResourcePathInterpreter>(), resolver.ResolveSingle<IReflectionService>()));
+			//Content service with S3 -> nucleus.Register<IContentResourceService>(resolver => new S3ContentResourceService());
+			//Content service with WindowsFileSystem -> nucleus.Register<IContentResourceService>(resolver => new WindowsContentResourceService(HttpRuntime.AppDomainAppPath, "Content"));
 
 			// register custom services
 			// TODO: register your custom services here

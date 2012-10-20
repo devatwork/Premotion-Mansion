@@ -1,9 +1,11 @@
-﻿using Premotion.Mansion.Amazon.S3;
+﻿using System.Web;
+using Premotion.Mansion.Amazon.S3;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Caching;
 using Premotion.Mansion.Core.Conversion;
 using Premotion.Mansion.Core.IO;
 using Premotion.Mansion.Core.IO.EmbeddedResources;
+using Premotion.Mansion.Core.IO.Windows;
 using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
 using Premotion.Mansion.Core.Scripting.TagScript;
@@ -54,6 +56,7 @@ namespace Premotion.Mansion.Web.TestWebApp
 			nucleus.Register<INodeUrlService>(resolver => new NodeUrlService(resolver, resolver.ResolveSingle<ITypeService>()));
 			nucleus.Register<IApplicationResourceService>(resolver => new EmbeddedApplicationResourceService("Web", resolver.Resolve<ResourcePathInterpreter>(), resolver.ResolveSingle<IReflectionService>()));
 			nucleus.Register<IContentResourceService>(resolver => new S3ContentResourceService());
+			//nucleus.Register<IContentResourceService>(resolver => new WindowsContentResourceService(HttpRuntime.AppDomainAppPath, "Content"));
 			nucleus.Register<IAssetService>(resolver => new AssetService(resolver.ResolveSingle<IContentResourceService>()));
 		}
 		#endregion
