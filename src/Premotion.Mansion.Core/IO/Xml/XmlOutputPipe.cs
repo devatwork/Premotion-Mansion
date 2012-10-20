@@ -28,8 +28,12 @@ namespace Premotion.Mansion.Core.IO.Xml
 			// create the reader
 			xmlWriter = XmlWriter.Create(outputPipe.Writer, new XmlWriterSettings
 			                                                {
-			                                                	CloseOutput = false
+			                                                	CloseOutput = false,
+																				NamespaceHandling = NamespaceHandling.OmitDuplicates
 			                                                });
+
+			// create the namespace manager
+			NamespaceManager = new XmlNamespaceManager(new NameTable());
 		}
 		#endregion
 		#region Implementation of IPipe
@@ -93,6 +97,10 @@ namespace Premotion.Mansion.Core.IO.Xml
 				return xmlWriter;
 			}
 		}
+		/// <summary>
+		/// Gets or sets the default namespace.
+		/// </summary>
+		public XmlNamespaceManager NamespaceManager { get; set; }
 		#endregion
 		#region Private Fields
 		private readonly IOutputPipe outputPipe;

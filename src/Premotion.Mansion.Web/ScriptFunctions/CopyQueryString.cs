@@ -14,10 +14,10 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 		/// Copies the query string from <paramref name="source"/> to <paramref name="target"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="source">The source <see cref="Uri"/> from which to copy the query string.</param>
-		/// <param name="target">The target <see cref="Uri"/> to which to copy the query string.</param>
-		/// <returns>The <see cref="Uri"/> with the modified query string.</returns>
-		public Uri Evaluate(IMansionContext context, Uri source, Uri target)
+		/// <param name="source">The source <see cref="Url"/> from which to copy the query string.</param>
+		/// <param name="target">The target <see cref="Url"/> to which to copy the query string.</param>
+		/// <returns>The <see cref="Url"/> with the modified query string.</returns>
+		public Url Evaluate(IMansionContext context, Url source, Url target)
 		{
 			// validate arguments
 			if (context == null)
@@ -27,11 +27,12 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 			if (target == null)
 				throw new ArgumentNullException("target");
 
-			return new UriBuilder(target)
-			       {
-			       	Query = source.Query.TrimStart(new[] {'?'}),
-			       	Fragment = source.Fragment
-			       }.Uri;
+			var clone = target.Clone();
+
+			foreach (var entry in source.QueryString)
+				clone.QueryString[entry.Key] = entry.Value;
+
+			return clone;
 		}
 	}
 }

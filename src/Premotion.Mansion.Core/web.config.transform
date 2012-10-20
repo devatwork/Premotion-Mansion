@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+	<appSettings>
+		<add key="APPLICATION_SECURITY_SALT" value="TODO-add-a-large-unique-value-here" />
+	</appSettings>
+</configuration>

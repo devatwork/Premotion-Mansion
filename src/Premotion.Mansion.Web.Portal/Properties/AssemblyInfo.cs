@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using Premotion.Mansion.Core.Nucleus;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -37,7 +36,6 @@ using Premotion.Mansion.Core.Nucleus;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.2.11")]
-[assembly: AssemblyFileVersion("1.2.11")]
+[assembly: AssemblyVersion("1.2.12")]
+[assembly: AssemblyFileVersion("1.2.12")]
 [assembly: CLSCompliant(true)]
-[assembly: ScanAssembly]

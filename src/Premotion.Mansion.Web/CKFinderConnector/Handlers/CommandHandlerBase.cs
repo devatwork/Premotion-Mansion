@@ -18,28 +18,30 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// Handels the incomming CKFinder command.
 		/// </summary>
 		/// <param name="context">The incoming <see cref="IMansionWebContext"/>.</param>
+		/// <param name="response"> </param>
 		/// <exception cref="ConnectorException">Thrown when an error occured while handling the command.</exception>
-		public void Handle(IMansionWebContext context)
+		public void Handle(IMansionWebContext context, WebResponse response)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
+			if (response == null)
+				throw new ArgumentNullException("response");
 
 			try
 			{
 				//set values
-				Request = context.HttpContext.Request;
-				Response = context.HttpContext.Response;
+				Request = context.Request;
+				Response = response;
 
 				// get the upload service
 				AssetService = context.Nucleus.ResolveSingle<IAssetService>();
 
 				// get the asset type
-				var request = context.HttpContext.Request;
-				AssetType = AssetService.ParseResourceType(context, request.QueryString["type"] ?? string.Empty);
+				AssetType = AssetService.ParseResourceType(context, Request.RequestUrl.QueryString["type"] ?? string.Empty);
 
 				// get the current folder
-				CurrentAssetFolder = AssetService.ParseFolder(context, AssetType, request.QueryString["currentFolder"] ?? "/");
+				CurrentAssetFolder = AssetService.ParseFolder(context, AssetType, Request.RequestUrl.QueryString["currentFolder"] ?? "/");
 
 				// invoke concrete implementation
 				DoHandle(context);
@@ -116,7 +118,7 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// </summary>
 		/// <param name="url"></param>
 		/// <returns></returns>
-		protected static string FormatUri(Uri url)
+		protected static string FormatUri(Url url)
 		{
 			// validate arguments
 			if (url == null)
@@ -141,11 +143,11 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// <summary>
 		/// Gets the <see cref="HttpRequestBase"/> of the current request.
 		/// </summary>
-		protected HttpRequestBase Request { get; private set; }
+		protected WebRequest Request { get; private set; }
 		/// <summary>
 		/// Gets the <see cref="HttpResponseBase"/> of the current request.
 		/// </summary>
-		protected HttpResponseBase Response { get; private set; }
+		protected WebResponse Response { get; private set; }
 		#endregion
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.IO;
@@ -168,8 +169,7 @@ namespace Premotion.Mansion.Web.Dispatcher.ScriptTags
 			// guard against endless routing
 			if ("404".Equals(controllerName))
 			{
-				var webContext = context.Cast<IMansionWebContext>();
-				webContext.HttpContext.Response.StatusCode = 404;
+				context.GetWebOuputPipe().Response.StatusCode = HttpStatusCode.NotFound;
 				context.BreakExecution = true;
 				return;
 			}

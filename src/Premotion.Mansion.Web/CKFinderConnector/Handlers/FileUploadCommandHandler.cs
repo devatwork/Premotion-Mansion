@@ -1,7 +1,8 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Security;
 using System.Text.RegularExpressions;
-using System.Web;
 
 namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 {
@@ -19,7 +20,7 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		protected override void DoHandle(IMansionWebContext context)
 		{
 			// get the uploaded file
-			var uploadedFile = Request.Files[Request.Files.AllKeys[0]];
+			var uploadedFile = Request.Files.Values.First();
 			var filename = uploadedFile.FileName;
 			var errorCode = ErrorCodes.None;
 
@@ -51,10 +52,10 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 			}
 
 			// send feedback
-			Response.Cache.SetCacheability(HttpCacheability.NoCache);
-			if ("txt".Equals(Request.QueryString["response_type"]))
+			Response.CacheSettings.OutputCacheEnabled = false;
+			if ("txt".Equals(Request.RequestUrl.QueryString["response_type"]))
 			{
-				Response.ContentType = "text/plaing";
+				Response.ContentType = "text/plain";
 				var errorMessage = string.Empty;
 				if (errorCode > ErrorCodes.None)
 				{
@@ -62,14 +63,24 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 					if (errorCode != ErrorCodes.UploadedFileRenamed && errorCode != ErrorCodes.UploadedInvalidNameRenamed)
 						filename = string.Empty;
 				}
-				Response.Write(filename + "|" + errorMessage);
+				Response.Contents = stream =>
+				                    {
+				                    	using (var writer = new StreamWriter(stream, Response.ContentEncoding))
+				                    		writer.Write(filename + "|" + errorMessage);
+				                    };
 			}
 			else
 			{
 				Response.ContentType = "text/html";
-				Response.Write("<script type=\"text/javascript\">");
-				Response.Write(GetJavaScriptCode(Request, errorCode, filename, CurrentAssetFolder + filename));
-				Response.Write("</script>");
+				Response.Contents = stream =>
+				                    {
+				                    	using (var writer = new StreamWriter(stream, Response.ContentEncoding))
+				                    	{
+				                    		writer.Write("<script type=\"text/javascript\">");
+				                    		writer.Write(GetJavaScriptCode(Request, errorCode, filename, CurrentAssetFolder + filename));
+				                    		writer.Write("</script>");
+				                    	}
+				                    };
 			}
 		}
 		/// <summary>
@@ -80,9 +91,9 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 		/// <param name="fileName"></param>
 		/// <param name="fileUrl"></param>
 		/// <returns></returns>
-		private static string GetJavaScriptCode(HttpRequestBase request, ErrorCodes errorNumber, string fileName, string fileUrl)
+		private static string GetJavaScriptCode(WebRequest request, ErrorCodes errorNumber, string fileName, string fileUrl)
 		{
-			var funcNum = request.QueryString["CKFinderFuncNum"];
+			var funcNum = request.RequestUrl.QueryString["CKFinderFuncNum"];
 			var errorMessage = string.Empty;
 
 			if (errorNumber > 0)

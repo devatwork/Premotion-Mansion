@@ -6,8 +6,8 @@ namespace Premotion.Mansion.Web.Social.ScriptTags
 	/// <summary>
 	/// Exchanges the code for an access token.
 	/// </summary>
-	[ScriptTag(Constants.TagNamespaceUri, "exchangeCodeForAccessToken")]
-	public class ExchangeCodeForAccessTokenTag : SocialTagBase<Uri>
+	[ScriptTag(Constants.TagNamespaceUrl, "exchangeCodeForAccessToken")]
+	public class ExchangeCodeForAccessTokenTag : SocialTagBase<Url>
 	{
 		#region Constructors
 		/// <summary>
@@ -18,14 +18,14 @@ namespace Premotion.Mansion.Web.Social.ScriptTags
 		{
 		}
 		#endregion
-		#region Overrides of SocialTagBase<Uri>
+		#region Overrides of SocialTagBase<Url>
 		/// <summary>
 		/// Executes the request to the given <paramref name="socialService"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionWebContext"/>,</param>
 		/// <param name="socialService">The <see cref="ISocialService"/> on which to perform the request.</param>
 		/// <returns>Returns the <see cref="Result{TModel}"/>.</returns>
-		protected override Result<Uri> ExecuteRequest(IMansionWebContext context, ISocialService socialService)
+		protected override Result<Url> ExecuteRequest(IMansionWebContext context, ISocialService socialService)
 		{
 			return socialService.ExchangeCodeForAccessToken(context.Cast<IMansionWebContext>());
 		}
@@ -34,7 +34,7 @@ namespace Premotion.Mansion.Web.Social.ScriptTags
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
 		/// <param name="model">The model.</param>
-		protected override void ProcessResult(IMansionWebContext context, Uri model)
+		protected override void ProcessResult(IMansionWebContext context, Url model)
 		{
 			// redirect to originating page
 			WebUtilities.RedirectRequest(context, model);

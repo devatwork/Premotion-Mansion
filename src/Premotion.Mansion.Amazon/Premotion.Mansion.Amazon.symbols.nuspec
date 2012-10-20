@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
 	<metadata>
-		<version>1.2.11</version>
+		<version>1.2.12</version>
 		<authors>Premotion Software Solutions</authors>
 		<owners>Premotion Software Solutions</owners>
 		<id>Premotion.Mansion.Amazon</id>
@@ -10,6 +10,7 @@
 		<description>Contains Premotion Mansion services for interacting with Amazon AWS.</description>
 		<frameworkAssemblies>
 			<frameworkAssembly assemblyName="System" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Configuration" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Xml" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net40" />

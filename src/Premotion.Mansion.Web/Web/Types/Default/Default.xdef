@@ -43,7 +43,7 @@
 	<sqlserver:fullText properties="name,description,body" />
 	
 	<!-- url generator -->
-	<webdescriptors:nodeUrlGenerator type="Premotion.Mansion.Web.Url.NamedUrlGenerator,Premotion.Mansion.Web" />
+	<webdescriptors:nodeUrlGenerator type="Premotion.Mansion.Web.Urls.NamedUrlGenerator,Premotion.Mansion.Web" />
 
 	<!-- cms behavior -->
 	<cms:behavior label="Root" abstract="true" icon="Types/Default/Default.png" />
@@ -66,7 +66,8 @@ BEGIN
 		[id] [int] IDENTITY(1,1) NOT NULL
 			CONSTRAINT [PK_Nodes.id] PRIMARY KEY CLUSTERED,
 		[guid] [uniqueidentifier] NOT NULL
-			CONSTRAINT [IX_Nodes_guid] UNIQUE NONCLUSTERED,
+			CONSTRAINT [DF_Nodes_guid] DEFAULT NEWID(),
+			CONSTRAINT [IX_Nodes_guid] UNIQUE NONCLUSTERED ([guid]),
 		[name] [nvarchar](255) NOT NULL,
 		[type] [nvarchar](50) NOT NULL,
 		[parentId] [int] NULL,

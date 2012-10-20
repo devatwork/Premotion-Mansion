@@ -15,7 +15,7 @@ using Premotion.Mansion.Web.Caching;
 using Premotion.Mansion.Web.Mail;
 using Premotion.Mansion.Web.Mail.Standard;
 using Premotion.Mansion.Web.Security;
-using Premotion.Mansion.Web.Url;
+using Premotion.Mansion.Web.Urls;
 
 namespace $rootnamespace$
 {
@@ -37,7 +37,7 @@ namespace $rootnamespace$
 		/// Registers all the services used by the application in the <paramref name="nucleus"/>.
 		/// </summary>
 		/// <param name="nucleus">The <see cref="IConfigurableNucleus"/> in which to register the services used by the application.</param>
-		protected override void DoBoostrap(IConfigurableNucleus nucleus)
+		protected override void DoBootstrap(IConfigurableNucleus nucleus)
 		{
 			// register default services
 			nucleus.Register<ICachingService>(resolver => new HttpCachingService());
@@ -52,6 +52,8 @@ namespace $rootnamespace$
 			nucleus.Register<IMailService>(resolver => new StandardMailService());
 			nucleus.Register<INodeUrlService>(resolver => new NodeUrlService(resolver, resolver.ResolveSingle<ITypeService>()));
 			nucleus.Register<IApplicationResourceService>(resolver => new EmbeddedApplicationResourceService("Web", resolver.Resolve<ResourcePathInterpreter>(), resolver.ResolveSingle<IReflectionService>()));
+			//Content service with S3 -> nucleus.Register<IContentResourceService>(resolver => new S3ContentResourceService());
+			//Content service with WindowsFileSystem -> nucleus.Register<IContentResourceService>(resolver => new WindowsContentResourceService(HttpRuntime.AppDomainAppPath, "Content"));
 
 			// register custom services
 			// TODO: register your custom services here

@@ -1,5 +1,4 @@
-﻿using System;
-using Premotion.Mansion.Core;
+﻿using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Queries;
@@ -34,15 +33,15 @@ namespace Premotion.Mansion.Web.ScriptTags
 		protected override Record Retrieve(IMansionContext context, IPropertyBag arguments, IRepository repository, IQueryParser parser)
 		{
 			// get the url
-			Uri url;
+			Url url;
 			if (!arguments.TryGet(context, "url", out url))
-				url = context.Cast<IMansionWebContext>().HttpContext.Request.Url;
+				url = context.Cast<IMansionWebContext>().Request.RequestUrl;
 
 			// parse the query
 			var query = parser.Parse(context, new PropertyBag
 			                                  {
 			                                  	{"baseType", "Site"},
-			                                  	{"hostHeaders", url.DnsSafeHost}
+			                                  	{"hostHeaders", url.HostName}
 			                                  });
 
 			// execute the query

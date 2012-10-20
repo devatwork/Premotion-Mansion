@@ -2,7 +2,7 @@
 using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
-using Premotion.Mansion.Web.Url;
+using Premotion.Mansion.Web.Urls;
 
 namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 {
@@ -21,7 +21,7 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 		/// <param name="viewName">The name of the view which to render.</param>
 		/// <param name="parameters">The parameters for the route URL.</param>
 		/// <returns>Return the relative URL.</returns>
-		public Uri Evaluate(IMansionContext context, int nodeId, string pluginType, string viewName, params string[] parameters)
+		public Url Evaluate(IMansionContext context, int nodeId, string pluginType, string viewName, params string[] parameters)
 		{
 			// validate arguments
 			if (context == null)

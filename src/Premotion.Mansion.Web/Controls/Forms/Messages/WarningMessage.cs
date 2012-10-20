@@ -10,7 +10,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Messages
 	{
 		#region Nested type: WarningMessageTag
 		/// <summary>
-		/// This tag creates a <see cref="Textbox"/>.
+		/// This tag creates a <see cref="TextboxField"/>.
 		/// </summary>
 		[ScriptTag(Constants.FormTagNamespaceUri, "warningMessage")]
 		public class WarningMessageTag : MessageBaseTag

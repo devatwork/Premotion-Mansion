@@ -6,7 +6,7 @@ namespace Premotion.Mansion.Web.Social.ScriptTags
 	/// <summary>
 	/// Retrieves the social profile of the authenticated user. This tag might start the OAuth workflow.
 	/// </summary>
-	[ScriptTag(Constants.TagNamespaceUri, "retrieveProfile")]
+	[ScriptTag(Constants.TagNamespaceUrl, "retrieveProfile")]
 	public class RetrieveProfileTag : SocialTagBase<Profile>
 	{
 		#region Constructors

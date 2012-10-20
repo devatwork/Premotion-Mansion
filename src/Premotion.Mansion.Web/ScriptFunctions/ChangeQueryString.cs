@@ -14,11 +14,11 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 		/// Changes the value of an attribute in the query string.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="url">The <see cref="Uri"/> which to change.</param>
+		/// <param name="url">The <see cref="Url"/> which to change.</param>
 		/// <param name="parameterName">The name of the parmeters which to set.</param>
 		/// <param name="value">The value of the parameters.</param>
-		/// <returns>The <see cref="Uri"/> with the modified query string.</returns>
-		public Uri Evaluate(IMansionContext context, Uri url, string parameterName, string value)
+		/// <returns>The <see cref="Url"/> with the modified query string.</returns>
+		public Url Evaluate(IMansionContext context, Url url, string parameterName, string value)
 		{
 			// validate arguments
 			if (context == null)
@@ -28,19 +28,13 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 			if (string.IsNullOrEmpty(parameterName))
 				throw new ArgumentNullException("parameterName");
 
-			var modifiableUri = new UriBuilder(url);
-
-			// parse the query string
-			var parsedQueryString = modifiableUri.Query.ParseQueryString();
+			var modifiableUri = url.Clone();
 
 			// set the property
-			parsedQueryString.Set(parameterName, value);
-
-			// set the new query string
-			modifiableUri.Query = parsedQueryString.ToHttpSafeString();
+			modifiableUri.QueryString[parameterName] = value;
 
 			// return the url
-			return modifiableUri.Uri;
+			return modifiableUri;
 		}
 	}
 }

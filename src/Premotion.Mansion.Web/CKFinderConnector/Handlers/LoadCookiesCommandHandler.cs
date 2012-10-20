@@ -22,9 +22,8 @@ namespace Premotion.Mansion.Web.CKFinderConnector.Handlers
 
 			// loop over all the cookies
 			var cookies = Request.Cookies;
-			for (var i = 0; i < cookies.Count; i++)
+			foreach (var cookie in cookies.Values)
 			{
-				var cookie = cookies[i];
 				// ignore the CKFinder cookies
 				if (cookie.Name.StartsWith("CKFinder_"))
 					continue;

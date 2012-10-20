@@ -1,15 +1,16 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
 	<metadata>
-		<version>1.2.11</version>
+		<version>1.2.12</version>
 		<authors>Premotion Software Solutions</authors>
 		<owners>Premotion Software Solutions</owners>
 		<id>Premotion.Mansion.Core</id>
-		<title>Premotion Mansion Framewok Core</title>
+		<title>Premotion Mansion Framework Core</title>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>Contains the Premotion Mansion Framework core types.</description>
 		<frameworkAssemblies>
 			<frameworkAssembly assemblyName="System" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Configuration" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Xml" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net40" />
@@ -27,6 +28,8 @@
 		<file src="bin\Premotion.Mansion.Core.pdb" target="lib\net40" />
 		<file src="bin\Premotion.Mansion.Core.xml" target="lib\net40" />
 		<file src="**\*.xsd" target="content\Schemas" />
+		<file src="app.config.transform" target="content" />
+		<file src="web.config.transform" target="content" />
 		<file src="**\*.cs" target="src" />
 	</files>
 </package>

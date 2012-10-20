@@ -24,7 +24,7 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 				return string.Empty;
 
 			// return the url
-			return HttpUtilities.UrlEncode(input);
+			return input.UrlEncode();
 		}
 	}
 }

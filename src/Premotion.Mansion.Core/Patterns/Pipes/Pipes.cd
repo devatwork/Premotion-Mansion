@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Premotion.Mansion.Core.Patterns.Pipes.Pipeline&lt;TDelegate&gt;">
+    <Position X="0.5" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAACABAAAgAAAAAAAA=</HashCode>
+      <FileName>Patterns\Pipes\Pipeline.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Stages" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Patterns.Pipes.Stage&lt;TDelegate&gt;">
+    <Position X="5.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAEAAAAEAAAAAAQAAAA=</HashCode>
+      <FileName>Patterns\Pipes\Stage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
