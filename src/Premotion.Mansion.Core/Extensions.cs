@@ -18,7 +18,7 @@ namespace Premotion.Mansion.Core
 	/// <summary>
 	/// Defines extension methods for several types.
 	/// </summary>
-	public static class Extensions
+	public static partial class Extensions
 	{
 		#region Constants
 		private static readonly string[][] HtmlNamedEntities = new[]
@@ -1114,6 +1114,269 @@ namespace Premotion.Mansion.Core
 		#endregion
 		#region Private Fields
 		private static readonly ConcurrentDictionary<Type, Func<INucleus, object>> ObjectFactoryCache = new ConcurrentDictionary<Type, Func<INucleus, object>>();
+		#endregion
+	}
+	/// <summary>
+	/// Provides reflection extensions.
+	/// </summary>
+	public static partial class Extensions
+	{
+		#region Extensions of Object
+		/// <summary>
+		/// Invokes the <paramref name="methodName"/> on the given <typeparamref name="TContract"/>.
+		/// </summary>
+		/// <param name="instance">The instance on which to invoke the method.</param>
+		/// <param name="context"></param>
+		/// <param name="methodName">The name of the method which to invoke.</param>
+		/// <param name="arguments">The arguments which to pass to the method.</param>
+		/// <typeparam name="TContract">The type of interface on which the method resides.</typeparam>
+		/// <typeparam name="TResult">The type of result returned from the method.</typeparam>
+		/// <returns>Returns the result of the method invocation.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		/// <exception cref="InvalidOperationException">Thrown if an error occured while executing the method.</exception>
+		public static TResult InvokeMethod<TContract, TResult>(this object instance, IMansionContext context, string methodName, IPropertyBag arguments) where TContract : class
+		{
+			// validate arguments
+			if (instance == null)
+				throw new ArgumentNullException("instance");
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (string.IsNullOrEmpty(methodName))
+				throw new ArgumentNullException("methodName");
+			if (arguments == null)
+				throw new ArgumentNullException("arguments");
+
+			// generate the method signature
+			var methodSignature = typeof (TContract).FullName + "_" + methodName;
+
+			// make sure the 
+			var typedInstance = instance as TContract;
+			if (typedInstance == null)
+				throw new InvalidOperationException(string.Format("Could not cast {0} to interface {1}", instance.GetType(), typeof (TContract)));
+
+			// look up the the method
+			return (TResult) InvokeMethodOnInstanceCache.GetOrAdd(methodSignature, key =>
+			                                                                       {
+			                                                                       	// get the method
+			                                                                       	var methodInfo = typeof (TContract).GetMethod(methodName);
+
+			                                                                       	// create the compiled typed lambda
+			                                                                       	var typedLambda = CreateInvokeMethodExpression<TContract, TResult>(methodInfo).Compile();
+
+			                                                                       	return (context0, instance0, arguments0) => typedLambda(context0, (TContract) instance0, arguments0);
+			                                                                       })(context, instance, arguments);
+		}
+		/// <summary>
+		/// Creates an expression which executes <paramref name="methodInfo"/> on <typeparamref name="TContract"/>.
+		/// </summary>
+		/// <param name="methodInfo">The <see cref="MethodInfo"/> for which to generate the invocation expression.</param>
+		/// <typeparam name="TContract">The contract type on which to find the method.</typeparam>
+		/// <typeparam name="TResult">The result type.</typeparam>
+		/// <returns>Returns the expression.</returns>
+		/// <exception cref="InvalidOperationException">Thrown if there is an ambigious method.</exception>
+		private static Expression<Func<IMansionContext, TContract, IPropertyBag, TResult>> CreateInvokeMethodExpression<TContract, TResult>(MethodInfo methodInfo)
+		{
+			// get the type
+			var contractType = typeof (TContract);
+
+			// make sure the method is not a generic method
+			if (methodInfo.IsGenericMethod)
+				throw new InvalidOperationException(string.Format("Can not invoke generic method '{0}' on type '{1}'", methodInfo.Name, contractType));
+
+			// ensure the return type can be cast
+			var returnsNothing = methodInfo.ReturnType == typeof (void);
+			if (!returnsNothing && !typeof (TResult).IsAssignableFrom(methodInfo.ReturnType))
+				throw new InvalidOperationException(string.Format("Can not cast result of method '{0}' from '{1}' to '{2}'", methodInfo.Name, methodInfo.ReturnType, typeof (TResult)));
+
+			// create the parameter expressions
+			var contextParameterExpression = Expression.Parameter(typeof (IMansionContext));
+			var instanceParameterExpression = Expression.Parameter(typeof (TContract));
+			var argumentsParameterExpression = Expression.Parameter(typeof (IPropertyBag));
+			var signatureParameterExpressions = new[] {contextParameterExpression, instanceParameterExpression, argumentsParameterExpression};
+
+			var block = CreateInvokeMethodExpression(methodInfo, contextParameterExpression, instanceParameterExpression, argumentsParameterExpression);
+
+			// create the compiled typed lambda
+			return Expression.Lambda<Func<IMansionContext, TContract, IPropertyBag, TResult>>(block, signatureParameterExpressions);
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="methodInfo"></param>
+		/// <param name="contextParameterExpression">The parameter expression for the <see cref="IMansionContext"/>.</param>
+		/// <param name="instanceParameterExpression">The parameter expression for the instance on which to invoke the method.</param>
+		/// <param name="argumentsParameterExpression">The paremeter expression for the argument <see cref="IPropertyBag"/>.</param>
+		/// <returns></returns>
+		private static Expression CreateInvokeMethodExpression(MethodInfo methodInfo, Expression contextParameterExpression, Expression instanceParameterExpression, Expression argumentsParameterExpression)
+		{
+			// validate arguments
+			if (methodInfo == null)
+				throw new ArgumentNullException("methodInfo");
+			if (instanceParameterExpression == null)
+				throw new ArgumentNullException("instanceParameterExpression");
+			if (contextParameterExpression == null)
+				throw new ArgumentNullException("contextParameterExpression");
+			if (argumentsParameterExpression == null)
+				throw new ArgumentNullException("argumentsParameterExpression");
+
+			// create a list of all the parameter expressions
+			var parameterInfos = methodInfo.GetParameters();
+			var parameterVariableList = new List<ParameterExpression>(parameterInfos.Length);
+			var bodies = new List<Expression>(parameterInfos.Length + 2);
+			var parameterExpressions = methodInfo.GetParameters().Select(argumentInfo => CreateArgumentExpression(argumentInfo, contextParameterExpression, argumentsParameterExpression, parameterVariableList, bodies)).ToList();
+
+			// bake the method call
+			bodies.Add(Expression.Call(instanceParameterExpression, methodInfo, parameterExpressions));
+
+			// check for void
+			var returnsNothing = methodInfo.ReturnType == typeof (void);
+			if (returnsNothing)
+				bodies.Add(Expression.Default(methodInfo.ReturnType));
+
+			// construct the block
+			var block = Expression.Block(parameterVariableList.ToArray(), bodies);
+			return block;
+		}
+		/// <summary>
+		/// Creates an argument expression for the given <paramref name="argumentInfo"/>.
+		/// </summary>
+		/// <param name="argumentInfo">The <see cref="ParameterInfo"/>.</param>
+		/// <param name="contextParameterExpression">The context parameter expression.</param>
+		/// <param name="argumentsParameterExpression">The arguments parameter expression.</param>
+		/// <param name="parameterExpressions">List of method parameter arguments.</param>
+		/// <param name="bodyExpressions">List of method parameter bodies.</param>
+		/// <returns>Returns the generated <see cref="Expression"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		private static Expression CreateArgumentExpression(ParameterInfo argumentInfo, Expression contextParameterExpression, Expression argumentsParameterExpression, ICollection<ParameterExpression> parameterExpressions, ICollection<Expression> bodyExpressions)
+		{
+			// validate arguments
+			if (argumentInfo == null)
+				throw new ArgumentNullException("argumentInfo");
+			if (contextParameterExpression == null)
+				throw new ArgumentNullException("contextParameterExpression");
+			if (argumentsParameterExpression == null)
+				throw new ArgumentNullException("argumentsParameterExpression");
+			if (parameterExpressions == null)
+				throw new ArgumentNullException("parameterExpressions");
+			if (bodyExpressions == null)
+				throw new ArgumentNullException("bodyExpressions");
+
+			// check if the context is requested
+			if (argumentInfo.ParameterType == typeof (IMansionContext))
+				return contextParameterExpression;
+
+			// get the tryvalueVariableExpression
+			var tryGetMethodInfo = typeof (IPropertyBag).GetMethod("TryGet").MakeGenericMethod(argumentInfo.ParameterType);
+
+			// create a literal with the argument name which is also  the property name for which to look
+			var propertyNameLiteralExpression = Expression.Constant(argumentInfo.Name, typeof (string));
+
+			// create a variable in which to store the result
+			var valueVariableExpression = Expression.Variable(argumentInfo.ParameterType, "argument_" + argumentInfo.Name);
+
+			// create a method invocation for IPropertyBag.TryGet<ArgumentInfo.ArgumentType>(context, propertyNameLiteral, out valueVariableExpression)
+			var tryGetMethodCallExpression = Expression.Call(argumentsParameterExpression, tryGetMethodInfo, contextParameterExpression, propertyNameLiteralExpression, valueVariableExpression);
+
+			// create an expression which checks if the parameter does not have a default value in which case an required argument exception is thrown
+			Expression throwMissingArgumentExceptionExpression;
+			if (argumentInfo.IsOptional)
+				throwMissingArgumentExceptionExpression = Expression.Assign(valueVariableExpression, Expression.Constant(argumentInfo.DefaultValue, argumentInfo.ParameterType));
+			else
+				throwMissingArgumentExceptionExpression = Expression.Throw(Expression.New(typeof (InvalidOperationException).GetConstructor(new[] {typeof (string)}), new[] {Expression.Constant(String.Format("Argument '{0}' is required.", argumentInfo.Name))}));
+
+			// create expression: if (tryGetMethodCallExpression) return valueVariableExpression else throw exception
+			var checkForMissingArgumentExpression = Expression.IfThen(Expression.Not(tryGetMethodCallExpression), throwMissingArgumentExceptionExpression);
+
+			// assemble the block
+			bodyExpressions.Add(checkForMissingArgumentExpression);
+			parameterExpressions.Add(valueVariableExpression);
+			return valueVariableExpression;
+		}
+		#endregion
+		#region Extension of IMansionContext
+		/// <summary>
+		/// Invokes method with name <paramref name="methodName"/> on component identified by <paramref name="componentKey"/> with <paramref name="arguments"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="componentKey">The strong name of the compoment which to resolve.</param>
+		/// <param name="methodName">The name of the method which to invoke.</param>
+		/// <param name="arguments">The arguments which to pass to the method.</param>
+		/// <typeparam name="TResult">The type of result returned from the method.</typeparam>
+		/// <returns>Returns the result.</returns>
+		public static TResult InvokeMethodOnComponent<TResult>(this IMansionContext context, string componentKey, string methodName, IPropertyBag arguments)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (string.IsNullOrEmpty(componentKey))
+				throw new ArgumentNullException("componentKey");
+			if (string.IsNullOrEmpty(methodName))
+				throw new ArgumentNullException("methodName");
+			if (arguments == null)
+				throw new ArgumentNullException("arguments");
+
+			// generate the key
+			var signature = componentKey + "_" + methodName;
+
+			// execute the method on the component
+			return (TResult) InvokeMethodOnComponentCache.GetOrAdd(signature, key =>
+			                                                                  {
+			                                                                  	// get the component contract
+			                                                                  	Type componentContractType;
+			                                                                  	if (!context.Nucleus.TryResolveComponentContract(componentKey, out componentContractType))
+			                                                                  		throw new InvalidOperationException(string.Format("Could not resolve contract for component with key '{0}'", componentKey));
+
+			                                                                  	// create parameter expressions
+			                                                                  	var contextParameterExpression = Expression.Parameter(typeof (IMansionContext), "context");
+			                                                                  	var argumentsParameterExpression = Expression.Parameter(typeof (IPropertyBag), "arguments");
+			                                                                  	var signatureParameterExpressions = new[] {contextParameterExpression, argumentsParameterExpression};
+
+			                                                                  	// create the component instance variable 
+			                                                                  	var componentInstanceVariableExpression = Expression.Variable(componentContractType, "componentInstance");
+			                                                                  	var resolveComponentExpression = CreateResolveComponentInstanceExpression(contextParameterExpression, componentKey, componentContractType, componentInstanceVariableExpression);
+
+			                                                                  	// create the method call expression
+			                                                                  	var methodInfo = componentContractType.GetMethod(methodName);
+			                                                                  	var invokeMethodExpression = CreateInvokeMethodExpression(methodInfo, contextParameterExpression, componentInstanceVariableExpression, argumentsParameterExpression);
+
+			                                                                  	// create the body
+			                                                                  	var block = Expression.Block(new[] {componentInstanceVariableExpression}, resolveComponentExpression, invokeMethodExpression);
+
+			                                                                  	// create the lambda
+			                                                                  	var lambdaEpxression = Expression.Lambda<Func<IMansionContext, IPropertyBag, TResult>>(block, signatureParameterExpressions);
+
+			                                                                  	// compile the lambda
+			                                                                  	var typedLambda = lambdaEpxression.Compile();
+
+			                                                                  	// compile and return the lambda
+			                                                                  	return (context0, arguments0) => typedLambda(context0, arguments0);
+			                                                                  })(context, arguments);
+		}
+		/// <summary>
+		/// Resolves a given component based on it's  <paramref name="componentKey"/> and <paramref name="contractType"/>.
+		/// </summary>
+		/// <param name="contextExpression">The <see cref="IMansionContext"/> expression.</param>
+		/// <param name="componentKey">The strong name of the compoment which to resolve.</param>
+		/// <param name="contractType">The type of contract type.</param>
+		/// <param name="instanceVariableExpression">The <see cref="Expression"/> in which the instance will be stored.</param>
+		/// <returns>Returns the expression.</returns>
+		private static Expression CreateResolveComponentInstanceExpression(Expression contextExpression, string componentKey, Type contractType, Expression instanceVariableExpression)
+		{
+			// create the get nucleus expression
+			var getNucleusExpression = Expression.Call(contextExpression, typeof (IMansionContext).GetProperty("Nucleus").GetGetMethod());
+
+			// create the method call to INucleus.TryResolveSingle(key, out instance)
+			var resolveSingleMethod = typeof (INucleus).GetMethods().Single(candidate => candidate.Name.Equals("TryResolveSingle") && candidate.GetParameters().Length == 2).MakeGenericMethod(contractType);
+			var componentKeyExpression = Expression.Constant(componentKey, typeof (string));
+			var resolveComponentInstanceExpression = Expression.Call(getNucleusExpression, resolveSingleMethod, componentKeyExpression, instanceVariableExpression);
+
+			// return check for success
+			return Expression.IfThen(Expression.Not(resolveComponentInstanceExpression), Expression.Throw(Expression.New(typeof (InvalidOperationException).GetConstructor(new[] {typeof (string)}), new[] {Expression.Constant(String.Format("Could not resolve component '{0}'.", componentKey))})));
+		}
+		#endregion
+		#region Private Fields
+		private static readonly ConcurrentDictionary<string, Func<IMansionContext, object, IPropertyBag, object>> InvokeMethodOnInstanceCache = new ConcurrentDictionary<string, Func<IMansionContext, object, IPropertyBag, object>>(StringComparer.OrdinalIgnoreCase);
+		private static readonly ConcurrentDictionary<string, Func<IMansionContext, IPropertyBag, object>> InvokeMethodOnComponentCache = new ConcurrentDictionary<string, Func<IMansionContext, IPropertyBag, object>>(StringComparer.OrdinalIgnoreCase);
 		#endregion
 	}
 }
