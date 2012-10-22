@@ -50,6 +50,7 @@
     <EmbeddedResource Include="Web\Default.xts" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IMyUsefulService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestWebAppBootstrapper.cs" />
   </ItemGroup>
