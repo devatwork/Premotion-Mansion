@@ -31,9 +31,18 @@ namespace Premotion.Mansion.Core.Nucleus
 		/// <param name="name">The strong name of the compoment which to resolve.</param>
 		/// <param name="instance">The instance of <typeparamref name="TContract"/> when found, otherwise null.</param>
 		/// <returns>Returns true when a component could be resolved otherwise false.</returns>
-		/// <exception cref="ArgumentNullException">Thrown when t<paramref name="name"/> is null.</exception>
+		/// <exception cref="ArgumentNullException">Thrown when <paramref name="name"/> is null.</exception>
 		/// <exception cref="ObjectDisposedException">Thrown when the Nucleus is already disposed.</exception>
 		bool TryResolveSingle<TContract>(string name, out TContract instance) where TContract : class;
+		/// <summary>
+		/// Tries to resolve the <paramref name="contractType"/> for the component with the given <paramref name="name"/>.
+		/// </summary>
+		/// <param name="name">The strong name of the compoment which to resolve.</param>
+		/// <param name="contractType">The <see cref="Type"/> of the contract.</param>
+		/// <returns>Returns true when the contract could be resolved, otherwise false.</returns>
+		/// <exception cref="ArgumentNullException">Thrown when <paramref name="name"/> is null.</exception>
+		/// <exception cref="ObjectDisposedException">Thrown when the Nucleus is already disposed.</exception>
+		bool TryResolveComponentContract(string name, out Type contractType);
 		#endregion
 	}
 }
