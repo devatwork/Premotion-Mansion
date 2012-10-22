@@ -380,6 +380,8 @@
     <Compile Include="ScriptTags\Media\JSon\GetDatasetFromJSonTag.cs" />
     <Compile Include="ScriptTags\Media\Xml\RenderXmlContentTag.cs" />
     <Compile Include="ScriptTags\Media\Xml\RegisterXmlPrefixTag.cs" />
+    <Compile Include="ScriptTags\Repository\RetrieveDatasetFromComponentTag.cs" />
+    <Compile Include="ScriptTags\Repository\RetrieveRowFromComponentTag.cs" />
     <Compile Include="ScriptTags\Repository\DeleteRecordTag.cs" />
     <Compile Include="ScriptTags\Repository\UpdateRecordTag.cs" />
     <Compile Include="ScriptTags\Repository\CreateRecordTag.cs" />

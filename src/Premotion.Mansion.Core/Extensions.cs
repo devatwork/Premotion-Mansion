@@ -1295,36 +1295,36 @@ namespace Premotion.Mansion.Core
 		#endregion
 		#region Extension of IMansionContext
 		/// <summary>
-		/// Invokes method with name <paramref name="methodName"/> on component identified by <paramref name="componentKey"/> with <paramref name="arguments"/>.
+		/// Invokes method with name <paramref name="methodName"/> on component identified by <paramref name="componentName"/> with <paramref name="arguments"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="componentKey">The strong name of the compoment which to resolve.</param>
+		/// <param name="componentName">The strong name of the compoment which to resolve.</param>
 		/// <param name="methodName">The name of the method which to invoke.</param>
 		/// <param name="arguments">The arguments which to pass to the method.</param>
 		/// <typeparam name="TResult">The type of result returned from the method.</typeparam>
 		/// <returns>Returns the result.</returns>
-		public static TResult InvokeMethodOnComponent<TResult>(this IMansionContext context, string componentKey, string methodName, IPropertyBag arguments)
+		public static TResult InvokeMethodOnComponent<TResult>(this IMansionContext context, string componentName, string methodName, IPropertyBag arguments)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
-			if (string.IsNullOrEmpty(componentKey))
-				throw new ArgumentNullException("componentKey");
+			if (string.IsNullOrEmpty(componentName))
+				throw new ArgumentNullException("componentName");
 			if (string.IsNullOrEmpty(methodName))
 				throw new ArgumentNullException("methodName");
 			if (arguments == null)
 				throw new ArgumentNullException("arguments");
 
 			// generate the key
-			var signature = componentKey + "_" + methodName;
+			var signature = componentName + "_" + methodName;
 
 			// execute the method on the component
 			return (TResult) InvokeMethodOnComponentCache.GetOrAdd(signature, key =>
 			                                                                  {
 			                                                                  	// get the component contract
 			                                                                  	Type componentContractType;
-			                                                                  	if (!context.Nucleus.TryResolveComponentContract(componentKey, out componentContractType))
-			                                                                  		throw new InvalidOperationException(string.Format("Could not resolve contract for component with key '{0}'", componentKey));
+			                                                                  	if (!context.Nucleus.TryResolveComponentContract(componentName, out componentContractType))
+			                                                                  		throw new InvalidOperationException(string.Format("Could not resolve contract for component with key '{0}'", componentName));
 
 			                                                                  	// create parameter expressions
 			                                                                  	var contextParameterExpression = Expression.Parameter(typeof (IMansionContext), "context");
@@ -1333,7 +1333,7 @@ namespace Premotion.Mansion.Core
 
 			                                                                  	// create the component instance variable 
 			                                                                  	var componentInstanceVariableExpression = Expression.Variable(componentContractType, "componentInstance");
-			                                                                  	var resolveComponentExpression = CreateResolveComponentInstanceExpression(contextParameterExpression, componentKey, componentContractType, componentInstanceVariableExpression);
+			                                                                  	var resolveComponentExpression = CreateResolveComponentInstanceExpression(contextParameterExpression, componentName, componentContractType, componentInstanceVariableExpression);
 
 			                                                                  	// create the method call expression
 			                                                                  	var methodInfo = componentContractType.GetMethod(methodName);
@@ -1353,25 +1353,25 @@ namespace Premotion.Mansion.Core
 			                                                                  })(context, arguments);
 		}
 		/// <summary>
-		/// Resolves a given component based on it's  <paramref name="componentKey"/> and <paramref name="contractType"/>.
+		/// Resolves a given component based on it's  <paramref name="componentName"/> and <paramref name="contractType"/>.
 		/// </summary>
 		/// <param name="contextExpression">The <see cref="IMansionContext"/> expression.</param>
-		/// <param name="componentKey">The strong name of the compoment which to resolve.</param>
+		/// <param name="componentName">The strong name of the compoment which to resolve.</param>
 		/// <param name="contractType">The type of contract type.</param>
 		/// <param name="instanceVariableExpression">The <see cref="Expression"/> in which the instance will be stored.</param>
 		/// <returns>Returns the expression.</returns>
-		private static Expression CreateResolveComponentInstanceExpression(Expression contextExpression, string componentKey, Type contractType, Expression instanceVariableExpression)
+		private static Expression CreateResolveComponentInstanceExpression(Expression contextExpression, string componentName, Type contractType, Expression instanceVariableExpression)
 		{
 			// create the get nucleus expression
 			var getNucleusExpression = Expression.Call(contextExpression, typeof (IMansionContext).GetProperty("Nucleus").GetGetMethod());
 
 			// create the method call to INucleus.TryResolveSingle(key, out instance)
 			var resolveSingleMethod = typeof (INucleus).GetMethods().Single(candidate => candidate.Name.Equals("TryResolveSingle") && candidate.GetParameters().Length == 2).MakeGenericMethod(contractType);
-			var componentKeyExpression = Expression.Constant(componentKey, typeof (string));
+			var componentKeyExpression = Expression.Constant(componentName, typeof (string));
 			var resolveComponentInstanceExpression = Expression.Call(getNucleusExpression, resolveSingleMethod, componentKeyExpression, instanceVariableExpression);
 
 			// return check for success
-			return Expression.IfThen(Expression.Not(resolveComponentInstanceExpression), Expression.Throw(Expression.New(typeof (InvalidOperationException).GetConstructor(new[] {typeof (string)}), new[] {Expression.Constant(String.Format("Could not resolve component '{0}'.", componentKey))})));
+			return Expression.IfThen(Expression.Not(resolveComponentInstanceExpression), Expression.Throw(Expression.New(typeof (InvalidOperationException).GetConstructor(new[] {typeof (string)}), new[] {Expression.Constant(String.Format("Could not resolve component '{0}'.", componentName))})));
 		}
 		#endregion
 		#region Private Fields

@@ -534,4 +534,56 @@
 		</xs:complexType>
 	</xs:element>
 
+
+
+	<!-- component tags -->
+	<xs:attributeGroup name="invokeComponentMethodAttributes">
+		<xs:attribute name="componentName" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					The name of the component on which to execute the method.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="methodName" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					The name of the method which to execute the method.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	
+	<xs:element name="retrieveDatasetFromComponent" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Retrieves a dataset from a component.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="retrieveTagType">
+					<!-- attributes -->
+					<xs:attributeGroup ref="invokeComponentMethodAttributes" />
+					<xs:anyAttribute namespace="##any" processContents="skip" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="retrieveRowFromComponent" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Retrieves a single row from a component.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="retrieveTagType">
+					<!-- attributes -->
+					<xs:attributeGroup ref="invokeComponentMethodAttributes" />
+					<xs:anyAttribute namespace="##any" processContents="skip" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
 </xs:schema>
