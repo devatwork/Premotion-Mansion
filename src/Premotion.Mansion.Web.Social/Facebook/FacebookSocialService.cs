@@ -79,8 +79,8 @@ namespace Premotion.Mansion.Web.Social.Facebook
 				// authentication failed because user clicked cancel,
 				// redirect back with reason
 				var modifiableUrl = context.Request.RequestUrl.Clone();
-				modifiableUrl.QueryString.Add("status", "failed");
-				modifiableUrl.QueryString.Add("reason", "cancelled-by-user");
+				modifiableUrl.QueryString["status"] = "failed";
+				modifiableUrl.QueryString["reason"] = "cancelled-by-user";
 				return Result<Url>.Redirect(modifiableUrl);
 			}
 

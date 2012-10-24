@@ -118,14 +118,14 @@ namespace Premotion.Mansion.Web.Controls.Forms.Engines
 		{
 			// build the new URL
 			var url = context.Request.RequestUrl.Clone();
-			url.QueryString.Add(form.Prefix + "current-step", (form.Steps.ToList().IndexOf(step)).ToString(CultureInfo.InvariantCulture));
+			url.QueryString[form.Prefix + "current-step"] = (form.Steps.ToList().IndexOf(step)).ToString(CultureInfo.InvariantCulture);
 
 			// copy all non form field properties to the query string
 			foreach (var parameter in context.Stack.Peek<IPropertyBag>("Post").Where(candidate => !candidate.Key.StartsWith(form.Prefix, StringComparison.OrdinalIgnoreCase)))
-				url.QueryString.Add(parameter.Key, parameter.Value != null ? parameter.Value.ToString() : string.Empty);
+				url.QueryString[parameter.Key] = parameter.Value != null ? parameter.Value.ToString() : string.Empty;
 
 			// set the form state
-			url.QueryString.Add(form.Prefix + "state", context.Nucleus.ResolveSingle<IConversionService>().Convert<string>(context, form.State.FieldProperties));
+			url.QueryString[form.Prefix + "state"] = context.Nucleus.ResolveSingle<IConversionService>().Convert<string>(context, form.State.FieldProperties);
 
 			// set redirect
 			WebUtilities.RedirectRequest(context, url);
