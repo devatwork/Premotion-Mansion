@@ -3,8 +3,8 @@
 		{@BlockToolbar}
 		{@BlockTitle}
 		<div class="content">
-			{@BlockDescription}
-			{@BlockBody}
+			{@BlockDescriptionTrusted}
+			{@BlockBodyTrusted}
 		</div>
 	</article>
 </tpl:section>

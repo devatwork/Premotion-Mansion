@@ -227,6 +227,10 @@
     <Compile Include="Hosting\UrlPrefixSpecification.cs" />
     <Compile Include="Hosting\WebOutputRequestHandler.cs" />
     <Compile Include="ScriptTags\ParseApplicationUrlTag.cs" />
+    <Compile Include="Templating\Html\AntiXssHtmlSectionInterpreter.cs" />
+    <Compile Include="Templating\Html\Encoders\AntiXssHtmlAttributeEncode.cs" />
+    <Compile Include="Templating\Html\Encoders\AntiXssHtmlEncode.cs" />
+    <Compile Include="Templating\Html\Encoders\AntiXssJavaScriptStringEncode.cs" />
     <Compile Include="WebFile.cs" />
     <Compile Include="ISession.cs" />
     <Compile Include="MansionWebApplicationContextFactory.cs" />
@@ -937,6 +941,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Web\Shared\js\selectivizr\selectivizr.js" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

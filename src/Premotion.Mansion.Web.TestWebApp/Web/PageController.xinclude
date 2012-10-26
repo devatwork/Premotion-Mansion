@@ -1,22 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:social="http://schemas.premotion.nl/mansion/1.0/web/social/tags.xsd" xmlns:controls="http://schemas.premotion.nl/mansion/1.0/web.controls.tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd">>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:social="http://schemas.premotion.nl/mansion/1.0/web/social/tags.xsd" xmlns:controls="http://schemas.premotion.nl/mansion/1.0/web.controls.tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd">
 
 	<!-- retrieve the profile -->
 	<declareProcedure procedureName="HandleView">
 
-		<web:respondDocument contentType="text/plain">
+		<web:respondDocument contentType="text/html">
 
-			<!-- retrieve latest message -->
-			<retrieveRowFromComponent componentName="cool-speak" methodName="RetrieveLatestMessage" username="Bert" target="Message">
-				<renderText>{Message.message}{Character( 'newline' )}{Character( 'newline' )}</renderText>
-			</retrieveRowFromComponent>
+			<createDataset target="ResultSet" global="true" />
+			<renderSection name="Page">
+				<renderSection name="Layout">
+					<renderSection name="Results" />
+					<renderSection name="Message" />
+				</renderSection>
+
+
+				<retrieveNode id="1" target="RootNode" global="true" />
+				<retrieveNode id="11" target="CurrentNode" global="true" />
+				<renderSection name="CrumbPath">
+					<if condition="{Not( IsEqual( CurrentNode.id, RootNode.id ) )}">
+						<retrieveParentNodeset childSource="{$CurrentNode}" depth="any" target="ParentNodeset">
+							<loopNodeset source="{$ParentNodeset}" target="ParentNode">
+								<renderSection name="ParentCrumb" />
+							</loopNodeset>
+						</retrieveParentNodeset>
+					</if>
+					<renderSection name="ActiveCrumb" />
+				</renderSection>
 			
-			<!-- retrieve messsages -->
-			<retrieveDatasetFromComponent componentName="pirate-speak" methodName="RetrieveMessages" username="Bert" target="MessageSet">
-				<loopDataset source="{$MessageSet}" target="Message">
-					<renderText>{Message.message}{Character( 'newline' )}</renderText>
-				</loopDataset>
-			</retrieveDatasetFromComponent>
+			<!--
+			<forms:form name="test">
+				<forms:step label="Input">
+					<forms:textarea name="message" label="Bericht" />
+					<forms:buttonBar>
+						<forms:button action="post" label="Plaatsen" />
+					</forms:buttonBar>
+				</forms:step>
+			</forms:form>-->
+
+			</renderSection>
 			
 		</web:respondDocument>
 	
