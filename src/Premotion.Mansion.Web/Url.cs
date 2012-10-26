@@ -92,7 +92,8 @@ namespace Premotion.Mansion.Web
 			          	HostName = applicationUrl.HostName,
 			          	Port = applicationUrl.Port,
 			          	ApplicationPathSegments = applicationUrl.ApplicationPathSegments,
-			          	PathSegments = uri.Segments.Select(candidate => candidate.Trim(Dispatcher.Constants.UrlPartTrimCharacters)).Where(candidate => candidate.Length > 0).Skip(applicationUrl.ApplicationPathSegments.Length).ToArray()
+			          	PathSegments = uri.Segments.Select(candidate => candidate.Trim(Dispatcher.Constants.UrlPartTrimCharacters)).Where(candidate => candidate.Length > 0).Skip(applicationUrl.ApplicationPathSegments.Length).ToArray(),
+							CanHaveExtension = true
 			          };
 
 			// parse the query string
@@ -215,7 +216,7 @@ namespace Premotion.Mansion.Web
 			get
 			{
 				// check if there is at least one segment
-				if (PathSegments.Length == 0)
+				if (PathSegments.Length == 0 || !CanHaveExtension)
 					return string.Empty;
 
 				// if the last segment contains a dot, it is a file name
@@ -261,6 +262,10 @@ namespace Premotion.Mansion.Web
 			get { return fragment.Trim('#'); }
 			set { fragment = (value ?? string.Empty).Trim('#'); }
 		}
+		/// <summary>
+		/// Gets/Sets a flag indicating wether this url can have an extension.
+		/// </summary>
+		public bool CanHaveExtension { get; set; }
 		#endregion
 		#region Overrides of Object
 		/// <summary>
@@ -341,16 +346,16 @@ namespace Premotion.Mansion.Web
 		/// </summary>
 		/// <param name="segments"></param>
 		/// <returns></returns>
-		public static string FormatPath(IEnumerable<string> segments)
+		private string FormatPath(IEnumerable<string> segments)
 		{
 			if (segments == null)
 				throw new ArgumentNullException("segments");
 
 			// decode all the segments
-			segments = segments.Select(segment => segment.UrlDecode().HtmlDecode().Trim(' ').Trim(Dispatcher.Constants.UrlPartTrimCharacters));
+			var segmentArray = segments.Select(segment => segment.UrlDecode().HtmlDecode().Trim(' ').Trim(Dispatcher.Constants.UrlPartTrimCharacters)).ToArray();
 
 			// url path encode the remaining segments
-			segments = segments.Select(segment => segment.UrlPathEncode());
+			segments = segmentArray.Select((segment, index) => segment.UrlPathEncode((index == segmentArray.Length - 1) && CanHaveExtension));
 
 			// filter out empty segments
 			segments = segments.Where(segment => !string.IsNullOrEmpty(segment));

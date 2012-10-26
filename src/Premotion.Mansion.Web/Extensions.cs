@@ -22,7 +22,7 @@ namespace Premotion.Mansion.Web
 		/// <summary>
 		/// Unreserved URL path characters.
 		/// </summary>
-		private static readonly char[] UnreservedUrlPathEncodingCharacters = new[] {'_'};
+		private static readonly char[] UnreservedUrlPathEncodingCharacters = new[] {'-', '_', '!', '~', '*', '\'', '(', ')'};
 		#endregion
 		#region String Extensions
 		/// <summary>
@@ -54,9 +54,14 @@ namespace Premotion.Mansion.Web
 		/// URL path encodes the <paramref name="input"/> string.
 		/// </summary>
 		/// <param name="input">The string which to encode.</param>
+		/// <param name="hasExtension">Flag indicating whether this path can contain an extension</param>
 		/// <returns>Returns the path encoded string.</returns>
-		public static string UrlPathEncode(this string input)
+		public static string UrlPathEncode(this string input, bool hasExtension = false)
 		{
+			// validate arugments
+			if (input == null)
+				throw new ArgumentNullException("input");
+
 			// normalize the string
 			var normalized = input.Normalize(NormalizationForm.FormKD);
 			var removal = Encoding.GetEncoding(Encoding.ASCII.CodePage, new EncoderReplacementFallback(""), new DecoderReplacementFallback(""));
@@ -68,7 +73,7 @@ namespace Premotion.Mansion.Web
 			var previousCharacter = 'a';
 			foreach (var currentChar in normalized)
 			{
-				if (Char.IsLetterOrDigit(currentChar) || UnreservedUrlPathEncodingCharacters.Contains(currentChar))
+				if (Char.IsLetterOrDigit(currentChar) || UnreservedUrlPathEncodingCharacters.Contains(currentChar) || (currentChar == '.' && hasExtension))
 				{
 					previousCharacter = currentChar;
 					buffer.Append(currentChar);
