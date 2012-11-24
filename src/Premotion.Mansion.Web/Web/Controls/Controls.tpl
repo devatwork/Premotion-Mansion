@@ -413,7 +413,7 @@
 	<script>top.jQuery(top.document).trigger("{TriggerProperties.action}");</script>
 </tpl:section>
 <tpl:section name="InvokeDialogParentTriggerWithParameters" field="Header">
-	<script>top.jQuery(top.document).trigger("{TriggerProperties.action}", {DataspaceToJSonArray( $TriggerArguments )});</script>
+	<script>top.jQuery(top.document).trigger("{TriggerProperties.action}", {#DataspaceToJSonArray( $TriggerArguments )});</script>
 </tpl:section>
 
 
