@@ -4,7 +4,7 @@
 		{@BlockTitle}
 		<div class="content">
 			{Results}
-			{InvokeProcedure( 'RenderReadMoreLink' )}
+			{#InvokeProcedure( 'RenderReadMoreLink' )}
 		</div>
 	</section>
 </tpl:section>
@@ -13,7 +13,7 @@
 	<ol class="unstyled list content-list {BlockProperties.listItemAppearance}">
 		{ListItem}
 	</ol>
-	{RenderPagingControl( $ResultSet, Concat( 'block-', BlockProperties.id ) )}
+	{#RenderPagingControl( $ResultSet, Concat( 'block-', BlockProperties.id ) )}
 </tpl:section>
 
 	<tpl:section name="ListItem">

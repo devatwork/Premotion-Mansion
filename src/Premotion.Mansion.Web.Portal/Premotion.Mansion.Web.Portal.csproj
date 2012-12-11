@@ -238,8 +238,8 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Types\DefaultTheme\img\icons\favicon.ico" />
-    <Content Include="Web\Types\DefaultTheme\css\theme.css" />
-    <Content Include="Web\Types\DefaultTheme\js\script.js" />
+    <EmbeddedResource Include="Web\Types\DefaultTheme\css\theme.css" />
+    <EmbeddedResource Include="Web\Types\DefaultTheme\js\script.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

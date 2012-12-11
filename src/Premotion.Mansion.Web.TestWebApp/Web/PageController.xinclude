@@ -1,28 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:social="http://schemas.premotion.nl/mansion/1.0/web/social/tags.xsd" xmlns:controls="http://schemas.premotion.nl/mansion/1.0/web.controls.tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd">>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd" xmlns:social="http://schemas.premotion.nl/mansion/1.0/web/social/tags.xsd" xmlns:controls="http://schemas.premotion.nl/mansion/1.0/web.controls.tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd">
 
 	<!-- retrieve the profile -->
 	<declareProcedure procedureName="HandleView">
 
-		<retrieveRecord parentPointer="1" fts="test" facetType="{CreateFacet( 'type', 'Types' )}" status="published" depth="any" type="Site" limit="5" pageNumber="1" pageSize="25" target="RootNode" sort="type asc">
-			
-		</retrieveRecord>
+		<web:respondDocument contentType="text/html">
 
-		<renderSection name="Page">
-			<controls:grid>
-				<providers:retrieveChildNodesetProvider parentPointer="1" depth="any" type="{GetControlPropertyValue( 'type' )}" status="any" fts="{GetControlPropertyValue( 'name' )}" bypassAuthorization="true" pageNumber="{GetControlPropertyValue( 'page-number', '1' )}" pageSize="3" sort="{GetControlPropertyValue( 'sort', 'order asc' )}" cache="false" />
-				<controls:propertyColumn propertyName="name" heading="Name">
-					<controls:columnSort on="name" />
-					<controls:textboxColumnFilter on="name" />
-				</controls:propertyColumn>
-				<controls:propertyColumn propertyName="type" heading="Type">
-					<controls:columnSort on="type" />
-					<controls:selectboxColumnFilter on="type">
-						<providers:allTypesDefinitionDatasetProvider />
-					</controls:selectboxColumnFilter>
-				</controls:propertyColumn>
-			</controls:grid>
-		</renderSection>
+			<createDataset target="ResultSet" global="true" />
+			<renderSection name="Page">
+				<renderSection name="Layout">
+					<renderSection name="Results" />
+					<renderSection name="Message" />
+				</renderSection>
+
+
+				<retrieveNode id="1" target="RootNode" global="true" />
+				<retrieveNode id="11" target="CurrentNode" global="true" />
+				<renderSection name="CrumbPath">
+					<if condition="{Not( IsEqual( CurrentNode.id, RootNode.id ) )}">
+						<retrieveParentNodeset childSource="{$CurrentNode}" depth="any" target="ParentNodeset">
+							<loopNodeset source="{$ParentNodeset}" target="ParentNode">
+								<renderSection name="ParentCrumb" />
+							</loopNodeset>
+						</retrieveParentNodeset>
+					</if>
+					<renderSection name="ActiveCrumb" />
+				</renderSection>
+			
+			<!--
+			<forms:form name="test">
+				<forms:step label="Input">
+					<forms:textarea name="message" label="Bericht" />
+					<forms:buttonBar>
+						<forms:button action="post" label="Plaatsen" />
+					</forms:buttonBar>
+				</forms:step>
+			</forms:form>-->
+
+			</renderSection>
+			
+		</web:respondDocument>
 	
 	</declareProcedure>
 	

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
@@ -12,6 +13,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Media.JSon
 	[ScriptFunction("DataspaceToJSonArray")]
 	public class DataspaceToJSonArray : FunctionExpression
 	{
+		private static readonly JsonSerializer Serializer = JsonSerializer.Create(new JsonSerializerSettings());
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
@@ -33,8 +35,19 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Media.JSon
 				jsonWriter.WriteStartArray();
 
 				// loop over the values in the dataspace
-				foreach (var property in dataspace)
-					jsonWriter.WriteValue(property.Value);
+				foreach (var property in dataspace.Where(x => x.Value != null))
+				{
+					// get the type
+					var propertyType = property.Value.GetType();
+
+					// if this type has no serializer, convert it to string first
+					var value = property.Value;
+					if (!Serializer.Converters.Any(candidate => candidate.CanConvert(propertyType)))
+						value = dataspace.Get<string>(context, property.Key);
+
+					// write the value
+					jsonWriter.WriteValue(value);
+				}
 
 				jsonWriter.WriteEndArray();
 			}

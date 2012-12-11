@@ -11,7 +11,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 	/// <summary>
 	/// Renders the specified block.
 	/// </summary>
-	[ScriptFunction("renderBlock")]
+	[ScriptFunction("RenderBlock")]
 	public class RenderBlock : FunctionExpression
 	{
 		#region Constructors

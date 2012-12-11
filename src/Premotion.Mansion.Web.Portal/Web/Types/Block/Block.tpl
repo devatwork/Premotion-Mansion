@@ -5,7 +5,9 @@
 </tpl:section>
 
 <tpl:section name="BlockDescription" requires="{Not( IsEmpty( BlockProperties.description ) )}"><div class="description">{BlockProperties.description}</div></tpl:section>
+<tpl:section name="BlockDescriptionTrusted" requires="{Not( IsEmpty( BlockProperties.description ) )}"><div class="description">{#BlockProperties.description}</div></tpl:section>
 <tpl:section name="BlockBody" requires="{Not( IsEmpty( BlockProperties.body ) )}"><div class="body">{BlockProperties.body}</div></tpl:section>
+<tpl:section name="BlockBodyTrusted" requires="{Not( IsEmpty( BlockProperties.body ) )}"><div class="body">{#BlockProperties.body}</div></tpl:section>
 
 <tpl:section name="BlockReadMoreLink" requires="{Not( IsEmpty( BlockProperties.readMoreTargetGuid ) )}">
 	<div class="read-more">

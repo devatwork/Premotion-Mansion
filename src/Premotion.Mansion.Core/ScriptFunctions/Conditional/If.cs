@@ -31,10 +31,6 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
-			if (trueValue == null)
-				throw new ArgumentNullException("trueValue");
-			if (falseValue == null)
-				throw new ArgumentNullException("falseValue");
 
 			return condition ? trueValue : falseValue;
 		}

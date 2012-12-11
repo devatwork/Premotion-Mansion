@@ -6,7 +6,7 @@
 		<title>{RenderPageTitle()}</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		{@FavIcon}
-		{RenderSeoMetaTags()}
+		{#RenderSeoMetaTags()}
 		{@GoogleSiteVerification}
 
 		<!-- Le styles -->
@@ -78,5 +78,5 @@
 	</body>
 </html></tpl:section>
 
-<tpl:section name="MainNavigation" requires="{IsNode( $MainNavigationNode )}">{RenderNavigation( $MainNavigationNode )}</tpl:section>
-<tpl:section name="FooterNavigation" requires="{IsNode( $FooterNavigationNode )}">{RenderNavigation( $FooterNavigationNode )}</tpl:section>
+<tpl:section name="MainNavigation" requires="{IsNode( $MainNavigationNode )}">{#RenderNavigation( $MainNavigationNode )}</tpl:section>
+<tpl:section name="FooterNavigation" requires="{IsNode( $FooterNavigationNode )}">{#RenderNavigation( $FooterNavigationNode )}</tpl:section>

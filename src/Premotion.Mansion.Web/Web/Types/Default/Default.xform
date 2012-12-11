@@ -151,7 +151,7 @@
 	<declareProcedure procedureName="IncludeGroupSecurity">
 		<forms:collapsibleFieldset label="Security">
 			<forms:multiselect name="allowedRoleGuids" label="Allowed roles" valueProperty="guid" labelProperty="name" defaultValue="{ParentNode.allowedRoleGuids}">
-				<providers:retrieveChildNodesetProvider parentPointer="1" baseType="Role" depth="any" />
+				<providers:retrieveChildNodesetProvider parentPointer="1" baseType="Role" depth="any" bypassAuthorization="true" />
 			</forms:multiselect>
 			<forms:checkbox name="_propagateAllowedRoleGuids" label="Propagate" />
 		</forms:collapsibleFieldset>
