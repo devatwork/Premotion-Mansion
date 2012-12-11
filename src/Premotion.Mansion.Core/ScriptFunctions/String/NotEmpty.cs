@@ -23,7 +23,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.String
 			if (candidates == null)
 				throw new ArgumentNullException("candidates");
 
-			return candidates.Where(x => !string.IsNullOrEmpty(x)).FirstOrDefault();
+			return candidates.FirstOrDefault(x => !string.IsNullOrEmpty(x));
 		}
 	}
 }
