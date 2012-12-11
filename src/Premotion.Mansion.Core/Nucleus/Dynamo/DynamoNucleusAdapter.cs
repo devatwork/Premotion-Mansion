@@ -58,8 +58,32 @@ namespace Premotion.Mansion.Core.Nucleus.Dynamo
 		/// <exception cref="ObjectDisposedException">Thrown when the Nucleus is already disposed.</exception>
 		protected override bool DoTryResolveSingle<TContract>(string name, out TContract instance)
 		{
+			// get the key
+			Type contractType;
+			if (!keyToTypeLookup.TryGetValue(name, out contractType))
+				throw new InvalidOperationException(string.Format("Could not resolve contract of component with name '{0}'", name));
+
+			// check contract types
+			if (!typeof (TContract).IsAssignableFrom(contractType))
+				throw new InvalidOperationException(string.Format("Component with name '{0}' is registered with contract '{1}' but contract '{2}' was requested", name, contractType, typeof (TContract)));
+
 			// let the container resolve the instance
-			return container.TryResolve(name, out instance);
+			object objectInstance;
+			var result = container.TryResolve(contractType, name, out objectInstance);
+			instance = result ? (TContract) objectInstance : default(TContract);
+			return result;
+		}
+		/// <summary>
+		/// Tries to resolve the <paramref name="contractType"/> for the component with the given <paramref name="name"/>.
+		/// </summary>
+		/// <param name="name">The strong name of the compoment which to resolve.</param>
+		/// <param name="contractType">The <see cref="Type"/> of the contract.</param>
+		/// <returns>Returns true when the contract could be resolved, otherwise false.</returns>
+		/// <exception cref="ArgumentNullException">Thrown when <paramref name="name"/> is null.</exception>
+		/// <exception cref="ObjectDisposedException">Thrown when the Nucleus is already disposed.</exception>
+		protected override bool DoTryResolveComponentContract(string name, out Type contractType)
+		{
+			return keyToTypeLookup.TryGetValue(name, out contractType);
 		}
 		/// <summary>
 		/// Registers a <paramref name="instanceFactory"/> for component with contract <typeparamref name="TContract"/>.
@@ -88,6 +112,11 @@ namespace Premotion.Mansion.Core.Nucleus.Dynamo
 		{
 			// create the instance epxression
 			var instanceFactoryExpression = AssembleFactoryExpression(instanceFactory);
+
+			// register the component by it's interface
+			if (keyToTypeLookup.ContainsKey(name))
+				throw new InvalidOperationException(string.Format("Component with name '{0}' is already registered", name));
+			keyToTypeLookup.Add(name, typeof (TContract));
 
 			// register the factory
 			container.Register(instanceFactoryExpression, name).Lifetime = new TransientLifetime();
@@ -139,6 +168,7 @@ namespace Premotion.Mansion.Core.Nucleus.Dynamo
 		#endregion
 		#region Private Fields
 		private readonly IocContainer container;
+		private readonly Dictionary<string, Type> keyToTypeLookup = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
 		#endregion
 	}
 }

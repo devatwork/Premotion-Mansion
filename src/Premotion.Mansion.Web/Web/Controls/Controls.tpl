@@ -128,7 +128,7 @@
 	</tpl:section>
 
 	<tpl:section name="SelectboxFieldControlOption">
-		<option value="{HtmlEncode( OptionProperties.value )}" {If( InList( OptionProperties.value, GetStackValue( 'FieldProperties', ControlProperties.name, '' ) ), 'selected')}>{OptionProperties.label}</option>
+		<option value="{OptionProperties.value}" {If( InList( OptionProperties.value, GetStackValue( 'FieldProperties', ControlProperties.name, '' ) ), 'selected')}>{OptionProperties.label}</option>
 	</tpl:section>
 
 <tpl:section name="MultiSelectFieldControl" field="Field">
@@ -138,7 +138,7 @@
 </tpl:section>
 
 	<tpl:section name="MultiSelectFieldControlOption">
-		<option value="{HtmlEncode( OptionProperties.value )}" {If( InList( OptionProperties.value, GetStackValue( 'FieldProperties', ControlProperties.name, '' ) ), 'selected')}>{OptionProperties.label}</option>
+		<option value="{OptionProperties.value}" {If( InList( OptionProperties.value, GetStackValue( 'FieldProperties', ControlProperties.name, '' ) ), 'selected')}>{OptionProperties.label}</option>
 	</tpl:section>
 
 <tpl:section name="CheckboxListFieldControl" field="Field">
@@ -149,7 +149,7 @@
 
 	<tpl:section name="CheckboxListFieldControlOption">
 		<label for="{@ControlId}-{Loop.current}">
-			<input type="checkbox" id="{@ControlId}-{Loop.current}" name="{@FieldName}" value="{HtmlEncode( OptionProperties.value )}" {@FieldReadonlyAttribute} {If( InList( OptionProperties.value, GetStackValue( 'FieldProperties', ControlProperties.name, '' ) ), 'checked')}>
+			<input type="checkbox" id="{@ControlId}-{Loop.current}" name="{@FieldName}" value="{OptionProperties.value}" {@FieldReadonlyAttribute} {If( InList( OptionProperties.value, GetStackValue( 'FieldProperties', ControlProperties.name, '' ) ), 'checked')}>
 			{OptionProperties.label}
 		</label>
 	</tpl:section>
@@ -413,7 +413,7 @@
 	<script>top.jQuery(top.document).trigger("{TriggerProperties.action}");</script>
 </tpl:section>
 <tpl:section name="InvokeDialogParentTriggerWithParameters" field="Header">
-	<script>top.jQuery(top.document).trigger("{TriggerProperties.action}", {DataspaceToJSonArray( $TriggerArguments )});</script>
+	<script>top.jQuery(top.document).trigger("{TriggerProperties.action}", {#DataspaceToJSonArray( $TriggerArguments )});</script>
 </tpl:section>
 
 
@@ -436,7 +436,7 @@
 				{Content}
 			</table>
 			<div class="pull-right">
-				{RenderPagingControl( $Dataset, GridProperties.id )}
+				{#RenderPagingControl( $Dataset, GridProperties.id )}
 			</div>
 		</div>
 		<input type="hidden" name="{GetControlPropertyName( 'sort' )}" value="{GetControlPropertyValue( 'sort' )}">
@@ -466,7 +466,7 @@
 	
 		<tpl:section name="GridControlPropertyColumnHeader" field="Cell"><th>{ColumnProperties.heading}</th></tpl:section>
 
-		<tpl:section name="GridControlColumnSortHeader" field="Cell"><th><a href="{HtmlEncode( ChangeQueryString( Request.url, GetControlPropertyName( 'sort' ), ColumnSortProperties.sortParameter ) )}">{ColumnProperties.heading} <i class="pull-right icon-{If( IsTrue( ColumnSortProperties.active ), If( IsTrue( ColumnSortProperties.direction ), 'sort-up', 'sort-down' ), 'sort' )}"></i></a></th></tpl:section>
+		<tpl:section name="GridControlColumnSortHeader" field="Cell"><th><a href="{ChangeQueryString( Request.url, GetControlPropertyName( 'sort' ), ColumnSortProperties.sortParameter )}">{ColumnProperties.heading} <i class="pull-right icon-{If( IsTrue( ColumnSortProperties.active ), If( IsTrue( ColumnSortProperties.direction ), 'sort-up', 'sort-down' ), 'sort' )}"></i></a></th></tpl:section>
 
 	<tpl:section name="GridControlBody" field="Content">
 		<tbody>
@@ -484,4 +484,4 @@
 
 			<tpl:section name="GridControlPropertyColumnContent" field="CellContent">{CellProperties.value}</tpl:section>
 
-			<tpl:section name="GridControlExpressionColumnContent" field="CellContent">{CellProperties.value}</tpl:section>
+			<tpl:section name="GridControlExpressionColumnContent" field="CellContent">{#CellProperties.value}</tpl:section>

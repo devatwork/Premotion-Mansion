@@ -22,7 +22,7 @@ namespace Premotion.Mansion.Web
 		/// <summary>
 		/// Unreserved URL path characters.
 		/// </summary>
-		private static readonly char[] UnreservedUrlPathEncodingCharacters = new[] {'-', '_', '.', '!', '~', '*', '\'', '(', ')'};
+		private static readonly char[] UnreservedUrlPathEncodingCharacters = new[] {'-', '_', '!', '~', '*', '\'', '(', ')', ' '};
 		#endregion
 		#region String Extensions
 		/// <summary>
@@ -54,9 +54,14 @@ namespace Premotion.Mansion.Web
 		/// URL path encodes the <paramref name="input"/> string.
 		/// </summary>
 		/// <param name="input">The string which to encode.</param>
+		/// <param name="hasExtension">Flag indicating whether this path can contain an extension</param>
 		/// <returns>Returns the path encoded string.</returns>
-		public static string UrlPathEncode(this string input)
+		public static string UrlPathEncode(this string input, bool hasExtension = false)
 		{
+			// validate arugments
+			if (input == null)
+				throw new ArgumentNullException("input");
+
 			// normalize the string
 			var normalized = input.Normalize(NormalizationForm.FormKD);
 			var removal = Encoding.GetEncoding(Encoding.ASCII.CodePage, new EncoderReplacementFallback(""), new DecoderReplacementFallback(""));
@@ -68,7 +73,7 @@ namespace Premotion.Mansion.Web
 			var previousCharacter = 'a';
 			foreach (var currentChar in normalized)
 			{
-				if (Char.IsLetterOrDigit(currentChar) || UnreservedUrlPathEncodingCharacters.Contains(currentChar))
+				if (Char.IsLetterOrDigit(currentChar) || UnreservedUrlPathEncodingCharacters.Contains(currentChar) || (currentChar == '.' && hasExtension))
 				{
 					previousCharacter = currentChar;
 					buffer.Append(currentChar);
@@ -100,14 +105,16 @@ namespace Premotion.Mansion.Web
 		/// <returns>Returns the encoded <paramref name="input"/>.</returns>
 		public static string HtmlEncode(this string input)
 		{
-			// validate arguments
-			if (string.IsNullOrEmpty(input))
-				return string.Empty;
-
-			// encode spaces
-			var spaces = input.Replace(" ", "%20");
-
-			return HttpUtility.HtmlEncode(spaces);
+			return string.IsNullOrEmpty(input) ? string.Empty : HttpUtility.HtmlEncode(input);
+		}
+		/// <summary>
+		/// HTML attribute encodes the <paramref name="input"/>.
+		/// </summary>
+		/// <param name="input">The input which to encode.</param>
+		/// <returns>Returns the encoded <paramref name="input"/>.</returns>
+		public static string HtmlAttributeEncode(this string input)
+		{
+			return string.IsNullOrEmpty(input) ? string.Empty : HttpUtility.HtmlAttributeEncode(input);
 		}
 		/// <summary>
 		/// HTML decodes the <paramref name="input"/>.
@@ -117,6 +124,15 @@ namespace Premotion.Mansion.Web
 		public static string HtmlDecode(this string input)
 		{
 			return string.IsNullOrEmpty(input) ? string.Empty : HttpUtility.HtmlDecode(input);
+		}
+		/// <summary>
+		/// JavaScript encodes the <paramref name="input"/>.
+		/// </summary>
+		/// <param name="input">The input which to encode.</param>
+		/// <returns>Returns the encoded <paramref name="input"/>.</returns>
+		public static string JavaScriptStringEncode(this string input)
+		{
+			return string.IsNullOrEmpty(input) ? string.Empty : HttpUtility.JavaScriptStringEncode(input);
 		}
 		/// <summary>
 		/// Checks wether the given <paramref name="input"/> is a valid emailaddress or not.

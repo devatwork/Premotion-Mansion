@@ -109,7 +109,7 @@
 
 				<fetchNode source="{$UrlNode}" target="FormSourceNode">
 					<setProperties dataspaceName="TargetProperties" type="{FormSourceNode.type}">
-					<forms:form name="edit-block" dataSource="{$UrlNode}" targetField="Content">
+					<forms:form name="edit-block" dataSource="{$FormSourceNode}" targetField="Content">
 						<forms:step label="Edit block '{FormSourceNode.name}'" headerCssClasses="modal-header" bodyCssClasses="modal-body">
 							<forms:validationSummary/>
 
@@ -119,8 +119,8 @@
 							</openScript>
 
 							<forms:buttonBar cssClass="modal-footer">
-								<forms:button action="cancel" label="Cancel" cssClass="btn-warning" />
-								<forms:button action="store" label="Save" cssClass="btn-success" />
+								<forms:button action="store" label="Save" cssClass="btn-success" iconClass="icon-save" tooltip="Save any changes made to this block" />
+								<forms:button action="cancel" label="Cancel" cssClass="btn-warning" iconClass="icon-undo" tooltip="Reverts any changes made to this block" />
 							</forms:buttonBar>
 
 							<!-- processes the form actions -->
@@ -195,10 +195,10 @@
 				<!-- create the delete node form -->
 				<forms:form name="delete-block" targetField="Content">
 					<forms:step label="Remove block '{UrlNode.name}' from page" headerCssClasses="modal-header" bodyCssClasses="modal-body">
-						<forms:errorMessage>Are you sure you want to remove block '{UrlNode.name}' from this page? This action can not be undone.</forms:errorMessage>
+						<forms:errorMessage>Are you sure you want to delete block '{UrlNode.name}' from this page? This action can not be undone.</forms:errorMessage>
 						<forms:buttonBar cssClass="modal-footer">
-							<forms:button action="cancel" label="Cancel" cssClass="cancel" isDefault="true" />
-							<forms:button action="delete" label="Delete" cssClass="btn-danger" />
+							<forms:button action="delete" label="Delete" cssClass="btn-danger" iconClass="icon-remove-sign" tooltip="Yes, delete this block permanently" />
+							<forms:button action="cancel" label="Cancel" cssClass="btn-info" isDefault="true" iconClass="icon-undo" tooltip="No, cancel deleting this block" />
 						</forms:buttonBar>
 
 						<!-- processes the form actions -->

@@ -64,6 +64,23 @@ namespace Premotion.Mansion.Core.Nucleus
 			return DoTryResolveSingle(name, out instance);
 		}
 		/// <summary>
+		/// Tries to resolve the <paramref name="contractType"/> for the component with the given <paramref name="name"/>.
+		/// </summary>
+		/// <param name="name">The strong name of the compoment which to resolve.</param>
+		/// <param name="contractType">The <see cref="Type"/> of the contract.</param>
+		/// <returns>Returns true when the contract could be resolved, otherwise false.</returns>
+		/// <exception cref="ArgumentNullException">Thrown when <paramref name="name"/> is null.</exception>
+		/// <exception cref="ObjectDisposedException">Thrown when the Nucleus is already disposed.</exception>
+		public bool TryResolveComponentContract(string name, out Type contractType)
+		{
+			// validate arguments
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException("name");
+
+			// invoke template method
+			return DoTryResolveComponentContract(name, out contractType);
+		}
+		/// <summary>
 		/// Resolves all the components which implement the <typeparamref name="TContract"/>.
 		/// </summary>
 		/// <typeparam name="TContract">The type of contract the component must implement in order to be returned by this method. Must be a reference type.</typeparam>
@@ -88,6 +105,15 @@ namespace Premotion.Mansion.Core.Nucleus
 		/// <exception cref="ArgumentNullException">Thrown when t<paramref name="name"/> is null.</exception>
 		/// <exception cref="ObjectDisposedException">Thrown when the Nucleus is already disposed.</exception>
 		protected abstract bool DoTryResolveSingle<TContract>(string name, out TContract instance) where TContract : class;
+		/// <summary>
+		/// Tries to resolve the <paramref name="contractType"/> for the component with the given <paramref name="name"/>.
+		/// </summary>
+		/// <param name="name">The strong name of the compoment which to resolve.</param>
+		/// <param name="contractType">The <see cref="Type"/> of the contract.</param>
+		/// <returns>Returns true when the contract could be resolved, otherwise false.</returns>
+		/// <exception cref="ArgumentNullException">Thrown when <paramref name="name"/> is null.</exception>
+		/// <exception cref="ObjectDisposedException">Thrown when the Nucleus is already disposed.</exception>
+		protected abstract bool DoTryResolveComponentContract(string name, out Type contractType);
 		#endregion
 		#region Implementation of IConfigurableNucleus
 		/// <summary>

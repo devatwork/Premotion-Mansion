@@ -32,15 +32,16 @@ namespace Premotion.Mansion.Web.Portal
 
 			// retrieve the node or create it when it does not exist
 			return repository.RetrieveSingleNode(context, new PropertyBag
-			                                          {
-			                                          	{"parentSource", rootNode},
-			                                          	{"type", "ContentIndexRoot"},
-			                                          	{"bypassAuthorization", true}
-			                                          }) ?? repository.CreateNode(context, rootNode, new PropertyBag
-			                                                                                     {
-			                                                                                     	{"type", "ContentIndexRoot"},
-			                                                                                     	{"name", "Shared content"}
-			                                                                                     });
+			                                              {
+			                                              	{"parentSource", rootNode},
+			                                              	{"type", "ContentIndexRoot"},
+			                                              	{"bypassAuthorization", true}
+			                                              }) ?? repository.CreateNode(context, rootNode, new PropertyBag
+			                                                                                             {
+			                                                                                             	{"type", "ContentIndexRoot"},
+			                                                                                             	{"name", "Shared content"},
+			                                                                                             	{"approved", true}
+			                                                                                             });
 		}
 		/// <summary>
 		/// Retrieves the taxonomy <see cref="Node"/>.
@@ -63,15 +64,16 @@ namespace Premotion.Mansion.Web.Portal
 
 			// retrieve the node or create it when it does not exist
 			return repository.RetrieveSingleNode(context, new PropertyBag
-			                                          {
-			                                          	{"parentSource", contentIndexRootNode},
-			                                          	{"type", "Taxonomy"},
-			                                          	{"bypassAuthorization", true}
-			                                          }) ?? repository.CreateNode(context, contentIndexRootNode, new PropertyBag
-			                                                                                                 {
-			                                                                                                 	{"type", "Taxonomy"},
-			                                                                                                 	{"name", "Taxonomy"}
-			                                                                                                 });
+			                                              {
+			                                              	{"parentSource", contentIndexRootNode},
+			                                              	{"type", "Taxonomy"},
+			                                              	{"bypassAuthorization", true}
+			                                              }) ?? repository.CreateNode(context, contentIndexRootNode, new PropertyBag
+			                                                                                                         {
+			                                                                                                         	{"type", "Taxonomy"},
+			                                                                                                         	{"name", "Taxonomy"},
+			                                                                                                         	{"approved", true}
+			                                                                                                         });
 		}
 		#endregion
 	}

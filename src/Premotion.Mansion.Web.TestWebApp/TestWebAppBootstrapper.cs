@@ -58,6 +58,12 @@ namespace Premotion.Mansion.Web.TestWebApp
 			nucleus.Register<IContentResourceService>(resolver => new S3ContentResourceService());
 			//nucleus.Register<IContentResourceService>(resolver => new WindowsContentResourceService(HttpRuntime.AppDomainAppPath, "Content"));
 			nucleus.Register<IAssetService>(resolver => new AssetService(resolver.ResolveSingle<IContentResourceService>()));
+
+			// test service
+			nucleus.Register(resolver=>new CoolAndUsefulService());
+			nucleus.Register(resolver=>new PirateAndUsefulService());
+			nucleus.Register<IMyUsefulService>("cool-speak", resolver=>resolver.ResolveSingle<CoolAndUsefulService>());
+			nucleus.Register<IMyUsefulService>("pirate-speak", resolver=>resolver.ResolveSingle<PirateAndUsefulService>());
 		}
 		#endregion
 	}

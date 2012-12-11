@@ -33,6 +33,7 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 
 			// create the relative path
 			url.PathSegments = WebUtilities.CombineIntoRelativeUrl(StaticResourceRequestHandler.Prefix, relativePath);
+			url.CanHaveExtension = true;
 
 			// create the uri
 			return url;
