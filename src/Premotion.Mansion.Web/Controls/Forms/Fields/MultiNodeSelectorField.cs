@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Scripting.TagScript;
@@ -66,9 +65,15 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 				{
 					// retrieve the selected node
 					var selectedNode = repository.RetrieveSingleNode(context, new PropertyBag
-					                                                      {
-					                                                      	{ValueProperty, value}
-					                                                      });
+					                                                          {
+					                                                          	{ValueProperty, value},
+					                                                          	{"status", "any"},
+					                                                          	{"bypassAuthorization", true}
+					                                                          });
+
+					// if the node was not found, assume it was deleted
+					if (selectedNode == null)
+						continue;
 
 					// turn into label/value row
 					var row = new PropertyBag
