@@ -44,13 +44,12 @@ namespace Premotion.Mansion.Core.Data.Listeners
 				return null;
 
 			// get the node listeners
-			var nodeType = typeService.Load(context, node.Pointer.Type);
-			var nodeListeners = GetListeners(nodeType);
+			var listeners = GetListeners(context, node.Pointer.Type);
 
 			// attach missing property event
 			node.MissingProperty += (sender, args) =>
 			                        {
-			                        	foreach (var nodeListener in nodeListeners)
+			                        	foreach (var nodeListener in listeners)
 			                        	{
 			                        		object value;
 			                        		if (!nodeListener.TryResolveMissingProperty(context, node, args.PropertyName, out value))
@@ -78,14 +77,13 @@ namespace Premotion.Mansion.Core.Data.Listeners
 			foreach (var node in nodeset.Nodes)
 			{
 				// get the node listeners
-				var nodeType = typeService.Load(context, node.Pointer.Type);
-				var nodeListeners = GetListeners(nodeType);
+				var listeners = GetListeners(context, node.Pointer.Type);
 
 				// attach missing property event
 				var node1 = node;
 				node.MissingProperty += (sender, args) =>
 				                        {
-				                        	foreach (var nodeListener in nodeListeners)
+				                        	foreach (var nodeListener in listeners)
 				                        	{
 				                        		object value;
 				                        		if (!nodeListener.TryResolveMissingProperty(context, node1, args.PropertyName, out value))
@@ -109,18 +107,17 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		protected override Node DoCreateNode(IMansionContext context, Node parent, IPropertyBag newProperties)
 		{
 			// get the type of this node
-			var nodeType = newProperties.Get<ITypeDefinition>(context, "type");
-			var nodeListeners = GetListeners(nodeType);
+			var listeners = GetListeners(context, newProperties.Get<string>(context, "type"));
 
 			// fire the on before create
-			foreach (var listener in nodeListeners)
+			foreach (var listener in listeners)
 				listener.BeforeCreate(context, newProperties);
 
 			// execute the derived class
 			var node = DecoratedRepository.CreateNode(context, parent, newProperties);
 
 			// fire the on after create
-			foreach (var listener in nodeListeners)
+			foreach (var listener in listeners)
 				listener.AfterCreate(context, node, newProperties);
 
 			// return the created node
@@ -134,19 +131,18 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <param name="modifiedProperties">The properties which to update.</param>
 		protected override void DoUpdateNode(IMansionContext context, Node node, IPropertyBag modifiedProperties)
 		{
-			// get the type of this node
-			var nodeType = typeService.Load(context, node.Pointer.Type);
-			var nodeListeners = GetListeners(nodeType);
+			// get the type of this record
+			var listeners = GetListeners(context, node, modifiedProperties);
 
 			// fire the on before update
-			foreach (var listener in nodeListeners)
+			foreach (var listener in listeners)
 				listener.BeforeUpdate(context, node, modifiedProperties);
 
 			// execute the derived class
 			DecoratedRepository.UpdateNode(context, node, modifiedProperties);
 
 			// fire the on after update
-			foreach (var listener in nodeListeners)
+			foreach (var listener in listeners)
 				listener.AfterUpdate(context, node, modifiedProperties);
 		}
 		/// <summary>
@@ -156,12 +152,11 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <param name="node">The pointer to the node which will be deleted.</param>
 		protected override void DoDeleteNode(IMansionContext context, Node node)
 		{
-			// get the type of this node
-			var nodeType = typeService.Load(context, node.Type);
-			var nodeListeners = GetListeners(nodeType);
+			// get the type of this record
+			var listeners = GetListeners(context, node);
 
 			// fire the on before delete
-			foreach (var listener in nodeListeners)
+			foreach (var listener in listeners)
 				listener.BeforeDelete(context, node);
 
 			// execute the derived class
@@ -177,19 +172,18 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		protected override Node DoMoveNode(IMansionContext context, NodePointer pointer, NodePointer newParentPointer)
 		{
 			// get the type of this node
-			var nodeType = typeService.Load(context, pointer.Type);
-			var nodeListeners = GetListeners(nodeType);
+			var listeners = GetListeners(context, pointer.Type);
 
 			// fire the on before move
 			var originalParentPointer = pointer.Parent;
-			foreach (var listener in nodeListeners.OfType<NodeListener>())
+			foreach (var listener in listeners.OfType<NodeListener>())
 				listener.BeforeMove(context, originalParentPointer, newParentPointer, pointer);
 
 			// execute the derived class
 			var node = DecoratedRepository.MoveNode(context, pointer, newParentPointer);
 
 			// fire the on after move
-			foreach (var listener in nodeListeners.OfType<NodeListener>())
+			foreach (var listener in listeners.OfType<NodeListener>())
 				listener.AfterMove(context, originalParentPointer, newParentPointer, node);
 
 			return node;
@@ -204,52 +198,21 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		protected override Node DoCopyNode(IMansionContext context, NodePointer pointer, NodePointer targetParentPointer)
 		{
 			// get the type of this node
-			var nodeType = typeService.Load(context, pointer.Type);
-			var nodeListeners = GetListeners(nodeType);
+			var listeners = GetListeners(context, pointer.Type);
 
 			// fire the on before copy
 			var originalParentPointer = pointer.Parent;
-			foreach (var listener in nodeListeners.OfType<NodeListener>())
+			foreach (var listener in listeners.OfType<NodeListener>())
 				listener.BeforeCopy(context, originalParentPointer, targetParentPointer, pointer);
 
 			// execute the derived class
 			var node = DecoratedRepository.CopyNode(context, pointer, targetParentPointer);
 
 			// fire the on after copy
-			foreach (var listener in nodeListeners.OfType<NodeListener>())
+			foreach (var listener in listeners.OfType<NodeListener>())
 				listener.AfterCopy(context, originalParentPointer, targetParentPointer, node);
 
 			return node;
-		}
-		/// <summary>
-		/// Starts this service. All other services are initialized.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		protected override void DoStart(IMansionContext context)
-		{
-			// loop through all their types to get the registered listeners for them
-			foreach (var type in typeService.LoadAll(context))
-			{
-				foreach (var listener in type.GetDescriptors<RegisterListenerDescriptor>().Select(descriptor => descriptor.ListenerType.CreateInstance<RecordListener>(context.Nucleus)))
-				{
-					// add the listener to the type
-					var listener1 = listener;
-					listeners.AddOrUpdate(type, key =>
-					                            {
-					                            	var typeListeners = new List<RecordListener> {listener1};
-					                            	return typeListeners;
-					                            },
-					                      (key, list) =>
-					                      {
-					                      	list.Add(listener1);
-					                      	return list;
-					                      }
-						);
-				}
-			}
-
-			// allow base to intialize
-			base.DoStart(context);
 		}
 		/// <summary>
 		/// Retrieves a single record from this repository.
@@ -266,13 +229,12 @@ namespace Premotion.Mansion.Core.Data.Listeners
 				return null;
 
 			// get the node listeners
-			var nodeType = typeService.Load(context, node.Type);
-			var nodeListeners = GetListeners(nodeType);
+			var listeners = GetListeners(context, node.Type);
 
 			// attach missing property event
 			node.MissingProperty += (sender, args) =>
 			                        {
-			                        	foreach (var nodeListener in nodeListeners)
+			                        	foreach (var nodeListener in listeners)
 			                        	{
 			                        		object value;
 			                        		if (!nodeListener.TryResolveMissingProperty(context, node, args.PropertyName, out value))
@@ -301,8 +263,7 @@ namespace Premotion.Mansion.Core.Data.Listeners
 			foreach (var node in nodeset.Records)
 			{
 				// get the node listeners
-				var nodeType = typeService.Load(context, node.Type);
-				var nodeListeners = GetListeners(nodeType);
+				var nodeListeners = GetListeners(context, node.Type);
 
 				// attach missing property event
 				var node1 = node;
@@ -331,18 +292,17 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		protected override Record DoCreate(IMansionContext context, IPropertyBag properties)
 		{
 			// get the type of this node
-			var nodeType = properties.Get<ITypeDefinition>(context, "type");
-			var nodeListeners = GetListeners(nodeType);
+			var listeners = GetListeners(context, properties.Get<string>(context, "type"));
 
 			// fire the on before create
-			foreach (var listener in nodeListeners)
+			foreach (var listener in listeners)
 				listener.BeforeCreate(context, properties);
 
 			// execute the derived class
 			var node = DecoratedRepository.Create(context, properties);
 
 			// fire the on after create
-			foreach (var listener in nodeListeners)
+			foreach (var listener in listeners)
 				listener.AfterCreate(context, node, properties);
 
 			// return the created node
@@ -356,19 +316,18 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <param name="properties">The updated properties.</param>
 		protected override void DoUpdate(IMansionContext context, Record record, IPropertyBag properties)
 		{
-			// get the type of this node
-			var nodeType = typeService.Load(context, record.Type);
-			var nodeListeners = GetListeners(nodeType);
+			// get the type of this record
+			var listeners = GetListeners(context, record, properties);
 
 			// fire the on before update
-			foreach (var listener in nodeListeners)
+			foreach (var listener in listeners)
 				listener.BeforeUpdate(context, record, properties);
 
 			// execute the derived class
 			DecoratedRepository.Update(context, record, properties);
 
 			// fire the on after update
-			foreach (var listener in nodeListeners)
+			foreach (var listener in listeners)
 				listener.AfterUpdate(context, record, properties);
 		}
 		/// <summary>
@@ -378,36 +337,102 @@ namespace Premotion.Mansion.Core.Data.Listeners
 		/// <param name="record">The <see cref="Record"/> which will be deleted.</param>
 		protected override void DoDelete(IMansionContext context, Record record)
 		{
-			// get the type of this node
-			var nodeType = typeService.Load(context, record.Type);
-			var nodeListeners = GetListeners(nodeType);
+			// get the type of this record
+			var listeners = GetListeners(context, record);
 
 			// fire the on before delete
-			foreach (var listener in nodeListeners)
+			foreach (var listener in listeners)
 				listener.BeforeDelete(context, record);
 
 			// execute the derived class
 			DecoratedRepository.Delete(context, record);
 		}
+		/// <summary>
+		/// Starts this service. All other services are initialized.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		protected override void DoStart(IMansionContext context)
+		{
+			// loop through all their types to get the registered listeners for them
+			foreach (var type in typeService.LoadAll(context))
+			{
+				foreach (var listener in type.GetDescriptors<RegisterListenerDescriptor>().Select(descriptor => descriptor.ListenerType.CreateInstance<RecordListener>(context.Nucleus)))
+				{
+					// add the listener to the type
+					var listener1 = listener;
+					listenerLookup.AddOrUpdate(type, key =>
+					                                 {
+					                                 	var typeListeners = new List<RecordListener> {listener1};
+					                                 	return typeListeners;
+					                                 },
+					                           (key, list) =>
+					                           {
+					                           	list.Add(listener1);
+					                           	return list;
+					                           }
+						);
+				}
+			}
+
+			// allow base to intialize
+			base.DoStart(context);
+		}
 		#endregion
 		#region  Helper Methods
 		/// <summary>
-		/// Gets the <see cref="NodeListener"/>s for type <paramref name="nodeType"/>.
+		/// Gets the <see cref="RecordListener"/>s for type <paramref name="record"/>.
 		/// </summary>
-		/// <param name="nodeType">The type for which to get the listeners.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="record">The <see cref="Record"/> for which to get the type.</param>
+		/// <param name="overrideProperties">The overriding properties, might be null.</param>
+		/// <returns>Returns the listeners for this <paramref name="record"/>.</returns>
+		private List<RecordListener> GetListeners(IMansionContext context, Record record, IPropertyBag overrideProperties = null)
+		{
+			// retrieve the record type
+			var recordListeners = GetListeners(context, record.Type);
+
+			// retrieve the type override, if any
+			ITypeDefinition overrideType;
+			if (overrideProperties == null || !overrideProperties.TryGet(context, "type", out overrideType))
+				return recordListeners.ToList();
+
+			// retrieve the override listeners
+			var overrideListeners = GetListeners(overrideType);
+
+			// merge the listeners
+			return recordListeners.Union(overrideListeners).ToList();
+		}
+		/// <summary>
+		/// Gets the <see cref="RecordListener"/>s for type <paramref name="typeName"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="typeName">The type name.</param>
+		/// <returns>Returns the listeners for this type.</returns>
+		private List<RecordListener> GetListeners(IMansionContext context, string typeName)
+		{
+			// load the type
+			var type = typeService.Load(context, typeName);
+
+			// load the listeners
+			return GetListeners(type).ToList();
+		}
+		/// <summary>
+		/// Gets the <see cref="NodeListener"/>s for type <paramref name="type"/>.
+		/// </summary>
+		/// <param name="type">The type for which to get the listeners.</param>
 		/// <returns>Returns the listeners for this particular type.</returns>
-		private List<RecordListener> GetListeners(ITypeDefinition nodeType)
+		private IEnumerable<RecordListener> GetListeners(ITypeDefinition type)
 		{
 			// validate arguments
-			if (nodeType == null)
-				throw new ArgumentNullException("nodeType");
+			if (type == null)
+				throw new ArgumentNullException("type");
 
 			// loop through all the registered type listeners
-			return listeners.Where(candidate => nodeType.IsAssignable(candidate.Key)).SelectMany(candidate => candidate.Value).ToList();
+			return listenerLookup.Where(candidate => type.IsAssignable(candidate.Key)).SelectMany(candidate => candidate.Value).ToList();
 		}
 		#endregion
 		#region Private Fields
-		private readonly ConcurrentDictionary<ITypeDefinition, List<RecordListener>> listeners = new ConcurrentDictionary<ITypeDefinition, List<RecordListener>>();
+		private readonly ConcurrentDictionary<ITypeDefinition, List<RecordListener>> listenerLookup = new ConcurrentDictionary<ITypeDefinition, List<RecordListener>>();
 		private readonly ITypeService typeService;
 		#endregion
 	}
