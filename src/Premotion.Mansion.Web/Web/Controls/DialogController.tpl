@@ -14,7 +14,6 @@
 		<!--[if lt IE 8]>
 		<link rel="stylesheet" href="{StaticResourceUrl( '/Shared/css/fontawesome/font-awesome-ie7.css' )}">
 		<![endif]-->
-		<link rel="stylesheet" href="{DynamicResourceUrl( '/Cms/css/cms.css' )}">
 		{@IncludeModernizrJS}
 		{Header}
 	</head>
@@ -30,7 +29,6 @@
 		<script src="{StaticResourceUrl( '/Shared/js/jquery/jquery-ui.js' )}"></script>
 		<script src="{DynamicResourceUrl( '/Controls/Js/Controls.js' )}"></script>
 		<script src="{StaticResourceUrl( '/Shared/js/bootstrap/bootstrap.min.js' )}"></script>
-		<script src="{StaticResourceUrl( '/Cms/js/cms.js' )}"></script>
 		{Footer}
 	</body>
 </html></tpl:section>
