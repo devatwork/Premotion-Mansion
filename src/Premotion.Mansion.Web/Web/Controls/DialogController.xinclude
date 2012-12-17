@@ -12,12 +12,6 @@
 
 			<!-- render the tree -->
 			<fetchNode source="{$UrlNode}" target="CurrentNode">
-				
-				<!-- check security -->
-				<if condition="{Not( And( IsAuthenticated(), HasPermission( 'Cms', 'use' ) ) )}">
-					<ctrls:invokeDialogParentTrigger action="cms.refresh" />
-					<breakExecution />
-				</if>
 
 				<!-- render content -->
 				<renderSection name="Dialog">
