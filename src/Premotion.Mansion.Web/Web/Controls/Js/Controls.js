@@ -138,68 +138,6 @@ var CKEDITOR_BASEPATH = "{Request.applicationUrl}/static-resources/Shared/js/cke
 		});
 	});
 	
-	/* initialize node selectors */
-	$(".single-node-selector").each(function() {
-		var containerElement = $(this);
-		var containerId = containerElement.attr("id");
-		var updateListener = "nodetree" + containerId + ".update";
-		var valueElement = containerElement.find("#" + containerId + "-value");
-		var labelElement = containerElement.find("#" + containerId + "-label");
-		var selectButtonElement = containerElement.find("#" + containerId + "-select");
-		var clearButtonElement = containerElement.find("#" + containerId + "-clear");
-		$(document).bind(updateListener, function(event, selected) {
-			$('#modal-popup').modal("hide");
-			var parsed = JSON.parse(selected);
-			valueElement.val(parsed[0].value);
-			labelElement.text(parsed[0].label);
-		});
-		selectButtonElement.click(function() {
-			var href = selectButtonElement.data("href");
-			href = href + "&selected=" + valueElement.val();
-			selectButtonElement.attr("href", href);
-		});
-		clearButtonElement.click(function(event) {
-			valueElement.val("");
-			labelElement.text("");
-			event.preventDefault();
-		});
-	});
-	$(".multi-node-selector").each(function() {
-		var containerElement = $(this);
-		var containerId = containerElement.attr("id");
-		var updateListener = "nodetree" + containerId + ".update";
-		var valueElement = containerElement.find("#" + containerId + "-value");
-		var labelsElement = containerElement.find("#" + containerId + "-labels");
-		var selectButtonElement = containerElement.find("#" + containerId + "-select");
-		var clearButtonElement = containerElement.find("#" + containerId + "-clear");
-		$(document).bind(updateListener, function(event, selected) {
-			$('#modal-popup').modal("hide");
-			var parsed = JSON.parse(selected);
-			valueElement.val("");
-			labelsElement.empty();
-			$.each(parsed, function(index, sel) {
-				// append the value
-				var val = valueElement.val();
-				if (val != null && val != "")
-					val += ",";
-				valueElement.val(val + sel.value);
-				
-				// add a label
-				labelsElement.append('<li data-value="' + sel.value + '">' + sel.label + '</li>');
-			});
-		});
-		selectButtonElement.click(function() {
-			var href = selectButtonElement.data("href");
-			href = href + "&selected=" + valueElement.val();
-			selectButtonElement.attr("href", href);
-		});
-		clearButtonElement.click(function(event) {
-			valueElement.val("");
-			labelsElement.empty();
-			event.preventDefault();
-		});
-	});
-	
 	/* initialize html editor fields */
 	$("textarea.rich-text").ckeditor(function () { }, {
 		toolbar: "Full",
@@ -222,6 +160,164 @@ var CKEDITOR_BASEPATH = "{Request.applicationUrl}/static-resources/Shared/js/cke
 	CKFinder.setupCKEditor( null, {
 		basePath: "{StaticResourcePathUrl( 'Shared/js/ckfinder' )}",
 		connectorPath: "{MakeUrl( 'CKFinder.Connector' )}"
+	});
+	
+})(window.jQuery);
+
+/* ==|== Control Dialog Control ==========================================
+Author: Premotion Software Solutions
+========================================================================== */
+; (function ($, undefined) {
+	/* CONTROL DIALOG CLASS DEFINITION
+	* ============================ */
+	var ControlDialog = function ($element, options) {
+		this.options = options;
+		this.$element = $element;
+		this.message = undefined;
+		this.result = undefined;
+	};
+	ControlDialog.prototype = {
+		constructor: ControlDialog,
+		open: function (href, callback) {
+			// create the frame
+			var frame = $('<iframe class="seamless" name="modal-frame" />');
+			frame.load(function() {
+				this.style.height = this.contentWindow.document.body.offsetHeight + 'px';
+			});
+
+			// navigate
+			frame.attr('src', href);
+
+			// assemble dialog
+			this.$element.html(frame);
+
+			// show it
+			var that = this;
+			this.$element.on('hidden', function() {
+				callback(that.message, that.result);
+			}).modal('show');
+		},
+		close: function(message, result) {
+			this.message = message;
+			this.result = result;
+			this.$element.modal('hide');
+		}
+	};
+
+	/* CONTROL DIALOG PLUGIN DEFINITION
+	* ============================== */
+	$.fn.controlDialog = function (option) {
+		var args = arguments;
+		return this.each(function () {
+			var $this = $(this)
+				, data = $this.data('control-dialog')
+				, options = $.extend({}, $.fn.controlDialog.defaults, $this.data(), typeof option == 'object' && option);
+			if (!data)
+				$this.data('control-dialog', (data = new ControlDialog($this, options)));
+			if (typeof option == 'string')
+				data[option].apply(data, Array.prototype.slice.call( args, 1 ));
+		});
+	};
+	$.fn.controlDialog.defaults = { };
+	$.fn.controlDialog.Constructor = ControlDialog;
+
+	/* CONTROL DIALOG DATA-API
+	* ===================== */
+	$(function () {
+		// add bindings
+		var $document = $(document);
+		$document.bind('control.dialog.close', function(event, controlId, message, result) {
+			var $control = $('#' + controlId + ' > .modal');
+			$control.controlDialog('close', message, result);
+		});
+	});
+
+})(window.jQuery);
+
+
+/* ==|== Node Selector Control ===========================================
+Author: Premotion Software Solutions
+========================================================================== */
+; (function ($, undefined) {
+	/* NODE SELECTOR CLASS DEFINITION
+	* ============================ */
+	var NodeSelector = function ($element, options) {
+		this.options = options;
+		this.$element = $element;
+		this.$valueElement = this.$element.find('.value');
+		this.$labelsElement = this.$element.find('.labels');
+		this.$modal = this.$element.find('.modal');
+	};
+	NodeSelector.prototype = {
+		constructor: NodeSelector,
+		init: function() {
+		},
+		selectValues: function() {
+			var that = this;
+				href = this.$modal.data('href') + '&selected=' + this.$valueElement.val();
+			this.$modal.controlDialog('open', href, function(message, selected) {
+				if (message === 'selected') {
+					var json = JSON.parse(selected);
+					that.updateValues(json);
+				}
+			});
+		},
+		clearValues: function() {
+			this.$valueElement.val('');
+			this.$labelsElement.empty();
+		},
+		updateValues: function (json) {
+			var that = this;
+			that.$valueElement.val('');
+			that.$labelsElement.empty();
+			$.each(json, function(index, sel) {
+				// append the value
+				var val = that.$valueElement.val();
+				if (val != null && val != '')
+					val += ',';
+				that.$valueElement.val(val + sel.value);
+
+				// add a label
+				that.$labelsElement.append('<li data-value="' + sel.value + '">' + sel.label + '</li>');
+			});
+		}
+	};
+	
+	/* NODE SELECTOR PLUGIN DEFINITION
+	* ============================== */
+	$.fn.nodeSelector = function (option) {
+		var args = arguments;
+		return this.each(function () {
+			var $this = $(this)
+				, data = $this.data('node-selector')
+				, options = $.extend({}, $.fn.nodeSelector.defaults, $this.data(), typeof option == 'object' && option);
+			if (!data)
+				$this.data('node-selector', (data = new NodeSelector($this, options)));
+			if (typeof option == 'string')
+				data[option].apply(data, Array.prototype.slice.call( args, 1 ));
+		});
+	};
+	$.fn.nodeSelector.defaults = { };
+	$.fn.nodeSelector.Constructor = NodeSelector;
+
+	/* NODE SELECTOR DATA-API
+	* ==================== */
+	$(function () {
+		$('body').on('click', "[data-behavior='node-selector'] .btn-select-values", function ( e ) {
+			e.preventDefault();
+			var $this = $(this)
+				, $parent = $this.parents("[data-behavior='node-selector']");
+			$parent.nodeSelector('selectValues');
+		});
+		$('body').on('click', "[data-behavior='node-selector'] .btn-clear-selection", function ( e ) {
+			e.preventDefault();
+			var $this = $(this)
+				, $parent = $this.parents("[data-behavior='node-selector']");
+			$parent.nodeSelector('clearValues');
+		});
+		
+		// init all controls
+		$("[data-behavior='node-selector']").nodeSelector('init');
 	});
 	
 })(window.jQuery);

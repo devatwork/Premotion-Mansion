@@ -158,21 +158,23 @@
 	<div id="{@ControlId}" class="field input-xlarge node-selector single-node-selector">
 		<div id="{@ControlId}-label">{ControlProperties.displayValue}</div>
 		<div class="btn-group">
-			<a id="{@ControlId}-select" class="btn btn-popup btn-primary" href="#" data-href="{DataspaceToQueryString( CmsRouteUrl( 'Dialog', 'SingleNodeSelector', '1' ), $SelectorProperties )}"><i class="icon-pushpin"></i> Select</a>
+			<a id="{@ControlId}-select" class="btn btn-popup btn-primary" href="#"><i class="icon-pushpin"></i> Select</a>
 			<a id="{@ControlId}-clear" class="btn" href="#"><i class="icon-remove-sign"></i> Clear</a>
 		</div>
 		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" class="field hidden" value="{ControlProperties.value}">
+		<div class="modal fade hide" data-href="{DataspaceToQueryString( ControlRouteUrl( 'Dialog', 'SingleNodeSelector', '1' ), $SelectorProperties )}"></div>
 	</div>
 </tpl:section>
 
 <tpl:section name="MultiNodeSelectorFieldControl" field="Field">
-	<div id="{@ControlId}" class="field input-xlarge node-selector multi-node-selector">
-		<ul id="{@ControlId}-labels" class="unstyled">{MultiNodeSelectorFieldControlOption}</ul>
+	<div id="{@ControlId}" class="field input-xlarge node-selector multi-node-selector" data-behavior="node-selector">
+		<ul class="unstyled labels">{MultiNodeSelectorFieldControlOption}</ul>
 		<div class="btn-group">
-			<a id="{@ControlId}-select" class="btn btn-popup btn-primary" href="#" data-href="{DataspaceToQueryString( CmsRouteUrl( 'Dialog', 'MultiNodeSelector', '1' ), $SelectorProperties )}"><i class="icon-pushpin"></i> Select</a>
-			<a id="{@ControlId}-clear" class="btn" href="#"><i class="icon-remove-sign"></i> Clear</a>
+			<a class="btn btn-primary btn-select-values" href="#"><i class="icon-pushpin"></i> Select</a>
+			<a class="btn btn-clear-selection" href="#"><i class="icon-remove-sign"></i> Clear</a>
 		</div>
-		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" class="field hidden" value="{ControlProperties.value}">
+		<input type="hidden" name="{@FieldName}" class="field hidden value" value="{ControlProperties.value}">
+		<div class="modal fade hide" data-href="{DataspaceToQueryString( ControlRouteUrl( 'Dialog', 'MultiNodeSelector', '1' ), $SelectorProperties )}"></div>
 	</div>
 </tpl:section>
 
@@ -410,10 +412,10 @@
 
 <!-- dialog control sections -->
 <tpl:section name="InvokeDialogParentTrigger" field="Header">
-	<script>top.jQuery(top.document).trigger("{TriggerProperties.action}");</script>
+	<script>parent.jQuery(parent.document).trigger("{TriggerProperties.action}");</script>
 </tpl:section>
 <tpl:section name="InvokeDialogParentTriggerWithParameters" field="Header">
-	<script>top.jQuery(top.document).trigger("{TriggerProperties.action}", {#DataspaceToJSonArray( $TriggerArguments )});</script>
+	<script>parent.jQuery(parent.document).trigger("{TriggerProperties.action}", {#DataspaceToJSonArray( $TriggerArguments )});</script>
 </tpl:section>
 
 

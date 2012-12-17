@@ -60,7 +60,11 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 			var repository = context.Repository;
 			var node = repository.RetrieveSingleNode(context, new PropertyBag
 			                                                  {
-			                                                  	{ValueProperty, currentValue}
+			                                                  	{"parentPointer", SelectorProperties.Get<NodePointer>(context, "rootPointer")},
+			                                                  	{ValueProperty, currentValue},
+			                                                  	{"status", "any"},
+			                                                  	{"depth", "any"},
+			                                                  	{"bypassAuthorization", true}
 			                                                  });
 
 			// if no node was found clear the value of this field

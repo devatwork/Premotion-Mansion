@@ -7,7 +7,7 @@ namespace Premotion.Mansion.Core.Data.Listeners
 	/// </summary>
 	public abstract class RecordListener
 	{
-		#region Implementation of INodeListener
+		#region Event Methods
 		/// <summary>
 		/// This method is called just before a node is created by the repository.
 		/// </summary>
