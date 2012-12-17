@@ -66,8 +66,10 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 					// retrieve the selected node
 					var selectedNode = repository.RetrieveSingleNode(context, new PropertyBag
 					                                                          {
+					                                                          	{"parentPointer", SelectorProperties.Get<NodePointer>(context, "rootPointer")},
 					                                                          	{ValueProperty, value},
 					                                                          	{"status", "any"},
+					                                                          	{"depth", "any"},
 					                                                          	{"bypassAuthorization", true}
 					                                                          });
 
