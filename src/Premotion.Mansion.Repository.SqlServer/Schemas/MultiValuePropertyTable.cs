@@ -230,8 +230,10 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 					                	var nameColumnValue = command.AddParameter(currentPropertyName);
 
 					                	// loop through each value and write an insert statement
+					                	var buffer = new StringBuilder();
 					                	foreach (var value in values)
-					                		command.CommandText = string.Format("INSERT INTO [{0}] ([id], [name], [value]) VALUES ({1}, @{2}, @{3});", Name, currentRecord.Id, nameColumnValue, command.AddParameter(value));
+					                		buffer.AppendFormat("INSERT INTO [{0}] ([id], [name], [value]) VALUES ({1}, @{2}, @{3});", Name, currentRecord.Id, nameColumnValue, command.AddParameter(value));
+					                	command.CommandText = buffer.ToString();
 					                });
 				}
 			}
