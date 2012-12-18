@@ -312,6 +312,7 @@
     <Compile Include="ScriptFunctions\Security\IsBackofficeUserAuthenticated.cs" />
     <Compile Include="ScriptFunctions\Security\IsFronfofficeUserAuthenticated.cs" />
     <Compile Include="ScriptFunctions\Specifications\AndSpecification.cs" />
+    <Compile Include="ScriptFunctions\Specifications\AppendSpecifications.cs" />
     <Compile Include="ScriptFunctions\Specifications\NotSpecification.cs" />
     <Compile Include="ScriptFunctions\Specifications\IsSpecification.cs" />
     <Compile Include="ScriptFunctions\Specifications\InSpecfication.cs" />
