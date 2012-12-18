@@ -109,6 +109,10 @@
     <Compile Include="Data\Queries\QueryComponent.cs" />
     <Compile Include="Data\Queries\SortQueryComponent.cs" />
     <Compile Include="Data\Queries\SpecificationQueryComponent.cs" />
+    <Compile Include="Data\Queries\Specifications\IsPropertyGreaterThanOrEqualSpecification.cs" />
+    <Compile Include="Data\Queries\Specifications\IsPropertyGreaterThanSpecification.cs" />
+    <Compile Include="Data\Queries\Specifications\IsPropertySmallerThanOrEqualSpecification.cs" />
+    <Compile Include="Data\Queries\Specifications\IsPropertySmallerThanSpecification.cs" />
     <Compile Include="Data\Queries\Specifications\IsPropertyEqualSpecification.cs" />
     <Compile Include="Data\Queries\Specifications\IsPropertyInSpecification.cs" />
     <Compile Include="Data\Queries\Specifications\MultiValuePropertySpecification.cs" />
@@ -313,6 +317,10 @@
     <Compile Include="ScriptFunctions\Security\IsFronfofficeUserAuthenticated.cs" />
     <Compile Include="ScriptFunctions\Specifications\AndSpecification.cs" />
     <Compile Include="ScriptFunctions\Specifications\AppendSpecifications.cs" />
+    <Compile Include="ScriptFunctions\Specifications\IsGreaterThanOrEqualSpecification.cs" />
+    <Compile Include="ScriptFunctions\Specifications\IsGreaterThanSpecification.cs" />
+    <Compile Include="ScriptFunctions\Specifications\IsSmallerThanOrEqualSpecification.cs" />
+    <Compile Include="ScriptFunctions\Specifications\IsSmallerThanSpecification.cs" />
     <Compile Include="ScriptFunctions\Specifications\NotSpecification.cs" />
     <Compile Include="ScriptFunctions\Specifications\IsSpecification.cs" />
     <Compile Include="ScriptFunctions\Specifications\InSpecfication.cs" />
