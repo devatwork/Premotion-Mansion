@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+
+	<!-- Invoked when the tree is rendered as HTML -->
+	<declareProcedure procedureName="HandleDefault">
+
+		<!-- we are returning a page -->
+		<web:respondDocument contentType="application/json" encoding="UTF-8" cache="true">
+
+			<!-- render the tree -->
+			<fetchNode source="{$UrlNode}" target="CurrentNode">
+
+				<!-- open the scripts of the type -->
+				<openScript type="{CurrentNode.type}">
+				<openTemplate type="{CurrentNode.type}">
+
+					<!-- render the slice -->
+					<renderJsonDocument>
+						<if condition="{ProcedureExists( Concat( 'Render', Route.originalAction, 'AsJSon') )}">
+							<invokeProcedure procedureName="Render{Route.originalAction}AsJSon" />
+							<else>
+								<web:setStatusCode code="404" description="Action '{Concat( 'Render', Route.originalAction, 'AsJSon' )}' not found on type '{UrlNode.type}'" />
+							</else>
+						</if>
+					</renderJsonDocument>
+					
+				</openTemplate>
+				</openScript>
+
+				<notFound>
+					<web:setStatusCode code="404" description="Node not found" />
+				</notFound>
+			</fetchNode>
+
+		</web:respondDocument>
+
+	</declareProcedure>
+
+</mansion>
