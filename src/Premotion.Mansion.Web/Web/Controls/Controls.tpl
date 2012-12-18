@@ -155,16 +155,20 @@
 	</tpl:section>
 
 <tpl:section name="SingleNodeSelectorFieldControl" field="Field">
-	<div id="{@ControlId}" class="field input-xlarge node-selector single-node-selector">
-		<div id="{@ControlId}-label">{ControlProperties.displayValue}</div>
+	<div id="{@ControlId}" class="field input-xlarge node-selector single-node-selector" data-behavior="node-selector">
+		<ul class="unstyled labels">{@SingleNodeSelectorFieldControlOption}</ul>
 		<div class="btn-group">
-			<a id="{@ControlId}-select" class="btn btn-popup btn-primary" href="#"><i class="icon-pushpin"></i> Select</a>
-			<a id="{@ControlId}-clear" class="btn" href="#"><i class="icon-remove-sign"></i> Clear</a>
+			<a class="btn btn-primary btn-select-values" href="#"><i class="icon-pushpin"></i> Select</a>
+			<a class="btn btn-clear-selection" href="#"><i class="icon-remove-sign"></i> Clear</a>
 		</div>
-		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" class="field hidden" value="{ControlProperties.value}">
+		<input type="hidden" name="{@FieldName}" class="field hidden value" value="{ControlProperties.value}">
 		<div class="modal fade hide" data-href="{DataspaceToQueryString( ControlRouteUrl( 'Dialog', 'SingleNodeSelector', '1' ), $SelectorProperties )}"></div>
 	</div>
 </tpl:section>
+
+	<tpl:section name="SingleNodeSelectorFieldControlOption" requires="{Not( IsEmpty( ControlProperties.value ) )}">
+		<li data-value="{ControlProperties.value}">{ControlProperties.displayValue}</li>
+	</tpl:section>
 
 <tpl:section name="MultiNodeSelectorFieldControl" field="Field">
 	<div id="{@ControlId}" class="field input-xlarge node-selector multi-node-selector" data-behavior="node-selector">
