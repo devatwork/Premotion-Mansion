@@ -47,6 +47,10 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Queries\Converters\ConjunctionSpecificationConverter.cs" />
+    <Compile Include="Queries\Converters\IsPropertyGreaterThanOrEqualSpecificationConverter.cs" />
+    <Compile Include="Queries\Converters\IsPropertyGreaterThanSpecificationConverter.cs" />
+    <Compile Include="Queries\Converters\IsPropertySmallerThanOrEqualSpecificationConverter.cs" />
+    <Compile Include="Queries\Converters\IsPropertySmallerThanSpecificationConverter.cs" />
     <Compile Include="Queries\Converters\DisjunctionSpecificationConverter.cs" />
     <Compile Include="Queries\Converters\NegationSpecificationConverter.cs" />
     <Compile Include="Queries\DeleteCommand.cs" />
