@@ -6,6 +6,8 @@
 		<invokeProcedure procedureName="IncludeGroupContentSource"/>
 		<invokeProcedure procedureName="IncludeGroupContentType"/>
 		<invokeProcedure procedureName="IncludeGroupLimitig"/>
+		<invokeProcedure procedureName="IncludeGroupReadMore" />
+		<invokeProcedure procedureName="IncludeGroupClassification"/>
 		<invokeProcedure procedureName="IncludeGroupNoResults"/>
 		<invokeProcedure procedureName="IncludeGroupSorting"/>
 		<invokeProcedure procedureName="IncludeGroupAppearance"/>
