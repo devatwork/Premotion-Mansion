@@ -29,8 +29,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 			var mapping = new PropertyMapping(property)
 			              {
 			              	// map the type
-			              	Type = Properties.Get<string>(context, "type"),
-			              	Index = Properties.Get<string>(context, "index"),
+			              	Type = Properties.Get<string>(context, "type")
 			              };
 
 			// map nullValue
@@ -47,6 +46,11 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 			string store;
 			if (Properties.TryGet(context, "store", out store))
 				mapping.Store = store;
+
+			// map index
+			string index;
+			if (Properties.TryGet(context, "index", out index))
+				mapping.Index = index;
 
 			// map precisionStep
 			int precisionStep;
