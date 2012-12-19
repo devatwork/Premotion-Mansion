@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\ConnectionManager.cs" />
+    <Compile Include="Connection\ConnectionException.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ElasticSearchApplicationBootstrapper.cs" />
     <Compile Include="Extensions.cs" />
