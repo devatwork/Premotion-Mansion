@@ -30,6 +30,12 @@ namespace Premotion.Mansion.Core.Types
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the inheriting types.</returns>
 		IEnumerable<ITypeDefinition> GetInheritingTypes(IMansionContext context);
+		/// <summary>
+		/// Gets the types inheriting directly from this type.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <returns>Returns the inheriting child types.</returns>
+		IEnumerable<ITypeDefinition> GetChildTypes(IMansionContext context);
 		#endregion
 		#region Relational Properties
 		/// <summary>
