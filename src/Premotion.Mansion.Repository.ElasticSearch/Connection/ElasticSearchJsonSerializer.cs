@@ -20,7 +20,7 @@ using System.IO;
 using Newtonsoft.Json;
 using RestSharp.Serializers;
 
-namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
+namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 {
 	/// <summary>
 	/// Default JSON serializer for request bodies

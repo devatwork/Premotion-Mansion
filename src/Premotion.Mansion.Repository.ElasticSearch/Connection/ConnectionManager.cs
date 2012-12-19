@@ -2,7 +2,6 @@
 using System.Configuration;
 using System.Linq;
 using System.Net;
-using Premotion.Mansion.Repository.ElasticSearch.Indexing;
 using RestSharp;
 using RestSharp.Serializers;
 
