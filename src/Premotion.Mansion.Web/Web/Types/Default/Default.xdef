@@ -33,11 +33,13 @@
 	<!-- role Ids -->
 	<property name="allowedRoleGuids">
 		<sqlserver:singleValuePropertyTable tableName="NodeAllowedRoleGuids"/>
+		<es:multiValuedProperty type="string" index="not_analyzed" />
 	</property>
 	
 	<!-- tags -->
 	<property name="tagGuids">
 		<sqlserver:singleValuePropertyTable tableName="NodeTagGuids" />
+		<es:multiValuedProperty type="string" index="not_analyzed" />
 	</property>
 	
 	<!-- full text-->

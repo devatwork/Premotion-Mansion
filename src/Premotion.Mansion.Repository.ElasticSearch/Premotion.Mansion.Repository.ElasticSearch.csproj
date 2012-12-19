@@ -58,6 +58,8 @@
     <Compile Include="Connection\ElasticSearchJsonSerializer.cs" />
     <Compile Include="Indexing\Indexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Schema\MultiValuedPropertyMapping.cs" />
+    <Compile Include="Schema\Descriptors\MultiValuedPropertyMappingDescriptor.cs" />
     <Compile Include="Schema\Descriptors\IndexDescriptor.cs" />
     <Compile Include="Schema\Descriptors\PropertyMappingBaseDescriptor.cs" />
     <Compile Include="Schema\Descriptors\SimplePropertyMappingDescriptor.cs" />

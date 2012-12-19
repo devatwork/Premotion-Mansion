@@ -157,9 +157,20 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:element name="simpleProperty" substitutionGroup="def:propertyDescriptor" >
+	<xs:element name="simpleProperty" substitutionGroup="def:propertyDescriptor">
 		<xs:annotation>
 			<xs:documentation>Simple properties have a one to one mapping</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="propertyMappingBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="multiValuedProperty" substitutionGroup="def:propertyDescriptor">
+		<xs:annotation>
+			<xs:documentation>Multi-valued properties implement a one-to-many relation. The values are spit on comma.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
