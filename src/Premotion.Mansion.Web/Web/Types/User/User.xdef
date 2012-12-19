@@ -1,12 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<type inherits="RoleOwner" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd">
+<type inherits="RoleOwner" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd" xmlns:es="http://schemas.premotion.nl/mansion/1.0/elasticsearch.descriptors.xsd">
 
 	<!-- properties -->
 	<property name="login">
 		<sqlserver:column allowNullValue="true" />
+		<es:simpleProperty type="string" index="not_analyzed" />
 	</property>
 	<property name="password">
 		<sqlserver:column allowNullValue="true" />
+		<es:simpleProperty type="string" index="not_analyzed" />
 	</property>
 	
 	<!-- type table -->

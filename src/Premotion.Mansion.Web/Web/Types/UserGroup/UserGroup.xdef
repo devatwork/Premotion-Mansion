@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<type inherits="RoleOwner" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd">
+<type inherits="RoleOwner" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd" xmlns:es="http://schemas.premotion.nl/mansion/1.0/elasticsearch.descriptors.xsd">
 
 	<!-- properties -->
 	<property name="userGuids">
 		<sqlserver:singleValuePropertyTable tableName="NodesAssignedUserGuids" />
+		<es:multiValuedProperty type="string" index="not_analyzed" />
 	</property>
 	
 	<!-- specify cms behavior -->

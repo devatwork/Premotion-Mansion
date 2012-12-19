@@ -1,15 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<type inherits="Default" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/descriptors.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:webdescriptors="http://schemas.premotion.nl/mansion/1.0/web/descriptors.xsd">
+<type inherits="Default" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/descriptors.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:webdescriptors="http://schemas.premotion.nl/mansion/1.0/web/descriptors.xsd" xmlns:es="http://schemas.premotion.nl/mansion/1.0/elasticsearch.descriptors.xsd">
 	
 	<!-- properties -->
 	<property name="siteGuids">
 		<sqlserver:multiValuePropertyTable tableName="NodesAssociations" />
+		<es:multiValuedProperty type="string" index="not_analyzed" />
 	</property>
 	<property name="taxonomyGuids">
 		<sqlserver:multiValuePropertyTable tableName="NodesAssociations" />
+		<es:multiValuedProperty type="string" index="not_analyzed" />
 	</property>
 	<property name="tagGuids">
 		<sqlserver:multiValuePropertyTable tableName="NodesAssociations" />
+		<es:multiValuedProperty type="string" index="not_analyzed" />
 	</property>
 	
 	<!-- specify cms behavior -->
