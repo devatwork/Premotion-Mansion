@@ -29,7 +29,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch
 			// register the ElasticSearch services
 			nucleus.Register(resolver => new ConnectionManager());
 			nucleus.Register(resolver => new IndexDefinitionResolver(resolver.ResolveSingle<ITypeService>()));
-			nucleus.Register(resolver => new Indexer(resolver.ResolveSingle<ConnectionManager>()));
+			nucleus.Register(resolver => new Indexer(resolver.ResolveSingle<ConnectionManager>(), resolver.ResolveSingle<IndexDefinitionResolver>()));
 		}
 		#endregion
 	}

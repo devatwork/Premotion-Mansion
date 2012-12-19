@@ -1,6 +1,7 @@
 ﻿using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Repository.ElasticSearch.Connection;
+using Premotion.Mansion.Repository.ElasticSearch.Schema;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 {
@@ -14,14 +15,18 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 		/// Constructs the index service.
 		/// </summary>
 		/// <param name="connectionManager">The <see cref="connectionManager"/>.</param>
-		public Indexer(ConnectionManager connectionManager)
+		/// <param name="indexDefinitionResolver">The <see cref="IndexDefinitionResolver"/>.</param>
+		public Indexer(ConnectionManager connectionManager, IndexDefinitionResolver indexDefinitionResolver)
 		{
 			// validate arguments
 			if (connectionManager == null)
 				throw new ArgumentNullException("connectionManager");
+			if (indexDefinitionResolver == null)
+				throw new ArgumentNullException("indexDefinitionResolver");
 
 			// set values
 			this.connectionManager = connectionManager;
+			this.indexDefinitionResolver = indexDefinitionResolver;
 		}
 		#endregion
 		#region Index Methods
@@ -34,6 +39,8 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 			// validate arugments
 			if (context == null)
 				throw new ArgumentNullException("context");
+
+			// loop over all
 
 			throw new NotImplementedException();
 		}
@@ -52,6 +59,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 		#endregion
 		#region Private Fields
 		private readonly ConnectionManager connectionManager;
+		private readonly IndexDefinitionResolver indexDefinitionResolver;
 		#endregion
 	}
 }
