@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors;
@@ -28,7 +29,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		#endregion
 		#region Resolve Methods
 		/// <summary>
-		/// Resolves all the <see cref="IndexDefinition"/> defined by the application.
+		/// Resolves all the <see cref="IndexDefinition"/>s defined by the application.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <returns>Returns the <see cref="IndexDefinition"/>s.</returns>
@@ -46,17 +47,47 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 				if (!type.TryGetDescriptor(out descriptor))
 					continue;
 
-				// create index definition
-				var definition = descriptor.CreateDefinition(context);
-
-				// create type mapping for this type and its children
-				CreateTypeMapping(context, definition, type);
-
-				// loop over all child type to add additional type mappings
-
-				// return the index definition
-				yield return definition;
+				// create and return the index definition
+				yield return CreateDefinitionFromDescriptor(context, descriptor);
 			}
+		}
+		/// <summary>
+		/// Resolves the <see cref="IndexDefinition"/>s defined for the given <paramref name="typeName"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="typeName">The name of the type for which to get the index definitions.</param>
+		/// <returns>Returns the <see cref="IndexDefinition"/>s.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if any of the parameters is null.</exception>
+		public IEnumerable<IndexDefinition> Resolve(IMansionContext context, string typeName)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (string.IsNullOrEmpty(typeName))
+				throw new ArgumentNullException("typeName");
+
+			// load the type
+			var type = typeService.Load(context, typeName);
+
+			// find all the index definitions 
+			return type.GetDescriptorsInHierarchy<IndexDescriptor>().Select(descriptor => CreateDefinitionFromDescriptor(context, descriptor));
+		}
+		/// <summary>
+		/// Creates a <see cref="IndexDefinition"/> from the given <paramref name="descriptor"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="descriptor"></param>
+		/// <returns></returns>
+		private static IndexDefinition CreateDefinitionFromDescriptor(IMansionContext context, IndexDescriptor descriptor)
+		{
+			// create index definition
+			var definition = descriptor.CreateDefinition(context);
+
+			// create type mapping for this type and its children
+			CreateTypeMapping(context, definition, descriptor.TypeDefinition);
+
+			// return the definition
+			return definition;
 		}
 		#endregion
 		#region Type Mapping Methods

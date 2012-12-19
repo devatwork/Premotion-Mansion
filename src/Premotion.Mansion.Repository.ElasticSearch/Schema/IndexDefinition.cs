@@ -20,7 +20,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 			name.ValidateAsIndexName();
 
 			// set values
-			Name = name;
+			Name = name.ToLower();
 			Settings = new IndexSettings();
 			Mappings = new Dictionary<string, TypeMapping>(StringComparer.OrdinalIgnoreCase);
 		}

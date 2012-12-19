@@ -1,15 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<type xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd" xmlns:webdescriptors="http://schemas.premotion.nl/mansion/1.0/web/descriptors.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:listeners="http://schemas.premotion.nl/mansion/1.0/data.listeners.descriptors.xsd">
+<type xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd" xmlns:webdescriptors="http://schemas.premotion.nl/mansion/1.0/web/descriptors.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:listeners="http://schemas.premotion.nl/mansion/1.0/data.listeners.descriptors.xsd" xmlns:es="http://schemas.premotion.nl/mansion/1.0/elasticsearch.descriptors.xsd">
 	
 	<!-- define identity properties -->
+	<property name="id">
+		<es:propertyMapping type="integer" />
+	</property>
 	<property name="pointer">
 		<sqlserver:treeRelations />
 	</property>
 	<property name="guid">
 		<sqlserver:permanentIdentity />
+		<es:propertyMapping type="string" index="not_analyzed" />
 	</property>
 	<property name="key">
 		<sqlserver:column allowNullValue="true" />
+		<es:propertyMapping type="string" />
 	</property>
 	<property name="created">
 		<sqlserver:dateTimeColumn defaultValue="{Now()}" />
@@ -154,5 +159,8 @@ BEGIN
 		CHANGE_TRACKING = AUTO
 	);
 END]]></sqlserver:schema>
+
+	<!-- define ElasticSearch index -->
+	<es:index name="nodes" />
 	
 </type>

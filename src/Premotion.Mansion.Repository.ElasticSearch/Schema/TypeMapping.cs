@@ -23,7 +23,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 				throw new ArgumentNullException("type");
 
 			// set values
-			Name = type.Name;
+			Name = type.Name.ToLower();
 			Source = new TypeMappingSource();
 		}
 		#endregion

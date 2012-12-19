@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Repository.ElasticSearch.Connection;
 using Premotion.Mansion.Repository.ElasticSearch.Schema;
 
@@ -32,9 +35,9 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 		#endregion
 		#region Index Methods
 		/// <summary>
-		/// TODO
+		/// Creates all the indices in this application.
 		/// </summary>
-		/// <param name="context"></param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		public void CreateIndices(IMansionContext context)
 		{
 			// validate arugments
@@ -46,32 +49,84 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 
 			// create each index
 			foreach (var definition in definitions)
-				CreateIndex(context, definition);
+				CreateIndex(definition);
 		}
 		/// <summary>
 		/// Creates the given index <paramref name="definition"/>.
 		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="definition">The <see cref="IndexDefinition"/>.</param>
-		private void CreateIndex(IMansionContext context, IndexDefinition definition)
+		private void CreateIndex(IndexDefinition definition)
 		{
-			// check if the index exists
+			// delete the index if it exists
 			if (connectionManager.Head(definition.Name, new[] {HttpStatusCode.OK, HttpStatusCode.NotFound}).StatusCode == HttpStatusCode.OK)
 				connectionManager.Delete(definition.Name);
 
-			connectionManager.Put(context, definition.Name, definition);
+			// create the index
+			connectionManager.Put(definition.Name, definition);
 		}
 		/// <summary>
-		/// TODO
+		/// Reindexes all the content in the top-most repository.
 		/// </summary>
-		/// <param name="context"></param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		public void Reindex(IMansionContext context)
 		{
 			// validate arugments
 			if (context == null)
 				throw new ArgumentNullException("context");
 
-			throw new NotImplementedException();
+			// retrieve all the data directly from the repository
+			var recordSet = context.Repository.RetrieveNodeset(context, new PropertyBag
+			                                                            {
+			                                                            	{"baseType", "Default"}
+			                                                            });
+
+			// index the dataset
+			Index(context, recordSet);
+		}
+		/// <summary>
+		/// Indexes the given <paramref name="recordSet"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="recordSet">The <see cref="RecordSet"/>.</param>
+		public void Index(IMansionContext context, RecordSet recordSet)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (recordSet == null)
+				throw new ArgumentNullException("recordSet");
+
+			// loop over all the records and index them
+			// TODO: optimize using batch processesing?
+			foreach (var record in recordSet.Records)
+				Index(context, record);
+		}
+		/// <summary>
+		/// Indexes the given <paramref name="record"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="record">The <see cref="Record"/>.</param>
+		public void Index(IMansionContext context, Record record)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (record == null)
+				throw new ArgumentNullException("record");
+
+			// resolve the index definitions of this record
+			var indexDefinitions = indexDefinitionResolver.Resolve(context, record.Type);
+
+			// loop over all the definition
+			// TODO: implement batching
+			foreach (var indexDefinition in indexDefinitions)
+			{
+				// determine the resource
+				var resource = indexDefinition.Name + '/' + indexDefinition.Mappings.Values.First(candidate => candidate.Name.Equals(record.Type, StringComparison.OrdinalIgnoreCase)).Name + '/' + record.Id;
+
+				// index the record
+				connectionManager.Put(resource, PropertyBag.Raw(record), new[] {HttpStatusCode.Created});
+			}
 		}
 		#endregion
 		#region Private Fields

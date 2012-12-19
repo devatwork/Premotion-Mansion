@@ -2,8 +2,9 @@
 using System.Configuration;
 using System.Linq;
 using System.Net;
-using Premotion.Mansion.Core;
+using Premotion.Mansion.Repository.ElasticSearch.Indexing;
 using RestSharp;
+using RestSharp.Serializers;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 {
@@ -47,13 +48,12 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		/// <summary>
 		/// Executes a PUT request on the given <paramref name="resource"/>.
 		/// </summary>
-		/// <param name="context"> </param>
 		/// <param name="resource">The resource on which to execute the request.</param>
 		/// <param name="obj">The object which to add to the body of the request.</param>
 		/// <param name="validHttpStatusCodes">Specifies which <see cref="HttpStatusCode"/>s are valid. Leave null for 200 - OK.</param>
 		/// <returns>Returns the <see cref="IRestResponse"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="resource"/> is null.</exception>
-		public IRestResponse Put(IMansionContext context, string resource, object obj, HttpStatusCode[] validHttpStatusCodes = null)
+		public IRestResponse Put(string resource, object obj, HttpStatusCode[] validHttpStatusCodes = null)
 		{
 			// validate arguments
 			if (resource == null)
@@ -96,8 +96,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 			// create the request
 			var request = new RestRequest(resource)
 			              {
-			              	RequestFormat = DataFormat.Json
+			              	RequestFormat = DataFormat.Json,
+			              	JsonSerializer = serializer
 			              };
+
 			requestConfigurator(request);
 
 			// execute the request
@@ -113,6 +115,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		#endregion
 		#region Private Fields
 		private readonly RestClient client;
+		private readonly ISerializer serializer = new ElasticSearchJsonSerializer();
 		#endregion
 	}
 }

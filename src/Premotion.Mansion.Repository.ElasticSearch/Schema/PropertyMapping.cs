@@ -22,7 +22,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 				throw new ArgumentNullException("property");
 
 			// set value
-			Name = property.Name;
+			Name = property.Name.ToLower();
 		}
 		#endregion
 		#region Properties

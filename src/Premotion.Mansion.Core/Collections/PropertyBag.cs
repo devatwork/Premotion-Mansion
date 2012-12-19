@@ -404,6 +404,20 @@ namespace Premotion.Mansion.Core.Collections
 			// default
 			return one.Equals(other);
 		}
+		/// <summary>
+		/// Provides direct access to the inner bag, use with caution.
+		/// </summary>
+		/// <param name="bag">The <see cref="PropertyBag"/>.</param>
+		/// <returns>Returns the inner data of the property bag.</returns>
+		public static IDictionary<string, object> Raw(PropertyBag bag)
+		{
+			// validate arguments
+			if (bag == null)
+				throw new ArgumentNullException("bag");
+
+			// return the inner data
+			return bag.InnerData;
+		}
 		#endregion
 		#region Properties
 		/// <summary>
