@@ -24,6 +24,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 
 			// set values
 			Name = type.Name;
+			Source = new TypeMappingSource();
 		}
 		#endregion
 		#region Add Methods
@@ -76,6 +77,11 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		[JsonIgnore]
 		public string Name { get; private set; }
 		/// <summary>
+		/// The <see cref="TypeMappingSource"/>.
+		/// </summary>
+		[JsonProperty("_source")]
+		public TypeMappingSource Source { get; set; }
+		/// <summary>
 		/// Getsthe <see cref="PropertyMapping"/>s of this mapping.
 		/// </summary>
 		[JsonProperty("properties")]
@@ -83,11 +89,6 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		{
 			get { return propertyMappings; }
 		}
-		/// <summary>
-		/// The <see cref="TypeMappingSource"/>.
-		/// </summary>
-		[JsonProperty("_source")]
-		public TypeMappingSource Source { get; set; }
 		#endregion
 		#region Private Fields
 		private readonly Dictionary<string, PropertyMapping> propertyMappings = new Dictionary<string, PropertyMapping>(StringComparer.OrdinalIgnoreCase);
