@@ -48,6 +48,8 @@
     <EmbeddedResource Include="Web\PageController.tpl" />
     <EmbeddedResource Include="Web\PageController.xinclude" />
     <EmbeddedResource Include="Web\Default.xts" />
+    <EmbeddedResource Include="Web\Types\TestTwo\TestTwo.xdef" />
+    <EmbeddedResource Include="Web\Types\Test\Test.xdef" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IMyUsefulService.cs" />

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<type inherits="Default" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:es="http://schemas.premotion.nl/mansion/1.0/elasticsearch.descriptors.xsd">
+
+	<property name="name">
+		<es:propertyMapping type="string" />
+	</property>
+
+	<!-- define index -->
+	<es:index name="my-test-index" />
+	
+</type>

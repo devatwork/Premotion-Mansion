@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Linq;
 using System.Net;
 using Premotion.Mansion.Core;
 using RestSharp;
@@ -27,42 +28,70 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 			client = new RestClient(connectionString);
 		}
 		#endregion
-		#region Private Fields
-		private readonly RestClient client;
-		#endregion
 		#region Http Methods
 		/// <summary>
-		/// 
+		/// Executes a HEAD request on the given <paramref name="resource"/>.
 		/// </summary>
-		/// <param name="context"></param>
-		/// <param name="resource"></param>
-		/// <param name="obj"></param>
-		/// <exception cref="ConnectionException">Thrown if the request did not result in 200 - OK.</exception>
-		public void Put(IMansionContext context, string resource, object obj)
+		/// <param name="resource">The resource on which to execute the request.</param>
+		/// <param name="validHttpStatusCodes">Specifies which <see cref="HttpStatusCode"/>s are valid. Leave null for 200 - OK.</param>
+		/// <returns>Returns the <see cref="IRestResponse"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="resource"/> is null.</exception>
+		public IRestResponse Head(string resource, HttpStatusCode[] validHttpStatusCodes = null)
 		{
 			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
+			if (resource == null)
+				throw new ArgumentNullException("resource");
+
+			return Execute(resource, request => { request.Method = Method.HEAD; }, validHttpStatusCodes);
+		}
+		/// <summary>
+		/// Executes a PUT request on the given <paramref name="resource"/>.
+		/// </summary>
+		/// <param name="context"> </param>
+		/// <param name="resource">The resource on which to execute the request.</param>
+		/// <param name="obj">The object which to add to the body of the request.</param>
+		/// <param name="validHttpStatusCodes">Specifies which <see cref="HttpStatusCode"/>s are valid. Leave null for 200 - OK.</param>
+		/// <returns>Returns the <see cref="IRestResponse"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="resource"/> is null.</exception>
+		public IRestResponse Put(IMansionContext context, string resource, object obj, HttpStatusCode[] validHttpStatusCodes = null)
+		{
+			// validate arguments
 			if (resource == null)
 				throw new ArgumentNullException("resource");
 			if (obj == null)
 				throw new ArgumentNullException("obj");
 
 			// execute the request
-			Execute(resource, request =>
-			                  {
-			                  	request.Method = Method.PUT;
-			                  	request.AddBody(obj);
-			                  });
+			return Execute(resource, request =>
+			                         {
+			                         	request.Method = Method.PUT;
+			                         	request.AddBody(obj);
+			                         }, validHttpStatusCodes);
+		}
+		/// <summary>
+		/// Executes a DELETE request on the given <paramref name="resource"/>.
+		/// </summary>
+		/// <param name="resource">The resource on which to execute the request.</param>
+		/// <param name="validHttpStatusCodes">Specifies which <see cref="HttpStatusCode"/>s are valid. Leave null for 200 - OK.</param>
+		/// <returns>Returns the <see cref="IRestResponse"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="resource"/> is null.</exception>
+		public IRestResponse Delete(string resource, HttpStatusCode[] validHttpStatusCodes = null)
+		{
+			// validate arguments
+			if (resource == null)
+				throw new ArgumentNullException("resource");
+
+			return Execute(resource, request => { request.Method = Method.DELETE; }, validHttpStatusCodes);
 		}
 		/// <summary>
 		/// Executes a request on ElasticSearch.
 		/// </summary>
 		/// <param name="resource">The resource on which to execute the request.</param>
 		/// <param name="requestConfigurator">Action which configurates the <see cref="IRestRequest"/>.</param>
+		/// <param name="validHttpStatusCodes">Defines the valid status codes.</param>
 		/// <returns>Returns the <see cref="IRestResponse"/> of the request.</returns>
 		/// <exception cref="ConnectionException">Thrown if the request did not result in 200 - OK.</exception>
-		private IRestResponse Execute(string resource, Action<IRestRequest> requestConfigurator)
+		private IRestResponse Execute(string resource, Action<IRestRequest> requestConfigurator, HttpStatusCode[] validHttpStatusCodes = null)
 		{
 			// create the request
 			var request = new RestRequest(resource)
@@ -75,12 +104,15 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 			var response = client.Execute(request);
 
 			// error handling
-			if (response.StatusCode != HttpStatusCode.OK)
+			if ((validHttpStatusCodes == null && response.StatusCode != HttpStatusCode.OK) || (validHttpStatusCodes != null && validHttpStatusCodes.All(candidate => candidate != response.StatusCode)))
 				throw new ConnectionException("Invalid ElasticSearch request", request, response);
 
 			// return the response
 			return response;
 		}
+		#endregion
+		#region Private Fields
+		private readonly RestClient client;
 		#endregion
 	}
 }

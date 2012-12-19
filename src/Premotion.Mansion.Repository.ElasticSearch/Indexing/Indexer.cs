@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Repository.ElasticSearch.Connection;
 using Premotion.Mansion.Repository.ElasticSearch.Schema;
@@ -40,9 +41,25 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 			if (context == null)
 				throw new ArgumentNullException("context");
 
-			// loop over all
+			// resolve all the index definitions
+			var definitions = indexDefinitionResolver.ResolveAll(context);
 
-			throw new NotImplementedException();
+			// create each index
+			foreach (var definition in definitions)
+				CreateIndex(context, definition);
+		}
+		/// <summary>
+		/// Creates the given index <paramref name="definition"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="definition">The <see cref="IndexDefinition"/>.</param>
+		private void CreateIndex(IMansionContext context, IndexDefinition definition)
+		{
+			// check if the index exists
+			if (connectionManager.Head(definition.Name, new[] {HttpStatusCode.OK, HttpStatusCode.NotFound}).StatusCode == HttpStatusCode.OK)
+				connectionManager.Delete(definition.Name);
+
+			connectionManager.Put(context, definition.Name, definition);
 		}
 		/// <summary>
 		/// TODO

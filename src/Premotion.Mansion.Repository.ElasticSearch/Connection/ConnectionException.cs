@@ -16,7 +16,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		/// <param name="message"></param>
 		/// <param name="request"></param>
 		/// <param name="response"></param>
-		public ConnectionException(string message, RestRequest request, IRestResponse response) : base(message)
+		public ConnectionException(string message, IRestRequest request, IRestResponse response) : base(message)
 		{
 			// loop over the request parameters
 			var builder = new StringBuilder();
