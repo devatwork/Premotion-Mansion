@@ -147,7 +147,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 			foreach (var property in type.Properties)
 			{
 				// try to get the property descriptor
-				PropertyMappingDescriptor descriptor;
+				PropertyMappingBaseDescriptor descriptor;
 				if (!property.TryGetDescriptor(out descriptor))
 					continue;
 

@@ -5,10 +5,9 @@ using Premotion.Mansion.Core.Types;
 namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 {
 	/// <summary>
-	/// Represents the <see cref="TypeDescriptor"/> for elastic search properties.
+	/// Represents the base <see cref="TypeDescriptor"/> for elastic search properties.
 	/// </summary>
-	[TypeDescriptor(Constants.DescriptorNamespaceUri, "propertyMapping")]
-	public class PropertyMappingDescriptor : TypeDescriptor
+	public abstract class PropertyMappingBaseDescriptor : TypeDescriptor
 	{
 		#region Create Methods
 		/// <summary>
@@ -26,11 +25,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 				throw new ArgumentNullException("property");
 
 			// create the mapping
-			var mapping = new PropertyMapping(property)
-			              {
-			              	// map the type
-			              	Type = Properties.Get<string>(context, "type")
-			              };
+			var mapping = DoCreateMapping(context, property);
 
 			// map nullValue
 			object nullValue;
@@ -100,6 +95,13 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 			// return the mapping
 			return mapping;
 		}
+		/// <summary>
+		/// Creates a <see cref="PropertyMapping"/> from this descriptor.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="property">The <see cref="IPropertyDefinition"/>.</param>
+		/// <returns>The created <see cref="PropertyMapping"/>.</returns>
+		protected abstract PropertyMapping DoCreateMapping(IMansionContext context, IPropertyDefinition property);
 		#endregion
 	}
 }

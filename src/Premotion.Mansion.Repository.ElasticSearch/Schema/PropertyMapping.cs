@@ -7,7 +7,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 	/// <summary>
 	/// Represents the mapping of a property.
 	/// </summary>
-	public class PropertyMapping
+	public abstract class PropertyMapping
 	{
 		#region Constructors
 		/// <summary>
@@ -15,7 +15,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		/// </summary>
 		/// <param name="property">The <see cref="IPropertyDefinition"/>.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public PropertyMapping(IPropertyDefinition property)
+		protected PropertyMapping(IPropertyDefinition property)
 		{
 			// validate arguments
 			if (property == null)

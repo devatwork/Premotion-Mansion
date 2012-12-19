@@ -3,24 +3,26 @@
 	
 	<!-- define identity properties -->
 	<property name="id">
-		<es:propertyMapping type="integer" />
+		<es:simpleProperty type="integer" />
 	</property>
 	<property name="pointer">
 		<sqlserver:treeRelations />
 	</property>
 	<property name="guid">
 		<sqlserver:permanentIdentity />
-		<es:propertyMapping type="string" index="not_analyzed" />
+		<es:simpleProperty type="string" index="not_analyzed" />
 	</property>
 	<property name="key">
 		<sqlserver:column allowNullValue="true" />
-		<es:propertyMapping type="string" />
+		<es:simpleProperty type="string" index="not_analyzed" />
 	</property>
 	<property name="created">
 		<sqlserver:dateTimeColumn defaultValue="{Now()}" />
+		<es:simpleProperty type="date" />
 	</property>
 	<property name="modified">
 		<sqlserver:dateTimeColumn expression="{NotNull( Column.value, Now() )}" />
+		<es:simpleProperty type="date" />
 	</property>
 	
 	<!-- define status properties -->
@@ -41,6 +43,7 @@
 	<!-- full text-->
 	<property name="fullText">
 		<sqlserver:column allowNullValue="true" />
+		<es:simpleProperty type="string" />
 	</property>
 	
 	<!-- tables -->

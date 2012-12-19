@@ -6,6 +6,131 @@
 	<xs:import namespace="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" />
 	
 	
+	<!-- types -->
+	<xs:complexType name="propertyMappingBase">
+		<xs:annotation>
+			<xs:documentation>Defines how this property is index by ElasticSearch.</xs:documentation>
+		</xs:annotation>
+		<!-- attributes -->
+		<xs:attribute name="type" use="required">
+			<xs:annotation>
+				<xs:documentation>The type of the number. Can be string, float, double, integer, long, short, byte, date, boolean, binary. Required.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="string" />
+					<xs:enumeration value="float" />
+					<xs:enumeration value="double" />
+					<xs:enumeration value="integer" />
+					<xs:enumeration value="long" />
+					<xs:enumeration value="short" />
+					<xs:enumeration value="byte" />
+					<xs:enumeration value="date" />
+					<xs:enumeration value="boolean" />
+					<xs:enumeration value="binary" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="nullValue" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>When there is a (JSON) null value for the field, use the null_value as the field value. Defaults to not adding the field at all.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="indexName" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>The name of the field that will be stored in the index. Defaults to the property/field name.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="store" use="optional">
+			<xs:annotation>
+				<xs:documentation>Set to yes to store actual field in the index, no to not store it. Defaults to no (note, the JSON document itself is stored, and it can be retrieved from it).</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="yes" />
+					<xs:enumeration value="no" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="index" use="optional">
+			<xs:annotation>
+				<xs:documentation>Set to analyzed for the field to be indexed and searchable after being broken down into token using an analyzer. not_analyzed means that its still searchable, but does not go through any analysis process or broken down into tokens. no means that it won’t be searchable at all (as an individual field; it may still be included in _all). Defaults to analyzed.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="analyzed" />
+					<xs:enumeration value="not_analyzed" />
+					<xs:enumeration value="no" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="precisionStep" type="xs:positiveInteger" use="optional">
+			<xs:annotation>
+				<xs:documentation>The precision step (number of terms generated for each number value). Defaults to 4.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="boost" type="xs:double" use="optional">
+			<xs:annotation>
+				<xs:documentation>The boost value. Defaults to 1.0.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="includeInAll" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Should the field be included in the _all field (if enabled). Defaults to true or to the parent object type setting.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="format" use="optional">
+			<xs:annotation>
+				<xs:documentation>The date format. Defaults to dateOptionalTime.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="dateOptionalTime" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="termVector" use="optional">
+			<xs:annotation>
+				<xs:documentation>Possible values are no, yes, with_offsets, with_positions, with_positions_offsets. Defaults to no.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="no" />
+					<xs:enumeration value="yes" />
+					<xs:enumeration value="with_offsets" />
+					<xs:enumeration value="with_positions" />
+					<xs:enumeration value="with_positions_offsets" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="omitNorms" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Boolean value if norms should be omitted or not. Defaults to false.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="omitTermFreqAndPositions" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Boolean value if term freq and positions should be omitted. Defaults to false. Deprecated since 0.20, see index_options.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="analyzer" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>The analyzer used to analyze the text contents when analyzed during indexing and when searching using a query string. Defaults to the globally configured analyzer.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="indexAnalyzer" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>The analyzer used to analyze the text contents when analyzed during indexing.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="searchAnalyzer" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>The analyzer used to analyze the field when part of a query string.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	
+	
 	
 	<!-- schema descriptor -->	
 	<xs:element name="index" substitutionGroup="def:typeDescriptor">
@@ -32,128 +157,14 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:element name="propertyMapping" substitutionGroup="def:propertyDescriptor">
+	<xs:element name="simpleProperty" substitutionGroup="def:propertyDescriptor" >
 		<xs:annotation>
-			<xs:documentation>Defines how this property is index by ElasticSearch.</xs:documentation>
+			<xs:documentation>Simple properties have a one to one mapping</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
-			<!-- attributes -->
-			<xs:attribute name="type" use="required">
-				<xs:annotation>
-					<xs:documentation>The type of the number. Can be string, float, double, integer, long, short, byte, date, boolean, binary. Required.</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="string" />
-						<xs:enumeration value="float" />
-						<xs:enumeration value="double" />
-						<xs:enumeration value="integer" />
-						<xs:enumeration value="long" />
-						<xs:enumeration value="short" />
-						<xs:enumeration value="byte" />
-						<xs:enumeration value="date" />
-						<xs:enumeration value="boolean" />
-						<xs:enumeration value="binary" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="nullValue" type="xs:string" use="optional">
-				<xs:annotation>
-					<xs:documentation>When there is a (JSON) null value for the field, use the null_value as the field value. Defaults to not adding the field at all.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="indexName" type="xs:string" use="optional">
-				<xs:annotation>
-					<xs:documentation>The name of the field that will be stored in the index. Defaults to the property/field name.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="store" use="optional">
-				<xs:annotation>
-					<xs:documentation>Set to yes to store actual field in the index, no to not store it. Defaults to no (note, the JSON document itself is stored, and it can be retrieved from it).</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="yes" />
-						<xs:enumeration value="no" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="index" use="optional">
-				<xs:annotation>
-					<xs:documentation>Set to analyzed for the field to be indexed and searchable after being broken down into token using an analyzer. not_analyzed means that its still searchable, but does not go through any analysis process or broken down into tokens. no means that it won’t be searchable at all (as an individual field; it may still be included in _all). Defaults to analyzed.</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="analyzed" />
-						<xs:enumeration value="not_analyzed" />
-						<xs:enumeration value="no" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="precisionStep" type="xs:positiveInteger" use="optional">
-				<xs:annotation>
-					<xs:documentation>The precision step (number of terms generated for each number value). Defaults to 4.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="boost" type="xs:double" use="optional">
-				<xs:annotation>
-					<xs:documentation>The boost value. Defaults to 1.0.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="includeInAll" type="xs:boolean" use="optional">
-				<xs:annotation>
-					<xs:documentation>Should the field be included in the _all field (if enabled). Defaults to true or to the parent object type setting.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="format" use="optional">
-				<xs:annotation>
-					<xs:documentation>The date format. Defaults to dateOptionalTime.</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="dateOptionalTime" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="termVector" use="optional">
-				<xs:annotation>
-					<xs:documentation>Possible values are no, yes, with_offsets, with_positions, with_positions_offsets. Defaults to no.</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="no" />
-						<xs:enumeration value="yes" />
-						<xs:enumeration value="with_offsets" />
-						<xs:enumeration value="with_positions" />
-						<xs:enumeration value="with_positions_offsets" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="omitNorms" type="xs:boolean" use="optional">
-				<xs:annotation>
-					<xs:documentation>Boolean value if norms should be omitted or not. Defaults to false.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="omitTermFreqAndPositions" type="xs:boolean" use="optional">
-				<xs:annotation>
-					<xs:documentation>Boolean value if term freq and positions should be omitted. Defaults to false. Deprecated since 0.20, see index_options.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="analyzer" type="xs:string" use="optional">
-				<xs:annotation>
-					<xs:documentation>The analyzer used to analyze the text contents when analyzed during indexing and when searching using a query string. Defaults to the globally configured analyzer.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="indexAnalyzer" type="xs:string" use="optional">
-				<xs:annotation>
-					<xs:documentation>The analyzer used to analyze the text contents when analyzed during indexing.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="searchAnalyzer" type="xs:string" use="optional">
-				<xs:annotation>
-					<xs:documentation>The analyzer used to analyze the field when part of a query string.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
+			<xs:complexContent>
+				<xs:extension base="propertyMappingBase" />
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 
