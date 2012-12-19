@@ -12,6 +12,8 @@
     <AssemblyName>Premotion.Mansion.Repository.ElasticSearch</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,16 +37,48 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connection\ConnectionManager.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="ElasticSearchApplicationBootstrapper.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Indexing\Indexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Schema\Descriptors\IndexDescriptor.cs" />
+    <Compile Include="Schema\Descriptors\PropertyMappingDescriptor.cs" />
+    <Compile Include="Schema\Descriptors\TypeMappingDescriptor.cs" />
+    <Compile Include="Schema\IndexDefinition.cs" />
+    <Compile Include="Schema\IndexDefinitionResolver.cs" />
+    <Compile Include="Schema\IndexSettings.cs" />
+    <Compile Include="Schema\PropertyMapping.cs" />
+    <Compile Include="Schema\TypeMapping.cs" />
+    <Compile Include="Schema\TypeMappingSource.cs" />
+    <Compile Include="ScriptTags\ReindexTag.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config.transform" />
+    <None Include="packages.config" />
     <None Include="Premotion.Mansion.Repository.ElasticSearch.nuspec" />
     <None Include="Premotion.Mansion.Repository.ElasticSearch.symbols.nuspec" />
+    <None Include="Schema\Descriptors\repository.elasticsearch.descriptors.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Schema\Schema.cd" />
+    <None Include="ScriptTags\repository.elasticsearch.tags.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="web.config.transform" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +88,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

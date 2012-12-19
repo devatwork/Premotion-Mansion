@@ -10,11 +10,16 @@
 		<description>Implements a Premotion Mansion repository using ElasticSearch</description>
 		<frameworkAssemblies>
 			<frameworkAssembly assemblyName="System" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Configuration" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Xml" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net40" />
 		</frameworkAssemblies>
 		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
 		<copyright>Copyright 2012</copyright>
 		<dependencies>
+			<dependency id="RestSharp" />
+			<dependency id="Newtonsoft.Json" />
 			<dependency id="Premotion.Mansion.Core" />
 		</dependencies>
 		<tags>Premotion Mansion Repository ElasticSearch</tags>

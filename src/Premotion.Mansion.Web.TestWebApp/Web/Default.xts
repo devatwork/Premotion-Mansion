@@ -2,8 +2,6 @@
 <mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
 
 	<!-- bootstrap the dispatcher and dispatch the request -->
-	<openScript path="Dispatcher/Dispatcher.xinclude">
-		<invokeProcedure procedureName="Dispatch" />
-	</openScript>
-
+	<es:reindex xmlns:es="http://schemas.premotion.nl/mansion/1.0/elasticsearch.tags.xsd" />
+	
 </mansion>
