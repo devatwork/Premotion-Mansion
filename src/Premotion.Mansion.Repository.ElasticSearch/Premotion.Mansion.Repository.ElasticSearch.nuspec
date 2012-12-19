@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+	<metadata>
+		<version>1.2.17</version>
+		<authors>Premotion Software Solutions</authors>
+		<owners>Premotion Software Solutions</owners>
+		<id>Premotion.Mansion.Repository.ElasticSearch</id>
+		<title>Premotion Mansion Repository ElasticSearch</title>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>Implements a Premotion Mansion repository using ElasticSearch</description>
+		<frameworkAssemblies>
+			<frameworkAssembly assemblyName="System" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
+		</frameworkAssemblies>
+		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+		<copyright>Copyright 2012</copyright>
+		<dependencies>
+			<dependency id="Premotion.Mansion.Core" />
+		</dependencies>
+		<tags>Premotion Mansion Repository ElasticSearch</tags>
+	</metadata>
+	<files>
+		<file src="bin\Premotion.Mansion.Repository.ElasticSearch.dll" target="lib\net40" />
+		<file src="bin\Premotion.Mansion.Repository.ElasticSearch.xml" target="lib\net40" />
+		<file src="**\*.xsd" target="content/Schemas" />
+	</files>
+</package>
