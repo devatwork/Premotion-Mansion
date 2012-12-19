@@ -121,11 +121,17 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 			// TODO: implement batching
 			foreach (var indexDefinition in indexDefinitions)
 			{
-				// determine the resource
-				var resource = indexDefinition.Name + '/' + indexDefinition.Mappings.Values.First(candidate => candidate.Name.Equals(record.Type, StringComparison.OrdinalIgnoreCase)).Name + '/' + record.Id;
+				// find the mapper for this record
+				var mapping = indexDefinition.Mappings.Values.First(candidate => candidate.Name.Equals(record.Type, StringComparison.OrdinalIgnoreCase));
 
-				// index the record
-				connectionManager.Put(resource, PropertyBag.Raw(record), new[] {HttpStatusCode.Created});
+				// transform the record into a document
+				var document = mapping.Transform(context, record);
+
+				// determine the resource
+				var resource = indexDefinition.Name + '/' + mapping.Name + '/' + record.Id;
+
+				// index the document
+				connectionManager.Put(resource, document, new[] {HttpStatusCode.Created});
 			}
 		}
 		#endregion

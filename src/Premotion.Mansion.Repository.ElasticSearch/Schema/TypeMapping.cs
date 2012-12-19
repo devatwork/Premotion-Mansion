@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Types;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Schema
@@ -68,6 +69,49 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 
 			// return the clone
 			return cloned;
+		}
+		#endregion
+		#region Transform Methods
+		/// <summary>
+		/// Transforms the given <paramref name="source"/> into an ElasticSearch document.
+		/// </summary>
+		/// <param name="context">the <see cref="IMansionContext"/>.</param>
+		/// <param name="source">The <see cref="IPropertyBag"/> which to transform.</param>
+		/// <returns>Returns the resulting document.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public IDictionary<string, object> Transform(IMansionContext context, IPropertyBag source)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (source == null)
+				throw new ArgumentNullException("source");
+
+			// create a new dictionary which represents the document 
+			var document = new Dictionary<string, object>();
+
+			// loop over all the properties
+			foreach (var propertyName in source)
+			{
+				// ElasticSearch is case sensitive, use lower case property name
+				var key = propertyName.Key.ToLower();
+
+				// check if there is mapping defined for this property
+				PropertyMapping mapping;
+				if (propertyMappings.TryGetValue(key, out mapping))
+				{
+					// allow the property mapping to transorm the value
+					mapping.Transform(context, source, document);
+				}
+				else
+				{
+					// just store the value in the document and let ElasticSearch figure out how to index it
+					document.Add(key, propertyName.Value);
+				}
+			}
+
+			// return the transformed document
+			return document;
 		}
 		#endregion
 		#region Properties

@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
+using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Types;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Schema
@@ -24,6 +26,38 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 			// set value
 			Name = property.Name.ToLower();
 		}
+		#endregion
+		#region Transform Methods
+		/// <summary>
+		/// Transforms the given <paramref name="source"/> into an ElasticSearch document.
+		/// </summary>
+		/// <param name="context">the <see cref="IMansionContext"/>.</param>
+		/// <param name="source">The <see cref="IPropertyBag"/> which to transform.</param>
+		/// <param name="document">The document to which to write the mapped value.</param>
+		/// <returns>Returns the resulting document.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public void Transform(IMansionContext context, IPropertyBag source, Dictionary<string, object> document)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (source == null)
+				throw new ArgumentNullException("source");
+			if (document == null)
+				throw new ArgumentNullException("document");
+
+			// invoke template method
+			DoTransform(context, source, document);
+		}
+		/// <summary>
+		/// Transforms the given <paramref name="source"/> into an ElasticSearch document.
+		/// </summary>
+		/// <param name="context">the <see cref="IMansionContext"/>.</param>
+		/// <param name="source">The <see cref="IPropertyBag"/> which to transform.</param>
+		/// <param name="document">The document to which to write the mapped value.</param>
+		/// <returns>Returns the resulting document.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		protected abstract void DoTransform(IMansionContext context, IPropertyBag source, Dictionary<string, object> document);
 		#endregion
 		#region Properties
 		/// <summary>
