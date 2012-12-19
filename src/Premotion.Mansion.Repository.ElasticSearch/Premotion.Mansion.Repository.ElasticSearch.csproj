@@ -42,8 +42,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config.transform" />
     <None Include="Premotion.Mansion.Repository.ElasticSearch.nuspec" />
     <None Include="Premotion.Mansion.Repository.ElasticSearch.symbols.nuspec" />
+    <None Include="web.config.transform" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Premotion.Mansion.Core\Premotion.Mansion.Core.csproj">
