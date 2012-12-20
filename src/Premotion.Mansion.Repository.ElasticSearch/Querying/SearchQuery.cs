@@ -29,13 +29,15 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 				writer.WriteStartObject();
 
 				// write the filter
-				if (value.filterList.Count > 0)
+				if (value.filterList.Count == 1)
 				{
 					writer.WritePropertyName("filter");
-					writer.WriteStartArray();
-					foreach (var filter in value.filterList)
-						serializer.Serialize(writer, filter);
-					writer.WriteEndArray();
+					serializer.Serialize(writer, value.filterList[0]);
+				}
+				else if (value.filterList.Count > 1)
+				{
+					writer.WritePropertyName("filter");
+					serializer.Serialize(writer, new AndFilter().Add(value.filterList));
 				}
 
 				// write the sort
