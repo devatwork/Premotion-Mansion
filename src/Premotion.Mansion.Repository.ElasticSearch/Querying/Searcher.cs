@@ -4,6 +4,7 @@ using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Queries;
+using Premotion.Mansion.Core.Patterns.Voting;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.ElasticSearch.Connection;
 using Premotion.Mansion.Repository.ElasticSearch.Schema;
@@ -21,17 +22,21 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 		/// </summary>
 		/// <param name="connectionManager">The <see cref="connectionManager"/>.</param>
 		/// <param name="indexDefinitionResolver">The <see cref="IndexDefinitionResolver"/>.</param>
-		public Searcher(ConnectionManager connectionManager, IndexDefinitionResolver indexDefinitionResolver)
+		/// <param name="converters">The <see cref="IQueryComponentMapper"/>s.</param>
+		public Searcher(ConnectionManager connectionManager, IndexDefinitionResolver indexDefinitionResolver, IEnumerable<IQueryComponentMapper> converters)
 		{
 			// validate arguments
 			if (connectionManager == null)
 				throw new ArgumentNullException("connectionManager");
 			if (indexDefinitionResolver == null)
 				throw new ArgumentNullException("indexDefinitionResolver");
+			if (converters == null)
+				throw new ArgumentNullException("converters");
 
 			// set values
 			this.connectionManager = connectionManager;
 			this.indexDefinitionResolver = indexDefinitionResolver;
+			this.converters = converters.ToArray();
 		}
 		#endregion
 		#region Search Methods
@@ -58,6 +63,14 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 			// determine the index which to use to perform the search
 			var indexDefinitionTypeMappingPair = SelectBestIndexForQuery(rootType, query, indexDefinitions);
 
+			// create a search descriptor
+			var search = new SearchDescriptor(indexDefinitionTypeMappingPair.Item1, indexDefinitionTypeMappingPair.Item2);
+
+			// map all the query components to the search descriptor
+			foreach (var component in query.Components)
+				converters.Elect(context, component).Map(context, query, component, search);
+
+			// TODO: execute the query
 			throw new System.NotImplementedException();
 		}
 		/// <summary>
@@ -78,6 +91,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 		#endregion
 		#region Private Fields
 		private readonly ConnectionManager connectionManager;
+		private readonly IEnumerable<IQueryComponentMapper> converters;
 		private readonly IndexDefinitionResolver indexDefinitionResolver;
 		#endregion
 	}

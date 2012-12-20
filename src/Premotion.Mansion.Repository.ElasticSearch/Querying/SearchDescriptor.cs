@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Premotion.Mansion.Repository.ElasticSearch.Schema;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 {
@@ -10,6 +11,26 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 	[JsonObject(MemberSerialization.OptIn)]
 	public class SearchDescriptor
 	{
+		#region Constructors
+		/// <summary>
+		/// Constructs a new search descriptor.
+		/// </summary>
+		/// <param name="indexDefinition">The <see cref="IndexDefinition"/> on which this search will be executed.</param>
+		/// <param name="typeMapping">The <see cref="TypeMapping"/> on which this search will be executed.</param>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public SearchDescriptor(IndexDefinition indexDefinition, TypeMapping typeMapping)
+		{
+			// validate arguments
+			if (indexDefinition == null)
+				throw new ArgumentNullException("indexDefinition");
+			if (typeMapping == null)
+				throw new ArgumentNullException("typeMapping");
+
+			// set the values
+			this.indexDefinition = indexDefinition;
+			this.typeMapping = typeMapping;
+		}
+		#endregion
 		#region Properties
 		/// <summary>
 		/// Gets the <see cref="QueryDescriptor"/>.
@@ -39,6 +60,20 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 		{
 			get { return facetDescriptor; }
 		}
+		/// <summary>
+		/// Gets the <see cref="IndexDefinition"/> on which this search will be executed.
+		/// </summary>
+		public IndexDefinition IndexDefinition
+		{
+			get { return indexDefinition; }
+		}
+		/// <summary>
+		/// Gets the <see cref="TypeMapping"/> on which this search will be executed.
+		/// </summary>
+		public TypeMapping TypeMapping
+		{
+			get { return typeMapping; }
+		}
 		#endregion
 		#region Json Mapping Properties
 		[JsonProperty("query")]
@@ -65,8 +100,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 		#region Private Fields
 		private readonly FacetDescriptor facetDescriptor = new FacetDescriptor();
 		private readonly FilterDescriptor filterDescriptor = new FilterDescriptor();
+		private readonly IndexDefinition indexDefinition;
 		private readonly QueryDescriptor queryDescriptor = new QueryDescriptor();
 		private readonly SortDescriptor sortDescriptor = new SortDescriptor();
+		private readonly TypeMapping typeMapping;
 		#endregion
 	}
 }

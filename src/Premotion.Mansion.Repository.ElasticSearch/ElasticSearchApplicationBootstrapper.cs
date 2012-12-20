@@ -31,7 +31,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch
 			nucleus.Register(resolver => new ConnectionManager());
 			nucleus.Register(resolver => new IndexDefinitionResolver(resolver.ResolveSingle<ITypeService>()));
 			nucleus.Register(resolver => new Indexer(resolver.ResolveSingle<ConnectionManager>(), resolver.ResolveSingle<IndexDefinitionResolver>()));
-			nucleus.Register(resolver => new Searcher(resolver.ResolveSingle<ConnectionManager>(), resolver.ResolveSingle<IndexDefinitionResolver>()));
+			nucleus.Register(resolver => new Searcher(resolver.ResolveSingle<ConnectionManager>(), resolver.ResolveSingle<IndexDefinitionResolver>(), resolver.Resolve<IQueryComponentMapper>()));
 		}
 		#endregion
 	}
