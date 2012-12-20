@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Premotion.Mansion.Core.Data.Queries.Specifications
 {
@@ -21,6 +22,16 @@ namespace Premotion.Mansion.Core.Data.Queries.Specifications
 
 			// set value
 			PropertyName = propertyName;
+		}
+		#endregion
+		#region Overrides of Specification
+		/// <summary>
+		/// Gets the names of the properties used by this query component.
+		/// </summary>
+		/// <returns>Returns the property hints.</returns>
+		protected override IEnumerable<string> DoGetPropertyHints()
+		{
+			return new[] {PropertyName};
 		}
 		#endregion
 		#region Properties
