@@ -23,14 +23,21 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Filters
 			{
 				writer.WriteStartObject();
 
-				// writer the inner filter
+				// writer the operation
 				writer.WritePropertyName(value.op);
+				
+				// write the filters
+				writer.WriteStartObject();
+				writer.WritePropertyName("filters");
 				writer.WriteStartArray();
 				foreach (var filter in value.filterList)
 					serializer.Serialize(writer, filter);
 				writer.WriteEndArray();
 
+				// write other content
 				WriteObjectContent(writer, value, serializer);
+				
+				writer.WriteEndObject();
 				writer.WriteEndObject();
 			}
 			#endregion
@@ -57,16 +64,16 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Filters
 		/// </summary>
 		/// <param name="filters">The <see cref="BaseFilter"/> which to add.</param>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="filters"/> is null.</exception>
-		public void Add(params BaseFilter[] filters)
+		public CompositeFilter Add(params BaseFilter[] filters)
 		{
-			Add((IEnumerable<BaseFilter>) filters);
+			return Add((IEnumerable<BaseFilter>) filters);
 		}
 		/// <summary>
 		/// Adds a <see cref="BaseFilter"/> to this composite filter.
 		/// </summary>
 		/// <param name="filters">The <see cref="BaseFilter"/> which to add.</param>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="filters"/> is null.</exception>
-		public void Add(IEnumerable<BaseFilter> filters)
+		public CompositeFilter Add(IEnumerable<BaseFilter> filters)
 		{
 			// validate arguments
 			if (filters == null)
@@ -77,6 +84,9 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Filters
 
 			// only cachable if all the children are cachable
 			Cache = filterList.All(filter => filter.Cache);
+
+			// allow chaining
+			return this;
 		}
 		#endregion
 		#region Private Fields
