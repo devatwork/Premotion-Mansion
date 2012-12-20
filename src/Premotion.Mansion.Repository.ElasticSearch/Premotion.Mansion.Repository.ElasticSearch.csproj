@@ -61,9 +61,13 @@
     <Compile Include="Querying\FacetDescriptor.cs" />
     <Compile Include="Querying\Facets\BaseFacet.cs" />
     <Compile Include="Querying\Filters\BaseFilter.cs" />
+    <Compile Include="Responses\BaseResponse.cs" />
+    <Compile Include="Responses\Hit.cs" />
+    <Compile Include="Responses\HitMetaData.cs" />
     <Compile Include="Querying\IQueryComponentMapper.cs" />
     <Compile Include="Querying\Queries\BaseQuery.cs" />
     <Compile Include="Querying\QueryComponentMapper.cs" />
+    <Compile Include="Responses\SearchResponse.cs" />
     <Compile Include="Querying\Sorts\BaseSort.cs" />
     <Compile Include="Querying\FilterDescriptor.cs" />
     <Compile Include="Querying\SearchDescriptor.cs" />
@@ -96,6 +100,7 @@
     <None Include="Querying\Queries\Queries.cd" />
     <None Include="Querying\Querying.cd" />
     <None Include="Querying\Sorts\Sorts.cd" />
+    <None Include="Responses\Responses.cd" />
     <None Include="Schema\Descriptors\repository.elasticsearch.descriptors.xsd">
       <SubType>Designer</SubType>
     </None>

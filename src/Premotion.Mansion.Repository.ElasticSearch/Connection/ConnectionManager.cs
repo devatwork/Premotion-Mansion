@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Linq;
 using System.Net;
+using Premotion.Mansion.Repository.ElasticSearch.Responses;
 using RestSharp;
 using RestSharp.Serializers;
 
@@ -36,6 +37,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		/// <param name="validHttpStatusCodes">Specifies which <see cref="HttpStatusCode"/>s are valid. Leave null for 200 - OK.</param>
 		/// <returns>Returns the <see cref="IRestResponse"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="resource"/> is null.</exception>
+		/// <exception cref="ConnectionException">Thrown if the request did not result in the expected <paramref name="validHttpStatusCodes"/>.</exception>
 		public IRestResponse Head(string resource, HttpStatusCode[] validHttpStatusCodes = null)
 		{
 			// validate arguments
@@ -52,6 +54,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		/// <param name="validHttpStatusCodes">Specifies which <see cref="HttpStatusCode"/>s are valid. Leave null for 200 - OK.</param>
 		/// <returns>Returns the <see cref="IRestResponse"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="resource"/> is null.</exception>
+		/// <exception cref="ConnectionException">Thrown if the request did not result in the expected <paramref name="validHttpStatusCodes"/>.</exception>
 		public IRestResponse Put(string resource, object obj, HttpStatusCode[] validHttpStatusCodes = null)
 		{
 			// validate arguments
@@ -68,12 +71,38 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 			                         }, validHttpStatusCodes);
 		}
 		/// <summary>
+		/// Executes a POST request on the given <paramref name="resource"/>.
+		/// </summary>
+		/// <typeparam name="TResponse">The <see cref="BaseResponse"/> type.</typeparam>
+		/// <param name="resource">The resource on which to execute the request.</param>
+		/// <param name="obj">The object which to add to the body of the request.</param>
+		/// <param name="validHttpStatusCodes">Specifies which <see cref="HttpStatusCode"/>s are valid. Leave null for 200 - OK.</param>
+		/// <returns>Returns the <typeparamref name="TResponse"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="resource"/> is null.</exception>
+		/// <exception cref="ConnectionException">Thrown if the request did not result in the expected <paramref name="validHttpStatusCodes"/>.</exception>
+		public TResponse Post<TResponse>(string resource, object obj, HttpStatusCode[] validHttpStatusCodes = null) where TResponse : BaseResponse, new()
+		{
+			// validate arguments
+			if (resource == null)
+				throw new ArgumentNullException("resource");
+			if (obj == null)
+				throw new ArgumentNullException("obj");
+
+			// execute the request
+			return Execute<TResponse>(resource, request =>
+			                                    {
+			                                    	request.Method = Method.POST;
+			                                    	request.AddBody(obj);
+			                                    }, validHttpStatusCodes).Data;
+		}
+		/// <summary>
 		/// Executes a DELETE request on the given <paramref name="resource"/>.
 		/// </summary>
 		/// <param name="resource">The resource on which to execute the request.</param>
 		/// <param name="validHttpStatusCodes">Specifies which <see cref="HttpStatusCode"/>s are valid. Leave null for 200 - OK.</param>
 		/// <returns>Returns the <see cref="IRestResponse"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="resource"/> is null.</exception>
+		/// <exception cref="ConnectionException">Thrown if the request did not result in the expected <paramref name="validHttpStatusCodes"/>.</exception>
 		public IRestResponse Delete(string resource, HttpStatusCode[] validHttpStatusCodes = null)
 		{
 			// validate arguments
@@ -89,7 +118,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		/// <param name="requestConfigurator">Action which configurates the <see cref="IRestRequest"/>.</param>
 		/// <param name="validHttpStatusCodes">Defines the valid status codes.</param>
 		/// <returns>Returns the <see cref="IRestResponse"/> of the request.</returns>
-		/// <exception cref="ConnectionException">Thrown if the request did not result in 200 - OK.</exception>
+		/// <exception cref="ConnectionException">Thrown if the request did not result in the expected <paramref name="validHttpStatusCodes"/>.</exception>
 		private IRestResponse Execute(string resource, Action<IRestRequest> requestConfigurator, HttpStatusCode[] validHttpStatusCodes = null)
 		{
 			// create the request
@@ -103,6 +132,36 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 
 			// execute the request
 			var response = client.Execute(request);
+
+			// error handling
+			if ((validHttpStatusCodes == null && response.StatusCode != HttpStatusCode.OK) || (validHttpStatusCodes != null && validHttpStatusCodes.All(candidate => candidate != response.StatusCode)))
+				throw new ConnectionException("Invalid ElasticSearch request", request, response);
+
+			// return the response
+			return response;
+		}
+		/// <summary>
+		/// Executes a request on ElasticSearch.
+		/// </summary>
+		/// <typeparam name="TResponse">The <see cref="BaseResponse"/> type.</typeparam>
+		/// <param name="resource">The resource on which to execute the request.</param>
+		/// <param name="requestConfigurator">Action which configurates the <see cref="IRestRequest"/>.</param>
+		/// <param name="validHttpStatusCodes">Defines the valid status codes.</param>
+		/// <returns>Returns the <see cref="IRestResponse"/> of the request.</returns>
+		/// <exception cref="ConnectionException">Thrown if the request did not result in the expected <paramref name="validHttpStatusCodes"/>.</exception>
+		private IRestResponse<TResponse> Execute<TResponse>(string resource, Action<IRestRequest> requestConfigurator, HttpStatusCode[] validHttpStatusCodes = null) where TResponse : BaseResponse, new()
+		{
+			// create the request
+			var request = new RestRequest(resource)
+			              {
+			              	RequestFormat = DataFormat.Json,
+			              	JsonSerializer = serializer
+			              };
+
+			requestConfigurator(request);
+
+			// execute the request
+			var response = client.Execute<TResponse>(request);
 
 			// error handling
 			if ((validHttpStatusCodes == null && response.StatusCode != HttpStatusCode.OK) || (validHttpStatusCodes != null && validHttpStatusCodes.All(candidate => candidate != response.StatusCode)))

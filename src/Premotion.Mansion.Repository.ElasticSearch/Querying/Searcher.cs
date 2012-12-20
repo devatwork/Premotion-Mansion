@@ -7,6 +7,7 @@ using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Patterns.Voting;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.ElasticSearch.Connection;
+using Premotion.Mansion.Repository.ElasticSearch.Responses;
 using Premotion.Mansion.Repository.ElasticSearch.Schema;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Querying
@@ -41,11 +42,13 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 		#endregion
 		#region Search Methods
 		/// <summary>
-		/// TODO
+		/// Performs a search using the specified <paramref name="query"/>.
 		/// </summary>
-		/// <param name="context"></param>
-		/// <param name="query"></param>
-		/// <returns></returns>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="Query"/> on which to search.</param>
+		/// <returns>Returns the resulting <see cref="RecordSet"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		/// <exception cref="ConnectionException">Thrown if a error occurred while executing the search query.</exception>
 		public RecordSet Search(IMansionContext context, Query query)
 		{
 			// validate arguments
@@ -70,8 +73,34 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 			foreach (var component in query.Components)
 				converters.Elect(context, component).Map(context, query, component, search);
 
-			// TODO: execute the query
-			throw new System.NotImplementedException();
+			// execute the query
+			return Search(context, search);
+		}
+		/// <summary>
+		/// Performs a search using the specified <paramref name="search"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="search">The <see cref="Query"/> on which to search.</param>
+		/// <returns>Returns the resulting <see cref="RecordSet"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		/// <exception cref="ConnectionException">Thrown if a error occurred while executing the search query.</exception>
+		public RecordSet Search(IMansionContext context, SearchDescriptor search)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (search == null)
+				throw new ArgumentNullException("search");
+
+			// build the resource
+			var resource = search.IndexDefinition.Name + "/_search";
+
+			// execute the search
+			var response = connectionManager.Post<SearchResponse>(resource, search);
+
+			// TODO: map the hits to recordset
+
+			throw new NotImplementedException("total: " + response.Hits.Total);
 		}
 		/// <summary>
 		/// Selects the best <see cref="IndexDefinition"/> for the given <paramref name="query"/>.
