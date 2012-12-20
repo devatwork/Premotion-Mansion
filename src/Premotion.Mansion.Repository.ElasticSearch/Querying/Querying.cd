@@ -1,41 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.FacetDescriptor">
-    <Position X="9.5" Y="4" Width="1.5" />
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.SearchQuery">
+    <Position X="1.25" Y="4.25" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.SearchQuery.SearchQueryConverter" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Querying\SearchQuery.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Querying\FacetDescriptor.cs</FileName>
+      <HashCode>AAIAAAAAAAAAgAAAAAAAAAAAQAAAAEAAAAEAAAABAAA=</HashCode>
+      <FileName>Querying\SearchQuery.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.QueryDescriptor">
-    <Position X="9.5" Y="6" Width="1.5" />
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.BaseConverter&lt;TType&gt;">
+    <Position X="5.5" Y="2.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Querying\QueryDescriptor.cs</FileName>
+      <HashCode>AAAAAAAAAQQAAAAAEAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Querying\BaseConverter.cs</FileName>
     </TypeIdentifier>
-  </Class>
-  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.FilterDescriptor">
-    <Position X="4.5" Y="6" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Querying\FilterDescriptor.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.SearchDescriptor">
-    <Position X="6.75" Y="2.5" Width="2" />
-    <TypeIdentifier>
-      <HashCode>EgBgAAAAAAAAAAAACIAAAAYAQAAAgEVAAAEAAAABAAA=</HashCode>
-      <FileName>Querying\SearchDescriptor.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Queries" />
-      <Property Name="Sorts" />
-      <Property Name="Filters" />
-      <Property Name="Facets" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Searcher">
-    <Position X="1.25" Y="6.25" Width="2" />
+    <Position X="9.25" Y="2.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AIAAAAAAAAgAAAAAAAAAAACAAAAAAAAAAAAAAAAggAA=</HashCode>
       <FileName>Querying\Searcher.cs</FileName>
@@ -44,30 +31,8 @@
       <Field Name="converters" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.SortDescriptor">
-    <Position X="9.5" Y="2" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Querying\SortDescriptor.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.QueryComponentMapper&lt;TQueryComponent&gt;">
-    <Position X="0.75" Y="0.5" Width="3" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAABAAAAAAAAAAAAQAAAAAAAAAAAAAAAABAAA=</HashCode>
-      <FileName>Querying\QueryComponentMapper.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.SpecificationQueryComponentMapper">
-    <Position X="0.5" Y="2.75" Width="3.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAQAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Querying\SpecificationQueryComponentMapper.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Interface Name="Premotion.Mansion.Repository.ElasticSearch.Querying.IQueryComponentMapper">
-    <Position X="1.75" Y="9.75" Width="2" />
+    <Position X="5" Y="6.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\IQueryComponentMapper.cs</FileName>
