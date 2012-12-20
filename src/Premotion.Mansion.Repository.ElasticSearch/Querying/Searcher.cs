@@ -101,7 +101,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 
 			// TODO: map the hits to recordset
 
-			throw new NotImplementedException("total: " + response.Hits.Total + "\r\n\r\n" + JsonConvert.SerializeObject(searchQuery, Formatting.Indented));
+			throw new NotImplementedException("count: " + response.Hits.Hits.Count + ", total: " + response.Hits.Total + "\r\n\r\n" + JsonConvert.SerializeObject(searchQuery, Formatting.Indented));
 		}
 		/// <summary>
 		/// Selects the best <see cref="IndexDefinition"/> for the given <paramref name="query"/>.

@@ -69,9 +69,11 @@
     <Compile Include="Querying\Mappers\AllowedRolesSpecificationMapper.cs" />
     <Compile Include="Querying\Filters\BaseFilter.cs" />
     <Compile Include="Querying\Mappers\CacheQueryComponentMapper.cs" />
+    <Compile Include="Querying\Mappers\LimitQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\IsPropertyInSpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\IsPropertyEqualSpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\ISpecificationMapper.cs" />
+    <Compile Include="Querying\Mappers\PagingQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\SortQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\SpecificationQueryComponentMapper.cs" />
     <Compile Include="Querying\Sorts\FieldSort.cs" />

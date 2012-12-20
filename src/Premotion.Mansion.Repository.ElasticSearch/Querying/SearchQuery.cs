@@ -50,6 +50,18 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 					writer.WriteEndArray();
 				}
 
+				// write paging options
+				if (value.From.HasValue)
+				{
+					writer.WritePropertyName("from");
+					writer.WriteValue(value.From);
+				}
+				if (value.Size.HasValue)
+				{
+					writer.WritePropertyName("size");
+					writer.WriteValue(value.Size);
+				}
+
 				writer.WriteEndObject();
 			}
 			#endregion
@@ -120,6 +132,16 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 		{
 			get { return typeMapping; }
 		}
+		/// <summary>
+		/// The record from which to start returning results.
+		/// </summary>
+		/// <remarks>Defaults to 0.</remarks>
+		public int? From { get; set; }
+		/// <summary>
+		/// The number of results which to get.
+		/// </summary>
+		/// <remarks>Defaults to 10</remarks>
+		public int? Size { get; set; }
 		#endregion
 		#region Private Fields
 		private readonly List<BaseFilter> filterList = new List<BaseFilter>();
