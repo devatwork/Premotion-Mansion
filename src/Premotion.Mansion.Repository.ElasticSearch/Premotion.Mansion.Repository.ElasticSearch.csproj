@@ -68,6 +68,7 @@
     <Compile Include="Querying\Mappers\AllowedRolesSpecificationMapper.cs" />
     <Compile Include="Querying\Filters\BaseFilter.cs" />
     <Compile Include="Querying\Mappers\CacheQueryComponentMapper.cs" />
+    <Compile Include="Querying\Mappers\IsPropertyEqualSpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\ISpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\SortQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\SpecificationQueryComponentMapper.cs" />
