@@ -3,6 +3,7 @@ using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.ElasticSearch.Connection;
 using Premotion.Mansion.Repository.ElasticSearch.Indexing;
+using Premotion.Mansion.Repository.ElasticSearch.Quering;
 using Premotion.Mansion.Repository.ElasticSearch.Schema;
 
 namespace Premotion.Mansion.Repository.ElasticSearch
@@ -30,6 +31,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch
 			nucleus.Register(resolver => new ConnectionManager());
 			nucleus.Register(resolver => new IndexDefinitionResolver(resolver.ResolveSingle<ITypeService>()));
 			nucleus.Register(resolver => new Indexer(resolver.ResolveSingle<ConnectionManager>(), resolver.ResolveSingle<IndexDefinitionResolver>()));
+			nucleus.Register(resolver => new Searcher(resolver.ResolveSingle<ConnectionManager>(), resolver.ResolveSingle<IndexDefinitionResolver>()));
 		}
 		#endregion
 	}

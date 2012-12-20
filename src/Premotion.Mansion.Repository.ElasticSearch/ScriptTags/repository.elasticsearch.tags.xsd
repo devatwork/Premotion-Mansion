@@ -12,4 +12,18 @@
 		</xs:annotation>
 	</xs:element>
 
+	<xs:element name="search" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Performans a search query on ElasticSearch.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="stl:retrieveTagType">
+					<!-- attributes -->
+					<xs:anyAttribute namespace="##any" processContents="skip" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
 </xs:schema>

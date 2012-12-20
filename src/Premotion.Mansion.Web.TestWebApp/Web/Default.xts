@@ -2,6 +2,11 @@
 <mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
 
 	<!-- bootstrap the dispatcher and dispatch the request -->
-	<es:reindex xmlns:es="http://schemas.premotion.nl/mansion/1.0/elasticsearch.tags.xsd" />
+	<es:search xmlns:es="http://schemas.premotion.nl/mansion/1.0/elasticsearch.tags.xsd" type="Root" target="Results">
+		<throw message="Found {Results.totalCount} results"/>
+		<notFound>
+			<throw message="No results found!" />
+		</notFound>
+	</es:search>
 	
 </mansion>

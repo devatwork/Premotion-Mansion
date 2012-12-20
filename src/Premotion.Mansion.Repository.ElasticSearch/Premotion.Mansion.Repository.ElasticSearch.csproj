@@ -58,6 +58,7 @@
     <Compile Include="Connection\ElasticSearchJsonSerializer.cs" />
     <Compile Include="Indexing\Indexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Quering\Searcher.cs" />
     <Compile Include="Schema\MultiValuedPropertyMapping.cs" />
     <Compile Include="Schema\Descriptors\MultiValuedPropertyMappingDescriptor.cs" />
     <Compile Include="Schema\Descriptors\IndexDescriptor.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Schema\SimplePropertyMapping.cs" />
     <Compile Include="Schema\TypeMapping.cs" />
     <Compile Include="Schema\TypeMappingSource.cs" />
+    <Compile Include="ScriptTags\SearchTag.cs" />
     <Compile Include="ScriptTags\ReindexTag.cs" />
   </ItemGroup>
   <ItemGroup>
