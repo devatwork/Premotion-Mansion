@@ -86,7 +86,7 @@ namespace Premotion.Mansion.Core.Templating.Html
 
 					// loop through all the sections
 					var sections = (from rawSection in sectionTokenizer.Tokenize(context, rawTemplate)
-					                let interpreter = Election<IMansionContext, SectionInterpreter, string>.Elect(context, interpreters, rawSection)
+					                let interpreter = Election<SectionInterpreter, string>.Elect(context, interpreters, rawSection)
 					                select interpreter.Interpret(context, rawSection)
 					               ).ToList();
 

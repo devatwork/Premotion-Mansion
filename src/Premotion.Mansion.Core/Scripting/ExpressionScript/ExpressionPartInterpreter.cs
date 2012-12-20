@@ -9,7 +9,7 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 	/// Implements the base class for expression part interpreters.
 	/// </summary>
 	[Exported(typeof (ExpressionPartInterpreter))]
-	public abstract class ExpressionPartInterpreter : IVotingInterpreter<IMansionContext, string, IExpressionScript>
+	public abstract class ExpressionPartInterpreter : IVotingInterpreter<string, IExpressionScript>
 	{
 		#region Implementation of ICandidate<string>
 		/// <summary>

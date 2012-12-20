@@ -90,7 +90,7 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 			foreach (var token in tokenizer.Tokenize(context, rawPhrase))
 			{
 				// get the interpreter for this input
-				var interpreter = Election<IMansionContext, ExpressionPartInterpreter, string>.Elect(context, interpreters, token);
+				var interpreter = Election<ExpressionPartInterpreter, string>.Elect(context, interpreters, token);
 
 				// interpret the token
 				phrase.Add(interpreter.Interpret(context, token));
