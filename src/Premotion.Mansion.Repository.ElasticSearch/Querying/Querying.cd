@@ -66,26 +66,11 @@
       <FileName>Querying\SpecificationQueryComponentMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.BaseSpecificationMapper&lt;TSpecification&gt;" Collapsed="true">
-    <Position X="12" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAABAAAAAAAAAAAAQAAAAAAAAAAAAAAAABAAA=</HashCode>
-      <FileName>Querying\BaseSpecificationMapper.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
   <Interface Name="Premotion.Mansion.Repository.ElasticSearch.Querying.IQueryComponentMapper">
     <Position X="1.75" Y="9.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\IQueryComponentMapper.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="Premotion.Mansion.Repository.ElasticSearch.Querying.ISpecificationMapper" Collapsed="true">
-    <Position X="12" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Querying\ISpecificationMapper.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />

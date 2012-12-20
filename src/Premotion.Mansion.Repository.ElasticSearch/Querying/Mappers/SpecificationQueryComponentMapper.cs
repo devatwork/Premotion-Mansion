@@ -5,7 +5,7 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Patterns.Voting;
 
-namespace Premotion.Mansion.Repository.ElasticSearch.Querying
+namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 {
 	/// <summary>
 	/// Maps <see cref="SpecificationQueryComponent"/>s.
@@ -30,15 +30,15 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 		#endregion
 		#region Overrides of QueryComponentMapper<SpecificationQueryComponent>
 		/// <summary>
-		/// Maps the given <paramref name="component"/> to the <paramref name="search"/>.
+		/// Maps the given <paramref name="component"/> to the <paramref name="searchQuery"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="query">The source <see cref="Query"/> being mapped.</param>
 		/// <param name="component">The source <see cref="QueryComponent"/> being mapped.</param>
-		/// <param name="search">The <see cref="SearchDescriptor"/> to which to map <paramref name="component"/>.</param>
-		protected override void DoMap(IMansionContext context, Query query, SpecificationQueryComponent component, SearchDescriptor search)
+		/// <param name="searchQuery">The <see cref="SearchQuery"/> to which to map <paramref name="component"/>.</param>
+		protected override void DoMap(IMansionContext context, Query query, SpecificationQueryComponent component, SearchQuery searchQuery)
 		{
-			mappers.Elect(context, component.Specification).Map(context, query, component.Specification, search);
+			mappers.Elect(context, component.Specification).Map(context, query, component.Specification, searchQuery);
 		}
 		#endregion
 		#region Private Fields

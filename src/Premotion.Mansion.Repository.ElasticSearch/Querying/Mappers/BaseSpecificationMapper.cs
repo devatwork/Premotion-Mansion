@@ -5,7 +5,7 @@ using Premotion.Mansion.Core.Data.Queries.Specifications;
 using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Patterns.Voting;
 
-namespace Premotion.Mansion.Repository.ElasticSearch.Querying
+namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 {
 	/// <summary>
 	/// Base class for <see cref="ISpecificationMapper"/>.
@@ -32,14 +32,14 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 			return subject is TSpecification ? VoteResult.MediumInterest : VoteResult.Refrain;
 		}
 		/// <summary>
-		/// Maps the given <paramref name="specification"/> to the <paramref name="search"/>.
+		/// Maps the given <paramref name="specification"/> to the <paramref name="searchQuery"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="query">The source <see cref="Query"/> being mapped.</param>
 		/// <param name="specification">The source <see cref="Specification"/> being mapped.</param>
-		/// <param name="search">The <see cref="SearchDescriptor"/> to which to map <paramref name="specification"/>.</param>
+		/// <param name="searchQuery">The <see cref="SearchQuery"/> to which to map <paramref name="specification"/>.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public void Map(IMansionContext context, Query query, Specification specification, SearchDescriptor search)
+		public void Map(IMansionContext context, Query query, Specification specification, SearchQuery searchQuery)
 		{
 			// validate arguments
 			if (context == null)
@@ -48,20 +48,20 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 				throw new ArgumentNullException("query");
 			if (specification == null)
 				throw new ArgumentNullException("specification");
-			if (search == null)
-				throw new ArgumentNullException("search");
+			if (searchQuery == null)
+				throw new ArgumentNullException("searchQuery");
 
 			// Invoke template method
-			DoMap(context, query, (TSpecification) specification, search);
+			DoMap(context, query, (TSpecification) specification, searchQuery);
 		}
 		/// <summary>
-		/// Maps the given <paramref name="specification"/> to the <paramref name="search"/>.
+		/// Maps the given <paramref name="specification"/> to the <paramref name="searchQuery"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="query">The source <see cref="Query"/> being mapped.</param>
 		/// <param name="specification">The source <see cref="Specification"/> being mapped.</param>
-		/// <param name="search">The <see cref="SearchDescriptor"/> to which to map <paramref name="specification"/>.</param>
-		protected abstract void DoMap(IMansionContext context, Query query, TSpecification specification, SearchDescriptor search);
+		/// <param name="searchQuery">The <see cref="SearchQuery"/> to which to map <paramref name="specification"/>.</param>
+		protected abstract void DoMap(IMansionContext context, Query query, TSpecification specification, SearchQuery searchQuery);
 		#endregion
 	}
 }

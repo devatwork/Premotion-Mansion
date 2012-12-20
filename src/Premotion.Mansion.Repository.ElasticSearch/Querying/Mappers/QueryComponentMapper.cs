@@ -4,7 +4,7 @@ using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Patterns.Voting;
 
-namespace Premotion.Mansion.Repository.ElasticSearch.Querying
+namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 {
 	/// <summary>
 	/// Base class for type <see cref="IQueryComponentMapper"/>s
@@ -15,14 +15,14 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 	{
 		#region Implementation of IQueryComponentConverter
 		/// <summary>
-		/// Maps the given <paramref name="component"/> to the <paramref name="search"/>.
+		/// Maps the given <paramref name="component"/> to the <paramref name="searchQuery"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="query">The source <see cref="Query"/> being mapped.</param>
 		/// <param name="component">The source <see cref="QueryComponent"/> being mapped.</param>
-		/// <param name="search">The <see cref="SearchDescriptor"/> to which to map <paramref name="component"/>.</param>
+		/// <param name="searchQuery">The <see cref="SearchQuery"/> to which to map <paramref name="component"/>.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public void Map(IMansionContext context, Query query, QueryComponent component, SearchDescriptor search)
+		public void Map(IMansionContext context, Query query, QueryComponent component, SearchQuery searchQuery)
 		{
 			// validate arguments
 			if (context == null)
@@ -31,20 +31,20 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 				throw new ArgumentNullException("query");
 			if (component == null)
 				throw new ArgumentNullException("component");
-			if (search == null)
-				throw new ArgumentNullException("search");
+			if (searchQuery == null)
+				throw new ArgumentNullException("searchQuery");
 
 			// Invoke template method
-			DoMap(context, query, (TQueryComponent) component, search);
+			DoMap(context, query, (TQueryComponent) component, searchQuery);
 		}
 		/// <summary>
-		/// Maps the given <paramref name="component"/> to the <paramref name="search"/>.
+		/// Maps the given <paramref name="component"/> to the <paramref name="searchQuery"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="query">The source <see cref="Query"/> being mapped.</param>
 		/// <param name="component">The source <see cref="QueryComponent"/> being mapped.</param>
-		/// <param name="search">The <see cref="SearchDescriptor"/> to which to map <paramref name="component"/>.</param>
-		protected abstract void DoMap(IMansionContext context, Query query, TQueryComponent component, SearchDescriptor search);
+		/// <param name="searchQuery">The <see cref="SearchQuery"/> to which to map <paramref name="component"/>.</param>
+		protected abstract void DoMap(IMansionContext context, Query query, TQueryComponent component, SearchQuery searchQuery);
 		#endregion
 		#region Implementation of ICandidate<in QueryComponent>
 		/// <summary>

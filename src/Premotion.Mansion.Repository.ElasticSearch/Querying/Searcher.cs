@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Queries;
@@ -67,7 +68,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 			var indexDefinitionTypeMappingPair = SelectBestIndexForQuery(rootType, query, indexDefinitions);
 
 			// create a search descriptor
-			var search = new SearchDescriptor(indexDefinitionTypeMappingPair.Item1, indexDefinitionTypeMappingPair.Item2);
+			var search = new SearchQuery(indexDefinitionTypeMappingPair.Item1, indexDefinitionTypeMappingPair.Item2);
 
 			// map all the query components to the search descriptor
 			foreach (var component in query.Components)
@@ -77,30 +78,30 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 			return Search(context, search);
 		}
 		/// <summary>
-		/// Performs a search using the specified <paramref name="search"/>.
+		/// Performs a search using the specified <paramref name="searchQuery"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="search">The <see cref="Query"/> on which to search.</param>
+		/// <param name="searchQuery">The <see cref="Query"/> on which to search.</param>
 		/// <returns>Returns the resulting <see cref="RecordSet"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
 		/// <exception cref="ConnectionException">Thrown if a error occurred while executing the search query.</exception>
-		public RecordSet Search(IMansionContext context, SearchDescriptor search)
+		public RecordSet Search(IMansionContext context, SearchQuery searchQuery)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
-			if (search == null)
-				throw new ArgumentNullException("search");
+			if (searchQuery == null)
+				throw new ArgumentNullException("searchQuery");
 
 			// build the resource
-			var resource = search.IndexDefinition.Name + "/_search";
+			var resource = searchQuery.IndexDefinition.Name + "/_search";
 
 			// execute the search
-			var response = connectionManager.Post<SearchResponse>(resource, search);
+			var response = connectionManager.Post<SearchResponse>(resource, searchQuery);
 
 			// TODO: map the hits to recordset
 
-			throw new NotImplementedException("total: " + response.Hits.Total);
+			throw new NotImplementedException("total: " + response.Hits.Total + "\r\n\r\n" + JsonConvert.SerializeObject(searchQuery, Formatting.Indented));
 		}
 		/// <summary>
 		/// Selects the best <see cref="IndexDefinition"/> for the given <paramref name="query"/>.

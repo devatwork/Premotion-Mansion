@@ -1,16 +1,14 @@
-using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data.Queries;
-using Premotion.Mansion.Core.Patterns.Voting;
 
-namespace Premotion.Mansion.Repository.ElasticSearch.Querying
+namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 {
 	/// <summary>
-	/// Maps <see cref="QueryComponent"/> to <see cref="SearchQuery"/>.
+	/// Maps <see cref="CacheQueryComponent"/>s.
 	/// </summary>
-	public interface IQueryComponentMapper : ICandidate<QueryComponent>
+	public class CacheQueryComponentMapper : QueryComponentMapper<CacheQueryComponent>
 	{
-		#region Map Methods
+		#region Overrides of QueryComponentMapper<CacheQueryComponent>
 		/// <summary>
 		/// Maps the given <paramref name="component"/> to the <paramref name="searchQuery"/>.
 		/// </summary>
@@ -18,8 +16,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 		/// <param name="query">The source <see cref="Query"/> being mapped.</param>
 		/// <param name="component">The source <see cref="QueryComponent"/> being mapped.</param>
 		/// <param name="searchQuery">The <see cref="SearchQuery"/> to which to map <paramref name="component"/>.</param>
-		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		void Map(IMansionContext context, Query query, QueryComponent component, SearchQuery searchQuery);
+		protected override void DoMap(IMansionContext context, Query query, CacheQueryComponent component, SearchQuery searchQuery)
+		{
+			// do nothing
+		}
 		#endregion
 	}
 }
