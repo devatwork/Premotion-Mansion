@@ -2,7 +2,7 @@
 <mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
 
 	<!-- bootstrap the dispatcher and dispatch the request -->
-	<es:search xmlns:es="http://schemas.premotion.nl/mansion/1.0/elasticsearch.tags.xsd" target="Results">
+	<es:search xmlns:es="http://schemas.premotion.nl/mansion/1.0/elasticsearch.tags.xsd" sort="name DESC" target="Results">
 		<throw message="Found {Results.totalCount} results"/>
 		<notFound>
 			<throw message="No results found!" />

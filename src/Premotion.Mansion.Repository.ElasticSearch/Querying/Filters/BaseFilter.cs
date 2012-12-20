@@ -9,7 +9,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Filters
 	{
 		#region Nested type: BaseFilterConverter
 		/// <summary>
-		/// Converts <see cref="SearchQuery"/>s.
+		/// Converts <see cref="BaseFilter"/>s.
 		/// </summary>
 		protected abstract class BaseFilterConverter<TFilter> : BaseConverter<TFilter> where TFilter : BaseFilter
 		{

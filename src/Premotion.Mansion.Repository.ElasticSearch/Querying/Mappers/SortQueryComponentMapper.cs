@@ -1,6 +1,7 @@
-using System;
+using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data.Queries;
+using Premotion.Mansion.Repository.ElasticSearch.Querying.Sorts;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 {
@@ -19,6 +20,8 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 		/// <param name="searchQuery">The <see cref="SearchQuery"/> to which to map <paramref name="component"/>.</param>
 		protected override void DoMap(IMansionContext context, Query query, SortQueryComponent component, SearchQuery searchQuery)
 		{
+			foreach (var sort in component.Sorts.Select(sort => new FieldSort(sort)))
+				searchQuery.Add(sort);
 		}
 		#endregion
 	}

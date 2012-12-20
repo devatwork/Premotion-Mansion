@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Premotion.Mansion.Repository.ElasticSearch.Querying.Filters;
+using Premotion.Mansion.Repository.ElasticSearch.Querying.Sorts;
 using Premotion.Mansion.Repository.ElasticSearch.Schema;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Querying
@@ -12,7 +13,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 	[JsonConverter(typeof (SearchQueryConverter))]
 	public class SearchQuery
 	{
-		#region Nested type: SearchDescriptorConverter
+		#region Nested type: SearchQueryConverter
 		/// <summary>
 		/// Converts <see cref="SearchQuery"/>s.
 		/// </summary>
@@ -28,13 +29,22 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 				writer.WriteStartObject();
 
 				// write the filter
-				var filters = value.filterList;
-				if (filters.Count > 0)
+				if (value.filterList.Count > 0)
 				{
 					writer.WritePropertyName("filter");
 					writer.WriteStartArray();
-					foreach (var filter in filters)
+					foreach (var filter in value.filterList)
 						serializer.Serialize(writer, filter);
+					writer.WriteEndArray();
+				}
+
+				// write the sort
+				if (value.sortList.Count > 0)
+				{
+					writer.WritePropertyName("sort");
+					writer.WriteStartArray();
+					foreach (var sort in value.sortList)
+						serializer.Serialize(writer, sort);
 					writer.WriteEndArray();
 				}
 
@@ -78,6 +88,20 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 			// add the filter
 			filterList.Add(filter);
 		}
+		/// <summary>
+		/// Adds the <paramref name="sort"/>.
+		/// </summary>
+		/// <param name="sort">The <see cref="BaseSort"/> which to add.</param>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="sort"/> is null.</exception>
+		public void Add(BaseSort sort)
+		{
+			// validate arguments
+			if (sort == null)
+				throw new ArgumentNullException("sort");
+
+			// add the sort
+			sortList.Add(sort);
+		}
 		#endregion
 		#region Properties
 		/// <summary>
@@ -98,6 +122,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 		#region Private Fields
 		private readonly List<BaseFilter> filterList = new List<BaseFilter>();
 		private readonly IndexDefinition indexDefinition;
+		private readonly List<BaseSort> sortList = new List<BaseSort>();
 		private readonly TypeMapping typeMapping;
 		#endregion
 	}
