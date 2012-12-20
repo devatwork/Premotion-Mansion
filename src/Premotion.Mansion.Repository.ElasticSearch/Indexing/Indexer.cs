@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
@@ -122,7 +121,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 			foreach (var indexDefinition in indexDefinitions)
 			{
 				// find the mapper for this record
-				var mapping = indexDefinition.Mappings.Values.First(candidate => candidate.Name.Equals(record.Type, StringComparison.OrdinalIgnoreCase));
+				var mapping = indexDefinition.FindTypeMapping(record.Type);
 
 				// transform the record into a document
 				var document = mapping.Transform(context, record);

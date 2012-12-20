@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Premotion.Mansion.Repository.ElasticSearch.Schema;
 
 namespace Premotion.Mansion.Repository.ElasticSearch
 {
@@ -8,6 +9,28 @@ namespace Premotion.Mansion.Repository.ElasticSearch
 	/// </summary>
 	public static class Extensions
 	{
+		#region IndexDefinition Extensions
+		/// <summary>
+		/// Finds the <see cref="TypeMapping"/> of the given <paramref name="typeName"/> in the <paramref name="indexDefinition"/>.
+		/// </summary>
+		/// <param name="indexDefinition">The <see cref="IndexDefinition"/> in which to look for the <see cref="TypeMapping"/>.</param>
+		/// <param name="typeName">The name of the type for which to look.</param>
+		/// <returns>Returns the found <see cref="TypeMapping"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		/// <exception cref="InvalidOperationException">Thrown if the type mapping for <paramref name="typeName"/> was not found in <paramref name="indexDefinition"/>.</exception>
+		public static TypeMapping FindTypeMapping(this IndexDefinition indexDefinition, string typeName)
+		{
+			// validate arguments
+			if (indexDefinition == null)
+				throw new ArgumentNullException("indexDefinition");
+			if (string.IsNullOrEmpty(typeName))
+				throw new ArgumentNullException("typeName");
+
+			// find the mapping
+			return indexDefinition.Mappings.Values.First(candidate => candidate.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase));
+		}
+		#endregion
+		#region String Extensions
 		/// <summary>
 		/// Checks whether the given <paramref name="name"/> is a valid index name.
 		/// </summary>
@@ -28,8 +51,9 @@ namespace Premotion.Mansion.Repository.ElasticSearch
 
 			// validate characters
 			var invalidChar = name.FirstOrDefault(c => !(Char.IsLetterOrDigit(c) || c == '-'));
-			if (invalidChar != char.MinValue)
+			if (invalidChar != Char.MinValue)
 				throw new ArgumentOutOfRangeException("name", name, "Index name should be between 3-16 characters and only letters, numbers and hyphens ('-') are allowed");
 		}
+		#endregion
 	}
 }
