@@ -1,28 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.FacetDescriptor">
-    <Position X="0.5" Y="2.5" Width="1.5" />
+    <Position X="9.5" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\FacetDescriptor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.QueryDescriptor">
-    <Position X="0.5" Y="4.5" Width="1.5" />
+    <Position X="9.5" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\QueryDescriptor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.FilterDescriptor">
-    <Position X="5.5" Y="2.5" Width="1.5" />
+    <Position X="4.5" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\FilterDescriptor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.SearchDescriptor">
-    <Position X="2.75" Y="1" Width="2" />
+    <Position X="6.75" Y="2.5" Width="2" />
     <TypeIdentifier>
       <HashCode>EgBgAAAAAAAAAAAACIAAAAYAQAAAgEVAAAEAAAABAAA=</HashCode>
       <FileName>Querying\SearchDescriptor.cs</FileName>
@@ -35,7 +35,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Searcher">
-    <Position X="8.25" Y="2.75" Width="2" />
+    <Position X="1.25" Y="6.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AIAAAAAAAAgAAAAAAAAAAACAAAAAAAAAAAAAAAAggAA=</HashCode>
       <FileName>Querying\Searcher.cs</FileName>
@@ -45,25 +45,47 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.SortDescriptor">
-    <Position X="0.5" Y="0.5" Width="1.5" />
+    <Position X="9.5" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\SortDescriptor.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.QueryComponentMapper&lt;TQueryComponent&gt;" Collapsed="true">
-    <Position X="11.25" Y="0.5" Width="1.5" />
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.QueryComponentMapper&lt;TQueryComponent&gt;">
+    <Position X="0.75" Y="0.5" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAAAAAAAAAAAQAAAAAAAAAAAAAAAABAAA=</HashCode>
       <FileName>Querying\QueryComponentMapper.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.SpecificationQueryComponentMapper">
+    <Position X="0.5" Y="2.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Querying\SpecificationQueryComponentMapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.BaseSpecificationMapper&lt;TSpecification&gt;" Collapsed="true">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAQAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Querying\BaseSpecificationMapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
   <Interface Name="Premotion.Mansion.Repository.ElasticSearch.Querying.IQueryComponentMapper">
-    <Position X="7.75" Y="6.25" Width="2" />
+    <Position X="1.75" Y="9.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\IQueryComponentMapper.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Premotion.Mansion.Repository.ElasticSearch.Querying.ISpecificationMapper" Collapsed="true">
+    <Position X="12" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Querying\ISpecificationMapper.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />

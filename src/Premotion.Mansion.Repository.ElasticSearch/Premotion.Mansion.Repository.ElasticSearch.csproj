@@ -58,9 +58,12 @@
     <Compile Include="Connection\ElasticSearchJsonSerializer.cs" />
     <Compile Include="Indexing\Indexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Querying\BaseSpecificationMapper.cs" />
     <Compile Include="Querying\FacetDescriptor.cs" />
     <Compile Include="Querying\Facets\BaseFacet.cs" />
     <Compile Include="Querying\Filters\BaseFilter.cs" />
+    <Compile Include="Querying\ISpecificationMapper.cs" />
+    <Compile Include="Querying\SpecificationQueryComponentMapper.cs" />
     <Compile Include="Responses\BaseResponse.cs" />
     <Compile Include="Responses\Hit.cs" />
     <Compile Include="Responses\HitMetaData.cs" />
