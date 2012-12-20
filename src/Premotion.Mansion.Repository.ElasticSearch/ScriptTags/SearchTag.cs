@@ -4,7 +4,7 @@ using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.ScriptTags.Repository;
 using Premotion.Mansion.Core.Scripting.TagScript;
-using Premotion.Mansion.Repository.ElasticSearch.Quering;
+using Premotion.Mansion.Repository.ElasticSearch.Querying;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.ScriptTags
 {

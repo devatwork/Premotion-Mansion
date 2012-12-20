@@ -3,7 +3,7 @@ using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.ElasticSearch.Connection;
 using Premotion.Mansion.Repository.ElasticSearch.Indexing;
-using Premotion.Mansion.Repository.ElasticSearch.Quering;
+using Premotion.Mansion.Repository.ElasticSearch.Querying;
 using Premotion.Mansion.Repository.ElasticSearch.Schema;
 
 namespace Premotion.Mansion.Repository.ElasticSearch
