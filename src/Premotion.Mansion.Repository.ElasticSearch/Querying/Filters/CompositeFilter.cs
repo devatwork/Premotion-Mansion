@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Filters
@@ -73,6 +74,9 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Filters
 
 			//  add to the list
 			filterList.AddRange(filters);
+
+			// only cachable if all the children are cachable
+			Cache = filterList.All(filter => filter.Cache);
 		}
 		#endregion
 		#region Private Fields
