@@ -70,6 +70,24 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 			var type = typeService.Load(context, typeName);
 
 			// find all the index definitions 
+			return Resolve(context, type);
+		}
+		/// <summary>
+		/// Resolves the <see cref="IndexDefinition"/>s defined for the given <paramref name="type"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="type">The <see cref="ITypeDefinition"/>.</param>
+		/// <returns>Returns the <see cref="IndexDefinition"/>s.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if any of the parameters is null.</exception>
+		public IEnumerable<IndexDefinition> Resolve(IMansionContext context, ITypeDefinition type)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (type == null)
+				throw new ArgumentNullException("type");
+
+			// find all the index definitions 
 			return type.GetDescriptorsInHierarchy<IndexDescriptor>().Select(descriptor => CreateDefinitionFromDescriptor(context, descriptor));
 		}
 		/// <summary>
