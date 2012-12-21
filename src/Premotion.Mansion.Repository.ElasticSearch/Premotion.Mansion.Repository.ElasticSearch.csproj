@@ -87,6 +87,7 @@
     <Compile Include="Querying\Sorts\BaseSort.cs" />
     <Compile Include="Querying\SearchQuery.cs" />
     <Compile Include="Querying\Searcher.cs" />
+    <Compile Include="Schema\Descriptors\PublicationStatusPropertyMappingBaseDescriptor.cs" />
     <Compile Include="Schema\Descriptors\SinglePropertyMappingBaseDescriptor.cs" />
     <Compile Include="Schema\Descriptors\TreeRelationsPropertyMappingBaseDescriptor.cs" />
     <Compile Include="Schema\IgnoredPropertyMapping.cs" />

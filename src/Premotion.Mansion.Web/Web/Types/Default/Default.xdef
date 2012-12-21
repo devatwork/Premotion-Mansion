@@ -29,6 +29,7 @@
 	<!-- define status properties -->
 	<property name="status">
 		<sqlserver:publicationStatus />
+		<es:publicationStatus />
 	</property>
 	
 	<!-- role Ids -->

@@ -198,4 +198,15 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="publicationStatus" substitutionGroup="def:propertyDescriptor">
+		<xs:annotation>
+			<xs:documentation>Publication status properties.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="propertyMappingBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
 </xs:schema>
