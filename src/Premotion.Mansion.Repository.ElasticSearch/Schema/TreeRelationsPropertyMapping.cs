@@ -29,6 +29,8 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 			protected override void DoWriteJson(JsonWriter writer, TreeRelationsPropertyMapping value, JsonSerializer serializer)
 			{
 				writer.WriteStartObject(); // root
+				writer.WritePropertyName("type");
+				writer.WriteValue("nested");
 				
 				writer.WritePropertyName("properties");
 				writer.WriteStartObject(); // propertise

@@ -61,6 +61,7 @@
     <Compile Include="BaseConverter.cs" />
     <Compile Include="Querying\Filters\CompositeFilter.cs" />
     <Compile Include="Querying\Filters\AndFilter.cs" />
+    <Compile Include="Querying\Filters\NestedFilter.cs" />
     <Compile Include="Querying\Filters\RangeFilter.cs" />
     <Compile Include="Querying\Filters\TermsFilter.cs" />
     <Compile Include="Querying\Filters\OrFilter.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Querying\Mappers\AllowedRolesSpecificationMapper.cs" />
     <Compile Include="Querying\Filters\BaseFilter.cs" />
     <Compile Include="Querying\Mappers\CacheQueryComponentMapper.cs" />
+    <Compile Include="Querying\Mappers\ChildOfSpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\LimitQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\IsPropertyInSpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\IsPropertyEqualSpecificationMapper.cs" />
