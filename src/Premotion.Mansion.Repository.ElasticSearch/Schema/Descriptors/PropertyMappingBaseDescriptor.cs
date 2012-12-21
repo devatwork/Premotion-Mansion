@@ -9,31 +9,34 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 	/// </summary>
 	public abstract class PropertyMappingBaseDescriptor : TypeDescriptor
 	{
-		#region Create Methods
+		#region Add Mapping Methods
 		/// <summary>
-		/// Creates a <see cref="PropertyMapping"/> from this descriptor.
+		/// Adds <see cref="PropertyMapping"/>s of <paramref name="property"/> to the given <paramref name="typeMapping"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="property">The <see cref="IPropertyDefinition"/>.</param>
-		/// <returns>The created <see cref="PropertyMapping"/>.</returns>
-		public PropertyMapping CreateMapping(IMansionContext context, IPropertyDefinition property)
+		/// <param name="property">The <see cref="IPropertyDefinition"/> of the property for which to add the <see cref="PropertyMapping"/>s.</param>
+		/// <param name="typeMapping">The <see cref="TypeMapping"/> to which to add the new <see cref="PropertyMapping"/>s.</param>
+		/// <exception cref="ArgumentNullException">Thrown if any of the parameters is null.</exception>
+		public void AddMappingTo(IMansionContext context, IPropertyDefinition property, TypeMapping typeMapping)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (property == null)
 				throw new ArgumentNullException("property");
+			if (typeMapping == null)
+				throw new ArgumentNullException("typeMapping");
 
-			// create the mapping
-			return DoCreateMapping(context, property);
+			// invoke template method
+			DoAddMappingTo(context, property, typeMapping);
 		}
 		/// <summary>
-		/// Creates a <see cref="PropertyMapping"/> from this descriptor.
+		/// Adds <see cref="PropertyMapping"/>s of <paramref name="property"/> to the given <paramref name="typeMapping"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="property">The <see cref="IPropertyDefinition"/>.</param>
-		/// <returns>The created <see cref="PropertyMapping"/>.</returns>
-		protected abstract PropertyMapping DoCreateMapping(IMansionContext context, IPropertyDefinition property);
+		/// <param name="property">The <see cref="IPropertyDefinition"/> of the property for which to add the <see cref="PropertyMapping"/>s.</param>
+		/// <param name="typeMapping">The <see cref="TypeMapping"/> to which to add the new <see cref="PropertyMapping"/>s.</param>
+		protected abstract void DoAddMappingTo(IMansionContext context, IPropertyDefinition property, TypeMapping typeMapping);
 		#endregion
 	}
 }

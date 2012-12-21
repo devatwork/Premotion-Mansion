@@ -169,11 +169,8 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 				if (!property.TryGetDescriptor(out descriptor))
 					continue;
 
-				// create the property mapping
-				var propertyMapping = descriptor.CreateMapping(context, property);
-
-				// add the property mapping to the type mapping
-				typeMapping.Add(propertyMapping);
+				// allow the descriptor to add property mappings to the type mapping
+				descriptor.AddMappingTo(context, property, typeMapping);
 			}
 		}
 		#endregion

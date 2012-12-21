@@ -1,4 +1,3 @@
-using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Types;
 
@@ -9,21 +8,15 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 	/// </summary>
 	public abstract class SinglePropertyMappingBaseDescriptor : PropertyMappingBaseDescriptor
 	{
-		#region Create Methods
+		#region Overrides of PropertyMappingBaseDescriptor
 		/// <summary>
-		/// Creates a <see cref="PropertyMapping"/> from this descriptor.
+		/// Adds <see cref="PropertyMapping"/>s of <paramref name="property"/> to the given <paramref name="typeMapping"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="property">The <see cref="IPropertyDefinition"/>.</param>
-		/// <returns>The created <see cref="PropertyMapping"/>.</returns>
-		protected override PropertyMapping DoCreateMapping(IMansionContext context, IPropertyDefinition property)
+		/// <param name="property">The <see cref="IPropertyDefinition"/> of the property for which to add the <see cref="PropertyMapping"/>s.</param>
+		/// <param name="typeMapping">The <see cref="TypeMapping"/> to which to add the new <see cref="PropertyMapping"/>s.</param>
+		protected override void DoAddMappingTo(IMansionContext context, IPropertyDefinition property, TypeMapping typeMapping)
 		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
-			if (property == null)
-				throw new ArgumentNullException("property");
-
 			// create the mapping
 			var mapping = DoCreateSingleMapping(context, property);
 
@@ -92,8 +85,8 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 			if (Properties.TryGet(context, "searchAnalyzer", out searchAnalyzer))
 				mapping.SearchAnalyzer = searchAnalyzer;
 
-			// return the mapping
-			return mapping;
+			// add the property mapping to type mapping
+			typeMapping.Add(mapping);
 		}
 		/// <summary>
 		/// Creates a <see cref="PropertyMapping"/> from this descriptor.
