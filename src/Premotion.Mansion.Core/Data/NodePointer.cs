@@ -32,7 +32,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="pointer">The pointer.</param>
 		/// <param name="structure">The structure.</param>
 		/// <param name="path">The path.</param>
-		private NodePointer(int[] pointer, string[] structure, string[] path)
+		public NodePointer(int[] pointer, string[] structure, string[] path)
 		{
 			// validate arguments
 			if (pointer == null)
@@ -52,6 +52,7 @@ namespace Premotion.Mansion.Core.Data
 			this.pointer = pointer;
 			this.structure = structure;
 			this.path = path;
+			depth = pointer.Length;
 		}
 		#endregion
 		#region Parse Functions
@@ -300,7 +301,7 @@ namespace Premotion.Mansion.Core.Data
 		/// </summary>
 		public int Depth
 		{
-			get { return Pointer.Length; }
+			get { return depth; }
 		}
 		#endregion
 		#region Parent Properties
@@ -541,6 +542,8 @@ namespace Premotion.Mansion.Core.Data
 		private readonly int[] pointer;
 		[JsonProperty]
 		private readonly string[] structure;
+		[JsonProperty]
+		private readonly int depth;
 		#endregion
 	}
 }
