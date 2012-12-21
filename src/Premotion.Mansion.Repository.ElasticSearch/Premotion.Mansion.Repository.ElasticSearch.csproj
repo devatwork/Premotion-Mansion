@@ -58,7 +58,7 @@
     <Compile Include="Connection\ElasticSearchJsonSerializer.cs" />
     <Compile Include="Indexing\Indexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Querying\BaseConverter.cs" />
+    <Compile Include="BaseConverter.cs" />
     <Compile Include="Querying\Filters\CompositeFilter.cs" />
     <Compile Include="Querying\Filters\AndFilter.cs" />
     <Compile Include="Querying\Filters\TermsFilter.cs" />
@@ -88,6 +88,8 @@
     <Compile Include="Querying\SearchQuery.cs" />
     <Compile Include="Querying\Searcher.cs" />
     <Compile Include="Schema\Descriptors\SinglePropertyMappingBaseDescriptor.cs" />
+    <Compile Include="Schema\Descriptors\TreeRelationsPropertyMappingBaseDescriptor.cs" />
+    <Compile Include="Schema\IgnoredPropertyMapping.cs" />
     <Compile Include="Schema\MultiValuedPropertyMapping.cs" />
     <Compile Include="Schema\Descriptors\MultiValuedPropertyMappingDescriptor.cs" />
     <Compile Include="Schema\Descriptors\IndexDescriptor.cs" />
@@ -100,6 +102,7 @@
     <Compile Include="Schema\PropertyMapping.cs" />
     <Compile Include="Schema\SingleValuedPropertyMapping.cs" />
     <Compile Include="Schema\SinglePropertyMapping.cs" />
+    <Compile Include="Schema\TreeRelationsPropertyMapping.cs" />
     <Compile Include="Schema\TypeMapping.cs" />
     <Compile Include="Schema\TypeMappingSource.cs" />
     <Compile Include="ScriptTags\SearchTag.cs" />

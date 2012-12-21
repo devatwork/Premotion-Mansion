@@ -1,78 +1,80 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.TypeMappingSource">
-    <Position X="13.25" Y="4.25" Width="1.75" />
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.IgnoredPropertyMapping" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Schema\IgnoredPropertyMapping.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.TypeMappingSource" Collapsed="true">
+    <Position X="11.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Schema\TypeMappingSource.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.TypeMapping">
-    <Position X="10.25" Y="3.75" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAIAAAAAAgAAAAAAACAAAAQAAAAAAAAAAAAAAAACABA=</HashCode>
-      <FileName>Schema\TypeMapping.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Source" />
-    </ShowAsAssociation>
-    <ShowAsCollectionAssociation>
-      <Property Name="Properties" />
-    </ShowAsCollectionAssociation>
-  </Class>
-  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.PropertyMapping">
-    <Position X="7.25" Y="4" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAABAAAAAAAAAAAARAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Schema\PropertyMapping.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.IndexSettings">
-    <Position X="7.25" Y="1" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAgAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Schema\IndexSettings.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.IndexDefinition">
-    <Position X="10.5" Y="1" Width="1.5" />
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.IndexDefinition" Collapsed="true">
+    <Position X="9.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAoAAAAAAAAAAAAAAAAAAAQAAAAAAAAAgAAAAAAAAAA=</HashCode>
       <FileName>Schema\IndexDefinition.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Settings" />
-    </ShowAsAssociation>
-    <ShowAsCollectionAssociation>
-      <Property Name="Mappings" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.IndexDefinitionResolver" Collapsed="true">
-    <Position X="16" Y="0.5" Width="1.5" />
+    <Position X="11.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAQAAAACAAAAAAAAAAAAAQAAAAAAAAAAAAACAgAA=</HashCode>
       <FileName>Schema\IndexDefinitionResolver.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.SimplePropertyMapping">
-    <Position X="0.5" Y="5.75" Width="2" />
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.IndexSettings" Collapsed="true">
+    <Position X="13.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAABAAAAAAAAAAAARAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Schema\SimplePropertyMapping.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Schema\IndexSettings.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.SingleValuePropertyMapping">
-    <Position X="2" Y="0.5" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAgAAAQIAAAAAAAACARQAAQCQAAAIAAAASEQAQAAAAA=</HashCode>
-      <FileName>Schema\SingleValuePropertyMapping.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.MultiValuedPropertyMapping">
-    <Position X="3.25" Y="5.75" Width="2.25" />
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.MultiValuedPropertyMapping" Collapsed="true">
+    <Position X="7.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Schema\MultiValuedPropertyMapping.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.PropertyMapping" Collapsed="true">
+    <Position X="3.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAARAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Schema\PropertyMapping.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.SinglePropertyMapping" Collapsed="true">
+    <Position X="6" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAQIAAAAAAAACARQAAACQAAAIAAAASEQAQAAAAA=</HashCode>
+      <FileName>Schema\SinglePropertyMapping.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.SingleValuedPropertyMapping" Collapsed="true">
+    <Position X="5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAARAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Schema\SingleValuedPropertyMapping.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.TreeRelationsPropertyMapping" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Schema\TreeRelationsPropertyMapping.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.TypeMapping" Collapsed="true">
+    <Position X="9.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAgAAAAAAACAAAAQAAAAAAAAAAAAAAAACABA=</HashCode>
+      <FileName>Schema\TypeMapping.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

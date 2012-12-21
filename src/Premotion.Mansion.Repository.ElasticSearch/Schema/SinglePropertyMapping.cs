@@ -18,6 +18,14 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		protected SinglePropertyMapping(IPropertyDefinition property) : base(property)
 		{
 		}
+		/// <summary>
+		/// Constructs the property mapping with the given <paramref name="propertyName"/>.
+		/// </summary>
+		/// <param name="propertyName">The name of the property mapped by this mapper.</param>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		protected SinglePropertyMapping(string propertyName): base(propertyName)
+		{
+		}
 		#endregion
 		#region Properties
 		/// <summary>

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Types;
@@ -9,6 +10,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 	/// <summary>
 	/// Represents the mapping of a type.
 	/// </summary>
+	[JsonObject(MemberSerialization.OptIn)]
 	public class TypeMapping
 	{
 		#region Constructors
@@ -118,20 +120,28 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		/// <summary>
 		/// Gets the name of this type.
 		/// </summary>
-		[JsonIgnore]
 		public string Name { get; private set; }
+		/// <summary>
+		/// Getsthe <see cref="PropertyMapping"/>s of this mapping.
+		/// </summary>
+		public IDictionary<string, PropertyMapping> Properties
+		{
+			get { return propertyMappings; }
+		}
+		#endregion
+		#region Mapping Properties
 		/// <summary>
 		/// The <see cref="TypeMappingSource"/>.
 		/// </summary>
 		[JsonProperty("_source")]
-		public TypeMappingSource Source { get; set; }
+		private TypeMappingSource Source { get; set; }
 		/// <summary>
 		/// Getsthe <see cref="PropertyMapping"/>s of this mapping.
 		/// </summary>
 		[JsonProperty("properties")]
-		public IDictionary<string, PropertyMapping> Properties
+		private IDictionary<string, PropertyMapping> MappedProperties
 		{
-			get { return propertyMappings; }
+			get { return propertyMappings.Where(candidate => !(candidate.Value is IgnoredPropertyMapping)).ToDictionary(x => x.Key, x => x.Value); }
 		}
 		#endregion
 		#region Private Fields

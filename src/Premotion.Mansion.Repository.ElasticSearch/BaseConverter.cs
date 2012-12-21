@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Premotion.Mansion.Repository.ElasticSearch.Querying
+namespace Premotion.Mansion.Repository.ElasticSearch
 {
 	/// <summary>
 	/// Base class for all custom <see cref="JsonConverter"/>.

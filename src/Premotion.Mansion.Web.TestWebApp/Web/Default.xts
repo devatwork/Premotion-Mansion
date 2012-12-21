@@ -1,8 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd">
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:es="http://schemas.premotion.nl/mansion/1.0/elasticsearch.tags.xsd">
+
+	<!-- check for reindex -->
+	<if condition="{IsTrue( Get.reindex )}">
+		<es:reindex />
+	</if>
 
 	<!-- bootstrap the dispatcher and dispatch the request -->
-	<es:search xmlns:es="http://schemas.premotion.nl/mansion/1.0/elasticsearch.tags.xsd" pageNumber="1" pageSize="2" guid="38b2c401-6527-4992-8272-b30b58b77c49,a2f6f5bd-4225-4ec4-9452-b0fb163e71b5" target="Results">
+	<es:search pageNumber="1" pageSize="2" guid="38b2c401-6527-4992-8272-b30b58b77c49,a2f6f5bd-4225-4ec4-9452-b0fb163e71b5" target="Results">
 		<throw message="Found {Results.totalCount} results"/>
 		<notFound>
 			<throw message="No results found!" />

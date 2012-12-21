@@ -19,14 +19,22 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		/// </summary>
 		/// <param name="property">The <see cref="IPropertyDefinition"/>.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		protected PropertyMapping(IPropertyDefinition property)
+		protected PropertyMapping(IPropertyDefinition property) : this(property.Name)
+		{
+		}
+		/// <summary>
+		/// Constructs the property mapping with the given <paramref name="propertyName"/>.
+		/// </summary>
+		/// <param name="propertyName">The name of the property mapped by this mapper.</param>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		protected PropertyMapping(string propertyName)
 		{
 			// validate arguments
-			if (property == null)
-				throw new ArgumentNullException("property");
+			if (string.IsNullOrEmpty(propertyName))
+				throw new ArgumentNullException("propertyName");
 
 			// set value
-			Name = property.Name.ToLower();
+			Name = propertyName.ToLower();
 		}
 		#endregion
 		#region Transform Methods
