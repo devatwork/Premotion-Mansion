@@ -11,7 +11,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 	/// <summary>
 	/// Maps a simple property.
 	/// </summary>
-	public class MultiValuedPropertyMapping : PropertyMapping
+	public class MultiValuedPropertyMapping : SinglePropertyMapping
 	{
 		#region Constructors
 		/// <summary>

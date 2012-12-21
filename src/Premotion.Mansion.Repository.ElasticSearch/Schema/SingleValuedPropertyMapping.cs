@@ -10,7 +10,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 	/// <summary>
 	/// Maps a simple property.
 	/// </summary>
-	public class SimplePropertyMapping : PropertyMapping
+	public class SingleValuedPropertyMapping : SinglePropertyMapping
 	{
 		#region Constructors
 		/// <summary>
@@ -18,7 +18,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		/// </summary>
 		/// <param name="property">The <see cref="IPropertyDefinition"/>.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public SimplePropertyMapping(IPropertyDefinition property) : base(property)
+		public SingleValuedPropertyMapping(IPropertyDefinition property) : base(property)
 		{
 		}
 		#endregion

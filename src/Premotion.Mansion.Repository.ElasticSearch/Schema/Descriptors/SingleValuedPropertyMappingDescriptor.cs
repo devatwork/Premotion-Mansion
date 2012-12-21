@@ -6,8 +6,8 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 	/// <summary>
 	/// Represents the <see cref="TypeDescriptor"/> for elastic search properties.
 	/// </summary>
-	[TypeDescriptor(Constants.DescriptorNamespaceUri, "simpleProperty")]
-	public class SimplePropertyMappingDescriptor : PropertyMappingBaseDescriptor
+	[TypeDescriptor(Constants.DescriptorNamespaceUri, "singleValuedProperty")]
+	public class SingleValuedPropertyMappingDescriptor : SinglePropertyMappingBaseDescriptor
 	{
 		#region Create Methods
 		/// <summary>
@@ -16,10 +16,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="property">The <see cref="IPropertyDefinition"/>.</param>
 		/// <returns>The created <see cref="PropertyMapping"/>.</returns>
-		protected override PropertyMapping DoCreateMapping(IMansionContext context, IPropertyDefinition property)
+		protected override SinglePropertyMapping DoCreateSingleMapping(IMansionContext context, IPropertyDefinition property)
 		{
 			// create the mapping
-			return new SimplePropertyMapping(property)
+			return new SingleValuedPropertyMapping(property)
 			       {
 			       	// map the type
 			       	Type = Properties.Get<string>(context, "type")

@@ -4,11 +4,11 @@
 	<!-- properties -->
 	<property name="login">
 		<sqlserver:column allowNullValue="true" />
-		<es:simpleProperty type="string" index="not_analyzed" />
+		<es:singleValuedProperty type="string" index="not_analyzed" />
 	</property>
 	<property name="password">
 		<sqlserver:column allowNullValue="true" />
-		<es:simpleProperty type="string" index="not_analyzed" />
+		<es:singleValuedProperty type="string" index="not_analyzed" />
 	</property>
 	
 	<!-- type table -->

@@ -7,7 +7,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 	/// Represents the <see cref="TypeDescriptor"/> for multi-valued properties.
 	/// </summary>
 	[TypeDescriptor(Constants.DescriptorNamespaceUri, "multiValuedProperty")]
-	public class MultiValuedPropertyMappingDescriptor : PropertyMappingBaseDescriptor
+	public class MultiValuedPropertyMappingDescriptor : SinglePropertyMappingBaseDescriptor
 	{
 		#region Create Methods
 		/// <summary>
@@ -16,7 +16,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="property">The <see cref="IPropertyDefinition"/>.</param>
 		/// <returns>The created <see cref="PropertyMapping"/>.</returns>
-		protected override PropertyMapping DoCreateMapping(IMansionContext context, IPropertyDefinition property)
+		protected override SinglePropertyMapping DoCreateSingleMapping(IMansionContext context, IPropertyDefinition property)
 		{
 			// create the mapping
 			return new MultiValuedPropertyMapping(property)

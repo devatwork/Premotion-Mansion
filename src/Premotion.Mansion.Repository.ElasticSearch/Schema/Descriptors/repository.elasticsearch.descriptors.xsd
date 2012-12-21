@@ -157,7 +157,7 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:element name="simpleProperty" substitutionGroup="def:propertyDescriptor">
+	<xs:element name="singleValuedProperty" substitutionGroup="def:propertyDescriptor">
 		<xs:annotation>
 			<xs:documentation>Simple properties have a one to one mapping</xs:documentation>
 		</xs:annotation>

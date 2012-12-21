@@ -221,7 +221,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 				if (!typeMapping.Properties.TryGetValue(property.Name, out propertyMapping))
 				{
 					// just write the property without mapping
-					SimplePropertyMapping.Map(property, target);
+					SingleValuedPropertyMapping.Map(property, target);
 					continue;
 				}
 
