@@ -142,6 +142,13 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 		/// </summary>
 		/// <remarks>Defaults to 10</remarks>
 		public int? Size { get; set; }
+		/// <summary>
+		/// Gets the <see cref="BaseSort"/> from this query.
+		/// </summary>
+		public IEnumerable<BaseSort> Sorts
+		{
+			get { return sortList; }
+		}
 		#endregion
 		#region Private Fields
 		private readonly List<BaseFilter> filterList = new List<BaseFilter>();

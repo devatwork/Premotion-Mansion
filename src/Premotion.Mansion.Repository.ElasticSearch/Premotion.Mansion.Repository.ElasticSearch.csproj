@@ -23,7 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Premotion.Mansion.Repository.ElasticSearch.XML</DocumentationFile>
+    <DocumentationFile>bin\Premotion.Mansion.Repository.ElasticSearch.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -33,7 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Premotion.Mansion.Repository.ElasticSearch.XML</DocumentationFile>
+    <DocumentationFile>bin\Premotion.Mansion.Repository.ElasticSearch.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>

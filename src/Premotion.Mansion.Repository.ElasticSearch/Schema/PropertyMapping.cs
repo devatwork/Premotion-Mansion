@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Types;
+using Premotion.Mansion.Repository.ElasticSearch.Responses;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 {
@@ -58,6 +60,38 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		/// <returns>Returns the resulting document.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
 		protected abstract void DoTransform(IMansionContext context, IPropertyBag source, Dictionary<string, object> document);
+		#endregion
+		#region Map Methods
+		/// <summary>
+		/// Maps the properties from <paramref name="source"/> to <paramref name="target"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="source">The <see cref="Hit"/>.</param>
+		/// <param name="property">The <see cref="JProperty"/>.</param>
+		/// <param name="target">The <see cref="IPropertyBag"/>.</param>
+		public void Map(IMansionContext context, Hit source, JProperty property, IPropertyBag target)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (source == null)
+				throw new ArgumentNullException("source");
+			if (property == null)
+				throw new ArgumentNullException("property");
+			if (target == null)
+				throw new ArgumentNullException("target");
+
+			// invoke template method
+			DoMap(context, source, property, target);
+		}
+		/// <summary>
+		/// Maps the properties from <paramref name="source"/> to <paramref name="target"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="source">The <see cref="Hit"/>.</param>
+		/// <param name="property">The <see cref="JProperty"/>.</param>
+		/// <param name="target">The <see cref="IPropertyBag"/>.</param>
+		protected abstract void DoMap(IMansionContext context, Hit source, JProperty property, IPropertyBag target);
 		#endregion
 		#region Properties
 		/// <summary>

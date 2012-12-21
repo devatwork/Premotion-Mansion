@@ -50,6 +50,19 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Sorts
 			this.sort = sort;
 		}
 		#endregion
+		#region Overrides of Object
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+		/// </returns>
+		/// <filterpriority>2</filterpriority>
+		public override string ToString()
+		{
+			return sort.ToString();
+		}
+		#endregion
 		#region Private Fields
 		private readonly Sort sort;
 		#endregion

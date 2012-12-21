@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Types;
+using Premotion.Mansion.Repository.ElasticSearch.Responses;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 {
@@ -40,6 +42,24 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 
 			// write the values to the document
 			document.Add(Name, values);
+		}
+		/// <summary>
+		/// Maps the properties from <paramref name="source"/> to <paramref name="target"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="source">The <see cref="Hit"/>.</param>
+		/// <param name="property">The <see cref="JProperty"/>.</param>
+		/// <param name="target">The <see cref="IPropertyBag"/>.</param>
+		protected override void DoMap(IMansionContext context, Hit source, JProperty property, IPropertyBag target)
+		{
+			// null check
+			if (property.Value == null)
+				return;
+
+			// expect an array
+			var values = (JArray) property.Value;
+
+			target.Set(property.Name, string.Join(",", values.Select(value => value.Value<string>()).ToArray()));
 		}
 		#endregion
 	}

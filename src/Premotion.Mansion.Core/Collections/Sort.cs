@@ -57,6 +57,19 @@ namespace Premotion.Mansion.Core.Collections
 			                                                    });
 		}
 		#endregion
+		#region Overrides of Object
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+		/// </returns>
+		/// <filterpriority>2</filterpriority>
+		public override string ToString()
+		{
+			return PropertyName + " " + (Ascending ? "ASC" : "DESC");
+		}
+		#endregion
 		#region Properties
 		/// <summary>
 		/// Gets the name of the property on which this sort is done.
