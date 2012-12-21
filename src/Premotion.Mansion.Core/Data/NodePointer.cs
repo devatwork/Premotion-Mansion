@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Premotion.Mansion.Core.Data
@@ -50,8 +51,8 @@ namespace Premotion.Mansion.Core.Data
 
 			// set values
 			this.pointer = pointer;
-			this.structure = structure;
-			this.path = path;
+			this.structure = structure.Select(x => x.ToLower()).ToArray();
+			this.path = path.Select(x => x.ToLower()).ToArray();
 			depth = pointer.Length;
 		}
 		#endregion
@@ -537,13 +538,13 @@ namespace Premotion.Mansion.Core.Data
 		#endregion
 		#region Private Fields
 		[JsonProperty]
+		private readonly int depth;
+		[JsonProperty]
 		private readonly string[] path;
 		[JsonProperty]
 		private readonly int[] pointer;
 		[JsonProperty]
 		private readonly string[] structure;
-		[JsonProperty]
-		private readonly int depth;
 		#endregion
 	}
 }

@@ -30,6 +30,8 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 			                	Index = "not_analyzed"
 			                });
 			typeMapping.Add(new IgnoredPropertyMapping("depth"));
+			typeMapping.Add(new IgnoredPropertyMapping("structure"));
+			typeMapping.Add(new IgnoredPropertyMapping("path"));
 			typeMapping.Add(new IgnoredPropertyMapping("parentId"));
 			typeMapping.Add(new IgnoredPropertyMapping("parentPointer"));
 			typeMapping.Add(new IgnoredPropertyMapping("parentPath"));
