@@ -61,6 +61,7 @@
     <Compile Include="BaseConverter.cs" />
     <Compile Include="Querying\Filters\CompositeFilter.cs" />
     <Compile Include="Querying\Filters\AndFilter.cs" />
+    <Compile Include="Querying\Filters\RangeFilter.cs" />
     <Compile Include="Querying\Filters\TermsFilter.cs" />
     <Compile Include="Querying\Filters\OrFilter.cs" />
     <Compile Include="Querying\Filters\TermFilter.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Querying\Mappers\PagingQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\SortQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\SpecificationQueryComponentMapper.cs" />
+    <Compile Include="Querying\Mappers\StatusSpecificationMapper.cs" />
     <Compile Include="Querying\Sorts\FieldSort.cs" />
     <Compile Include="Responses\BaseResponse.cs" />
     <Compile Include="Responses\Hit.cs" />
