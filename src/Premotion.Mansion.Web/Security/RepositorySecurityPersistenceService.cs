@@ -262,6 +262,8 @@ namespace Premotion.Mansion.Web.Security
 				                                              	{"key", "AnonymousUser"},
 				                                              	{"bypassAuthorization", true}
 				                                              });
+				if (node == null)
+					throw new InvalidOperationException("Could not find the anonymous user node");
 			}
 			else
 			{
@@ -271,9 +273,10 @@ namespace Premotion.Mansion.Web.Security
 				                                              	{"guid", owner.Id},
 				                                              	{"bypassAuthorization", true}
 				                                              });
+				if (node == null)
+					throw new InvalidOperationException(string.Format("Could not find role owner with foreign ID {0} in repository, please sync tables", owner.Id));
 			}
-			if (node == null)
-				throw new InvalidOperationException(string.Format("Could not find role owner with foreign ID {0} in repository, please sync tables", owner.Id));
+
 			return node;
 		}
 		/// <summary>
