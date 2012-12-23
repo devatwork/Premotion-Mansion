@@ -30,6 +30,37 @@ namespace Premotion.Mansion.Repository.ElasticSearch
 			return indexDefinition.Mappings.Values.First(candidate => candidate.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase));
 		}
 		#endregion
+		#region TypeMapping Extensions
+		/// <summary>
+		/// Finds the <typeparamref name="TPropertyMapping"/> of property <paramref name="propertyName"/> of type <paramref name="typeMapping"/>.
+		/// </summary>
+		/// <param name="typeMapping">The <see cref="TypeMapping"/> from which to get the property.</param>
+		/// <param name="propertyName">The name of the property for which to get the <typeparamref name="TPropertyMapping"/>.</param>
+		/// <typeparam name="TPropertyMapping">The type of <see cref="PropertyMapping"/> which to find.</typeparam>
+		/// <returns>Returns the <typeparamref name="TPropertyMapping"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if any of the parameters is null.</exception>
+		/// <exception cref="InvalidOperationException">Thrown if the mapping was not found or could not be cast to <typeparamref name="TPropertyMapping"/>.</exception>
+		public static TPropertyMapping FindPropertyMapping<TPropertyMapping>(this TypeMapping typeMapping, string propertyName) where TPropertyMapping : PropertyMapping
+		{
+			// validate arguments
+			if (typeMapping == null)
+				throw new ArgumentNullException("typeMapping");
+			if (string.IsNullOrEmpty(propertyName))
+				throw new ArgumentNullException("propertyName");
+
+			// try to find the property mapping
+			PropertyMapping mapping;
+			if (!typeMapping.Properties.TryGetValue(propertyName, out mapping))
+				throw new InvalidOperationException(string.Format("Could not find property mapping '{0}'.'{1}'", typeMapping.Name, propertyName));
+
+			// check type
+			if (!(mapping is TPropertyMapping))
+				throw new InvalidOperationException(string.Format("Could not case property mapping '{0}'.'{1}' of type '{2}' to '{3}'", typeMapping.Name, propertyName, mapping.GetType(), typeof (TPropertyMapping)));
+
+			// return the mapping
+			return (TPropertyMapping) mapping;
+		}
+		#endregion
 		#region String Extensions
 		/// <summary>
 		/// Checks whether the given <paramref name="name"/> is a valid index name.

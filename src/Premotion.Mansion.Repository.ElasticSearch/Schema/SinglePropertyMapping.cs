@@ -17,14 +17,40 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
 		protected SinglePropertyMapping(IPropertyDefinition property) : base(property)
 		{
+			// set values
+			Type = "string";
+			Index = "analyzed";
 		}
 		/// <summary>
 		/// Constructs the property mapping with the given <paramref name="propertyName"/>.
 		/// </summary>
 		/// <param name="propertyName">The name of the property mapped by this mapper.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		protected SinglePropertyMapping(string propertyName): base(propertyName)
+		protected SinglePropertyMapping(string propertyName) : base(propertyName)
 		{
+			// set values
+			Type = "string";
+			Index = "analyzed";
+		}
+		#endregion
+		#region Normalize Methods
+		/// <summary>
+		/// Normalizes the given <paramref name="value"/>.
+		/// </summary>
+		/// <param name="value">The value which to normalize.</param>
+		/// <returns>Returns the normalized values.</returns>
+		public object Normalize(object value)
+		{
+			// check for null
+			if (value == null)
+				return null;
+
+			// only normalize not_analyzed strings
+			if (!Type.Equals("string", StringComparison.OrdinalIgnoreCase) || !Index.Equals("not_analyzed", StringComparison.OrdinalIgnoreCase))
+				return value;
+
+			// to low
+			return value.ToString().ToLower();
 		}
 		#endregion
 		#region Properties

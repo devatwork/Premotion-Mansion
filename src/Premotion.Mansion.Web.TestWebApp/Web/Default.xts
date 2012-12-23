@@ -7,7 +7,7 @@
 	</if>
 
 	<!-- bootstrap the dispatcher and dispatch the request -->
-	<es:search parentPointer="1" status="published" target="Results">
+	<es:search parentPointer="1" cache="false" status="published" target="Results">
 		<throw message="Found {Results.totalCount} results"/>
 		<notFound>
 			<throw message="No results found!" />

@@ -2,6 +2,7 @@
 using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Data.Queries.Specifications;
 using Premotion.Mansion.Repository.ElasticSearch.Querying.Filters;
+using Premotion.Mansion.Repository.ElasticSearch.Schema;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 {
@@ -20,8 +21,11 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 		/// <param name="searchQuery">The <see cref="SearchQuery"/> to which to map <paramref name="specification"/>.</param>
 		protected override void DoMap(IMansionContext context, Query query, IsPropertyEqualSpecification specification, SearchQuery searchQuery)
 		{
+			// find the property mapping
+			var propertyMapping = searchQuery.TypeMapping.FindPropertyMapping<SinglePropertyMapping>(specification.PropertyName);
+
 			// add a term filter
-			searchQuery.Add(new TermFilter(specification.PropertyName, specification.Value)
+			searchQuery.Add(new TermFilter(specification.PropertyName, propertyMapping.Normalize(specification.Value))
 			                {
 			                	Cache = false
 			                });

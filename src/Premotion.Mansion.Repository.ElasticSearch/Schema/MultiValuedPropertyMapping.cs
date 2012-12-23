@@ -38,7 +38,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 			var raw = source.Get(context, Name, string.Empty) ?? string.Empty;
 
 			// split on comma, trim all values, remove empty entries
-			var values = raw.Split(new[] {','}).Select(x => x.Trim()).Where(x => !string.IsNullOrEmpty(x)).ToArray();
+			var values = raw.Split(new[] {','}).Select(x => Normalize(x.Trim()).ToString()).Where(x => !string.IsNullOrEmpty(x)).ToArray();
 
 			// write the values to the document
 			document.Add(Name, values);
