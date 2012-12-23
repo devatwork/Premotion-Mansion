@@ -29,6 +29,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 			                	Type = "string",
 			                	Index = "not_analyzed"
 			                });
+			typeMapping.Add(new SingleValuedPropertyMapping("order")
+			                {
+			                	Type = "long"
+			                });
 			typeMapping.Add(new IgnoredPropertyMapping("depth"));
 			typeMapping.Add(new IgnoredPropertyMapping("structure"));
 			typeMapping.Add(new IgnoredPropertyMapping("path"));
