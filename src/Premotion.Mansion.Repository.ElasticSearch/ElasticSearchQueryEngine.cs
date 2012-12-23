@@ -85,6 +85,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch
 		/// <returns>Returns the result of the vote.</returns>
 		protected override VoteResult DoVote(IMansionContext context, Query subject)
 		{
+			// never use ElasticSearch in the backoffice
+			if (context.IsBackoffice)
+				return VoteResult.Refrain;
+
 			// find the root type for this query
 			var rootType = subject.TypeHints.FindCommonAncestor(context);
 
