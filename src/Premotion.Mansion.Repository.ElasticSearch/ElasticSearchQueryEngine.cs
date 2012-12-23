@@ -8,7 +8,7 @@ using Premotion.Mansion.Core.Patterns.Voting;
 using Premotion.Mansion.Repository.ElasticSearch.Querying;
 using Premotion.Mansion.Repository.ElasticSearch.Schema;
 
-namespace Premotion.Mansion.Repository.ElasticSearch.Data
+namespace Premotion.Mansion.Repository.ElasticSearch
 {
 	/// <summary>
 	/// Implements the <see cref="BaseQueryEngine"/> for ElasticSearch.

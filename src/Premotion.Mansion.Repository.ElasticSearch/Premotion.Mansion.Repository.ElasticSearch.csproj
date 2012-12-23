@@ -53,8 +53,8 @@
     <Compile Include="Connection\ConnectionManager.cs" />
     <Compile Include="Connection\ConnectionException.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Data\ElasticSearchIndexEngine.cs" />
-    <Compile Include="Data\ElasticSearchQueryEngine.cs" />
+    <Compile Include="ElasticSearchIndexEngine.cs" />
+    <Compile Include="ElasticSearchQueryEngine.cs" />
     <Compile Include="ElasticSearchApplicationBootstrapper.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Connection\ElasticSearchJsonSerializer.cs" />

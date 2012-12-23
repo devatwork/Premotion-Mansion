@@ -3,7 +3,7 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Repository.ElasticSearch.Indexing;
 
-namespace Premotion.Mansion.Repository.ElasticSearch.Data
+namespace Premotion.Mansion.Repository.ElasticSearch
 {
 	/// <summary>
 	/// Implements the <see cref="BaseIndexEngine"/> for ElasticSearch.

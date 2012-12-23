@@ -4,7 +4,6 @@ using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.ElasticSearch.Connection;
-using Premotion.Mansion.Repository.ElasticSearch.Data;
 using Premotion.Mansion.Repository.ElasticSearch.Indexing;
 using Premotion.Mansion.Repository.ElasticSearch.Querying;
 using Premotion.Mansion.Repository.ElasticSearch.Schema;
