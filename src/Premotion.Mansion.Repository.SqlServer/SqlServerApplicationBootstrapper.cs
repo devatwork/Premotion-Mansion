@@ -3,6 +3,7 @@ using System.Configuration;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Nucleus;
+using Premotion.Mansion.Repository.SqlServer.Queries.Converters;
 
 namespace Premotion.Mansion.Repository.SqlServer
 {
@@ -34,7 +35,10 @@ namespace Premotion.Mansion.Repository.SqlServer
 			// register the SQL-server services.
 			nucleus.Register(resolver => Create());
 			nucleus.Register<BaseStorageEngine>(resolver => new SqlServerStorageEngine(resolver.ResolveSingle<SqlServerRepository>()));
-			nucleus.Register<BaseQueryEngine>("sqlserver:queryengine", resolver => new SqlServerQueryEngine(resolver.ResolveSingle<SqlServerRepository>()));
+			nucleus.Register<BaseQueryEngine>("sqlserver:queryengine", resolver => new SqlServerQueryEngine(
+			                                                                       	resolver.ResolveSingle<SqlServerRepository>(),
+			                                                                       	resolver.Resolve<IQueryComponentConverter>()
+			                                                                       	));
 		}
 		#endregion
 		#region Create Methods

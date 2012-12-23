@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Patterns.Voting;
+using Premotion.Mansion.Repository.SqlServer.Queries.Converters;
 
 namespace Premotion.Mansion.Repository.SqlServer
 {
@@ -17,15 +20,19 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// Constructs a <see cref="SqlServerQueryEngine"/>.
 		/// </summary>
 		/// <param name="repository">The <see cref="SqlServerRepository"/>.</param>
+		/// <param name="converters">The <see cref="IQueryComponentConverter"/>s.</param>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="repository"/> is null.</exception>
-		public SqlServerQueryEngine(SqlServerRepository repository) : base(10)
+		public SqlServerQueryEngine(SqlServerRepository repository, IEnumerable<IQueryComponentConverter> converters) : base(10)
 		{
 			// validate arguments
 			if (repository == null)
 				throw new ArgumentNullException("repository");
+			if (converters == null)
+				throw new ArgumentNullException("converters");
 
 			// set values
 			this.repository = repository;
+			this.converters = converters.ToArray();
 		}
 		#endregion
 		#region Overrides of BaseQueryEngine
@@ -78,11 +85,12 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <returns>Returns the result of the vote.</returns>
 		protected override VoteResult DoVote(IMansionContext context, Query subject)
 		{
-			// TODO: check if all the components can be mapped
-			return VoteResult.LowInterest;
+			IQueryComponentConverter converter;
+			return subject.Components.All(component => Election<IQueryComponentConverter, QueryComponent>.TryElect(context, converters, component, out converter)) ? VoteResult.LowInterest : VoteResult.Refrain;
 		}
 		#endregion
 		#region Private Fields
+		private readonly IQueryComponentConverter[] converters;
 		private readonly SqlServerRepository repository;
 		#endregion
 	}
