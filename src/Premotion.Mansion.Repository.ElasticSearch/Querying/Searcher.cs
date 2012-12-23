@@ -101,6 +101,66 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 			// create the record set
 			return TypeMapping.MapRecordSet(context, query, response);
 		}
+		/// <summary>
+		/// Performs a search using the specified <paramref name="query"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="Query"/> on which to search.</param>
+		/// <returns>Returns the resulting <see cref="Nodeset"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		/// <exception cref="ConnectionException">Thrown if a error occurred while executing the search query.</exception>
+		public Nodeset SearchNodes(IMansionContext context, Query query)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (query == null)
+				throw new ArgumentNullException("query");
+
+			// find the root type for this query
+			var rootType = query.TypeHints.FindCommonAncestor(context);
+
+			// resolve the index definitions of this record
+			var indexDefinitions = indexDefinitionResolver.Resolve(context, rootType);
+
+			// determine the index which to use to perform the search
+			var indexDefinitionTypeMappingPair = SelectBestIndexForQuery(rootType, query, indexDefinitions);
+
+			// create a search descriptor
+			var search = new SearchQuery(indexDefinitionTypeMappingPair.Item1, indexDefinitionTypeMappingPair.Item2);
+
+			// map all the query components to the search descriptor
+			foreach (var component in query.Components)
+				converters.Elect(context, component).Map(context, query, component, search);
+
+			// execute the query
+			return SearchNodes(context, search);
+		}
+		/// <summary>
+		/// Performs a search using the specified <paramref name="query"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="Query"/> on which to search.</param>
+		/// <returns>Returns the resulting <see cref="Nodeset"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		/// <exception cref="ConnectionException">Thrown if a error occurred while executing the search query.</exception>
+		public Nodeset SearchNodes(IMansionContext context, SearchQuery query)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (query == null)
+				throw new ArgumentNullException("query");
+
+			// build the resource
+			var resource = query.IndexDefinition.Name + "/_search";
+
+			// execute the search
+			var response = connectionManager.Post<SearchResponse>(resource, query);
+
+			// create the record set
+			return TypeMapping.MapNodeset(context, query, response);
+		}
 		#endregion
 		#region Index Definition Methods
 		/// <summary>

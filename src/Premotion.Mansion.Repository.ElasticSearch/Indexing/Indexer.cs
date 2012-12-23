@@ -134,6 +134,40 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 			}
 		}
 		#endregion
+		#region Delete Methods
+		/// <summary>
+		/// Deletes the given <paramref name="record"/> from the index.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="record">The <see cref="Record"/>.</param>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="record"/> is null.</exception>
+		public void Delete(IMansionContext context, Record record)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (record == null)
+				throw new ArgumentNullException("record");
+
+			// TODO: implement delete children
+
+			// resolve the index definitions of this record
+			var indexDefinitions = indexDefinitionResolver.Resolve(context, record.Type);
+
+			// loop over all the definition
+			foreach (var indexDefinition in indexDefinitions)
+			{
+				// find the mapper for this record
+				var mapping = indexDefinition.FindTypeMapping(record.Type);
+
+				// determine the resource
+				var resource = indexDefinition.Name + '/' + mapping.Name + '/' + record.Id;
+
+				// index the document
+				connectionManager.Delete(resource, new[] {HttpStatusCode.OK});
+			}
+		}
+		#endregion
 		#region Private Fields
 		private readonly ConnectionManager connectionManager;
 		private readonly IndexDefinitionResolver indexDefinitionResolver;

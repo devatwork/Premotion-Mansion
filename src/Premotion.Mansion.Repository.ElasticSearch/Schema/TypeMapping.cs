@@ -131,6 +131,14 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		/// <returns>Returns the mapped record set.</returns>
 		public static RecordSet MapRecordSet(IMansionContext context, SearchQuery query, SearchResponse response)
 		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (query == null)
+				throw new ArgumentNullException("query");
+			if (response == null)
+				throw new ArgumentNullException("response");
+
 			// map all the hits
 			var records = MapRecords(context, query, response.Hits.Hits);
 
@@ -226,6 +234,60 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 
 				// map the value using the property mapping
 				propertyMapping.Map(context, source, property, target);
+			}
+		}
+		/// <summary>
+		/// Maps the given <paramref name="response"/> into a <see cref="Nodeset"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="SearchQuery"/>.</param>
+		/// <param name="response">The <see cref="SearchResponse"/>.</param>
+		/// <returns>Returns the mapped record set.</returns>
+		public static Nodeset MapNodeset(IMansionContext context, SearchQuery query, SearchResponse response)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (query == null)
+				throw new ArgumentNullException("query");
+			if (response == null)
+				throw new ArgumentNullException("response");
+
+			// map all the hits
+			var nodes = MapNodes(context, query, response.Hits.Hits);
+
+			// map the set metadata
+			var metaData = MapRecordSetMetaData(query, response.Hits);
+
+			// create and return the set
+			return new Nodeset(context, metaData, nodes);
+		}
+		/// <summary>
+		/// Maps all the <paramref name="hits"/> into <see cref="Record"/>s.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The <see cref="SearchQuery"/>.</param>
+		/// <param name="hits">The <see cref="Hit"/>s.</param>
+		/// <returns>Returns the mapped <see cref="Record"/>s.</returns>
+		private static IEnumerable<Node> MapNodes(IMansionContext context, SearchQuery query, IEnumerable<Hit> hits)
+		{
+			// loop over all the hits
+			foreach (var hit in hits)
+			{
+				// create the record
+				var node = new Node();
+
+				// find the type mapping
+				var mapping = query.IndexDefinition.FindTypeMapping(hit.Type);
+
+				// map all its properties
+				mapping.MapProperties(context, hit, node);
+
+				// initialize the record
+				node.Initialize(context);
+
+				// return the mapped record
+				yield return node;
 			}
 		}
 		#endregion
