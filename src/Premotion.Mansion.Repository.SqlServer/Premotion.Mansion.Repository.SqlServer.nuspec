@@ -10,6 +10,7 @@
 		<description>Implements a Premotion Mansion repository using SQL Server</description>
 		<frameworkAssemblies>
 			<frameworkAssembly assemblyName="System" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Configuration" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Data" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Xml" targetFramework="net40" />

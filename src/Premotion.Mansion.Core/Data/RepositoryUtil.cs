@@ -29,10 +29,19 @@ namespace Premotion.Mansion.Core.Data
 			if (applicationSettings == null)
 				throw new ArgumentNullException("applicationSettings");
 
+			// resolve the data storaget
+			BaseStorageEngine storageEngine;
+			if (!context.Nucleus.TryResolveSingle(out storageEngine))
+				throw new InvalidOperationException("There is no data storage engine configured within this application, please register a data store");
+
 			var disposableChain = new DisposableChain();
 
 			// create the repository
-			var repository = context.Nucleus.ResolveSingle<IRepositoryFactory>(repositoryNamespace, "Factory").Create(context, applicationSettings);
+			IRepository repository = new OrchestratingRepository(
+				context.Nucleus.ResolveSingle<BaseStorageEngine>(),
+				context.Nucleus.Resolve<BaseQueryEngine>(),
+				context.Nucleus.Resolve<BaseIndexEngine>()
+				);
 
 			// decorate with listing capabilities
 			repository = new ListeningRepositoryDecorator(repository, context.Nucleus.ResolveSingle<ITypeService>());

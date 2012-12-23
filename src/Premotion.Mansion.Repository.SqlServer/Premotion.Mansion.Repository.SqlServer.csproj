@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.XML" />
@@ -45,6 +46,7 @@
   <ItemGroup>
     <Compile Include="BulkOperationContext.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="SqlServerApplicationBootstrapper.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Queries\Converters\ConjunctionSpecificationConverter.cs" />
     <Compile Include="Queries\Converters\IsPropertyGreaterThanOrEqualSpecificationConverter.cs" />
@@ -130,13 +132,14 @@
     <Compile Include="Schemas\TableColumnPair.cs" />
     <Compile Include="Schemas\TypeTable.cs" />
     <Compile Include="Schemas\VirtualColumn.cs" />
+    <Compile Include="SqlServerQueryEngine.cs" />
+    <Compile Include="SqlServerStorageEngine.cs" />
     <Compile Include="SqlServerUtilities.cs" />
     <Compile Include="SchemaCreatorApplicationInitializer.cs" />
     <Compile Include="ScriptFunctions\MaxSqlDate.cs" />
     <Compile Include="ScriptFunctions\SqlEncode.cs" />
     <Compile Include="ScriptTags\SyncTablesTag.cs" />
     <Compile Include="SqlServerRepository.cs" />
-    <Compile Include="SqlServerRepositoryFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Premotion.Mansion.Core\Premotion.Mansion.Core.csproj">

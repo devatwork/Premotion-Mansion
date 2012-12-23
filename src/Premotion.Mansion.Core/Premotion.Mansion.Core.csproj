@@ -83,6 +83,7 @@
     <Compile Include="Conversion\Converters\StringToInt64Converter.cs" />
     <Compile Include="Data\BaseQueryEngine.cs" />
     <Compile Include="Data\Caching\CacheExtensions.cs" />
+    <Compile Include="Data\RepositoryApplicationBootstrapper.cs" />
     <Compile Include="Data\Listeners\RecordListener.cs" />
     <Compile Include="Data\Queries\CacheQueryComponent.cs" />
     <Compile Include="Data\Queries\FacetQueryComponent.cs" />
@@ -106,7 +107,6 @@
     <Compile Include="Data\Queries\Parser\WhereArgumentProcessor.cs" />
     <Compile Include="Data\Queries\Parser\QueryArgumentProcessor.cs" />
     <Compile Include="Data\Queries\Parser\SortArgumentProcessor.cs" />
-    <Compile Include="Data\Queries\Parser\DataApplicationBootstrapper.cs" />
     <Compile Include="Data\Queries\Query.cs" />
     <Compile Include="Data\Queries\Parser\QueryParser.cs" />
     <Compile Include="Data\Queries\QueryComponent.cs" />
@@ -180,7 +180,6 @@
     <Compile Include="Data\Caching\CachingRepositoryDecorator.cs" />
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\IRepositoryDecorator.cs" />
-    <Compile Include="Data\IRepositoryFactory.cs" />
     <Compile Include="Data\Listeners\Constants.cs" />
     <Compile Include="Data\Listeners\ListeningRepositoryDecorator.cs" />
     <Compile Include="Data\Listeners\NodeListener.cs" />

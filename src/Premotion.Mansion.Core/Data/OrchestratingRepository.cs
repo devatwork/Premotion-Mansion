@@ -35,6 +35,10 @@ namespace Premotion.Mansion.Core.Data
 			this.storageEngine = storageEngine;
 			this.queryEngines = queryEngines.ToArray();
 			this.indexEngines = indexEngines.ToArray();
+
+			// make sure there is at least one query engine
+			if (this.queryEngines.Length < 1)
+				throw new InvalidOperationException("There should be at least one query engine registered");
 		}
 		#endregion
 		#region Overrides of RepositoryBase
