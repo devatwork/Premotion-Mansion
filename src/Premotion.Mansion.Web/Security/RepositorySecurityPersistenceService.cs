@@ -4,6 +4,7 @@ using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Security;
 
 namespace Premotion.Mansion.Web.Security
@@ -260,7 +261,8 @@ namespace Premotion.Mansion.Web.Security
 				                                              {
 				                                              	{"baseType", "RoleOwner"},
 				                                              	{"key", "AnonymousUser"},
-				                                              	{"bypassAuthorization", true}
+				                                              	{"bypassAuthorization", true},
+				                                              	{StorageOnlyQueryComponent.PropertyKey, true}
 				                                              });
 				if (node == null)
 					throw new InvalidOperationException("Could not find the anonymous user node");
@@ -271,7 +273,8 @@ namespace Premotion.Mansion.Web.Security
 				                                              {
 				                                              	{"baseType", "RoleOwner"},
 				                                              	{"guid", owner.Id},
-				                                              	{"bypassAuthorization", true}
+				                                              	{"bypassAuthorization", true},
+				                                              	{StorageOnlyQueryComponent.PropertyKey, true}
 				                                              });
 				if (node == null)
 					throw new InvalidOperationException(string.Format("Could not find role owner with foreign ID {0} in repository, please sync tables", owner.Id));
@@ -292,7 +295,8 @@ namespace Premotion.Mansion.Web.Security
 			                                           {
 			                                           	{"baseType", "Role"},
 			                                           	{"guid", string.Join(",", roleGuids)},
-			                                           	{"bypassAuthorization", true}
+			                                           	{"bypassAuthorization", true},
+			                                           	{StorageOnlyQueryComponent.PropertyKey, true}
 			                                           });
 		}
 		/// <summary>
@@ -308,7 +312,8 @@ namespace Premotion.Mansion.Web.Security
 			                                                  {
 			                                                  	{"baseType", "Role"},
 			                                                  	{"guid", role.Id},
-			                                                  	{"bypassAuthorization", true}
+			                                                  	{"bypassAuthorization", true},
+			                                                  	{StorageOnlyQueryComponent.PropertyKey, true}
 			                                                  });
 			if (node == null)
 				throw new InvalidOperationException(string.Format("Could not find role with ID {0} in repository, please sync tables", role.Id));
@@ -327,7 +332,8 @@ namespace Premotion.Mansion.Web.Security
 			                                           {
 			                                           	{"baseType", "UserGroup"},
 			                                           	{"userGuids", userNode.Get<string>(context, "guid")},
-			                                           	{"bypassAuthorization", true}
+			                                           	{"bypassAuthorization", true},
+			                                           	{StorageOnlyQueryComponent.PropertyKey, true}
 			                                           });
 		}
 		#endregion

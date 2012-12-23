@@ -2,6 +2,7 @@
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Security;
 
 namespace Premotion.Mansion.Web.Security
@@ -48,7 +49,8 @@ namespace Premotion.Mansion.Web.Security
 			                                                              	{"id", userId},
 			                                                              	{"status", "any"},
 			                                                              	{"bypassAuthorization", true},
-			                                                              	{"cache", false}
+			                                                              	{"cache", false},
+			                                                              	{StorageOnlyQueryComponent.PropertyKey, true}
 			                                                              });
 			if (userNode == null)
 			{
@@ -95,7 +97,8 @@ namespace Premotion.Mansion.Web.Security
 			                                                              	{"password", password},
 			                                                              	{"status", "any"},
 			                                                              	{"bypassAuthorization", true},
-			                                                              	{"cache", false}
+			                                                              	{"cache", false},
+			                                                              	{StorageOnlyQueryComponent.PropertyKey, true}
 			                                                              });
 			if (userNode == null)
 			{
@@ -177,7 +180,8 @@ namespace Premotion.Mansion.Web.Security
 			                                                              	{"guid", id},
 			                                                              	{"status", "any"},
 			                                                              	{"bypassAuthorization", true},
-			                                                              	{"cache", false}
+			                                                              	{"cache", false},
+			                                                              	{StorageOnlyQueryComponent.PropertyKey, true}
 			                                                              });
 			if (userNode == null)
 				return null;
