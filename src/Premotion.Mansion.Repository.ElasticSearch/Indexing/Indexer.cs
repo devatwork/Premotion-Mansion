@@ -3,6 +3,7 @@ using System.Net;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Repository.ElasticSearch.Connection;
 using Premotion.Mansion.Repository.ElasticSearch.Schema;
 
@@ -76,7 +77,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 			// retrieve all the data directly from the repository
 			var recordSet = context.Repository.RetrieveNodeset(context, new PropertyBag
 			                                                            {
-			                                                            	{"baseType", "Default"}
+			                                                            	{"cache", false},
+			                                                            	{"baseType", "Default"},
+			                                                            	{"bypassAuthorization", true},
+			                                                            	{StorageOnlyQueryComponent.PropertyKey, true}
 			                                                            });
 
 			// index the dataset
