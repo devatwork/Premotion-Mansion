@@ -22,7 +22,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <param name="repository">The <see cref="SqlServerRepository"/>.</param>
 		/// <param name="converters">The <see cref="IQueryComponentConverter"/>s.</param>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="repository"/> is null.</exception>
-		public SqlServerQueryEngine(SqlServerRepository repository, IEnumerable<IQueryComponentConverter> converters) : base(10)
+		public SqlServerQueryEngine(SqlServerRepository repository, IEnumerable<IQueryComponentConverter> converters) : base(10, true)
 		{
 			// validate arguments
 			if (repository == null)

@@ -16,9 +16,11 @@ namespace Premotion.Mansion.Core.Data
 		/// Constructs a query engine with the given <paramref name="priority"/>.
 		/// </summary>
 		/// <param name="priority">Determines the priority of this engine when resolving election ties. The higher the priority, earlier this object is executed.</param>
-		protected BaseQueryEngine(int priority)
+		/// <param name="isStorageQueryEngine">Flag indicating whether this is the query engine of the storage engine.</param>
+		protected BaseQueryEngine(int priority, bool isStorageQueryEngine)
 		{
 			Priority = priority;
+			this.isStorageQueryEngine = isStorageQueryEngine;
 		}
 		#endregion
 		#region Record Methods
@@ -140,6 +142,14 @@ namespace Premotion.Mansion.Core.Data
 			if (subject == null)
 				throw new ArgumentNullException("subject");
 
+			// check for non-storage query engines
+			if (!isStorageQueryEngine)
+			{
+				// never use non-storage in the backoffice
+				if (!context.IsBackoffice)
+					return VoteResult.Refrain;
+			}
+
 			// invoke template method
 			return DoVote(context, subject);
 		}
@@ -156,6 +166,9 @@ namespace Premotion.Mansion.Core.Data
 		/// Gets the relative priority of this object. The higher the priority, earlier this object is executed.
 		/// </summary>
 		public int Priority { get; private set; }
+		#endregion
+		#region Private Fields
+		private readonly bool isStorageQueryEngine;
 		#endregion
 	}
 }
