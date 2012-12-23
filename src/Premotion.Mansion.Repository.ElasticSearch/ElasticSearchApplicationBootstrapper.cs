@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.ElasticSearch.Connection;
@@ -40,8 +41,8 @@ namespace Premotion.Mansion.Repository.ElasticSearch
 			nucleus.Register(resolver => new IndexDefinitionResolver(resolver.ResolveSingle<ITypeService>()));
 			nucleus.Register(resolver => new Indexer(resolver.ResolveSingle<ConnectionManager>(), resolver.ResolveSingle<IndexDefinitionResolver>()));
 			nucleus.Register(resolver => new Searcher(resolver.ResolveSingle<ConnectionManager>(), resolver.ResolveSingle<IndexDefinitionResolver>(), resolver.Resolve<IQueryComponentMapper>()));
-			nucleus.Register(resolver => new ElasticSearchIndexEngine(resolver.ResolveSingle<Indexer>()));
-			nucleus.Register(resolver => new ElasticSearchQueryEngine(resolver.ResolveSingle<Searcher>(), resolver.ResolveSingle<IndexDefinitionResolver>()));
+			nucleus.Register<BaseIndexEngine>(resolver => new ElasticSearchIndexEngine(resolver.ResolveSingle<Indexer>()));
+			nucleus.Register<BaseQueryEngine>(resolver => new ElasticSearchQueryEngine(resolver.ResolveSingle<Searcher>(), resolver.ResolveSingle<IndexDefinitionResolver>()));
 		}
 		#endregion
 	}
