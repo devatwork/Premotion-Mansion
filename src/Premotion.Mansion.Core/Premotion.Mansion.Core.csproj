@@ -52,6 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettingsConstants.cs" />
+    <Compile Include="Data\BaseStorageEngine.cs" />
+    <Compile Include="Data\BaseIndexEngine.cs" />
     <Compile Include="Caching\CacheDependency.cs" />
     <Compile Include="Caching\CachedObject.cs" />
     <Compile Include="Caching\CacheKey.cs" />
@@ -79,6 +81,7 @@
     <Compile Include="Conversion\Converters\DoubleToInt32Converter.cs" />
     <Compile Include="Conversion\Converters\Int64ToDoubleConverter.cs" />
     <Compile Include="Conversion\Converters\StringToInt64Converter.cs" />
+    <Compile Include="Data\BaseQueryEngine.cs" />
     <Compile Include="Data\Caching\CacheExtensions.cs" />
     <Compile Include="Data\Listeners\RecordListener.cs" />
     <Compile Include="Data\Queries\CacheQueryComponent.cs" />
@@ -258,6 +261,7 @@
     <Compile Include="PropertyNotFoundException.cs" />
     <Compile Include="Nucleus\IReflectionService.cs" />
     <Compile Include="Nucleus\ReflectionService.cs" />
+    <Compile Include="Data\OrchestratingRepository.cs" />
     <Compile Include="ScriptFunctions\Guids\NewGuid.cs" />
     <Compile Include="ScriptFunctions\List\AppendNeedle.cs" />
     <Compile Include="ScriptFunctions\List\RemoveNeedle.cs" />
