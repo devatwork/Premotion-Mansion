@@ -16,18 +16,12 @@ namespace Premotion.Mansion.Core.Data
 		/// Opens a repository and pushes it to the stack.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="repositoryNamespace">The namespace in which the repository lives.</param>
-		/// <param name="applicationSettings">The <see cref="IPropertyBag"/> containing the application settings.</param>
 		/// <returns>Returns an <see cref="IDisposable"/> which cleans up the opened repository and the stack.</returns>
-		public static IDisposable Open(IMansionContext context, string repositoryNamespace, IPropertyBag applicationSettings)
+		public static IDisposable Open(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
-			if (string.IsNullOrEmpty(repositoryNamespace))
-				throw new ArgumentNullException("repositoryNamespace");
-			if (applicationSettings == null)
-				throw new ArgumentNullException("applicationSettings");
 
 			// resolve the data storaget
 			BaseStorageEngine storageEngine;

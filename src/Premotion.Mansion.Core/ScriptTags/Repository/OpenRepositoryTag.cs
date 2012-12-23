@@ -16,12 +16,8 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 		/// <param name="context">The application context.</param>
 		protected override void DoExecute(IMansionContext context)
 		{
-			// get the attributes
-			var repositoryNamespace = GetRequiredAttribute<string>(context, "repositoryNamespace");
-			var applicationSettings = context.Stack.Peek<IPropertyBag>("Application");
-
 			// open the repository
-			using (RepositoryUtil.Open(context, repositoryNamespace, applicationSettings))
+			using (RepositoryUtil.Open(context))
 				ExecuteChildTags(context);
 		}
 		#endregion

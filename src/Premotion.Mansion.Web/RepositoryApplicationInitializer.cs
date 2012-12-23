@@ -29,15 +29,8 @@ namespace Premotion.Mansion.Web
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		protected override void DoInitialize(IMansionContext context)
 		{
-			var applicationSettings = context.Stack.Peek<IPropertyBag>(ApplicationSettingsConstants.DataspaceName);
-			var repositoryNamespace = applicationSettings.Get(context, ApplicationSettingsConstants.RepositoryNamespace, String.Empty);
-
-			// if not repository is specified to not try to intialize
-			if (String.IsNullOrEmpty(repositoryNamespace))
-				return;
-
 			// open the repository
-			using (RepositoryUtil.Open(context, repositoryNamespace, applicationSettings))
+			using (RepositoryUtil.Open(context))
 			{
 				// check if the root node exists
 				var rootNode = context.Repository.RetrieveSingleNode(context, new Query().Add(new IsPropertyEqualSpecification("id", 1)));
