@@ -29,7 +29,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 			if (specification.Depth.HasValue)
 			{
 				// create the depth
-				var depth = new TermFilter("depth", specification.Depth.Value);
+				var depth = new TermFilter("depth", specification.ParentPointer.Depth + specification.Depth.Value);
 
 				// combine the parentId and depth
 				combined = new AndFilter().Add(parentId, depth);
