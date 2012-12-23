@@ -45,7 +45,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Data
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="query"/> is null.</exception>
 		protected override Record DoRetrieveSingle(IMansionContext context, Query query)
 		{
-			return searcher.Search(context, query).Records.First();
+			return searcher.Search(context, query).Records.FirstOrDefault();
 		}
 		/// <summary>
 		/// Retrieves a <see cref="Dataset"/> from this repository.
@@ -65,7 +65,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Data
 		/// <returns>Returns a single <see cref="Node"/>.</returns>
 		protected override Node DoRetrieveSingleNode(IMansionContext context, Query query)
 		{
-			return searcher.SearchNodes(context, query).Nodes.First();
+			return searcher.SearchNodes(context, query).Nodes.FirstOrDefault();
 		}
 		/// <summary>
 		/// Retrieves multiple nodes from this repository.
