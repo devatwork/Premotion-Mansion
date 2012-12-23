@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json.Linq;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Patterns.Voting;
@@ -101,7 +99,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 			var response = connectionManager.Post<SearchResponse>(resource, query);
 
 			// create the record set
-			return MapRecordSet(context, query, response);
+			return TypeMapping.MapRecordSet(context, query, response);
 		}
 		#endregion
 		#region Index Definition Methods
@@ -119,115 +117,6 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 
 			// return the type mapping which has to most fields matching the query
 			return indexDefinitionTypeMappingPairs.OrderByDescending(pair => pair.Item2.Properties.Select(prop => prop.Key).Intersect(query.PropertyHints, StringComparer.OrdinalIgnoreCase).Count()).First();
-		}
-		#endregion
-		#region Map Methods
-		/// <summary>
-		/// Maps the given <paramref name="response"/> into a <see cref="RecordSet"/>.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="query">The <see cref="SearchQuery"/>.</param>
-		/// <param name="response">The <see cref="SearchResponse"/>.</param>
-		/// <returns>Returns the mapped record set.</returns>
-		private static RecordSet MapRecordSet(IMansionContext context, SearchQuery query, SearchResponse response)
-		{
-			// map all the hits
-			var records = MapRecords(context, query, response.Hits.Hits);
-
-			// map the set metadata
-			var metaData = MapRecordSetMetaData(query, response.Hits);
-
-			// create and return the set
-			return new RecordSet(context, metaData, records);
-		}
-		/// <summary>
-		/// Maps the meta data of the <paramref name="hits"/>.
-		/// </summary>
-		/// <param name="query">The source <see cref="SearchQuery"/>.</param>
-		/// <param name="hits">The resulting <see cref="HitMetaData"/>.</param>
-		/// <returns>Returns a <see cref="IPropertyBag"/> containing the meta data.</returns>
-		private static IPropertyBag MapRecordSetMetaData(SearchQuery query, HitMetaData hits)
-		{
-			// create the meta data
-			var metaData = new PropertyBag
-			               {
-			               	{"totalCount", hits.Total}
-			               };
-
-			// set the paging options if any
-			if (query.From.HasValue && query.Size.HasValue)
-			{
-				metaData.Set("pageNumber", (query.From.Value + query.Size.Value)/query.Size.Value);
-				metaData.Set("pageSize", query.Size.Value);
-			}
-
-			// set the sort value, if any
-			var sortString = query.Sorts.Aggregate(",", (current, sort) =>
-			                                            {
-			                                            	var s = sort.ToString();
-			                                            	if (string.IsNullOrEmpty(s))
-			                                            		return current;
-			                                            	return current + ',' + sort;
-			                                            }).Trim(',', ' ');
-			if (!string.IsNullOrEmpty(sortString))
-				metaData.Set("sort", sortString);
-
-			// return the meta data
-			return metaData;
-		}
-		/// <summary>
-		/// Maps all the <paramref name="hits"/> into <see cref="Record"/>s.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="query">The <see cref="SearchQuery"/>.</param>
-		/// <param name="hits">The <see cref="Hit"/>s.</param>
-		/// <returns>Returns the mapped <see cref="Record"/>s.</returns>
-		private static IEnumerable<Record> MapRecords(IMansionContext context, SearchQuery query, IEnumerable<Hit> hits)
-		{
-			// loop over all the hits
-			foreach (var hit in hits)
-			{
-				// create the record
-				var record = new Record();
-
-				// map all its properties
-				MapProperties(context, query, hit, record);
-
-				// initialize the record
-				record.Initialize(context);
-
-				// return the mapped record
-				yield return record;
-			}
-		}
-		/// <summary>
-		/// Maps the properties from <paramref name="source"/> to <paramref name="target"/>.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="query">The <see cref="SearchQuery"/>.</param>
-		/// <param name="source">The <see cref="Hit"/>.</param>
-		/// <param name="target">The <see cref="IPropertyBag"/>.</param>
-		private static void MapProperties(IMansionContext context, SearchQuery query, Hit source, IPropertyBag target)
-		{
-			// find the type mapping for this type
-			var typeMapping = query.IndexDefinition.FindTypeMapping(source.Type);
-
-			// loop over all the properties
-			var document = JObject.Parse(source.Source);
-			foreach (var property in document.Properties())
-			{
-				// find the property mapping for this property
-				PropertyMapping propertyMapping;
-				if (!typeMapping.Properties.TryGetValue(property.Name, out propertyMapping))
-				{
-					// just write the property without mapping
-					SingleValuedPropertyMapping.Map(property, target);
-					continue;
-				}
-
-				// map the value using the property mapping
-				propertyMapping.Map(context, source, property, target);
-			}
 		}
 		#endregion
 		#region Private Fields
