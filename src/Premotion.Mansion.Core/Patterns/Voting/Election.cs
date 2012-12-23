@@ -18,11 +18,12 @@ namespace Premotion.Mansion.Core.Patterns.Voting
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="candidates">The candidates in this election.</param>
 		/// <param name="subject">The subject on which is voted.</param>
+		/// <param name="tieResolver">Invoked when this election is about to end in a tie.</param>
 		/// <returns>Returns the winner of the election.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
 		/// <exception cref="InconclusiveElectionException{TCandidate,TSubject}">Thrown when there is no candidate interested in the subject.</exception>
 		/// <exception cref="TieElectionException{TCandidate,TSubject}">Thrown when two or more candidate were equally intrested in the subject.</exception>
-		public static TCandidate Elect(IMansionContext context, IEnumerable<TCandidate> candidates, TSubject subject)
+		public static TCandidate Elect(IMansionContext context, IEnumerable<TCandidate> candidates, TSubject subject, Func<IEnumerable<TCandidate>, TCandidate> tieResolver = null)
 		{
 			// validate argument
 			if (context == null)
@@ -59,7 +60,14 @@ namespace Premotion.Mansion.Core.Patterns.Voting
 
 			// check for ambigious candidates
 			if (higestCandidateList.Count != 1)
+			{
+				// check if there is a tie resolver
+				if (tieResolver != null)
+					return tieResolver(higestCandidateList);
+				
+				// election ended in a tie
 				throw new TieElectionException<TCandidate, TSubject>("Two or more candidates were equally interested in the subject.", higestCandidateList, subject);
+			}
 
 			// return the subject
 			return higestCandidateList[0];

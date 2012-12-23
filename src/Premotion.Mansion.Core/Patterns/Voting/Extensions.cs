@@ -15,11 +15,12 @@ namespace Premotion.Mansion.Core.Patterns.Voting
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="candidates">The candidates in this election.</param>
 		/// <param name="subject">The subject on which is voted.</param>
+		/// <param name="tieResolver">Invoked when this election is about to end in a tie.</param>
 		/// <returns>Returns the winner of the election.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
 		/// <exception cref="InconclusiveElectionException{TCandidate,TSubject}">Thrown when there is no candidate interested in the subject.</exception>
 		/// <exception cref="TieElectionException{TCandidate,TSubject}">Thrown when two or more candidate were equally intrested in the subject.</exception>
-		public static TCandidate Elect<TCandidate, TSubject>(this IEnumerable<TCandidate> candidates, IMansionContext context, TSubject subject) where TCandidate : ICandidate<TSubject>
+		public static TCandidate Elect<TCandidate, TSubject>(this IEnumerable<TCandidate> candidates, IMansionContext context, TSubject subject, Func<IEnumerable<TCandidate>, TCandidate> tieResolver = null) where TCandidate : ICandidate<TSubject>
 		{
 			// validate argument
 			if (context == null)
@@ -27,7 +28,7 @@ namespace Premotion.Mansion.Core.Patterns.Voting
 			if (candidates == null)
 				throw new ArgumentNullException("candidates");
 
-			return Election<TCandidate, TSubject>.Elect(context, candidates, subject);
+			return Election<TCandidate, TSubject>.Elect(context, candidates, subject, tieResolver);
 		}
 		#endregion
 	}
