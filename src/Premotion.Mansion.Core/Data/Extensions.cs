@@ -74,7 +74,7 @@ namespace Premotion.Mansion.Core.Data
 				throw new ArgumentNullException("context");
 
 			// retrieve the node
-			var rootNode = repository.RetrieveSingleNode(context, new Query().Add(new IsPropertyEqualSpecification("id", 1)));
+			var rootNode = repository.RetrieveSingleNode(context, new Query().Add(new IsPropertyEqualSpecification("id", 1)).Add(new StorageOnlyQueryComponent()));
 			if (rootNode == null)
 				throw new InvalidOperationException("Could not find root node, please check repository");
 			return rootNode;

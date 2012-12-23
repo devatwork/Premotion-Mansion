@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="BulkOperationContext.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Queries\Converters\StorageOnlyQueryComponentConverter.cs" />
     <Compile Include="SqlServerApplicationBootstrapper.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Queries\Converters\ConjunctionSpecificationConverter.cs" />

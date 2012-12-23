@@ -15,8 +15,9 @@ namespace Premotion.Mansion.Core.Data.Queries
 		/// Adds a new <paramref name="component"/> to this query.
 		/// </summary>
 		/// <param name="component">The <see cref="QueryComponent"/> which to add.</param>
+		/// <returns>Returns <see cref="Query"/> for chaining.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="component"/> is null.</exception>
-		public void Add(QueryComponent component)
+		public Query Add(QueryComponent component)
 		{
 			// validate arguments
 			if (component == null)
@@ -27,6 +28,9 @@ namespace Premotion.Mansion.Core.Data.Queries
 
 			// add the property hints to the list
 			propertyHints.AddRange(component.GetPropertyHints());
+
+			// return this for chaining
+			return this;
 		}
 		/// <summary>
 		/// Adds the given <paramref name="types"/> as type hints to this query.

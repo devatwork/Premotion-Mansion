@@ -146,7 +146,12 @@ namespace Premotion.Mansion.Core.Data
 			if (!isStorageQueryEngine)
 			{
 				// never use non-storage in the backoffice
-				if (!context.IsBackoffice)
+				if (context.IsBackoffice)
+					return VoteResult.Refrain;
+
+				// check for storage-only component
+				StorageOnlyQueryComponent storageOnlyQueryComponent;
+				if (subject.TryGetComponent(out storageOnlyQueryComponent))
 					return VoteResult.Refrain;
 			}
 

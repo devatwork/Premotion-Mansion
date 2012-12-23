@@ -33,7 +33,7 @@ namespace Premotion.Mansion.Web
 			using (RepositoryUtil.Open(context))
 			{
 				// check if the root node exists
-				var rootNode = context.Repository.RetrieveSingleNode(context, new Query().Add(new IsPropertyEqualSpecification("id", 1)));
+				var rootNode = context.Repository.RetrieveSingleNode(context, new Query().Add(new IsPropertyEqualSpecification("id", 1)).Add(new StorageOnlyQueryComponent()));
 				if (rootNode == null)
 					throw new InvalidOperationException("The root node was not found in the repository, please make sure it exists before initializing");
 
