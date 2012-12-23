@@ -7,7 +7,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 	/// Represents the <see cref="TypeDescriptor"/> for elastic search tree relation properties.
 	/// </summary>
 	[TypeDescriptor(Constants.DescriptorNamespaceUri, "treeRelations")]
-	public class TreeRelationsPropertyMappingBaseDescriptor : PropertyMappingBaseDescriptor
+	public class TreeRelationsPropertyMappingDescriptor : PropertyMappingBaseDescriptor
 	{
 		#region Overrides of PropertyMappingBaseDescriptor
 		/// <summary>

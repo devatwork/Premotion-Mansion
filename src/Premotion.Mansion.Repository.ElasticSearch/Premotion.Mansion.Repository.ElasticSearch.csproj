@@ -95,7 +95,7 @@
     <Compile Include="Querying\Searcher.cs" />
     <Compile Include="Schema\Descriptors\PublicationStatusPropertyMappingBaseDescriptor.cs" />
     <Compile Include="Schema\Descriptors\SinglePropertyMappingBaseDescriptor.cs" />
-    <Compile Include="Schema\Descriptors\TreeRelationsPropertyMappingBaseDescriptor.cs" />
+    <Compile Include="Schema\Descriptors\TreeRelationsPropertyMappingDescriptor.cs" />
     <Compile Include="Schema\IgnoredPropertyMapping.cs" />
     <Compile Include="Schema\MultiValuedPropertyMapping.cs" />
     <Compile Include="Schema\Descriptors\MultiValuedPropertyMappingDescriptor.cs" />
