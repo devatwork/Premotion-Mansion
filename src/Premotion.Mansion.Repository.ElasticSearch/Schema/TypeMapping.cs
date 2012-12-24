@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
@@ -16,9 +15,41 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 	/// <summary>
 	/// Represents the mapping of a type.
 	/// </summary>
-	[JsonObject(MemberSerialization.OptIn)]
+	[JsonConverter(typeof (TypeMappingConverter))]
 	public class TypeMapping
 	{
+		#region Nested type: TypeMappingConverter
+		/// <summary>
+		/// Converts <see cref="TypeMapping"/>s.
+		/// </summary>
+		private class TypeMappingConverter : BaseWriteConverter<TypeMapping>
+		{
+			#region Overrides of BaseWriteConverter<TypeMapping>
+			/// <summary>
+			/// Writes the JSON representation of the object.
+			/// </summary>
+			/// <param name="writer">The <see cref="T:Newtonsoft.Json.JsonWriter"/> to write to.</param><param name="value">The value.</param><param name="serializer">The calling serializer.</param>
+			protected override void DoWriteJson(JsonWriter writer, TypeMapping value, JsonSerializer serializer)
+			{
+				writer.WriteStartObject(); // root
+
+				// loop over all the mappings
+				writer.WritePropertyName("properties");
+				writer.WriteStartObject(); // properties
+				foreach (var mapping in value.propertyMappings.Where(candidate => !(candidate.Value is IgnoredPropertyMapping)).ToDictionary(x => x.Key, x => x.Value))
+				{
+					writer.WritePropertyName(mapping.Key);
+					writer.WriteStartObject(); // mapping
+					serializer.Serialize(writer, mapping.Value);
+					writer.WriteEndObject(); // mapping
+				}
+				writer.WriteEndObject(); // properties
+
+				writer.WriteEndObject(); // root
+			}
+			#endregion
+		}
+		#endregion
 		#region Constructors
 		/// <summary>
 		/// Constucts a type mapping for the given <paramref name="type"/>.
@@ -33,7 +64,6 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 
 			// set values
 			Name = type.Name.ToLower();
-			Source = new TypeMappingSource();
 		}
 		#endregion
 		#region Add Methods
@@ -49,11 +79,11 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 				throw new ArgumentNullException("propertyMapping");
 
 			// if the property is already mapped, replace it
-			if (propertyMappings.ContainsKey(propertyMapping.Name))
-				propertyMappings.Remove(propertyMapping.Name);
+			if (propertyMappings.ContainsKey(propertyMapping.Field))
+				propertyMappings.Remove(propertyMapping.Field);
 
 			// add the property mapping
-			propertyMappings.Add(propertyMapping.Name, propertyMapping);
+			propertyMappings.Add(propertyMapping.Field, propertyMapping);
 		}
 		#endregion
 		#region Clone Methods
@@ -341,21 +371,6 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		public IDictionary<string, PropertyMapping> Properties
 		{
 			get { return propertyMappings; }
-		}
-		#endregion
-		#region Mapping Properties
-		/// <summary>
-		/// The <see cref="TypeMappingSource"/>.
-		/// </summary>
-		[JsonProperty("_source")]
-		private TypeMappingSource Source { get; set; }
-		/// <summary>
-		/// Getsthe <see cref="PropertyMapping"/>s of this mapping.
-		/// </summary>
-		[JsonProperty("properties")]
-		private IDictionary<string, PropertyMapping> MappedProperties
-		{
-			get { return propertyMappings.Where(candidate => !(candidate.Value is IgnoredPropertyMapping)).ToDictionary(x => x.Key, x => x.Value); }
 		}
 		#endregion
 		#region Private Fields

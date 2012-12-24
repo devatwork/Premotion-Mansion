@@ -106,6 +106,7 @@
     <Compile Include="Schema\Descriptors\SinglePropertyMappingBaseDescriptor.cs" />
     <Compile Include="Schema\Descriptors\TreeRelationsPropertyMappingDescriptor.cs" />
     <Compile Include="Schema\IgnoredPropertyMapping.cs" />
+    <Compile Include="Schema\MultiFieldPropertyMapping.cs" />
     <Compile Include="Schema\MultiValuedPropertyMapping.cs" />
     <Compile Include="Schema\Descriptors\MultiValuedPropertyMappingDescriptor.cs" />
     <Compile Include="Schema\Descriptors\IndexDescriptor.cs" />
@@ -120,7 +121,6 @@
     <Compile Include="Schema\SinglePropertyMapping.cs" />
     <Compile Include="Schema\TreeRelationsPropertyMapping.cs" />
     <Compile Include="Schema\TypeMapping.cs" />
-    <Compile Include="Schema\TypeMappingSource.cs" />
     <Compile Include="ScriptTags\CreateIndicesTag.cs" />
     <Compile Include="ScriptTags\SearchTag.cs" />
     <Compile Include="ScriptTags\ReindexTag.cs" />

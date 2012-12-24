@@ -1,32 +1,139 @@
 using System;
 using Newtonsoft.Json;
-using Premotion.Mansion.Core.Types;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 {
 	/// <summary>
 	/// Maps a single property.
 	/// </summary>
+	[JsonConverter(typeof (SinglePropertyMappingConverter))]
 	public abstract class SinglePropertyMapping : PropertyMapping
 	{
+		#region Nested type: SinglePropertyMappingConverter
+		/// <summary>
+		/// Maps <see cref="SinglePropertyMapping"/>.
+		/// </summary>
+		private class SinglePropertyMappingConverter : BaseWriteConverter<SinglePropertyMapping>
+		{
+			#region Overrides of BaseWriteConverter<SinglePropertyMapping>
+			/// <summary>
+			/// Writes the JSON representation of the object.
+			/// </summary>
+			/// <param name="writer">The <see cref="T:Newtonsoft.Json.JsonWriter"/> to write to.</param><param name="value">The value.</param><param name="serializer">The calling serializer.</param>
+			protected override void DoWriteJson(JsonWriter writer, SinglePropertyMapping value, JsonSerializer serializer)
+			{
+				// write type
+				writer.WritePropertyName("type");
+				writer.WriteValue(value.Type);
+
+				// write null_value
+				if (value.NullValue != null)
+				{
+					writer.WritePropertyName("null_value");
+					writer.WriteValue(value.NullValue);
+				}
+
+				// write index_name
+				if (!string.IsNullOrEmpty(value.IndexName))
+				{
+					writer.WritePropertyName("index_name");
+					writer.WriteValue(value.IndexName);
+				}
+
+				// write store
+				if (!string.IsNullOrEmpty(value.Store))
+				{
+					writer.WritePropertyName("store");
+					writer.WriteValue(value.Store);
+				}
+
+				// write precision_step
+				if (value.PrecisionStep.HasValue)
+				{
+					writer.WritePropertyName("precision_step");
+					writer.WriteValue(value.PrecisionStep.Value);
+				}
+
+				// write index
+				if (!string.IsNullOrEmpty(value.Index))
+				{
+					writer.WritePropertyName("index");
+					writer.WriteValue(value.Index);
+				}
+
+				// write boost
+				if (value.Boost.HasValue)
+				{
+					writer.WritePropertyName("boost");
+					writer.WriteValue(value.Boost.Value);
+				}
+
+				// write include_in_all
+				if (value.IncludeInAll.HasValue)
+				{
+					writer.WritePropertyName("include_in_all");
+					writer.WriteValue(value.IncludeInAll.Value);
+				}
+
+				// write format
+				if (!string.IsNullOrEmpty(value.DateFormat))
+				{
+					writer.WritePropertyName("format");
+					writer.WriteValue(value.DateFormat);
+				}
+
+				// write term_vector
+				if (!string.IsNullOrEmpty(value.TermVector))
+				{
+					writer.WritePropertyName("term_vector");
+					writer.WriteValue(value.TermVector);
+				}
+
+				// write omit_norms
+				if (value.OmitNorms.HasValue)
+				{
+					writer.WritePropertyName("omit_norms");
+					writer.WriteValue(value.OmitNorms.Value);
+				}
+
+				// write omit_term_freq_and_positions
+				if (value.OmitTermFreqAndPositions.HasValue)
+				{
+					writer.WritePropertyName("omit_term_freq_and_positions");
+					writer.WriteValue(value.OmitTermFreqAndPositions.Value);
+				}
+
+				// write analyzer
+				if (!string.IsNullOrEmpty(value.Analyzer))
+				{
+					writer.WritePropertyName("analyzer");
+					writer.WriteValue(value.Analyzer);
+				}
+
+				// write index_analyzer
+				if (!string.IsNullOrEmpty(value.IndexAnalyzer))
+				{
+					writer.WritePropertyName("index_analyzer");
+					writer.WriteValue(value.IndexAnalyzer);
+				}
+
+				// write search_analyzer
+				if (!string.IsNullOrEmpty(value.SearchAnalyzer))
+				{
+					writer.WritePropertyName("search_analyzer");
+					writer.WriteValue(value.SearchAnalyzer);
+				}
+			}
+			#endregion
+		}
+		#endregion
 		#region Constructor
 		/// <summary>
-		/// Constructs the property mapping with the given <paramref name="property"/>.
+		/// Constructs the property mapping with the given <paramref name="field"/>.
 		/// </summary>
-		/// <param name="property">The <see cref="IPropertyDefinition"/>.</param>
+		/// <param name="field">The name of the property mapped by this mapper.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		protected SinglePropertyMapping(IPropertyDefinition property) : base(property)
-		{
-			// set values
-			Type = "string";
-			Index = "analyzed";
-		}
-		/// <summary>
-		/// Constructs the property mapping with the given <paramref name="propertyName"/>.
-		/// </summary>
-		/// <param name="propertyName">The name of the property mapped by this mapper.</param>
-		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		protected SinglePropertyMapping(string propertyName) : base(propertyName)
+		protected SinglePropertyMapping(string field) : base(field)
 		{
 			// set values
 			Type = "string";

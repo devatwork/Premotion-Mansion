@@ -13,11 +13,11 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 	{
 		#region Constructors
 		/// <summary>
-		/// Constructs the property mapping with the given <paramref name="propertyName"/>.
+		/// Constructs the property mapping with the given <paramref name="field"/>.
 		/// </summary>
-		/// <param name="propertyName">The name of the property mapped by this mapper.</param>
+		/// <param name="field">The name of the property mapped by this mapper.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public IgnoredPropertyMapping(string propertyName) : base(propertyName)
+		public IgnoredPropertyMapping(string field) : base(field)
 		{
 		}
 		#endregion

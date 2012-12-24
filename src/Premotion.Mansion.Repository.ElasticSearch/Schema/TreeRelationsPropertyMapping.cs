@@ -28,10 +28,9 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 			/// <param name="writer">The <see cref="T:Newtonsoft.Json.JsonWriter"/> to write to.</param><param name="value">The value.</param><param name="serializer">The calling serializer.</param>
 			protected override void DoWriteJson(JsonWriter writer, TreeRelationsPropertyMapping value, JsonSerializer serializer)
 			{
-				writer.WriteStartObject(); // root
 				writer.WritePropertyName("type");
 				writer.WriteValue("nested");
-				
+
 				writer.WritePropertyName("properties");
 				writer.WriteStartObject(); // propertise
 
@@ -61,8 +60,6 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 				writer.WriteEndObject();
 
 				writer.WriteEndObject(); // properties
-
-				writer.WriteEndObject(); // roor
 			}
 			#endregion
 		}
@@ -86,7 +83,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
 		protected override void DoTransform(IMansionContext context, IPropertyBag source, Dictionary<string, object> document)
 		{
-			document.Add(Name, source.Get<NodePointer>(context, "pointer"));
+			document.Add(Field, source.Get<NodePointer>(context, "pointer"));
 		}
 		/// <summary>
 		/// Maps the properties from <paramref name="source"/> to <paramref name="target"/>.

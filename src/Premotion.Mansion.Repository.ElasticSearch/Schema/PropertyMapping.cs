@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.ElasticSearch.Responses;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Schema
@@ -15,26 +14,22 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 	{
 		#region Constructors
 		/// <summary>
-		/// Constructs the property mapping with the given <paramref name="property"/>.
+		/// Constructs the property mapping with the given <paramref name="field"/>.
 		/// </summary>
-		/// <param name="property">The <see cref="IPropertyDefinition"/>.</param>
+		/// <param name="field">The name of the property mapped by this mapper.</param>
+		/// <param name="queryField">The name of the field on which to query. Used for multifield.</param>
+		/// <param name="sortField">The name of the field on which to sort. Used for multifield.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		protected PropertyMapping(IPropertyDefinition property) : this(property.Name)
-		{
-		}
-		/// <summary>
-		/// Constructs the property mapping with the given <paramref name="propertyName"/>.
-		/// </summary>
-		/// <param name="propertyName">The name of the property mapped by this mapper.</param>
-		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		protected PropertyMapping(string propertyName)
+		protected PropertyMapping(string field, string queryField = null, string sortField = null)
 		{
 			// validate arguments
-			if (string.IsNullOrEmpty(propertyName))
-				throw new ArgumentNullException("propertyName");
+			if (string.IsNullOrEmpty(field))
+				throw new ArgumentNullException("field");
 
-			// set value
-			Name = propertyName.ToLower();
+			// set the values
+			Field = field.NormalizeFieldName();
+			QueryField = string.IsNullOrEmpty(queryField) ? Field : Field + '.' + queryField.NormalizeFieldName();
+			SortField = string.IsNullOrEmpty(sortField) ? Field : Field + '.' + sortField.NormalizeFieldName();
 		}
 		#endregion
 		#region Transform Methods
@@ -103,10 +98,20 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		#endregion
 		#region Properties
 		/// <summary>
-		/// Gets the name of the property.
+		/// Gets the name of the field.
 		/// </summary>
 		[JsonIgnore]
-		public string Name { get; private set; }
+		public string Field { get; private set; }
+		/// <summary>
+		/// Gets the name of the field on which to query.
+		/// </summary>
+		[JsonIgnore]
+		public string QueryField { get; private set; }
+		/// <summary>
+		/// Gets the name of the field on which to sort.
+		/// </summary>
+		[JsonIgnore]
+		public string SortField { get; private set; }
 		#endregion
 	}
 }

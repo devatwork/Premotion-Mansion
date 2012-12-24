@@ -19,7 +19,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		/// </summary>
 		/// <param name="property">The <see cref="IPropertyDefinition"/>.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public MultiValuedPropertyMapping(IPropertyDefinition property) : base(property)
+		public MultiValuedPropertyMapping(IPropertyDefinition property) : base(property.Name)
 		{
 		}
 		#endregion
@@ -35,13 +35,13 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		protected override void DoTransform(IMansionContext context, IPropertyBag source, Dictionary<string, object> document)
 		{
 			// get the property value
-			var raw = source.Get(context, Name, string.Empty) ?? string.Empty;
+			var raw = source.Get(context, QueryField, string.Empty) ?? string.Empty;
 
 			// split on comma, trim all values, remove empty entries
 			var values = raw.Split(new[] {','}).Select(x => Normalize(x.Trim()).ToString()).Where(x => !string.IsNullOrEmpty(x)).ToArray();
 
 			// write the values to the document
-			document.Add(Name, values);
+			document.Add(Field, values);
 		}
 		/// <summary>
 		/// Maps the properties from <paramref name="source"/> to <paramref name="target"/>.

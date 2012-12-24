@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.ElasticSearch.Responses;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Schema
@@ -14,19 +13,11 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 	{
 		#region Constructors
 		/// <summary>
-		/// Constructs the property mapping with the given <paramref name="property"/>.
+		/// Constructs the property mapping with the given <paramref name="field"/>.
 		/// </summary>
-		/// <param name="property">The <see cref="IPropertyDefinition"/>.</param>
+		/// <param name="field">The name of the property mapped by this mapper.</param>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public SingleValuedPropertyMapping(IPropertyDefinition property) : base(property)
-		{
-		}
-		/// <summary>
-		/// Constructs the property mapping with the given <paramref name="propertyName"/>.
-		/// </summary>
-		/// <param name="propertyName">The name of the property mapped by this mapper.</param>
-		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public SingleValuedPropertyMapping(string propertyName) : base(propertyName)
+		public SingleValuedPropertyMapping(string field) : base(field)
 		{
 		}
 		#endregion
@@ -42,7 +33,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		protected override void DoTransform(IMansionContext context, IPropertyBag source, Dictionary<string, object> document)
 		{
 			// just map the value to the document
-			document.Add(Name, Normalize(source.Get<object>(context, Name)));
+			document.Add(Field, Normalize(source.Get<object>(context, QueryField)));
 		}
 		/// <summary>
 		/// Maps the properties from <paramref name="source"/> to <paramref name="target"/>.

@@ -24,7 +24,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Sorts
 			protected override void DoWriteJson(JsonWriter writer, FieldSort value, JsonSerializer serializer)
 			{
 				writer.WriteStartObject();
-				writer.WritePropertyName(value.sort.PropertyName.ToLower());
+				writer.WritePropertyName(value.field.ToLower());
 				writer.WriteStartObject();
 				writer.WritePropertyName("order");
 				writer.WriteValue(value.sort.Ascending ? "asc" : "desc");
@@ -38,15 +38,19 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Sorts
 		/// <summary>
 		/// Constructs a field sort.
 		/// </summary>
+		/// <param name="field">The field on which to sort.</param>
 		/// <param name="sort">The <see cref="Sort"/>.</param>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="sort"/> is null.</exception>
-		public FieldSort(Sort sort)
+		public FieldSort(string field, Sort sort)
 		{
 			// validate arguments
+			if (string.IsNullOrEmpty(field))
+				throw new ArgumentNullException("field");
 			if (sort == null)
 				throw new ArgumentNullException("sort");
 
 			// validate arguments
+			this.field = field;
 			this.sort = sort;
 		}
 		#endregion
@@ -64,6 +68,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Sorts
 		}
 		#endregion
 		#region Private Fields
+		private readonly string field;
 		private readonly Sort sort;
 		#endregion
 	}

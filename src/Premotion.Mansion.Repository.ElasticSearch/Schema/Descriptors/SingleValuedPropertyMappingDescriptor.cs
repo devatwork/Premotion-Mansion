@@ -19,7 +19,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 		protected override SinglePropertyMapping DoCreateSingleMapping(IMansionContext context, IPropertyDefinition property)
 		{
 			// create the mapping
-			return new SingleValuedPropertyMapping(property)
+			return new SingleValuedPropertyMapping(property.Name)
 			       {
 			       	// map the type
 			       	Type = Properties.Get<string>(context, "type")

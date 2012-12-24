@@ -85,6 +85,20 @@ namespace Premotion.Mansion.Repository.ElasticSearch
 			if (invalidChar != Char.MinValue)
 				throw new ArgumentOutOfRangeException("name", name, "Index name should be between 3-16 characters and only letters, numbers and hyphens ('-') are allowed");
 		}
+		/// <summary>
+		/// Normalizes the given field <paramref name="name"/>.
+		/// </summary>
+		/// <param name="name">The name which to normalize.</param>
+		/// <returns>Returns the normalized field name.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="name"/> is null.</exception>
+		public static string NormalizeFieldName(this string name)
+		{
+			// validate arguments
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException("name", "Field names can not be null");
+
+			return name.ToLower();
+		}
 		#endregion
 	}
 }

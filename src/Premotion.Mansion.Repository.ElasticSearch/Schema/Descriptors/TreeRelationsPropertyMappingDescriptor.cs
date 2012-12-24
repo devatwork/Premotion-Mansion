@@ -19,11 +19,23 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 		protected override void DoAddMappingTo(IMansionContext context, IPropertyDefinition property, TypeMapping typeMapping)
 		{
 			typeMapping.Add(new TreeRelationsPropertyMapping());
-			typeMapping.Add(new SingleValuedPropertyMapping("name")
-			                {
-			                	Type = "string",
-			                	Index = "analyzed"
-			                });
+			typeMapping.Add(new MultiFieldPropertyMapping(
+			                	"name",
+			                	"untouched",
+			                	new[]
+			                	{
+			                		new SingleValuedPropertyMapping("untouched")
+			                		{
+			                			Type = "string",
+			                			Index = "not_analyzed"
+			                		},
+			                		new SingleValuedPropertyMapping("name")
+			                		{
+			                			Type = "string",
+			                			Index = "analyzed"
+			                		}
+			                	}
+			                	));
 			typeMapping.Add(new SingleValuedPropertyMapping("type")
 			                {
 			                	Type = "string",
