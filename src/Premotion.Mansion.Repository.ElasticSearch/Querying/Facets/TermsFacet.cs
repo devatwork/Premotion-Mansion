@@ -14,7 +14,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Facets
 		/// <summary>
 		/// Converts <see cref="TermsFacet"/>.
 		/// </summary>
-		private class TermsFacetConverter : BaseWriteConverter<TermsFacet>
+		private class TermsFacetConverter : BaseFacetConverter<TermsFacet>
 		{
 			#region Overrides of BaseConverter<CompositeFilter>
 			/// <summary>
@@ -48,6 +48,9 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Facets
 				}
 
 				writer.WriteEndObject(); // terms
+
+				// write facet filter
+				WriteFacetFilter(writer, value, serializer);
 
 				writer.WriteEndObject(); // field
 			}

@@ -33,17 +33,20 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 
 				// write the filter
 				List<BaseFilter> filterList;
+				BaseFilter filter = null;
 				if (value.filterListStack.TryPeek(out filterList))
 				{
 					if (filterList.Count == 1)
 					{
+						filter = filterList[0];
 						writer.WritePropertyName("filter");
-						serializer.Serialize(writer, filterList[0]);
+						serializer.Serialize(writer, filter);
 					}
 					else if (filterList.Count > 1)
 					{
+						filter = new AndFilter().Add(filterList);
 						writer.WritePropertyName("filter");
-						serializer.Serialize(writer, new AndFilter().Add(filterList));
+						serializer.Serialize(writer, filter);
 					}
 				}
 
@@ -63,7 +66,11 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 					writer.WritePropertyName("facets");
 					writer.WriteStartObject();
 					foreach (var facet in value.facetList)
+					{
+						if (filter != null)
+							facet.Filter = filter;
 						serializer.Serialize(writer, facet);
+					}
 					writer.WriteEndObject();
 				}
 
