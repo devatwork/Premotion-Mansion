@@ -52,7 +52,7 @@ namespace Premotion.Mansion.Core.Data
 			// set values
 			this.pointer = pointer;
 			this.structure = structure.Select(x => (x ?? string.Empty).ToLower()).ToArray();
-			this.path = path.Select(x => (x ?? string.Empty).ToLower()).ToArray();
+			this.path = path.ToArray();
 			depth = pointer.Length;
 		}
 		#endregion
