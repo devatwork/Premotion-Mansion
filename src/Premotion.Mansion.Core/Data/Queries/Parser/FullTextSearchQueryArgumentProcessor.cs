@@ -1,9 +1,6 @@
-using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Data.Queries;
-using Premotion.Mansion.Core.Data.Queries.Parser;
-using Premotion.Mansion.Repository.SqlServer.Queries.Specifications;
+using Premotion.Mansion.Core.Data.Queries.Specifications;
 
-namespace Premotion.Mansion.Repository.SqlServer.Queries.Parser
+namespace Premotion.Mansion.Core.Data.Queries.Parser
 {
 	/// <summary>
 	/// Implements the allow roles query argument processor.

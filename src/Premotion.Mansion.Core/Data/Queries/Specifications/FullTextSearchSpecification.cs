@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Premotion.Mansion.Core.Data.Queries.Specifications;
 
-namespace Premotion.Mansion.Repository.SqlServer.Queries.Specifications
+namespace Premotion.Mansion.Core.Data.Queries.Specifications
 {
 	/// <summary>
-	/// Specifies the SQL-server full-text search query.
+	/// Specifies the full-text search query.
 	/// </summary>
 	public class FullTextSearchSpecification : Specification
 	{
 		#region Constructors
 		/// <summary>
-		/// Constructs the SQL-server full-text search specification using the given <paramref name="query"/>.
+		/// Constructs the full-text search specification using the given <paramref name="query"/>.
 		/// </summary>
 		/// <param name="query">The full-text query.</param>
 		/// <exception cref="ArgumentNullException">Thrown</exception>
