@@ -32,14 +32,16 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 					var depth = specification.Depth.Value < 0 ? Math.Abs(specification.Depth.Value) : specification.ChildPointer.Depth - specification.Depth.Value - 1;
 
 					// create the filter on the pointer
-					filter = new TermFilter("pointer", specification.ChildPointer.Pointer[depth]);
+					var pointerFilter = new TermFilter("pointer", specification.ChildPointer.Pointer[depth]);
+					var depthFilter = new TermFilter("depth", depth + 1);
+					filter = new AndFilter().Add(pointerFilter, depthFilter);
 				}
 				else
 				{
 					// create a filter on all the parents
-					var pointer = new TermsFilter("pointer", specification.ChildPointer.Parent.Pointer.Select(x => (object) x));
-					var depth = RangeFilter.LessThan("depth", specification.ChildPointer.Depth);
-					filter = new AndFilter().Add(pointer, depth);
+					var pointerFilter = new TermsFilter("pointer", specification.ChildPointer.Parent.Pointer.Select(x => (object) x));
+					var depthFilter = RangeFilter.LessThan("depth", specification.ChildPointer.Depth);
+					filter = new AndFilter().Add(pointerFilter, depthFilter);
 				}
 			}
 			else
