@@ -312,6 +312,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		/// <param name="set">The <see cref="RecordSet"/> to which to add the mapped facets.</param>
 		private static void MapFacets(IMansionContext context, SearchQuery query, IEnumerable<KeyValuePair<string, Facet>> facets, RecordSet set)
 		{
+			// check for null
+			if (facets == null)
+				return;
+
 			// loop over all the facets
 			foreach (var facet in facets)
 			{
