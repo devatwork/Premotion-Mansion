@@ -7,5 +7,19 @@
       <FileName>Querying\Facets\BaseFacet.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Facets.TermsFacet">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Facets.TermsFacet.TermsFacetConverter" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Querying\Facets\TermsFacet.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AEAAAAABAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Querying\Facets\TermsFacet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

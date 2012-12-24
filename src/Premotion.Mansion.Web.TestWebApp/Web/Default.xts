@@ -7,11 +7,15 @@
 	</if>
 
 	<!-- bootstrap the dispatcher and dispatch the request -->
-	<es:search parentPointer="1" cache="false" status="published" target="Results">
+	<es:search parentPointer="1" cache="false" status="published" facetType="{CreateFacet( 'type', 'Informatiesoorten', 'TransformTypeFacet' )}" target="Results">
 		<throw message="Found {Results.totalCount} results"/>
 		<notFound>
 			<throw message="No results found!" />
 		</notFound>
 	</es:search>
+
+	<declareProcedure procedureName="TransformTypeFacet">
+		<setProperties dataspaceName="Row" displayValue="{GetTypeDefinitionLabel( Row.value )}" />
+	</declareProcedure>
 	
 </mansion>

@@ -29,7 +29,6 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 	public class ElasticSearchJsonSerializer : ISerializer
 	{
 		private readonly Newtonsoft.Json.JsonSerializer serializer;
-
 		/// <summary>
 		/// Default serializer
 		/// </summary>
@@ -43,7 +42,6 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 			             	DefaultValueHandling = DefaultValueHandling.Include
 			             };
 		}
-
 		/// <summary>
 		/// Default serializer with overload for allowing custom Json.NET settings
 		/// </summary>
@@ -72,7 +70,6 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 				return result;
 			}
 		}
-
 		/// <summary>
 		/// Unused for JSON Serialization
 		/// </summary>

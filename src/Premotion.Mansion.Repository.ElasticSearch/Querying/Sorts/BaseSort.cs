@@ -9,7 +9,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Sorts
 		/// <summary>
 		/// Converts <see cref="BaseSort"/>s.
 		/// </summary>
-		protected abstract class BaseSortConverter<TSort> : BaseConverter<TSort> where TSort : BaseSort
+		protected abstract class BaseSortConverter<TSort> : BaseWriteConverter<TSort> where TSort : BaseSort
 		{
 		}
 		#endregion

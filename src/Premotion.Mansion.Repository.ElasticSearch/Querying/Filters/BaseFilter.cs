@@ -11,7 +11,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Filters
 		/// <summary>
 		/// Converts <see cref="BaseFilter"/>s.
 		/// </summary>
-		protected abstract class BaseFilterConverter<TFilter> : BaseConverter<TFilter> where TFilter : BaseFilter
+		protected abstract class BaseFilterConverter<TFilter> : BaseWriteConverter<TFilter> where TFilter : BaseFilter
 		{
 			#region Overrides of JsonConverter
 			/// <summary>

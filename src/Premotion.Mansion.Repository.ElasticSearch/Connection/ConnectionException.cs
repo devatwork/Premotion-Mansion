@@ -25,6 +25,22 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 
 			Details = string.Format("Message: {6}, {0}StatusCode: {1}, {0}Method: {2}, {0}Url: {3}, {0}{0}Request:{0} {4} {0}Response:{0}{5}", Environment.NewLine, response.StatusCode, request.Method, request.Resource, builder, response.Content, message);
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="message"></param>
+		/// <param name="innerException"> </param>
+		/// <param name="request"></param>
+		/// <param name="response"></param>
+		public ConnectionException(string message, Exception innerException, IRestRequest request, IRestResponse response) : base(message, innerException)
+		{
+			// loop over the request parameters
+			var builder = new StringBuilder();
+			foreach (var param in request.Parameters)
+				builder.AppendFormat(" - {0} ** {1} ** {2}{3}", param.Name, param.Type, param.Value, Environment.NewLine);
+
+			Details = string.Format("Message: {6}, {0}StatusCode: {1}, {0}Method: {2}, {0}Url: {3}, {0}{0}Request:{0} {4} {0}Response:{0}{5}", Environment.NewLine, response.StatusCode, request.Method, request.Resource, builder, response.Content, message);
+		}
 		#endregion
 		#region Properties
 		/// <summary>

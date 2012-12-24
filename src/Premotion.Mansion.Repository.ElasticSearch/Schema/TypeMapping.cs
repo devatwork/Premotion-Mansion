@@ -9,6 +9,7 @@ using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.ElasticSearch.Querying;
 using Premotion.Mansion.Repository.ElasticSearch.Responses;
+using Premotion.Mansion.Repository.ElasticSearch.Responses.Facets;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 {
@@ -145,8 +146,14 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 			// map the set metadata
 			var metaData = MapRecordSetMetaData(query, response.Hits);
 
-			// create and return the set
-			return new RecordSet(context, metaData, records);
+			// create the set
+			var set = new RecordSet(context, metaData, records);
+
+			// map the facets
+			MapFacets(context, query, response.Facets, set);
+
+			// return the set
+			return set;
 		}
 		/// <summary>
 		/// Maps the meta data of the <paramref name="hits"/>.
@@ -220,7 +227,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		private void MapProperties(IMansionContext context, Hit source, IPropertyBag target)
 		{
 			// loop over all the properties
-			var document = JObject.Parse(source.Source);
+			var document = source.Source;
 			foreach (var property in document.Properties())
 			{
 				// find the property mapping for this property
@@ -259,8 +266,14 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 			// map the set metadata
 			var metaData = MapRecordSetMetaData(query, response.Hits);
 
-			// create and return the set
-			return new Nodeset(context, metaData, nodes);
+			// create the set
+			var set = new Nodeset(context, metaData, nodes);
+
+			// map the facets
+			MapFacets(context, query, response.Facets, set);
+
+			// return the set
+			return set;
 		}
 		/// <summary>
 		/// Maps all the <paramref name="hits"/> into <see cref="Record"/>s.
@@ -288,6 +301,28 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 
 				// return the mapped record
 				yield return node;
+			}
+		}
+		/// <summary>
+		/// Maps the given <paramref name="facets"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The executed <see cref="SearchQuery"/>.</param>
+		/// <param name="facets">The resulting <see cref="KeyValuePair{TKey,TValue}"/> containing the facets.</param>
+		/// <param name="set">The <see cref="RecordSet"/> to which to add the mapped facets.</param>
+		private static void MapFacets(IMansionContext context, SearchQuery query, IEnumerable<KeyValuePair<string, Facet>> facets, RecordSet set)
+		{
+			// loop over all the facets
+			foreach (var facet in facets)
+			{
+				// find the definition
+				var definition = query.Facets.Single(candidate => candidate.Definition.FriendlyName.Equals(facet.Key, StringComparison.OrdinalIgnoreCase)).Definition;
+
+				// allow the facet to map itself to a facet result
+				var result = facet.Value.Map(context, definition);
+
+				// add the facet result to the set
+				set.AddFacet(result);
 			}
 		}
 		#endregion

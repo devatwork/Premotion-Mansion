@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Responses
 {
@@ -11,32 +12,32 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Responses
 		/// <summary>
 		/// Gets the original document as JSON.
 		/// </summary>
-		[JsonProperty(PropertyName = "_source")]
-		public string Source { get; private set; }
+		[JsonProperty("_source")]
+		public JObject Source { get; private set; }
 		/// <summary>
 		/// Gets the name of the index in which the result was found.
 		/// </summary>
-		[JsonProperty(PropertyName = "_index")]
+		[JsonProperty("_index")]
 		public string Index { get; private set; }
 		/// <summary>
 		/// Gets the score of this document.
 		/// </summary>
-		[JsonProperty(PropertyName = "_score")]
+		[JsonProperty("_score")]
 		public double Score { get; private set; }
 		/// <summary>
 		/// Gets the type of document.
 		/// </summary>
-		[JsonProperty(PropertyName = "_type")]
+		[JsonProperty("_type")]
 		public string Type { get; private set; }
 		/// <summary>
 		/// Gets the version of the document.
 		/// </summary>
-		[JsonProperty(PropertyName = "_version")]
+		[JsonProperty("_version")]
 		public string Version { get; private set; }
 		/// <summary>
 		/// Gets the ID of the document.
 		/// </summary>
-		[JsonProperty(PropertyName = "_id")]
+		[JsonProperty("_id")]
 		public string Id { get; private set; }
 		#endregion
 	}

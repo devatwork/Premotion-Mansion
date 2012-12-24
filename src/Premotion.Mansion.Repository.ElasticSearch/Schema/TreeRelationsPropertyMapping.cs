@@ -19,7 +19,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		/// <summary>
 		/// Maps <see cref="TreeRelationsPropertyMapping"/>
 		/// </summary>
-		private class TreeRelationsPropertyMappingConverter : BaseConverter<TreeRelationsPropertyMapping>
+		private class TreeRelationsPropertyMappingConverter : BaseWriteConverter<TreeRelationsPropertyMapping>
 		{
 			#region Overrides of BaseConverter<TreeRelationsPropertyMapping>
 			/// <summary>

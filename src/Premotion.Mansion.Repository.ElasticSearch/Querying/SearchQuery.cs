@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Premotion.Mansion.Repository.ElasticSearch.Querying.Facets;
 using Premotion.Mansion.Repository.ElasticSearch.Querying.Filters;
 using Premotion.Mansion.Repository.ElasticSearch.Querying.Sorts;
 using Premotion.Mansion.Repository.ElasticSearch.Schema;
@@ -17,7 +18,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 		/// <summary>
 		/// Converts <see cref="SearchQuery"/>s.
 		/// </summary>
-		private class SearchQueryConverter : BaseConverter<SearchQuery>
+		private class SearchQueryConverter : BaseWriteConverter<SearchQuery>
 		{
 			#region Overrides of JsonConverter
 			/// <summary>
@@ -48,6 +49,16 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 					foreach (var sort in value.sortList)
 						serializer.Serialize(writer, sort);
 					writer.WriteEndArray();
+				}
+
+				// write the facets
+				if (value.facetList.Count > 0)
+				{
+					writer.WritePropertyName("facets");
+					writer.WriteStartObject();
+					foreach (var facet in value.facetList)
+						serializer.Serialize(writer, facet);
+					writer.WriteEndObject();
 				}
 
 				// write paging options
@@ -87,7 +98,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 			this.typeMapping = typeMapping;
 		}
 		#endregion
-		#region Filter Methods
+		#region Add Methods
 		/// <summary>
 		/// Adds the <paramref name="filter"/>.
 		/// </summary>
@@ -115,6 +126,20 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 
 			// add the sort
 			sortList.Add(sort);
+		}
+		/// <summary>
+		/// Adds the <paramref name="facet"/>.
+		/// </summary>
+		/// <param name="facet">The <see cref="BaseFacet"/> which to add.</param>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="facet"/> is null.</exception>
+		public void Add(BaseFacet facet)
+		{
+			// validate arguments
+			if (facet == null)
+				throw new ArgumentNullException("facet");
+
+			// add the sort
+			facetList.Add(facet);
 		}
 		#endregion
 		#region Properties
@@ -149,8 +174,16 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 		{
 			get { return sortList; }
 		}
+		/// <summary>
+		/// Gets the <see cref="BaseFacet"/>s.
+		/// </summary>
+		public IEnumerable<BaseFacet> Facets
+		{
+			get { return facetList; }
+		}
 		#endregion
 		#region Private Fields
+		private readonly List<BaseFacet> facetList = new List<BaseFacet>();
 		private readonly List<BaseFilter> filterList = new List<BaseFilter>();
 		private readonly IndexDefinition indexDefinition;
 		private readonly List<BaseSort> sortList = new List<BaseSort>();

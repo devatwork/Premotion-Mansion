@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using Premotion.Mansion.Repository.ElasticSearch.Responses;
 using RestSharp;
+using RestSharp.Deserializers;
 using RestSharp.Serializers;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Connection
@@ -27,6 +28,8 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 
 			// create the client
 			client = new RestClient(connectionString);
+			client.AddHandler("application/json", deserializer);
+			client.AddHandler("text/json", deserializer);
 		}
 		#endregion
 		#region Http Methods
@@ -155,7 +158,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 			var request = new RestRequest(resource)
 			              {
 			              	RequestFormat = DataFormat.Json,
-			              	JsonSerializer = serializer
+			              	JsonSerializer = serializer,
 			              };
 
 			requestConfigurator(request);
@@ -166,6 +169,8 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 			// error handling
 			if ((validHttpStatusCodes == null && response.StatusCode != HttpStatusCode.OK) || (validHttpStatusCodes != null && validHttpStatusCodes.All(candidate => candidate != response.StatusCode)))
 				throw new ConnectionException("Invalid ElasticSearch request", request, response);
+			if (response.ErrorException != null)
+				throw new ConnectionException("Error while parsing the response", response.ErrorException, request, response);
 
 			// return the response
 			return response;
@@ -173,6 +178,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		#endregion
 		#region Private Fields
 		private readonly RestClient client;
+		private readonly IDeserializer deserializer = new ElasticSearchDeserializer();
 		private readonly ISerializer serializer = new ElasticSearchJsonSerializer();
 		#endregion
 	}
