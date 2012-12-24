@@ -80,6 +80,7 @@
     <Compile Include="Querying\Mappers\CacheQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\ChildOfSpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\ConjunctionMapper.cs" />
+    <Compile Include="Querying\Mappers\FullTextSearchSpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\DisjunctionMapper.cs" />
     <Compile Include="Querying\Mappers\IsPropertyGreaterThanOrEqualSpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\IsPropertyGreaterThanSpecificationMapper.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Querying\Mappers\SortQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\SpecificationQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\StatusSpecificationMapper.cs" />
+    <Compile Include="Querying\Queries\MultiMatchQuery.cs" />
     <Compile Include="Querying\Sorts\FieldSort.cs" />
     <Compile Include="Responses\BaseResponse.cs" />
     <Compile Include="Responses\Facets\Facet.cs" />

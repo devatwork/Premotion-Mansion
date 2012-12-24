@@ -5,6 +5,7 @@ using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Patterns;
 using Premotion.Mansion.Repository.ElasticSearch.Querying.Facets;
 using Premotion.Mansion.Repository.ElasticSearch.Querying.Filters;
+using Premotion.Mansion.Repository.ElasticSearch.Querying.Queries;
 using Premotion.Mansion.Repository.ElasticSearch.Querying.Sorts;
 using Premotion.Mansion.Repository.ElasticSearch.Schema;
 
@@ -71,6 +72,16 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 							facet.Filter = filter;
 						serializer.Serialize(writer, facet);
 					}
+					writer.WriteEndObject();
+				}
+
+				// write the query
+				if (value.queryList.Count > 0)
+				{
+					writer.WritePropertyName("query");
+					writer.WriteStartObject();
+					foreach (var query in value.queryList)
+						serializer.Serialize(writer, query);
 					writer.WriteEndObject();
 				}
 
@@ -158,6 +169,20 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 			// add the sort
 			facetList.Add(facet);
 		}
+		/// <summary>
+		/// Adds the <paramref name="query"/>.
+		/// </summary>
+		/// <param name="query">The <see cref="BaseQuery"/> which to add.</param>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="query"/> is null.</exception>
+		public void Add(BaseQuery query)
+		{
+			// validate arguments
+			if (query == null)
+				throw new ArgumentNullException("query");
+
+			// add the sort
+			queryList.Add(query);
+		}
 		#endregion
 		#region Properties
 		/// <summary>
@@ -224,6 +249,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 		private readonly List<BaseFacet> facetList = new List<BaseFacet>();
 		private readonly AutoPopStack<List<BaseFilter>> filterListStack = new AutoPopStack<List<BaseFilter>>();
 		private readonly IndexDefinition indexDefinition;
+		private readonly List<BaseQuery> queryList = new List<BaseQuery>();
 		private readonly List<BaseSort> sortList = new List<BaseSort>();
 		private readonly TypeMapping typeMapping;
 		#endregion

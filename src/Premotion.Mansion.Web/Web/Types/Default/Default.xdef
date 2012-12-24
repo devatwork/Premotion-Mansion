@@ -44,7 +44,17 @@
 		<es:multiValuedProperty type="string" index="not_analyzed" />
 	</property>
 	
-	<!-- full text-->
+	<!-- description -->
+	<property name="description">
+		<es:singleValuedProperty type="string" />
+	</property>
+	
+	<!-- body -->
+	<property name="body">
+		<es:singleValuedProperty type="string" />
+	</property>
+	
+	<!-- full text -->
 	<property name="fullText">
 		<sqlserver:column allowNullValue="true" />
 		<es:singleValuedProperty type="string" />

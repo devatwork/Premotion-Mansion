@@ -32,7 +32,7 @@ namespace Premotion.Mansion.Core.Data.Queries.Specifications
 		/// <returns>Returns the property hints.</returns>
 		protected override IEnumerable<string> DoGetPropertyHints()
 		{
-			return new[] {"fullText"};
+			return new[] {"name", "description", "body", "fullText"};
 		}
 		/// <summary>
 		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
