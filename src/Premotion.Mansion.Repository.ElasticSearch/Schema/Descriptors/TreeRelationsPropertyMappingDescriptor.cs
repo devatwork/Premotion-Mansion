@@ -28,12 +28,14 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 			                		new SingleValuedPropertyMapping("name")
 			                		{
 			                			Type = "string",
-			                			Index = "analyzed"
+			                			Index = "analyzed",
+											Boost = 5
 			                		},
 			                		new SingleValuedPropertyMapping("untouched")
 			                		{
 			                			Type = "string",
-			                			Index = "not_analyzed"
+			                			Index = "not_analyzed",
+											Boost = 5
 			                		}
 			                	}
 			                	));
