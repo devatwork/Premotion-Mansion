@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.BaseFilter">
-    <Position X="6.25" Y="0.5" Width="1.5" />
+    <Position X="7.5" Y="0.5" Width="1.5" />
     <NestedTypes>
       <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.BaseFilter.BaseFilterConverter&lt;TFilter&gt;" Collapsed="true">
         <TypeIdentifier>
@@ -85,10 +85,31 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.NestedFilter">
-    <Position X="12.25" Y="3" Width="1.5" />
+    <Position X="14.5" Y="3" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.NestedFilter.NestedFilterConverter" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Querying\Filters\NestedFilter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Filters\NestedFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.NotFilter">
+    <Position X="12.25" Y="3" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.NotFilter.NotFilterConverter" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Querying\Filters\NotFilter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Querying\Filters\NotFilter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

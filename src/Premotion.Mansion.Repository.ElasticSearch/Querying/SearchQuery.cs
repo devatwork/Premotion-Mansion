@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Patterns;
 using Premotion.Mansion.Repository.ElasticSearch.Querying.Facets;
 using Premotion.Mansion.Repository.ElasticSearch.Querying.Filters;
 using Premotion.Mansion.Repository.ElasticSearch.Querying.Sorts;
@@ -30,15 +32,19 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 				writer.WriteStartObject();
 
 				// write the filter
-				if (value.filterList.Count == 1)
+				List<BaseFilter> filterList;
+				if (value.filterListStack.TryPeek(out filterList))
 				{
-					writer.WritePropertyName("filter");
-					serializer.Serialize(writer, value.filterList[0]);
-				}
-				else if (value.filterList.Count > 1)
-				{
-					writer.WritePropertyName("filter");
-					serializer.Serialize(writer, new AndFilter().Add(value.filterList));
+					if (filterList.Count == 1)
+					{
+						writer.WritePropertyName("filter");
+						serializer.Serialize(writer, filterList[0]);
+					}
+					else if (filterList.Count > 1)
+					{
+						writer.WritePropertyName("filter");
+						serializer.Serialize(writer, new AndFilter().Add(filterList));
+					}
 				}
 
 				// write the sort
@@ -96,6 +102,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 			// set the values
 			this.indexDefinition = indexDefinition;
 			this.typeMapping = typeMapping;
+			disposableChain.Add(filterListStack.Push(new List<BaseFilter>()));
 		}
 		#endregion
 		#region Add Methods
@@ -111,6 +118,9 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 				throw new ArgumentNullException("filter");
 
 			// add the filter
+			List<BaseFilter> filterList;
+			if (!FilterListStack.TryPeek(out filterList))
+				throw new InvalidOperationException("No filter list found on the the filter stack");
 			filterList.Add(filter);
 		}
 		/// <summary>
@@ -181,10 +191,18 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 		{
 			get { return facetList; }
 		}
+		/// <summary>
+		/// Gets the filter list stack.
+		/// </summary>
+		public IAutoPopStack<List<BaseFilter>> FilterListStack
+		{
+			get { return filterListStack; }
+		}
 		#endregion
 		#region Private Fields
+		private readonly DisposableChain disposableChain = new DisposableChain();
 		private readonly List<BaseFacet> facetList = new List<BaseFacet>();
-		private readonly List<BaseFilter> filterList = new List<BaseFilter>();
+		private readonly AutoPopStack<List<BaseFilter>> filterListStack = new AutoPopStack<List<BaseFilter>>();
 		private readonly IndexDefinition indexDefinition;
 		private readonly List<BaseSort> sortList = new List<BaseSort>();
 		private readonly TypeMapping typeMapping;

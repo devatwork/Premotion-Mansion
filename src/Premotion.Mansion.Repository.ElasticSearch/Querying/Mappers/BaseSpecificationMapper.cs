@@ -10,6 +10,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 	/// <summary>
 	/// Base class for <see cref="ISpecificationMapper"/>.
 	/// </summary>
+	/// <typeparam name="TSpecification">The type of <see cref="Specification"/> mapped by this mapper.</typeparam>
 	[Exported(typeof (ISpecificationMapper))]
 	public abstract class BaseSpecificationMapper<TSpecification> : ISpecificationMapper where TSpecification : Specification
 	{
