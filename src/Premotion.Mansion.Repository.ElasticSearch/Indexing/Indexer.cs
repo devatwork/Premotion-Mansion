@@ -134,7 +134,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 				var resource = indexDefinition.Name + '/' + mapping.Name + '/' + record.Id;
 
 				// index the document
-				connectionManager.Put(resource, document, new[] {HttpStatusCode.Created});
+				connectionManager.Put(resource, document, new[] {HttpStatusCode.Created, HttpStatusCode.OK});
 			}
 		}
 		#endregion
