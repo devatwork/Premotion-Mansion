@@ -200,7 +200,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 			               };
 
 			// set the paging options if any
-			if (query.From.HasValue && query.Size.HasValue)
+			if (query.From.HasValue && query.Size.HasValue && query.Size > 0)
 			{
 				metaData.Set("pageNumber", (query.From.Value + query.Size.Value)/query.Size.Value);
 				metaData.Set("pageSize", query.Size.Value);
