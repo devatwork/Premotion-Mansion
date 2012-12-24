@@ -199,6 +199,19 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 			get { return filterListStack; }
 		}
 		#endregion
+		#region Overrides of Object
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+		/// </returns>
+		/// <filterpriority>2</filterpriority>
+		public override string ToString()
+		{
+			return JsonConvert.SerializeObject(this, Formatting.Indented);
+		}
+		#endregion
 		#region Private Fields
 		private readonly DisposableChain disposableChain = new DisposableChain();
 		private readonly List<BaseFacet> facetList = new List<BaseFacet>();
