@@ -6,9 +6,13 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Filters
 	/// <summary>
 	/// Implements the Not <see cref="BaseFilter"/>.
 	/// </summary>
+	[JsonConverter(typeof (NotFilterConverter))]
 	public class NotFilter : BaseFilter
 	{
 		#region Nested type: NotFilterConverter
+		/// <summary>
+		/// Converts <see cref="NotFilter"/>.
+		/// </summary>
 		private class NotFilterConverter : BaseFilterConverter<NotFilter>
 		{
 			#region Overrides of BaseConverter<CompositeFilter>
