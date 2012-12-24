@@ -81,6 +81,10 @@
     <Compile Include="Querying\Mappers\ChildOfSpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\ConjunctionMapper.cs" />
     <Compile Include="Querying\Mappers\DisjunctionMapper.cs" />
+    <Compile Include="Querying\Mappers\IsPropertyGreaterThanOrEqualSpecificationMapper.cs" />
+    <Compile Include="Querying\Mappers\IsPropertyGreaterThanSpecificationMapper.cs" />
+    <Compile Include="Querying\Mappers\IsPropertySmallerThanOrEqualSpecificationMapper.cs" />
+    <Compile Include="Querying\Mappers\IsPropertySmallerThanSpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\NegationMapper.cs" />
     <Compile Include="Querying\Mappers\ParentOfSpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\FacetQueryComponentMapper.cs" />
