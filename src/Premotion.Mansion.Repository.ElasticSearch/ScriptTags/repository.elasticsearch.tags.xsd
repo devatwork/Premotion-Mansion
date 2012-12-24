@@ -11,6 +11,12 @@
 			<xs:documentation>Creates new indices and indexes all content.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
+	
+	<xs:element name="createIndices" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Creates new indices.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 
 	<xs:element name="search" substitutionGroup="stl:scriptTag">
 		<xs:annotation>

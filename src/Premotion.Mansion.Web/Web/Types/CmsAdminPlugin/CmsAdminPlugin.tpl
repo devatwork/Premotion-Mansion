@@ -8,4 +8,8 @@
 		<h4>SQL-server</h4>
 		{SqlServerForm}
 	</div>
+	<div class="well">
+		<h4>Elastic Search</h4>
+		{ElasticSearchForm}
+	</div>
 </tpl:section>
