@@ -42,7 +42,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 			using (searchQuery.FilterListStack.Push(filterList))
 			{
 				foreach (var child in specification.Components)
-					Mappers.Elect(context, child).Map(context, query, specification, searchQuery);
+					Mappers.Elect(context, child).Map(context, query, child, searchQuery);
 			}
 
 			// add the filters to the composite

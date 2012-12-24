@@ -38,7 +38,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 			// map each child
 			var filterList = new List<BaseFilter>();
 			using (searchQuery.FilterListStack.Push(filterList))
-				Mappers.Elect(context, specification.Negated).Map(context, query, specification, searchQuery);
+				Mappers.Elect(context, specification.Negated).Map(context, query, specification.Negated, searchQuery);
 
 			// add the filters to the composite
 			var composite = new NotFilter(filterList.Single());
