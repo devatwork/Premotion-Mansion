@@ -4,42 +4,42 @@
 	<!-- main entry method for blocks -->
 	<declareProcedure procedureName="RenderBlock">
 		<!-- retrieve the content source node -->
-		<retrieveNode guid="{BlockProperties.contentSourceGuid}" target="ContentSourceNode" global="true" />
-		
-		<!-- first retrieve all the results -->
-		<setProperties dataspaceName="Filter">
-			<copyProperties source="{$BlockProperties}" target="{$Filter}" />
-			<setProperties
-				dataspaceName="Filter"
-				baseType="{NotEmpty( BlockProperties.contentType, 'Content' )}"
-				status="published"
-				siteGuids="{SiteNode.guid}"
-				taxonomyGuids="{NotEmpty( BlockProperties.taxonomyGuids, PageProperties.taxonomyGuids )}"
-				tagGuids="{NotEmpty( BlockProperties.tagGuids, PageProperties.tagGuids )}" />
+		<retrieveNode guid="{NotEmpty( BlockProperties.contentSourceGuid, EmptyGuid() )}" target="ContentSourceNode">
+			<!-- first retrieve all the results -->
+			<setProperties dataspaceName="Filter">
+				<copyProperties source="{$BlockProperties}" target="{$Filter}" />
+				<setProperties
+					dataspaceName="Filter"
+					baseType="{NotEmpty( BlockProperties.contentType, 'Content' )}"
+					status="published"
+					siteGuids="{SiteNode.guid}"
+					taxonomyGuids="{NotEmpty( BlockProperties.taxonomyGuids, PageProperties.taxonomyGuids )}"
+					tagGuids="{NotEmpty( BlockProperties.tagGuids, PageProperties.tagGuids )}" />
 			
-			<!-- determine limit -->
-			<switch condition="{BlockProperties.limitType}">
-				<case value="limit">
-					<setProperties dataspaceName="Filter" limit="{NotEmpty( BlockProperties.limit, '25' )}" />
-				</case>
-				<case value="paging">
-					<setProperties
-						dataspaceName="Filter"
-						pageNumber="{GetControlPropertyValue( Concat( 'block-', BlockProperties.id ), 'page-number', '1' )}"
-						pageSize="{GetControlPropertyValue( Concat( 'block-', BlockProperties.id ), 'page-size', BlockProperties.pageSize )}" />
-				</case>
-			</switch>
+				<!-- determine limit -->
+				<switch condition="{BlockProperties.limitType}">
+					<case value="limit">
+						<setProperties dataspaceName="Filter" limit="{NotEmpty( BlockProperties.limit, '25' )}" />
+					</case>
+					<case value="paging">
+						<setProperties
+							dataspaceName="Filter"
+							pageNumber="{GetControlPropertyValue( Concat( 'block-', BlockProperties.id ), 'page-number', '1' )}"
+							pageSize="{GetControlPropertyValue( Concat( 'block-', BlockProperties.id ), 'page-size', BlockProperties.pageSize )}" />
+					</case>
+				</switch>
 			
-			<!-- allow derived blocks to add additional filters-->
-			<invokeProcedure procedureName="PrepareFilter" checkExists="false" />
+				<!-- allow derived blocks to add additional filters-->
+				<invokeProcedure procedureName="PrepareFilter" checkExists="false" />
 
-			<!-- retrieve the content -->
-			<invokeProcedure procedureName="RetrieveListContent">
-				<!-- finally render the content -->
-				<invokeProcedure procedureName="RenderListContent" />
-			</invokeProcedure>
+				<!-- retrieve the content -->
+				<invokeProcedure procedureName="RetrieveListContent">
+					<!-- finally render the content -->
+					<invokeProcedure procedureName="RenderListContent" />
+				</invokeProcedure>
 			
-		</setProperties>
+			</setProperties>
+		</retrieveNode>
 		
 	</declareProcedure>
 	
