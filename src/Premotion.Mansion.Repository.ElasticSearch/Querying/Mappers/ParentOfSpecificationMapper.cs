@@ -37,7 +37,9 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 				else
 				{
 					// create a filter on all the parents
-					filter = new TermsFilter("pointer", specification.ChildPointer.Parent.Pointer.Select(x => (object) x));
+					var pointer = new TermsFilter("pointer", specification.ChildPointer.Parent.Pointer.Select(x => (object) x));
+					var depth = RangeFilter.LessThan("depth", specification.ChildPointer.Depth);
+					filter = new AndFilter().Add(pointer, depth);
 				}
 			}
 			else
