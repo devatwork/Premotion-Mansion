@@ -49,7 +49,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		/// Constructs the property mapping with the given field.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public MultiFieldPropertyMapping(string queryField, string sortField, IEnumerable<PropertyMapping> mappings) : base(queryField, sortField)
+		public MultiFieldPropertyMapping(string field, string queryField, string sortField, IEnumerable<PropertyMapping> mappings) : base(field, queryField, sortField)
 		{
 			// validate arguments
 			if (mappings == null)

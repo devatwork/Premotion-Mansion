@@ -33,7 +33,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		protected override void DoTransform(IMansionContext context, IPropertyBag source, Dictionary<string, object> document)
 		{
 			// just map the value to the document
-			document.Add(Field, Normalize(source.Get<object>(context, QueryField)));
+			document.Add(Field, Normalize(source.Get<object>(context, Field)));
 		}
 		/// <summary>
 		/// Maps the properties from <paramref name="source"/> to <paramref name="target"/>.

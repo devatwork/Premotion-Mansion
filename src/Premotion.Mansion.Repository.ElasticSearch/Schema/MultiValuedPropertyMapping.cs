@@ -35,7 +35,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		protected override void DoTransform(IMansionContext context, IPropertyBag source, Dictionary<string, object> document)
 		{
 			// get the property value
-			var raw = source.Get(context, QueryField, string.Empty) ?? string.Empty;
+			var raw = source.Get(context, Field, string.Empty) ?? string.Empty;
 
 			// split on comma, trim all values, remove empty entries
 			var values = raw.Split(new[] {','}).Select(x => Normalize(x.Trim()).ToString()).Where(x => !string.IsNullOrEmpty(x)).ToArray();

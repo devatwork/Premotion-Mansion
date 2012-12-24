@@ -20,19 +20,20 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
 		{
 			typeMapping.Add(new TreeRelationsPropertyMapping());
 			typeMapping.Add(new MultiFieldPropertyMapping(
+									"name",
 			                	"name",
 			                	"untouched",
 			                	new[]
 			                	{
-			                		new SingleValuedPropertyMapping("untouched")
-			                		{
-			                			Type = "string",
-			                			Index = "not_analyzed"
-			                		},
 			                		new SingleValuedPropertyMapping("name")
 			                		{
 			                			Type = "string",
 			                			Index = "analyzed"
+			                		},
+			                		new SingleValuedPropertyMapping("untouched")
+			                		{
+			                			Type = "string",
+			                			Index = "not_analyzed"
 			                		}
 			                	}
 			                	));
