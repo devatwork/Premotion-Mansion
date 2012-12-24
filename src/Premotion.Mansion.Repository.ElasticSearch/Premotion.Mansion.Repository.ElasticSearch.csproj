@@ -77,6 +77,7 @@
     <Compile Include="Querying\Filters\BaseFilter.cs" />
     <Compile Include="Querying\Mappers\CacheQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\ChildOfSpecificationMapper.cs" />
+    <Compile Include="Querying\Mappers\ParentOfSpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\FacetQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\LimitQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\IsPropertyInSpecificationMapper.cs" />

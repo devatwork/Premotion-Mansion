@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.AllowedRolesSpecificationMapper">
-    <Position X="0.5" Y="7.75" Width="3.25" />
+    <Position X="0.5" Y="2.75" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\AllowedRolesSpecificationMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.BaseSpecificationMapper&lt;TSpecification&gt;">
-    <Position X="4.5" Y="5.5" Width="2.75" />
+    <Position X="6.5" Y="0.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAAAAAAAAAAAQAAAAAAAAAAAAAAAABAAA=</HashCode>
       <FileName>Querying\Mappers\BaseSpecificationMapper.cs</FileName>
@@ -16,14 +16,14 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.SpecificationQueryComponentMapper">
-    <Position X="0.5" Y="2.75" Width="3.5" />
+    <Position X="0.5" Y="6.75" Width="3.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAQAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\SpecificationQueryComponentMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.QueryComponentMapper&lt;TQueryComponent&gt;">
-    <Position X="4.5" Y="0.5" Width="3" />
+    <Position X="4.5" Y="4.5" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAAAAAAAAAAAQAAAAAAAAAAAAAAAABAAA=</HashCode>
       <FileName>Querying\Mappers\QueryComponentMapper.cs</FileName>
@@ -31,35 +31,42 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.SortQueryComponentMapper">
-    <Position X="4.75" Y="2.75" Width="3" />
+    <Position X="4.75" Y="6.75" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\SortQueryComponentMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.IsPropertyInSpecificationMapper">
-    <Position X="4.5" Y="7.75" Width="3" />
+    <Position X="4.5" Y="2.75" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\IsPropertyInSpecificationMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.IsPropertyEqualSpecificationMapper">
-    <Position X="8.25" Y="7.75" Width="3.25" />
+    <Position X="8.25" Y="2.75" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\IsPropertyEqualSpecificationMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.FacetQueryComponentMapper">
-    <Position X="8.5" Y="2.75" Width="3" />
+    <Position X="8.5" Y="6.75" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\FacetQueryComponentMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.ParentOfSpecificationMapper">
+    <Position X="12.25" Y="2.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Querying\Mappers\ParentOfSpecificationMapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Interface Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.ISpecificationMapper" Collapsed="true">
-    <Position X="12.5" Y="0.5" Width="1.5" />
+    <Position X="16.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\ISpecificationMapper.cs</FileName>
