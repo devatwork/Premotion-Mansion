@@ -204,6 +204,6 @@ END]]></sqlserver:schema>
 	<es:customAnalyzer registeredName="dutchIndexAnalyzer" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,standardTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter,dutchNGramTokenFilter" />
 	<es:customAnalyzer registeredName="dutchQueryAnalyzer" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,dutchSynonymTokenFilter,standardTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter" />
 	<es:customAnalyzer registeredName="default_index" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,standardTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter,dutchNGramTokenFilter" />
-	<es:customAnalyzer registeredName="default_search" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,dutchSynonymTokenFilter,standardTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter" />
+	<es:customAnalyzer registeredName="default_search" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchSynonymTokenFilter,dutchStopTokenFilter,standardTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter" />
 	
 </type>
