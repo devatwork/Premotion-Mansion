@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Types;
-using Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors;
+using Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 {
@@ -133,7 +133,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		private static void MapType(IMansionContext context, IndexDefinition definition, ITypeDefinition type, TypeMapping typeMapping)
 		{
 			// map the type descriptor, if any
-			TypeMappingDescriptor descriptor;
+			TypeMapping.TypeMappingDescriptor descriptor;
 			if (type.TryGetDescriptor(out descriptor))
 				descriptor.UpdateMapping(context, typeMapping);
 

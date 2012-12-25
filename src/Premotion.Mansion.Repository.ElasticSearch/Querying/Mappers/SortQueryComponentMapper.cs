@@ -3,7 +3,7 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Repository.ElasticSearch.Querying.Sorts;
-using Premotion.Mansion.Repository.ElasticSearch.Schema;
+using Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 {

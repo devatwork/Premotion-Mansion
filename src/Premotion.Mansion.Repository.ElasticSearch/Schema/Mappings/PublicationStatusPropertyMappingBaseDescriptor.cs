@@ -1,7 +1,7 @@
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Types;
 
-namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
+namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 {
 	/// <summary>
 	/// Represents the <see cref="TypeDescriptor"/> for elastic search publication status properties.

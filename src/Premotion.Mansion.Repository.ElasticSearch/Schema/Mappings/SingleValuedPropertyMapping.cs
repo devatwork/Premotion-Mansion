@@ -2,15 +2,42 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.ElasticSearch.Responses;
 
-namespace Premotion.Mansion.Repository.ElasticSearch.Schema
+namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 {
 	/// <summary>
 	/// Maps a simple property.
 	/// </summary>
 	public class SingleValuedPropertyMapping : SinglePropertyMapping
 	{
+		#region Nested type: SingleValuedPropertyMappingDescriptor
+		/// <summary>
+		/// Represents the <see cref="TypeDescriptor"/> for elastic search properties.
+		/// </summary>
+		[TypeDescriptor(Constants.DescriptorNamespaceUri, "singleValuedProperty")]
+		public class SingleValuedPropertyMappingDescriptor : SinglePropertyMappingDescriptor
+		{
+			#region Create Methods
+			/// <summary>
+			/// Creates a <see cref="PropertyMapping"/> from this descriptor.
+			/// </summary>
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
+			/// <param name="property">The <see cref="IPropertyDefinition"/>.</param>
+			/// <returns>The created <see cref="PropertyMapping"/>.</returns>
+			protected override SinglePropertyMapping DoCreateSingleMapping(IMansionContext context, IPropertyDefinition property)
+			{
+				// create the mapping
+				return new SingleValuedPropertyMapping(property.Name)
+				       {
+				       	// map the type
+				       	Type = Properties.Get<string>(context, "type")
+				       };
+			}
+			#endregion
+		}
+		#endregion
 		#region Constructors
 		/// <summary>
 		/// Constructs the property mapping with the given <paramref name="field"/>.

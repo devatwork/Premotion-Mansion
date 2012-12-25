@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 {

@@ -114,25 +114,20 @@
     <Compile Include="Querying\Sorts\BaseSort.cs" />
     <Compile Include="Querying\SearchQuery.cs" />
     <Compile Include="Querying\Searcher.cs" />
-    <Compile Include="Schema\Descriptors\PublicationStatusPropertyMappingBaseDescriptor.cs" />
-    <Compile Include="Schema\Descriptors\SinglePropertyMappingBaseDescriptor.cs" />
-    <Compile Include="Schema\Descriptors\TreeRelationsPropertyMappingDescriptor.cs" />
-    <Compile Include="Schema\IgnoredPropertyMapping.cs" />
-    <Compile Include="Schema\MultiFieldPropertyMapping.cs" />
-    <Compile Include="Schema\MultiValuedPropertyMapping.cs" />
-    <Compile Include="Schema\Descriptors\MultiValuedPropertyMappingDescriptor.cs" />
-    <Compile Include="Schema\Descriptors\IndexDescriptor.cs" />
-    <Compile Include="Schema\Descriptors\PropertyMappingBaseDescriptor.cs" />
-    <Compile Include="Schema\Descriptors\SingleValuedPropertyMappingDescriptor.cs" />
-    <Compile Include="Schema\Descriptors\TypeMappingDescriptor.cs" />
+    <Compile Include="Schema\Mappings\PublicationStatusPropertyMappingBaseDescriptor.cs" />
+    <Compile Include="Schema\Mappings\IgnoredPropertyMapping.cs" />
+    <Compile Include="Schema\Mappings\MultiFieldPropertyMapping.cs" />
+    <Compile Include="Schema\Mappings\MultiValuedPropertyMapping.cs" />
+    <Compile Include="Schema\IndexDescriptor.cs" />
+    <Compile Include="Schema\Mappings\PropertyMappingBaseDescriptor.cs" />
     <Compile Include="Schema\IndexDefinition.cs" />
     <Compile Include="Schema\IndexDefinitionResolver.cs" />
     <Compile Include="Schema\IndexSettings.cs" />
-    <Compile Include="Schema\PropertyMapping.cs" />
-    <Compile Include="Schema\SingleValuedPropertyMapping.cs" />
-    <Compile Include="Schema\SinglePropertyMapping.cs" />
-    <Compile Include="Schema\TreeRelationsPropertyMapping.cs" />
-    <Compile Include="Schema\TypeMapping.cs" />
+    <Compile Include="Schema\Mappings\PropertyMapping.cs" />
+    <Compile Include="Schema\Mappings\SingleValuedPropertyMapping.cs" />
+    <Compile Include="Schema\Mappings\SinglePropertyMapping.cs" />
+    <Compile Include="Schema\Mappings\TreeRelationsPropertyMapping.cs" />
+    <Compile Include="Schema\Mappings\TypeMapping.cs" />
     <Compile Include="ScriptTags\OptimizeIndices.cs" />
     <Compile Include="ScriptTags\CreateIndicesTag.cs" />
     <Compile Include="ScriptTags\SearchTag.cs" />
@@ -151,7 +146,8 @@
     <None Include="Querying\Sorts\Sorts.cd" />
     <None Include="Responses\Facets\Facets.cd" />
     <None Include="Responses\Responses.cd" />
-    <None Include="Schema\Descriptors\repository.elasticsearch.descriptors.xsd">
+    <None Include="Schema\Mappings\Mappings.cd" />
+    <None Include="Schema\repository.elasticsearch.descriptors.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Schema\Schema.cd" />

@@ -4,6 +4,7 @@ using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Data.Queries.Specifications;
 using Premotion.Mansion.Repository.ElasticSearch.Querying.Queries;
 using Premotion.Mansion.Repository.ElasticSearch.Schema;
+using Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 {

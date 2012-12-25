@@ -9,6 +9,7 @@ using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.ElasticSearch.Connection;
 using Premotion.Mansion.Repository.ElasticSearch.Responses;
 using Premotion.Mansion.Repository.ElasticSearch.Schema;
+using Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 {

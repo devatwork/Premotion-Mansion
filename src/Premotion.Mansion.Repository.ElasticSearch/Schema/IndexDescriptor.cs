@@ -2,7 +2,7 @@
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Types;
 
-namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
+namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 {
 	/// <summary>
 	/// Represents the <see cref="TypeDescriptor"/> for elastic search indices.

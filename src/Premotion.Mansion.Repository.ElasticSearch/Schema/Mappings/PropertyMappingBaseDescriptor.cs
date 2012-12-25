@@ -2,7 +2,7 @@ using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Types;
 
-namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Descriptors
+namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 {
 	/// <summary>
 	/// Represents the base <see cref="TypeDescriptor"/> for elastic search properties.

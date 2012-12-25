@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Repository.ElasticSearch.Responses;
 
-namespace Premotion.Mansion.Repository.ElasticSearch.Schema
+namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 {
 	/// <summary>
 	/// Implements the field mapping of multifield properties.

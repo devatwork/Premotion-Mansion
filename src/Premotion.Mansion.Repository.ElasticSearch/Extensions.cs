@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Premotion.Mansion.Repository.ElasticSearch.Schema;
+using Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings;
 
 namespace Premotion.Mansion.Repository.ElasticSearch
 {

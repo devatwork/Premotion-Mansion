@@ -10,7 +10,7 @@ using Premotion.Mansion.Repository.ElasticSearch.Querying;
 using Premotion.Mansion.Repository.ElasticSearch.Responses;
 using Premotion.Mansion.Repository.ElasticSearch.Responses.Facets;
 
-namespace Premotion.Mansion.Repository.ElasticSearch.Schema
+namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 {
 	/// <summary>
 	/// Represents the mapping of a type.
@@ -46,6 +46,33 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 				writer.WriteEndObject(); // properties
 
 				writer.WriteEndObject(); // root
+			}
+			#endregion
+		}
+		#endregion
+		#region Nested type: TypeMappingDescriptor
+		/// <summary>
+		/// Represents the <see cref="TypeDescriptor"/> for elastic search types.
+		/// </summary>
+		[TypeDescriptor(Constants.DescriptorNamespaceUri, "typeMapping")]
+		public class TypeMappingDescriptor : TypeDescriptor
+		{
+			#region Update Methods
+			/// <summary>
+			/// Updates the given <paramref name="typeMapping"/>.
+			/// </summary>
+			/// <param name="context">The <see cref="IMansionContext"/>.</param>
+			/// <param name="typeMapping">The <see cref="TypeMapping"/>.</param>
+			/// <returns>The created <see cref="PropertyMapping"/>.</returns>
+			public void UpdateMapping(IMansionContext context, TypeMapping typeMapping)
+			{
+				// validate arguments
+				if (context == null)
+					throw new ArgumentNullException("context");
+				if (typeMapping == null)
+					throw new ArgumentNullException("typeMapping");
+
+				throw new NotImplementedException();
 			}
 			#endregion
 		}
