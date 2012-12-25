@@ -145,6 +145,7 @@
     <Compile Include="Schema\Mappings\SinglePropertyMapping.cs" />
     <Compile Include="Schema\Mappings\TreeRelationsPropertyMapping.cs" />
     <Compile Include="Schema\Mappings\TypeMapping.cs" />
+    <Compile Include="ScriptFunctions\GetSynonymList.cs" />
     <Compile Include="ScriptFunctions\GetStopWordList.cs" />
     <Compile Include="ScriptTags\OptimizeIndices.cs" />
     <Compile Include="ScriptTags\CreateIndicesTag.cs" />
