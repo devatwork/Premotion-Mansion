@@ -6,16 +6,16 @@ using Premotion.Mansion.Repository.ElasticSearch.Indexing;
 namespace Premotion.Mansion.Repository.ElasticSearch.ScriptTags
 {
 	/// <summary>
-	/// Syncs the nodes table to other tables.
+	/// Optimizes all the indices within the given ElasticSearch instance.
 	/// </summary>
-	[ScriptTag(Constants.TagNamespaceUri, "reindex")]
-	public class ReindexTag : ScriptTag
+	[ScriptTag(Constants.TagNamespaceUri, "optimizeIndices")]
+	public class OptimizeIndices : ScriptTag
 	{
 		#region Constructors
 		/// <summary>
 		/// </summary>
 		/// <param name="indexer"></param>
-		public ReindexTag(Indexer indexer)
+		public OptimizeIndices(Indexer indexer)
 		{
 			// validate arguments
 			if (indexer == null)
@@ -32,8 +32,6 @@ namespace Premotion.Mansion.Repository.ElasticSearch.ScriptTags
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		protected override void DoExecute(IMansionContext context)
 		{
-			indexer.CreateIndices(context);
-			indexer.Reindex(context);
 			indexer.OptimizeAll(context);
 		}
 		#endregion

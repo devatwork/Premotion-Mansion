@@ -61,12 +61,17 @@
 			<forms:form name="elastissearch" targetField="ElasticSearchForm">
 				<forms:step label="Maintenance">
 					<forms:buttonBar>
+						<forms:button action="optimize" label="Optimize" cssClass="btn-success" />
 						<forms:button action="create-indices" label="Create indices" cssClass="btn-danger" />
 						<forms:button action="reindex-content" label="Reindex content" cssClass="btn-danger" />
 					</forms:buttonBar>
 				</forms:step>
 
 				<!-- actions -->
+				<forms:processScriptAction supportedActions="optimize">
+					<es:optimizeIndices />
+					<clearCache/>
+				</forms:processScriptAction>
 				<forms:processScriptAction supportedActions="create-indices">
 					<es:createIndices />
 					<clearCache/>

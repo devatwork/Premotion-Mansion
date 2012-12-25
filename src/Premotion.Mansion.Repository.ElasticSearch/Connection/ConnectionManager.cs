@@ -76,6 +76,21 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		/// <summary>
 		/// Executes a POST request on the given <paramref name="resource"/>.
 		/// </summary>
+		/// <param name="resource">The resource on which to execute the request.</param>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="resource"/> is null.</exception>
+		/// <exception cref="ConnectionException">Thrown if the request did not result in the expected result.</exception>
+		public void Post(string resource)
+		{
+			// validate arguments
+			if (resource == null)
+				throw new ArgumentNullException("resource");
+
+			// execute the request
+			Execute(resource, request => { request.Method = Method.POST; });
+		}
+		/// <summary>
+		/// Executes a POST request on the given <paramref name="resource"/>.
+		/// </summary>
 		/// <typeparam name="TResponse">The <see cref="BaseResponse"/> type.</typeparam>
 		/// <param name="resource">The resource on which to execute the request.</param>
 		/// <param name="obj">The object which to add to the body of the request.</param>

@@ -133,6 +133,7 @@
     <Compile Include="Schema\SinglePropertyMapping.cs" />
     <Compile Include="Schema\TreeRelationsPropertyMapping.cs" />
     <Compile Include="Schema\TypeMapping.cs" />
+    <Compile Include="ScriptTags\OptimizeIndices.cs" />
     <Compile Include="ScriptTags\CreateIndicesTag.cs" />
     <Compile Include="ScriptTags\SearchTag.cs" />
     <Compile Include="ScriptTags\ReindexTag.cs" />

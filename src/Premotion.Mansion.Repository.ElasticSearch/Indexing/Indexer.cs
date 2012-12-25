@@ -172,6 +172,44 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 			}
 		}
 		#endregion
+		#region Optimize Methods
+		/// <summary>
+		/// Optimizes all the indices within the given ElasticSearch instance.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		public void OptimizeAll(IMansionContext context)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+
+			// resolve all the index definitions
+			var definitions = indexDefinitionResolver.ResolveAll(context);
+
+			// create each index
+			foreach (var definition in definitions)
+				Optimize(context, definition);
+		}
+		/// <summary>
+		/// Optimizes the indexes as defined by <paramref name="definition"/> within the given ElasticSearch instance.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="definition">The <see cref="IndexDefinition"/> which to optimize.</param>
+		public void Optimize(IMansionContext context, IndexDefinition definition)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (definition == null)
+				throw new ArgumentNullException("definition");
+
+			// format the resource
+			var resource = definition.Name + "/_optimize";
+
+			// execute the request
+			connectionManager.Post(resource);
+		}
+		#endregion
 		#region Private Fields
 		private readonly ConnectionManager connectionManager;
 		private readonly IndexDefinitionResolver indexDefinitionResolver;

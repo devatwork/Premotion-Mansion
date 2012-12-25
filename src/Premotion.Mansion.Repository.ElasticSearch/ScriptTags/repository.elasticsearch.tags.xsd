@@ -17,6 +17,12 @@
 			<xs:documentation>Creates new indices.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
+	
+	<xs:element name="optimizeIndices" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Optimizes all the indices within the given ElasticSearch instance.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 
 	<xs:element name="search" substitutionGroup="stl:scriptTag">
 		<xs:annotation>
