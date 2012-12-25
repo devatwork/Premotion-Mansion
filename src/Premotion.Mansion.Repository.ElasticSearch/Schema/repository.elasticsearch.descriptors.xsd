@@ -11,7 +11,7 @@
 		<xs:annotation>
 			<xs:documentation>Defines how this property is index by ElasticSearch.</xs:documentation>
 		</xs:annotation>
-		
+
 	</xs:complexType>
 
 	<xs:complexType name="singlePropertyMappingBase" abstract="true">
@@ -205,6 +205,298 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="propertyMappingBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+
+	
+	<!-- ############################ -->
+	<!-- Analysis                     -->
+	<!-- ############################ -->
+
+	<xs:simpleType name="analysisLanguageEnum">
+		<xs:annotation>
+			<xs:documentation>Enumerates the supported language.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Armenian" />
+			<xs:enumeration value="Basque" />
+			<xs:enumeration value="Catalan" />
+			<xs:enumeration value="Danish" />
+			<xs:enumeration value="Dutch" />
+			<xs:enumeration value="English" />
+			<xs:enumeration value="Finnish" />
+			<xs:enumeration value="French" />
+			<xs:enumeration value="German" />
+			<xs:enumeration value="German2" />
+			<xs:enumeration value="Hungarian" />
+			<xs:enumeration value="Italian" />
+			<xs:enumeration value="Kp" />
+			<xs:enumeration value="Lovins" />
+			<xs:enumeration value="Norwegian" />
+			<xs:enumeration value="Porter" />
+			<xs:enumeration value="Portuguese" />
+			<xs:enumeration value="Romanian" />
+			<xs:enumeration value="Russian" />
+			<xs:enumeration value="Spanish" />
+			<xs:enumeration value="Swedish" />
+			<xs:enumeration value="Turkish" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="analysisBase" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Base type for all analysis descriptors.</xs:documentation>
+		</xs:annotation>
+		<!-- attributes -->
+		<xs:attribute name="registeredName" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>The name under which this analysis component is registered. Used for referencing by other components.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="analyzerBase" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Base type for all analyzers.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="analysisBase" />
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="charFilterBase" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Base type for all character filters.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="analysisBase" />
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="tokenFilterBase" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Base type for all token filters.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="analysisBase" />
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="tokenizerBase" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Base type for tokenizers.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="analysisBase" />
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Analysers -->
+	<xs:element name="customAnalyzer" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>An analyzer of type custom that allows to combine a Tokenizer with zero or more Token Filters, and zero or more Char Filters. The custom analyzer accepts a logical/registered name of the tokenizer to use, and a list of logical/registered names of token filters.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="analyzerBase">
+					<!-- attributes -->
+					<xs:attribute name="tokenizer" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>The registered name of the tokenizer to use.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="tokenFilters" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>An optional list of registered names of token filters seperated by a comma.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="charFilters" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>An optional list of registered namex of character filters seperated by a comma.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- Character filters -->
+	<xs:element name="htmlCharacterFilter" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>A char filter of type html_strip stripping out HTML elements from an analyzed text.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="charFilterBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- Token filters -->
+	<xs:element name="lowercaseTokenFilter" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>A token filter of type lowercase that normalizes token text to lower case.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tokenFilterBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="nGramTokenFilter" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>A token filter of type nGram.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tokenFilterBase">
+					<!-- attributes -->
+					<xs:attribute name="minGram" type="xs:positiveInteger" use="optional">
+						<xs:annotation>
+							<xs:documentation>Defaults to 1.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="maxGram" type="xs:positiveInteger" use="optional">
+						<xs:annotation>
+							<xs:documentation>Defaults to 2.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="snowballTokenFilter" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>A filter that stems words using a Snowball-generated stemmer.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tokenFilterBase">
+					<!-- attributes -->
+					<xs:attribute name="language" type="analysisLanguageEnum" use="required">
+						<xs:annotation>
+							<xs:documentation>The language parameter controls the stemmer.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="standardTokenFilter" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>A token filter of type standard that normalizes tokens extracted with the Standard Tokenizer.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tokenFilterBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="stopTokenFilter" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>A filter that stems words using a Snowball-generated stemmer.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tokenFilterBase">
+					<!-- attributes -->
+					<xs:attribute name="enablePositionIncrements" type="xs:boolean" use="optional">
+						<xs:annotation>
+							<xs:documentation>Set to true if token positions should record the removed stop words, false otherwise. Defaults to true.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="ignoreCase" type="xs:boolean" use="optional">
+						<xs:annotation>
+							<xs:documentation>Set to true to lower case all words first. Defaults to false.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="stopwordsPath" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>A path (either relative to config location, or absolute) to a stopwords file configuration.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="stopwords" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>A list of stop words to use separated by a comma. Defaults to english stop words.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="synonymTokenFilter" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>The synonym token filter allows to easily handle synonyms during the analysis process.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tokenFilterBase">
+					<!-- attributes -->
+					<xs:attribute name="expand" type="xs:boolean" use="optional">
+						<xs:annotation>
+							<xs:documentation>Set to true if token positions should record the inserted tokens, defaults to true.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="ignoreCase" type="xs:boolean" use="optional">
+						<xs:annotation>
+							<xs:documentation>Set to true to lower case all words first. Defaults to false.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="synonymsPath" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>A path (either relative to config location, or absolute) to a synonyms file configuration.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="synonyms" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>A list of synonyms to use, split by a newline.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="uniqueTokenFilter" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>The unique token filter can be used to only index unique tokens during analysis. By default it is applied on all the token stream.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tokenFilterBase">
+					<!-- attributes -->
+					<xs:attribute name="onlyOnSamePosition" type="xs:boolean" use="optional">
+						<xs:annotation>
+							<xs:documentation>If only_on_same_position is set to true, it will only remove duplicate tokens on the same position.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- Tokenizers -->
+	<xs:element name="standardTokenizer" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>A tokenizer of type standard providing grammar based tokenizer that is a good tokenizer for most European language documents. The tokenizer implements the Unicode Text Segmentation algorithm, as specified in Unicode Standard Annex #29.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tokenizerBase">
+					<!-- attributes -->
+					<xs:attribute name="maxTokenLength" type="xs:positiveInteger" use="optional">
+						<xs:annotation>
+							<xs:documentation>The maximum token length. If a token is seen that exceeds this length then it is discarded. Defaults to 255.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>

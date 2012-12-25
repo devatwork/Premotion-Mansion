@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Patterns.Descriptors;
 using Premotion.Mansion.Core.Types;
+using Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis;
 using Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Schema
@@ -140,6 +142,9 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 			// map all the properties of this type
 			MapProperties(context, type, typeMapping);
 
+			// map all the analysis components defined on this type
+			MapAnalysisComponents(context, type, definition);
+
 			// loop over all the children of this type
 			foreach (var childType in type.GetChildTypes(context))
 			{
@@ -172,6 +177,20 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 				// allow the descriptor to add property mappings to the type mapping
 				descriptor.AddMappingTo(context, property, typeMapping);
 			}
+		}
+		/// <summary>
+		/// Maps all the analysis components from <paramref name="type"/> to <paramref name="definition"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="type">The <see cref="IDescriptee"/>.</param>
+		/// <param name="definition">The <see cref="IndexDefinition"/>.</param>
+		private static void MapAnalysisComponents(IMansionContext context, IDescriptee type, IndexDefinition definition)
+		{
+			// map all the analysis components
+			definition.Settings.AnalysisSettings.Add(type.GetDescriptors<BaseAnalysisDescriptor<BaseAnalyzer>>().Select(descriptor => descriptor.Create(context)));
+			definition.Settings.AnalysisSettings.Add(type.GetDescriptors<BaseAnalysisDescriptor<BaseCharFilter>>().Select(descriptor => descriptor.Create(context)));
+			definition.Settings.AnalysisSettings.Add(type.GetDescriptors<BaseAnalysisDescriptor<BaseTokenFilter>>().Select(descriptor => descriptor.Create(context)));
+			definition.Settings.AnalysisSettings.Add(type.GetDescriptors<BaseAnalysisDescriptor<BaseTokenizer>>().Select(descriptor => descriptor.Create(context)));
 		}
 		#endregion
 		#region Private Fields

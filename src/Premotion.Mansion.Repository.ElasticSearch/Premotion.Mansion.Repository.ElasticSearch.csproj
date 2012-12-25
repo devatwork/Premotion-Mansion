@@ -114,6 +114,23 @@
     <Compile Include="Querying\Sorts\BaseSort.cs" />
     <Compile Include="Querying\SearchQuery.cs" />
     <Compile Include="Querying\Searcher.cs" />
+    <Compile Include="Schema\Analysis\AnalysisComponent.cs" />
+    <Compile Include="Schema\Analysis\AnalysisSettings.cs" />
+    <Compile Include="Schema\Analysis\BaseAnalysisDescriptor.cs" />
+    <Compile Include="Schema\Analysis\BaseCharFilter.cs" />
+    <Compile Include="Schema\Analysis\BaseTokenFilter.cs" />
+    <Compile Include="Schema\Analysis\BaseAnalyzer.cs" />
+    <Compile Include="Schema\Analysis\BaseTokenizer.cs" />
+    <Compile Include="Schema\Analysis\CustomAnalyzer.cs" />
+    <Compile Include="Schema\Analysis\HtmlCharFilter.cs" />
+    <Compile Include="Schema\Analysis\StandardTokenizer.cs" />
+    <Compile Include="Schema\Analysis\SynonymTokenFilter.cs" />
+    <Compile Include="Schema\Analysis\NGramTokenFilter.cs" />
+    <Compile Include="Schema\Analysis\SnowballTokenFilter.cs" />
+    <Compile Include="Schema\Analysis\LowercaseTokenFilter.cs" />
+    <Compile Include="Schema\Analysis\StandardTokenFilter.cs" />
+    <Compile Include="Schema\Analysis\StopTokenFilter.cs" />
+    <Compile Include="Schema\Analysis\UniqueTokenFilter.cs" />
     <Compile Include="Schema\Mappings\PublicationStatusPropertyMappingBaseDescriptor.cs" />
     <Compile Include="Schema\Mappings\IgnoredPropertyMapping.cs" />
     <Compile Include="Schema\Mappings\MultiFieldPropertyMapping.cs" />
@@ -146,6 +163,7 @@
     <None Include="Querying\Sorts\Sorts.cd" />
     <None Include="Responses\Facets\Facets.cd" />
     <None Include="Responses\Responses.cd" />
+    <None Include="Schema\Analysis\Analysis.cd" />
     <None Include="Schema\Mappings\Mappings.cd" />
     <None Include="Schema\repository.elasticsearch.descriptors.xsd">
       <SubType>Designer</SubType>

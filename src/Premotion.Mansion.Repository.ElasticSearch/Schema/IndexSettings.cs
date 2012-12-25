@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 {
@@ -15,6 +16,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		{
 			NumberOfShards = 3;
 			NumberOfReplicas = 2;
+			AnalysisSettings = new AnalysisSettings();
 		}
 		#endregion
 		#region Properties
@@ -30,6 +32,11 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		/// <remarks>Default: 2</remarks>
 		[JsonProperty("number_of_replicas")]
 		public int NumberOfReplicas { get; set; }
+		/// <summary>
+		/// Gets the <see cref="AnalysisSettings"/>.
+		/// </summary>
+		[JsonProperty("analysis")]
+		public AnalysisSettings AnalysisSettings { get; private set; }
 		#endregion
 	}
 }
