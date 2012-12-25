@@ -145,6 +145,7 @@
     <Compile Include="Schema\Mappings\SinglePropertyMapping.cs" />
     <Compile Include="Schema\Mappings\TreeRelationsPropertyMapping.cs" />
     <Compile Include="Schema\Mappings\TypeMapping.cs" />
+    <Compile Include="ScriptFunctions\GetStopWordList.cs" />
     <Compile Include="ScriptTags\OptimizeIndices.cs" />
     <Compile Include="ScriptTags\CreateIndicesTag.cs" />
     <Compile Include="ScriptTags\SearchTag.cs" />
@@ -181,10 +182,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Assets\Dutch\protwords.txt" />
-    <EmbeddedResource Include="Assets\Dutch\stemdict.txt" />
-    <EmbeddedResource Include="Assets\Dutch\stopwords.txt" />
-    <EmbeddedResource Include="Assets\Dutch\synonyms.txt" />
+    <EmbeddedResource Include="Web\Assets\Dutch\protwords.txt" />
+    <EmbeddedResource Include="Web\Assets\Dutch\stemdict.txt" />
+    <EmbeddedResource Include="Web\Assets\Dutch\stopwords.txt" />
+    <EmbeddedResource Include="Web\Assets\Dutch\synonyms.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

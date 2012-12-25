@@ -1,5 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.IO.Memory;
+using Premotion.Mansion.Core.Scripting.ExpressionScript;
 using Premotion.Mansion.Core.Types;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis
@@ -16,6 +19,19 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis
 		[TypeDescriptor(Constants.DescriptorNamespaceUri, "stopTokenFilter")]
 		private class StopTokenFilterDescriptor : BaseTokenFilterDescriptor
 		{
+			#region Constructors
+			/// <summary></summary>
+			/// <param name="expressionScriptService"></param>
+			public StopTokenFilterDescriptor(IExpressionScriptService expressionScriptService)
+			{
+				// validate arguments
+				if (expressionScriptService == null)
+					throw new ArgumentNullException("expressionScriptService");
+
+				// set the values
+				this.expressionScriptService = expressionScriptService;
+			}
+			#endregion
 			#region Overrides of BaseTokenFilterDescriptor
 			/// <summary>
 			/// Constructs a <see cref="BaseTokenFilter"/> from this descriptor.
@@ -41,11 +57,17 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis
 
 				string stopwords;
 				if (Properties.TryGet(context, "stopwords", out stopwords))
-					filter.Stopwords = stopwords;
+				{
+					// execute any expressions
+					filter.Stopwords = expressionScriptService.Parse(context, new LiteralResource(stopwords)).Execute<string>(context);
+				}
 
 				// return the configured filter
 				return filter;
 			}
+			#endregion
+			#region Private Fields
+			private readonly IExpressionScriptService expressionScriptService;
 			#endregion
 		}
 		#endregion
