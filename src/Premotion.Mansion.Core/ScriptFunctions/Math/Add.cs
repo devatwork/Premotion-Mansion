@@ -1,4 +1,6 @@
-﻿using Premotion.Mansion.Core.Scripting.ExpressionScript;
+﻿using System;
+using System.Linq;
+using Premotion.Mansion.Core.Scripting.ExpressionScript;
 
 namespace Premotion.Mansion.Core.ScriptFunctions.Math
 {
@@ -11,21 +13,15 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Math
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
-		/// <param name="first"></param>
+		/// <param name="values"></param>
 		/// <returns></returns>
-		public double Evaluate(IMansionContext context, double first)
+		public double Evaluate(IMansionContext context, params double[] values)
 		{
-			return Evaluate(context, first, 1);
-		}
-		/// <summary>
-		/// </summary>
-		/// <param name="context"></param>
-		/// <param name="first"></param>
-		/// <param name="second"></param>
-		/// <returns></returns>
-		public double Evaluate(IMansionContext context, double first, double second)
-		{
-			return first + second;
+			// validate arguments
+			if (values == null)
+				throw new ArgumentNullException("values");
+
+			return values.Aggregate(0d, (cur, res) => cur + res);
 		}
 	}
 }

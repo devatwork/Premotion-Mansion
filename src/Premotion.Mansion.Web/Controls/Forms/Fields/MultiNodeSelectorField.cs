@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Templating;
 
@@ -70,7 +71,8 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 					                                                          	{ValueProperty, value},
 					                                                          	{"status", "any"},
 					                                                          	{"depth", "any"},
-					                                                          	{"bypassAuthorization", true}
+					                                                          	{"bypassAuthorization", true},
+																									{StorageOnlyQueryComponent.PropertyKey, true}
 					                                                          });
 
 					// if the node was not found, assume it was deleted

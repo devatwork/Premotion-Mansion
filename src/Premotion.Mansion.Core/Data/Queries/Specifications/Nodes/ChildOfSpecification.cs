@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Premotion.Mansion.Core.Data.Queries.Specifications.Nodes
@@ -43,6 +44,14 @@ namespace Premotion.Mansion.Core.Data.Queries.Specifications.Nodes
 		}
 		#endregion
 		#region Overrides of Specification
+		/// <summary>
+		/// Gets the names of the properties used by this query component.
+		/// </summary>
+		/// <returns>Returns the property hints.</returns>
+		protected override IEnumerable<string> DoGetPropertyHints()
+		{
+			return new[] {"pointer"};
+		}
 		/// <summary>
 		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 		/// </summary>

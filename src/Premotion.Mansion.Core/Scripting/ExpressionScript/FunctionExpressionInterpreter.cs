@@ -46,7 +46,7 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 			// parse the raw arguments
 			var expressionScriptService = context.Nucleus.ResolveSingle<IExpressionScriptService>();
 			var argumentExpressions = (from rawArgument in argumentTokenizer.Tokenize(context, rawArguments)
-			                           let interpreter = Election<IMansionContext, ExpressionPartInterpreter, string>.Elect(context, expressionScriptService.Interpreters, rawArgument)
+			                           let interpreter = Election<ExpressionPartInterpreter, string>.Elect(context, expressionScriptService.Interpreters, rawArgument)
 			                           select interpreter.Interpret(context, rawArgument)
 			                          ).ToList();
 

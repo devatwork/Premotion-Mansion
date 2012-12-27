@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.BaseFilter">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.BaseFilter.BaseFilterConverter&lt;TFilter&gt;" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Querying\Filters\BaseFilter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Querying\Filters\BaseFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.OrFilter">
+    <Position X="0.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Querying\Filters\OrFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.CompositeFilter">
+    <Position X="1.5" Y="3" Width="1.75" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.CompositeFilter.CompositeFilterConverter" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Querying\Filters\CompositeFilter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Querying\Filters\CompositeFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.TermFilter">
+    <Position X="5" Y="3" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.TermFilter.TermFilterConverter" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Querying\Filters\TermFilter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Querying\Filters\TermFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.AndFilter">
+    <Position X="2.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Querying\Filters\AndFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.TermsFilter">
+    <Position X="7.25" Y="3" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.TermsFilter.TermsFilterConverter" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Querying\Filters\TermsFilter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Querying\Filters\TermsFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.RangeFilter">
+    <Position X="9.5" Y="3" Width="2" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.RangeFilter.RangeFilterConverter" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Querying\Filters\RangeFilter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AGAAAAIAAAAAAAAAAAAAIAgAAAAAAAAAAAAAKAAAACg=</HashCode>
+      <FileName>Querying\Filters\RangeFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.NestedFilter">
+    <Position X="14.5" Y="3" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.NestedFilter.NestedFilterConverter" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Querying\Filters\NestedFilter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Querying\Filters\NestedFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.NotFilter">
+    <Position X="12.25" Y="3" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Filters.NotFilter.NotFilterConverter" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Querying\Filters\NotFilter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Querying\Filters\NotFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

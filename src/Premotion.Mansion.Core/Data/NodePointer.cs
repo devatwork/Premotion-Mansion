@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Premotion.Mansion.Core.Data
@@ -32,7 +33,7 @@ namespace Premotion.Mansion.Core.Data
 		/// <param name="pointer">The pointer.</param>
 		/// <param name="structure">The structure.</param>
 		/// <param name="path">The path.</param>
-		private NodePointer(int[] pointer, string[] structure, string[] path)
+		public NodePointer(int[] pointer, string[] structure, string[] path)
 		{
 			// validate arguments
 			if (pointer == null)
@@ -50,8 +51,9 @@ namespace Premotion.Mansion.Core.Data
 
 			// set values
 			this.pointer = pointer;
-			this.structure = structure;
-			this.path = path;
+			this.structure = structure.Select(x => (x ?? string.Empty).ToLower()).ToArray();
+			this.path = path.ToArray();
+			depth = pointer.Length;
 		}
 		#endregion
 		#region Parse Functions
@@ -300,7 +302,7 @@ namespace Premotion.Mansion.Core.Data
 		/// </summary>
 		public int Depth
 		{
-			get { return Pointer.Length; }
+			get { return depth; }
 		}
 		#endregion
 		#region Parent Properties
@@ -535,6 +537,8 @@ namespace Premotion.Mansion.Core.Data
 		}
 		#endregion
 		#region Private Fields
+		[JsonProperty]
+		private readonly int depth;
 		[JsonProperty]
 		private readonly string[] path;
 		[JsonProperty]

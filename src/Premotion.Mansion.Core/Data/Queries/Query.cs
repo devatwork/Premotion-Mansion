@@ -15,8 +15,9 @@ namespace Premotion.Mansion.Core.Data.Queries
 		/// Adds a new <paramref name="component"/> to this query.
 		/// </summary>
 		/// <param name="component">The <see cref="QueryComponent"/> which to add.</param>
+		/// <returns>Returns <see cref="Query"/> for chaining.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="component"/> is null.</exception>
-		public void Add(QueryComponent component)
+		public Query Add(QueryComponent component)
 		{
 			// validate arguments
 			if (component == null)
@@ -24,6 +25,12 @@ namespace Premotion.Mansion.Core.Data.Queries
 
 			// add to the list
 			componentQueue.Enqueue(component);
+
+			// add the property hints to the list
+			propertyHints.AddRange(component.GetPropertyHints());
+
+			// return this for chaining
+			return this;
 		}
 		/// <summary>
 		/// Adds the given <paramref name="types"/> as type hints to this query.
@@ -54,6 +61,13 @@ namespace Premotion.Mansion.Core.Data.Queries
 		public IEnumerable<ITypeDefinition> TypeHints
 		{
 			get { return typeHints; }
+		}
+		/// <summary>
+		/// Gets the hinted property names, which will be used by this query.
+		/// </summary>
+		public IEnumerable<string> PropertyHints
+		{
+			get { return propertyHints; }
 		}
 		#endregion
 		#region Overrides of Object
@@ -87,6 +101,7 @@ namespace Premotion.Mansion.Core.Data.Queries
 		#endregion
 		#region Private Fields
 		private readonly Queue<QueryComponent> componentQueue = new Queue<QueryComponent>();
+		private readonly List<string> propertyHints = new List<string>();
 		private readonly List<ITypeDefinition> typeHints = new List<ITypeDefinition>();
 		#endregion
 	}

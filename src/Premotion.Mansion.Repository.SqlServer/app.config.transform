@@ -2,7 +2,6 @@
 
 <configuration>
 	<appSettings>
-		<add key="REPOSITORY_NAMESPACE" value="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.xsd" />
 		<add key="SQLSERVER_CONNECTION_STRING" value="TODO" />
 	</appSettings>
 </configuration>

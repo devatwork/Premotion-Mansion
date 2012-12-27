@@ -2,6 +2,7 @@
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Data.Queries;
 
 namespace Premotion.Mansion.Web.Portal
 {
@@ -35,7 +36,8 @@ namespace Premotion.Mansion.Web.Portal
 			                                              {
 			                                              	{"parentSource", rootNode},
 			                                              	{"type", "ContentIndexRoot"},
-			                                              	{"bypassAuthorization", true}
+			                                              	{"bypassAuthorization", true},
+			                                              	{StorageOnlyQueryComponent.PropertyKey, true}
 			                                              }) ?? repository.CreateNode(context, rootNode, new PropertyBag
 			                                                                                             {
 			                                                                                             	{"type", "ContentIndexRoot"},
@@ -67,7 +69,8 @@ namespace Premotion.Mansion.Web.Portal
 			                                              {
 			                                              	{"parentSource", contentIndexRootNode},
 			                                              	{"type", "Taxonomy"},
-			                                              	{"bypassAuthorization", true}
+			                                              	{"bypassAuthorization", true},
+			                                              	{StorageOnlyQueryComponent.PropertyKey, true}
 			                                              }) ?? repository.CreateNode(context, contentIndexRootNode, new PropertyBag
 			                                                                                                         {
 			                                                                                                         	{"type", "Taxonomy"},

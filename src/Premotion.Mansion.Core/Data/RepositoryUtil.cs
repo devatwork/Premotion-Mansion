@@ -16,23 +16,26 @@ namespace Premotion.Mansion.Core.Data
 		/// Opens a repository and pushes it to the stack.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="repositoryNamespace">The namespace in which the repository lives.</param>
-		/// <param name="applicationSettings">The <see cref="IPropertyBag"/> containing the application settings.</param>
 		/// <returns>Returns an <see cref="IDisposable"/> which cleans up the opened repository and the stack.</returns>
-		public static IDisposable Open(IMansionContext context, string repositoryNamespace, IPropertyBag applicationSettings)
+		public static IDisposable Open(IMansionContext context)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
-			if (string.IsNullOrEmpty(repositoryNamespace))
-				throw new ArgumentNullException("repositoryNamespace");
-			if (applicationSettings == null)
-				throw new ArgumentNullException("applicationSettings");
+
+			// resolve the data storaget
+			BaseStorageEngine storageEngine;
+			if (!context.Nucleus.TryResolveSingle(out storageEngine))
+				throw new InvalidOperationException("There is no data storage engine configured within this application, please register a data store");
 
 			var disposableChain = new DisposableChain();
 
 			// create the repository
-			var repository = context.Nucleus.ResolveSingle<IRepositoryFactory>(repositoryNamespace, "Factory").Create(context, applicationSettings);
+			IRepository repository = new OrchestratingRepository(
+				context.Nucleus.ResolveSingle<BaseStorageEngine>(),
+				context.Nucleus.Resolve<BaseQueryEngine>(),
+				context.Nucleus.Resolve<BaseIndexEngine>()
+				);
 
 			// decorate with listing capabilities
 			repository = new ListeningRepositoryDecorator(repository, context.Nucleus.ResolveSingle<ITypeService>());

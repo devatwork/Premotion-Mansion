@@ -19,13 +19,10 @@ namespace Premotion.Mansion.Repository.SqlServer
 		/// <summary>
 		/// Constructs an instance of the SQL Server Repository with the specified connection string.
 		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="connectionString">The connection string.</param>
-		public SqlServerRepository(IMansionContext context, string connectionString)
+		public SqlServerRepository(string connectionString)
 		{
 			// valiate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
 			if (string.IsNullOrEmpty(connectionString))
 				throw new ArgumentNullException("connectionString");
 

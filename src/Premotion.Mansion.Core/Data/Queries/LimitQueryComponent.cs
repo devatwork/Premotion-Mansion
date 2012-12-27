@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Premotion.Mansion.Core.Data.Queries
@@ -19,6 +21,14 @@ namespace Premotion.Mansion.Core.Data.Queries
 		}
 		#endregion
 		#region Overrides of QueryComponent
+		/// <summary>
+		/// Gets the names of the properties used by this query component.
+		/// </summary>
+		/// <returns>Returns the property hints.</returns>
+		protected override IEnumerable<string> DoGetPropertyHints()
+		{
+			return Enumerable.Empty<string>();
+		}
 		/// <summary>
 		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 		/// </summary>

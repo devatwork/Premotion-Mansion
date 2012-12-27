@@ -1,5 +1,6 @@
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Fields
@@ -64,7 +65,8 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 			                                                  	{ValueProperty, currentValue},
 			                                                  	{"status", "any"},
 			                                                  	{"depth", "any"},
-			                                                  	{"bypassAuthorization", true}
+			                                                  	{"bypassAuthorization", true},
+			                                                  	{StorageOnlyQueryComponent.PropertyKey, true}
 			                                                  });
 
 			// if no node was found clear the value of this field

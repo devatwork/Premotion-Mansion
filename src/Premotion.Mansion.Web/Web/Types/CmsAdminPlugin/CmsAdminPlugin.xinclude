@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.tags.xsd">
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.tags.xsd" xmlns:es="http://schemas.premotion.nl/mansion/1.0/elasticsearch.tags.xsd">
 
 	<!-- ############################### -->
 	<!-- Overrides of CmsPlugin.xinclude -->
@@ -52,6 +52,32 @@
 				<!-- actions -->
 				<forms:processScriptAction supportedActions="sync">
 					<sqlserver:syncTables/>
+					<clearCache/>
+				</forms:processScriptAction>
+
+			</forms:form>
+			
+			<!-- implement SQL server form -->
+			<forms:form name="elastissearch" targetField="ElasticSearchForm">
+				<forms:step label="Maintenance">
+					<forms:buttonBar>
+						<forms:button action="optimize" label="Optimize" cssClass="btn-success" />
+						<forms:button action="create-indices" label="Create indices" cssClass="btn-danger" />
+						<forms:button action="reindex-content" label="Reindex content" cssClass="btn-danger" />
+					</forms:buttonBar>
+				</forms:step>
+
+				<!-- actions -->
+				<forms:processScriptAction supportedActions="optimize">
+					<es:optimizeIndices />
+					<clearCache/>
+				</forms:processScriptAction>
+				<forms:processScriptAction supportedActions="create-indices">
+					<es:createIndices />
+					<clearCache/>
+				</forms:processScriptAction>
+				<forms:processScriptAction supportedActions="reindex-content">
+					<es:reindex />
 					<clearCache/>
 				</forms:processScriptAction>
 

@@ -61,12 +61,8 @@ namespace Premotion.Mansion.Web
 				UserInterfaceCulture = CultureInfo.GetCultureInfo(defaultUICulture);
 
 			// initialize the repository, when possible
-			var repositoryNamespace = applicationSettings.Get(this, ApplicationSettingsConstants.RepositoryNamespace, string.Empty);
-			if (!string.IsNullOrEmpty(repositoryNamespace))
-			{
-				// open the repository
-				repositoryDisposable = RepositoryUtil.Open(this, repositoryNamespace, applicationSettings);
-			}
+			// open the repository
+			repositoryDisposable = RepositoryUtil.Open(this);
 		}
 		#endregion
 		#region Factory Methods

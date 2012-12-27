@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.SearchQuery">
+    <Position X="1.25" Y="4.25" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.SearchQuery.SearchQueryConverter" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Querying\SearchQuery.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAgAAAAAAAAAAAQAAAAEAAAAEAAAABAAA=</HashCode>
+      <FileName>Querying\SearchQuery.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.BaseConverter&lt;TType&gt;">
+    <Position X="5.5" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQQAAAAAEAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Querying\BaseConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Searcher">
+    <Position X="9.25" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAgAAAAAAAAAAACAAAAAAAAAAAAAAAAggAA=</HashCode>
+      <FileName>Querying\Searcher.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="converters" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Interface Name="Premotion.Mansion.Repository.ElasticSearch.Querying.IQueryComponentMapper">
+    <Position X="5" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Querying\IQueryComponentMapper.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
