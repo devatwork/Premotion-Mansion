@@ -55,12 +55,12 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis
 		/// <summary>
 		/// Defaults to 1.
 		/// </summary>
-		[JsonProperty("min_gram ")]
+		[JsonProperty("min_gram")]
 		public int MinGram { get; set; }
 		/// <summary>
 		/// Defaults to 2.
 		/// </summary>
-		[JsonProperty("max_gram ")]
+		[JsonProperty("max_gram")]
 		public int MaxGram { get; set; }
 		#endregion
 	}
