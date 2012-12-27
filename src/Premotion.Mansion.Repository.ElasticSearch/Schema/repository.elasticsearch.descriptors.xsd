@@ -369,6 +369,34 @@
 	</xs:element>
 	
 	<!-- Token filters -->
+	<xs:element name="keywordMarkerTokenFilter" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>Protects words from being modified by stemmers.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tokenFilterBase">
+					<!-- attributes -->
+					<xs:attribute name="ignoreCase" type="xs:boolean" use="optional">
+						<xs:annotation>
+							<xs:documentation>Set to true to lower case all words first. Defaults to false.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="keywordsPath" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>A path (either relative to config location, or absolute) to a list of words.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="keywords" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>A list of words to use.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
 	<xs:element name="lowercaseTokenFilter" substitutionGroup="def:typeDescriptor">
 		<xs:annotation>
 			<xs:documentation>A token filter of type lowercase that normalizes token text to lower case.</xs:documentation>
