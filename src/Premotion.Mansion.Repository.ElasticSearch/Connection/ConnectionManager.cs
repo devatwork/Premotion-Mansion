@@ -30,6 +30,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 			client = new RestClient(connectionString);
 			client.AddHandler("application/json", deserializer);
 			client.AddHandler("text/json", deserializer);
+			client.Timeout = 5*60*1000;
 		}
 		#endregion
 		#region Http Methods
@@ -152,6 +153,8 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 			var response = client.Execute(request);
 
 			// error handling
+			if (response.ErrorException != null)
+				throw new ConnectionException("Error while parsing the response", response.ErrorException, request, response);
 			if ((validHttpStatusCodes == null && response.StatusCode != HttpStatusCode.OK) || (validHttpStatusCodes != null && validHttpStatusCodes.All(candidate => candidate != response.StatusCode)))
 				throw new ConnectionException("Invalid ElasticSearch request", request, response);
 
@@ -182,10 +185,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 			var response = client.Execute<TResponse>(request);
 
 			// error handling
-			if ((validHttpStatusCodes == null && response.StatusCode != HttpStatusCode.OK) || (validHttpStatusCodes != null && validHttpStatusCodes.All(candidate => candidate != response.StatusCode)))
-				throw new ConnectionException("Invalid ElasticSearch request", request, response);
 			if (response.ErrorException != null)
 				throw new ConnectionException("Error while parsing the response", response.ErrorException, request, response);
+			if ((validHttpStatusCodes == null && response.StatusCode != HttpStatusCode.OK) || (validHttpStatusCodes != null && validHttpStatusCodes.All(candidate => candidate != response.StatusCode)))
+				throw new ConnectionException("Invalid ElasticSearch request", request, response);
 
 			// return the response
 			return response;

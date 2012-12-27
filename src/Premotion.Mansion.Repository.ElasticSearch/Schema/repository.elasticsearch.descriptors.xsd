@@ -323,6 +323,18 @@
 	</xs:element>
 	
 	<!-- Character filters -->
+	<xs:element name="htmlCharacterFilter" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>A char filter of type html_strip stripping out HTML elements from an analyzed text.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="charFilterBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- Token filters -->
 	<xs:element name="edgeNGramTokenFilter" substitutionGroup="def:typeDescriptor">
 		<xs:annotation>
 			<xs:documentation>A token filter of type edgeNGram.</xs:documentation>
@@ -357,18 +369,6 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:element name="htmlCharacterFilter" substitutionGroup="def:typeDescriptor">
-		<xs:annotation>
-			<xs:documentation>A char filter of type html_strip stripping out HTML elements from an analyzed text.</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="charFilterBase" />
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	
-	<!-- Token filters -->
 	<xs:element name="keywordMarkerTokenFilter" substitutionGroup="def:typeDescriptor">
 		<xs:annotation>
 			<xs:documentation>Protects words from being modified by stemmers.</xs:documentation>
@@ -456,6 +456,34 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="tokenFilterBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="stemmerOverrideTokenFilter" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>Overrides stemming algorithms, by applying a custom mapping, then protecting these terms from being modified by stemmers. Must be placed before any stemming filters.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tokenFilterBase">
+					<!-- attributes -->
+					<xs:attribute name="ignoreCase" type="xs:boolean" use="optional">
+						<xs:annotation>
+							<xs:documentation>Set to true to lower case all words first. Defaults to false.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="rulesPath" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>A path (either relative to config location, or absolute) to a list of rules.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="rules" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>A list of rules to use.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
