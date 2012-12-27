@@ -9,7 +9,7 @@ namespace Premotion.Mansion.Core.Templating.Html
 	/// Represents an interpreter for sections.
 	/// </summary>
 	[Exported(typeof (SectionInterpreter))]
-	public abstract class SectionInterpreter : IVotingInterpreter<IMansionContext, string, Section>
+	public abstract class SectionInterpreter : IVotingInterpreter<string, Section>
 	{
 		#region Implementation of ICandidate<string>
 		/// <summary>

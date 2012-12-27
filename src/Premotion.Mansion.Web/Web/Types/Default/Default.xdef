@@ -1,41 +1,63 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<type xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd" xmlns:webdescriptors="http://schemas.premotion.nl/mansion/1.0/web/descriptors.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:listeners="http://schemas.premotion.nl/mansion/1.0/data.listeners.descriptors.xsd">
+<type xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd" xmlns:webdescriptors="http://schemas.premotion.nl/mansion/1.0/web/descriptors.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:listeners="http://schemas.premotion.nl/mansion/1.0/data.listeners.descriptors.xsd" xmlns:es="http://schemas.premotion.nl/mansion/1.0/elasticsearch.descriptors.xsd">
 	
 	<!-- define identity properties -->
+	<property name="id">
+		<es:singleValuedProperty type="integer" />
+	</property>
 	<property name="pointer">
 		<sqlserver:treeRelations />
+		<es:treeRelations />
 	</property>
 	<property name="guid">
 		<sqlserver:permanentIdentity />
+		<es:singleValuedProperty type="string" index="not_analyzed" />
 	</property>
 	<property name="key">
 		<sqlserver:column allowNullValue="true" />
+		<es:singleValuedProperty type="string" index="not_analyzed" />
 	</property>
 	<property name="created">
 		<sqlserver:dateTimeColumn defaultValue="{Now()}" />
+		<es:singleValuedProperty type="date" />
 	</property>
 	<property name="modified">
 		<sqlserver:dateTimeColumn expression="{NotNull( Column.value, Now() )}" />
+		<es:singleValuedProperty type="date" />
 	</property>
 	
 	<!-- define status properties -->
 	<property name="status">
 		<sqlserver:publicationStatus />
+		<es:publicationStatus />
 	</property>
 	
 	<!-- role Ids -->
 	<property name="allowedRoleGuids">
 		<sqlserver:singleValuePropertyTable tableName="NodeAllowedRoleGuids"/>
+		<es:multiValuedProperty type="string" index="not_analyzed" />
 	</property>
 	
 	<!-- tags -->
 	<property name="tagGuids">
 		<sqlserver:singleValuePropertyTable tableName="NodeTagGuids" />
+		<es:multiValuedProperty type="string" index="not_analyzed" />
 	</property>
 	
-	<!-- full text-->
+	<!-- description -->
+	<property name="description">
+		<es:singleValuedProperty type="string" />
+	</property>
+	
+	<!-- body -->
+	<property name="body">
+		<es:singleValuedProperty type="string" />
+	</property>
+	
+	<!-- full text -->
 	<property name="fullText">
 		<sqlserver:column allowNullValue="true" />
+		<es:singleValuedProperty type="string" />
 	</property>
 	
 	<!-- tables -->
@@ -154,5 +176,36 @@ BEGIN
 		CHANGE_TRACKING = AUTO
 	);
 END]]></sqlserver:schema>
+
+	
+	
+	<!-- Elastic search -->
+	<!-- define ElasticSearch index -->
+	<es:index name="nodes" />
+	
+	<!-- Character filters -->
+	<es:htmlCharacterFilter registeredName="stripHtml" />
+	
+	<!-- Tokenizers -->
+	<es:standardTokenizer registeredName="standardTokenizer"  />
+	
+	<!-- Token filters -->
+	<es:standardTokenFilter registeredName="standardTokenFilter" />
+	<es:lowercaseTokenFilter registeredName="lowercaseTokenFilter" />
+	<es:uniqueTokenFilter registeredName="uniqueTokenFilter" />
+	<es:edgeNGramTokenFilter registeredName="autocompleteEdgeNGramTokenFilter" side="front" minGram="3" maxGram="16"  />
+
+	<es:snowballTokenFilter registeredName="dutchSnowballTokenFilter" language="Dutch" />
+	<es:stopTokenFilter registeredName="dutchStopTokenFilter" ignoreCase="true" stopwords="{GetStopWordList( 'Dutch' )}"  />
+	<es:nGramTokenFilter registeredName="dutchNGramTokenFilter" minGram="2" maxGram="15"/>
+	<es:synonymTokenFilter registeredName="dutchSynonymTokenFilter" ignoreCase="true" expand="true" synonyms="{GetSynonymList( 'Dutch' )}" />
+	
+	<!-- Analyzers -->
+	<es:customAnalyzer registeredName="dutchIndexAnalyzer" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,standardTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter,dutchNGramTokenFilter" />
+	<es:customAnalyzer registeredName="dutchQueryAnalyzer" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,dutchSynonymTokenFilter,standardTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter" />
+	<es:customAnalyzer registeredName="default_index" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,standardTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter,dutchNGramTokenFilter" />
+	<es:customAnalyzer registeredName="default_search" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,dutchSynonymTokenFilter,standardTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter" />
+	<es:customAnalyzer registeredName="autocompleteIndex" tokenizer="standardTokenizer" tokenFilters="dutchStopTokenFilter,lowercaseTokenFilter,uniqueTokenFilter,autocompleteEdgeNGramTokenFilter"/>
+	<es:customAnalyzer registeredName="autocompleteSearch" tokenizer="standardTokenizer" tokenFilters="dutchStopTokenFilter,lowercaseTokenFilter,uniqueTokenFilter"/>
 	
 </type>

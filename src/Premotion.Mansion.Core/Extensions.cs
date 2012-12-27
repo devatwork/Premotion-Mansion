@@ -573,6 +573,21 @@ namespace Premotion.Mansion.Core
 		#endregion
 		#region Extensions of ITypeDefinition
 		/// <summary>
+		/// Finds the <typeparamref name="TDescriptor"/> in the type hierarchy of <paramref name="typeDefinition"/>.
+		/// </summary>
+		/// <typeparam name="TDescriptor">The type of <see cref="IDescriptor"/>.</typeparam>
+		/// <param name="typeDefinition">The <see cref="ITypeDefinition"/> for which to get the descriptors.</param>
+		/// <returns>Returns true when found, otherwise false.</returns>
+		public static IEnumerable<TDescriptor> GetDescriptorsInHierarchy<TDescriptor>(this ITypeDefinition typeDefinition) where TDescriptor : class, IDescriptor
+		{
+			// validate arguments
+			if (typeDefinition == null)
+				throw new ArgumentNullException("typeDefinition");
+
+			// find all the matching descriptors in the hierarchy
+			return typeDefinition.Hierarchy.SelectMany(type => type.GetDescriptors<TDescriptor>());
+		}
+		/// <summary>
 		/// Tries to find the <typeparamref name="TDescriptor"/> in the reverse type hierarchy of <paramref name="typeDefinition"/>.
 		/// </summary>
 		/// <typeparam name="TDescriptor">The type of <see cref="IDescriptor"/>.</typeparam>

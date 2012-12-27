@@ -1,17 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
-using Premotion.Mansion.Core.Data.Queries.Specifications;
 
-namespace Premotion.Mansion.Repository.SqlServer.Queries.Specifications
+namespace Premotion.Mansion.Core.Data.Queries.Specifications
 {
 	/// <summary>
-	/// Specifies the SQL-server full-text search query.
+	/// Specifies the full-text search query.
 	/// </summary>
 	public class FullTextSearchSpecification : Specification
 	{
 		#region Constructors
 		/// <summary>
-		/// Constructs the SQL-server full-text search specification using the given <paramref name="query"/>.
+		/// Constructs the full-text search specification using the given <paramref name="query"/>.
 		/// </summary>
 		/// <param name="query">The full-text query.</param>
 		/// <exception cref="ArgumentNullException">Thrown</exception>
@@ -26,6 +26,14 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Specifications
 		}
 		#endregion
 		#region Overrides of Specification
+		/// <summary>
+		/// Gets the names of the properties used by this query component.
+		/// </summary>
+		/// <returns>Returns the property hints.</returns>
+		protected override IEnumerable<string> DoGetPropertyHints()
+		{
+			return new[] {"name", "description", "body", "fullText"};
+		}
 		/// <summary>
 		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 		/// </summary>

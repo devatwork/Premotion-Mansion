@@ -35,6 +35,14 @@ namespace Premotion.Mansion.Core.Data.Queries
 		#endregion
 		#region Overrides of QueryComponent
 		/// <summary>
+		/// Gets the names of the properties used by this query component.
+		/// </summary>
+		/// <returns>Returns the property hints.</returns>
+		protected override IEnumerable<string> DoGetPropertyHints()
+		{
+			return Sorts.Select(sort => sort.PropertyName);
+		}
+		/// <summary>
 		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 		/// </summary>
 		/// <param name="builder">The <see cref="T:System.Text.StringBuilder"/> in which to store the <see cref="T:System.String"/> representation.</param>

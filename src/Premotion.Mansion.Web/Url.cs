@@ -283,7 +283,7 @@ namespace Premotion.Mansion.Web
 				.Append("://")
 				.Append(FormatHostName(HostName))
 				.Append(FormatPort(Port))
-				.Append(FormatPath(ApplicationPathSegments))
+				.Append(ApplicationPathSegments.Aggregate(string.Empty, (current, part) => current + "/" + part))
 				.Append(FormatPath(PathSegments))
 				.Append(FormatQueryString(QueryString))
 				.Append(FormatFragment(Fragment))

@@ -12,52 +12,23 @@ namespace Premotion.Mansion.Core.Patterns.Voting
 		/// <summary>
 		/// Solves the election.
 		/// </summary>
-		/// <param name="candidates">The <see cref="ICandidate{TSubject}"/>s competing in this election.</param>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="candidates">The candidates in this election.</param>
 		/// <param name="subject">The subject on which is voted.</param>
+		/// <param name="tieResolver">Invoked when this election is about to end in a tie.</param>
 		/// <returns>Returns the winner of the election.</returns>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="candidates"/> or <paramref name="context"/> is null.</exception>
-		/// <exception cref="InvalidOperationException">Thrown if the election did not result in one winner.</exception>
-		public static TCandidate Elect<TCandidate, TSubject>(this IEnumerable<TCandidate> candidates, IMansionContext context, TSubject subject) where TCandidate : ICandidate<TSubject>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		/// <exception cref="InconclusiveElectionException{TCandidate,TSubject}">Thrown when there is no candidate interested in the subject.</exception>
+		/// <exception cref="TieElectionException{TCandidate,TSubject}">Thrown when two or more candidate were equally intrested in the subject.</exception>
+		public static TCandidate Elect<TCandidate, TSubject>(this IEnumerable<TCandidate> candidates, IMansionContext context, TSubject subject, Func<IEnumerable<TCandidate>, TCandidate> tieResolver = null) where TCandidate : ICandidate<TSubject>
 		{
-			// validate arguments
-			if (candidates == null)
-				throw new ArgumentNullException("candidates");
+			// validate argument
 			if (context == null)
 				throw new ArgumentNullException("context");
+			if (candidates == null)
+				throw new ArgumentNullException("candidates");
 
-			var highestVoteResult = VoteResult.Refrain;
-			var higestCandidateList = new List<TCandidate>();
-			foreach (var candidate in candidates)
-			{
-				// ask the candidate to vote
-				var voteResult = candidate.Vote(context, subject);
-
-				// check for higher vote
-				if (voteResult.Strength > highestVoteResult.Strength)
-				{
-					highestVoteResult = voteResult;
-					higestCandidateList.Clear();
-					higestCandidateList.Add(candidate);
-				}
-					// check for equal vote
-				else if (voteResult.Strength == highestVoteResult.Strength && voteResult.Strength != VoteResult.Refrain.Strength)
-				{
-					highestVoteResult = voteResult;
-					higestCandidateList.Add(candidate);
-				}
-			}
-
-			// check if there was a candidate interested at all
-			if (highestVoteResult.Strength == VoteResult.Refrain.Strength)
-				throw new InvalidOperationException("None of the candidates were interested in the subject.");
-
-			// check for ambigious candidates
-			if (higestCandidateList.Count != 1)
-				throw new InvalidOperationException("Two ore more candidates were equally interested in the subject.");
-
-			// return the subject
-			return higestCandidateList[0];
+			return Election<TCandidate, TSubject>.Elect(context, candidates, subject, tieResolver);
 		}
 		#endregion
 	}

@@ -67,7 +67,8 @@ namespace Premotion.Mansion.Repository.SqlServer.ScriptTags
 			                         		                                  {
 			                         		                                  	{"baseType", type.Name},
 			                         		                                  	{"status", "any"},
-			                         		                                  	{"bypassAuthorization", true}
+			                         		                                  	{"bypassAuthorization", true},
+			                         		                                  	{StorageOnlyQueryComponent.PropertyKey, true}
 			                         		                                  });
 			                         		var recordSet = repository.Retrieve(context, query);
 			                         		if (recordSet.RowCount == 0)

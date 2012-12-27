@@ -13,9 +13,5 @@ namespace Premotion.Mansion.Core
 		/// Application setting indicating whether the application is live (true) or in staging mode (false).
 		/// </summary>
 		public const string IsLiveApplicationSetting = "APPLICATION_IS_LIVE";
-		/// <summary>
-		/// Application setting indicating which repository to load.
-		/// </summary>
-		public const string RepositoryNamespace = "REPOSITORY_NAMESPACE";
 	}
 }

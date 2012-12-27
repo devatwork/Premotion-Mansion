@@ -81,6 +81,25 @@ namespace Premotion.Mansion.Core.Types
 			       where !Name.Equals(candidate.Name, StringComparison.OrdinalIgnoreCase) && candidate.IsAssignable(this)
 			       select candidate;
 		}
+		/// <summary>
+		/// Gets the types inheriting directly from this type.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <returns>Returns the inheriting child types.</returns>
+		public IEnumerable<ITypeDefinition> GetChildTypes(IMansionContext context)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+
+			// loop through all the types
+			var typeService = context.Nucleus.ResolveSingle<ITypeService>();
+
+			// returns inheriting types
+			return from candidate in typeService.LoadAll(context)
+			       where candidate.HasParent && candidate.Parent.Name.Equals(Name, StringComparison.OrdinalIgnoreCase)
+			       select candidate;
+		}
 		#endregion
 		#region Relational Properties
 		/// <summary>
