@@ -193,6 +193,7 @@ END]]></sqlserver:schema>
 	<es:standardTokenFilter registeredName="standardTokenFilter" />
 	<es:lowercaseTokenFilter registeredName="lowercaseTokenFilter" />
 	<es:uniqueTokenFilter registeredName="uniqueTokenFilter" />
+	<es:edgeNGramTokenFilter registeredName="autocompleteEdgeNGramTokenFilter" side="front" minGram="3" maxGram="16"  />
 
 	<es:snowballTokenFilter registeredName="dutchSnowballTokenFilter" language="Dutch" />
 	<es:stopTokenFilter registeredName="dutchStopTokenFilter" ignoreCase="true" stopwords="{GetStopWordList( 'Dutch' )}"  />
@@ -204,5 +205,7 @@ END]]></sqlserver:schema>
 	<es:customAnalyzer registeredName="dutchQueryAnalyzer" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,dutchSynonymTokenFilter,standardTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter" />
 	<es:customAnalyzer registeredName="default_index" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,standardTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter,dutchNGramTokenFilter" />
 	<es:customAnalyzer registeredName="default_search" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,dutchSynonymTokenFilter,standardTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter" />
+	<es:customAnalyzer registeredName="autocompleteIndex" tokenizer="standardTokenizer" tokenFilters="dutchStopTokenFilter,lowercaseTokenFilter,uniqueTokenFilter,autocompleteEdgeNGramTokenFilter"/>
+	<es:customAnalyzer registeredName="autocompleteSearch" tokenizer="standardTokenizer" tokenFilters="dutchStopTokenFilter,lowercaseTokenFilter,uniqueTokenFilter"/>
 	
 </type>

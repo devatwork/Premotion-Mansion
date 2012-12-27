@@ -98,6 +98,13 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 				                		{
 				                			Type = "string",
 				                			Index = "not_analyzed"
+				                		},
+				                		new SingleValuedPropertyMapping("autocomplete")
+				                		{
+				                			Type = "string",
+				                			Index = "analyzed",
+												Analyzer = "autocompletesearch",
+												IndexAnalyzer = "autocompleteindex"
 				                		}
 				                	}
 				                	));

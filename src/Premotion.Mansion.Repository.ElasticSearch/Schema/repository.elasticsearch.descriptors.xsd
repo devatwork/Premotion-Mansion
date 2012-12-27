@@ -323,6 +323,40 @@
 	</xs:element>
 	
 	<!-- Character filters -->
+	<xs:element name="edgeNGramTokenFilter" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>A token filter of type edgeNGram.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tokenFilterBase">
+					<!-- attributes -->
+					<xs:attribute name="minGram" type="xs:positiveInteger" use="optional">
+						<xs:annotation>
+							<xs:documentation>Defaults to 1.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="maxGram" type="xs:positiveInteger" use="optional">
+						<xs:annotation>
+							<xs:documentation>Defaults to 2.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="side" use="required">
+						<xs:annotation>
+							<xs:documentation>Either front or back.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="front" />
+								<xs:enumeration value="back" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
 	<xs:element name="htmlCharacterFilter" substitutionGroup="def:typeDescriptor">
 		<xs:annotation>
 			<xs:documentation>A char filter of type html_strip stripping out HTML elements from an analyzed text.</xs:documentation>

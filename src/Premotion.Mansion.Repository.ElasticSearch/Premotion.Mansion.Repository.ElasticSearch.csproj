@@ -80,6 +80,7 @@
     <Compile Include="Querying\Mappers\CacheQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\ChildOfSpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\ConjunctionMapper.cs" />
+    <Compile Include="Querying\Mappers\PhrasePrefixQuerySpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\FullTextSearchSpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\DisjunctionMapper.cs" />
     <Compile Include="Querying\Mappers\IsPropertyGreaterThanOrEqualSpecificationMapper.cs" />
@@ -97,8 +98,10 @@
     <Compile Include="Querying\Mappers\SortQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\SpecificationQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\StatusSpecificationMapper.cs" />
+    <Compile Include="Querying\Queries\TextPhrasePrefixQuery.cs" />
     <Compile Include="Querying\Queries\MultiMatchQuery.cs" />
     <Compile Include="Querying\Sorts\FieldSort.cs" />
+    <Compile Include="Querying\Specifications\PhrasePrefixQuerySpecification.cs" />
     <Compile Include="Responses\BaseResponse.cs" />
     <Compile Include="Responses\Facets\Facet.cs" />
     <Compile Include="Responses\Facets\FacetItem.cs" />
@@ -121,6 +124,7 @@
     <Compile Include="Schema\Analysis\BaseTokenFilter.cs" />
     <Compile Include="Schema\Analysis\BaseAnalyzer.cs" />
     <Compile Include="Schema\Analysis\BaseTokenizer.cs" />
+    <Compile Include="Schema\Analysis\EdgeNGramTokenFilter.cs" />
     <Compile Include="Schema\Analysis\CustomAnalyzer.cs" />
     <Compile Include="Schema\Analysis\HtmlCharFilter.cs" />
     <Compile Include="Schema\Analysis\StandardTokenizer.cs" />
@@ -145,6 +149,7 @@
     <Compile Include="Schema\Mappings\SinglePropertyMapping.cs" />
     <Compile Include="Schema\Mappings\TreeRelationsPropertyMapping.cs" />
     <Compile Include="Schema\Mappings\TypeMapping.cs" />
+    <Compile Include="ScriptFunctions\PhrasePrefixQuery.cs" />
     <Compile Include="ScriptFunctions\GetSynonymList.cs" />
     <Compile Include="ScriptFunctions\GetStopWordList.cs" />
     <Compile Include="ScriptTags\OptimizeIndices.cs" />

@@ -100,6 +100,22 @@ namespace Premotion.Mansion.Repository.ElasticSearch
 
 			return name.ToLower();
 		}
+		/// <summary>
+		/// Get the base name of the given <paramref name="field"/>.
+		/// </summary>
+		/// <param name="field">The name which to normalize.</param>
+		/// <returns>Returns the base field name.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="field"/> is null.</exception>
+		public static string GetFieldNameBase(this string field)
+		{
+			// validate arguments
+			if (string.IsNullOrEmpty(field))
+				throw new ArgumentNullException("field", "Field names can not be null");
+
+			// check if there is a dot
+			var dotIndex = field.IndexOf('.');
+			return (dotIndex == -1 ? field : field.Substring(0, dotIndex)).NormalizeFieldName();
+		}
 		#endregion
 	}
 }
