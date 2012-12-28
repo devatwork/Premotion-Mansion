@@ -22,6 +22,7 @@
 			<dependency id="Premotion.Mansion.Core" />
 			<dependency id="Newtonsoft.Json" />
 			<dependency id="AntiXSS" />
+			<dependency id="dotless" />
 		</dependencies> 
 		<tags>Premotion Mansion Web</tags>
 	</metadata>
