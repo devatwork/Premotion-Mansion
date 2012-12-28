@@ -356,6 +356,8 @@
     <EmbeddedResource Include="Web\Shared\css\bootstrap\less\utilities.less" />
     <EmbeddedResource Include="Web\Shared\css\bootstrap\less\variables.less" />
     <EmbeddedResource Include="Web\Shared\css\bootstrap\less\wells.less" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesome-ie7.less" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesome.less" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Premotion.Mansion.Core\Premotion.Mansion.Core.csproj">
