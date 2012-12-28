@@ -4,7 +4,6 @@ using System.Web;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.IO;
-using Premotion.Mansion.Web.Hosting.AspNet;
 using dotless.Core.Input;
 
 namespace Premotion.Mansion.Web.DotLess
@@ -28,8 +27,8 @@ namespace Premotion.Mansion.Web.DotLess
 				throw new ArgumentNullException("fileName");
 
 			// get the required references
-			var context = GetContext(HttpContext.Current);
-			var resourceService = ResourceServiceResolver.Value;
+			var context = DotLessContextHelper.GetContext();
+			var resourceService = DotLessContextHelper.ApplicationResourceService;
 
 			// parse the path
 			var path = ParsePath(context, resourceService, fileName);
@@ -56,8 +55,8 @@ namespace Premotion.Mansion.Web.DotLess
 				throw new ArgumentNullException("fileName");
 
 			// get the required references
-			var context = GetContext(HttpContext.Current);
-			var resourceService = ResourceServiceResolver.Value;
+			var context = DotLessContextHelper.GetContext();
+			var resourceService = DotLessContextHelper.ApplicationResourceService;
 
 			// parse the path
 			var path = ParsePath(context, resourceService, fileName);
@@ -80,8 +79,8 @@ namespace Premotion.Mansion.Web.DotLess
 				throw new ArgumentNullException("fileName");
 
 			// get the required references
-			var context = GetContext(HttpContext.Current);
-			var resourceService = ResourceServiceResolver.Value;
+			var context = DotLessContextHelper.GetContext();
+			var resourceService = DotLessContextHelper.ApplicationResourceService;
 
 			// parse the path
 			var path = ParsePath(context, resourceService, fileName);
@@ -111,38 +110,6 @@ namespace Premotion.Mansion.Web.DotLess
 
 			// parse the path
 			return resourceService.ParsePath(context, properties);
-		}
-		#endregion
-		#region Mansion Accessors
-		/// <summary>
-		/// Gets the <see cref="IContentResourceService"/>.
-		/// </summary>
-		private static readonly Lazy<IApplicationResourceService> ResourceServiceResolver = new Lazy<IApplicationResourceService>(() =>
-		                                                                                                                          {
-		                                                                                                                          	// get the mansion application context
-		                                                                                                                          	var applicationContext = MansionWebApplicationContextFactory.Instance;
-
-		                                                                                                                          	// resolve the content resource service
-		                                                                                                                          	return applicationContext.Nucleus.ResolveSingle<IApplicationResourceService>();
-		                                                                                                                          });
-		/// <summary>
-		/// Get the <see cref="IMansionContext"/> of the current request.
-		/// </summary>
-		/// <param name="context">The <see cref="HttpContext"/>.</param>
-		/// <returns>Returns the <see cref="IMansionContext"/>.</returns>
-		private static IMansionWebContext GetContext(HttpContext context)
-		{
-			// wrap the http context
-			var wrappedContext = new HttpContextWrapper(context);
-
-			// get the mansion application context
-			var applicationContext = MansionWebApplicationContextFactory.Instance;
-
-			// create the request
-			var request = HttpContextAdapter.Adapt(wrappedContext);
-
-			// get the mansion request context
-			return MansionWebContext.Create(applicationContext, request);
 		}
 		#endregion
 	}

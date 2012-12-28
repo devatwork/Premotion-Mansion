@@ -67,4 +67,6 @@
 		</mailSettings>
 	</system.net>
 	<dotless minifyCss="false" cache="false" web="true" source="Premotion.Mansion.Web.DotLess.ApplicationResourceFileReader, Premotion.Mansion.Web" />
+		<plugin name="MansionFunctions" assembly="Premotion.Mansion.Web" />
+	</dotless>
 </configuration>
