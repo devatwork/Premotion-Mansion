@@ -17,6 +17,9 @@ namespace Premotion.Mansion.Web
 	/// </summary>
 	public class MansionWebContext : MansionContext, IMansionWebContext
 	{
+		#region Constants
+		private const string MansionContextCacheKey = "__mansion_web_context__";
+		#endregion
 		#region Constructors
 		private MansionWebContext(IMansionContext applicationContext, WebRequest request, IEnumerable<KeyValuePair<string, IEnumerable<IPropertyBag>>> initialStack) : base(applicationContext.Nucleus)
 		{
@@ -80,8 +83,15 @@ namespace Premotion.Mansion.Web
 			if (request == null)
 				throw new ArgumentNullException("request");
 
+			// use the 
+			if (request.Cache.Contains(MansionContextCacheKey))
+				return (MansionWebContext) request.Cache[MansionContextCacheKey];
+
 			// create the context
 			var context = new MansionWebContext(applicationContext, request, applicationContext.Stack);
+
+			// store the context in the cache
+			request.Cache.Add(MansionContextCacheKey, context);
 
 			// return the context
 			return context;
