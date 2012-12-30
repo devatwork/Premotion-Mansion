@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Caching;
 using Premotion.Mansion.Core.Patterns.Descriptors;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis;
@@ -14,19 +15,26 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 	/// </summary>
 	public class IndexDefinitionResolver
 	{
+		#region Constants
+		private static readonly string CacheKeyPrefix = Guid.NewGuid() + "_index_definition_for_type_";
+		#endregion
 		#region Constructors
 		/// <summary>
 		/// Constructs the index definition resolver.
 		/// </summary>
 		/// <param name="typeService">The <see cref="ITypeDefinition"/>.</param>
-		public IndexDefinitionResolver(ITypeService typeService)
+		/// <param name="cachingService">The <see cref="ICachingService"/>.</param>
+		public IndexDefinitionResolver(ITypeService typeService, ICachingService cachingService)
 		{
 			// validate arguments
 			if (typeService == null)
 				throw new ArgumentNullException("typeService");
+			if (cachingService == null)
+				throw new ArgumentNullException("cachingService");
 
 			// set values
 			this.typeService = typeService;
+			this.cachingService = cachingService;
 		}
 		#endregion
 		#region Resolve Methods
@@ -98,16 +106,23 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="descriptor"></param>
 		/// <returns></returns>
-		private static IndexDefinition CreateDefinitionFromDescriptor(IMansionContext context, IndexDescriptor descriptor)
+		private IndexDefinition CreateDefinitionFromDescriptor(IMansionContext context, IndexDescriptor descriptor)
 		{
-			// create index definition
-			var definition = descriptor.CreateDefinition(context);
+			// create the cache key
+			var cacheKey = CacheKeyPrefix + descriptor.TypeDefinition.Name;
 
-			// create type mapping for this type and its children
-			CreateTypeMapping(context, definition, descriptor.TypeDefinition);
+			// add or update item
+			return cachingService.GetOrAdd(context, (StringCacheKey) cacheKey, () =>
+			                                                                   {
+			                                                                   	// create index definition
+			                                                                   	var definition = descriptor.CreateDefinition(context);
 
-			// return the definition
-			return definition;
+			                                                                   	// create type mapping for this type and its children
+			                                                                   	CreateTypeMapping(context, definition, descriptor.TypeDefinition);
+
+			                                                                   	// return the definition
+			                                                                   	return new CachedObject<IndexDefinition>(definition, Priority.NotRemovable);
+			                                                                   });
 		}
 		#endregion
 		#region Type Mapping Methods
@@ -194,6 +209,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		}
 		#endregion
 		#region Private Fields
+		private readonly ICachingService cachingService;
 		private readonly ITypeService typeService;
 		#endregion
 	}

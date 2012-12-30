@@ -59,7 +59,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis
 				if (Properties.TryGet(context, "stopwords", out stopwords))
 				{
 					// execute any expressions
-					filter.Stopwords = expressionScriptService.Parse(context, new LiteralResource(stopwords)).Execute<string>(context);
+					filter.Stopwords = expressionScriptService.Parse(context, new LiteralResource(stopwords)).Execute<string>(context).Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
 				}
 
 				// return the configured filter
@@ -94,13 +94,13 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis
 		/// <summary>
 		/// A path (either relative to config location, or absolute) to a stopwords file configuration.
 		/// </summary>
-		[JsonProperty("stopwords_path")]
+		[JsonProperty("stopwords_path", DefaultValueHandling = DefaultValueHandling.Ignore)]
 		public string StopwordsPath { get; set; }
 		/// <summary>
 		/// A list of stop words to use. Defaults to english stop words.
 		/// </summary>
-		[JsonProperty("stopwords")]
-		public string Stopwords { get; set; }
+		[JsonProperty("stopwords", DefaultValueHandling = DefaultValueHandling.Ignore)]
+		public string[] Stopwords { get; set; }
 		#endregion
 	}
 }

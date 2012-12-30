@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Premotion.Mansion.Core.Patterns;
@@ -14,12 +15,20 @@ namespace Premotion.Mansion.Web
 		/// <summary>
 		/// Constructs a request object.
 		/// </summary>
-		public WebRequest()
+		/// <param name="cache">The request specific cache.</param>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="cache"/> is null.</exception>
+		public WebRequest(IDictionary cache)
 		{
+			// validate arguments
+			if (cache == null)
+				throw new ArgumentNullException("cache");
+
+			// set values
 			Cookies = new Dictionary<string, WebCookie>(StringComparer.OrdinalIgnoreCase);
 			Files = new Dictionary<string, WebFile>(StringComparer.OrdinalIgnoreCase);
 			Form = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 			Headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+			Cache = cache;
 		}
 		#endregion
 		#region Properties
@@ -62,6 +71,10 @@ namespace Premotion.Mansion.Web
 		/// Gets the user agent.
 		/// </summary>
 		public string UserAgent { get; set; }
+		/// <summary>
+		/// Gets a request specific cache.
+		/// </summary>
+		public IDictionary Cache { get; private set; }
 		#endregion
 		#region Overrides of DisposableBase
 		/// <summary>

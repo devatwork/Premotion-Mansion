@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <configuration>
+	<configSections>
+		<section name="dotless" type="dotless.Core.configuration.DotlessConfigurationSectionHandler, dotless.Core" />
+	</configSections>
 	<system.web>
 		<compilation targetFramework="4.0" />
 		<httpRuntime requestValidationMode="2.0" requestPathInvalidCharacters="" encoderType="Microsoft.Security.Application.AntiXssEncoder, AntiXssLibrary" />
@@ -11,6 +14,7 @@
 	<system.webServer>
 		<handlers>
 			<clear />
+			<add name="dotless" path="*.less" verb="GET" type="dotless.Core.LessCssHttpHandler, dotless.Core" />
 			<add name="MansionHandler" path="*" verb="*" type="Premotion.Mansion.Web.Hosting.AspNet.MansionHttpHandlerFactory, Premotion.Mansion.Web" />
 		</handlers>
 		<defaultDocument>
@@ -51,6 +55,8 @@
 			<mimeMap fileExtension=".otf" mimeType="font/otf" />
 			<remove fileExtension=".woff" />
 			<mimeMap fileExtension=".woff" mimeType="font/x-woff" />
+			<remove fileExtension=".less" />
+			<mimeMap fileExtension=".less" mimeType="text/css" />
 		</staticContent>
 	</system.webServer>
 	<system.net>
@@ -60,4 +66,7 @@
 			</smtp>
 		</mailSettings>
 	</system.net>
+	<dotless minifyCss="false" cache="false" web="true" source="Premotion.Mansion.Web.DotLess.ApplicationResourceFileReader, Premotion.Mansion.Web" />
+		<plugin name="MansionFunctions" assembly="Premotion.Mansion.Web" />
+	</dotless>
 </configuration>
