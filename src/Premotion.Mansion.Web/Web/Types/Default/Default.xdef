@@ -196,15 +196,17 @@ END]]></sqlserver:schema>
 	<es:edgeNGramTokenFilter registeredName="autocompleteEdgeNGramTokenFilter" side="front" minGram="3" maxGram="16"  />
 
 	<es:snowballTokenFilter registeredName="dutchSnowballTokenFilter" language="Dutch" />
-	<es:stopTokenFilter registeredName="dutchStopTokenFilter" ignoreCase="true" stopwords="{GetStopWordList( 'Dutch' )}"  />
+	<es:keywordMarkerTokenFilter registeredName="dutchKeywordMarkerTokenFilter" ignoreCase="true" keywords="{GetProtectedWordList( 'Dutch' )}" />
+	<es:stemmerOverrideTokenFilter registeredName="dutchStemmerOverrideTokenFilter" ignoreCase="true" rules="{GetStemmerOverrideRuleList( 'Dutch' )}" />
+	<es:stopTokenFilter registeredName="dutchStopTokenFilter" ignoreCase="false" stopwords="{GetStopWordList( 'Dutch' )}"  />
 	<es:nGramTokenFilter registeredName="dutchNGramTokenFilter" minGram="2" maxGram="15"/>
 	<es:synonymTokenFilter registeredName="dutchSynonymTokenFilter" ignoreCase="true" expand="true" synonyms="{GetSynonymList( 'Dutch' )}" />
 	
 	<!-- Analyzers -->
-	<es:customAnalyzer registeredName="dutchIndexAnalyzer" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,standardTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter,dutchNGramTokenFilter" />
-	<es:customAnalyzer registeredName="dutchQueryAnalyzer" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,dutchSynonymTokenFilter,standardTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter" />
-	<es:customAnalyzer registeredName="default_index" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,standardTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter,dutchNGramTokenFilter" />
-	<es:customAnalyzer registeredName="default_search" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,dutchSynonymTokenFilter,standardTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter" />
+	<es:customAnalyzer registeredName="dutchIndexAnalyzer" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,standardTokenFilter,dutchKeywordMarkerTokenFilter,dutchStemmerOverrideTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter,dutchNGramTokenFilter" />
+	<es:customAnalyzer registeredName="dutchQueryAnalyzer" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,dutchSynonymTokenFilter,standardTokenFilter,dutchKeywordMarkerTokenFilter,dutchStemmerOverrideTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter" />
+	<es:customAnalyzer registeredName="default_index" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,standardTokenFilter,dutchKeywordMarkerTokenFilter,dutchStemmerOverrideTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter,dutchNGramTokenFilter" />
+	<es:customAnalyzer registeredName="default_search" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,dutchSynonymTokenFilter,standardTokenFilter,dutchKeywordMarkerTokenFilter,dutchStemmerOverrideTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter" />
 	<es:customAnalyzer registeredName="autocompleteIndex" tokenizer="standardTokenizer" tokenFilters="dutchStopTokenFilter,lowercaseTokenFilter,uniqueTokenFilter,autocompleteEdgeNGramTokenFilter"/>
 	<es:customAnalyzer registeredName="autocompleteSearch" tokenizer="standardTokenizer" tokenFilters="dutchStopTokenFilter,lowercaseTokenFilter,uniqueTokenFilter"/>
 	

@@ -51,6 +51,18 @@ namespace Premotion.Mansion.Web.Controls.Paging
 		/// <returns>Returns the HTML of the paging control.</returns>
 		public string Evaluate(IMansionContext context, Dataset dataset, string id)
 		{
+			return Evaluate(context, dataset, id, string.Empty);
+		}
+		/// <summary>
+		/// Renders the paging control for the given dataset.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="dataset">The <see cref="Dataset"/>.</param>
+		/// <param name="id">The ID of the dataset which to page.</param>
+		/// <param name="cssClasses">Additional css classes</param>
+		/// <returns>Returns the HTML of the paging control.</returns>
+		public string Evaluate(IMansionContext context, Dataset dataset, string id, string cssClasses)
+		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
@@ -79,6 +91,7 @@ namespace Premotion.Mansion.Web.Controls.Paging
 				var pagingProperties = new PropertyBag
 				                       {
 				                       	{"id", id},
+				                       	{"cssClasses", cssClasses},
 				                       	/* row values */
 				                       	{"rowStart", ((dataset.CurrentPage - 1)*dataset.PageSize) + 1},
 				                       	{"rowEnd", Math.Min((dataset.CurrentPage*dataset.PageSize), dataset.TotalSize)},

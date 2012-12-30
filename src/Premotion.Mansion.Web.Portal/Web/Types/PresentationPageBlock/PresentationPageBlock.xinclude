@@ -5,16 +5,16 @@
 	<declareProcedure procedureName="RenderBlock">
 		
 		<!-- render the content -->
-		<renderSection name="PresentationPageBlock">
-			<openTemplate type="{PageProperties.type}">
-			<openScript type="{PageProperties.type}">
+		<openTemplate type="{PageProperties.type}">
+		<openScript type="{PageProperties.type}">
 
-				<!-- render the content within the block -->
+			<!-- render the content within the block -->
+			<renderSection name="PresentationPageBlock">
 				<invokeProcedure procedureName="RenderPageContent"/>
+			</renderSection>
 
-			</openScript>
-			</openTemplate>
-		</renderSection>
+		</openScript>
+		</openTemplate>
 		
 	</declareProcedure>
 	

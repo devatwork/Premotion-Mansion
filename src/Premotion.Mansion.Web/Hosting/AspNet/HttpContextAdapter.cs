@@ -37,7 +37,7 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			                            };
 
 			// create a new request
-			var request = new WebRequest
+			var request = new WebRequest(httpContext.Items)
 			              {
 			              	Body = httpRequest.InputStream,
 			              	Method = httpRequest.HttpMethod,

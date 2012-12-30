@@ -79,7 +79,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.ScriptFunctions
 			}
 
 			// format
-			return string.Join(",", words);
+			return string.Join(Environment.NewLine, words);
 		}
 		#endregion
 		#region Private Fields

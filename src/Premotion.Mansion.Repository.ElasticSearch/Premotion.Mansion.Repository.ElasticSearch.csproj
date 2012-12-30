@@ -124,6 +124,8 @@
     <Compile Include="Schema\Analysis\BaseTokenFilter.cs" />
     <Compile Include="Schema\Analysis\BaseAnalyzer.cs" />
     <Compile Include="Schema\Analysis\BaseTokenizer.cs" />
+    <Compile Include="Schema\Analysis\StemmerOverrideTokenFilter.cs" />
+    <Compile Include="Schema\Analysis\KeywordMarkerTokenFilter.cs" />
     <Compile Include="Schema\Analysis\EdgeNGramTokenFilter.cs" />
     <Compile Include="Schema\Analysis\CustomAnalyzer.cs" />
     <Compile Include="Schema\Analysis\HtmlCharFilter.cs" />
@@ -149,6 +151,8 @@
     <Compile Include="Schema\Mappings\SinglePropertyMapping.cs" />
     <Compile Include="Schema\Mappings\TreeRelationsPropertyMapping.cs" />
     <Compile Include="Schema\Mappings\TypeMapping.cs" />
+    <Compile Include="ScriptFunctions\GetStemmerOverrideRuleList.cs" />
+    <Compile Include="ScriptFunctions\GetProtectedWordList.cs" />
     <Compile Include="ScriptFunctions\PhrasePrefixQuery.cs" />
     <Compile Include="ScriptFunctions\GetSynonymList.cs" />
     <Compile Include="ScriptFunctions\GetStopWordList.cs" />

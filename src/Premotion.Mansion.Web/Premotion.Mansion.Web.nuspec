@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
 	<metadata>
-		<version>1.2.17</version>
+		<version>1.2.18</version>
 		<authors>Premotion Software Solutions</authors>
 		<owners>Premotion Software Solutions</owners>
 		<id>Premotion.Mansion.Web</id>
@@ -22,6 +22,7 @@
 			<dependency id="Premotion.Mansion.Core" />
 			<dependency id="Newtonsoft.Json" />
 			<dependency id="AntiXSS" />
+			<dependency id="dotless" />
 		</dependencies> 
 		<tags>Premotion Mansion Web</tags>
 	</metadata>
