@@ -393,7 +393,7 @@
 
 <!-- paging controls -->
 <tpl:section name="PagingControl" field="Control">
-	<div class="pagination">
+	<div class="pagination {PagingProperties.cssClasses}">
 		<ul>
 			<li class="{If( IsEqual( PagingProperties.currentPage, '1' ), 'disabled' )}">
 				<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), Max( Subtract( PagingProperties.currentPage, '1' ), '1' ) )}"><i class="icon-caret-left"></i></a>
