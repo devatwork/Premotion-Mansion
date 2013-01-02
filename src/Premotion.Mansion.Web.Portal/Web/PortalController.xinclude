@@ -39,6 +39,11 @@
 			<!-- retrieve the block sets -->
 			<portal:retrieveBlockNodeset source="{$PageNode}" target="PageBlockNodeset" global="true" />
 			<portal:retrieveBlockNodeset source="{$ThemeNode}" target="ThemeBlockNodeset" global="true" />
+
+			<!-- retrieve the user node when authenticated -->
+			<if condition="{IsAuthenticated()}">
+				<retrieveNode guid="{User.guid}" target="UserNode" global="true" />
+			</if>
 			
 			<responseTemplate cacheKey="{Request.url}" enabled="false">
 				<!-- disable caching for user logged in to the backoffice -->
