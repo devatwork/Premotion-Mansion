@@ -52,6 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettingsConstants.cs" />
+    <Compile Include="Conversion\Converters\StringToFloatConverter.cs" />
+    <Compile Include="Conversion\Converters\FloatToDoubleConverter.cs" />
     <Compile Include="Data\BaseStorageEngine.cs" />
     <Compile Include="Data\BaseIndexEngine.cs" />
     <Compile Include="Caching\CacheDependency.cs" />

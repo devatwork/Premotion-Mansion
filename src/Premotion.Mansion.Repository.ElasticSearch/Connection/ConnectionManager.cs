@@ -30,7 +30,9 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 			client = new RestClient(connectionString);
 			client.AddHandler("application/json", deserializer);
 			client.AddHandler("text/json", deserializer);
-			client.Timeout = 5*60*1000;
+			client.Timeout = 20*60*1000;
+			ServicePointManager.Expect100Continue = true; 
+         ServicePointManager.UseNagleAlgorithm = false; 
 		}
 		#endregion
 		#region Http Methods

@@ -108,14 +108,25 @@
 			<!-- open the template of the item -->
 			<openScript type="{Row.type}" checkExists="false">
 			<openTemplate type="{Row.type}" checkExists="false">
-				
-				<!-- render the section -->
-				<renderSection name="ListItemAppearance{BlockProperties.listItemAppearance}" />
+
+				<!-- check if a specific procedure exists -->
+				<if condition="{ProcedureExists( Concat( 'RenderListItemAppearance', BlockProperties.listItemAppearance ) )}">
+					<invokeProcedure procedureName="RenderListItemAppearance{BlockProperties.listItemAppearance}" />
+					<else>
+						<!-- invoke the generic procedure -->
+						<invokeProcedure procedureName="RenderListItemAppearance" />
+					</else>
+				</if>
 				
 			</openTemplate>
 			</openScript>
 			
 		</declareProcedure>
+
+			<declareProcedure procedureName="RenderListItemAppearance">
+				<!-- render the section -->
+				<renderSection name="ListItemAppearance{BlockProperties.listItemAppearance}" />
+			</declareProcedure>
 
 		<!-- renders the not found message -->
 		<declareProcedure procedureName="RenderNoResults">

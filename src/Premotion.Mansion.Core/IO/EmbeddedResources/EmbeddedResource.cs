@@ -22,19 +22,19 @@ namespace Premotion.Mansion.Core.IO.EmbeddedResources
 			/// Constructs the <see cref="EmbeddedResourceInputPipe"/>.
 			/// </summary>
 			/// <param name="resourceName">The name of the resource which to load.</param>
-			/// <param name="assembly">The <see cref="Assembly"/> from which to load the resource.</param>
-			public EmbeddedResourceInputPipe(string resourceName, Assembly assembly)
+			/// <param name="assemblyName">The <see cref="Assembly"/> from which to load the resource.</param>
+			public EmbeddedResourceInputPipe(string resourceName, Assembly assemblyName)
 			{
 				// validate arguments
 				if (string.IsNullOrEmpty(resourceName))
 					throw new ArgumentNullException("resourceName");
-				if (assembly == null)
-					throw new ArgumentNullException("assembly");
+				if (assemblyName == null)
+					throw new ArgumentNullException("assemblyName");
 
 				// open the resource
-				var resourceStream = assembly.GetManifestResourceStream(resourceName);
+				var resourceStream = assemblyName.GetManifestResourceStream(resourceName);
 				if (resourceStream == null)
-					throw new InvalidOperationException(string.Format("Could not load resource '{0}' from assembly '{1}'", resourceName, assembly.FullName));
+					throw new InvalidOperationException(string.Format("Could not load resource '{0}' from assembly '{1}'", resourceName, assemblyName.FullName));
 
 				// open the resource
 				reader = new StreamReader(resourceStream);
@@ -97,22 +97,22 @@ namespace Premotion.Mansion.Core.IO.EmbeddedResources
 		/// Constructs this embedded resource.
 		/// </summary>
 		/// <param name="name">The name of the resource.</param>
-		/// <param name="assembly">The <see cref="Assembly"/> from which to load the resource.</param>
+		/// <param name="assemblyName">The <see cref="Assembly"/> from which to load the resource.</param>
 		/// <param name="path">The <see cref="IResourcePath"/>.</param>
-		/// <exception cref="ArgumentNullException">Thrown if either <paramref name="name"/>, <paramref name="assembly"/> or <paramref name="path"/> is null.</exception>
-		public EmbeddedResource(string name, Assembly assembly, IResourcePath path)
+		/// <exception cref="ArgumentNullException">Thrown if either <paramref name="name"/>, <paramref name="assemblyName"/> or <paramref name="path"/> is null.</exception>
+		public EmbeddedResource(string name, AssemblyName assemblyName, IResourcePath path)
 		{
 			// validate arguments
 			if (string.IsNullOrEmpty(name))
 				throw new ArgumentNullException("name");
-			if (assembly == null)
-				throw new ArgumentNullException("assembly");
+			if (assemblyName == null)
+				throw new ArgumentNullException("assemblyName");
 			if (path == null)
 				throw new ArgumentNullException("path");
 
 			// set values
-			resourceName = assembly.GetName().Name + "." + name;
-			this.assembly = assembly;
+			resourceName = assemblyName.Name + "." + name;
+			this.assemblyName = assemblyName;
 			Path = path;
 		}
 		#endregion
@@ -123,7 +123,7 @@ namespace Premotion.Mansion.Core.IO.EmbeddedResources
 		/// <returns>Returns a <see cref="IOutputPipe"/>.</returns>
 		public IInputPipe OpenForReading()
 		{
-			return new EmbeddedResourceInputPipe(resourceName, assembly);
+			return new EmbeddedResourceInputPipe(resourceName, Assembly.Load(assemblyName));
 		}
 		/// <summary>
 		/// Opens this resource for writing.
@@ -157,11 +157,11 @@ namespace Premotion.Mansion.Core.IO.EmbeddedResources
 		/// </summary>
 		public string Version
 		{
-			get { return assembly.GetName().Version.ToString(); }
+			get { return assemblyName.Version.ToString(); }
 		}
 		#endregion
 		#region Private Fields
-		private readonly Assembly assembly;
+		private readonly AssemblyName assemblyName;
 		private readonly string resourceName;
 		#endregion
 	}
