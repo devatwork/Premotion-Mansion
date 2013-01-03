@@ -316,9 +316,6 @@
     <EmbeddedResource Include="Web\Application.tpl" />
     <EmbeddedResource Include="Web\Controls\DialogController.tpl" />
     <EmbeddedResource Include="Web\Controls\DialogController.xinclude" />
-    <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.eot" />
-    <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.ttf" />
-    <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.woff" />
     <EmbeddedResource Include="Web\Shared\css\bootstrap\less\accordion.less" />
     <EmbeddedResource Include="Web\Shared\css\bootstrap\less\alerts.less" />
     <EmbeddedResource Include="Web\Shared\css\bootstrap\less\bootstrap.less" />
@@ -362,6 +359,10 @@
     <EmbeddedResource Include="Web\Shared\css\bootstrap\less\wells.less" />
     <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesome-ie7.less" />
     <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesome.less" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.eot" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.ttf" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.woff" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\FontAwesome.otf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Premotion.Mansion.Core\Premotion.Mansion.Core.csproj">
@@ -979,10 +980,6 @@
     <EmbeddedResource Include="Web\Shared\js\ckfinder\lang\vi.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.svg" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesomeie7.css" />
     <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesome.css" />
   </ItemGroup>
   <ItemGroup>
@@ -1000,6 +997,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Controls\Css\Controls.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesome-ie7.min.css" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesome.min.css" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

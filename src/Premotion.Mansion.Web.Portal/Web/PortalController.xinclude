@@ -39,21 +39,30 @@
 			<!-- retrieve the block sets -->
 			<portal:retrieveBlockNodeset source="{$PageNode}" target="PageBlockNodeset" global="true" />
 			<portal:retrieveBlockNodeset source="{$ThemeNode}" target="ThemeBlockNodeset" global="true" />
-			
-			<responseTemplate cacheKey="{Request.url}" enabled="false">
-				<!-- disable caching for user logged in to the backoffice -->
-				<if condition="{IsBackofficeUserAuthenticated()}">
-					<disableResponseTemplateCache />
-				</if>
 
-				<!-- start the rendering the theme -->
-				<openTemplate type="{ThemeNode.theme}">
-				<openScript type="{ThemeNode.theme}">
+			<!-- retrieve the user node when authenticated -->
+			<if condition="{IsAuthenticated()}">
+				<retrieveNode guid="{User.guid}" target="UserNode" global="true" />
+			</if>
+
+			<!-- open the theme scripts and templates -->
+			<openTemplate type="{ThemeNode.theme}">
+			<openScript type="{ThemeNode.theme}">
+					
+				<responseTemplate cacheKey="{Request.url}" enabled="false">
+					<!-- disable caching for user logged in to the backoffice -->
+					<if condition="{IsBackofficeUserAuthenticated()}">
+						<disableResponseTemplateCache />
+					</if>
+
+					<!-- start the rendering the theme -->
 					<invokeProcedure procedureName="RenderTheme" />
-				</openScript>
-				</openTemplate>
 
-			</responseTemplate>
+				</responseTemplate>
+
+			</openScript>
+			</openTemplate>
+			
 		</web:respondDocument>
 		
 	</declareProcedure>
