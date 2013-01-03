@@ -43,13 +43,14 @@ namespace Premotion.Mansion.Core.IO.EmbeddedResources
 			                                                               	var resourceNames = assembly.GetManifestResourceNames();
 
 			                                                               	// remove the assembly name from each resource.
-			                                                               	var assemblyNameLength = assembly.GetName().Name.Length + 1 + this.resourceSubFolder.Length + 1;
+			                                                               	var assemblyName = assembly.GetName();
+			                                                               	var assemblyNameLength = assemblyName.Name.Length + 1 + this.resourceSubFolder.Length + 1;
 			                                                               	var normalizedResourceNames = resourceNames.Where(resourceName => resourceName.Length > assemblyNameLength).Select(resourceName => resourceName.Substring(assemblyNameLength));
 
 			                                                               	// return the assembly and the normalized resource name
 			                                                               	return normalizedResourceNames.Select(resourceName => new
 			                                                               	                                                      {
-			                                                               	                                                      	Assembly = assembly,
+			                                                               	                                                      	AssemblyName = assemblyName,
 			                                                               	                                                      	ResourceName = resourceName
 			                                                               	                                                      });
 			                                                               }
@@ -59,7 +60,13 @@ namespace Premotion.Mansion.Core.IO.EmbeddedResources
 			var groupedResourceNames = allResourceNames.GroupBy(resourceName => resourceName.ResourceName, StringComparer.OrdinalIgnoreCase);
 
 			// turn the grouped resource name into a lookup table
-			lookupTable = groupedResourceNames.ToDictionary(key => key.Key, group => group.Select(resource => resource.Assembly).ToArray(), StringComparer.OrdinalIgnoreCase);
+			lookupTable = groupedResourceNames.ToDictionary(key => key.Key, group =>
+			                                                                {
+			                                                                	var assemblyNames = group.Select(resource => resource.AssemblyName).Where(name => name != null).ToArray();
+			                                                                	if (assemblyNames.Length == 0)
+			                                                                		throw new InvalidOperationException(string.Format("No assemblies registered for resource '{0}'", group.First().ResourceName));
+			                                                                	return assemblyNames;
+			                                                                }, StringComparer.OrdinalIgnoreCase);
 		}
 		#endregion
 		#region Implementation of IResourceService
@@ -232,25 +239,27 @@ namespace Premotion.Mansion.Core.IO.EmbeddedResources
 			foreach (var translatedPath in path.Paths.Select(TranslatePath))
 			{
 				//  check if the resource exists
-				Assembly[] assemblies;
-				if (!lookupTable.TryGetValue(translatedPath, out assemblies))
+				AssemblyName[] assemblyNames;
+				if (!lookupTable.TryGetValue(translatedPath, out assemblyNames))
 					continue;
+				if (assemblyNames.Length == 0)
+					throw new InvalidOperationException(string.Format("No assemblies registered for resource '{0}'", translatedPath));
 
 				// if the path is not overridable just return the last resource
 				if (!path.Overridable)
 				{
-					yield return new EmbeddedResource(resourceSubFolder + "." + translatedPath, assemblies.Last(), path);
+					yield return new EmbeddedResource(resourceSubFolder + "." + translatedPath, assemblyNames.Last(), path);
 					yield break;
 				}
 
 				// loop over all the assemblies to open the resources
-				foreach (var assembly in assemblies)
+				foreach (var assembly in assemblyNames)
 					yield return new EmbeddedResource(resourceSubFolder + "." + translatedPath, assembly, path);
 			}
 		}
 		#endregion
 		#region Private Fields
-		private readonly IDictionary<string, Assembly[]> lookupTable;
+		private readonly IDictionary<string, AssemblyName[]> lookupTable;
 		private readonly IEnumerable<ResourcePathInterpreter> pathInterpreters;
 		private readonly string resourceSubFolder;
 		#endregion
