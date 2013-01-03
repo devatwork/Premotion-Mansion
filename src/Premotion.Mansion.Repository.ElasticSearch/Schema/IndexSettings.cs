@@ -14,8 +14,8 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema
 		/// </summary>
 		public IndexSettings()
 		{
-			NumberOfShards = 3;
-			NumberOfReplicas = 2;
+			NumberOfShards = 1;
+			NumberOfReplicas = 1;
 			AnalysisSettings = new AnalysisSettings();
 		}
 		#endregion
