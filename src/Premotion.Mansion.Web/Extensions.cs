@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using System.Web;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Types;
+using Premotion.Mansion.Web.Cms.Descriptors;
 
 namespace Premotion.Mansion.Web
 {
@@ -242,6 +244,26 @@ namespace Premotion.Mansion.Web
 			       	{"filename", url.Filename},
 			       	{"basePath", url.BasePath}
 			       };
+		}
+		#endregion
+		#region ITypeDefinition Extension
+		/// <summary>
+		/// Gets the label of the given <paramref name="type"/>.
+		/// </summary>
+		/// <param name="type">The <see cref="ITypeDefinition"/>.</param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <returns>Returns the type definition label.</returns>
+		public static string GetTypeDefinitionLabel(this ITypeDefinition type, IMansionContext context)
+		{
+			// validate arguments
+			if (type == null)
+				throw new ArgumentNullException("type");
+			if (context == null)
+				throw new ArgumentNullException("context");
+
+			// find the descriptor
+			CmsBehaviorDescriptor cmsDescriptor;
+			return type.TryFindDescriptorInHierarchy(out cmsDescriptor) ? cmsDescriptor.GetBehavior(context).Label : type.Name;
 		}
 		#endregion
 	}
