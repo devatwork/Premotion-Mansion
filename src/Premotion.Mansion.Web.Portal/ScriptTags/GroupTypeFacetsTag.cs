@@ -58,10 +58,10 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 			                                                }).GroupBy(type => groupOnTypes.FirstOrDefault(candidateParent => type.Type.IsAssignable(candidateParent)));
 
 			// transform the grouped items into facet result
-			var result = FacetResult.Create(context, new FacetDefinition(facet.PropertyName, facet.FriendlyName), grouped.Select(group => new FacetValue(
-			                                                                                                                              	group.Key != null ? group.Key.GetTypeDefinitionLabel(context) : "misc",
-			                                                                                                                              	group.Aggregate(0, (current, item) => current + item.Value.Count))
-			                                                                                                      	));
+			var result = FacetResult.Create(context, new FacetDefinition(facet.PropertyName, facet.FriendlyName), grouped.Select(group => new FacetValue(group.Key, group.Aggregate(0, (current, item) => current + item.Value.Count))
+			                                                                                                                              {
+			                                                                                                                              	DisplayValue = group.Key != null ? group.Key.GetTypeDefinitionLabel(context) : "misc"
+			                                                                                                                              }));
 
 			// add the facet
 			nodeset.AddFacet(result);
