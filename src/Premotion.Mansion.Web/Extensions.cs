@@ -24,7 +24,7 @@ namespace Premotion.Mansion.Web
 		/// <summary>
 		/// Unreserved URL path characters.
 		/// </summary>
-		private static readonly char[] UnreservedUrlPathEncodingCharacters = new[] {'-', '_', '!', '~', '*', '\'', '(', ')', ' '};
+		private static readonly char[] UnreservedUrlPathEncodingCharacters = new[] {'-', '_', '!', '~', '*', '\'', '(', ')'};
 		#endregion
 		#region String Extensions
 		/// <summary>
