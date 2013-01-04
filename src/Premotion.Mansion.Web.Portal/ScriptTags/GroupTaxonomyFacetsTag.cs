@@ -32,10 +32,13 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 			// remove the facet
 			nodeset.RemoveFacet(facet);
 
+			// retrieve the taxonomy node
+			var taxonomyNode = context.Stack.Peek<Node>("TaxonomyNode");
+
 			// retrieve all the taxonomy values
 			var taxonomyItemsLookupTable = context.Repository.RetrieveNodeset(context, new PropertyBag
 			                                                                    {
-			                                                                    	{"parentPointer", "1"},
+			                                                                    	{"parentSource", taxonomyNode},
 			                                                                    	{"depth", "any"},
 			                                                                    	{"status", "published"},
 			                                                                    	{"baseType", "TaxonomyItem"}
@@ -44,7 +47,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 			// combine the facet counts with the taxonomy items
 			var combined = taxonomyItemsLookupTable.Join(facet.Values, entry => entry.Key.ToString(), value => value.Value.ToString(), (node, value) => new
 			                                                                                                                                            {
-			                                                                                                                                            	GroupName = node.Value.Pointer.Parent.Name,
+			                                                                                                                                            	GroupName = node.Value.Pointer.Path[taxonomyNode.Pointer.Depth],
 			                                                                                                                                            	Value = new FacetValue(value.Value, value.Count)
 			                                                                                                                                            	        {
 			                                                                                                                                            	        	DisplayValue = node.Value.Pointer.Name
