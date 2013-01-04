@@ -99,8 +99,12 @@ namespace Premotion.Mansion.Web.DotLess
 		/// <returns></returns>
 		private static IResourcePath ParsePath(IMansionContext context, IResourceService resourceService, string fileName)
 		{
-			// remove the application path
-			fileName = fileName.Replace(HttpContext.Current.Request.ApplicationPath, string.Empty).Trim('/', '\\');
+			// check if the filename starts with the application path
+			if (fileName.StartsWith(HttpContext.Current.Request.ApplicationPath))
+				fileName = fileName.Substring(HttpContext.Current.Request.ApplicationPath.Length);
+
+			// trim the file name
+			fileName = fileName.Trim('/', '\\');
 
 			// create the properties
 			var properties = new PropertyBag

@@ -157,6 +157,10 @@ namespace Premotion.Mansion.Core
 		/// Gets the <see cref="INucleus"/> used by this context.
 		/// </summary>
 		INucleus Nucleus { get; }
+		/// <summary>
+		/// Gets/Sets the depth of the response template stack.
+		/// </summary>
+		int ResponseTemplateStackDepth { get; set; }
 		#endregion
 	}
 }

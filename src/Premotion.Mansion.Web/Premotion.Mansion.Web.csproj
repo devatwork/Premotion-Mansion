@@ -235,6 +235,9 @@
     <Compile Include="Hosting\SpecificationRequestHandlerFactory.cs" />
     <Compile Include="Hosting\UrlPrefixSpecification.cs" />
     <Compile Include="Hosting\WebOutputRequestHandler.cs" />
+    <Compile Include="ScriptFunctions\GetCookieValue.cs" />
+    <Compile Include="ScriptTags\ClearCookieTag.cs" />
+    <Compile Include="ScriptTags\SetCookieTag.cs" />
     <Compile Include="ScriptTags\ParseApplicationUrlTag.cs" />
     <Compile Include="Templating\Html\AntiXssHtmlSectionInterpreter.cs" />
     <Compile Include="Templating\Html\Encoders\AntiXssHtmlAttributeEncode.cs" />

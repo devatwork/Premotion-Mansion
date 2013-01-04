@@ -47,6 +47,8 @@
     <Compile Include="Descriptors\BlockBehaviorDescriptor.cs" />
     <Compile Include="Descriptors\ColumnSchema.cs" />
     <Compile Include="Descriptors\ColumnSchemaDescriptor.cs" />
+    <Compile Include="Descriptors\ContentBlockBehaviorDescriptor.cs" />
+    <Compile Include="Descriptors\PersonalizedContentDescriptor.cs" />
     <Compile Include="Descriptors\PageBlockBehaviorDescriptor.cs" />
     <Compile Include="Descriptors\PersonalizedPageDescriptor.cs" />
     <Compile Include="Descriptors\SharedBlockDescriptor.cs" />
@@ -65,6 +67,7 @@
     <Compile Include="ScriptFunctions\RenderNavigation.cs" />
     <Compile Include="ScriptFunctions\RenderPageTitle.cs" />
     <Compile Include="ScriptFunctions\RenderSeoMetaTags.cs" />
+    <Compile Include="ScriptTags\GroupTypeFacetsTag.cs" />
     <Compile Include="ScriptTags\GetColumnDatasetTag.cs" />
     <Compile Include="ScriptTags\RetrieveBlockNodesetTag.cs" />
     <Compile Include="ScriptTags\RetrieveLayoutNodeTag.cs" />

@@ -375,6 +375,13 @@ namespace Premotion.Mansion.Web.Portal.Service
 			// disable the output cache
 			WebUtilities.DisableOutputCache(context);
 
+			// if the rendering is already in the second rendering phase, render the block immediately
+			if (context.ResponseTemplateStackDepth == 0)
+			{
+				RenderBlockToOutput(context, blockProperties, targetField);
+				return;
+			}
+
 			// serialize the block properties to a string
 			var serializedBlockProperties = conversionService.Convert<string>(context, blockProperties);
 

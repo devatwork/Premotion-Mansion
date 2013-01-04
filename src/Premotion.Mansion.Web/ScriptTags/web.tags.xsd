@@ -235,4 +235,47 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="setCookie" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Sets a cookie.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attribute name="name" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The name of the cookie.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="value" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The value of the cookie.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="httpOnly" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Whether the cookie is http only. Default is true.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="expires" type="xs:dateTime" use="optional">
+				<xs:annotation>
+					<xs:documentation>When the cookie should expire. Default is 30 days.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="clearCookie" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Clears a cookie.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attribute name="name" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The name of the cookie.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
 </xs:schema>
