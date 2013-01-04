@@ -81,7 +81,7 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 					if (remainingArgumentExpressionCount > 0)
 					{
 						// store the the result of the execution temporarily
-						var varargsItemLocalVarIndex = generator.DeclareLocal(parameterInfo.ParameterType).LocalIndex;
+						var varargsItemLocalVarIndex = generator.DeclareLocal(elementType).LocalIndex;
 
 						// loop over the remaining parameters to store them in the array
 						for (var argumentExpressionIndex = 0; argumentExpressionIndex < remainingArgumentExpressionCount; argumentExpressionIndex++)
