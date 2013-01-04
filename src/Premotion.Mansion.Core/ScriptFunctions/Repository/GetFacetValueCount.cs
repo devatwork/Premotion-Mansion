@@ -59,7 +59,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Repository
 				throw new ArgumentNullException("value");
 
 			// find the facet
-			var facet = nodeset.Facets.First(candidate => propertyName.Equals(candidate.PropertyName, StringComparison.OrdinalIgnoreCase));
+			var facet = nodeset.Facets.FirstOrDefault(candidate => propertyName.Equals(candidate.PropertyName, StringComparison.OrdinalIgnoreCase));
 			if (facet == null)
 				throw new InvalidOperationException(string.Format("Could not find facet for property '{0}' in the given nodeset", propertyName));
 
