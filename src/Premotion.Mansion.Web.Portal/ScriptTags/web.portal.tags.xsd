@@ -95,4 +95,19 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="groupTypeFacets" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Groups the type facets by their common ancestor. The source parameter must be a nodeset.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attributeGroup ref="stl:sourceAttributes" />
+			<xs:attribute name="baseTypes" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The base types on which to group seperated by a comma.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
 </xs:schema>
