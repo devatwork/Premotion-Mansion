@@ -72,6 +72,10 @@ namespace Premotion.Mansion.Core.ScriptTags.Rendering
 				(StringCacheKey) cacheKey,
 				() =>
 				{
+					// increment the response template depth
+					context.ResponseTemplateStackDepth++;
+
+
 					// get the response template
 					var responseTemplateBuffer = new StringBuilder();
 					bool isResponseCacheEnabled;
@@ -84,6 +88,10 @@ namespace Premotion.Mansion.Core.ScriptTags.Rendering
 						ExecuteChildTags(context);
 						isResponseCacheEnabled = pipe.ResponseCacheEnabled;
 					}
+
+					// descrement the response template depth
+					context.ResponseTemplateStackDepth--;
+
 
 					// turn it into an expression
 					var responseTemplateExpression = expressionScriptService.Parse(context, new LiteralResource(responseTemplateBuffer.ToString()));

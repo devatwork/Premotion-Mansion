@@ -30,8 +30,11 @@ namespace Premotion.Mansion.Web.ScriptFunctions
 
 			var modifiableUri = url.Clone();
 
-			// set the property
-			modifiableUri.QueryString[parameterName] = value;
+			// set the property or clear it when already in the query string
+			if (!string.IsNullOrEmpty(value))
+				modifiableUri.QueryString[parameterName] = value;
+			else if (modifiableUri.QueryString.ContainsKey(parameterName))
+				modifiableUri.QueryString.Remove(parameterName);
 
 			// return the url
 			return modifiableUri;

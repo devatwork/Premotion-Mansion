@@ -44,16 +44,7 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 
 			// try to find the type
 			ITypeDefinition type;
-			if (!typeService.TryLoad(context, typeName, out type))
-				return typeName;
-
-			// find the descriptor
-			CmsBehaviorDescriptor cmsDescriptor;
-			if (!type.TryFindDescriptorInHierarchy(out cmsDescriptor))
-				return typeName;
-
-			// return the friendly name
-			return cmsDescriptor.GetBehavior(context).Label;
+			return !typeService.TryLoad(context, typeName, out type) ? typeName : type.GetTypeDefinitionLabel(context);
 		}
 		#endregion
 		#region Private Fields

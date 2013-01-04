@@ -122,6 +122,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 			this.indexDefinition = indexDefinition;
 			this.typeMapping = typeMapping;
 			disposableChain.Add(filterListStack.Push(new List<BaseFilter>()));
+			Size = 9999;
 		}
 		#endregion
 		#region Add Methods

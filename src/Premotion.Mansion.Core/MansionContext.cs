@@ -297,6 +297,10 @@ namespace Premotion.Mansion.Core
 		{
 			get { return nucleus; }
 		}
+		/// <summary>
+		/// Gets/Sets the depth of the response template stack.
+		/// </summary>
+		public int ResponseTemplateStackDepth { get; set; }
 		#endregion
 		#region Overrides of DisposableBase
 		/// <summary>
