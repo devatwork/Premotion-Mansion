@@ -1,5 +1,5 @@
 ﻿<tpl:section name="Content">
 	{@PageTitle}
-	{@PageDescription}
-	{@PageBody}
+	{@PageDescriptionTrusted}
+	{@PageBodyTrusted}
 </tpl:section>
