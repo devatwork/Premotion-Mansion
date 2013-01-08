@@ -46,7 +46,7 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 						}
 
 						// return the token
-						yield return buffer.ToString().Trim();
+						yield return buffer.ToString();
 						buffer.Length = 0;
 					}
 
@@ -61,7 +61,7 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 					if (inLiteral)
 					{
 						// return the token
-						yield return buffer.ToString().Trim();
+						yield return buffer.ToString();
 						buffer.Length = 0;
 					}
 
@@ -101,7 +101,7 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 				if (inExpression)
 					buffer.Append('}');
 
-				yield return buffer.ToString().Trim();
+				yield return buffer.ToString();
 			}
 		}
 		#endregion
