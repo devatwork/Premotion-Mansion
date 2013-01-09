@@ -26,16 +26,20 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="argumentExpressions">The arguments expression.</param>
-		public virtual void Initialize(IMansionContext context, ICollection<IExpressionScript> argumentExpressions)
+		/// <param name="source">The source of the function.</param>
+		public virtual void Initialize(IMansionContext context, ICollection<IExpressionScript> argumentExpressions, string source)
 		{
 			// validate argument
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (argumentExpressions == null)
 				throw new ArgumentNullException("argumentExpressions");
+			if (string.IsNullOrEmpty(source))
+				throw new ArgumentNullException("source");
 
 			// store the argument expressions
 			ArgumentExpressions = argumentExpressions;
+			src = source;
 
 			// get candidate, parameters + 1 = first parameters is context
 			var methodInfo = FindEvaluateMethod(argumentExpressions);
@@ -216,7 +220,14 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 			if (context == null)
 				throw new ArgumentNullException("context");
 
-			return context.Nucleus.ResolveSingle<IConversionService>().Convert<TTarget>(context, executeFunction(context));
+			try
+			{
+				return context.Nucleus.ResolveSingle<IConversionService>().Convert<TTarget>(context, executeFunction(context));
+			}
+			catch (Exception ex)
+			{
+				throw new PhraseExpressionException(src, this, ex);
+			}
 		}
 		#endregion
 		#region Private Fields
@@ -225,6 +236,7 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// </summary>
 		protected ICollection<IExpressionScript> ArgumentExpressions;
 		private ExecuteFunction executeFunction;
+		private string src;
 		#endregion
 	}
 }

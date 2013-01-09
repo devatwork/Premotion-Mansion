@@ -373,6 +373,7 @@
     <Compile Include="Scripting\ExpressionScript\PropertyExpressionInterpreter.cs" />
     <Compile Include="Scripting\ExpressionScript\ReferenceExpressionInterpreter.cs" />
     <Compile Include="Scripting\ExpressionScript\ScriptFunctionAttribute.cs" />
+    <Compile Include="Scripting\ExpressionScript\PhraseExpressionException.cs" />
     <Compile Include="Scripting\IScript.cs" />
     <Compile Include="Scripting\IScriptingService.cs" />
     <Compile Include="Scripting\ParseScriptException.cs" />
