@@ -88,6 +88,13 @@ namespace Premotion.Mansion.Web.DotLess
 			// check if the path exists
 			return resourceService.Exists(context, path);
 		}
+		/// <summary>
+		/// Never use cache dependencies.
+		/// </summary>
+		public bool UseCacheDependencies
+		{
+			get { return false; }
+		}
 		#endregion
 		#region Resource Methods
 		/// <summary>
