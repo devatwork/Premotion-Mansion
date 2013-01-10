@@ -54,7 +54,7 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 			var function = context.Nucleus.ResolveSingle<FunctionExpression>(Constants.NamespaceUri, functionName);
 
 			// initialize the function
-			function.Initialize(context, argumentExpressions);
+			function.Initialize(context, argumentExpressions, input);
 
 			// create function expression)
 			return function;

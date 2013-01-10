@@ -5,7 +5,7 @@ namespace Premotion.Mansion.Core.Scripting
 	/// <summary>
 	/// This exception is thrown when a exception occurred while executing a <see cref="IScript"/>.
 	/// </summary>
-	public abstract class ScriptExecutionException : ApplicationException
+	public abstract class ScriptExecutionException : Exception
 	{
 		#region Constructors
 		/// <summary>

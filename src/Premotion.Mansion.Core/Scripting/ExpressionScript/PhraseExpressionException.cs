@@ -1,37 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace Premotion.Mansion.Core.Scripting.TagScript
+namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 {
 	/// <summary>
-	/// Thrown when an exception occured while executing a tag script.
+	/// Thrown when a <see cref="PhraseExpression"/> causes an <see cref="Exception"/>.
 	/// </summary>
 	[Serializable]
-	public class ScriptTagException : ScriptExecutionException
+	public class PhraseExpressionException : ScriptExecutionException
 	{
 		#region Constructors
 		/// <summary>
+		/// Constructs a script function exception.
 		/// </summary>
-		/// <param name="tag"></param>
+		/// <param name="sourceCode"></param>
+		/// <param name="script"></param>
 		/// <param name="innerException"></param>
-		public ScriptTagException(ScriptTag tag, Exception innerException) : base(tag, innerException)
+		public PhraseExpressionException(string sourceCode, IScript script, Exception innerException) : base(script, innerException)
 		{
-			// validate arguments
-			if (tag == null)
-				throw new ArgumentNullException("tag");
-
-			// add to trace
-			ScriptStackTrace.Add(tag);
-		}
-		#endregion
-		#region Properties
-		/// <summary>
-		/// Gets the stacktrace.
-		/// </summary>
-		public ICollection<ScriptTag> ScriptStackTrace
-		{
-			get { return scriptStackTrace; }
+			this.sourceCode = sourceCode;
 		}
 		#endregion
 		#region Overrides of Object
@@ -44,11 +30,7 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		/// <filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" PathDiscovery="*AllFiles*"/></PermissionSet>
 		public override string ToString()
 		{
-			// get the most inner script tag
-			var tag = scriptStackTrace.First();
-
-			// format the exception message
-			return string.Format("ScriptTag '{0}' at {1}:{2} caused an exception", Script.GetType(), tag.Info.Resource.Path.Paths.First(), tag.Info.LineNumber);
+			return string.Format("Expression '{0}' caused an exception", sourceCode);
 		}
 		#endregion
 		#region Overrides of Exception
@@ -65,7 +47,7 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 		}
 		#endregion
 		#region Private Fields
-		private readonly ICollection<ScriptTag> scriptStackTrace = new List<ScriptTag>();
+		private readonly string sourceCode;
 		#endregion
 	}
 }
