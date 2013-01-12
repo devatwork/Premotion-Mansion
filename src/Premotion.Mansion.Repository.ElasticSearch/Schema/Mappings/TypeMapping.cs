@@ -155,11 +155,11 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 			// create a new dictionary which represents the document 
 			var document = new Dictionary<string, object>();
 
-			// loop over all the properties
-			foreach (var propertyName in source)
+			// loop over all the properties, except those who start with an underscore
+			foreach (var property in source.Where(candidate => !candidate.Key.StartsWith("_")))
 			{
 				// ElasticSearch is case sensitive, use lower case property name
-				var key = propertyName.Key.ToLower();
+				var key = property.Key.ToLower();
 
 				// check if there is mapping defined for this property
 				PropertyMapping mapping;
@@ -171,7 +171,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 				else
 				{
 					// just store the value in the document and let ElasticSearch figure out how to index it
-					document.Add(key, propertyName.Value);
+					document.Add(key, property.Value);
 				}
 			}
 

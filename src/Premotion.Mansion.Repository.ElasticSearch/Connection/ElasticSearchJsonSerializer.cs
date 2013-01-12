@@ -35,20 +35,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		public ElasticSearchJsonSerializer()
 		{
 			ContentType = "application/json";
-			serializer = new Newtonsoft.Json.JsonSerializer
-			             {
-			             	MissingMemberHandling = MissingMemberHandling.Ignore,
-			             	NullValueHandling = NullValueHandling.Ignore,
-			             	DefaultValueHandling = DefaultValueHandling.Include
-			             };
-		}
-		/// <summary>
-		/// Default serializer with overload for allowing custom Json.NET settings
-		/// </summary>
-		public ElasticSearchJsonSerializer(Newtonsoft.Json.JsonSerializer serializer)
-		{
-			ContentType = "application/json";
-			this.serializer = serializer;
+			serializer = Newtonsoft.Json.JsonSerializer.Create(ElasicSearchJsonSerializerSettings.Settings);
 		}
 		#region ISerializer Members
 		/// <summary>
@@ -61,7 +48,6 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 			using (var stringWriter = new StringWriter())
 			using (var jsonTextWriter = new JsonTextWriter(stringWriter))
 			{
-				jsonTextWriter.Formatting = Formatting.Indented;
 				jsonTextWriter.QuoteChar = '"';
 
 				serializer.Serialize(jsonTextWriter, obj);

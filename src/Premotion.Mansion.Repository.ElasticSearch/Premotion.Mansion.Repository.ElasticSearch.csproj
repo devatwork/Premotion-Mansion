@@ -53,6 +53,7 @@
     <Compile Include="BaseReadConverter.cs" />
     <Compile Include="Connection\ConnectionManager.cs" />
     <Compile Include="Connection\ConnectionException.cs" />
+    <Compile Include="Connection\ElasicSearchJsonSerializerSettings.cs" />
     <Compile Include="Connection\ElasticSearchDeserializer.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ElasticSearchIndexEngine.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Querying\Queries\TextPhrasePrefixQuery.cs" />
     <Compile Include="Querying\Queries\MultiMatchQuery.cs" />
     <Compile Include="Querying\Sorts\FieldSort.cs" />
+    <Compile Include="Querying\Sorts\ScoreSort.cs" />
     <Compile Include="Querying\Specifications\PhrasePrefixQuerySpecification.cs" />
     <Compile Include="Responses\BaseResponse.cs" />
     <Compile Include="Responses\Facets\Facet.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Patterns;
+using Premotion.Mansion.Repository.ElasticSearch.Connection;
 using Premotion.Mansion.Repository.ElasticSearch.Querying.Facets;
 using Premotion.Mansion.Repository.ElasticSearch.Querying.Filters;
 using Premotion.Mansion.Repository.ElasticSearch.Querying.Queries;
@@ -243,7 +244,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 		/// <filterpriority>2</filterpriority>
 		public override string ToString()
 		{
-			return JsonConvert.SerializeObject(this, Formatting.Indented);
+			return JsonConvert.SerializeObject(this, Formatting.Indented, ElasicSearchJsonSerializerSettings.Settings);
 		}
 		#endregion
 		#region Private Fields
