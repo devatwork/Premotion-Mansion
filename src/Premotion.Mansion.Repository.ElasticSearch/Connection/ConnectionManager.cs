@@ -31,8 +31,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 			client.AddHandler("application/json", deserializer);
 			client.AddHandler("text/json", deserializer);
 			client.Timeout = 20*60*1000;
-			ServicePointManager.Expect100Continue = true; 
-         ServicePointManager.UseNagleAlgorithm = false; 
+			ServicePointManager.Expect100Continue = false;
+			ServicePointManager.UseNagleAlgorithm = false;
+			ServicePointManager.MaxServicePointIdleTime = 3600000;
+			ServicePointManager.SetTcpKeepAlive(true, 30000, 3000);
 		}
 		#endregion
 		#region Http Methods

@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using Newtonsoft.Json;
-using Premotion.Mansion.Repository.ElasticSearch.Responses.Facets;
 using RestSharp;
 using RestSharp.Deserializers;
 
@@ -21,15 +19,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		/// <returns></returns>
 		public T Deserialize<T>(IRestResponse response)
 		{
-			return JsonConvert.DeserializeObject<T>(response.Content, new JsonSerializerSettings
-			                                                          {
-			                                                          	NullValueHandling = NullValueHandling.Ignore,
-			                                                          	DefaultValueHandling = DefaultValueHandling.Include,
-			                                                          	Converters = new List<JsonConverter>
-			                                                          	             {
-			                                                          	             	new Facet.FacetReadConverter()
-			                                                          	             }
-			                                                          });
+			return JsonConvert.DeserializeObject<T>(response.Content, ElasicSearchJsonSerializerSettings.Settings);
 		}
 		/// <summary>
 		/// Unused for JSON Serialization
