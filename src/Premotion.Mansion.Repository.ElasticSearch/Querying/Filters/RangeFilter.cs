@@ -125,7 +125,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Filters
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="propertyName"/> is null.</exception>
 		public static RangeFilter GreaterThan(string propertyName, object value)
 		{
-			return new RangeFilter(propertyName, from: value, includeUpper: false);
+			return new RangeFilter(propertyName, from: value, includeLower: false);
 		}
 		/// <summary>
 		/// Constructs a greater than or equal to <see cref="RangeFilter"/> for the given <paramref name="propertyName"/>.
@@ -136,7 +136,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Filters
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="propertyName"/> is null.</exception>
 		public static RangeFilter GreaterThanOrEqualTo(string propertyName, object value)
 		{
-			return new RangeFilter(propertyName, from: value, includeUpper: true);
+			return new RangeFilter(propertyName, from: value, includeLower : true);
 		}
 		#endregion
 		#region Private Fields
