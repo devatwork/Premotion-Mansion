@@ -53,6 +53,7 @@
     <Compile Include="BaseReadConverter.cs" />
     <Compile Include="Connection\ConnectionManager.cs" />
     <Compile Include="Connection\ConnectionException.cs" />
+    <Compile Include="Connection\ElasicSearchJsonSerializerSettings.cs" />
     <Compile Include="Connection\ElasticSearchDeserializer.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ElasticSearchIndexEngine.cs" />
