@@ -101,6 +101,7 @@
     <Compile Include="Querying\Queries\TextPhrasePrefixQuery.cs" />
     <Compile Include="Querying\Queries\MultiMatchQuery.cs" />
     <Compile Include="Querying\Sorts\FieldSort.cs" />
+    <Compile Include="Querying\Sorts\ScoreSort.cs" />
     <Compile Include="Querying\Specifications\PhrasePrefixQuerySpecification.cs" />
     <Compile Include="Responses\BaseResponse.cs" />
     <Compile Include="Responses\Facets\Facet.cs" />

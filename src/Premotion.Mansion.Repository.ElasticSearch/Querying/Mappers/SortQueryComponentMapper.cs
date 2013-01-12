@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
@@ -24,6 +25,9 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 		{
 			foreach (var sort in component.Sorts.Select<Sort, BaseSort>(sort =>
 			                                                            {
+			                                                            	if (sort.PropertyName.Equals("_score", StringComparison.OrdinalIgnoreCase))
+			                                                            		return ScoreSort.Instance;
+
 			                                                            	// get the property mapping
 			                                                            	var propertyMapping = searchQuery.TypeMapping.FindPropertyMapping<PropertyMapping>(sort.PropertyName);
 
