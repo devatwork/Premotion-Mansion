@@ -17,7 +17,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		                                                         	MissingMemberHandling = MissingMemberHandling.Ignore,
 		                                                         	NullValueHandling = NullValueHandling.Ignore,
 		                                                         	DefaultValueHandling = DefaultValueHandling.Include,
-		                                                         	DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+		                                                         	DateTimeZoneHandling = DateTimeZoneHandling.Unspecified,
 		                                                         	Converters = new List<JsonConverter>
 		                                                         	             {
 		                                                         	             	new Facet.FacetReadConverter()
