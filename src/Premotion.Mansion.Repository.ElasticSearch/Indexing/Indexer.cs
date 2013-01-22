@@ -76,8 +76,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 				throw new ArgumentNullException("context");
 
 			// retrieve all the data directly from the repository
-			var recordSet = context.Repository.RetrieveNodeset(context, new PropertyBag
-			{
+			var recordSet = context.Repository.RetrieveNodeset(context, new PropertyBag {
 				{"cache", false},
 				{"baseType", "Default"},
 				{"bypassAuthorization", true},
@@ -169,7 +168,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 				var resource = indexDefinition.Name + '/' + mapping.Name + '/' + record.Id;
 
 				// index the document
-				new Action(() => connectionManager.Delete(resource, new[] {HttpStatusCode.OK})).Retry(new FixedIntervalStrategy(3, TimeSpan.FromMilliseconds(100)));
+				new Action(() => connectionManager.Delete(resource, new[] {HttpStatusCode.OK, HttpStatusCode.NotFound})).Retry(new FixedIntervalStrategy(3, TimeSpan.FromMilliseconds(100)));
 			}
 		}
 		#endregion
