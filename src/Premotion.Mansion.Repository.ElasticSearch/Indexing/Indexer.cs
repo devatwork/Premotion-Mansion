@@ -4,6 +4,7 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Queries;
+using Premotion.Mansion.Core.Patterns.Retry;
 using Premotion.Mansion.Repository.ElasticSearch.Connection;
 using Premotion.Mansion.Repository.ElasticSearch.Schema;
 
@@ -62,7 +63,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 				connectionManager.Delete(definition.Name);
 
 			// create the index
-			connectionManager.Put(definition.Name, definition);
+			new Action(() => connectionManager.Put(definition.Name, definition)).Retry(new FixedIntervalStrategy(3, TimeSpan.FromMilliseconds(100)));
 		}
 		/// <summary>
 		/// Reindexes all the content in the top-most repository.
@@ -75,13 +76,12 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 				throw new ArgumentNullException("context");
 
 			// retrieve all the data directly from the repository
-			var recordSet = context.Repository.RetrieveNodeset(context, new PropertyBag
-			                                                            {
-			                                                            	{"cache", false},
-			                                                            	{"baseType", "Default"},
-			                                                            	{"bypassAuthorization", true},
-			                                                            	{StorageOnlyQueryComponent.PropertyKey, true}
-			                                                            });
+			var recordSet = context.Repository.RetrieveNodeset(context, new PropertyBag {
+				{"cache", false},
+				{"baseType", "Default"},
+				{"bypassAuthorization", true},
+				{StorageOnlyQueryComponent.PropertyKey, true}
+			});
 
 			// index the dataset
 			Index(context, recordSet);
@@ -134,7 +134,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 				var resource = indexDefinition.Name + '/' + mapping.Name + '/' + record.Id;
 
 				// index the document
-				connectionManager.Put(resource, document, new[] {HttpStatusCode.Created, HttpStatusCode.OK});
+				new Action(() => connectionManager.Put(resource, document, new[] {HttpStatusCode.Created, HttpStatusCode.OK})).Retry(new FixedIntervalStrategy(3, TimeSpan.FromMilliseconds(100)));
 			}
 		}
 		#endregion
@@ -168,7 +168,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 				var resource = indexDefinition.Name + '/' + mapping.Name + '/' + record.Id;
 
 				// index the document
-				connectionManager.Delete(resource, new[] {HttpStatusCode.OK});
+				new Action(() => connectionManager.Delete(resource, new[] {HttpStatusCode.OK, HttpStatusCode.NotFound})).Retry(new FixedIntervalStrategy(3, TimeSpan.FromMilliseconds(100)));
 			}
 		}
 		#endregion
@@ -207,7 +207,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 			var resource = definition.Name + "/_optimize";
 
 			// execute the request
-			connectionManager.Post(resource);
+			new Action(() => connectionManager.Post(resource)).Retry(new FixedIntervalStrategy(3, TimeSpan.FromMilliseconds(100)));
 		}
 		#endregion
 		#region Private Fields
