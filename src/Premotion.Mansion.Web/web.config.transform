@@ -5,7 +5,7 @@
 		<section name="dotless" type="dotless.Core.configuration.DotlessConfigurationSectionHandler, dotless.Core" />
 	</configSections>
 	<system.web>
-		<compilation targetFramework="4.0" />
+		<compilation targetFramework="4.5" />
 		<httpRuntime requestValidationMode="2.0" requestPathInvalidCharacters="" encoderType="Microsoft.Security.Application.AntiXssEncoder, AntiXssLibrary" />
 	</system.web>
 	<appSettings>
