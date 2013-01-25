@@ -28,8 +28,8 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 
 			// create the client
 			client = new RestClient(connectionString);
-			client.AddHandler("application/json", deserializer);
-			client.AddHandler("text/json", deserializer);
+			client.ClearHandlers();
+			client.AddHandler("*", deserializer);
 			client.Timeout = 20*60*1000;
 			ServicePointManager.Expect100Continue = false;
 			ServicePointManager.UseNagleAlgorithm = false;
@@ -72,11 +72,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 				throw new ArgumentNullException("obj");
 
 			// execute the request
-			return Execute(resource, request =>
-			                         {
-			                         	request.Method = Method.PUT;
-			                         	request.AddBody(obj);
-			                         }, validHttpStatusCodes);
+			return Execute(resource, request => {
+				request.Method = Method.PUT;
+				request.AddBody(obj);
+			}, validHttpStatusCodes);
 		}
 		/// <summary>
 		/// Executes a POST request on the given <paramref name="resource"/>.
@@ -112,11 +111,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 				throw new ArgumentNullException("obj");
 
 			// execute the request
-			return Execute<TResponse>(resource, request =>
-			                                    {
-			                                    	request.Method = Method.POST;
-			                                    	request.AddBody(obj);
-			                                    }, validHttpStatusCodes).Data;
+			return Execute<TResponse>(resource, request => {
+				request.Method = Method.POST;
+				request.AddBody(obj);
+			}, validHttpStatusCodes).Data;
 		}
 		/// <summary>
 		/// Executes a DELETE request on the given <paramref name="resource"/>.
@@ -145,11 +143,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		private IRestResponse Execute(string resource, Action<IRestRequest> requestConfigurator, HttpStatusCode[] validHttpStatusCodes = null)
 		{
 			// create the request
-			var request = new RestRequest(resource)
-			              {
-			              	RequestFormat = DataFormat.Json,
-			              	JsonSerializer = serializer
-			              };
+			var request = new RestRequest(resource) {
+				RequestFormat = DataFormat.Json,
+				JsonSerializer = serializer
+			};
 
 			requestConfigurator(request);
 
@@ -177,11 +174,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		private IRestResponse<TResponse> Execute<TResponse>(string resource, Action<IRestRequest> requestConfigurator, HttpStatusCode[] validHttpStatusCodes = null) where TResponse : BaseResponse, new()
 		{
 			// create the request
-			var request = new RestRequest(resource)
-			              {
-			              	RequestFormat = DataFormat.Json,
-			              	JsonSerializer = serializer,
-			              };
+			var request = new RestRequest(resource) {
+				RequestFormat = DataFormat.Json,
+				JsonSerializer = serializer,
+			};
 
 			requestConfigurator(request);
 

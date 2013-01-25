@@ -27,8 +27,8 @@
 		<tags>Premotion Mansion Web</tags>
 	</metadata>
 	<files>
-		<file src="bin\Premotion.Mansion.Web.dll" target="lib\net40" />
-		<file src="bin\Premotion.Mansion.Web.xml" target="lib\net40" />
+		<file src="bin\Premotion.Mansion.Web.dll" target="lib\net45" />
+		<file src="bin\Premotion.Mansion.Web.xml" target="lib\net45" />
 		<file src="**\*.xsd" target="content\Schemas" />
 		<file src="Web\Default.xts.pp" target="content\Web" />
 		<file src="MyApplicationBootstrapper.cs.pp" target="content" />

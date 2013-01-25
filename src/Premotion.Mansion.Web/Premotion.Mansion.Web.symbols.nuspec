@@ -27,9 +27,9 @@
 		<tags>Premotion Mansion Web</tags>
 	</metadata>
 	<files>
-		<file src="bin\Premotion.Mansion.Web.dll" target="lib\net40" />
-		<file src="bin\Premotion.Mansion.Web.pdb" target="lib\net40" />
-		<file src="bin\Premotion.Mansion.Web.xml" target="lib\net40" />
+		<file src="bin\Premotion.Mansion.Web.dll" target="lib\net45" />
+		<file src="bin\Premotion.Mansion.Web.pdb" target="lib\net45" />
+		<file src="bin\Premotion.Mansion.Web.xml" target="lib\net45" />
 		<file src="**\*.xsd" target="content\Schemas" />
 		<file src="**\*.cs" target="src" />
 	</files>

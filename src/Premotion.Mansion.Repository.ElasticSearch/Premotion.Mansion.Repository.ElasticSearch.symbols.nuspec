@@ -25,9 +25,9 @@
 		<tags>Premotion Mansion Repository ElasticSearch</tags>
 	</metadata>
 	<files>
-		<file src="bin\Premotion.Mansion.Repository.ElasticSearch.dll" target="lib\net40" />
-		<file src="bin\Premotion.Mansion.Repository.ElasticSearch.pdb" target="lib\net40" />
-		<file src="bin\Premotion.Mansion.Repository.ElasticSearch.xml" target="lib\net40" />
+		<file src="bin\Premotion.Mansion.Repository.ElasticSearch.dll" target="lib\net45" />
+		<file src="bin\Premotion.Mansion.Repository.ElasticSearch.pdb" target="lib\net45" />
+		<file src="bin\Premotion.Mansion.Repository.ElasticSearch.xml" target="lib\net45" />
 		<file src="**\*.xsd" target="content\Schemas" />
 		<file src="app.config.transform" target="content" />
 		<file src="web.config.transform" target="content" />

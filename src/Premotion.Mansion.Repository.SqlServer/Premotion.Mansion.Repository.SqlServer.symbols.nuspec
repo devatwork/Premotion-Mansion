@@ -24,9 +24,9 @@
 		<tags>Premotion Mansion Repository SQLServer</tags>
 	</metadata>
 	<files>
-		<file src="bin\Premotion.Mansion.Repository.SqlServer.dll" target="lib\net40" />
-		<file src="bin\Premotion.Mansion.Repository.SqlServer.pdb" target="lib\net40" />
-		<file src="bin\Premotion.Mansion.Repository.SqlServer.xml" target="lib\net40" />
+		<file src="bin\Premotion.Mansion.Repository.SqlServer.dll" target="lib\net45" />
+		<file src="bin\Premotion.Mansion.Repository.SqlServer.pdb" target="lib\net45" />
+		<file src="bin\Premotion.Mansion.Repository.SqlServer.xml" target="lib\net45" />
 		<file src="**\*.xsd" target="content\Schemas" />
 		<file src="**\*.cs" target="src" />
 	</files>
