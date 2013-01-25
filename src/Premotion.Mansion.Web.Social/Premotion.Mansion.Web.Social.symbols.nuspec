@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
 	<metadata>
-		<version>1.2.23</version>
+		<version>1.2.24</version>
 		<authors>Premotion Software Solutions</authors>
 		<owners>Premotion Software Solutions</owners>
 		<id>Premotion.Mansion.Web.Social</id>
@@ -26,9 +26,9 @@
 		<tags>Premotion Mansion Web Social</tags>
 	</metadata>
 	<files>
-		<file src="bin\Premotion.Mansion.Web.Social.dll" target="lib\net40" />
-		<file src="bin\Premotion.Mansion.Web.Social.pdb" target="lib\net40" />
-		<file src="bin\Premotion.Mansion.Web.Social.xml" target="lib\net40" />
+		<file src="bin\Premotion.Mansion.Web.Social.dll" target="lib\net45" />
+		<file src="bin\Premotion.Mansion.Web.Social.pdb" target="lib\net45" />
+		<file src="bin\Premotion.Mansion.Web.Social.xml" target="lib\net45" />
 		<file src="**\*.xsd" target="content\Schemas" />
 		<file src="**\*.cs" target="src" />
 	</files>
