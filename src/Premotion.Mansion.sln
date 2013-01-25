@@ -1,6 +1,12 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{246A7AE2-6EED-4201-B341-B66578D6CB69}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Core", "Premotion.Mansion.Core\Premotion.Mansion.Core.csproj", "{95DFBC37-6549-4BC0-AB9F-0F5D22D35926}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Core.Tests", "Premotion.Mansion.Core.Tests\Premotion.Mansion.Core.Tests.csproj", "{24D329C5-814E-4EE5-AC10-0A3A83138F44}"
@@ -26,12 +32,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Amazon.Tests", "Premotion.Mansion.Amazon.Tests\Premotion.Mansion.Amazon.Tests.csproj", "{C291C29D-2DF0-47B7-948D-9BC5CDBD3A0B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Web.Social", "Premotion.Mansion.Web.Social\Premotion.Mansion.Web.Social.csproj", "{B2234844-646E-4C79-8FF7-5793FDC6D7DF}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{246A7AE2-6EED-4201-B341-B66578D6CB69}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Repository.ElasticSearch", "Premotion.Mansion.Repository.ElasticSearch\Premotion.Mansion.Repository.ElasticSearch.csproj", "{062CF6EC-8555-4F43-B536-C848A6435813}"
 EndProject
