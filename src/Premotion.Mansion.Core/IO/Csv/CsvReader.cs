@@ -124,10 +124,13 @@ namespace Premotion.Mansion.Core.IO.Csv
 
 					// get the read value
 					var value = buffer.ToString();
+					buffer.Length = 0;
+					cellIndex = 0;
 
 					// set the value
 					if (!firstLineRead)
 					{
+						firstLineRead = true;
 						// if the first line contains the header, store the header value
 						if (firstLineIsHeader)
 						{
@@ -146,9 +149,6 @@ namespace Premotion.Mansion.Core.IO.Csv
 					yield return row;
 
 					// reset
-					buffer.Length = 0;
-					cellIndex = 0;
-					firstLineRead = true;
 					row = new PropertyBag();
 				}
 			}
