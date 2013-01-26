@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/stl.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	
+
 	<!-- imports -->
 	<xs:include schemaLocation="stl.xsd" />
-	
+
 	<!-- elements -->
 	<xs:element name="createDataspace" substitutionGroup="scriptTag">
 		<xs:annotation>
@@ -141,6 +141,18 @@
 					<!-- attributes -->
 					<xs:attributeGroup ref="sourceAttributes" />
 				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="loopReader" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Loops through all the rows in the top most reader. Puts the Loop dataspace on the stack containing loop information.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="loopBase" />
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>

@@ -1,30 +1,29 @@
-﻿using System;
+using System;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Core.ScriptTags.Stack
 {
 	/// <summary>
-	/// Implements the base tag for all <see cref="Loop"/> tags.
+	/// Loops over a <see cref="IPropertyBagReader"/>.
 	/// </summary>
-	public abstract class LoopBaseTag : ScriptTag
+	[ScriptTag(Constants.NamespaceUri, "loopReader")]
+	public class LoopReaderTag : ScriptTag
 	{
 		/// <summary>
+		/// Executes this tag.
 		/// </summary>
-		/// <param name="context"></param>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		protected override void DoExecute(IMansionContext context)
 		{
 			// get arguments
 			var targetDataspace = GetRequiredAttribute<string>(context, "target");
 			var global = GetAttribute(context, "global", false);
 
-			// get the dataset through which to loop
-			var dataset = GetLoopset(context);
-
 			// create the loop
 			var start = GetAttribute(context, "start", 0);
-			var end = Math.Max(start, GetAttribute(context, "end", dataset.RowCount - 1));
-			var loop = new Loop(new DatasetReader(dataset), start, end);
+			var end = Math.Max(start, GetAttribute(context, "end", int.MaxValue));
+			var loop = new Loop(context.Reader, start, end);
 
 			// push the loop to the stack
 			using (context.Stack.Push("Loop", loop))
@@ -38,11 +37,5 @@ namespace Premotion.Mansion.Core.ScriptTags.Stack
 				}
 			}
 		}
-		/// <summary>
-		/// Gets the loop set.
-		/// </summary>
-		/// <param name="context">The request context.</param>
-		/// <returns>Returns the <see cref="Dataset"/> on which to loop.</returns>
-		protected abstract Dataset GetLoopset(IMansionContext context);
 	}
 }

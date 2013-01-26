@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettingsConstants.cs" />
+    <Compile Include="Collections\DatasetReader.cs" />
     <Compile Include="Conversion\Converters\StringToFloatConverter.cs" />
     <Compile Include="Conversion\Converters\FloatToDoubleConverter.cs" />
     <Compile Include="Data\BaseStorageEngine.cs" />
@@ -406,6 +407,7 @@
     <Compile Include="ScriptTags\CatchTag.cs" />
     <Compile Include="ScriptTags\Constants.cs" />
     <Compile Include="ScriptTags\ExecuteNestedTagsTag.cs" />
+    <Compile Include="ScriptTags\LoopTag.cs" />
     <Compile Include="ScriptTags\Media\Csv\GetCsvReaderTag.cs" />
     <Compile Include="ScriptTags\Media\JSon\GetDatasetFromJSonTag.cs" />
     <Compile Include="ScriptTags\Media\Xml\RenderXmlContentTag.cs" />
@@ -425,7 +427,7 @@
     <Compile Include="ScriptTags\FireEventTag.cs" />
     <Compile Include="ScriptTags\InvokeProcedureTag.cs" />
     <Compile Include="ScriptTags\IO\EnumerateApplicationFolderTag.cs" />
-    <Compile Include="ScriptTags\LoopTag.cs" />
+    <Compile Include="ScriptTags\Stack\LoopReaderTag.cs" />
     <Compile Include="ScriptTags\MansionTag.cs" />
     <Compile Include="ScriptTags\Media\Csv\RenderCsvDocumentTag.cs" />
     <Compile Include="ScriptTags\Media\Csv\RenderCsvRowBaseTag.cs" />
