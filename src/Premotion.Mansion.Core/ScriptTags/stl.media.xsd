@@ -1,16 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/stl.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	
+
 	<!-- imports -->
 	<xs:include schemaLocation="stl.xsd" />
-	
-	
-	
+
 	<!-- ######################################################### -->
 	<!-- XML media elements                                        -->
 	<!-- ######################################################### -->
-	
+
 	<xs:element name="renderXmlDocument" substitutionGroup="scriptTag">
 		<xs:annotation>
 			<xs:documentation>Renders an XML to the top most output pipe.</xs:documentation>
@@ -27,7 +25,7 @@
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
-	
+
 	<xs:element name="registerXmlPrefix" substitutionGroup="scriptTag">
 		<xs:annotation>
 			<xs:documentation>Registers a namespace prefix in an XML document.</xs:documentation>
@@ -87,13 +85,11 @@
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
-	
-	
-	
+
 	<!-- ######################################################### -->
 	<!-- JJON media elements                                       -->
 	<!-- ######################################################### -->
-	
+
 	<xs:element name="renderJsonDocument" substitutionGroup="scriptTag">
 		<xs:annotation>
 			<xs:documentation>Renders an JSON document to the top most output pipe.</xs:documentation>
@@ -172,13 +168,11 @@
 			<xs:attributeGroup ref="targetAttributes" />
 		</xs:complexType>
 	</xs:element>
-	
-	
-	
+
 	<!-- ######################################################### -->
 	<!-- content resource media elements                           -->
 	<!-- ######################################################### -->
-	
+
 	<xs:simpleType name="contentResourceCategories">
 		<xs:union>
 			<xs:simpleType>
@@ -253,14 +247,28 @@
 		</xs:complexType>
 	</xs:element>
 
-
-
 	<!-- ######################################################### -->
 	<!-- CSV media elements                                        -->
 	<!-- ######################################################### -->
 
 	<xs:simpleType name="csvFormatEnumeration">
-		<xs:restriction base="xs:string"></xs:restriction>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DutchExcel">
+				<xs:annotation>
+					<xs:documentation>The CSV format used by the Dutch version of Excel.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="EnglishExcel">
+				<xs:annotation>
+					<xs:documentation>The CSV format used by the English version of Excel.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Tab">
+				<xs:annotation>
+					<xs:documentation>The CSV format of tab seperated documents.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
 	</xs:simpleType>
 
 	<xs:element name="renderCSVDocument" substitutionGroup="scriptTag">
@@ -343,6 +351,22 @@
 		<xs:complexType>
 			<!-- attributes -->
 			<xs:attributeGroup ref="sourceAttributes" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="getCsvReader" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Gets a CSV reader to read CSV data from the underlying pipe.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!-- attributes -->
+			<xs:attribute name="format" type="csvFormatEnumeration" use="required">
+				<xs:annotation>
+					<xs:documentation>The name of the format which to use.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 
