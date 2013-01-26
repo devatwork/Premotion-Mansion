@@ -408,6 +408,7 @@
     <Compile Include="ScriptTags\Constants.cs" />
     <Compile Include="ScriptTags\ExecuteNestedTagsTag.cs" />
     <Compile Include="ScriptTags\LoopTag.cs" />
+    <Compile Include="ScriptTags\Media\DeleteContentTag.cs" />
     <Compile Include="ScriptTags\Media\Csv\GetCsvReaderTag.cs" />
     <Compile Include="ScriptTags\Media\JSon\GetDatasetFromJSonTag.cs" />
     <Compile Include="ScriptTags\Media\Xml\RenderXmlContentTag.cs" />

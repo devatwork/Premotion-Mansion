@@ -247,6 +247,17 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="deleteContent" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Deletes a content resource.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!--attributes -->
+			<xs:attributeGroup ref="contentResourceIdentifierAttributes" />
+		</xs:complexType>
+	</xs:element>
+
 	<!-- ######################################################### -->
 	<!-- CSV media elements                                        -->
 	<!-- ######################################################### -->
