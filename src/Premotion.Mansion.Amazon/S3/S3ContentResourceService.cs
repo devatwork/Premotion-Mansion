@@ -391,7 +391,7 @@ namespace Premotion.Mansion.Amazon.S3
 			// check if it is an existing resource
 			string relativePath;
 			if (properties.TryGet(context, "relativePath", out relativePath))
-				return new S3ResourcePath(ResourceUtils.Combine(categoryBasePath, relativePath));
+				return new S3ResourcePath(relativePath);
 
 			// check if it is a new file name
 			string fileName;
