@@ -5,7 +5,7 @@
 	<!-- Overrides of CmsPlugin.xinclude -->
 	<!-- ############################### -->
 	<declareProcedure procedureName="RenderPluginNavigation">
-		<invokeProcedure procedureName="RenderPluginViewNavigationHeader" label="Content" />
+		<invokeProcedure procedureName="RenderPluginViewNavigationHeader" label="Administration" />
 		<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="Administrate" iconClass="icon-wrench" url="{CmsNodeUrl( RootNode.id, 'CmsAdminPlugin', 'Administrate' )}" active="{And( IsEqual( ActivePluginProperties.pluginType, 'CmsAdminPlugin' ), IsEqual( ActivePluginProperties.viewName, 'Administrate' ) )}" />
 	</declareProcedure>
 
