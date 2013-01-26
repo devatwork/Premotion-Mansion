@@ -21,261 +21,260 @@ namespace Premotion.Mansion.Core
 	public static partial class Extensions
 	{
 		#region Constants
-		private static readonly string[][] HtmlNamedEntities = new[]
-		                                                       {
-		                                                       	new[] {"&quot;", "\""},
-		                                                       	new[] {"&lt;", "<"},
-		                                                       	new[] {"&gt;", ">"},
-		                                                       	new[] {"&nbsp;", " "},
-		                                                       	new[] {"&iexcl;", "¡"},
-		                                                       	new[] {"&cent;", "¢"},
-		                                                       	new[] {"&pound;", "£"},
-		                                                       	new[] {"&curren;", "¤"},
-		                                                       	new[] {"&yen;", "¥"},
-		                                                       	new[] {"&brvbar;", "¦"},
-		                                                       	new[] {"&sect;", "§"},
-		                                                       	new[] {"&uml;", "¨"},
-		                                                       	new[] {"&copy;", "©"},
-		                                                       	new[] {"&ordf;", "ª"},
-		                                                       	new[] {"&laquo;", "«"},
-		                                                       	new[] {"&not;", "¬"},
-		                                                       	new[] {"&shy;", "­"},
-		                                                       	new[] {"&reg;", "®"},
-		                                                       	new[] {"&macr;", "¯"},
-		                                                       	new[] {"&deg;", "°"},
-		                                                       	new[] {"&plusmn;", "±"},
-		                                                       	new[] {"&sup2;", "²"},
-		                                                       	new[] {"&sup3;", "³"},
-		                                                       	new[] {"&acute;", "´"},
-		                                                       	new[] {"&micro;", "µ"},
-		                                                       	new[] {"&para;", "¶"},
-		                                                       	new[] {"&middot;", "·"},
-		                                                       	new[] {"&cedil;", "¸"},
-		                                                       	new[] {"&sup1;", "¹"},
-		                                                       	new[] {"&ordm;", "º"},
-		                                                       	new[] {"&raquo;", " »"},
-		                                                       	new[] {"&frac14;", "¼"},
-		                                                       	new[] {"&frac12;", "½"},
-		                                                       	new[] {"&frac34;", "¾"},
-		                                                       	new[] {"&iquest;", "¿"},
-		                                                       	new[] {"&Agrave;", "À"},
-		                                                       	new[] {"&Aacute;", "Á"},
-		                                                       	new[] {"&Acirc;", "Â"},
-		                                                       	new[] {"&Atilde;", "Ã"},
-		                                                       	new[] {"&Auml;", "Ä"},
-		                                                       	new[] {"&Aring;", "Å"},
-		                                                       	new[] {"&AElig;", "Æ"},
-		                                                       	new[] {"&Ccedil;", "Ç"},
-		                                                       	new[] {"&Egrave;", "È"},
-		                                                       	new[] {"&Eacute;", "É"},
-		                                                       	new[] {"&Ecirc;", "Ê"},
-		                                                       	new[] {"&Euml;", "Ë"},
-		                                                       	new[] {"&Igrave;", "Ì"},
-		                                                       	new[] {"&Iacute;", "Í"},
-		                                                       	new[] {"&Icirc;", "Î"},
-		                                                       	new[] {"&Iuml;", "Ï"},
-		                                                       	new[] {"&ETH;", "Ð"},
-		                                                       	new[] {"&Ntilde;", "Ñ"},
-		                                                       	new[] {"&Ograve;", "Ò"},
-		                                                       	new[] {"&Oacute;", "Ó"},
-		                                                       	new[] {"&Ocirc;", "Ô"},
-		                                                       	new[] {"&Otilde;", "Õ"},
-		                                                       	new[] {"&Ouml;", "Ö"},
-		                                                       	new[] {"&times;", "×"},
-		                                                       	new[] {"&Oslash;", "Ø"},
-		                                                       	new[] {"&Ugrave;", "Ù"},
-		                                                       	new[] {"&Uacute;", "Ú"},
-		                                                       	new[] {"&Ucirc;", "Û"},
-		                                                       	new[] {"&Uuml;", "Ü"},
-		                                                       	new[] {"&Yacute;", "Ý"},
-		                                                       	new[] {"&THORN;", "Þ"},
-		                                                       	new[] {"&szlig;", "ß"},
-		                                                       	new[] {"&agrave;", "à"},
-		                                                       	new[] {"&aacute;", "á"},
-		                                                       	new[] {"&acirc;", "â"},
-		                                                       	new[] {"&atilde;", "ã"},
-		                                                       	new[] {"&auml;", "ä"},
-		                                                       	new[] {"&aring;", "å"},
-		                                                       	new[] {"&aelig;", "æ"},
-		                                                       	new[] {"&ccedil;", "ç"},
-		                                                       	new[] {"&egrave;", "è"},
-		                                                       	new[] {"&eacute;", "é"},
-		                                                       	new[] {"&ecirc;", "ê"},
-		                                                       	new[] {"&euml;", "ë"},
-		                                                       	new[] {"&igrave;", "ì"},
-		                                                       	new[] {"&iacute;", "í"},
-		                                                       	new[] {"&icirc;", "î"},
-		                                                       	new[] {"&iuml;", "ï"},
-		                                                       	new[] {"&eth;", "ð"},
-		                                                       	new[] {"&ntilde;", "ñ"},
-		                                                       	new[] {"&ograve;", "ò"},
-		                                                       	new[] {"&oacute;", "ó"},
-		                                                       	new[] {"&ocirc;", "ô"},
-		                                                       	new[] {"&otilde;", "õ"},
-		                                                       	new[] {"&ouml;", "ö"},
-		                                                       	new[] {"&divide;", "÷"},
-		                                                       	new[] {"&oslash;", "ø"},
-		                                                       	new[] {"&ugrave;", "ù"},
-		                                                       	new[] {"&uacute;", "ú"},
-		                                                       	new[] {"&ucirc;", "û"},
-		                                                       	new[] {"&uuml;", "ü"},
-		                                                       	new[] {"&yacute;", "ý"},
-		                                                       	new[] {"&thorn;", "þ"},
-		                                                       	new[] {"&yuml;", "ÿ"},
-		                                                       	new[] {"&OElig;", "Œ"},
-		                                                       	new[] {"&oelig;", "œ"},
-		                                                       	new[] {"&Scaron;", "Š"},
-		                                                       	new[] {"&scaron;", "š"},
-		                                                       	new[] {"&Yuml;", "Ÿ"},
-		                                                       	new[] {"&fnof;", "ƒ"},
-		                                                       	new[] {"&circ;", "ˆ"},
-		                                                       	new[] {"&tilde;", "˜"},
-		                                                       	new[] {"&Alpha;", "Α"},
-		                                                       	new[] {"&Beta;", "Β"},
-		                                                       	new[] {"&Gamma;", "Γ"},
-		                                                       	new[] {"&Delta;", "Δ"},
-		                                                       	new[] {"&Epsilon;", "Ε"},
-		                                                       	new[] {"&Zeta;", "Ζ"},
-		                                                       	new[] {"&Eta;", "Η"},
-		                                                       	new[] {"&Theta;", "Θ"},
-		                                                       	new[] {"&Iota;", "Ι"},
-		                                                       	new[] {"&Kappa;", "Κ"},
-		                                                       	new[] {"&Lambda;", "Λ"},
-		                                                       	new[] {"&Mu;", "Μ"},
-		                                                       	new[] {"&Nu;", "Ν"},
-		                                                       	new[] {"&Xi;", "Ξ"},
-		                                                       	new[] {"&Omicron;", "Ο"},
-		                                                       	new[] {"&Pi;", "Π"},
-		                                                       	new[] {"&Rho;", "Ρ"},
-		                                                       	new[] {"&Sigma;", "Σ"},
-		                                                       	new[] {"&Tau;", "Τ"},
-		                                                       	new[] {"&Upsilon;", "Υ"},
-		                                                       	new[] {"&Phi;", "Φ"},
-		                                                       	new[] {"&Chi;", "Χ"},
-		                                                       	new[] {"&Psi;", "Ψ"},
-		                                                       	new[] {"&Omega;", "Ω"},
-		                                                       	new[] {"&alpha;", "α"},
-		                                                       	new[] {"&beta;", "β"},
-		                                                       	new[] {"&gamma;", "γ"},
-		                                                       	new[] {"&delta;", "δ"},
-		                                                       	new[] {"&epsilon;", "ε"},
-		                                                       	new[] {"&zeta;", "ζ"},
-		                                                       	new[] {"&eta;", "η"},
-		                                                       	new[] {"&theta;", "θ"},
-		                                                       	new[] {"&iota;", "ι"},
-		                                                       	new[] {"&kappa;", "κ"},
-		                                                       	new[] {"&lambda;", "λ"},
-		                                                       	new[] {"&mu;", "μ"},
-		                                                       	new[] {"&nu;", "ν"},
-		                                                       	new[] {"&xi;", "ξ"},
-		                                                       	new[] {"&omicron;", "ο"},
-		                                                       	new[] {"&pi;", "π"},
-		                                                       	new[] {"&rho;", "ρ"},
-		                                                       	new[] {"&sigmaf;", "ς"},
-		                                                       	new[] {"&sigma;", "σ"},
-		                                                       	new[] {"&tau;", "τ"},
-		                                                       	new[] {"&upsilon;", "υ"},
-		                                                       	new[] {"&phi;", "φ"},
-		                                                       	new[] {"&chi;", "χ"},
-		                                                       	new[] {"&psi;", "ψ"},
-		                                                       	new[] {"&omega;", "ω"},
-		                                                       	new[] {"&thetasym;", "ϑ"},
-		                                                       	new[] {"&upsih;", "ϒ"},
-		                                                       	new[] {"&piv;", "ϖ"},
-		                                                       	new[] {"&ensp;", " "},
-		                                                       	new[] {"&emsp;", " "},
-		                                                       	new[] {"&thinsp;", " "},
-		                                                       	new[] {"&zwnj;", "‌"},
-		                                                       	new[] {"&zwj;", "‍"},
-		                                                       	new[] {"&lrm;", "‎"},
-		                                                       	new[] {"&rlm;", "‏"},
-		                                                       	new[] {"&ndash;", "–"},
-		                                                       	new[] {"&mdash;", "—"},
-		                                                       	new[] {"&lsquo;", "‘"},
-		                                                       	new[] {"&rsquo;", "’"},
-		                                                       	new[] {"&sbquo;", "‚"},
-		                                                       	new[] {"&ldquo;", "“"},
-		                                                       	new[] {"&rdquo;", "”"},
-		                                                       	new[] {"&bdquo;", "„"},
-		                                                       	new[] {"&dagger;", "†"},
-		                                                       	new[] {"&Dagger;", "‡"},
-		                                                       	new[] {"&bull;", "•"},
-		                                                       	new[] {"&hellip;", "…"},
-		                                                       	new[] {"&permil;", "‰"},
-		                                                       	new[] {"&prime;", "′"},
-		                                                       	new[] {"&Prime;", "″"},
-		                                                       	new[] {"&lsaquo;", "‹"},
-		                                                       	new[] {"&rsaquo;", "›"},
-		                                                       	new[] {"&oline;", "‾"},
-		                                                       	new[] {"&frasl;", "⁄"},
-		                                                       	new[] {"&euro;", "€"},
-		                                                       	new[] {"&image;", "ℑ"},
-		                                                       	new[] {"&weierp;", "℘"},
-		                                                       	new[] {"&real;", "ℜ"},
-		                                                       	new[] {"&trade;", "™"},
-		                                                       	new[] {"&alefsym;", "ℵ"},
-		                                                       	new[] {"&larr;", "←"},
-		                                                       	new[] {"&uarr;", "↑"},
-		                                                       	new[] {"&rarr;", "→"},
-		                                                       	new[] {"&darr;", "↓"},
-		                                                       	new[] {"&harr;", "↔"},
-		                                                       	new[] {"&crarr;", "↵"},
-		                                                       	new[] {"&lArr;", "⇐"},
-		                                                       	new[] {"&uArr;", "⇑"},
-		                                                       	new[] {"&rArr;", "⇒"},
-		                                                       	new[] {"&dArr;", "⇓"},
-		                                                       	new[] {"&hArr;", "⇔"},
-		                                                       	new[] {"&forall;", "∀"},
-		                                                       	new[] {"&part;", "∂"},
-		                                                       	new[] {"&exist;", "∃"},
-		                                                       	new[] {"&empty;", "∅"},
-		                                                       	new[] {"&nabla;", "∇"},
-		                                                       	new[] {"&isin;", "∈"},
-		                                                       	new[] {"&notin;", "∉"},
-		                                                       	new[] {"&ni;", "∋"},
-		                                                       	new[] {"&prod;", "∏"},
-		                                                       	new[] {"&sum;", "∑"},
-		                                                       	new[] {"&minus;", "−"},
-		                                                       	new[] {"&lowast;", "∗"},
-		                                                       	new[] {"&radic;", "√"},
-		                                                       	new[] {"&prop;", "∝"},
-		                                                       	new[] {"&infin;", "∞"},
-		                                                       	new[] {"&ang;", "∠"},
-		                                                       	new[] {"&and;", "∧"},
-		                                                       	new[] {"&or;", "∨"},
-		                                                       	new[] {"&cap;", "∩"},
-		                                                       	new[] {"&cup;", "∪"},
-		                                                       	new[] {"&int;", "∫"},
-		                                                       	new[] {"&there4;", "∴"},
-		                                                       	new[] {"&sim;", "∼"},
-		                                                       	new[] {"&cong;", "≅"},
-		                                                       	new[] {"&asymp;", "≈"},
-		                                                       	new[] {"&ne;", "≠"},
-		                                                       	new[] {"&equiv;", "≡"},
-		                                                       	new[] {"&le;", "≤"},
-		                                                       	new[] {"&ge;", "≥"},
-		                                                       	new[] {"&sub;", "⊂"},
-		                                                       	new[] {"&sup;", "⊃"},
-		                                                       	new[] {"&nsub;", "⊄"},
-		                                                       	new[] {"&sube;", "⊆"},
-		                                                       	new[] {"&supe;", "⊇"},
-		                                                       	new[] {"&oplus;", "⊕"},
-		                                                       	new[] {"&otimes;", "⊗"},
-		                                                       	new[] {"&perp;", "⊥"},
-		                                                       	new[] {"&sdot;", "⋅"},
-		                                                       	new[] {"&lceil;", "⌈"},
-		                                                       	new[] {"&rceil;", "⌉"},
-		                                                       	new[] {"&lfloor;", "⌊"},
-		                                                       	new[] {"&rfloor;", "⌋"},
-		                                                       	new[] {"&lang;", "〈"},
-		                                                       	new[] {"&rang;", "〉"},
-		                                                       	new[] {"&loz;", "◊"},
-		                                                       	new[] {"&spades;", "♠"},
-		                                                       	new[] {"&clubs;", "♣"},
-		                                                       	new[] {"&hearts;", "♥"},
-		                                                       	new[] {"&diams;", "♦"},
-		                                                       	new[] {"&amp;", "&"}
-		                                                       };
+		private static readonly string[][] HtmlNamedEntities = new[] {
+			new[] {"&quot;", "\""},
+			new[] {"&lt;", "<"},
+			new[] {"&gt;", ">"},
+			new[] {"&nbsp;", " "},
+			new[] {"&iexcl;", "¡"},
+			new[] {"&cent;", "¢"},
+			new[] {"&pound;", "£"},
+			new[] {"&curren;", "¤"},
+			new[] {"&yen;", "¥"},
+			new[] {"&brvbar;", "¦"},
+			new[] {"&sect;", "§"},
+			new[] {"&uml;", "¨"},
+			new[] {"&copy;", "©"},
+			new[] {"&ordf;", "ª"},
+			new[] {"&laquo;", "«"},
+			new[] {"&not;", "¬"},
+			new[] {"&shy;", "­"},
+			new[] {"&reg;", "®"},
+			new[] {"&macr;", "¯"},
+			new[] {"&deg;", "°"},
+			new[] {"&plusmn;", "±"},
+			new[] {"&sup2;", "²"},
+			new[] {"&sup3;", "³"},
+			new[] {"&acute;", "´"},
+			new[] {"&micro;", "µ"},
+			new[] {"&para;", "¶"},
+			new[] {"&middot;", "·"},
+			new[] {"&cedil;", "¸"},
+			new[] {"&sup1;", "¹"},
+			new[] {"&ordm;", "º"},
+			new[] {"&raquo;", " »"},
+			new[] {"&frac14;", "¼"},
+			new[] {"&frac12;", "½"},
+			new[] {"&frac34;", "¾"},
+			new[] {"&iquest;", "¿"},
+			new[] {"&Agrave;", "À"},
+			new[] {"&Aacute;", "Á"},
+			new[] {"&Acirc;", "Â"},
+			new[] {"&Atilde;", "Ã"},
+			new[] {"&Auml;", "Ä"},
+			new[] {"&Aring;", "Å"},
+			new[] {"&AElig;", "Æ"},
+			new[] {"&Ccedil;", "Ç"},
+			new[] {"&Egrave;", "È"},
+			new[] {"&Eacute;", "É"},
+			new[] {"&Ecirc;", "Ê"},
+			new[] {"&Euml;", "Ë"},
+			new[] {"&Igrave;", "Ì"},
+			new[] {"&Iacute;", "Í"},
+			new[] {"&Icirc;", "Î"},
+			new[] {"&Iuml;", "Ï"},
+			new[] {"&ETH;", "Ð"},
+			new[] {"&Ntilde;", "Ñ"},
+			new[] {"&Ograve;", "Ò"},
+			new[] {"&Oacute;", "Ó"},
+			new[] {"&Ocirc;", "Ô"},
+			new[] {"&Otilde;", "Õ"},
+			new[] {"&Ouml;", "Ö"},
+			new[] {"&times;", "×"},
+			new[] {"&Oslash;", "Ø"},
+			new[] {"&Ugrave;", "Ù"},
+			new[] {"&Uacute;", "Ú"},
+			new[] {"&Ucirc;", "Û"},
+			new[] {"&Uuml;", "Ü"},
+			new[] {"&Yacute;", "Ý"},
+			new[] {"&THORN;", "Þ"},
+			new[] {"&szlig;", "ß"},
+			new[] {"&agrave;", "à"},
+			new[] {"&aacute;", "á"},
+			new[] {"&acirc;", "â"},
+			new[] {"&atilde;", "ã"},
+			new[] {"&auml;", "ä"},
+			new[] {"&aring;", "å"},
+			new[] {"&aelig;", "æ"},
+			new[] {"&ccedil;", "ç"},
+			new[] {"&egrave;", "è"},
+			new[] {"&eacute;", "é"},
+			new[] {"&ecirc;", "ê"},
+			new[] {"&euml;", "ë"},
+			new[] {"&igrave;", "ì"},
+			new[] {"&iacute;", "í"},
+			new[] {"&icirc;", "î"},
+			new[] {"&iuml;", "ï"},
+			new[] {"&eth;", "ð"},
+			new[] {"&ntilde;", "ñ"},
+			new[] {"&ograve;", "ò"},
+			new[] {"&oacute;", "ó"},
+			new[] {"&ocirc;", "ô"},
+			new[] {"&otilde;", "õ"},
+			new[] {"&ouml;", "ö"},
+			new[] {"&divide;", "÷"},
+			new[] {"&oslash;", "ø"},
+			new[] {"&ugrave;", "ù"},
+			new[] {"&uacute;", "ú"},
+			new[] {"&ucirc;", "û"},
+			new[] {"&uuml;", "ü"},
+			new[] {"&yacute;", "ý"},
+			new[] {"&thorn;", "þ"},
+			new[] {"&yuml;", "ÿ"},
+			new[] {"&OElig;", "Œ"},
+			new[] {"&oelig;", "œ"},
+			new[] {"&Scaron;", "Š"},
+			new[] {"&scaron;", "š"},
+			new[] {"&Yuml;", "Ÿ"},
+			new[] {"&fnof;", "ƒ"},
+			new[] {"&circ;", "ˆ"},
+			new[] {"&tilde;", "˜"},
+			new[] {"&Alpha;", "Α"},
+			new[] {"&Beta;", "Β"},
+			new[] {"&Gamma;", "Γ"},
+			new[] {"&Delta;", "Δ"},
+			new[] {"&Epsilon;", "Ε"},
+			new[] {"&Zeta;", "Ζ"},
+			new[] {"&Eta;", "Η"},
+			new[] {"&Theta;", "Θ"},
+			new[] {"&Iota;", "Ι"},
+			new[] {"&Kappa;", "Κ"},
+			new[] {"&Lambda;", "Λ"},
+			new[] {"&Mu;", "Μ"},
+			new[] {"&Nu;", "Ν"},
+			new[] {"&Xi;", "Ξ"},
+			new[] {"&Omicron;", "Ο"},
+			new[] {"&Pi;", "Π"},
+			new[] {"&Rho;", "Ρ"},
+			new[] {"&Sigma;", "Σ"},
+			new[] {"&Tau;", "Τ"},
+			new[] {"&Upsilon;", "Υ"},
+			new[] {"&Phi;", "Φ"},
+			new[] {"&Chi;", "Χ"},
+			new[] {"&Psi;", "Ψ"},
+			new[] {"&Omega;", "Ω"},
+			new[] {"&alpha;", "α"},
+			new[] {"&beta;", "β"},
+			new[] {"&gamma;", "γ"},
+			new[] {"&delta;", "δ"},
+			new[] {"&epsilon;", "ε"},
+			new[] {"&zeta;", "ζ"},
+			new[] {"&eta;", "η"},
+			new[] {"&theta;", "θ"},
+			new[] {"&iota;", "ι"},
+			new[] {"&kappa;", "κ"},
+			new[] {"&lambda;", "λ"},
+			new[] {"&mu;", "μ"},
+			new[] {"&nu;", "ν"},
+			new[] {"&xi;", "ξ"},
+			new[] {"&omicron;", "ο"},
+			new[] {"&pi;", "π"},
+			new[] {"&rho;", "ρ"},
+			new[] {"&sigmaf;", "ς"},
+			new[] {"&sigma;", "σ"},
+			new[] {"&tau;", "τ"},
+			new[] {"&upsilon;", "υ"},
+			new[] {"&phi;", "φ"},
+			new[] {"&chi;", "χ"},
+			new[] {"&psi;", "ψ"},
+			new[] {"&omega;", "ω"},
+			new[] {"&thetasym;", "ϑ"},
+			new[] {"&upsih;", "ϒ"},
+			new[] {"&piv;", "ϖ"},
+			new[] {"&ensp;", " "},
+			new[] {"&emsp;", " "},
+			new[] {"&thinsp;", " "},
+			new[] {"&zwnj;", "‌"},
+			new[] {"&zwj;", "‍"},
+			new[] {"&lrm;", "‎"},
+			new[] {"&rlm;", "‏"},
+			new[] {"&ndash;", "–"},
+			new[] {"&mdash;", "—"},
+			new[] {"&lsquo;", "‘"},
+			new[] {"&rsquo;", "’"},
+			new[] {"&sbquo;", "‚"},
+			new[] {"&ldquo;", "“"},
+			new[] {"&rdquo;", "”"},
+			new[] {"&bdquo;", "„"},
+			new[] {"&dagger;", "†"},
+			new[] {"&Dagger;", "‡"},
+			new[] {"&bull;", "•"},
+			new[] {"&hellip;", "…"},
+			new[] {"&permil;", "‰"},
+			new[] {"&prime;", "′"},
+			new[] {"&Prime;", "″"},
+			new[] {"&lsaquo;", "‹"},
+			new[] {"&rsaquo;", "›"},
+			new[] {"&oline;", "‾"},
+			new[] {"&frasl;", "⁄"},
+			new[] {"&euro;", "€"},
+			new[] {"&image;", "ℑ"},
+			new[] {"&weierp;", "℘"},
+			new[] {"&real;", "ℜ"},
+			new[] {"&trade;", "™"},
+			new[] {"&alefsym;", "ℵ"},
+			new[] {"&larr;", "←"},
+			new[] {"&uarr;", "↑"},
+			new[] {"&rarr;", "→"},
+			new[] {"&darr;", "↓"},
+			new[] {"&harr;", "↔"},
+			new[] {"&crarr;", "↵"},
+			new[] {"&lArr;", "⇐"},
+			new[] {"&uArr;", "⇑"},
+			new[] {"&rArr;", "⇒"},
+			new[] {"&dArr;", "⇓"},
+			new[] {"&hArr;", "⇔"},
+			new[] {"&forall;", "∀"},
+			new[] {"&part;", "∂"},
+			new[] {"&exist;", "∃"},
+			new[] {"&empty;", "∅"},
+			new[] {"&nabla;", "∇"},
+			new[] {"&isin;", "∈"},
+			new[] {"&notin;", "∉"},
+			new[] {"&ni;", "∋"},
+			new[] {"&prod;", "∏"},
+			new[] {"&sum;", "∑"},
+			new[] {"&minus;", "−"},
+			new[] {"&lowast;", "∗"},
+			new[] {"&radic;", "√"},
+			new[] {"&prop;", "∝"},
+			new[] {"&infin;", "∞"},
+			new[] {"&ang;", "∠"},
+			new[] {"&and;", "∧"},
+			new[] {"&or;", "∨"},
+			new[] {"&cap;", "∩"},
+			new[] {"&cup;", "∪"},
+			new[] {"&int;", "∫"},
+			new[] {"&there4;", "∴"},
+			new[] {"&sim;", "∼"},
+			new[] {"&cong;", "≅"},
+			new[] {"&asymp;", "≈"},
+			new[] {"&ne;", "≠"},
+			new[] {"&equiv;", "≡"},
+			new[] {"&le;", "≤"},
+			new[] {"&ge;", "≥"},
+			new[] {"&sub;", "⊂"},
+			new[] {"&sup;", "⊃"},
+			new[] {"&nsub;", "⊄"},
+			new[] {"&sube;", "⊆"},
+			new[] {"&supe;", "⊇"},
+			new[] {"&oplus;", "⊕"},
+			new[] {"&otimes;", "⊗"},
+			new[] {"&perp;", "⊥"},
+			new[] {"&sdot;", "⋅"},
+			new[] {"&lceil;", "⌈"},
+			new[] {"&rceil;", "⌉"},
+			new[] {"&lfloor;", "⌊"},
+			new[] {"&rfloor;", "⌋"},
+			new[] {"&lang;", "〈"},
+			new[] {"&rang;", "〉"},
+			new[] {"&loz;", "◊"},
+			new[] {"&spades;", "♠"},
+			new[] {"&clubs;", "♣"},
+			new[] {"&hearts;", "♥"},
+			new[] {"&diams;", "♦"},
+			new[] {"&amp;", "&"}
+		};
 		#endregion
 		#region Extensions of IEnumerable
 		/// <summary>
@@ -952,6 +951,35 @@ namespace Premotion.Mansion.Core
 			return string.Format(format, args);
 		}
 		#endregion
+		#region Extensions of StringBuilder
+		/// <summary>
+		///  Determines whether the end of <paramref name="this"/> matches <paramref name="value"/> when compared using the specified comparison option.
+		/// </summary>
+		/// <param name="this">The <see cref="StringBuilder"/>.</param>
+		/// <param name="value">The string to compare to the substring at the end of this instance.</param>
+		/// <param name="comparisonType">One of the enumeration values that determines how <paramref name="this"/> and <paramref name="value"/> are compared. Defaults to <see cref="StringComparison.OrdinalIgnoreCase"/>.</param>
+		/// <returns>Returns true if the <paramref name="value"/> parameter matches the end of this string; otherwise, false.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="this"/> is null.</exception>
+		public static bool EndsWith(this StringBuilder @this, string value, StringComparison comparisonType = StringComparison.OrdinalIgnoreCase)
+		{
+			// validate arguments
+			if (@this == null)
+				throw new ArgumentNullException("this");
+			if (string.IsNullOrEmpty(value))
+				return false;
+
+			// if the buffer is smaller than the value length, the buffer can't possibly contain the value
+			var valueLength = value.Length;
+			if (@this.Length < valueLength)
+				return false;
+
+			// get the last substring
+			var substring = @this.ToString(@this.Length - valueLength, valueLength);
+
+			// check if the substring is equal to the value
+			return substring.Equals(value, comparisonType);
+		}
+		#endregion
 		#region Extensions of Type
 		/// <summary>
 		/// Creates an instance of type <paramref name="type"/>.
@@ -1014,45 +1042,44 @@ namespace Premotion.Mansion.Core
 
 			// construct the parameters for the constructor
 			var parameterTypes = constructorParameterInfos.Select(parameter => Expression.Parameter(parameter.ParameterType, parameter.Name)).ToList();
-			bodyExpressions.AddRange(constructorParameterInfos.Select((parameterInfo, index) =>
-			                                                          {
-			                                                          	// get the type
-			                                                          	var injectedType = parameterInfo.ParameterType;
+			bodyExpressions.AddRange(constructorParameterInfos.Select((parameterInfo, index) => {
+				// get the type
+				var injectedType = parameterInfo.ParameterType;
 
-			                                                          	// check for single or multiple value injection
-			                                                          	if (injectedType.IsGenericType && typeof (IEnumerable<>) == injectedType.GetGenericTypeDefinition())
-			                                                          	{
-			                                                          		// get the type
-			                                                          		var innerType = injectedType.GetGenericArguments()[0];
+				// check for single or multiple value injection
+				if (injectedType.IsGenericType && typeof (IEnumerable<>) == injectedType.GetGenericTypeDefinition())
+				{
+					// get the type
+					var innerType = injectedType.GetGenericArguments()[0];
 
-			                                                          		// bake the method call
-			                                                          		var resolveCallExpression = Expression.Call(nucleusParameterExpression, resolveMethodInfo.MakeGenericMethod(innerType));
+					// bake the method call
+					var resolveCallExpression = Expression.Call(nucleusParameterExpression, resolveMethodInfo.MakeGenericMethod(innerType));
 
-			                                                          		// set the value
-			                                                          		var assignResultExpression = Expression.Assign(parameterTypes[index], resolveCallExpression);
+					// set the value
+					var assignResultExpression = Expression.Assign(parameterTypes[index], resolveCallExpression);
 
-			                                                          		// return the block
-			                                                          		return Expression.Block(new Expression[] {assignResultExpression});
-			                                                          	}
-			                                                          	else
-			                                                          	{
-			                                                          		// define the out parameter
-			                                                          		var outParameter = Expression.Variable(injectedType, "out");
+					// return the block
+					return Expression.Block(new Expression[] {assignResultExpression});
+				}
+				else
+				{
+					// define the out parameter
+					var outParameter = Expression.Variable(injectedType, "out");
 
-			                                                          		// bake the method call
-			                                                          		var tryResolveCallExpression = Expression.Call(nucleusParameterExpression, tryResolveSingleMethodInfo.MakeGenericMethod(injectedType), outParameter);
+					// bake the method call
+					var tryResolveCallExpression = Expression.Call(nucleusParameterExpression, tryResolveSingleMethodInfo.MakeGenericMethod(injectedType), outParameter);
 
-			                                                          		// throw if the type could not be found
-			                                                          		var newDependencyNotFoundExceptionExpression = Expression.New(typeof (InvalidOperationException).GetConstructor(new[] {typeof (string)}), new[] {Expression.Constant(String.Format("Could not resolve injected type '{0}' on type '{1}' make sure it is registered properly", injectedType, type))});
-			                                                          		var checkResolveResultExpression = Expression.IfThen(Expression.Not(tryResolveCallExpression), Expression.Throw(newDependencyNotFoundExceptionExpression));
+					// throw if the type could not be found
+					var newDependencyNotFoundExceptionExpression = Expression.New(typeof (InvalidOperationException).GetConstructor(new[] {typeof (string)}), new[] {Expression.Constant(String.Format("Could not resolve injected type '{0}' on type '{1}' make sure it is registered properly", injectedType, type))});
+					var checkResolveResultExpression = Expression.IfThen(Expression.Not(tryResolveCallExpression), Expression.Throw(newDependencyNotFoundExceptionExpression));
 
-			                                                          		// set the value
-			                                                          		var assignResultExpression = Expression.Assign(parameterTypes[index], outParameter);
+					// set the value
+					var assignResultExpression = Expression.Assign(parameterTypes[index], outParameter);
 
-			                                                          		// return the block
-			                                                          		return Expression.Block(new[] {outParameter}, new Expression[] {checkResolveResultExpression, assignResultExpression});
-			                                                          	}
-			                                                          }));
+					// return the block
+					return Expression.Block(new[] {outParameter}, new Expression[] {checkResolveResultExpression, assignResultExpression});
+				}
+			}));
 
 			// bake the constructor call
 			bodyExpressions.Add(Expression.New(constructorMethodInfo, parameterTypes));
@@ -1170,16 +1197,15 @@ namespace Premotion.Mansion.Core
 				throw new InvalidOperationException(string.Format("Could not cast {0} to interface {1}", instance.GetType(), typeof (TContract)));
 
 			// look up the the method
-			return (TResult) InvokeMethodOnInstanceCache.GetOrAdd(methodSignature, key =>
-			                                                                       {
-			                                                                       	// get the method
-			                                                                       	var methodInfo = typeof (TContract).GetMethod(methodName);
+			return (TResult) InvokeMethodOnInstanceCache.GetOrAdd(methodSignature, key => {
+				// get the method
+				var methodInfo = typeof (TContract).GetMethod(methodName);
 
-			                                                                       	// create the compiled typed lambda
-			                                                                       	var typedLambda = CreateInvokeMethodExpression<TContract, TResult>(methodInfo).Compile();
+				// create the compiled typed lambda
+				var typedLambda = CreateInvokeMethodExpression<TContract, TResult>(methodInfo).Compile();
 
-			                                                                       	return (context0, instance0, arguments0) => typedLambda(context0, (TContract) instance0, arguments0);
-			                                                                       })(context, instance, arguments);
+				return (context0, instance0, arguments0) => typedLambda(context0, (TContract) instance0, arguments0);
+			})(context, instance, arguments);
 		}
 		/// <summary>
 		/// Creates an expression which executes <paramref name="methodInfo"/> on <typeparamref name="TContract"/>.
@@ -1334,38 +1360,37 @@ namespace Premotion.Mansion.Core
 			var signature = componentName + "_" + methodName;
 
 			// execute the method on the component
-			return (TResult) InvokeMethodOnComponentCache.GetOrAdd(signature, key =>
-			                                                                  {
-			                                                                  	// get the component contract
-			                                                                  	Type componentContractType;
-			                                                                  	if (!context.Nucleus.TryResolveComponentContract(componentName, out componentContractType))
-			                                                                  		throw new InvalidOperationException(string.Format("Could not resolve contract for component with key '{0}'", componentName));
+			return (TResult) InvokeMethodOnComponentCache.GetOrAdd(signature, key => {
+				// get the component contract
+				Type componentContractType;
+				if (!context.Nucleus.TryResolveComponentContract(componentName, out componentContractType))
+					throw new InvalidOperationException(string.Format("Could not resolve contract for component with key '{0}'", componentName));
 
-			                                                                  	// create parameter expressions
-			                                                                  	var contextParameterExpression = Expression.Parameter(typeof (IMansionContext), "context");
-			                                                                  	var argumentsParameterExpression = Expression.Parameter(typeof (IPropertyBag), "arguments");
-			                                                                  	var signatureParameterExpressions = new[] {contextParameterExpression, argumentsParameterExpression};
+				// create parameter expressions
+				var contextParameterExpression = Expression.Parameter(typeof (IMansionContext), "context");
+				var argumentsParameterExpression = Expression.Parameter(typeof (IPropertyBag), "arguments");
+				var signatureParameterExpressions = new[] {contextParameterExpression, argumentsParameterExpression};
 
-			                                                                  	// create the component instance variable 
-			                                                                  	var componentInstanceVariableExpression = Expression.Variable(componentContractType, "componentInstance");
-			                                                                  	var resolveComponentExpression = CreateResolveComponentInstanceExpression(contextParameterExpression, componentName, componentContractType, componentInstanceVariableExpression);
+				// create the component instance variable 
+				var componentInstanceVariableExpression = Expression.Variable(componentContractType, "componentInstance");
+				var resolveComponentExpression = CreateResolveComponentInstanceExpression(contextParameterExpression, componentName, componentContractType, componentInstanceVariableExpression);
 
-			                                                                  	// create the method call expression
-			                                                                  	var methodInfo = componentContractType.GetMethod(methodName);
-			                                                                  	var invokeMethodExpression = CreateInvokeMethodExpression(methodInfo, contextParameterExpression, componentInstanceVariableExpression, argumentsParameterExpression);
+				// create the method call expression
+				var methodInfo = componentContractType.GetMethod(methodName);
+				var invokeMethodExpression = CreateInvokeMethodExpression(methodInfo, contextParameterExpression, componentInstanceVariableExpression, argumentsParameterExpression);
 
-			                                                                  	// create the body
-			                                                                  	var block = Expression.Block(new[] {componentInstanceVariableExpression}, resolveComponentExpression, invokeMethodExpression);
+				// create the body
+				var block = Expression.Block(new[] {componentInstanceVariableExpression}, resolveComponentExpression, invokeMethodExpression);
 
-			                                                                  	// create the lambda
-			                                                                  	var lambdaEpxression = Expression.Lambda<Func<IMansionContext, IPropertyBag, TResult>>(block, signatureParameterExpressions);
+				// create the lambda
+				var lambdaEpxression = Expression.Lambda<Func<IMansionContext, IPropertyBag, TResult>>(block, signatureParameterExpressions);
 
-			                                                                  	// compile the lambda
-			                                                                  	var typedLambda = lambdaEpxression.Compile();
+				// compile the lambda
+				var typedLambda = lambdaEpxression.Compile();
 
-			                                                                  	// compile and return the lambda
-			                                                                  	return (context0, arguments0) => typedLambda(context0, arguments0);
-			                                                                  })(context, arguments);
+				// compile and return the lambda
+				return (context0, arguments0) => typedLambda(context0, arguments0);
+			})(context, arguments);
 		}
 		/// <summary>
 		/// Resolves a given component based on it's  <paramref name="componentName"/> and <paramref name="contractType"/>.

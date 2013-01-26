@@ -88,6 +88,7 @@
     <Compile Include="Conversion\Converters\StringToInt64Converter.cs" />
     <Compile Include="Data\BaseQueryEngine.cs" />
     <Compile Include="Data\Caching\CacheExtensions.cs" />
+    <Compile Include="Collections\IPropertyBagReader.cs" />
     <Compile Include="Data\Queries\Parser\FullTextSearchQueryArgumentProcessor.cs" />
     <Compile Include="Data\Queries\Specifications\FullTextSearchSpecification.cs" />
     <Compile Include="Data\Queries\StorageOnlyQueryComponent.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Data\Queries\Specifications\SpecificationFactory.cs" />
     <Compile Include="Data\Record.cs" />
     <Compile Include="Data\RecordSet.cs" />
+    <Compile Include="IO\Csv\CsvReader.cs" />
     <Compile Include="IO\EmbeddedResources\EmbeddedApplicationResourceService.cs" />
     <Compile Include="IO\EmbeddedResources\EmbeddedResource.cs" />
     <Compile Include="MansionContext.cs" />
