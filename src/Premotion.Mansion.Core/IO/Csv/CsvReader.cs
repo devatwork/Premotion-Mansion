@@ -125,7 +125,6 @@ namespace Premotion.Mansion.Core.IO.Csv
 					// get the read value
 					var value = buffer.ToString();
 					buffer.Length = 0;
-					cellIndex = 0;
 
 					// set the value
 					if (!firstLineRead)
@@ -135,6 +134,7 @@ namespace Premotion.Mansion.Core.IO.Csv
 						if (firstLineIsHeader)
 						{
 							headerList.Add(value);
+							cellIndex = 0;
 							continue;
 						}
 
@@ -150,6 +150,7 @@ namespace Premotion.Mansion.Core.IO.Csv
 
 					// reset
 					row = new PropertyBag();
+					cellIndex = 0;
 				}
 			}
 		}
