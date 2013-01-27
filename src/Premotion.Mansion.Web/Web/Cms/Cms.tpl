@@ -41,7 +41,7 @@
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container-fluid">
-				<a class="brand" href="#">Premotion Mansion CMS</a>
+				<a class="brand" href="{CmsNodeUrl( RootNode.id, 'CmsHomePlugin', 'Default' )}">Premotion Mansion CMS</a>
 				{UserMenu}
 			</div>
 		</div>

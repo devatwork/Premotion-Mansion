@@ -301,6 +301,26 @@ namespace Premotion.Mansion.Core
 		/// Gets/Sets the depth of the response template stack.
 		/// </summary>
 		public int ResponseTemplateStackDepth { get; set; }
+		/// <summary>
+		/// Gets the top most <see cref="IPropertyBagReader"/>.
+		/// </summary>
+		public IPropertyBagReader Reader
+		{
+			get
+			{
+				IPropertyBagReader reader;
+				if (!ReaderStack.TryPeek(out reader))
+					throw new InvalidOperationException("No reader found on the stack. Please open a reader first.");
+				return reader;
+			}
+		}
+		/// <summary>
+		/// Gets the <see cref="IPropertyBag"/> stack.
+		/// </summary>
+		public IAutoPopStack<IPropertyBagReader> ReaderStack
+		{
+			get { return readerStack; }
+		}
 		#endregion
 		#region Overrides of DisposableBase
 		/// <summary>
@@ -328,6 +348,7 @@ namespace Premotion.Mansion.Core
 		private readonly IAutoPopStack<IOutputPipe> outputPipeStack = new AutoPopStack<IOutputPipe>();
 		private readonly IAutoPopStack<ScriptTag> procedureCallStack = new AutoPopStack<ScriptTag>();
 		private readonly IAutoPopDictionaryStack<string, IScript> procedureStack = new AutoPopDictionaryStack<string, IScript>(StringComparer.OrdinalIgnoreCase);
+		private readonly IAutoPopStack<IPropertyBagReader> readerStack = new AutoPopStack<IPropertyBagReader>();
 		private readonly IAutoPopStack<IRepository> repositoryStack = new AutoPopStack<IRepository>();
 		private readonly IAutoPopStack<ITagScript> scriptStack = new AutoPopStack<ITagScript>();
 		private readonly IAutoPopStack<ITemplate> templateStack = new AutoPopStack<ITemplate>();

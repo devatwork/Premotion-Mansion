@@ -5,7 +5,7 @@
 	<!-- Overrides of CmsPlugin.xinclude -->
 	<!-- ############################### -->
 	<declareProcedure procedureName="RenderPluginNavigation">
-		<invokeProcedure procedureName="RenderPluginViewNavigationHeader" label="Content" />
+		<invokeProcedure procedureName="RenderPluginViewNavigationHeader" label="Administration" />
 		<invokeProcedure procedureName="RenderPluginViewNavigationItem" label="Administrate" iconClass="icon-wrench" url="{CmsNodeUrl( RootNode.id, 'CmsAdminPlugin', 'Administrate' )}" active="{And( IsEqual( ActivePluginProperties.pluginType, 'CmsAdminPlugin' ), IsEqual( ActivePluginProperties.viewName, 'Administrate' ) )}" />
 	</declareProcedure>
 
@@ -46,12 +46,30 @@
 				<forms:step label="Maintenance">
 					<forms:buttonBar>
 						<forms:button action="sync" label="Sync tables" cssClass="btn-danger" />
+						<forms:button action="verify-integrity" label="Verify integrity" cssClass="btn-warning" />
+						<forms:button action="fix-integrity" label="Fix integrity" cssClass="btn-danger" />
 					</forms:buttonBar>
+				</forms:step>
+				<forms:step label="Maintenance - Report">
+					<forms:textarea name="report" label="Report" readonly="true" />
 				</forms:step>
 
 				<!-- actions -->
 				<forms:processScriptAction supportedActions="sync">
 					<sqlserver:syncTables/>
+					<clearCache/>
+				</forms:processScriptAction>
+				
+				<forms:processScriptAction supportedActions="verify-integrity">
+					<sqlserver:verifyRepositoryIntegrity fix="false">
+						<setProperties dataspaceName="FieldProperties" report="{Report.result}" />
+					</sqlserver:verifyRepositoryIntegrity>
+				</forms:processScriptAction>
+				
+				<forms:processScriptAction supportedActions="fix-integrity">
+					<sqlserver:verifyRepositoryIntegrity fix="true">
+						<setProperties dataspaceName="FieldProperties" report="{Report.result}" />
+					</sqlserver:verifyRepositoryIntegrity>
 					<clearCache/>
 				</forms:processScriptAction>
 
