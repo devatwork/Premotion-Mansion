@@ -106,9 +106,9 @@
 			<controls:expressionColumn expression="{\RenderSection( 'NodeBrowserNodeLink' )}" heading="Name">
 				<controls:columnSort on="name" />
 			</controls:expressionColumn>
-			<controls:propertyColumn propertyName="type" heading="Type">
+			<controls:expressionColumn expression="{\GetTypeDefinitionLabel( Row.type )}" heading="Type">
 				<controls:columnSort on="type" />
-			</controls:propertyColumn>
+			</controls:expressionColumn>
 		</controls:grid>
 	</declareProcedure>
 

@@ -161,6 +161,14 @@ namespace Premotion.Mansion.Core
 		/// Gets/Sets the depth of the response template stack.
 		/// </summary>
 		int ResponseTemplateStackDepth { get; set; }
+		/// <summary>
+		/// Gets the top most <see cref="IPropertyBagReader"/>.
+		/// </summary>
+		IPropertyBagReader Reader { get; }
+		/// <summary>
+		/// Gets the <see cref="IPropertyBag"/> stack.
+		/// </summary>
+		IAutoPopStack<IPropertyBagReader> ReaderStack { get; }
 		#endregion
 	}
 }

@@ -13,6 +13,12 @@
 		/// <param name="path">The <see cref="IResourcePath"/> identifying the resource.</param>
 		/// <returns>Returns the <see cref="IResource"/>.</returns>
 		IResource GetResource(IMansionContext context, IResourcePath path);
+		/// <summary>
+		/// Deletes a resource idefentified by the specified <paramref name="path"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="path">The <see cref="IResourcePath"/> identifying the resource.</param>
+		void DeleteResource(IMansionContext context, IResourcePath path);
 		#endregion
 	}
 }

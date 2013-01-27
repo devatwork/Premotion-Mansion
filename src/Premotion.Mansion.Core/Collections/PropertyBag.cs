@@ -377,7 +377,7 @@ namespace Premotion.Mansion.Core.Collections
 
 			// create a new property bag
 			var modifiedProperties = new PropertyBag(from candidate in modifications
-			                                         where !candidate.Key.StartsWith("_") && ((original.Names.Contains(candidate.Key) && !AreEqual(original.Get<object>(context, candidate.Key), candidate.Value)) || !original.Names.Contains(candidate.Key))
+			                                         where (original.Names.Contains(candidate.Key) && !AreEqual(original.Get<object>(context, candidate.Key), candidate.Value)) || !original.Names.Contains(candidate.Key)
 			                                         select candidate);
 
 			return modifiedProperties;
