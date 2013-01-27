@@ -1010,6 +1010,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web\Shared\css\fontawesome\fontawesome-webfont.svg" />
+    <EmbeddedResource Include="Web\Shared\js\underscore\underscore-min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
