@@ -506,6 +506,53 @@ namespace Premotion.Mansion.Repository.SqlServer
 				command.ExecuteNonQuery();
 			}
 		}
+		/// <summary>
+		/// Retrieves a <see cref="Dataset"/> using <paramref name="query"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="query">The query which to execute.</param>
+		/// <returns>Returns a <see cref="Dataset"/> containing the results.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public Dataset RetrieveDataset(IMansionContext context, string query)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (string.IsNullOrEmpty(query))
+				throw new ArgumentNullException("query");
+
+			// create the connection and the transaction
+			using (var connection = CreateConnection())
+			using (var command = connection.CreateCommand())
+			{
+				// prepare the command
+				command.Connection = connection;
+				command.CommandText = query;
+				command.CommandType = CommandType.Text;
+
+				// execute the command
+				using (var reader = command.ExecuteReader(CommandBehavior.CloseConnection))
+				{
+					var dataset = new Dataset();
+
+					// looop over all the results
+					while (reader.Read())
+					{
+						// create the row
+						var row = new PropertyBag();
+
+						// map all the properties
+						for (var index = 0; index < reader.FieldCount; index++)
+							row.Set(reader.GetName(index), reader.GetValue(index));
+
+						// add the row to the dataset
+						dataset.AddRow(row);
+					}
+
+					return dataset;
+				}
+			}
+		}
 		#endregion
 		#region Helper Methods
 		/// <summary>
