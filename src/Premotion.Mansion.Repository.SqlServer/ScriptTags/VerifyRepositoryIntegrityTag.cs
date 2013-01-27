@@ -67,6 +67,10 @@ namespace Premotion.Mansion.Repository.SqlServer.ScriptTags
 			// then make sure there are not missing nodes
 			VerifyMissingParents(context, fix, reportBuilder);
 
+			// fix the depth of the nodes
+			for (var depth = 1; depth <= 20; depth++)
+				VerifyNodesAtDepth(context, fix, reportBuilder, depth);
+
 			// return the report
 			reportBuilder.AppendLine("Finished!");
 			return reportBuilder.ToString();
@@ -189,9 +193,85 @@ namespace Premotion.Mansion.Repository.SqlServer.ScriptTags
 							repository.CreateNode(context, parentNode, newProperties);
 
 							// Report message
-							reportBuilder.AppendLine(string.Format("Error: Found missing node: name={0}, type={1}, id={2}", name, type, id));
+							reportBuilder.AppendLine(string.Format("Succes: Fixed missing node: name={0}, type={1}, id={2}", name, type, id));
 						}
 					}
+				}
+			}
+		}
+		/// <summary>
+		/// Verifies the relation integrity of the nodes at the given depth.
+		/// </summary>
+		private void VerifyNodesAtDepth(IMansionContext context, bool fix, StringBuilder reportBuilder, int depth)
+		{
+			// Find nodes at depth > 2 that are not correct
+			var checkIntegritySql = @"	SELECT Nodes.id, 
+												Nodes.name,
+												Nodes.parentPath, 
+												Nodes.parentStructure, 
+												Nodes.parentPointer, 
+												Nodes.depth, 
+												Nodes.parentId,
+												Parents.parentPath AS p_parentPath, 
+												Parents.parentStructure AS p_parentStructure, 
+												Parents.parentPointer AS p_parentPointer, 
+												Parents.depth AS p_depth, 
+												Parents.id AS p_id, 
+												Parents.name AS p_name,             
+												Parents.type AS p_type    
+										FROM Nodes
+										INNER JOIN NODES AS Parents
+										ON Nodes.parentId = Parents.id
+										WHERE Parents.depth = {0} AND 
+										( 
+												( ISNULL( Nodes.parentPath, '' ) <> Parents.parentPath + ISNULL( Parents.name, '' ) + '{1}' )
+											OR ( ISNULL( Nodes.parentStructure, '' ) <> Parents.parentStructure + ISNULL( Parents.type, '' ) + '{2}' )
+											OR ( ISNULL( Nodes.parentPointer, '' ) <> Parents.parentPointer + CAST( Parents.id AS varchar ) + '{3}' )
+											OR ( Nodes.depth <> Parents.depth + 1 )
+										)";
+			checkIntegritySql = checkIntegritySql.Format(depth - 1, NodePointer.PathSeparator, NodePointer.StructureSeparator, NodePointer.PointerSeparator);
+
+			// retrieve the results
+			var dataset = repository.RetrieveDataset(context, checkIntegritySql);
+
+			// report the number of missing parents
+			reportBuilder.AppendLine(string.Format("{0}: Found {1} incorrect nodes on depth {2}", dataset.RowCount == 0 ? "Succes" : "Error", dataset.RowCount, depth));
+
+			// loop over all the records with missing parents
+			foreach (var row in dataset.Rows)
+			{
+				if (!fix)
+				{
+					// Report message
+					reportBuilder.AppendLine(string.Format("Error: Found incorrect node: name={0}, type={1}, id={2}", row.Get<string>(context, "name"), row.Get<string>(context, "type"), row.Get<string>(context, "id")));
+				}
+				else
+				{
+					// retrieve the node
+					var node = repository.RetrieveSingleNode(context, new Query()
+						                                                  .Add(new IsPropertyEqualSpecification("id", row.Get<string>(context, "id")))
+						                                                  .Add(StatusSpecification.Is(NodeStatus.Any))
+						                                                  .Add(AllowedRolesSpecification.Any())
+						                                                  .Add(new StorageOnlyQueryComponent())
+						);
+
+					// calculate the proper values
+					var parentPath = row.Get<string>(context, "p_parentPath") + row.Get<string>(context, "p_name") + NodePointer.PathSeparator;
+					var parentStructure = row.Get<string>(context, "p_parentStructure") + row.Get<string>(context, "p_type").ToLower() + NodePointer.StructureSeparator;
+					var parentPointer = row.Get<string>(context, "p_parentPointer") + row.Get<string>(context, "p_id") + NodePointer.PointerSeparator;
+					var parentDepth = row.Get<int>(context, "p_depth");
+
+					// update the node
+					repository.UpdateNode(context, node, new PropertyBag {
+						{"parentPath", parentPath},
+						{"parentStructure", parentStructure},
+						{"parentPointer", parentPointer},
+						{"depth", parentDepth + 1},
+						{"_allowRelationPropertiesUpdate", true}
+					});
+
+					// Report message
+					reportBuilder.AppendLine(string.Format("Succes: Fixed incorrect node: name={0}, type={1}, id={2}", row.Get<string>(context, "name"), row.Get<string>(context, "type"), row.Get<string>(context, "id")));
 				}
 			}
 		}
