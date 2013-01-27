@@ -11,5 +11,21 @@
 			<xs:documentation>Syncs the nodes table to other tables.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
+	
+	<xs:element name="verifyRepositoryIntegrity" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Verifies and fixes the integrity of the SQL server repository. The report will be available on the stack in the dataspace Report.result.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="stl:defaultContentGroup" />
+			<!-- attributes -->
+			<xs:attribute name="fix" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Flag indicating whether the repository will be fixed immediately. Default is false.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
 
 </xs:schema>

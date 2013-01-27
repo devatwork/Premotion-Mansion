@@ -87,16 +87,15 @@ namespace Premotion.Mansion.Web.Controls.Forms.Engines
 			var nextStep = form.Steps.ElementAtOrDefault(currentStepId + 1) ?? form.Steps.Last();
 
 			// create the state
-			return new FormState
-			       {
-			       	FieldProperties = fieldProperties,
-			       	FormInstanceProperties = formProperties,
-			       	DataSource = dataSource,
-			       	CurrentAction = action,
-			       	IsPostback = !string.IsNullOrEmpty(action) || formProperties.Count > 0,
-			       	CurrentStep = currentStep,
-			       	NextStep = nextStep
-			       };
+			return new FormState {
+				FieldProperties = fieldProperties,
+				FormInstanceProperties = formProperties,
+				DataSource = dataSource,
+				CurrentAction = action,
+				IsPostback = !string.IsNullOrEmpty(action) || formProperties.Count > 0,
+				CurrentStep = currentStep,
+				NextStep = nextStep
+			};
 		}
 		/// <summary>
 		/// Stores the <see cref="FormState"/> of a particular <paramref name="form"/> in the <paramref name="context"/>.
@@ -125,7 +124,12 @@ namespace Premotion.Mansion.Web.Controls.Forms.Engines
 				url.QueryString[parameter.Key] = parameter.Value != null ? parameter.Value.ToString() : string.Empty;
 
 			// set the form state
-			url.QueryString[form.Prefix + "state"] = context.Nucleus.ResolveSingle<IConversionService>().Convert<string>(context, form.State.FieldProperties);
+			var state = context.Nucleus.ResolveSingle<IConversionService>().Convert<string>(context, form.State.FieldProperties);
+			if (state.Length > 1024)
+				return;
+
+			// set the query string
+			url.QueryString[form.Prefix + "state"] = state;
 
 			// set redirect
 			WebUtilities.RedirectRequest(context, url);

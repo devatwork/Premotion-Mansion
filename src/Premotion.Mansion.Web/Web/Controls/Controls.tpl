@@ -80,7 +80,7 @@
 </tpl:section>
 
 <tpl:section name="ReadonlyFieldControl" field="Field">
-	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge readonly" value="{FieldProperties.Value}" disabled>
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge readonly" value="{ControlProperties.Value}" disabled>
 </tpl:section>
 
 <tpl:section name="TextboxFieldControl" field="Field">

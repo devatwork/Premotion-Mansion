@@ -65,6 +65,33 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// <param name="modifiedProperties"></param>
 		protected override void DoToUpdateStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, Record record, IPropertyBag modifiedProperties)
 		{
+			// allow update of relational column on special cases, most likely used when fixing the repository integrity
+			if (modifiedProperties.Get(context, "_allowRelationPropertiesUpdate", false))
+			{
+				string name;
+				if (modifiedProperties.TryGet(context, "name", out name))
+					queryBuilder.AddColumnValue("name", name, DbType.String);
+				string type;
+				if (modifiedProperties.TryGet(context, "type", out type))
+					queryBuilder.AddColumnValue("type", type, DbType.String);
+				int depth;
+				if (modifiedProperties.TryGet(context, "depth", out depth))
+					queryBuilder.AddColumnValue("depth", depth, DbType.Int32);
+				int parentId;
+				if (modifiedProperties.TryGet(context, "parentId", out parentId))
+					queryBuilder.AddColumnValue("parentId", parentId, DbType.Int32);
+				string parentPointer;
+				if (modifiedProperties.TryGet(context, "parentPointer", out parentPointer))
+					queryBuilder.AddColumnValue("parentPointer", parentPointer, DbType.String);
+				string parentPath;
+				if (modifiedProperties.TryGet(context, "parentPath", out parentPath))
+					queryBuilder.AddColumnValue("parentPath", parentPath, DbType.String);
+				string parentStructure;
+				if (modifiedProperties.TryGet(context, "parentStructure", out parentStructure))
+					queryBuilder.AddColumnValue("parentStructure", parentStructure, DbType.String);
+				return;
+			}
+
 			// make sure the relational intgrety is not comprimised
 			if (modifiedProperties.Names.Intersect(ReservedPropertyName, StringComparer.OrdinalIgnoreCase).Any())
 				throw new InvalidOperationException("The relational properties can not be changed");

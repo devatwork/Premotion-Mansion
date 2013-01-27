@@ -265,6 +265,20 @@ namespace Premotion.Mansion.Core
 			get { return decoratedContext.ResponseTemplateStackDepth; }
 			set { decoratedContext.ResponseTemplateStackDepth = value; }
 		}
+		/// <summary>
+		/// Gets the top most <see cref="IPropertyBagReader"/>.
+		/// </summary>
+		public IPropertyBagReader Reader
+		{
+			get { return decoratedContext.Reader; }
+		}
+		/// <summary>
+		/// Gets the <see cref="IPropertyBag"/> stack.
+		/// </summary>
+		public IAutoPopStack<IPropertyBagReader> ReaderStack
+		{
+			get { return decoratedContext.ReaderStack; }
+		}
 		#endregion
 		#region Overrides of DisposableBase
 		/// <summary>

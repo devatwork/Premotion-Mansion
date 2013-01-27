@@ -1,4 +1,5 @@
-﻿using Premotion.Mansion.Core;
+﻿using System;
+using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.IO;
 using Premotion.Mansion.Core.Scripting.TagScript;
@@ -25,7 +26,7 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
 			protected override UploadField Create(IMansionWebContext context, ControlDefinition definition)
 			{
-				return new UploadField(definition);
+				return new UploadField(definition, GetAttribute(context, "category", "Uploads"));
 			}
 			#endregion
 		}
@@ -35,8 +36,15 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// Constructs a control with the specified ID.
 		/// </summary>
 		/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-		public UploadField(ControlDefinition definition) : base(definition)
+		/// <param name="category">The name of the category in which the uploads are stored. Default is 'Uploads'.</param>
+		public UploadField(ControlDefinition definition, string category = "Uploads") : base(definition)
 		{
+			// validate arguments
+			if (string.IsNullOrEmpty(category))
+				throw new ArgumentNullException("category");
+
+			// set values
+			this.category = category;
 		}
 		#endregion
 		#region Overrides of Field{TValue}
@@ -60,11 +68,10 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 			{
 				// store the file
 				var contentResourceService = context.Nucleus.ResolveSingle<IContentResourceService>();
-				var resourcePath = contentResourceService.ParsePath(context, new PropertyBag
-				                                                             {
-				                                                             	{"fileName", uploadedFile.FileName},
-				                                                             	{"category", "Uploads"}
-				                                                             });
+				var resourcePath = contentResourceService.ParsePath(context, new PropertyBag {
+					{"fileName", uploadedFile.FileName},
+					{"category", category}
+				});
 				var resource = contentResourceService.GetResource(context, resourcePath);
 				using (var pipe = resource.OpenForWriting())
 					uploadedFile.InputStream.CopyTo(pipe.RawStream);
@@ -75,6 +82,9 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 				form.State.FieldProperties.Set(Name, uploadedFilePath);
 			}
 		}
+		#endregion
+		#region Private Fields
+		private readonly string category;
 		#endregion
 	}
 }

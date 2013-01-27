@@ -61,11 +61,11 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			NodePointer pointer;
 			if (record.TryGet(context, "pointer", out pointer))
 			{
-				command.CommandText = string.Format(@"DELETE FROM [{0}] WHERE [{0}].[parentPointer] LIKE @pointer;", schema.RootTable.Name);
+				command.CommandText += string.Format(@"DELETE FROM [{0}] WHERE [{0}].[parentPointer] LIKE @pointer;", schema.RootTable.Name);
 				command.Parameters.AddWithValue("pointer", pointer.PointerString + NodePointer.PointerSeparator + "%");
 			}
 
-			command.CommandText = string.Format(@"DELETE FROM [{0}] WHERE [{0}].[id] = @id", schema.RootTable.Name);
+			command.CommandText += string.Format(@"DELETE FROM [{0}] WHERE [{0}].[id] = @id;", schema.RootTable.Name);
 			command.Parameters.AddWithValue("id", record.Id);
 		}
 		#endregion

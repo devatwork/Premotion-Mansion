@@ -391,7 +391,7 @@ namespace Premotion.Mansion.Amazon.S3
 			// check if it is an existing resource
 			string relativePath;
 			if (properties.TryGet(context, "relativePath", out relativePath))
-				return new S3ResourcePath(ResourceUtils.Combine(categoryBasePath, relativePath));
+				return new S3ResourcePath(relativePath);
 
 			// check if it is a new file name
 			string fileName;
@@ -465,6 +465,32 @@ namespace Premotion.Mansion.Amazon.S3
 			// create the resource
 			return new S3Resource(this, metaData, path);
 		}
+		/// <summary>
+		/// Deletes a resource idefentified by the specified <paramref name="path"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="path">The <see cref="IResourcePath"/> identifying the resource.</param>
+		public void DeleteResource(IMansionContext context, IResourcePath path)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (path == null)
+				throw new ArgumentNullException("path");
+			CheckDisposed();
+
+			// delete the data
+			try
+			{
+				client.Value.DeleteObject(new DeleteObjectRequest().WithBucketName(bucketName).WithKey(path.Paths.Single())).Dispose();
+			}
+			catch (AmazonS3Exception ex)
+			{
+				// status wasn't not found, so throw the exception
+				if (ex.StatusCode != System.Net.HttpStatusCode.NotFound)
+					throw;
+			}
+		}
 		#endregion
 		#region Read/Writer Methods
 		/// <summary>
@@ -500,57 +526,56 @@ namespace Premotion.Mansion.Amazon.S3
 		#endregion
 		#region Private Fields
 		private readonly string bucketName;
-		private readonly Lazy<AmazonS3> client = new Lazy<AmazonS3>(() =>
-		                                                            {
-		                                                            	// get the settings
-		                                                            	var appSettings = ConfigurationManager.AppSettings;
+		private readonly Lazy<AmazonS3> client = new Lazy<AmazonS3>(() => {
+			// get the settings
+			var appSettings = ConfigurationManager.AppSettings;
 
-		                                                            	// get the settings from the application settings
-		                                                            	var awsAccessKeyId = appSettings[Constants.AccessKeyApplicationSetting];
-		                                                            	if (string.IsNullOrEmpty(awsAccessKeyId))
-		                                                            		throw new ArgumentException(string.Format("Access Key could not be found.  Add an appsetting to your App.config with the name {0} with a value of your access key.", Constants.AccessKeyApplicationSetting));
-		                                                            	var awsSecretAccessKey = appSettings[Constants.AccessSecretApplicationSetting];
-		                                                            	if (string.IsNullOrEmpty(awsSecretAccessKey))
-		                                                            		throw new ArgumentException(string.Format("Secret Key could not be found.  Add an appsetting to your App.config with the name {0} with a value of your secret key.", Constants.AccessSecretApplicationSetting));
-		                                                            	var bucketName = appSettings[Constants.BucketNameApplicationSetting];
-		                                                            	if (string.IsNullOrEmpty(bucketName))
-		                                                            		throw new ArgumentException(string.Format("Bucket name could not be found.  Add an appsetting to your App.config with the name {0} with a value of your bucket name.", Constants.BucketNameApplicationSetting));
+			// get the settings from the application settings
+			var awsAccessKeyId = appSettings[Constants.AccessKeyApplicationSetting];
+			if (string.IsNullOrEmpty(awsAccessKeyId))
+				throw new ArgumentException(string.Format("Access Key could not be found.  Add an appsetting to your App.config with the name {0} with a value of your access key.", Constants.AccessKeyApplicationSetting));
+			var awsSecretAccessKey = appSettings[Constants.AccessSecretApplicationSetting];
+			if (string.IsNullOrEmpty(awsSecretAccessKey))
+				throw new ArgumentException(string.Format("Secret Key could not be found.  Add an appsetting to your App.config with the name {0} with a value of your secret key.", Constants.AccessSecretApplicationSetting));
+			var bucketName = appSettings[Constants.BucketNameApplicationSetting];
+			if (string.IsNullOrEmpty(bucketName))
+				throw new ArgumentException(string.Format("Bucket name could not be found.  Add an appsetting to your App.config with the name {0} with a value of your bucket name.", Constants.BucketNameApplicationSetting));
 
-		                                                            	try
-		                                                            	{
-		                                                            		// create the amazon S3 client
-		                                                            		var client = new AmazonS3Client(awsAccessKeyId, awsSecretAccessKey);
+			try
+			{
+				// create the amazon S3 client
+				var client = new AmazonS3Client(awsAccessKeyId, awsSecretAccessKey);
 
-		                                                            		// verify if the bucket exists and is set up correctly
-		                                                            		if (!AmazonS3Util.DoesS3BucketExist(bucketName, client))
-		                                                            			throw new InvalidOperationException(string.Format("S3 bucket with the name '{0}' does not exist, check your appsetting", bucketName));
+				// verify if the bucket exists and is set up correctly
+				if (!AmazonS3Util.DoesS3BucketExist(bucketName, client))
+					throw new InvalidOperationException(string.Format("S3 bucket with the name '{0}' does not exist, check your appsetting", bucketName));
 
-		                                                            		// verify permissions
-		                                                            		var acl = client.GetACL(new GetACLRequest {BucketName = bucketName});
-		                                                            		var grants = acl.AccessControlList.Grants;
-		                                                            		if (grants.Any(x => x.Permission == S3Permission.FULL_CONTROL))
-		                                                            			return client;
-		                                                            		if (grants.All(x => x.Permission != S3Permission.WRITE))
-		                                                            			throw new InvalidOperationException(string.Format("You do not have write access to S3 bucket '{0}', check your amazon permission configuration", bucketName));
-		                                                            		if (grants.All(x => x.Permission != S3Permission.READ))
-		                                                            			throw new InvalidOperationException(string.Format("You do not have read access to S3 bucket '{0}', check your amazon permission configuration", bucketName));
+				// verify permissions
+				var acl = client.GetACL(new GetACLRequest {BucketName = bucketName});
+				var grants = acl.AccessControlList.Grants;
+				if (grants.Any(x => x.Permission == S3Permission.FULL_CONTROL))
+					return client;
+				if (grants.All(x => x.Permission != S3Permission.WRITE))
+					throw new InvalidOperationException(string.Format("You do not have write access to S3 bucket '{0}', check your amazon permission configuration", bucketName));
+				if (grants.All(x => x.Permission != S3Permission.READ))
+					throw new InvalidOperationException(string.Format("You do not have read access to S3 bucket '{0}', check your amazon permission configuration", bucketName));
 
-		                                                            		return client; // unreachable
-		                                                            	}
-		                                                            	catch (AmazonS3Exception ex)
-		                                                            	{
-		                                                            		// check credentials
-		                                                            		if (ex.ErrorCode != null && (ex.ErrorCode.Equals("InvalidAccessKeyId") || ex.ErrorCode.Equals("InvalidSecurity")))
-		                                                            			throw new InvalidOperationException("Invalid AWS credentials");
+				return client; // unreachable
+			}
+			catch (AmazonS3Exception ex)
+			{
+				// check credentials
+				if (ex.ErrorCode != null && (ex.ErrorCode.Equals("InvalidAccessKeyId") || ex.ErrorCode.Equals("InvalidSecurity")))
+					throw new InvalidOperationException("Invalid AWS credentials");
 
-		                                                            		// check permission
-		                                                            		if (ex.ErrorCode != null && ex.ErrorCode.Equals("AccessDenied"))
-		                                                            			throw new InvalidOperationException(string.Format("Access denied. You don't have permission to access the bucket '{0}'", bucketName));
+				// check permission
+				if (ex.ErrorCode != null && ex.ErrorCode.Equals("AccessDenied"))
+					throw new InvalidOperationException(string.Format("Access denied. You don't have permission to access the bucket '{0}'", bucketName));
 
-		                                                            		// unknown exception
-		                                                            		throw;
-		                                                            	}
-		                                                            });
+				// unknown exception
+				throw;
+			}
+		});
 		#endregion
 	}
 }

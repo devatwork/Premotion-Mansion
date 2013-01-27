@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettingsConstants.cs" />
+    <Compile Include="Collections\DatasetReader.cs" />
     <Compile Include="Conversion\Converters\StringToFloatConverter.cs" />
     <Compile Include="Conversion\Converters\FloatToDoubleConverter.cs" />
     <Compile Include="Data\BaseStorageEngine.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Conversion\Converters\StringToInt64Converter.cs" />
     <Compile Include="Data\BaseQueryEngine.cs" />
     <Compile Include="Data\Caching\CacheExtensions.cs" />
+    <Compile Include="Collections\IPropertyBagReader.cs" />
     <Compile Include="Data\Queries\Parser\FullTextSearchQueryArgumentProcessor.cs" />
     <Compile Include="Data\Queries\Specifications\FullTextSearchSpecification.cs" />
     <Compile Include="Data\Queries\StorageOnlyQueryComponent.cs" />
@@ -147,6 +149,7 @@
     <Compile Include="Data\Queries\Specifications\SpecificationFactory.cs" />
     <Compile Include="Data\Record.cs" />
     <Compile Include="Data\RecordSet.cs" />
+    <Compile Include="IO\Csv\CsvReader.cs" />
     <Compile Include="IO\EmbeddedResources\EmbeddedApplicationResourceService.cs" />
     <Compile Include="IO\EmbeddedResources\EmbeddedResource.cs" />
     <Compile Include="MansionContext.cs" />
@@ -404,6 +407,9 @@
     <Compile Include="ScriptTags\CatchTag.cs" />
     <Compile Include="ScriptTags\Constants.cs" />
     <Compile Include="ScriptTags\ExecuteNestedTagsTag.cs" />
+    <Compile Include="ScriptTags\LoopTag.cs" />
+    <Compile Include="ScriptTags\Media\DeleteContentTag.cs" />
+    <Compile Include="ScriptTags\Media\Csv\GetCsvReaderTag.cs" />
     <Compile Include="ScriptTags\Media\JSon\GetDatasetFromJSonTag.cs" />
     <Compile Include="ScriptTags\Media\Xml\RenderXmlContentTag.cs" />
     <Compile Include="ScriptTags\Media\Xml\RegisterXmlPrefixTag.cs" />
@@ -422,7 +428,7 @@
     <Compile Include="ScriptTags\FireEventTag.cs" />
     <Compile Include="ScriptTags\InvokeProcedureTag.cs" />
     <Compile Include="ScriptTags\IO\EnumerateApplicationFolderTag.cs" />
-    <Compile Include="ScriptTags\LoopTag.cs" />
+    <Compile Include="ScriptTags\Stack\LoopReaderTag.cs" />
     <Compile Include="ScriptTags\MansionTag.cs" />
     <Compile Include="ScriptTags\Media\Csv\RenderCsvDocumentTag.cs" />
     <Compile Include="ScriptTags\Media\Csv\RenderCsvRowBaseTag.cs" />

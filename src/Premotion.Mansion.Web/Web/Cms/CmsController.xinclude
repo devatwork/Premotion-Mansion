@@ -13,6 +13,39 @@
 
 	</declareProcedure>
 
+
+	<!-- Invoked by the dispatcher when the application is bootstrapped -->
+	<declareProcedure procedureName="HandlePluginDownload">
+
+		<!-- check if the user is not authenticated -->
+		<if condition="{Not( IsAuthenticated() )}">
+			<web:redirectRequest url="{CmsRouteUrl( 'Authentication', 'Authenticate' )}"/>
+		</if>
+
+		<!-- check if the user is not allowed to use the CMS -->
+		<if condition="{Not( HasPermission( 'Cms', 'use' ) )}">
+			<logoff />
+			<web:redirectRequest url="{CmsRouteUrl( 'Authentication', 'Authenticate' )}"/>
+		</if>
+
+		<!-- retrieve the root node -->
+		<retrieveNode id="1" target="RootNode" global="true" />
+		<fetchNode source="{$UrlNode}" target="CurrentNode" global="true">
+			<notFound>
+				<fetchNode source="{$RootNode}" target="CurrentNode" global="true" />
+			</notFound>
+		</fetchNode>
+
+		<!-- determine the active plugin -->
+		<setProperties dataspaceName="ActivePluginProperties" pluginType="{NotEmpty( Route.routeParameter0, 'CmsHomePlugin' )}" viewName="{NotEmpty( Route.routeParameter1, 'Default' )}">
+
+			<!-- invoke the default view of the active plugin -->
+			<invokeProcedure procedureName="InvokePluginMethod" pluginType="{ActivePluginProperties.pluginType}" methodName="PluginDowload{ActivePluginProperties.viewName}" />
+
+		</setProperties>
+
+	</declareProcedure>
+
 	
 	<!-- Invoked by the dispatcher when the application is bootstrapped -->
 	<declareProcedure procedureName="HandleDefault">

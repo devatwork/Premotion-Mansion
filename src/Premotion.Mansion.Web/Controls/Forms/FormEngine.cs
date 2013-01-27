@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Premotion.Mansion.Web.Controls.Forms
 {
@@ -71,7 +72,14 @@ namespace Premotion.Mansion.Web.Controls.Forms
 				throw new ArgumentNullException("form");
 			if (step == null)
 				throw new ArgumentNullException("step");
+
+			// invoke template method
 			DoAdvanceTo(context, form, step);
+
+			// update the form state
+			form.State.CurrentStep = form.State.NextStep;
+			var currentStepId = form.Steps.IndexOf(form.State.CurrentStep);
+			form.State.NextStep = form.Steps.ElementAtOrDefault(currentStepId + 1) ?? form.Steps.Last();
 		}
 		/// <summary>
 		/// Advances the <paramref name="form"/> to the <paramref name="step"/>.

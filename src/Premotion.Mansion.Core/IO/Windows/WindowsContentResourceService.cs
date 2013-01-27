@@ -97,6 +97,24 @@ namespace Premotion.Mansion.Core.IO.Windows
 
 			return new FileResource(new FileInfo(ResourceUtils.Combine(physicalBasePath, relativeBasePath, path.Paths.Single())), path);
 		}
+		/// <summary>
+		/// Deletes a resource idefentified by the specified <paramref name="path"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="path">The <see cref="IResourcePath"/> identifying the resource.</param>
+		public void DeleteResource(IMansionContext context, IResourcePath path)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (path == null)
+				throw new ArgumentNullException("path");
+
+			// delete the file if it exists
+			var info = new FileInfo(ResourceUtils.Combine(physicalBasePath, relativeBasePath, path.Paths.Single()));
+			if (info.Exists)
+				info.Delete();
+		}
 		#endregion
 		#region Implementation of IResourceService
 		/// <summary>
