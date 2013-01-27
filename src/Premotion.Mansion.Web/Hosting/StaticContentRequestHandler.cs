@@ -84,11 +84,10 @@ namespace Premotion.Mansion.Web.Hosting
 			var pathParts = originalResourcePath.Split(Dispatcher.Constants.UrlPartTrimCharacters, StringSplitOptions.RemoveEmptyEntries);
 
 			// parse the path
-			var contentPath = contentService.ParsePath(context, new PropertyBag
-			                                                    {
-			                                                    	{"category", pathParts[0]},
-			                                                    	{"relativePath", string.Join(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture), pathParts, 1, pathParts.Length - 1)}
-			                                                    });
+			var contentPath = contentService.ParsePath(context, new PropertyBag {
+				{"category", pathParts[0]},
+				{"relativePath", string.Join(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture), pathParts)}
+			});
 
 			// set output pipe properties
 			outputPipe.Response.ContentType = WebUtilities.GetMimeType(originalResourcePath);
