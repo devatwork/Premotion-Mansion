@@ -70,6 +70,7 @@
 					<sqlserver:verifyRepositoryIntegrity fix="true">
 						<setProperties dataspaceName="FieldProperties" report="{Report.result}" />
 					</sqlserver:verifyRepositoryIntegrity>
+					<clearCache/>
 				</forms:processScriptAction>
 
 			</forms:form>
