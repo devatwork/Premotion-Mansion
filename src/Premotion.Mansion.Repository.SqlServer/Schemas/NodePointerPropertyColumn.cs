@@ -135,7 +135,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 					throw new InvalidOperationException("Can not update column type with empty string");
 				if (newType.Contains(NodePointer.StructureSeparator))
 					throw new InvalidOperationException(string.Format("Type '{0}' contains invalid characters", newType));
-				if (!string.IsNullOrEmpty(newType) && !pointer.Type.Equals(newType))
+				if (!string.IsNullOrEmpty(newType) && !pointer.Type.Equals(newType, StringComparison.OrdinalIgnoreCase))
 				{
 					// add the name column modification
 					queryBuilder.AddColumnValue("type", newType, DbType.String);
