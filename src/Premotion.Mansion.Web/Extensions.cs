@@ -8,6 +8,7 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Web.Cms.Descriptors;
+using Premotion.Mansion.Web.Hosting.AspNet;
 
 namespace Premotion.Mansion.Web
 {
@@ -184,6 +185,24 @@ namespace Premotion.Mansion.Web
 			return webOutputPipe;
 		}
 		/// <summary>
+		/// Gets the <see cref="WebOutputPipe"/> from <paramref name="context"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="webOutputPipe">The <see cref="WebOutputPipe"/>.</param>
+		/// <returns>Returns the <see cref="WebOutputPipe"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> is null.</exception>
+		/// <exception cref="InvalidOperationException">Thrown if <paramref name="context"/> does not contain a <see cref="WebOutputPipe"/>.</exception>
+		public static bool TryGetWebOuputPipe(this IMansionContext context, out WebOutputPipe webOutputPipe)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+
+			// try to find the output pipe
+			webOutputPipe = (WebOutputPipe) context.OutputPipeStack.FirstOrDefault(x => x is WebOutputPipe);
+			return webOutputPipe != null;
+		}
+		/// <summary>
 		/// Deletes a cookie from the <paramref name="context"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
@@ -197,11 +216,10 @@ namespace Premotion.Mansion.Web
 				throw new ArgumentNullException("cookieName");
 
 			// expire the cookie
-			context.SetCookie(new WebCookie
-			                  {
-			                  	Name = cookieName,
-			                  	Expires = DateTime.Now.AddDays(-1)
-			                  });
+			context.SetCookie(new WebCookie {
+				Name = cookieName,
+				Expires = DateTime.Now.AddDays(-1)
+			});
 		}
 		/// <summary>
 		/// Sets a cookie in the <paramref name="context"/>
@@ -216,11 +234,13 @@ namespace Premotion.Mansion.Web
 			if (cookie == null)
 				throw new ArgumentNullException("cookie");
 
-			// get the output pipe
-			var outputPipe = context.GetWebOuputPipe();
+			// get the output pipe if there is one
+			WebOutputPipe outputPipe;
+			if (context.TryGetWebOuputPipe(out outputPipe))
+				outputPipe.Response.Cookies.Add(cookie);
 
-			// expire the cookie
-			outputPipe.Response.Cookies.Add(cookie);
+			// write the cookie directly to the http output
+			HttpContextAdapter.TransferCookie(cookie, new HttpResponseWrapper(HttpContext.Current.Response));
 		}
 		#endregion
 		#region Url Extensions
@@ -237,13 +257,12 @@ namespace Premotion.Mansion.Web
 				throw new ArgumentNullException("url");
 
 			// create the property bag
-			return new PropertyBag
-			       {
-			       	{"url", url},
-			       	{"path", url.Path},
-			       	{"filename", url.Filename},
-			       	{"basePath", url.BasePath}
-			       };
+			return new PropertyBag {
+				{"url", url},
+				{"path", url.Path},
+				{"filename", url.Filename},
+				{"basePath", url.BasePath}
+			};
 		}
 		#endregion
 		#region ITypeDefinition Extension
