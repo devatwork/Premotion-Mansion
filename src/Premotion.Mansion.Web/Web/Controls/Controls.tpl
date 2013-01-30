@@ -281,6 +281,36 @@
 </tpl:section>
 
 
+<tpl:section name="MultiNodeSelector2FieldControl" field="Field">
+	<div id="{@ControlId}" class="field input-xlarge" data-behavior="node-selector-2">
+		<div class="clearfix">
+			<input type="text" class="pull-right input-medium search-query" data-behavior="filter-node-select" placeholder="Search">
+		</div>
+		<div class="well">
+			<ul class="nav nav-pills nav-stacked">
+				<li>
+					<a href="#">
+						<i class="pull-right icon-chevron-right"></i>
+						Vakken
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="pull-right icon-chevron-right"></i>
+						Niveaus
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="pull-right icon-chevron-right"></i>
+						Informatiesoorten
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</tpl:section>
+
 
 <!-- buttons -->
 <tpl:section name="ButtonName">{FormProperties.actionPrefix}{ControlProperties.action}</tpl:section>

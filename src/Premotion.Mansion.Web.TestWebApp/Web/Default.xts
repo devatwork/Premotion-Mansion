@@ -1,21 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:es="http://schemas.premotion.nl/mansion/1.0/elasticsearch.tags.xsd">
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd">
 
-	<!-- check for reindex -->
-	<if condition="{IsTrue( Get.reindex )}">
-		<es:reindex />
-	</if>
-
-	<!-- bootstrap the dispatcher and dispatch the request -->
-	<es:search parentPointer="1" depth="any" fts="brend" target="Results">
-		<throw message="Found {Results.totalCount} results"/>
-		<notFound>
-			<throw message="No results found!" />
-		</notFound>
-	</es:search>
-
-	<declareProcedure procedureName="TransformTypeFacet">
-		<setProperties dataspaceName="Row" displayValue="{GetTypeDefinitionLabel( Row.value )}" />
-	</declareProcedure>
+	<!-- bootstrap the dispatcher and dispatch to the page controller -->
+	<openScript path="Dispatcher/Dispatcher.xinclude">
+		<invokeProcedure procedureName="Dispatch" defaultController="Page" defaultAction="View" />
+	</openScript>
 	
 </mansion>
