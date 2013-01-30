@@ -294,30 +294,45 @@
 				  <li class="active">Data</li>
 				</ul>
 				<ul class="nav nav-list">
-					<li>
-						<a href="#">
-							<i class="pull-right icon-chevron-right"></i>
-							Vakken
-						</a>
+					<li class="clearfix">
+						<div class="pull-right btn-group">
+							<a href="#" data-behavior="select" class="btn">
+								<i class="icon-plus-sign"></i>
+							</a>
+							<a href="#" data-behavior="browse" class="btn">
+								<i class="icon-chevron-right"></i>
+							</a>
+						</div>
+						Vakken
 					</li>
-					<li>
-						<a href="#">
-							<i class="pull-right icon-chevron-right"></i>
-							Niveaus
-						</a>
+					<li class="clearfix">
+						<div class="pull-right btn-group">
+							<a href="#" data-behavior="select" class="btn">
+								<i class="icon-plus-sign"></i>
+							</a>
+							<a href="#" data-behavior="browse" class="btn">
+								<i class="icon-chevron-right"></i>
+							</a>
+						</div>
+						Vakken
 					</li>
-					<li>
-						<a href="#">
-							<i class="pull-right icon-chevron-right"></i>
-							Informatiesoorten
-						</a>
+					<li class="clearfix">
+						<div class="pull-right btn-group">
+							<a href="#" data-behavior="select" class="btn">
+								<i class="icon-plus-sign"></i>
+							</a>
+							<a href="#" data-behavior="browse" class="btn">
+								<i class="icon-chevron-right"></i>
+							</a>
+						</div>
+						Vakken
 					</li>
 				</ul>
 			</div>
 		</div>
 		<div class="span6">
 			<div class="well well-small">
-				<ul class="nav nav-pill nav-stacked">
+				<ul class="nav nav-pills nav-stacked">
 					<li>
 						<a href="#">
 							<i class="pull-right icon-remove"></i>
@@ -346,23 +361,38 @@
 				  <li class="active">Data</li>
 				</ul>
 				<ul class="nav nav-list">
-					<li>
-						<a href="#">
-							<i class="pull-right icon-chevron-right"></i>
-							Vakken
-						</a>
+					<li class="clearfix">
+						<div class="pull-right btn-group">
+							<a href="#" data-behavior="select" class="btn">
+								<i class="icon-plus-sign"></i>
+							</a>
+							<a href="#" data-behavior="browse" class="btn">
+								<i class="icon-chevron-right"></i>
+							</a>
+						</div>
+						Vakken
 					</li>
-					<li>
-						<a href="#">
-							<i class="pull-right icon-chevron-right"></i>
-							Niveaus
-						</a>
+					<li class="clearfix">
+						<div class="pull-right btn-group">
+							<a href="#" data-behavior="select" class="btn">
+								<i class="icon-plus-sign"></i>
+							</a>
+							<a href="#" data-behavior="browse" class="btn">
+								<i class="icon-chevron-right"></i>
+							</a>
+						</div>
+						Vakken
 					</li>
-					<li>
-						<a href="#">
-							<i class="pull-right icon-chevron-right"></i>
-							Informatiesoorten
-						</a>
+					<li class="clearfix">
+						<div class="pull-right btn-group">
+							<a href="#" data-behavior="select" class="btn">
+								<i class="icon-plus-sign"></i>
+							</a>
+							<a href="#" data-behavior="browse" class="btn">
+								<i class="icon-chevron-right"></i>
+							</a>
+						</div>
+						Vakken
 					</li>
 				</ul>
 			</div>
