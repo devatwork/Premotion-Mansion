@@ -17,7 +17,15 @@ Author: Premotion Software Solutions
         constructor: NodeSelector,
         listen: function () {
             var that = this;
-            // attach autocomplete handler to search input list
+            // attach event handlers to candidate list
+            that.$candidateList
+                .on('click', '[data-behavior="select"]', function(e) {
+                    that.resultListSelect(e);
+                })
+                .on('click', '[data-behavior="browse"]', function(e) {
+                    that.resultListBrowseSelected(e);
+                });
+            // attach event handlers to search input
             that.$searchInput
                 .on('keydown', _.debounce(function (e) {
                     that.onkeydown(e);
@@ -36,7 +44,13 @@ Author: Premotion Software Solutions
         resultListNext: function () {
             console.log('selecting next item');
         },
-        resultListSelect: function () {
+        resultListSelect: function (e) {
+            console.log('selecting clicked item');
+        },
+        resultListBrowseSelected: function (e) {
+            console.log('browsing clicked item');
+        },
+        resultListSelectCurrent: function () {
             console.log('selecting current item');
         },
         // autocomplete methods
@@ -97,7 +111,7 @@ Author: Premotion Software Solutions
                 case 13: // enter
                     if (!this.autocompleteShown)
                         return;
-                    this.resultListSelect();
+                    this.resultListSelectCurrent();
                     break;
 
                 case 27: // escape
