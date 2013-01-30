@@ -334,13 +334,13 @@
 			<div class="well well-small">
 				<ul class="nav nav-pills nav-stacked">
 					<li>
-						<a href="#">
+						<a href="#" data-behavior="remove">
 							<i class="pull-right icon-remove"></i>
 							Item 1
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="#" data-behavior="remove">
 							<i class="pull-right icon-remove"></i>
 							Item 2 met een langere naam
 						</a>
@@ -401,13 +401,13 @@
 			<div class="well well-small">
 				<ul class="nav nav-pills nav-stacked">
 					<li>
-						<a href="#">
+						<a href="#" data-behavior="remove">
 							<i class="pull-right icon-remove"></i>
 							Item 1
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="#" data-behavior="remove">
 							<i class="pull-right icon-remove"></i>
 							Item 2 met een langere naam
 						</a>
