@@ -17,6 +17,11 @@ Author: Premotion Software Solutions
         constructor: NodeSelector,
         listen: function () {
             var that = this;
+            // attach event handlers to the selected values lists
+            that.$selectedValuesList
+                .on('click', '[data-behavior="remove"]', function (e) {
+                    that.removeSelectedValue(e);
+                });
             // attach event handlers to candidate list
             that.$candidateList
                 .on('click', '[data-behavior="select"]', function(e) {
@@ -37,7 +42,11 @@ Author: Premotion Software Solutions
                     that.onkeyup(e);
                 }, 200));
         },
-        //  result list methods
+        // value list methods
+        removeSelectedValue: function(e) {
+            console.log('removing from selected value list');
+        },
+        // result list methods
         resultListPrev: function () {
             console.log('selecting previous item');
         },
