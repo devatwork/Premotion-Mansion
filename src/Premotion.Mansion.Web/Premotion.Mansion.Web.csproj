@@ -1010,6 +1010,7 @@
     <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesome.min.css" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Web\Controls\Js\node-selector.js" />
     <Content Include="Web\Shared\css\fontawesome\fontawesome-webfont.svg" />
     <EmbeddedResource Include="Web\Shared\js\lodash\lodash.js" />
   </ItemGroup>

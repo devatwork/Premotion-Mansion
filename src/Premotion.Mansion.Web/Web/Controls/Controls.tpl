@@ -282,31 +282,108 @@
 
 
 <tpl:section name="MultiNodeSelector2FieldControl" field="Field">
-	<div id="{@ControlId}" class="field input-xlarge" data-behavior="node-selector-2">
-		<div class="clearfix">
-			<input type="text" class="pull-right input-medium search-query" data-behavior="filter-node-select" placeholder="Search">
+	<div id="{@ControlId}" class="field input-xlarge row-fluid" data-behavior="single-node-selector">
+		<div class="span6">
+			<div class="clearfix">
+				<input type="search" class="pull-right input-medium search-query" data-behavior="filter-node-select" placeholder="Filter">
+			</div>
+			<div class="well well-small">
+				<ul class="breadcrumb">
+				  <li><a href="#">Home</a> <span class="divider">/</span></li>
+				  <li><a href="#">Library</a> <span class="divider">/</span></li>
+				  <li class="active">Data</li>
+				</ul>
+				<ul class="nav nav-list">
+					<li>
+						<a href="#">
+							<i class="pull-right icon-chevron-right"></i>
+							Vakken
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="pull-right icon-chevron-right"></i>
+							Niveaus
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="pull-right icon-chevron-right"></i>
+							Informatiesoorten
+						</a>
+					</li>
+				</ul>
+			</div>
 		</div>
-		<div class="well">
-			<ul class="nav nav-pills nav-stacked">
-				<li>
-					<a href="#">
-						<i class="pull-right icon-chevron-right"></i>
-						Vakken
-					</a>
-				</li>
-				<li>
-					<a href="#">
-						<i class="pull-right icon-chevron-right"></i>
-						Niveaus
-					</a>
-				</li>
-				<li>
-					<a href="#">
-						<i class="pull-right icon-chevron-right"></i>
-						Informatiesoorten
-					</a>
-				</li>
-			</ul>
+		<div class="span6">
+			<div class="well well-small">
+				<ul class="nav nav-pill nav-stacked">
+					<li>
+						<a href="#">
+							<i class="pull-right icon-remove"></i>
+							Item 1
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="pull-right icon-remove"></i>
+							Item 2 met een langere naam
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div id="{@ControlId}" class="field input-xlarge row-fluid" data-behavior="multi-node-selector">
+		<div class="span6">
+			<div class="clearfix">
+				<input type="search" class="pull-right input-medium search-query" data-behavior="filter-node-select" placeholder="Filter">
+			</div>
+			<div class="well well-small">
+				<ul class="breadcrumb">
+				  <li><a href="#">Home</a> <span class="divider">/</span></li>
+				  <li><a href="#">Library</a> <span class="divider">/</span></li>
+				  <li class="active">Data</li>
+				</ul>
+				<ul class="nav nav-list">
+					<li>
+						<a href="#">
+							<i class="pull-right icon-chevron-right"></i>
+							Vakken
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="pull-right icon-chevron-right"></i>
+							Niveaus
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="pull-right icon-chevron-right"></i>
+							Informatiesoorten
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="span6">
+			<div class="well well-small">
+				<ul class="nav nav-pills nav-stacked">
+					<li>
+						<a href="#">
+							<i class="pull-right icon-remove"></i>
+							Item 1
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="pull-right icon-remove"></i>
+							Item 2 met een langere naam
+						</a>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 </tpl:section>

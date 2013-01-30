@@ -27,7 +27,9 @@
 		<!-- Placed at the end of the document so the pages load faster -->
 		<script src="{StaticResourceUrl( '/Shared/js/jquery/jquery.js' )}"></script>
 		<script src="{StaticResourceUrl( '/Shared/js/jquery/jquery-ui.js' )}"></script>
+		<script src="{StaticResourceUrl( '/Shared/js/lodash/lodash.js' )}"></script>
 		<script src="{DynamicResourceUrl( '/Controls/Js/Controls.js' )}"></script>
+		<script src="{StaticResourceUrl( '/Controls/Js/node-selector.js' )}"></script>
 		<script src="{StaticResourceUrl( '/Shared/js/bootstrap/bootstrap.min.js' )}"></script>
 	</body>
 </html></tpl:section>
