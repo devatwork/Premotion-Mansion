@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using Premotion.Mansion.Core;
+﻿using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Caching;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Nucleus;
@@ -30,12 +29,6 @@ namespace Premotion.Mansion.Repository.ElasticSearch
 		/// <param name="nucleus">The <see cref="IConfigurableNucleus"/> in which to register the services used by the application.</param>
 		protected override void DoBootstrap(IConfigurableNucleus nucleus)
 		{
-			// if elastic search is not configured, do not register its services
-			var appSettings = ConfigurationManager.AppSettings;
-			var connectionString = appSettings[Constants.ConnectionStringApplicationSettingKey];
-			if (string.IsNullOrEmpty(connectionString))
-				return;
-
 			// register the ElasticSearch services
 			nucleus.Register(resolver => new ConnectionManager());
 			nucleus.Register(resolver => new IndexDefinitionResolver(resolver.ResolveSingle<ITypeService>(), resolver.ResolveSingle<ICachingService>()));

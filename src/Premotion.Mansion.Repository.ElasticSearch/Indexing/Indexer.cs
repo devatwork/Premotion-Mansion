@@ -58,12 +58,14 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Indexing
 		/// <param name="definition">The <see cref="IndexDefinition"/>.</param>
 		private void CreateIndex(IndexDefinition definition)
 		{
-			// delete the index if it exists
-			if (connectionManager.Head(definition.Name, new[] {HttpStatusCode.OK, HttpStatusCode.NotFound}).StatusCode == HttpStatusCode.OK)
-				connectionManager.Delete(definition.Name);
+			new Action(() => {
+				// delete the index if it exists
+				if (connectionManager.Head(definition.Name, new[] {HttpStatusCode.OK, HttpStatusCode.NotFound}).StatusCode == HttpStatusCode.OK)
+					connectionManager.Delete(definition.Name);
 
-			// create the index
-			new Action(() => connectionManager.Put(definition.Name, definition)).Retry(new FixedIntervalStrategy(3, TimeSpan.FromMilliseconds(100)));
+				// create the index
+				connectionManager.Put(definition.Name, definition);
+			}).Retry(new FixedIntervalStrategy(3, TimeSpan.FromMilliseconds(100)));
 		}
 		/// <summary>
 		/// Reindexes all the content in the top-most repository.

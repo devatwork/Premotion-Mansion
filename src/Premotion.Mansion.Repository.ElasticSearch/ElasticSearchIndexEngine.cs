@@ -34,6 +34,11 @@ namespace Premotion.Mansion.Repository.ElasticSearch
 		/// <param name="record">The <see cref="Record"/> which to index.</param>
 		protected override void DoIndex(IMansionContext context, Record record)
 		{
+			// check if ElasticSearch is disabled
+			if (!Configuration.IsEnabled)
+				return;
+
+			// index the record
 			indexer.Index(context, record);
 		}
 		/// <summary>
@@ -44,6 +49,11 @@ namespace Premotion.Mansion.Repository.ElasticSearch
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> or <paramref name="record"/> is null.</exception>
 		protected override void DoDelete(IMansionContext context, Record record)
 		{
+			// check if ElasticSearch is disabled
+			if (!Configuration.IsEnabled)
+				return;
+
+			// delete the record from the index
 			indexer.Delete(context, record);
 		}
 		#endregion

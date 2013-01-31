@@ -28,22 +28,20 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			// build the application uri
 			if (httpRequest.Url == null)
 				throw new InvalidOperationException("The request url should not be null");
-			var applicationUriBuilder = new UriBuilder
-			                            {
-			                            	Scheme = httpRequest.Url.Scheme,
-			                            	Host = httpRequest.Url.Host,
-			                            	Port = httpRequest.Url.Port,
-			                            	Path = httpRequest.ApplicationPath ?? string.Empty
-			                            };
+			var applicationUriBuilder = new UriBuilder {
+				Scheme = httpRequest.Url.Scheme,
+				Host = httpRequest.Url.Host,
+				Port = httpRequest.Url.Port,
+				Path = httpRequest.ApplicationPath ?? string.Empty
+			};
 
 			// create a new request
-			var request = new WebRequest(httpContext.Items)
-			              {
-			              	Body = httpRequest.InputStream,
-			              	Method = httpRequest.HttpMethod,
-			              	UserAgent = httpRequest.UserAgent,
-			              	ApplicationUrl = Url.ParseApplicationUri(applicationUriBuilder.Uri)
-			              };
+			var request = new WebRequest(httpContext.Items) {
+				Body = httpRequest.InputStream,
+				Method = httpRequest.HttpMethod,
+				UserAgent = httpRequest.UserAgent,
+				ApplicationUrl = Url.ParseApplicationUri(applicationUriBuilder.Uri)
+			};
 
 			// parse url
 			request.RequestUrl = Url.ParseUri(request.ApplicationUrl, httpRequest.Url);
@@ -51,27 +49,25 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			// map the cookies
 			foreach (var entry in httpRequest.Cookies.Cast<string>().Select(key => new KeyValuePair<string, HttpCookie>(key, httpRequest.Cookies[key])))
 			{
-				request.Cookies.Add(entry.Key, new WebCookie
-				                               {
-				                               	Domain = entry.Value.Domain,
-				                               	Expires = entry.Value.Expires,
-				                               	HttpOnly = entry.Value.HttpOnly,
-				                               	Name = entry.Value.Name,
-				                               	Secure = entry.Value.Secure,
-				                               	Value = entry.Value.Value
-				                               });
+				request.Cookies.Add(entry.Key, new WebCookie {
+					Domain = entry.Value.Domain,
+					Expires = entry.Value.Expires,
+					HttpOnly = entry.Value.HttpOnly,
+					Name = entry.Value.Name,
+					Secure = entry.Value.Secure,
+					Value = entry.Value.Value
+				});
 			}
 
 			// map the files
 			foreach (var entry in httpRequest.Files.Cast<string>().Select(key => new KeyValuePair<string, HttpPostedFileBase>(key, httpRequest.Files[key])))
 			{
-				request.Files.Add(entry.Key, new WebFile
-				                             {
-				                             	ContentLength = entry.Value.ContentLength,
-				                             	ContentType = entry.Value.ContentType,
-				                             	FileName = entry.Value.FileName,
-				                             	InputStream = entry.Value.InputStream
-				                             });
+				request.Files.Add(entry.Key, new WebFile {
+					ContentLength = entry.Value.ContentLength,
+					ContentType = entry.Value.ContentType,
+					FileName = entry.Value.FileName,
+					InputStream = entry.Value.InputStream
+				});
 			}
 
 			// map the form variables
@@ -113,27 +109,8 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			foreach (var header in response.Headers)
 				httpResponse.AddHeader(header.Key, header.Value);
 
-			// copy cookies
-			foreach (var cookie in response.Cookies)
-			{
-				// create the http cookie
-				var httpCookie = new HttpCookie(cookie.Name, cookie.Value)
-				                 {
-				                 	Secure = cookie.Secure,
-				                 	HttpOnly = cookie.HttpOnly
-				                 };
-
-				// check for domain
-				if (!string.IsNullOrEmpty(cookie.Domain))
-					httpCookie.Domain = cookie.Domain;
-
-				// check expires
-				if (cookie.Expires.HasValue)
-					httpCookie.Expires = cookie.Expires.Value;
-
-				// add the cookie to the response
-				httpResponse.Cookies.Add(httpCookie);
-			}
+			// transfer all the cookies to the http response
+			TransferCookies(response, httpResponse);
 
 			// set cache properties
 			if (response.CacheSettings.OutputCacheEnabled)
@@ -151,6 +128,48 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			// check for redirect
 			if (!string.IsNullOrEmpty(response.RedirectLocation))
 				httpResponse.RedirectLocation = response.RedirectLocation;
+		}
+		/// <summary>
+		/// Transfers all the <see cref="WebResponse.Cookies"/> to  <see cref="HttpResponseBase.Cookies"/>.
+		/// </summary>
+		/// <param name="response">The <see cref="WebResponse"/>.</param>
+		/// <param name="httpResponse">The <see cref="HttpResponse"/>.</param>
+		private static void TransferCookies(WebResponse response, HttpResponseBase httpResponse)
+		{
+			// copy cookies
+			foreach (var cookie in response.Cookies)
+				TransferCookie(cookie, httpResponse);
+		}
+		/// <summary>
+		/// Transfers the given <paramref name="cookie"/> to the <paramref name="httpResponse"/>.
+		/// </summary>
+		/// <param name="cookie">The <see cref="WebCookie"/>.</param>
+		/// <param name="httpResponse">The <see cref="HttpResponseBase"/>.</param>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public static void TransferCookie(WebCookie cookie, HttpResponseBase httpResponse)
+		{
+			// validate arguments
+			if (cookie == null)
+				throw new ArgumentNullException("cookie");
+			if (httpResponse == null)
+				throw new ArgumentNullException("httpResponse");
+
+			// create the http cookie
+			var httpCookie = new HttpCookie(cookie.Name, cookie.Value) {
+				Secure = cookie.Secure,
+				HttpOnly = cookie.HttpOnly
+			};
+
+			// check for domain
+			if (!string.IsNullOrEmpty(cookie.Domain))
+				httpCookie.Domain = cookie.Domain;
+
+			// check expires
+			if (cookie.Expires.HasValue)
+				httpCookie.Expires = cookie.Expires.Value;
+
+			// add the cookie to the response
+			httpResponse.Cookies.Add(httpCookie);
 		}
 		#endregion
 	}
