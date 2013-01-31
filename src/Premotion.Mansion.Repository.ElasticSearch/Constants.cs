@@ -17,5 +17,9 @@
 		/// Defines the key in which the ElasticSearch connnection string is stored in the application settings.
 		/// </summary>
 		public const string ConnectionStringApplicationSettingKey = "SEARCHBOX_URL";
+		/// <summary>
+		/// Represents the setting key for enabling elastic search service.
+		/// </summary>
+		public const string EnabledSettingKey = "ELASTIC-SEARCH-ENABLED";
 	}
 }
