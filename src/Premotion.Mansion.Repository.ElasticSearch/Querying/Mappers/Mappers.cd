@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.AllowedRolesSpecificationMapper">
-    <Position X="1.75" Y="2.75" Width="3.25" />
+    <Position X="2" Y="2.75" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\AllowedRolesSpecificationMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.BaseSpecificationMapper&lt;TSpecification&gt;">
-    <Position X="24.75" Y="0.5" Width="2.75" />
+    <Position X="26" Y="0.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAAAAAAAAAAAQAAAAAAAAAAAAAAAABAAA=</HashCode>
       <FileName>Querying\Mappers\BaseSpecificationMapper.cs</FileName>
@@ -38,14 +38,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.IsPropertyInSpecificationMapper">
-    <Position X="5.75" Y="2.75" Width="3" />
+    <Position X="6" Y="2.75" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\IsPropertyInSpecificationMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.IsPropertyEqualSpecificationMapper">
-    <Position X="9.5" Y="2.75" Width="3.25" />
+    <Position X="12" Y="2.75" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\IsPropertyEqualSpecificationMapper.cs</FileName>
@@ -59,21 +59,21 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.ParentOfSpecificationMapper">
-    <Position X="21.25" Y="2.75" Width="3" />
+    <Position X="23.75" Y="2.75" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\ParentOfSpecificationMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.StatusSpecificationMapper" Collapsed="true">
-    <Position X="17.75" Y="2.75" Width="2.75" />
+    <Position X="20.25" Y="2.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\StatusSpecificationMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.BaseCompositeMapper&lt;TSpecification&gt;" Collapsed="true">
-    <Position X="32.5" Y="2.75" Width="2.75" />
+    <Position X="35" Y="2.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\BaseCompositeMapper.cs</FileName>
@@ -87,21 +87,21 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.ChildOfSpecificationMapper" Collapsed="true">
-    <Position X="47.75" Y="2.75" Width="2.75" />
+    <Position X="50.25" Y="2.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\ChildOfSpecificationMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.ConjunctionMapper" Collapsed="true">
-    <Position X="35.75" Y="4.25" Width="2.25" />
+    <Position X="38.25" Y="4.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\ConjunctionMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.DisjunctionMapper" Collapsed="true">
-    <Position X="29.75" Y="4.25" Width="2.25" />
+    <Position X="32.25" Y="4.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\DisjunctionMapper.cs</FileName>
@@ -115,7 +115,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.NegationMapper" Collapsed="true">
-    <Position X="32.75" Y="4.25" Width="2.25" />
+    <Position X="35.25" Y="4.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\NegationMapper.cs</FileName>
@@ -129,35 +129,42 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.IsPropertySmallerThanSpecificationMapper" Collapsed="true">
-    <Position X="13.5" Y="2.75" Width="3.5" />
+    <Position X="16" Y="2.75" Width="3.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\IsPropertySmallerThanSpecificationMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.IsPropertySmallerThanOrEqualSpecificationMapper" Collapsed="true">
-    <Position X="38.75" Y="2.75" Width="4" />
+    <Position X="41.25" Y="2.75" Width="4" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\IsPropertySmallerThanOrEqualSpecificationMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.IsPropertyGreaterThanOrEqualSpecificationMapper" Collapsed="true">
-    <Position X="25" Y="2.75" Width="4" />
+    <Position X="27.5" Y="2.75" Width="4" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\IsPropertyGreaterThanOrEqualSpecificationMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.IsPropertyGreaterThanSpecificationMapper" Collapsed="true">
-    <Position X="43.5" Y="2.75" Width="3.5" />
+    <Position X="46" Y="2.75" Width="3.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\IsPropertyGreaterThanSpecificationMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.AutocompleteSpecificationMapper" Collapsed="true">
+    <Position X="9.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Querying\Mappers\AutocompleteSpecificationMapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Interface Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers.ISpecificationMapper" Collapsed="true">
-    <Position X="51.5" Y="0.5" Width="1.5" />
+    <Position X="54" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Mappers\ISpecificationMapper.cs</FileName>

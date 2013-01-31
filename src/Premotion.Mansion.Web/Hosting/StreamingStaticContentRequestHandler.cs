@@ -86,11 +86,10 @@ namespace Premotion.Mansion.Web.Hosting
 			var pathParts = originalResourcePath.Split(Dispatcher.Constants.UrlPartTrimCharacters, StringSplitOptions.RemoveEmptyEntries);
 
 			// parse the path
-			var contentPath = contentService.ParsePath(context, new PropertyBag
-			                                                    {
-			                                                    	{"category", pathParts[0]},
-			                                                    	{"relativePath", string.Join(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture), pathParts, 1, pathParts.Length - 1)}
-			                                                    });
+			var contentPath = contentService.ParsePath(context, new PropertyBag {
+				{"category", pathParts[0]},
+				{"relativePath", string.Join(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture), pathParts)}
+			});
 
 			// if the resource exist process it otherwise 404
 			if (!contentService.Exists(context, contentPath))
@@ -110,20 +109,19 @@ namespace Premotion.Mansion.Web.Hosting
 			response.ContentType = WebUtilities.GetMimeType(originalResourcePath);
 
 			// set the content response
-			response.Contents = stream =>
-			                    {
-			                    	// stream the file
-			                    	var buffer = new byte[1024];
-			                    	using (var reader = resource.OpenForReading())
-			                    	{
-			                    		int bytes;
-			                    		while (len > 0 && (bytes = reader.RawStream.Read(buffer, 0, buffer.Length)) > 0)
-			                    		{
-			                    			stream.Write(buffer, 0, bytes);
-			                    			len -= bytes;
-			                    		}
-			                    	}
-			                    };
+			response.Contents = stream => {
+				// stream the file
+				var buffer = new byte[1024];
+				using (var reader = resource.OpenForReading())
+				{
+					int bytes;
+					while (len > 0 && (bytes = reader.RawStream.Read(buffer, 0, buffer.Length)) > 0)
+					{
+						stream.Write(buffer, 0, bytes);
+						len -= bytes;
+					}
+				}
+			};
 
 			// return the response
 			return response;

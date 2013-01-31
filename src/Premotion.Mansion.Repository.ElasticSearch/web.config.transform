@@ -2,6 +2,7 @@
 
 <configuration>
 	<appSettings>
+		<add key="ELASTIC-SEARCH-ENABLED" value="true" />
 		<add key="SEARCHBOX_URL" value="TODO" />
 	</appSettings>
 </configuration>

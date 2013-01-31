@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Configuration;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Premotion.Mansion.Repository.ElasticSearch.Responses;
@@ -14,29 +14,6 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 	/// </summary>
 	public class ConnectionManager
 	{
-		#region Constructors
-		/// <summary>
-		/// Constructs an ElasticSearch connection manager.
-		/// </summary>
-		public ConnectionManager()
-		{
-			// get the connection string
-			var appSettings = ConfigurationManager.AppSettings;
-			var connectionString = appSettings[Constants.ConnectionStringApplicationSettingKey];
-			if (string.IsNullOrEmpty(connectionString))
-				throw new InvalidOperationException("No valid value found in application settings for key " + Constants.ConnectionStringApplicationSettingKey);
-
-			// create the client
-			client = new RestClient(connectionString);
-			client.ClearHandlers();
-			client.AddHandler("*", deserializer);
-			client.Timeout = 20*60*1000;
-			ServicePointManager.Expect100Continue = false;
-			ServicePointManager.UseNagleAlgorithm = false;
-			ServicePointManager.MaxServicePointIdleTime = 3600000;
-			ServicePointManager.SetTcpKeepAlive(true, 30000, 3000);
-		}
-		#endregion
 		#region Http Methods
 		/// <summary>
 		/// Executes a HEAD request on the given <paramref name="resource"/>.
@@ -46,7 +23,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		/// <returns>Returns the <see cref="IRestResponse"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="resource"/> is null.</exception>
 		/// <exception cref="ConnectionException">Thrown if the request did not result in the expected <paramref name="validHttpStatusCodes"/>.</exception>
-		public IRestResponse Head(string resource, HttpStatusCode[] validHttpStatusCodes = null)
+		public IRestResponse Head(string resource, IEnumerable<HttpStatusCode> validHttpStatusCodes = null)
 		{
 			// validate arguments
 			if (resource == null)
@@ -63,7 +40,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		/// <returns>Returns the <see cref="IRestResponse"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="resource"/> is null.</exception>
 		/// <exception cref="ConnectionException">Thrown if the request did not result in the expected <paramref name="validHttpStatusCodes"/>.</exception>
-		public IRestResponse Put(string resource, object obj, HttpStatusCode[] validHttpStatusCodes = null)
+		public IRestResponse Put(string resource, object obj, IEnumerable<HttpStatusCode> validHttpStatusCodes = null)
 		{
 			// validate arguments
 			if (resource == null)
@@ -102,7 +79,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		/// <returns>Returns the <typeparamref name="TResponse"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="resource"/> is null.</exception>
 		/// <exception cref="ConnectionException">Thrown if the request did not result in the expected <paramref name="validHttpStatusCodes"/>.</exception>
-		public TResponse Post<TResponse>(string resource, object obj, HttpStatusCode[] validHttpStatusCodes = null) where TResponse : BaseResponse, new()
+		public TResponse Post<TResponse>(string resource, object obj, IEnumerable<HttpStatusCode> validHttpStatusCodes = null) where TResponse : BaseResponse, new()
 		{
 			// validate arguments
 			if (resource == null)
@@ -124,7 +101,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		/// <returns>Returns the <see cref="IRestResponse"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="resource"/> is null.</exception>
 		/// <exception cref="ConnectionException">Thrown if the request did not result in the expected <paramref name="validHttpStatusCodes"/>.</exception>
-		public IRestResponse Delete(string resource, HttpStatusCode[] validHttpStatusCodes = null)
+		public IRestResponse Delete(string resource, IEnumerable<HttpStatusCode> validHttpStatusCodes = null)
 		{
 			// validate arguments
 			if (resource == null)
@@ -140,18 +117,18 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		/// <param name="validHttpStatusCodes">Defines the valid status codes.</param>
 		/// <returns>Returns the <see cref="IRestResponse"/> of the request.</returns>
 		/// <exception cref="ConnectionException">Thrown if the request did not result in the expected <paramref name="validHttpStatusCodes"/>.</exception>
-		private IRestResponse Execute(string resource, Action<IRestRequest> requestConfigurator, HttpStatusCode[] validHttpStatusCodes = null)
+		private IRestResponse Execute(string resource, Action<IRestRequest> requestConfigurator, IEnumerable<HttpStatusCode> validHttpStatusCodes = null)
 		{
 			// create the request
 			var request = new RestRequest(resource) {
 				RequestFormat = DataFormat.Json,
-				JsonSerializer = serializer
+				JsonSerializer = Serializer
 			};
 
 			requestConfigurator(request);
 
 			// execute the request
-			var response = client.Execute(request);
+			var response = Client.Execute(request);
 
 			// error handling
 			if (response.ErrorException != null)
@@ -171,18 +148,18 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 		/// <param name="validHttpStatusCodes">Defines the valid status codes.</param>
 		/// <returns>Returns the <see cref="IRestResponse"/> of the request.</returns>
 		/// <exception cref="ConnectionException">Thrown if the request did not result in the expected <paramref name="validHttpStatusCodes"/>.</exception>
-		private IRestResponse<TResponse> Execute<TResponse>(string resource, Action<IRestRequest> requestConfigurator, HttpStatusCode[] validHttpStatusCodes = null) where TResponse : BaseResponse, new()
+		private IRestResponse<TResponse> Execute<TResponse>(string resource, Action<IRestRequest> requestConfigurator, IEnumerable<HttpStatusCode> validHttpStatusCodes = null) where TResponse : BaseResponse, new()
 		{
 			// create the request
 			var request = new RestRequest(resource) {
 				RequestFormat = DataFormat.Json,
-				JsonSerializer = serializer,
+				JsonSerializer = Serializer,
 			};
 
 			requestConfigurator(request);
 
 			// execute the request
-			var response = client.Execute<TResponse>(request);
+			var response = Client.Execute<TResponse>(request);
 
 			// error handling
 			if (response.ErrorException != null)
@@ -194,10 +171,40 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Connection
 			return response;
 		}
 		#endregion
+		#region Properties
+		/// <summary>
+		/// Gets the <see cref="RestClient"/>.
+		/// </summary>
+		private RestClient Client
+		{
+			get
+			{
+				var client = clientFactory.Value;
+				if (client == null)
+					throw new InvalidOperationException("ElasticSearch is disabled, please check configuration");
+				return client;
+			}
+		}
+		#endregion
 		#region Private Fields
-		private readonly RestClient client;
-		private readonly IDeserializer deserializer = new ElasticSearchDeserializer();
-		private readonly ISerializer serializer = new ElasticSearchJsonSerializer();
+		private static readonly IDeserializer Deserializer = new ElasticSearchDeserializer();
+		private static readonly ISerializer Serializer = new ElasticSearchJsonSerializer();
+		private readonly Lazy<RestClient> clientFactory = new Lazy<RestClient>(() => {
+			// check if elastic search is disabled
+			if (!Configuration.IsEnabled)
+				return null;
+
+			// create the client
+			var client = new RestClient(Configuration.ConnectionString);
+			client.ClearHandlers();
+			client.AddHandler("*", Deserializer);
+			client.Timeout = 20*60*1000;
+			ServicePointManager.Expect100Continue = false;
+			ServicePointManager.UseNagleAlgorithm = false;
+			ServicePointManager.MaxServicePointIdleTime = 3600000;
+			ServicePointManager.SetTcpKeepAlive(true, 30000, 3000);
+			return client;
+		});
 		#endregion
 	}
 }

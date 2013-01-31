@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
@@ -87,7 +88,17 @@ namespace Premotion.Mansion.Web.Security
 
 			// deserialize the properties
 			var revivalDataStringBytes = conversionService.Convert<byte[]>(context, revivalCookie.Value);
-			var decryptedRevivalDataBytes = encryptionService.Decrypt(context, cookieSalt, revivalDataStringBytes);
+			byte[] decryptedRevivalDataBytes;
+			try
+			{
+				decryptedRevivalDataBytes = encryptionService.Decrypt(context, cookieSalt, revivalDataStringBytes);
+			}
+			catch (CryptographicException)
+			{
+				// cookie contains invalid hash
+				context.DeleteCookie(cookieName);
+				return null;
+			}
 			var revivalProperties = conversionService.Convert<IPropertyBag>(context, decryptedRevivalDataBytes, new PropertyBag());
 
 			// check against cookie theft
@@ -164,13 +175,12 @@ namespace Premotion.Mansion.Web.Security
 					var revivalDataString = conversionService.Convert<string>(context, encryptedRevivalData);
 
 					// store it in a cookie
-					var revivalCookie = new WebCookie
-					                    {
-					                    	Name = revivalCookieName,
-					                    	Value = revivalDataString,
-					                    	Expires = DateTime.Now.AddDays(14),
-					                    	HttpOnly = true
-					                    };
+					var revivalCookie = new WebCookie {
+						Name = revivalCookieName,
+						Value = revivalDataString,
+						Expires = DateTime.Now.AddDays(14),
+						HttpOnly = true
+					};
 					context.SetCookie(revivalCookie);
 				}
 			}

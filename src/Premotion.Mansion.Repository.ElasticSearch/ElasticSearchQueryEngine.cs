@@ -85,6 +85,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch
 		/// <returns>Returns the result of the vote.</returns>
 		protected override VoteResult DoVote(IMansionContext context, Query subject)
 		{
+			// check if ElasticSearch is disabled
+			if (!Configuration.IsEnabled)
+				return VoteResult.Refrain;
+
 			// find the root type for this query
 			var rootType = subject.TypeHints.FindCommonAncestor(context);
 

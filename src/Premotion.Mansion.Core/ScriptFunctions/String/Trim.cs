@@ -13,9 +13,22 @@ namespace Premotion.Mansion.Core.ScriptFunctions.String
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="input"></param>
+		/// <returns></returns>
+		public string Evaluate(IMansionContext context, string input)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+
+			return input == null ? string.Empty : input.Trim();
+		}
+		/// <summary>
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="input"></param>
 		/// <param name="trimChars"> </param>
 		/// <returns></returns>
-		public string Evaluate(IMansionContext context, string input, char trimChars)
+		public string Evaluate(IMansionContext context, string input, params char[] trimChars)
 		{
 			// validate arguments
 			if (context == null)

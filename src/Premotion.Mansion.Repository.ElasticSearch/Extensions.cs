@@ -61,6 +61,36 @@ namespace Premotion.Mansion.Repository.ElasticSearch
 			// return the mapping
 			return (TPropertyMapping) mapping;
 		}
+		/// <summary>
+		/// Finds the <typeparamref name="TPropertyMapping"/> of property <paramref name="propertyName"/> of type <paramref name="typeMapping"/>.
+		/// </summary>
+		/// <param name="typeMapping">The <see cref="TypeMapping"/> from which to get the property.</param>
+		/// <param name="propertyName">The name of the property for which to get the <typeparamref name="TPropertyMapping"/>.</param>
+		/// <param name="mapping">Returns the <typeparamref name="TPropertyMapping"/>.</param>
+		/// <typeparam name="TPropertyMapping">The type of <see cref="PropertyMapping"/> which to find.</typeparam>
+		/// <returns>Returns true when the mapping is found, otherwise false.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if any of the parameters is null.</exception>
+		/// <exception cref="InvalidOperationException">Thrown if the mapping was not found or could not be cast to <typeparamref name="TPropertyMapping"/>.</exception>
+		public static bool TryFindPropertyMapping<TPropertyMapping>(this TypeMapping typeMapping, string propertyName, out TPropertyMapping mapping) where TPropertyMapping : PropertyMapping
+		{
+			// validate arguments
+			if (typeMapping == null)
+				throw new ArgumentNullException("typeMapping");
+			if (string.IsNullOrEmpty(propertyName))
+				throw new ArgumentNullException("propertyName");
+
+			// try to find the property mapping
+			PropertyMapping value;
+			if (!typeMapping.Properties.TryGetValue(propertyName, out value))
+			{
+				mapping = default(TPropertyMapping);
+				return false;
+			}
+
+			// check type
+			mapping = value as TPropertyMapping;
+			return mapping != null;
+		}
 		#endregion
 		#region String Extensions
 		/// <summary>
