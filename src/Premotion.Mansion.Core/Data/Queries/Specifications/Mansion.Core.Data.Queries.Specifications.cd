@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Premotion.Mansion.Core.Data.Queries.Specifications.CompositeSpecification" Collapsed="true">
-    <Position X="1.75" Y="1.75" Width="1.5" />
+    <Position X="1.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAIAAAACAAAAAAAAAAAAAAAAIAAAAgAA=</HashCode>
+      <HashCode>AAIAAAAAAAAAAIAAAACAAAAAAAAAAAAAAAAIgAAAgAA=</HashCode>
       <FileName>Data\Queries\Specifications\CompositeSpecification.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Core.Data.Queries.Specifications.SpecificationFactory" Collapsed="true">
-    <Position X="12" Y="0.5" Width="1.5" />
+    <Position X="14.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAASAAAAAgAAAAAAAAAAA=</HashCode>
       <FileName>Data\Queries\Specifications\SpecificationFactory.cs</FileName>
@@ -52,14 +52,14 @@
   <Class Name="Premotion.Mansion.Core.Data.Queries.Specifications.Negation" Collapsed="true">
     <Position X="9.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAgAA=</HashCode>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAgABAgAA=</HashCode>
       <FileName>Data\Queries\Specifications\Negation.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Core.Data.Queries.Specifications.PropertySpecification" Collapsed="true">
-    <Position X="6.25" Y="1.75" Width="1.5" />
+    <Position X="6" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgABAAAA=</HashCode>
       <FileName>Data\Queries\Specifications\PropertySpecification.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -71,10 +71,17 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Core.Data.Queries.Specifications.Specification" Collapsed="true">
-    <Position X="5" Y="0.5" Width="1.5" />
+    <Position X="6" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAgEAAAAAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAgEABAAAAAAAAAAAAAAAAAAgAAAgAA=</HashCode>
       <FileName>Data\Queries\Specifications\Specification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Core.Data.Queries.Specifications.AutocompleteSpecification" Collapsed="true">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAgABAgAA=</HashCode>
+      <FileName>Data\Queries\Specifications\AutocompleteSpecification.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

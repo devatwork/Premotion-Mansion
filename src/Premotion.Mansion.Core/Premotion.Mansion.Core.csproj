@@ -90,7 +90,9 @@
     <Compile Include="Data\BaseQueryEngine.cs" />
     <Compile Include="Data\Caching\CacheExtensions.cs" />
     <Compile Include="Collections\IPropertyBagReader.cs" />
+    <Compile Include="Data\Queries\Parser\AutocompleteArgumentProcessor.cs" />
     <Compile Include="Data\Queries\Parser\FullTextSearchQueryArgumentProcessor.cs" />
+    <Compile Include="Data\Queries\Specifications\AutocompleteSpecification.cs" />
     <Compile Include="Data\Queries\Specifications\FullTextSearchSpecification.cs" />
     <Compile Include="Data\Queries\StorageOnlyQueryComponent.cs" />
     <Compile Include="Data\Queries\Parser\StorageOnlyArgumentProcessor.cs" />

@@ -84,6 +84,15 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 			mappings.First().Map(context, source, property, target);
 		}
 		#endregion
+		#region Properties
+		/// <summary>
+		/// Gets the <see cref="PropertyMapping"/>s defined on this multifield  property mapping.
+		/// </summary>
+		public IEnumerable<PropertyMapping> Mappings
+		{
+			get { return mappings; }
+		}
+		#endregion
 		#region Private Fields
 		private readonly IEnumerable<PropertyMapping> mappings;
 		#endregion
