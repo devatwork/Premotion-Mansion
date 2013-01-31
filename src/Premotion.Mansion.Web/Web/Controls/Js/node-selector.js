@@ -6,6 +6,8 @@ Author: Premotion Software Solutions
     /* NODESELECTOR CLASS DEFINITION
 	* =========================== */
     var NodeSelector = function($element, options) {
+        if (!arguments.length)
+            return;
         this.options = options;
         this.$element = $element;
         this.$candidateList = this.$element.find('.nav-list');
@@ -99,7 +101,7 @@ Author: Premotion Software Solutions
             e.stopPropagation();
         },
         onkeydown: function (e) {
-            this.suppressKeyPressRepeat = ~$.inArray(e.keyCode, [40, 38, 9, 13, 27]);
+            this.suppressKeyPressRepeat = !$.inArray(e.keyCode, [40, 38, 9, 13, 27]);
             this.autocompleteMove(e);
         },
         onkeypress: function (e) {
@@ -141,9 +143,9 @@ Author: Premotion Software Solutions
     /* SINGLENODESELECTOR CLASS DEFINITION
     * ================================= */
     var SingleNodeSelector = function($element, options) {
-        NodeSelector.apply(this, arguments);
+        NodeSelector.call(this, $element, options);
     };
-    SingleNodeSelector.prototype = Object.create(NodeSelector.prototype);
+    SingleNodeSelector.prototype = new NodeSelector();
     SingleNodeSelector.prototype.parent = NodeSelector.prototype;
     SingleNodeSelector.prototype.constructor = SingleNodeSelector;
     //SingleNodeSelector.prototype.init = function () {
@@ -153,9 +155,9 @@ Author: Premotion Software Solutions
     /* MULTINODESELECTOR CLASS DEFINITION
     * ================================ */
     var MultiNodeSelector = function($element, options) {
-        NodeSelector.apply(this, arguments);
+        NodeSelector.call(this, $element, options);
     };
-    MultiNodeSelector.prototype = Object.create(NodeSelector.prototype);
+    MultiNodeSelector.prototype = new NodeSelector();
     MultiNodeSelector.prototype.parent = NodeSelector.prototype;
     MultiNodeSelector.prototype.constructor = MultiNodeSelector;
     //MultiNodeSelector.prototype.init = function () {
