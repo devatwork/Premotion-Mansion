@@ -193,7 +193,7 @@ namespace Premotion.Mansion.Amazon.S3
 					stream.Seek(0, SeekOrigin.Begin);
 
 					// create the request
-					var request = new PutObjectRequest();
+					var request = new PutObjectRequest().WithTimeout(-1);
 					request.WithBucketName(service.bucketName).WithKey(path.Paths.First()).WithInputStream(stream);
 
 					// execute the request
@@ -504,7 +504,7 @@ namespace Premotion.Mansion.Amazon.S3
 			if (string.IsNullOrEmpty(key))
 				throw new ArgumentNullException("key");
 
-			return client.Value.GetObject(new GetObjectRequest().WithBucketName(bucketName).WithKey(key));
+			return client.Value.GetObject(new GetObjectRequest().WithBucketName(bucketName).WithKey(key).WithTimeout(-1));
 		}
 		#endregion
 		#region Overrides of DisposableBase

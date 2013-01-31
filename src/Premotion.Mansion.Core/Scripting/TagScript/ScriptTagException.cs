@@ -48,7 +48,7 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 			var tag = scriptStackTrace.First();
 
 			// format the exception message
-			return string.Format("ScriptTag '{0}' at {1}:{2} caused an exception", Script.GetType(), tag.Info.Resource.Path.Paths.First(), tag.Info.LineNumber);
+			return string.Format("ScriptTag '{0}' at {1}:{2} caused an exception", Script.GetType(), tag.Info.Resource.Path.Paths.Last(), tag.Info.LineNumber);
 		}
 		#endregion
 		#region Overrides of Exception

@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseReadConverter.cs" />
+    <Compile Include="Configuration.cs" />
     <Compile Include="Connection\ConnectionManager.cs" />
     <Compile Include="Connection\ConnectionException.cs" />
     <Compile Include="Connection\ElasicSearchJsonSerializerSettings.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Querying\Mappers\CacheQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\ChildOfSpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\ConjunctionMapper.cs" />
+    <Compile Include="Querying\Mappers\AutocompleteSpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\PhrasePrefixQuerySpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\FullTextSearchSpecificationMapper.cs" />
     <Compile Include="Querying\Mappers\DisjunctionMapper.cs" />

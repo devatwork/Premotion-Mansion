@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="BulkOperationContext.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Queries\Converters\AutocompleteSpecificationConverter.cs" />
     <Compile Include="Queries\Converters\StorageOnlyQueryComponentConverter.cs" />
     <Compile Include="ScriptTags\VerifyRepositoryIntegrityTag.cs" />
     <Compile Include="SqlServerApplicationBootstrapper.cs" />
