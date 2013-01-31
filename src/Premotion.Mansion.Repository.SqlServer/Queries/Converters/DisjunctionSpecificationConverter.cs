@@ -46,7 +46,8 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 			}
 
 			// append the statement
-			commandContext.QueryBuilder.AppendWhere(buffer.ToString());
+			if (buffer.Length != 0)
+				commandContext.QueryBuilder.AppendWhere(buffer.ToString());
 		}
 		#endregion
 		#region Private Fields
