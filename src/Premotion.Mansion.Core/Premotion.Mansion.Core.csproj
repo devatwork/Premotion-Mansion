@@ -431,6 +431,7 @@
     <Compile Include="ScriptTags\FireEventTag.cs" />
     <Compile Include="ScriptTags\InvokeProcedureTag.cs" />
     <Compile Include="ScriptTags\IO\EnumerateApplicationFolderTag.cs" />
+    <Compile Include="ScriptTags\Stack\ExtractPropertiesTag.cs" />
     <Compile Include="ScriptTags\Stack\LoopReaderTag.cs" />
     <Compile Include="ScriptTags\MansionTag.cs" />
     <Compile Include="ScriptTags\Media\Csv\RenderCsvDocumentTag.cs" />
