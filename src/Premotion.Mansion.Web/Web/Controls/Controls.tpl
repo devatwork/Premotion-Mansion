@@ -282,8 +282,6 @@
 
 
 <tpl:section name="MultiNodeSelector2FieldControl" field="Field">
-	<div id="{@ControlId}" class="field input-xlarge row-fluid" data-behavior="single-node-selector">
-		<div class="span6">
 	<script type="text/ejs" id="node-selector-breadcrumbs-template">
 	<% _.forEach(crumbs, function (crumb, index, array) { %>
 			<% if ( index !== (array.length - 1) ) { %>

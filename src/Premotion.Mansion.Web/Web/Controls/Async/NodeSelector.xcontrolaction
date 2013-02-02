@@ -111,8 +111,20 @@
 	<declareProcedure procedureName="RenderDataspaceAsJsonObject">
 		<renderJsonObject
 			id="{GetProperty( Arguments.source, NodeSelectorProperties.valueProperty )}"
-			label="{GetProperty( Arguments.source, NodeSelectorProperties.labelProperty, '' )}"
-			/>
+			label="{GetProperty( Arguments.source, NodeSelectorProperties.labelProperty, '' )}">
+			
+			<!-- check if this value is assignable -->
+			<renderJsonProperty propertyName="isAssignable" value="{IsAssignable( GetProperty( Arguments.source, 'type' ), NodeSelectorProperties.selectableTypes )}" />
+			
+			<!-- check if the type contains children -->
+			<retrieveChildNodeset parentSource="{Arguments.source}" depth="any" baseType="{NodeSelectorProperties.selectableTypes}" querySource="{$QueryProperties}" pageNumber="1" pageSize="1" target="Resultset">
+				<renderJsonProperty propertyName="hasAssignableChildren" value="true" />
+				<notFound>
+					<renderJsonProperty propertyName="hasAssignableChildren" value="false" />
+				</notFound>
+			</retrieveChildNodeset>
+			
+		</renderJsonObject>
 	</declareProcedure>
 
 
