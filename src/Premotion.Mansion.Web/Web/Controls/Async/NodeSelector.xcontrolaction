@@ -4,7 +4,12 @@
 	<!-- Invoked if an async action is invoked on the node selector -->
 	<declareProcedure procedureName="ProcessAction">
 		<!-- push the control properties to the stack -->
-		<fetchDataspace source="{Route.routeParameter0}" target="NodeSelectorProperties" global="true" />
+		<fetchDataspace source="{Route.routeParameter0}" target="QueryProperties" global="true">
+			<!-- extract the node selector properties -->
+			<createDataspace target="NodeSelectorProperties" global="true">
+				<extractProperties source="{$QueryProperties}" target="{$NodeSelectorProperties}" whitelist="valueProperty,labelProperty,selectableTypes,parentPointer" />
+			</createDataspace>
+		</fetchDataspace>
 
 		<!-- retrieve the root node -->
 		<retrieveNode pointer="{NodeSelectorProperties.parentPointer}" target="RootNode" global="true">
@@ -50,7 +55,7 @@
 					<if condition="{IsEqual( NotEmpty( Post.parent, Get.parent ), GetProperty( $RootNode, NodeSelectorProperties.valueProperty ) )}">
 						<fetchDataspace source="{$RootNode}" target="CurrentNode" global="true" />
 						<else>
-							<retrieveChildNode parentSource="{$RootNode}" depth="any" where="{IsSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.parent, Get.parent ) )}" target="CurrentNode" global="true">
+							<retrieveChildNode parentSource="{$RootNode}" querySource="{$QueryProperties}" depth="any" where="{IsSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.parent, Get.parent ) )}" target="CurrentNode" global="true">
 								<notFound>
 									<throw message="Could not find current node"/>
 								</notFound>
@@ -136,7 +141,7 @@
 	<!--   parentSource: the parent node							-->
 	<declareProcedure procedureName="RenderChildNodesetAsResults">
 		<renderJsonArrayProperty propertyName="results">
-			<retrieveChildNodeset parentSource="{Arguments.parentSource}" baseType="Default" status="any" target="Resultset">
+			<retrieveChildNodeset parentSource="{Arguments.parentSource}" querySource="{$QueryProperties}" target="Resultset">
 				<loopDataset source="{$Resultset}" target="Result">
 					<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$Result}" />
 				</loopDataset>
