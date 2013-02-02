@@ -3,6 +3,14 @@ Author: Premotion Software Solutions
 ========================================================================== */
 ;
 (function($, undefined) {
+(function ($, undefined) {
+    /* NODESELECTOR COMPILED TEMPLATES
+	* ============================= */
+    var breadcrumbsTemplate = _.template($('#node-selector-breadcrumbs-template').html());
+    var resultsTemplate = _.template($('#node-selector-results-template').html());
+    var selectedItemTemplate = _.template($('#node-selector-selected-item-tempate').html());
+    var selectedItemsTemplate = _.template($('#node-selector-selected-items-tempate').html());
+    
     /* NODESELECTOR CLASS DEFINITION
 	* =========================== */
     var NodeSelector = function($element, options) {
@@ -10,9 +18,15 @@ Author: Premotion Software Solutions
             return;
         this.options = options;
         this.$element = $element;
+        this.controlId = $element.attr('id');
+        this.$breadcrumbList = this.$element.find('.breadcrumb');
         this.$candidateList = this.$element.find('.nav-list');
         this.$selectedValuesList = this.$element.find('.nav-pills');
+        this.candidateListCount = 0;
+        this.candidateListIndex = 0;
         this.$searchInput = this.$element.find('[type="search"]');
+        this.endpointUrl = this.$element.data('service-endpoint');
+        this.$valueField = this.$element.find('#' + this.controlId + '-value');
         this.listen();
     };
     NodeSelector.prototype = {
@@ -21,13 +35,13 @@ Author: Premotion Software Solutions
             var that = this;
             // attach event handlers
             that.$element
-                .on('click', '[data-behavior="remove"]', function (e) {
+                .on('click', '[data-behavior="remove"]', $.proxy(function (e) {
                     that.removeSelectedValue(e);
                 })
-                .on('click', '[data-behavior="select"]', function(e) {
+                .on('click', '[data-behavior="select"]', $.proxy(function (e) {
                     that.resultListSelect(e);
                 })
-                .on('click', '[data-behavior="browse"]', function(e) {
+                .on('click', '[data-behavior="browse"]', $.proxy(function (e) {
                     that.resultListBrowseSelected(e);
                 })
                 .on('keydown', '[type="search"]', _.debounce(function (e) {
@@ -39,26 +53,103 @@ Author: Premotion Software Solutions
                 .on('keyup', '[type="search"]', _.debounce(function (e) {
                     that.onkeyup(e);
                 }, 200));
+                    that.onkeyupAutocomplete(e);
+                }, 200))
+                .on('keydown', _.throttle(function (e) {
+                    that.resultListOnkeydown(e);
+                }, 100));
         },
         // value list methods
         removeSelectedValue: function(e) {
             console.log('removing from selected value list');
+
+            // render the breadcrumbs
+            that.$breadcrumbList.empty().append(
+                breadcrumbsTemplate(data)
+            );
+
+            // render the results
+            that.$candidateList.empty().append(
+                resultsTemplate(data)
+            );
+            that.candidateListCount = that.$candidateList.children().length;
+            that.candidateListIndex = 0;
+            that.$candidateList.children().eq(that.candidateListIndex).addClass('active');
         },
         // result list methods
+        resultListOnkeydown: function (e) {
+            switch (e.keyCode) {
+                case 9: // tab
+                case 13: // enter
+                    e.preventDefault();
+                    this.resultListSelectCurrent();
+                    break;
+                case 38: // up arrow
+                    e.preventDefault();
+                    this.resultListPrev();
+                    break;
+                case 40: // down arrow
+                    e.preventDefault();
+                    this.resultListNext();
+                    break;
+            }
+            e.stopPropagation();
+        },
         resultListPrev: function () {
             console.log('selecting previous item');
+            this.$candidateList.children().eq(this.candidateListIndex).removeClass('active');
+            this.candidateListIndex = this.candidateListIndex - 1 >= 0 ? this.candidateListIndex - 1 : this.candidateListCount - 1;
+            this.$candidateList.children().eq(this.candidateListIndex).addClass('active');
         },
         resultListNext: function () {
             console.log('selecting next item');
+            this.$candidateList.children().eq(this.candidateListIndex).removeClass('active');
+            this.candidateListIndex = this.candidateListIndex + 1 <= this.candidateListCount - 1 ? this.candidateListIndex + 1 : 0;
+            this.$candidateList.children().eq(this.candidateListIndex).addClass('active');
+        },
+        resultListSelectCurrent: function () {
+            // find the selected item
+            var $item = this.$candidateList.children().eq(this.candidateListIndex);
+
+            // check if the item is assignable
+            if ($item.data('is-assignable') != true) {
+                return;
+            }
+
+            this.addSelectedValue($item.data('id'), $item.data('label'));
         },
         resultListSelect: function (e) {
             console.log('selecting clicked item');
+            e.preventDefault();
+            e.stopPropagation();
+            this.$candidateList.children().eq(this.candidateListIndex).removeClass('active');
+            this.candidateListIndex = this.$candidateList.children().index($(e.target).parents('li'));
+            this.$candidateList.children().eq(this.candidateListIndex).addClass('active');
+            this.resultListSelectCurrent();
         },
         resultListBrowseSelected: function (e) {
             console.log('browsing clicked item');
         },
         resultListSelectCurrent: function () {
             console.log('selecting current item');
+            var id = $(e.target).parents('li').data('id'),
+                that = this;
+            if (id === undefined) {
+                return that;
+            }
+            $.ajax({
+                data: {
+                    action: 'browse',
+                    parent: id
+                },
+                dataType: 'json',
+                type: 'GET',
+                url: that.endpointUrl
+            }).done(function (data) {
+                that.renderResults(data);
+                that.$candidateList.focus();
+            });
+            return that;
         },
         // autocomplete methods
         retrieveAutcompleteResults: function () {
@@ -68,8 +159,21 @@ Author: Premotion Software Solutions
                 return that.autocompleteShown ? that.hideAutocomplete() : that;
             }
             console.log('retrieve autocomplete results for: ' + that.query);
+            $.ajax({
+                data: {
+                    action: 'autocomplete',
+                    fragment: that.query
+                },
+                dataType: 'json',
+                type: 'GET',
+                url: that.endpointUrl
+            }).done(function (data) {
+                that.renderResults(data);
+                that.autocompleteShown = true;
+            });
+            return that;
         },
-        hideAutocomplete: function(e) {
+        hideAutocomplete: function (e) {
             console.log('hiding autocomplete results');
             this.autocompleteShown = false;
             return this;
@@ -140,6 +244,7 @@ Author: Premotion Software Solutions
     * ================================= */
     var SingleNodeSelector = function($element, options) {
         NodeSelector.call(this, $element, options);
+        this.$selectedItem = this.$element.find('.selected-item');
     };
     SingleNodeSelector.prototype = new NodeSelector();
     SingleNodeSelector.prototype.parent = NodeSelector.prototype;
@@ -147,11 +252,34 @@ Author: Premotion Software Solutions
     //SingleNodeSelector.prototype.init = function () {
     //    this.parent.init.call(this, arguments);
     //};
+    SingleNodeSelector.prototype.removeSelectedValue = function (e) {
+        e.preventDefault();
+        
+        // update the ui
+        this.$selectedItem.empty().append('Select a value');
+
+        // update the value field
+        this.$valueField.val('');
+    };
+    SingleNodeSelector.prototype.addSelectedValue = function (id, label) {
+        // update the ui
+        this.$selectedItem.empty().append(selectedItemTemplate({
+            id: id,
+            label: label
+        }));
+
+        // update the value field
+        this.$valueField.val(id);
+    };
 
     /* MULTINODESELECTOR CLASS DEFINITION
     * ================================ */
     var MultiNodeSelector = function($element, options) {
         NodeSelector.call(this, $element, options);
+        this.$selectedValuesList = this.$element.find('.nav-pills');
+        this.selectedValues = [];
+        this.$selectedValuesList = this.$element.find('.nav-pills');
+        this.selectedValues = [];
     };
     MultiNodeSelector.prototype = new NodeSelector();
     MultiNodeSelector.prototype.parent = NodeSelector.prototype;
@@ -159,6 +287,68 @@ Author: Premotion Software Solutions
     //MultiNodeSelector.prototype.init = function () {
     //    this.parent.init.call(this, arguments);
     //};
+    MultiNodeSelector.prototype.removeSelectedValue = function (e) {
+        e.preventDefault();
+        
+        // find the id
+        var id = $(e.target).parents('li').data('id');
+        
+        // update the ui
+        this.$selectedValuesList.children('[data-id="' + id + '"]').remove();
+        
+        // remove from the list of selected valued
+        this.selectedValues.splice(this.selectedValues.indexOf(id), 1);
+        
+        // update the value field
+        this.$valueField.val(this.selectedValues.join());
+    };
+    MultiNodeSelector.prototype.addSelectedValue = function (id, label) {
+        // check if the item is not already selected
+        if (~$.inArray(id, this.selectedValues)) {
+            return;
+        }
+        this.selectedValues.push(id);
+
+        // update the ui
+        this.$selectedValuesList.append(selectedItemsTemplate({
+            id: id,
+            label: label
+        }));
+
+        // update the value field
+        this.$valueField.val(this.selectedValues.join());
+    };
+    MultiNodeSelector.prototype.removeSelectedValue = function (e) {
+        e.preventDefault();
+        
+        // find the id
+        var id = $(e.target).parents('li').data('id');
+        
+        // update the ui
+        this.$selectedValuesList.children('[data-id="' + id + '"]').remove();
+        
+        // remove from the list of selected valued
+        this.selectedValues.splice(this.selectedValues.indexOf(id), 1);
+        
+        // update the value field
+        this.$valueField.val(this.selectedValues.join());
+    };
+    MultiNodeSelector.prototype.addSelectedValue = function (id, label) {
+        // check if the item is not already selected
+        if (~$.inArray(id, this.selectedValues)) {
+            return;
+        }
+        this.selectedValues.push(id);
+
+        // update the ui
+        this.$selectedValuesList.append(selectedItemsTemplate({
+            id: id,
+            label: label
+        }));
+
+        // update the value field
+        this.$valueField.val(this.selectedValues.join());
+    };
 
     /* NODESELECTOR PLUGIN DEFINITION
 	* ============================ */
