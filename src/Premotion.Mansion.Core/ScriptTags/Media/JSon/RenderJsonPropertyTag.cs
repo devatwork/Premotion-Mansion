@@ -25,7 +25,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Media.JSon
 			if (string.IsNullOrEmpty(propertyName))
 				throw new InvalidOperationException("The propertyName attribute is required.");
 
-			string content;
+			object content;
 			if (!TryGetAttribute(context, "value", out content))
 			{
 				// push a memory pipe to the stack
