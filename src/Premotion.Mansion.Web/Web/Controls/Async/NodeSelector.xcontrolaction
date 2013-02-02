@@ -27,20 +27,11 @@
 					
 					<!-- path -->
 					<renderJsonArrayProperty propertyName="crumbs">
-						<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$RootNode}" />
+						<invokeProcedure procedureName="RenderNodeCrumbs" currentNode="{$RootNode}" rootNode="{$RootNode}" />
 					</renderJsonArrayProperty>
 
 					<!-- Results -->
-					<renderJsonArrayProperty propertyName="results">
-						<retrieveChildNodeset parentSource="{$RootNode}" baseType="Default" status="any" target="Resultset">
-							<loopDataset source="{$Resultset}" target="Result">
-								<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$Result}" />
-							</loopDataset>
-							<notFound>
-								<throw message="no children" />
-							</notFound>
-						</retrieveChildNodeset>
-					</renderJsonArrayProperty>
+					<invokeProcedure procedureName="RenderChildNodesetAsResults" parentSource="{$RootNode}" />
 
 				</renderJsonObject>
 			</renderJsonDocument>
@@ -54,20 +45,26 @@
 		<web:respondDocument cache="false" contentType="application/json" encoding="UTF-8">
 			<renderJsonDocument>
 				<renderJsonObject>
+					
+					<!-- retrieve the current node -->
+					<if condition="{IsEqual( NotEmpty( Post.parent, Get.parent ), GetProperty( $RootNode, NodeSelectorProperties.valueProperty ) )}">
+						<fetchDataspace source="{$RootNode}" target="CurrentNode" global="true" />
+						<else>
+							<retrieveChildNode parentSource="{$RootNode}" depth="any" where="{IsSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.parent, Get.parent ) )}" target="CurrentNode" global="true">
+								<notFound>
+									<throw message="Could not find current node"/>
+								</notFound>
+							</retrieveChildNode>
+						</else>
+					</if>
+					
 					<!-- path -->
 					<renderJsonArrayProperty propertyName="crumbs">
-						<renderJsonObject label="Root" id="1" />
-						<renderJsonObject label="Parent" id="2" />
-						<renderJsonObject label="Current" />
+						<invokeProcedure procedureName="RenderNodeCrumbs" currentNode="{$CurrentNode}" rootNode="{$RootNode}" />
 					</renderJsonArrayProperty>
 
 					<!-- Results -->
-					<renderJsonArrayProperty propertyName="results">
-						<renderJsonObject label="Result 1" id="1" isAssignable="true" hasAssignableChildren="true" />
-						<renderJsonObject label="Result 2" id="2" isAssignable="false" hasAssignableChildren="true" />
-						<renderJsonObject label="Result 3" id="3" isAssignable="true" hasAssignableChildren="false" />
-						<renderJsonObject label="Result 4" id="4" isAssignable="false" hasAssignableChildren="false" />
-					</renderJsonArrayProperty>
+					<invokeProcedure procedureName="RenderChildNodesetAsResults" parentSource="{$CurrentNode}" />
 
 				</renderJsonObject>
 			</renderJsonDocument>
@@ -83,7 +80,8 @@
 				<renderJsonObject>
 					<!-- path -->
 					<renderJsonArrayProperty propertyName="crumbs">
-						<renderJsonObject label="Results" />
+						<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$RootNode}" />
+						<renderJsonObject id=""	label="Results" />
 					</renderJsonArrayProperty>
 					
 					<!-- Results -->
@@ -100,6 +98,7 @@
 	</declareProcedure>
 
 
+
 	<!-- Renders the given dataspace as a Json object	-->
 	<!-- Arguments													-->
 	<!--   source: the dataspace								-->
@@ -108,6 +107,41 @@
 			id="{GetProperty( Arguments.source, NodeSelectorProperties.valueProperty )}"
 			label="{GetProperty( Arguments.source, NodeSelectorProperties.labelProperty, '' )}"
 			/>
+	</declareProcedure>
+
+
+
+	<!-- Renders the crumbpath of the given node	-->
+	<!-- Arguments											-->
+	<!--   currentNode: the current node			-->
+	<!--   rootNode: the root node					-->
+	<declareProcedure procedureName="RenderNodeCrumbs">
+		<fetchNode source="{Arguments.rootNode}" target="RootNode">
+		<fetchNode source="{Arguments.currentNode}" target="CurrentNode">
+			<!-- recursively render the parents until the root node was found -->
+			<if condition="{Not( IsEqual( RootNode.id, CurrentNode.id ) )}">
+				<retrieveParentNode childSource="{$CurrentNode}" target="ParentNode">
+					<invokeProcedure procedureName="RenderNodeCrumbs" currentNode="{$ParentNode}" rootNode="{$RootNode}" />
+				</retrieveParentNode>
+			</if>
+			<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$CurrentNode}" />
+		</fetchNode>
+		</fetchNode>
+	</declareProcedure>
+
+
+
+	<!-- Renders the children of the given node as results	-->
+	<!-- Arguments															-->
+	<!--   parentSource: the parent node							-->
+	<declareProcedure procedureName="RenderChildNodesetAsResults">
+		<renderJsonArrayProperty propertyName="results">
+			<retrieveChildNodeset parentSource="{Arguments.parentSource}" baseType="Default" status="any" target="Resultset">
+				<loopDataset source="{$Resultset}" target="Result">
+					<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$Result}" />
+				</loopDataset>
+			</retrieveChildNodeset>
+		</renderJsonArrayProperty>
 	</declareProcedure>
 
 </mansion>

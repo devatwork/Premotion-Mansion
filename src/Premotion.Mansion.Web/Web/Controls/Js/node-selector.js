@@ -45,13 +45,13 @@ Author: Premotion Software Solutions
                     that.resultListBrowseSelected(e);
                 }))
                 .on('keydown', '[type="search"]', _.debounce(function (e) {
-                    that.onkeydown(e);
+                    that.autocompleteOnkeydown(e);
                 }, 200))
                 .on('keypress', '[type="search"]', _.debounce(function (e) {
-                    that.onkeypress(e);
+                    that.autocompleteOnkeypress(e);
                 }, 200))
                 .on('keyup', '[type="search"]', _.debounce(function (e) {
-                    that.onkeyupAutocomplete(e);
+                    that.autocompleteOnkeyup(e);
                 }, 200))
                 .on('keydown', _.throttle(function (e) {
                     that.resultListOnkeydown(e);
@@ -82,6 +82,9 @@ Author: Premotion Software Solutions
             
             // render the results
             that.$candidateList.empty().append(resultsTemplate(data));
+            that.candidateListCount = that.$candidateList.children().length;
+            that.candidateListIndex = 0;
+            that.$candidateList.children().eq(that.candidateListIndex).addClass('active');
         },
         // value list methods
         removeSelectedValue: function (e) {
@@ -121,13 +124,11 @@ Author: Premotion Software Solutions
             e.stopPropagation();
         },
         resultListPrev: function () {
-            console.log('selecting previous item');
             this.$candidateList.children().eq(this.candidateListIndex).removeClass('active');
             this.candidateListIndex = this.candidateListIndex - 1 >= 0 ? this.candidateListIndex - 1 : this.candidateListCount - 1;
             this.$candidateList.children().eq(this.candidateListIndex).addClass('active');
         },
         resultListNext: function () {
-            console.log('selecting next item');
             this.$candidateList.children().eq(this.candidateListIndex).removeClass('active');
             this.candidateListIndex = this.candidateListIndex + 1 <= this.candidateListCount - 1 ? this.candidateListIndex + 1 : 0;
             this.$candidateList.children().eq(this.candidateListIndex).addClass('active');
@@ -144,7 +145,6 @@ Author: Premotion Software Solutions
             this.addSelectedValue($item.data('id'), $item.data('label'));
         },
         resultListSelect: function (e) {
-            console.log('selecting clicked item');
             e.preventDefault();
             e.stopPropagation();
             this.$candidateList.children().eq(this.candidateListIndex).removeClass('active');
@@ -195,7 +195,6 @@ Author: Premotion Software Solutions
             return that;
         },
         hideAutocomplete: function (e) {
-            console.log('hiding autocomplete results');
             this.autocompleteShown = false;
             return this;
         },
@@ -221,16 +220,16 @@ Author: Premotion Software Solutions
 
             e.stopPropagation();
         },
-        onkeydown: function (e) {
+        autocompleteOnkeydown: function (e) {
             this.suppressKeyPressRepeat = !$.inArray(e.keyCode, [40, 38, 9, 13, 27]);
             this.autocompleteMove(e);
         },
-        onkeypress: function (e) {
+        autocompleteOnkeypress: function (e) {
             if (this.suppressKeyPressRepeat)
                 return;
             this.autocompleteMove(e);
         },
-        onkeyup: function (e) {
+        autocompleteOnkeyup: function (e) {
             switch (e.keyCode) {
                 case 40: // down arrow
                 case 38: // up arrow
