@@ -25,15 +25,20 @@ namespace Premotion.Mansion.Core.ScriptTags.Media.JSon
 			if (string.IsNullOrEmpty(propertyName))
 				throw new InvalidOperationException("The propertyName attribute is required.");
 
-			// push a memory pipe to the stack
-			var buffer = new StringBuilder();
-			using (var pipe = new StringOutputPipe(buffer))
-			using (context.OutputPipeStack.Push(pipe))
-				ExecuteChildTags(context);
+			string content;
+			if (!TryGetAttribute(context, "value", out content))
+			{
+				// push a memory pipe to the stack
+				var buffer = new StringBuilder();
+				using (var pipe = new StringOutputPipe(buffer))
+				using (context.OutputPipeStack.Push(pipe))
+					ExecuteChildTags(context);
+				content = buffer.ToString();
+			}
 
 			// write the attribute
 			outputPipe.JsonWriter.WritePropertyName(propertyName);
-			outputPipe.JsonWriter.WriteValue(buffer.ToString());
+			outputPipe.JsonWriter.WriteValue(content);
 		}
 	}
 }
