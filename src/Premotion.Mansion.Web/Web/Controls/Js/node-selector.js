@@ -3,7 +3,6 @@ Author: Premotion Software Solutions
 ========================================================================== */
 ;
 (function($, undefined) {
-(function ($, undefined) {
     /* NODESELECTOR COMPILED TEMPLATES
 	* ============================= */
     var breadcrumbsTemplate = _.template($('#node-selector-breadcrumbs-template').html());
@@ -38,13 +37,13 @@ Author: Premotion Software Solutions
             that.$element
                 .on('click', '[data-behavior="remove"]', $.proxy(function (e) {
                     that.removeSelectedValue(e);
-                })
+                }))
                 .on('click', '[data-behavior="select"]', $.proxy(function (e) {
                     that.resultListSelect(e);
-                })
+                }))
                 .on('click', '[data-behavior="browse"]', $.proxy(function (e) {
                     that.resultListBrowseSelected(e);
-                })
+                }))
                 .on('keydown', '[type="search"]', _.debounce(function (e) {
                     that.onkeydown(e);
                 }, 200))
@@ -52,8 +51,6 @@ Author: Premotion Software Solutions
                     that.onkeypress(e);
                 }, 200))
                 .on('keyup', '[type="search"]', _.debounce(function (e) {
-                    that.onkeyup(e);
-                }, 200));
                     that.onkeyupAutocomplete(e);
                 }, 200))
                 .on('keydown', _.throttle(function (e) {
@@ -76,9 +73,20 @@ Author: Premotion Software Solutions
                 that.$candidateList.focus();
             });
         },
+        // render methods
+        renderResults: function(data) {
+            var that = this;
+            
+            // render the crumbpath
+            that.$breadcrumbList.empty().append(breadcrumbsTemplate(data));
+            
+            // render the results
+            that.$candidateList.empty().append(resultsTemplate(data));
+        },
         // value list methods
-        removeSelectedValue: function(e) {
-            console.log('removing from selected value list');
+        removeSelectedValue: function (e) {
+            e.preventDefault();
+            var that = this;
 
             // render the breadcrumbs
             that.$breadcrumbList.empty().append(
@@ -145,10 +153,6 @@ Author: Premotion Software Solutions
             this.resultListSelectCurrent();
         },
         resultListBrowseSelected: function (e) {
-            console.log('browsing clicked item');
-        },
-        resultListSelectCurrent: function () {
-            console.log('selecting current item');
             var id = $(e.target).parents('li').data('id'),
                 that = this;
             if (id === undefined) {

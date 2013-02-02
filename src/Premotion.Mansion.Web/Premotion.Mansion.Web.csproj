@@ -413,6 +413,7 @@
     <None Include="web.config.transform" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Web\Controls\Async\NodeSelector.xcontrolaction" />
     <None Include="Web\Default.xts.pp" />
     <EmbeddedResource Include="Web\Cms\AuthenticationController.tpl">
       <SubType>Designer</SubType>
