@@ -19,28 +19,24 @@ Author: Premotion Software Solutions
         constructor: NodeSelector,
         listen: function () {
             var that = this;
-            // attach event handlers to the selected values lists
-            that.$selectedValuesList
+            // attach event handlers
+            that.$element
                 .on('click', '[data-behavior="remove"]', function (e) {
                     that.removeSelectedValue(e);
-                });
-            // attach event handlers to candidate list
-            that.$candidateList
+                })
                 .on('click', '[data-behavior="select"]', function(e) {
                     that.resultListSelect(e);
                 })
                 .on('click', '[data-behavior="browse"]', function(e) {
                     that.resultListBrowseSelected(e);
-                });
-            // attach event handlers to search input
-            that.$searchInput
-                .on('keydown', _.debounce(function (e) {
+                })
+                .on('keydown', '[type="search"]', _.debounce(function (e) {
                     that.onkeydown(e);
                 }, 200))
-                .on('keypress', _.debounce(function (e) {
+                .on('keypress', '[type="search"]', _.debounce(function (e) {
                     that.onkeypress(e);
                 }, 200))
-                .on('keyup', _.debounce(function (e) {
+                .on('keyup', '[type="search"]', _.debounce(function (e) {
                     that.onkeyup(e);
                 }, 200));
         },
