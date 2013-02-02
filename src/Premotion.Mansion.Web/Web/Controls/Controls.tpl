@@ -289,8 +289,8 @@
 			</div>
 			<div class="well well-small">
 				<ul class="breadcrumb">
-				  <li><a href="#" data-behavior="browse">Home</a> <span class="divider">/</span></li>
-				  <li><a href="#" data-behavior="browse">Library</a> <span class="divider">/</span></li>
+				  <li><a href="#">Home</a> <span class="divider">/</span></li>
+				  <li><a href="#">Library</a> <span class="divider">/</span></li>
 				  <li class="active">Data</li>
 				</ul>
 				<ul class="nav nav-list">
@@ -356,8 +356,8 @@
 			</div>
 			<div class="well well-small">
 				<ul class="breadcrumb">
-				  <li><a href="#" data-behavior="browse">Home</a> <span class="divider">/</span></li>
-				  <li><a href="#" data-behavior="browse">Library</a> <span class="divider">/</span></li>
+				  <li><a href="#">Home</a> <span class="divider">/</span></li>
+				  <li><a href="#">Library</a> <span class="divider">/</span></li>
 				  <li class="active">Data</li>
 				</ul>
 				<ul class="nav nav-list">
