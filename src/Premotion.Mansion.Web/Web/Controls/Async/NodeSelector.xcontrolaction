@@ -91,10 +91,11 @@
 					
 					<!-- Results -->
 					<renderJsonArrayProperty propertyName="results">
-						<renderJsonObject label="Result 1" id="1" isAssignable="true" hasAssignableChildren="true" />
-						<renderJsonObject label="Result 2" id="2" isAssignable="false" hasAssignableChildren="true" />
-						<renderJsonObject label="Result 3" id="3" isAssignable="true" hasAssignableChildren="false" />
-						<renderJsonObject label="Result 4" id="4" isAssignable="false" hasAssignableChildren="false" />
+						<retrieveChildNodeset parentSource="{$RootNode}" depth="any" querySource="{$QueryProperties}" name_autocomplete="{NotEmpty( Post.fragment, Get.fragment )}" baseType="{NodeSelectorProperties.selectableTypes}" target="ResultSet">
+							<loopDataset source="{$Resultset}" target="Result">
+								<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$Result}" />
+							</loopDataset>
+						</retrieveChildNodeset>
 					</renderJsonArrayProperty>
 
 				</renderJsonObject>
