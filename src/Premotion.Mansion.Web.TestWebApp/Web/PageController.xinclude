@@ -13,7 +13,9 @@
 					<forms:step label="t">
 						<!-- http://ux.stackexchange.com/a/13246 -->
 						<!-- http://www.filamentgroup.com/examples/menus/ipod.php# -->
-						<forms:multiNodeSelector2 name="test" label="Test" />
+						<forms:multiNodeSelector2 name="test" label="Test">
+							<forms:nodeSelectorProperties parentPointer="1" labelProperty="name" valueProperty="guid" />
+						</forms:multiNodeSelector2>
 					</forms:step>
 				</forms:form>
 

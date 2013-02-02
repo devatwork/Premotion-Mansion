@@ -28,6 +28,7 @@ Author: Premotion Software Solutions
         this.endpointUrl = this.$element.data('service-endpoint');
         this.$valueField = this.$element.find('#' + this.controlId + '-value');
         this.listen();
+        this.retrieve();
     };
     NodeSelector.prototype = {
         constructor: NodeSelector,
@@ -58,6 +59,22 @@ Author: Premotion Software Solutions
                 .on('keydown', _.throttle(function (e) {
                     that.resultListOnkeydown(e);
                 }, 100));
+        },
+        // retrieve methods
+        retrieve: function() {
+            var that = this;
+            $.ajax({
+                data: {
+                    action: 'initiate',
+                    selected: that.$valueField.val()
+                },
+                dataType: 'json',
+                type: 'GET',
+                url: that.endpointUrl
+            }).done(function (data) {
+                that.renderResults(data);
+                that.$candidateList.focus();
+            });
         },
         // value list methods
         removeSelectedValue: function(e) {

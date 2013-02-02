@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+
+	<!-- Invoked if an async action is invoked on the node selector -->
+	<declareProcedure procedureName="ProcessAction">
+		<!-- push the control properties to the stack -->
+		<fetchDataspace source="{Route.routeParameter0}" target="NodeSelectorProperties" global="true" />
+
+		<!-- retrieve the root node -->
+		<retrieveNode pointer="{NodeSelectorProperties.parentPointer}" target="RootNode" global="true">
+			<notFound>
+				<throw message="Root node not found"/>
+			</notFound>
+		</retrieveNode>
+		
+		<!-- dispatch the request-->
+		<invokeProcedure procedureName="Process{NotEmpty( Post.action, Get.action, 'Dummy' )}Action" />
+	</declareProcedure>
+	
+	
+	
+	<!-- Invoked if a initiate is executed -->
+	<declareProcedure procedureName="ProcessInitiateAction">
+		<web:respondDocument cache="false" contentType="application/json" encoding="UTF-8">
+			<renderJsonDocument>
+				<renderJsonObject>
+					
+					<!-- path -->
+					<renderJsonArrayProperty propertyName="crumbs">
+						<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$RootNode}" />
+					</renderJsonArrayProperty>
+
+					<!-- Results -->
+					<renderJsonArrayProperty propertyName="results">
+						<retrieveChildNodeset parentSource="{$RootNode}" baseType="Default" status="any" target="Resultset">
+							<loopDataset source="{$Resultset}" target="Result">
+								<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$Result}" />
+							</loopDataset>
+							<notFound>
+								<throw message="no children" />
+							</notFound>
+						</retrieveChildNodeset>
+					</renderJsonArrayProperty>
+
+				</renderJsonObject>
+			</renderJsonDocument>
+		</web:respondDocument>
+	</declareProcedure>
+	
+	
+	
+	<!-- Invoked if a browse action is executed -->
+	<declareProcedure procedureName="ProcessBrowseAction">
+		<web:respondDocument cache="false" contentType="application/json" encoding="UTF-8">
+			<renderJsonDocument>
+				<renderJsonObject>
+					<!-- path -->
+					<renderJsonArrayProperty propertyName="crumbs">
+						<renderJsonObject label="Root" id="1" />
+						<renderJsonObject label="Parent" id="2" />
+						<renderJsonObject label="Current" />
+					</renderJsonArrayProperty>
+
+					<!-- Results -->
+					<renderJsonArrayProperty propertyName="results">
+						<renderJsonObject label="Result 1" id="1" isAssignable="true" hasAssignableChildren="true" />
+						<renderJsonObject label="Result 2" id="2" isAssignable="false" hasAssignableChildren="true" />
+						<renderJsonObject label="Result 3" id="3" isAssignable="true" hasAssignableChildren="false" />
+						<renderJsonObject label="Result 4" id="4" isAssignable="false" hasAssignableChildren="false" />
+					</renderJsonArrayProperty>
+
+				</renderJsonObject>
+			</renderJsonDocument>
+		</web:respondDocument>
+	</declareProcedure>
+	
+	
+	
+	<!-- Invoked if a browse action is executed -->
+	<declareProcedure procedureName="ProcessAutocompleteAction">
+		<web:respondDocument cache="false" contentType="application/json" encoding="UTF-8">
+			<renderJsonDocument>
+				<renderJsonObject>
+					<!-- path -->
+					<renderJsonArrayProperty propertyName="crumbs">
+						<renderJsonObject label="Results" />
+					</renderJsonArrayProperty>
+					
+					<!-- Results -->
+					<renderJsonArrayProperty propertyName="results">
+						<renderJsonObject label="Result 1" id="1" isAssignable="true" hasAssignableChildren="true" />
+						<renderJsonObject label="Result 2" id="2" isAssignable="false" hasAssignableChildren="true" />
+						<renderJsonObject label="Result 3" id="3" isAssignable="true" hasAssignableChildren="false" />
+						<renderJsonObject label="Result 4" id="4" isAssignable="false" hasAssignableChildren="false" />
+					</renderJsonArrayProperty>
+
+				</renderJsonObject>
+			</renderJsonDocument>
+		</web:respondDocument>
+	</declareProcedure>
+
+
+	<!-- Renders the given dataspace as a Json object	-->
+	<!-- Arguments													-->
+	<!--   source: the dataspace								-->
+	<declareProcedure procedureName="RenderDataspaceAsJsonObject">
+		<renderJsonObject
+			id="{GetProperty( Arguments.source, NodeSelectorProperties.valueProperty )}"
+			label="{GetProperty( Arguments.source, NodeSelectorProperties.labelProperty, '' )}"
+			/>
+	</declareProcedure>
+
+</mansion>

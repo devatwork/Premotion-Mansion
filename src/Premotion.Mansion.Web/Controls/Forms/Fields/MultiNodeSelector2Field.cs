@@ -1,4 +1,7 @@
-﻿using Premotion.Mansion.Core.Scripting.TagScript;
+﻿using System;
+using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Scripting.TagScript;
+using Premotion.Mansion.Core.Templating;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Fields
 {
@@ -22,7 +25,11 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
 			protected override MultiNodeSelector2Field Create(IMansionWebContext context, ControlDefinition definition)
 			{
-				return new MultiNodeSelector2Field(definition);
+				// get the node selector properties tag
+				var nodeSelectorPropertiesTag = GetAlternativeChildTag<NodeSelectorPropertiesTag>();
+
+				// create the control
+				return new MultiNodeSelector2Field(nodeSelectorPropertiesTag.GetAttributes(context), definition);
 			}
 			#endregion
 		}
@@ -31,10 +38,32 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// Constructs a field.
 		/// </summary>
+		/// <param name="selectorProperties"></param>
 		/// <param name="definition"></param>
-		public MultiNodeSelector2Field(ControlDefinition definition) : base(definition)
+		public MultiNodeSelector2Field(IPropertyBag selectorProperties, ControlDefinition definition) : base(definition)
 		{
+			// validatete arguments
+			if (selectorProperties == null)
+				throw new ArgumentNullException("selectorProperties");
+
+			this.selectorProperties = selectorProperties;
 		}
+		#endregion
+		#region Overrides of Control
+		/// <summary>
+		/// Render this control.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
+		protected override void DoRender(IMansionWebContext context, Core.Templating.ITemplateService templateService)
+		{
+			// get the node selector properties
+			using (context.Stack.Push("NodeSelectorProperties", selectorProperties))
+				base.DoRender(context, templateService);
+		}
+		#endregion
+		#region Private Fields
+		private readonly IPropertyBag selectorProperties;
 		#endregion
 	}
 }

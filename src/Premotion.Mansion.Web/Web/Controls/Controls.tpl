@@ -284,6 +284,53 @@
 <tpl:section name="MultiNodeSelector2FieldControl" field="Field">
 	<div id="{@ControlId}" class="field input-xlarge row-fluid" data-behavior="single-node-selector">
 		<div class="span6">
+	<script type="text/ejs" id="node-selector-breadcrumbs-template">
+	<% _.forEach(crumbs, function (crumb, index, array) { %>
+			<% if ( index !== (array.length - 1) ) { %>
+			<li data-id="<%= crumb.id %>">
+				<a href="#" data-behavior="browse">
+					<%= crumb.label %>
+				</a>
+				<span class="divider">/</span>
+			</li>
+			<% } else { %>
+			<li class="active">
+				<%= crumb.label %>
+			</li>
+			<% } %>
+	<% }); %>
+	</script>
+	<script type="text/ejs" id="node-selector-results-template">
+	<% _.forEach(results, function (result, index, array) { %>
+	<li class="clearfix" data-id="<%= result.id %>" data-label="<%= result.label %>" data-is-assignable="<%= result.isAssignable %>">
+		<a href="#" data-behavior="browse">
+			<% if ( result.isAssignable === true ) { %>
+			<i class="icon-plus-sign" data-behavior="select"></i>
+			<% } %>
+			<% if ( result.hasAssignableChildren === true ) { %>
+			<i class="icon-chevron-right" data-behavior="browse"></i>
+			<% } %>
+			<%= result.label %>
+		</a>
+	</li>
+	<% }); %>
+	</script>
+	<script type="text/ejs" id="node-selector-selected-items-tempate">
+		<li data-id="<%= id %>" >
+			<a href="#" data-behavior="remove">
+				<i class="pull-right icon-remove"></i>
+				<%= label %>
+			</a>
+		</li>
+	</script>
+	<script type="text/ejs" id="node-selector-selected-item-tempate">
+		<a href="#" data-behavior="remove" data-id="<%= id %>" class="btn">
+			<%= label %>
+			<i class="icon-remove"></i>
+		</a>
+	</script>
+	
+	<div id="{@ControlId}" class="field input-xxlarge" data-behavior="single-node-selector" data-service-endpoint="{RouteUrlWithArea( 'Controls', 'Async', 'NodeSelector', '0', $NodeSelectorProperties )}">
 			<div class="clearfix">
 				<input type="search" class="pull-right input-medium search-query" data-behavior="filter-node-select" placeholder="Filter">
 			</div>
@@ -330,7 +377,60 @@
 				</ul>
 			</div>
 		</div>
-		<div class="span6">
+		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">
+		<div class="selected-item">
+			<a href="#" data-behavior="remove" class="btn">
+				Item 1
+				<i class="icon-remove"></i>
+			</a>
+		</div>
+		<div class="clearfix">
+			<input type="search" class="pull-right input-medium search-query" data-behavior="filter-node-select" placeholder="Filter">
+		</div>
+		<div class="well well-small">
+			<ul class="breadcrumb">
+				<li data-id="1"><a href="#" data-behavior="browse">Home</a> <span class="divider">/</span></li>
+				<li data-id="2"><a href="#" data-behavior="browse">Library</a> <span class="divider">/</span></li>
+				<li class="active">Data</li>
+			</ul>
+			<ul class="nav nav-list" tabindex="0">
+				<li class="clearfix" data-id="3">
+					<div class="pull-right btn-group">
+						<a href="#" data-behavior="select" class="btn">
+							<i class="icon-plus-sign"></i>
+						</a>
+						<a href="#" data-behavior="browse" class="btn">
+							<i class="icon-chevron-right"></i>
+						</a>
+					</div>
+					Vakken
+				</li>
+				<li class="clearfix" data-id="4">
+					<div class="pull-right btn-group">
+						<a href="#" data-behavior="select" class="btn">
+							<i class="icon-plus-sign"></i>
+						</a>
+						<a href="#" data-behavior="browse" class="btn">
+							<i class="icon-chevron-right"></i>
+						</a>
+					</div>
+					Vakken
+				</li>
+				<li class="clearfix" data-id="5">
+					<div class="pull-right btn-group">
+						<a href="#" data-behavior="select" class="btn">
+							<i class="icon-plus-sign"></i>
+						</a>
+						<a href="#" data-behavior="browse" class="btn">
+							<i class="icon-chevron-right"></i>
+						</a>
+					</div>
+					Vakken
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="{@ControlId}" class="field input-xxlarge" data-behavior="multi-node-selector" data-service-endpoint="{RouteUrlWithArea( 'Controls', 'Async', 'NodeSelector', '0', $NodeSelectorProperties )}">
 			<div class="well well-small">
 				<ul class="nav nav-pills nav-stacked">
 					<li>
@@ -413,6 +513,75 @@
 						</a>
 					</li>
 				</ul>
+			</div>
+		</div>
+	</div>
+		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">
+		<div class="row-fluid">
+			<div class="span6">
+				<div class="clearfix">
+					<input type="search" class="pull-right input-medium search-query" data-behavior="filter-node-select" placeholder="Filter">
+				</div>
+				<div class="well well-small">
+					<ul class="breadcrumb">
+					  <li data-id="6"><a href="#" data-behavior="browse">Home</a> <span class="divider">/</span></li>
+					  <li data-id="7"><a href="#" data-behavior="browse">Library</a> <span class="divider">/</span></li>
+					  <li class="active">Data</li>
+					</ul>
+					<ul class="nav nav-list" tabindex="0">
+						<li class="clearfix" data-id="8">
+							<div class="pull-right btn-group">
+								<a href="#" data-behavior="select" class="btn">
+									<i class="icon-plus-sign"></i>
+								</a>
+								<a href="#" data-behavior="browse" class="btn">
+									<i class="icon-chevron-right"></i>
+								</a>
+							</div>
+							Vakken
+						</li>
+						<li class="clearfix" data-id="9">
+							<div class="pull-right btn-group">
+								<a href="#" data-behavior="select" class="btn">
+									<i class="icon-plus-sign"></i>
+								</a>
+								<a href="#" data-behavior="browse" class="btn">
+									<i class="icon-chevron-right"></i>
+								</a>
+							</div>
+							Vakken
+						</li>
+						<li class="clearfix" data-id="10">
+							<div class="pull-right btn-group">
+								<a href="#" data-behavior="select" class="btn">
+									<i class="icon-plus-sign"></i>
+								</a>
+								<a href="#" data-behavior="browse" class="btn">
+									<i class="icon-chevron-right"></i>
+								</a>
+							</div>
+							Vakken
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="span6">
+				<div class="well well-small">
+					<ul class="nav nav-pills nav-stacked">
+						<li>
+							<a href="#" data-behavior="remove">
+								<i class="pull-right icon-remove"></i>
+								Item 1
+							</a>
+						</li>
+						<li>
+							<a href="#" data-behavior="remove">
+								<i class="pull-right icon-remove"></i>
+								Item 2 met een langere naam
+							</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
