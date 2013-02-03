@@ -89,6 +89,13 @@ Author: Premotion Software Solutions
             that.candidateListCount = that.$candidateList.children().length;
             that.candidateListIndex = 0;
             that.$candidateList.children().eq(that.candidateListIndex).addClass('active');
+            
+            // render the current value if any
+            if (data.selected != undefined && data.selected.length > 0) {
+                _.forEach(data.selected, function (item) {
+                    that.addSelectedValue(item.id, item.label);
+                });
+            }
         },
         // value list methods
         removeSelectedValue: function (e) {

@@ -40,6 +40,15 @@
 
 					<!-- Results -->
 					<invokeProcedure procedureName="RenderChildNodesetAsResults" parentSource="{$RootNode}" />
+					
+					<!-- validate currently selected values -->
+					<renderJsonArrayProperty propertyName="selected">
+						<retrieveChildNodeset parentSource="{$RootNode}" depth="any" querySource="{$QueryProperties}" baseType="{NodeSelectorProperties.selectableTypes}" where="{InSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.selected, Get.selected ) )}" target="ResultSet">
+							<loopDataset source="{$Resultset}" target="Result">
+								<renderJsonObject id="{GetProperty( $Result, NodeSelectorProperties.valueProperty )}" label="{GetProperty( $Result, NodeSelectorProperties.labelProperty, '' )}" />
+							</loopDataset>
+						</retrieveChildNodeset>
+					</renderJsonArrayProperty>
 
 				</renderJsonObject>
 			</renderJsonDocument>
