@@ -29,6 +29,9 @@
 		<web:respondDocument cache="false" contentType="application/json" encoding="UTF-8">
 			<renderJsonDocument>
 				<renderJsonObject>
+
+					<!-- render parent id -->
+					<renderJsonProperty propertyName="parentId" value="{GetProperty( $RootNode, NodeSelectorProperties.valueProperty )}" />
 					
 					<!-- path -->
 					<renderJsonArrayProperty propertyName="crumbs">
@@ -63,6 +66,9 @@
 						</else>
 					</if>
 					
+					<!-- render parent id -->
+					<renderJsonProperty propertyName="parentId" value="{GetProperty( $CurrentNode, NodeSelectorProperties.valueProperty )}" />
+					
 					<!-- path -->
 					<renderJsonArrayProperty propertyName="crumbs">
 						<invokeProcedure procedureName="RenderNodeCrumbs" currentNode="{$CurrentNode}" rootNode="{$RootNode}" />
@@ -83,15 +89,31 @@
 		<web:respondDocument cache="false" contentType="application/json" encoding="UTF-8">
 			<renderJsonDocument>
 				<renderJsonObject>
+
+					<!-- retrieve the current node -->
+					<if condition="{IsEqual( NotEmpty( Post.parent, Get.parent ), GetProperty( $RootNode, NodeSelectorProperties.valueProperty ) )}">
+						<fetchDataspace source="{$RootNode}" target="CurrentNode" global="true" />
+						<else>
+							<retrieveChildNode parentSource="{$RootNode}" querySource="{$QueryProperties}" depth="any" where="{IsSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.parent, Get.parent ) )}" target="CurrentNode" global="true">
+								<notFound>
+									<throw message="Could not find current node"/>
+								</notFound>
+							</retrieveChildNode>
+						</else>
+					</if>
+
+					<!-- render parent id -->
+					<renderJsonProperty propertyName="parentId" value="{GetProperty( $CurrentNode, NodeSelectorProperties.valueProperty )}" />
+					
 					<!-- path -->
 					<renderJsonArrayProperty propertyName="crumbs">
-						<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$RootNode}" />
+						<invokeProcedure procedureName="RenderNodeCrumbs" currentNode="{$CurrentNode}" rootNode="{$RootNode}" />
 						<renderJsonObject id=""	label="Results" />
 					</renderJsonArrayProperty>
 					
 					<!-- Results -->
 					<renderJsonArrayProperty propertyName="results">
-						<retrieveChildNodeset parentSource="{$RootNode}" depth="any" querySource="{$QueryProperties}" name_autocomplete="{NotEmpty( Post.fragment, Get.fragment )}" baseType="{NodeSelectorProperties.selectableTypes}" target="ResultSet">
+						<retrieveChildNodeset parentSource="{$CurrentNode}" depth="any" querySource="{$QueryProperties}" name_autocomplete="{NotEmpty( Post.fragment, Get.fragment )}" baseType="{NodeSelectorProperties.selectableTypes}" target="ResultSet">
 							<loopDataset source="{$Resultset}" target="Result">
 								<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$Result}" />
 							</loopDataset>

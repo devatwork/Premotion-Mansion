@@ -26,6 +26,7 @@ Author: Premotion Software Solutions
         this.$searchInput = this.$element.find('[type="search"]');
         this.endpointUrl = this.$element.data('service-endpoint');
         this.$valueField = this.$element.find('#' + this.controlId + '-value');
+        this.parentId = undefined;
         this.listen();
         this.retrieve();
     };
@@ -76,6 +77,9 @@ Author: Premotion Software Solutions
         // render methods
         renderResults: function(data) {
             var that = this;
+            
+            // set the parent id
+            that.parentId = data.parentId;
             
             // render the crumbpath
             that.$breadcrumbList.empty().append(breadcrumbsTemplate(data));
@@ -135,6 +139,9 @@ Author: Premotion Software Solutions
                     this.resultListBrowse($child);
                     break;
             }
+            if (e.keyCode >= 48 && e.keyCode <= 90) {
+                this.$searchInput.focus();
+            }
             e.stopPropagation();
         },
         resultListPrev: function () {
@@ -171,16 +178,16 @@ Author: Premotion Software Solutions
             this.resultListBrowse($elem);
         },
         resultListBrowse: function ($elem) {
-            var id = $elem.data('id'),
-                hasAssignableChildren = !$elem.hasClass('disabled'),
+            var hasAssignableChildren = !$elem.hasClass('disabled'),
                 that = this;
-            if (id === undefined || hasAssignableChildren !== true) {
+            that.parentId = $elem.data('id');
+            if (that.parentId === undefined || hasAssignableChildren !== true) {
                 return that;
             }
             $.ajax({
                 data: {
                     action: 'browse',
-                    parent: id
+                    parent: that.parentId
                 },
                 dataType: 'json',
                 type: 'GET',
@@ -198,11 +205,11 @@ Author: Premotion Software Solutions
             if (!that.query || that.query.length < that.options.minLength) {
                 return that.autocompleteShown ? that.hideAutocomplete() : that;
             }
-            console.log('retrieve autocomplete results for: ' + that.query);
             $.ajax({
                 data: {
                     action: 'autocomplete',
-                    fragment: that.query
+                    fragment: that.query,
+                    parent: that.parentId
                 },
                 dataType: 'json',
                 type: 'GET',
@@ -215,6 +222,12 @@ Author: Premotion Software Solutions
         },
         hideAutocomplete: function (e) {
             this.autocompleteShown = false;
+            var $crumbs = this.$breadcrumbList.children(),
+                length = $crumbs.length;
+            if (length <= 1)
+                return this;
+            var $parent = $crumbs.eq(length - 2);
+            this.resultListBrowse($parent);
             return this;
         },
         autocompleteMove: function (e) {
