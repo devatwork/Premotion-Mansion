@@ -122,7 +122,7 @@
 					
 					<!-- Results -->
 					<renderJsonArrayProperty propertyName="results">
-						<retrieveChildNodeset parentSource="{$CurrentNode}" depth="any" querySource="{$QueryProperties}" name_autocomplete="{NotEmpty( Post.fragment, Get.fragment )}" baseType="{NodeSelectorProperties.selectableTypes}" target="ResultSet">
+						<retrieveChildNodeset parentSource="{$CurrentNode}" depth="any" querySource="{$QueryProperties}" name_autocomplete="{NotEmpty( Post.fragment, Get.fragment )}" baseType="{NodeSelectorProperties.selectableTypes}" limit="10" target="ResultSet">
 							<loopDataset source="{$Resultset}" target="Result">
 								<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$Result}" />
 							</loopDataset>
@@ -145,7 +145,14 @@
 			label="{GetProperty( Arguments.source, NodeSelectorProperties.labelProperty, '' )}">
 			
 			<!-- check if this value is assignable -->
-			<renderJsonProperty propertyName="isAssignable" value="{IsAssignable( GetProperty( Arguments.source, 'type' ), NodeSelectorProperties.selectableTypes )}" />
+			<if condition="{IsEmpty( NodeSelectorProperties.disabledExpression )}">
+				<renderJsonProperty propertyName="isAssignable" value="{IsAssignable( GetProperty( Arguments.source, 'type' ), NodeSelectorProperties.selectableTypes )}" />
+				<else>
+					<fetchDataspace source="{Arguments.source}" target="Node">
+						<renderJsonProperty propertyName="isAssignable" value="{And( IsAssignable( GetProperty( Arguments.source, 'type' ), NodeSelectorProperties.selectableTypes ), Not( EvaluateExpression( NodeSelectorProperties.disabledExpression ) ) )}" />
+					</fetchDataspace>
+				</else>
+			</if>
 			
 			<!-- check if the type contains children -->
 			<retrieveChildNodeset parentSource="{Arguments.source}" depth="any" baseType="{NodeSelectorProperties.selectableTypes}" querySource="{$QueryProperties}" pageNumber="1" pageSize="1" target="Resultset">
