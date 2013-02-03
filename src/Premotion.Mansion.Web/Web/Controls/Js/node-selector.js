@@ -227,20 +227,12 @@ Author: Premotion Software Solutions
                 case 27: // escape
                     e.preventDefault();
                     break;
-                case 38: // up arrow
-                    e.preventDefault();
-                    this.resultListPrev();
-                    break;
-                case 40: // down arrow
-                    e.preventDefault();
-                    this.resultListNext();
-                    break;
             }
 
             e.stopPropagation();
         },
         autocompleteOnkeydown: function (e) {
-            this.suppressKeyPressRepeat = !$.inArray(e.keyCode, [40, 38, 9, 13, 27]);
+            this.suppressKeyPressRepeat = !$.inArray(e.keyCode, [40, 38, 37, 39, 9, 13, 27]);
             this.autocompleteMove(e);
         },
         autocompleteOnkeypress: function (e) {
@@ -252,6 +244,8 @@ Author: Premotion Software Solutions
             switch (e.keyCode) {
                 case 40: // down arrow
                 case 38: // up arrow
+                case 37: // left arrow
+                case 39: // right arrow
                 case 16: // shift
                 case 17: // ctrl
                 case 18: // alt
