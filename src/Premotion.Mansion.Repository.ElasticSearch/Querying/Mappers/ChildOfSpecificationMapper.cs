@@ -25,11 +25,19 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 			var parentId = new TermFilter("pointer", specification.ParentPointer.Id);
 
 			// if there is a specified depth combine it with the parentId
-			BaseFilter combined = parentId;
+			BaseFilter combined;
 			if (specification.Depth.HasValue)
 			{
 				// create the depth
 				var depth = new TermFilter("depth", specification.ParentPointer.Depth + specification.Depth.Value);
+
+				// combine the parentId and depth
+				combined = new AndFilter().Add(parentId, depth);
+			}
+			else
+			{
+				// create the depth
+				var depth = RangeFilter.GreaterThan("depth", specification.ParentPointer.Depth);
 
 				// combine the parentId and depth
 				combined = new AndFilter().Add(parentId, depth);

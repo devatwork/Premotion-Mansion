@@ -1,6 +1,5 @@
-using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
-using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Scripting.TagScript;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Fields
@@ -22,10 +21,11 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
 			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+			/// <param name="settings"></param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override SingleNodeSelectorField DoCreate(IMansionWebContext context, ControlDefinition definition)
+			protected override SingleNodeSelectorField DoCreate(IMansionWebContext context, IPropertyBag settings, ControlDefinition definition)
 			{
-				return new SingleNodeSelectorField(definition);
+				return new SingleNodeSelectorField(settings, definition);
 			}
 			#endregion
 		}
@@ -34,50 +34,10 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// Constructors this control.
 		/// </summary>
+		/// <param name="settings">The node selector settings.</param>
 		/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-		public SingleNodeSelectorField(ControlDefinition definition) : base(definition)
+		public SingleNodeSelectorField(IPropertyBag settings, ControlDefinition definition) : base(settings, definition)
 		{
-		}
-		#endregion
-		#region Overrides of Field{string}
-		/// <summary>
-		/// Initializes this form control.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
-		/// <param name="form">The <see cref="Form"/> to which this control belongs.</param>
-		protected override void DoInitialize(IMansionWebContext context, Form form)
-		{
-			//  first allow base to initialize
-			base.DoInitialize(context, form);
-
-			// if there is no value do not display it
-			if (!HasValue(context))
-				return;
-			var currentValue = GetValue(context);
-			if (string.IsNullOrEmpty(currentValue))
-				return;
-
-			// retrieve the corresponding node
-			var repository = context.Repository;
-			var node = repository.RetrieveSingleNode(context, new PropertyBag
-			                                                  {
-			                                                  	{"parentPointer", SelectorProperties.Get<NodePointer>(context, "rootPointer")},
-			                                                  	{ValueProperty, currentValue},
-			                                                  	{"status", "any"},
-			                                                  	{"depth", "any"},
-			                                                  	{"bypassAuthorization", true},
-			                                                  	{StorageOnlyQueryComponent.PropertyKey, true}
-			                                                  });
-
-			// if no node was found clear the value of this field
-			if (node == null)
-			{
-				ClearValue();
-				return;
-			}
-
-			// set the display value
-			Definition.Properties.Set("displayValue", node.Get(context, LabelProperty, node.Get<string>(context, ValueProperty)));
 		}
 		#endregion
 	}

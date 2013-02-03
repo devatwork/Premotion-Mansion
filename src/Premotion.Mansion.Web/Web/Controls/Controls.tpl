@@ -10,7 +10,7 @@
 <tpl:section name="FormControlName">{FormProperties.prefix}</tpl:section>
 	
 <tpl:section name="FormControl" field="Control">
-	<form method="post" action="{Request.url}" id="{@ControlId}" name="{@FormControlName}" class="form {NotEmpty( ControlProperties.cssClass, 'form-horizontal' )}" accept-charset="utf-8" enctype="multipart/form-data" target="_self">
+	<form method="post" action="{NotEmpty( FormProperties.submitUrl, Request.url )}" id="{@ControlId}" name="{@FormControlName}" class="form {NotEmpty( ControlProperties.cssClass, 'form-horizontal' )}" accept-charset="utf-8" enctype="multipart/form-data" target="_self">
 		{Control}
 		{Hidden}
 		<input type="hidden" name="{FormProperties.prefix}current-step" value="{FormProperties.currentStepId}">
@@ -154,62 +154,6 @@
 		</label>
 	</tpl:section>
 
-<tpl:section name="SingleNodeSelectorFieldControl" field="Field">
-	<div id="{@ControlId}" class="field input-xlarge node-selector single-node-selector" data-behavior="node-selector">
-		<ul class="unstyled labels">{@SingleNodeSelectorFieldControlOption}</ul>
-		<div class="btn-group">
-			<a class="btn btn-primary btn-select-values" href="#"><i class="icon-pushpin"></i> Select</a>
-			<a class="btn btn-clear-selection" href="#"><i class="icon-remove-sign"></i> Clear</a>
-		</div>
-		<input type="hidden" name="{@FieldName}" class="field hidden value" value="{ControlProperties.value}">
-		<div class="modal fade hide" data-href="{DataspaceToQueryString( ControlRouteUrl( 'Dialog', 'SingleNodeSelector', '1' ), $SelectorProperties )}"></div>
-	</div>
-</tpl:section>
-
-	<tpl:section name="SingleNodeSelectorFieldControlOption" requires="{Not( IsEmpty( ControlProperties.value ) )}">
-		<li data-value="{ControlProperties.value}">{ControlProperties.displayValue}</li>
-	</tpl:section>
-
-<tpl:section name="MultiNodeSelectorFieldControl" field="Field">
-	<div id="{@ControlId}" class="field input-xlarge node-selector multi-node-selector" data-behavior="node-selector">
-		<ul class="unstyled labels">{MultiNodeSelectorFieldControlOption}</ul>
-		<div class="btn-group">
-			<a class="btn btn-primary btn-select-values" href="#"><i class="icon-pushpin"></i> Select</a>
-			<a class="btn btn-clear-selection" href="#"><i class="icon-remove-sign"></i> Clear</a>
-		</div>
-		<input type="hidden" name="{@FieldName}" class="field hidden value" value="{ControlProperties.value}">
-		<div class="modal fade hide" data-href="{DataspaceToQueryString( ControlRouteUrl( 'Dialog', 'MultiNodeSelector', '1' ), $SelectorProperties )}"></div>
-	</div>
-</tpl:section>
-
-	<tpl:section name="MultiNodeSelectorFieldControlOption">
-		<li data-value="{Row.value}">{Row.label}</li>
-	</tpl:section>
-
-<tpl:section name="NodeTreeSelectFieldControl" field="Field">
-	<ul class="field tree-select node-tree">
-		{Leaf}
-	</ul>
-</tpl:section>
-	
-	<tpl:section name="NodeTreeSelectFieldControlLeaf" field="Leaf">
-		<li>
-			<label for="{@FieldName}-{LeafProperties.id}">
-				{@NodeTreeSelectFieldControlLeafButton}
-				{LeafProperties.label}
-			</label>
-			{Children}
-		</li>
-	</tpl:section>
-
-		<tpl:section name="NodeTreeSelectFieldControlLeafButton" requires="{Not( LeafProperties.disabled )}"><input type="{If( ControlProperties.allowMultiple, 'checkbox', 'radio' )}" name="{@FieldName}" id="{@FieldName}-{LeafProperties.id}" value="{LeafProperties.value}" {If( InList( LeafProperties.value, ControlProperties.value ), 'checked')} {If( LeafProperties.disabled, 'disabled' )}></tpl:section>
-	
-	<tpl:section name="NodeTreeSelectFieldControlWithChildren" field="Children">
-		<ul>
-			{Leaf}
-		</ul>
-	</tpl:section>
-
 <tpl:section name="DateFieldControl" field="Field">
 	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge date {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy' )}" {@FieldReadonlyAttribute}>
 </tpl:section>
@@ -278,6 +222,193 @@
 			{Control}
 		</div>
 	</fieldset>
+</tpl:section>
+
+
+<tpl:section name="MultiNodeSelector2FieldControl" field="Field">
+	<div id="{@ControlId}" class="field input-xlarge row-fluid" data-behavior="single-node-selector">
+		<div class="span6">
+			<div class="clearfix">
+				<input type="search" class="pull-right input-medium search-query" data-behavior="filter-node-select" placeholder="Filter">
+			</div>
+			<div class="well well-small">
+				<ul class="breadcrumb">
+				  <li><a href="#">Home</a> <span class="divider">/</span></li>
+				  <li><a href="#">Library</a> <span class="divider">/</span></li>
+				  <li class="active">Data</li>
+				</ul>
+				<ul class="nav nav-list">
+					<li class="clearfix">
+						<div class="pull-right btn-group">
+							<a href="#" data-behavior="select" class="btn">
+								<i class="icon-plus-sign"></i>
+							</a>
+							<a href="#" data-behavior="browse" class="btn">
+								<i class="icon-chevron-right"></i>
+							</a>
+						</div>
+						Vakken
+					</li>
+					<li class="clearfix">
+						<div class="pull-right btn-group">
+							<a href="#" data-behavior="select" class="btn">
+								<i class="icon-plus-sign"></i>
+							</a>
+							<a href="#" data-behavior="browse" class="btn">
+								<i class="icon-chevron-right"></i>
+							</a>
+						</div>
+						Vakken
+					</li>
+					<li class="clearfix">
+						<div class="pull-right btn-group">
+							<a href="#" data-behavior="select" class="btn">
+								<i class="icon-plus-sign"></i>
+							</a>
+							<a href="#" data-behavior="browse" class="btn">
+								<i class="icon-chevron-right"></i>
+							</a>
+						</div>
+						Vakken
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="span6">
+			<div class="well well-small">
+				<ul class="nav nav-pills nav-stacked">
+					<li>
+						<a href="#" data-behavior="remove">
+							<i class="pull-right icon-remove"></i>
+							Item 1
+						</a>
+					</li>
+					<li>
+						<a href="#" data-behavior="remove">
+							<i class="pull-right icon-remove"></i>
+							Item 2 met een langere naam
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div id="{@ControlId}" class="field input-xlarge row-fluid" data-behavior="multi-node-selector">
+		<div class="span6">
+			<div class="clearfix">
+				<input type="search" class="pull-right input-medium search-query" data-behavior="filter-node-select" placeholder="Filter">
+			</div>
+			<div class="well well-small">
+				<ul class="breadcrumb">
+				  <li><a href="#">Home</a> <span class="divider">/</span></li>
+				  <li><a href="#">Library</a> <span class="divider">/</span></li>
+				  <li class="active">Data</li>
+				</ul>
+				<ul class="nav nav-list">
+					<li class="clearfix">
+						<div class="pull-right btn-group">
+							<a href="#" data-behavior="select" class="btn">
+								<i class="icon-plus-sign"></i>
+							</a>
+							<a href="#" data-behavior="browse" class="btn">
+								<i class="icon-chevron-right"></i>
+							</a>
+						</div>
+						Vakken
+					</li>
+					<li class="clearfix">
+						<div class="pull-right btn-group">
+							<a href="#" data-behavior="select" class="btn">
+								<i class="icon-plus-sign"></i>
+							</a>
+							<a href="#" data-behavior="browse" class="btn">
+								<i class="icon-chevron-right"></i>
+							</a>
+						</div>
+						Vakken
+					</li>
+					<li class="clearfix">
+						<div class="pull-right btn-group">
+							<a href="#" data-behavior="select" class="btn">
+								<i class="icon-plus-sign"></i>
+							</a>
+							<a href="#" data-behavior="browse" class="btn">
+								<i class="icon-chevron-right"></i>
+							</a>
+						</div>
+						Vakken
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="span6">
+			<div class="well well-small">
+				<ul class="nav nav-pills nav-stacked">
+					<li>
+						<a href="#" data-behavior="remove">
+							<i class="pull-right icon-remove"></i>
+							Item 1
+						</a>
+					</li>
+					<li>
+						<a href="#" data-behavior="remove">
+							<i class="pull-right icon-remove"></i>
+							Item 2 met een langere naam
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</tpl:section>
+
+
+/* ==|== Nodeselector Section ============================================
+Author: Premotion Software Solutions
+========================================================================== */
+
+<tpl:section name="SingleNodeSelectorFieldControl" field="Field">
+	<div id="{@ControlId}" class="field input-xxlarge" data-behavior="single-node-selector" data-service-endpoint="{RouteUrlWithArea( 'Controls', 'Async', 'NodeSelector', '0' )}">
+		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">
+		<input type="hidden" id="{@ControlId}-settings" name="{@FieldName}-settings" value="{$NodeSelectorProperties}">
+		<div class="selected-item">
+		</div>
+		<div class="clearfix">
+			<input type="search" class="pull-right input-medium search-query" data-behavior="filter-node-select" placeholder="Filter">
+		</div>
+		<div class="well well-small" tabindex="0">
+			<ul class="breadcrumb">
+			</ul>
+			<ul class="nav nav-list">
+			</ul>
+		</div>
+	</div>
+</tpl:section>
+
+<tpl:section name="MultiNodeSelectorFieldControl" field="Field">
+	<div id="{@ControlId}" class="field input-xxlarge" data-behavior="multi-node-selector" data-service-endpoint="{RouteUrlWithArea( 'Controls', 'Async', 'NodeSelector', '0' )}">
+		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">
+		<input type="hidden" id="{@ControlId}-settings" name="{@FieldName}-settings" value="{$NodeSelectorProperties}">
+		<div class="row-fluid">
+			<div class="span6">
+				<div class="clearfix">
+					<input type="search" class="pull-right input-medium search-query" data-behavior="filter-node-select" placeholder="Filter">
+				</div>
+				<div class="well well-small" tabindex="0">
+					<ul class="breadcrumb">
+					</ul>
+					<ul class="nav nav-list">
+					</ul>
+				</div>
+			</div>
+			<div class="span6">
+				<div class="well well-small">
+					<ul class="nav nav-pills nav-stacked">
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 </tpl:section>
 
 

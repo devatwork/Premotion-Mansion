@@ -53,6 +53,20 @@ namespace Premotion.Mansion.Core.Templating
 			if (context == null)
 				throw new ArgumentNullException("context");
 
+			// check if all the requirements of this section are satisfied
+			if (!Section.AreRequirementsSatified(context))
+				return;
+
+			// check if this section should be renderend  only once
+			if (Section.ShouldBeRenderedOnce)
+			{
+				// check if the section was already rendered
+				var sectionId = Section.Id;
+				if (TargetField.RenderedSections.Contains(sectionId))
+					return;
+				TargetField.RenderedSections.Add(sectionId);
+			}
+
 			// create the bag of section properties
 			foreach (var placeholder in
 				from candidate in Section.Expression.Expressions

@@ -19,15 +19,15 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 			/// <summary>
 			/// Constructs a literal expression with the content.
 			/// </summary>
-			/// <param name="content">The content.</param>
-			public LiteralExpression(string content)
+			/// <param name="value">The content.</param>
+			public LiteralExpression(object value)
 			{
 				// validate arguments
-				if (content == null)
-					throw new ArgumentNullException("content");
+				if (value == null)
+					throw new ArgumentNullException("value");
 
 				// set values
-				this.content = content;
+				this.value = value;
 			}
 			#endregion
 			#region Evaluate Methods
@@ -43,11 +43,11 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 				if (context == null)
 					throw new ArgumentNullException("context");
 
-				return context.Nucleus.ResolveSingle<IConversionService>().Convert<TTarget>(context, content);
+				return context.Nucleus.ResolveSingle<IConversionService>().Convert<TTarget>(context, value);
 			}
 			#endregion
 			#region Private Fields
-			private readonly string content;
+			private readonly object value;
 			#endregion
 		}
 		#endregion
@@ -76,8 +76,17 @@ namespace Premotion.Mansion.Core.Scripting.ExpressionScript
 		/// <returns>Returns the interpreted result.</returns>
 		protected override IExpressionScript DoInterpret(IMansionContext context, string input)
 		{
+			// set value
+			object value;
+			if ("true".Equals(input, StringComparison.OrdinalIgnoreCase))
+				value = true;
+			else if ("false".Equals(input, StringComparison.OrdinalIgnoreCase))
+				value = false;
+			else
+				value = input;
+
 			// generate the literal
-			return new LiteralExpression(input);
+			return new LiteralExpression(value);
 		}
 		#endregion
 	}

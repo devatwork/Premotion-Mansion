@@ -76,8 +76,7 @@ namespace Premotion.Mansion.Core.Templating.Html
 			var template = cachingService.GetOrAdd(
 				context,
 				cacheKey,
-				() =>
-				{
+				() => {
 					// read the complete template into memory
 					string rawTemplate;
 					using (var resourceStream = resource.OpenForReading())
@@ -131,7 +130,7 @@ namespace Premotion.Mansion.Core.Templating.Html
 			var section = FindSection(context, sectionName);
 
 			// find the target field
-			var target = FindTargetField(context, string.IsNullOrEmpty(targetField) ? section.GetTargetField(context) : targetField);
+			var target = FindTargetField(context, string.IsNullOrEmpty(targetField) ? section.TargetField : targetField);
 
 			// return th active section
 			var activeSection = new ActiveSection(this, section, target);
@@ -179,8 +178,6 @@ namespace Premotion.Mansion.Core.Templating.Html
 
 			// find the section in the open templates
 			var section = FindSection(context, sectionName);
-			if (!section.AreRequirementsSatified(context))
-				return null;
 
 			// create a buffer field
 			var targetField = new StringBufferField();

@@ -124,6 +124,7 @@
     <Compile Include="Controls\Forms\Field.cs" />
     <Compile Include="Controls\Forms\Fields\CheckboxField.cs" />
     <Compile Include="Controls\Forms\Fields\CheckboxListField.cs" />
+    <Compile Include="Controls\Forms\Fields\MultiNodeSelector2Field.cs" />
     <Compile Include="Controls\Grid\Column.cs" />
     <Compile Include="Controls\Grid\ColumnFilter.cs" />
     <Compile Include="Controls\Grid\ColumnSort.cs" />
@@ -140,7 +141,6 @@
     <Compile Include="Controls\Forms\Fields\HiddenField.cs" />
     <Compile Include="Controls\Forms\Fields\ImageUploadField.cs" />
     <Compile Include="Controls\Forms\Fields\MultiSelectField.cs" />
-    <Compile Include="Controls\Forms\Fields\NodeTreeSelectField.cs" />
     <Compile Include="Controls\Forms\Fields\NumberField.cs" />
     <Compile Include="Controls\Forms\Fields\PasswordField.cs" />
     <Compile Include="Controls\Forms\Fields\RangeField.cs" />
@@ -171,7 +171,6 @@
     <Compile Include="Controls\Forms\RowMappingStrategy.cs" />
     <Compile Include="Controls\Forms\ScriptFunctions\IsInValidationError.cs" />
     <Compile Include="Controls\Forms\Step.cs" />
-    <Compile Include="Controls\Forms\TreeField.cs" />
     <Compile Include="Controls\Forms\ValidationResult.cs" />
     <Compile Include="Controls\Forms\ValidationResults.cs" />
     <Compile Include="Controls\Forms\ValidationRule.cs" />
@@ -193,13 +192,9 @@
     <Compile Include="Controls\Providers\Datasets\CsvLabelValuePairProvider.cs" />
     <Compile Include="Controls\Providers\Datasets\FetchDatasetProvider.cs" />
     <Compile Include="Controls\Providers\Datasets\TypeDefinitionDatasetProvider.cs" />
-    <Compile Include="Controls\Providers\Leaf.cs" />
     <Compile Include="Controls\Providers\NodesetProvider.cs" />
     <Compile Include="Controls\Providers\Nodesets\FetchNodesetProvider.cs" />
     <Compile Include="Controls\Providers\Nodesets\RetrieveChildNodesetProvider.cs" />
-    <Compile Include="Controls\Providers\TreeProvider.cs" />
-    <Compile Include="Controls\Providers\Trees\NodeTreeProvider.cs" />
-    <Compile Include="Controls\Providers\Trees\NodeTreeSelectProvider.cs" />
     <Compile Include="Controls\ScriptFunctions\ControlRouteUrl.cs" />
     <Compile Include="Controls\ScriptFunctions\GetControlPropertyName.cs" />
     <Compile Include="Controls\ScriptFunctions\GetControlPropertyValue.cs" />
@@ -320,8 +315,6 @@
     <Compile Include="Web\Types\Default\TagListener.cs" />
     <Compile Include="Web\Types\Tag\TagListener.cs" />
     <EmbeddedResource Include="Web\Application.tpl" />
-    <EmbeddedResource Include="Web\Controls\DialogController.tpl" />
-    <EmbeddedResource Include="Web\Controls\DialogController.xinclude" />
     <EmbeddedResource Include="Web\Shared\css\bootstrap\less\accordion.less" />
     <EmbeddedResource Include="Web\Shared\css\bootstrap\less\alerts.less" />
     <EmbeddedResource Include="Web\Shared\css\bootstrap\less\bootstrap.less" />
@@ -412,6 +405,7 @@
     <None Include="web.config.transform" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Web\Controls\Async\NodeSelector.xcontrolaction" />
     <None Include="Web\Default.xts.pp" />
     <EmbeddedResource Include="Web\Cms\AuthenticationController.tpl">
       <SubType>Designer</SubType>
@@ -777,8 +771,6 @@
     <EmbeddedResource Include="Web\Types\CmsAdminPlugin\CmsAdminPlugin.xinclude" />
     <EmbeddedResource Include="Web\Types\DefaultIndex\DefaultIndex.png" />
     <EmbeddedResource Include="Web\Types\DefaultIndex\DefaultIndex.xdef" />
-    <EmbeddedResource Include="Web\Types\Default\Default.MultiNodeSelector.Dialog.xform" />
-    <EmbeddedResource Include="Web\Types\Default\Default.SingleNodeSelector.Dialog.xform" />
     <EmbeddedResource Include="Web\Types\Default\Default.AddChildToNode.Dialog.xform" />
     <EmbeddedResource Include="Web\Types\Default\Default.ChangeOrder.Dialog.tpl" />
     <EmbeddedResource Include="Web\Types\Default\Default.ChangeOrder.Dialog.xform" />
@@ -830,11 +822,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Cms\js\cms.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Web\Controls\Images\Treeview\treeview-default.gif" />
-    <EmbeddedResource Include="Web\Controls\Images\Treeview\treeview-default-line.gif" />
-    <EmbeddedResource Include="Web\Controls\Images\Treeview\ajax-loader.gif" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap-responsive.css" />
@@ -1009,6 +996,7 @@
     <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesome.min.css" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Web\Controls\Js\node-selector.js" />
     <Content Include="Web\Shared\css\fontawesome\fontawesome-webfont.svg" />
     <EmbeddedResource Include="Web\Shared\js\lodash\lodash.js" />
   </ItemGroup>

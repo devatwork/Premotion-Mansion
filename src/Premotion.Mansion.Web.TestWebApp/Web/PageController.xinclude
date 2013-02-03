@@ -8,34 +8,19 @@
 
 			<createDataset target="ResultSet" global="true" />
 			<renderSection name="Page">
-				<renderSection name="Layout">
-					<renderSection name="Results" />
-					<renderSection name="Message" />
-				</renderSection>
 
-
-				<retrieveNode id="1" target="RootNode" global="true" />
-				<retrieveNode id="11" target="CurrentNode" global="true" />
-				<renderSection name="CrumbPath">
-					<if condition="{Not( IsEqual( CurrentNode.id, RootNode.id ) )}">
-						<retrieveParentNodeset childSource="{$CurrentNode}" depth="any" target="ParentNodeset">
-							<loopNodeset source="{$ParentNodeset}" target="ParentNode">
-								<renderSection name="ParentCrumb" />
-							</loopNodeset>
-						</retrieveParentNodeset>
-					</if>
-					<renderSection name="ActiveCrumb" />
-				</renderSection>
-			
-			<!--
-			<forms:form name="test">
-				<forms:step label="Input">
-					<forms:textarea name="message" label="Bericht" />
-					<forms:buttonBar>
-						<forms:button action="post" label="Plaatsen" />
-					</forms:buttonBar>
-				</forms:step>
-			</forms:form>-->
+				<forms:form name="t" targetField="Controls">
+					<forms:step label="t">
+						<!-- http://ux.stackexchange.com/a/13246 -->
+						<!-- http://www.filamentgroup.com/examples/menus/ipod.php# -->
+						<forms:multiNodeSelector name="test" label="Multi">
+							<forms:nodeSelectorProperties parentPointer="1" labelProperty="name" selectableTypes="TaxonomyItem,TaxonomyCategory" valueProperty="guid" />
+						</forms:multiNodeSelector>
+						<forms:singleNodeSelector name="test2" label="Single">
+							<forms:nodeSelectorProperties parentPointer="1" labelProperty="name" selectableTypes="TaxonomyItem,TaxonomyCategory" valueProperty="guid" />
+						</forms:singleNodeSelector>
+					</forms:step>
+				</forms:form>
 
 			</renderSection>
 			

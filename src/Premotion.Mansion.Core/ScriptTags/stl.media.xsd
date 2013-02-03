@@ -92,7 +92,18 @@
 
 	<xs:element name="renderJsonDocument" substitutionGroup="scriptTag">
 		<xs:annotation>
-			<xs:documentation>Renders an JSON document to the top most output pipe.</xs:documentation>
+			<xs:documentation>Renders a JSON document to the top most output pipe.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="renderJsonArray" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Renders a JSON array to the JSON output pipe. This tag must be used within and RenderJsonDocument tag.</xs:documentation>
 		</xs:annotation>
 
 		<xs:complexType>
@@ -103,7 +114,7 @@
 
 	<xs:element name="renderJsonObject" substitutionGroup="scriptTag">
 		<xs:annotation>
-			<xs:documentation>Renders an JSON object to the JSON output pipe. This tag must be used within and RenderJsonDocument tag.</xs:documentation>
+			<xs:documentation>Renders a JSON object to the JSON output pipe. This tag must be used within and RenderJsonDocument tag.</xs:documentation>
 		</xs:annotation>
 
 		<xs:complexType>
@@ -116,7 +127,7 @@
 
 	<xs:element name="renderJsonProperty" substitutionGroup="scriptTag">
 		<xs:annotation>
-			<xs:documentation>Renders an JSON property to the JSON output pipe. The child tags can write content to the created buffer. This tag must be used within and RenderJsonObject tag.</xs:documentation>
+			<xs:documentation>Renders a JSON property to the JSON output pipe. If the value attribute is not specified the child tags can write content to the created buffer. This tag must be used within and RenderJsonObject tag.</xs:documentation>
 		</xs:annotation>
 
 		<xs:complexType>
@@ -128,12 +139,17 @@
 					<xs:documentation>The name of the property.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+			<xs:attribute name="value" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>The value of the property.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 
 	<xs:element name="renderJsonArrayProperty" substitutionGroup="scriptTag">
 		<xs:annotation>
-			<xs:documentation>Renders an JSON array property to the JSON output pipe. This tag must be used within and RenderJsonObject tag. Any attributes will be rendered as simple values of the array.</xs:documentation>
+			<xs:documentation>Renders a JSON array property to the JSON output pipe. This tag must be used within and RenderJsonObject tag. Any attributes will be rendered as simple values of the array.</xs:documentation>
 		</xs:annotation>
 
 		<xs:complexType>

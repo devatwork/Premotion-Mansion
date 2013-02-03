@@ -80,7 +80,7 @@
 			<forms:textbox name="readMoreLabel" label="Label">
 			</forms:textbox>
 			<forms:singleNodeSelector name="readMoreTargetGuid" label="Target">
-				<forms:nodeSelectorProperties rootPointer="1" disabledExpression="{\Not( Or( IsAssignable( Node.type, 'Content' ), And( IsAssignable( Node.type, 'Page' ), Not( IsAssignable( Node.type, 'TemplatePage' ) ) ) ) )}" />
+				<forms:nodeSelectorProperties parentPointer="1" selectableTypes="Content,Page" disabledExpression="{\IsAssignable( Node.type, 'TemplatePage' )}" />
 			</forms:singleNodeSelector>
 		</forms:fieldset>
 	</declareProcedure>

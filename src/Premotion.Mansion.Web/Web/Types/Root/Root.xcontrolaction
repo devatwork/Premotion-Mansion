@@ -7,16 +7,18 @@
 		<!-- we are returning JSon -->
 		<web:respondDocument contentType="application/json" cache="false">
 			<renderJsonDocument>
+				<renderJsonArray>
 				
-				<!-- retrieve the nodes node -->
-				<retrieveChildNodeset parentSource="{$UrlNode}" depth="any" baseType="Page,Content" status="published" target="PageNodeset">
+					<!-- retrieve the nodes node -->
+					<retrieveChildNodeset parentSource="{$UrlNode}" depth="any" baseType="Page,Content" status="published" target="PageNodeset">
 					
-					<loopNodeset source="{$PageNodeset}" target="PageNode">
-						<renderJsonObject name="{Replace( Replace( PageNode.path, 'Root~', '' ),  '~', '-' )}" url="{NodeUrl( $PageNode )}" />
-					</loopNodeset>
+						<loopNodeset source="{$PageNodeset}" target="PageNode">
+							<renderJsonObject name="{Replace( Replace( PageNode.path, 'Root~', '' ),  '~', '-' )}" url="{NodeUrl( $PageNode )}" />
+						</loopNodeset>
 					
-				</retrieveChildNodeset>
-				
+					</retrieveChildNodeset>
+
+				</renderJsonArray>
 			</renderJsonDocument>
 		</web:respondDocument>
 		

@@ -2,6 +2,17 @@
 <mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
 
 	<!-- Invoked when the tree is rendered as HTML -->
+	<declareProcedure procedureName="HandleNodeSelector">
+
+		<!-- redirect action to type -->
+		<openScript path="/Controls/Async/{Route.originalAction}.xcontrolaction">
+			<invokeProcedure procedureName="ProcessAction" />
+		</openScript>
+		
+	</declareProcedure>
+
+	<!-- Invoked when the tree is rendered as HTML -->
+	<!-- TODO: refactor this -->
 	<declareProcedure procedureName="HandleDefault">
 
 		<!-- redirect action to type -->
