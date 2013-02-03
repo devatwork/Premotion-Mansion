@@ -254,7 +254,7 @@
 Author: Premotion Software Solutions
 ========================================================================== */
 
-<tpl:section name="NodeSelectorTemplates" field="Footer">
+<tpl:section name="NodeSelectorTemplates" field="Footer" repeatable="false">
 	<script type="text/ejs" id="node-selector-breadcrumbs-template">
 	<% _.forEach(crumbs, function (crumb, index, array) { %>
 			<% if ( index !== (array.length - 1) ) { %>
@@ -300,6 +300,7 @@ Author: Premotion Software Solutions
 			<i class="icon-remove"></i>
 		</a>
 	</script>
+	<script src="{StaticResourceUrl( '/Controls/Js/node-selector.js' )}"></script>
 </tpl:section>
 
 <tpl:section name="SingleNodeSelectorFieldControl" field="Field">
