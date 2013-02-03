@@ -7,7 +7,7 @@
 		<fetchDataspace source="{Route.routeParameter0}" target="QueryProperties" global="true">
 			<!-- extract the node selector properties -->
 			<createDataspace target="NodeSelectorProperties" global="true">
-				<extractProperties source="{$QueryProperties}" target="{$NodeSelectorProperties}" whitelist="valueProperty,labelProperty,selectableTypes,parentPointer" />
+				<extractProperties source="{$QueryProperties}" target="{$NodeSelectorProperties}" whitelist="valueProperty,labelProperty,selectableTypes,parentPointer,disabledExpression" />
 			</createDataspace>
 		</fetchDataspace>
 

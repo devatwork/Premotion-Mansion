@@ -1,3 +1,4 @@
+using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
@@ -27,29 +28,23 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 				// retrieve the selector properties
 				var settingsTag = GetAlternativeChildTag<NodeSelectorPropertiesTag>();
 
-				// create the control
-				var control = DoCreate(context, definition);
-
-				// merge the selector properties
-				control.selectorProperties.Merge(settingsTag.GetAttributes(context));
-
-				// set the selector properties
-				control.selectorProperties.Set("controlId", definition.Id);
-				control.LabelProperty = control.selectorProperties.Get(context, "labelProperty", "name");
-				control.ValueProperty = control.selectorProperties.Get(context, "valueProperty", "guid");
-				control.selectorProperties.Set("labelProperty", control.LabelProperty);
-				control.selectorProperties.Set("valueProperty", control.ValueProperty);
+				// create the setttings
+				var settings = new PropertyBag {
+					{"valueProperty", "guid"},
+					{"labelProperty", "name"}
+				}.Merge(settingsTag.GetAttributes(context));
 
 				// return the created control
-				return control;
+				return DoCreate(context, settings, definition);
 			}
 
 			/// <summary>
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
 			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+			/// <param name="settings"></param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected abstract TField DoCreate(IMansionWebContext context, ControlDefinition definition);
+			protected abstract TField DoCreate(IMansionWebContext context, IPropertyBag settings, ControlDefinition definition);
 			#endregion
 		}
 		#endregion
@@ -57,9 +52,16 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// Constructs a control with the specified ID.
 		/// </summary>
+		/// <param name="settings">The settings of this selector.</param>
 		/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-		protected NodeSelectorBase(ControlDefinition definition) : base(definition)
+		protected NodeSelectorBase(IPropertyBag settings, ControlDefinition definition) : base(definition)
 		{
+			// validate arguments
+			if (settings == null)
+				throw new ArgumentNullException("settings");
+
+			// set values
+			this.settings = settings;
 		}
 		#endregion
 		#region Overrides of Field{TValue}
@@ -70,29 +72,16 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
 		protected override void DoRender(IMansionWebContext context, ITemplateService templateService)
 		{
-			using (context.Stack.Push("SelectorProperties", SelectorProperties))
+			// render the templates
+			templateService.Render(context, "NodeSelectorTemplates").Dispose();
+
+			// render the control
+			using (context.Stack.Push("NodeSelectorProperties", settings))
 				base.DoRender(context, templateService);
 		}
 		#endregion
-		#region Properties
-		/// <summary>
-		/// Gets the selector properties.
-		/// </summary>
-		protected IPropertyBag SelectorProperties
-		{
-			get { return selectorProperties; }
-		}
-		/// <summary>
-		/// Gets the name of the value property.
-		/// </summary>
-		protected string ValueProperty { get; private set; }
-		/// <summary>
-		/// Gets the name of the label property.
-		/// </summary>
-		protected string LabelProperty { get; private set; }
-		#endregion
 		#region Private Fields
-		private readonly IPropertyBag selectorProperties = new PropertyBag();
+		private readonly IPropertyBag settings = new PropertyBag();
 		#endregion
 	}
 }

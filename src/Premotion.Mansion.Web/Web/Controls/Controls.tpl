@@ -154,38 +154,6 @@
 		</label>
 	</tpl:section>
 
-<tpl:section name="SingleNodeSelectorFieldControl" field="Field">
-	<div id="{@ControlId}" class="field input-xlarge node-selector single-node-selector" data-behavior="node-selector">
-		<ul class="unstyled labels">{@SingleNodeSelectorFieldControlOption}</ul>
-		<div class="btn-group">
-			<a class="btn btn-primary btn-select-values" href="#"><i class="icon-pushpin"></i> Select</a>
-			<a class="btn btn-clear-selection" href="#"><i class="icon-remove-sign"></i> Clear</a>
-		</div>
-		<input type="hidden" name="{@FieldName}" class="field hidden value" value="{ControlProperties.value}">
-		<div class="modal fade hide" data-href="{DataspaceToQueryString( ControlRouteUrl( 'Dialog', 'SingleNodeSelector', '1' ), $SelectorProperties )}"></div>
-	</div>
-</tpl:section>
-
-	<tpl:section name="SingleNodeSelectorFieldControlOption" requires="{Not( IsEmpty( ControlProperties.value ) )}">
-		<li data-value="{ControlProperties.value}">{ControlProperties.displayValue}</li>
-	</tpl:section>
-
-<tpl:section name="MultiNodeSelectorFieldControl" field="Field">
-	<div id="{@ControlId}" class="field input-xlarge node-selector multi-node-selector" data-behavior="node-selector">
-		<ul class="unstyled labels">{MultiNodeSelectorFieldControlOption}</ul>
-		<div class="btn-group">
-			<a class="btn btn-primary btn-select-values" href="#"><i class="icon-pushpin"></i> Select</a>
-			<a class="btn btn-clear-selection" href="#"><i class="icon-remove-sign"></i> Clear</a>
-		</div>
-		<input type="hidden" name="{@FieldName}" class="field hidden value" value="{ControlProperties.value}">
-		<div class="modal fade hide" data-href="{DataspaceToQueryString( ControlRouteUrl( 'Dialog', 'MultiNodeSelector', '1' ), $SelectorProperties )}"></div>
-	</div>
-</tpl:section>
-
-	<tpl:section name="MultiNodeSelectorFieldControlOption">
-		<li data-value="{Row.value}">{Row.label}</li>
-	</tpl:section>
-
 <tpl:section name="NodeTreeSelectFieldControl" field="Field">
 	<ul class="field tree-select node-tree">
 		{Leaf}
@@ -281,7 +249,12 @@
 </tpl:section>
 
 
-<tpl:section name="MultiNodeSelector2FieldControl" field="Field">
+
+/* ==|== Nodeselector Section ============================================
+Author: Premotion Software Solutions
+========================================================================== */
+
+<tpl:section name="NodeSelectorTemplates" field="Footer">
 	<script type="text/ejs" id="node-selector-breadcrumbs-template">
 	<% _.forEach(crumbs, function (crumb, index, array) { %>
 			<% if ( index !== (array.length - 1) ) { %>
@@ -327,7 +300,9 @@
 			<i class="icon-remove"></i>
 		</a>
 	</script>
-	
+</tpl:section>
+
+<tpl:section name="SingleNodeSelectorFieldControl" field="Field">
 	<div id="{@ControlId}" class="field input-xxlarge" data-behavior="single-node-selector" data-service-endpoint="{RouteUrlWithArea( 'Controls', 'Async', 'NodeSelector', '0', $NodeSelectorProperties )}">
 		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">
 		<div class="selected-item">
@@ -342,6 +317,9 @@
 			</ul>
 		</div>
 	</div>
+</tpl:section>
+
+<tpl:section name="MultiNodeSelectorFieldControl" field="Field">
 	<div id="{@ControlId}" class="field input-xxlarge" data-behavior="multi-node-selector" data-service-endpoint="{RouteUrlWithArea( 'Controls', 'Async', 'NodeSelector', '0', $NodeSelectorProperties )}">
 		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">
 		<div class="row-fluid">
@@ -365,6 +343,7 @@
 		</div>
 	</div>
 </tpl:section>
+
 
 
 <!-- buttons -->

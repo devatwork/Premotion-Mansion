@@ -13,9 +13,12 @@
 					<forms:step label="t">
 						<!-- http://ux.stackexchange.com/a/13246 -->
 						<!-- http://www.filamentgroup.com/examples/menus/ipod.php# -->
-						<forms:multiNodeSelector2 name="test" label="Test">
+						<forms:multiNodeSelector name="test" label="Multi">
 							<forms:nodeSelectorProperties parentPointer="1" labelProperty="name" selectableTypes="TaxonomyItem,TaxonomyCategory" valueProperty="guid" />
-						</forms:multiNodeSelector2>
+						</forms:multiNodeSelector>
+						<forms:singleNodeSelector name="test2" label="Single">
+							<forms:nodeSelectorProperties parentPointer="1" labelProperty="name" selectableTypes="TaxonomyItem,TaxonomyCategory" valueProperty="guid" />
+						</forms:singleNodeSelector>
 					</forms:step>
 				</forms:form>
 

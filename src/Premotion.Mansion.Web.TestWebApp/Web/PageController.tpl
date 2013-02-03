@@ -31,5 +31,6 @@
 		<script src="{DynamicResourceUrl( '/Controls/Js/Controls.js' )}"></script>
 		<script src="{StaticResourceUrl( '/Controls/Js/node-selector.js' )}"></script>
 		<script src="{StaticResourceUrl( '/Shared/js/bootstrap/bootstrap.min.js' )}"></script>
+		{Footer}
 	</body>
 </html></tpl:section>

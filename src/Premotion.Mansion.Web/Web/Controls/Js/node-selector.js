@@ -1,4 +1,4 @@
-﻿/* ==|== Autocomlete =====================================================
+﻿/* ==|== NodeSelector ====================================================
 Author: Premotion Software Solutions
 ========================================================================== */
 ;
@@ -302,9 +302,6 @@ Author: Premotion Software Solutions
     SingleNodeSelector.prototype = new NodeSelector();
     SingleNodeSelector.prototype.parent = NodeSelector.prototype;
     SingleNodeSelector.prototype.constructor = SingleNodeSelector;
-    //SingleNodeSelector.prototype.init = function () {
-    //    this.parent.init.call(this, arguments);
-    //};
     SingleNodeSelector.prototype.removeSelectedValue = function (e) {
         e.preventDefault();
         
@@ -331,46 +328,10 @@ Author: Premotion Software Solutions
         NodeSelector.call(this, $element, options);
         this.$selectedValuesList = this.$element.find('.nav-pills');
         this.selectedValues = [];
-        this.$selectedValuesList = this.$element.find('.nav-pills');
-        this.selectedValues = [];
     };
     MultiNodeSelector.prototype = new NodeSelector();
     MultiNodeSelector.prototype.parent = NodeSelector.prototype;
     MultiNodeSelector.prototype.constructor = MultiNodeSelector;
-    //MultiNodeSelector.prototype.init = function () {
-    //    this.parent.init.call(this, arguments);
-    //};
-    MultiNodeSelector.prototype.removeSelectedValue = function (e) {
-        e.preventDefault();
-        
-        // find the id
-        var id = $(e.target).parents('li').data('id');
-        
-        // update the ui
-        this.$selectedValuesList.children('[data-id="' + id + '"]').remove();
-        
-        // remove from the list of selected valued
-        this.selectedValues.splice(this.selectedValues.indexOf(id), 1);
-        
-        // update the value field
-        this.$valueField.val(this.selectedValues.join());
-    };
-    MultiNodeSelector.prototype.addSelectedValue = function (id, label) {
-        // check if the item is not already selected
-        if (~$.inArray(id, this.selectedValues)) {
-            return;
-        }
-        this.selectedValues.push(id);
-
-        // update the ui
-        this.$selectedValuesList.append(selectedItemsTemplate({
-            id: id,
-            label: label
-        }));
-
-        // update the value field
-        this.$valueField.val(this.selectedValues.join());
-    };
     MultiNodeSelector.prototype.removeSelectedValue = function (e) {
         e.preventDefault();
         
