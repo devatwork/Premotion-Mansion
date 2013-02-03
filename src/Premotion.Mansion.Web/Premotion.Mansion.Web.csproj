@@ -778,8 +778,6 @@
     <EmbeddedResource Include="Web\Types\CmsAdminPlugin\CmsAdminPlugin.xinclude" />
     <EmbeddedResource Include="Web\Types\DefaultIndex\DefaultIndex.png" />
     <EmbeddedResource Include="Web\Types\DefaultIndex\DefaultIndex.xdef" />
-    <EmbeddedResource Include="Web\Types\Default\Default.MultiNodeSelector.Dialog.xform" />
-    <EmbeddedResource Include="Web\Types\Default\Default.SingleNodeSelector.Dialog.xform" />
     <EmbeddedResource Include="Web\Types\Default\Default.AddChildToNode.Dialog.xform" />
     <EmbeddedResource Include="Web\Types\Default\Default.ChangeOrder.Dialog.tpl" />
     <EmbeddedResource Include="Web\Types\Default\Default.ChangeOrder.Dialog.xform" />
