@@ -200,6 +200,7 @@ Author: Premotion Software Solutions
             $.ajax({
                 data: {
                     settings: that.settings,
+                    selected: that.$valueField.val(),
                     action: 'browse',
                     parent: that.parentId
                 },
@@ -222,6 +223,7 @@ Author: Premotion Software Solutions
             $.ajax({
                 data: {
                     settings: that.settings,
+                    selected: that.$valueField.val(),
                     action: 'autocomplete',
                     fragment: that.query,
                     parent: that.parentId

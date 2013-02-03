@@ -17,6 +17,16 @@
 				<throw message="Root node not found"/>
 			</notFound>
 		</retrieveNode>
+
+		<!-- retrieve the current value -->
+		<if condition="{Not( IsEmpty( NotEmpty( Post.selected, Get.selected ) ) )}">
+			<if condition="{Contains( NotEmpty( Post.selected, Get.selected ), ',' )}">
+				<retrieveChildNodeset parentSource="{$RootNode}" querySource="{$QueryProperties}" depth="any" baseType="{NodeSelectorProperties.selectableTypes}" where="{InSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.selected, Get.selected ) )}" target="SelectedNodeset" global="true" />
+				<else>
+					<retrieveChildNode parentSource="{$RootNode}" querySource="{$QueryProperties}" depth="any" baseType="{NodeSelectorProperties.selectableTypes}" where="{InSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.selected, Get.selected ) )}" target="SelectedNode" global="true" />
+				</else>
+			</if>
+		</if>
 		
 		<!-- dispatch the request-->
 		<invokeProcedure procedureName="Process{NotEmpty( Post.action, Get.action, 'Dummy' )}Action" />

@@ -8,10 +8,10 @@
 			<forms:step label="Copy {UrlNode.name}" headerCssClasses="modal-header" bodyCssClasses="modal-body">
 				<forms:validationSummary/>
 
-				<forms:nodeTreeSelect name="newParentId" label="Select a new parent" defaultValue="{UrlNode.parentId}">
-					<providers:nodeTreeProvider rootPointer="1" valueProperty="id" labelProperty="name" disabledExpression="{\Or( IsChildOf( $Node, $UrlNode ), IsEqual( Node.pointer, UrlNode.pointer ), Not( CanContainChild( $Node, $UrlNode ) ) )}" />
+				<forms:singleNodeSelector name="newParentId" label="Select a new parent" defaultValue="{UrlNode.parentId}">
+					<forms:nodeSelectorProperties parentPointer="1" valueProperty="id" labelProperty="name" selectableTypes="Default" disabledExpression="{\Or( IsChildOf( $Node, $SelectedNode ), IsEqual( Node.pointer, SelectedNode.pointer ), Not( CanContainChild( $Node, $SelectedNode ) ) )}" />
 					<forms:requiredFieldValidator message="Select a new parent"/>
-				</forms:nodeTreeSelect>
+				</forms:singleNodeSelector>
 
 				<forms:buttonBar cssClass="modal-footer">
 					<forms:buttonGroup>
