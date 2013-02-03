@@ -124,7 +124,6 @@
     <Compile Include="Controls\Forms\Field.cs" />
     <Compile Include="Controls\Forms\Fields\CheckboxField.cs" />
     <Compile Include="Controls\Forms\Fields\CheckboxListField.cs" />
-    <Compile Include="Controls\Forms\Fields\MultiNodeSelector2Field.cs" />
     <Compile Include="Controls\Grid\Column.cs" />
     <Compile Include="Controls\Grid\ColumnFilter.cs" />
     <Compile Include="Controls\Grid\ColumnSort.cs" />
