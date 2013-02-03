@@ -6,6 +6,9 @@
 		<forms:fieldset label="General">
 			<forms:textbox name="name" label="Name" />
 		</forms:fieldset>
+		<invokeProcedure procedureName="IncludeGroupPublication"/>
+		<invokeProcedure procedureName="IncludeGroupIdentity"/>
+		<invokeProcedure procedureName="IncludeGroupSecurity"/>
 	</declareProcedure>
 
 </mansion>

@@ -1,10 +1,6 @@
-using System;
-using System.Linq;
-using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
-using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Scripting.TagScript;
-using Premotion.Mansion.Core.Templating;
 
 namespace Premotion.Mansion.Web.Controls.Forms.Fields
 {
@@ -25,10 +21,11 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 			/// Creates the <see cref="Control"/>.
 			/// </summary>
 			/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
+			/// <param name="settings"></param>
 			/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-			protected override MultiNodeSelectorField DoCreate(IMansionWebContext context, ControlDefinition definition)
+			protected override MultiNodeSelectorField DoCreate(IMansionWebContext context, IPropertyBag settings, ControlDefinition definition)
 			{
-				return new MultiNodeSelectorField(definition);
+				return new MultiNodeSelectorField(settings, definition);
 			}
 			#endregion
 		}
@@ -37,60 +34,10 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <summary>
 		/// Constructors this control.
 		/// </summary>
+		/// <param name="settings">The node selector settings.</param>
 		/// <param name="definition">The <see cref="ControlDefinition"/>.</param>
-		public MultiNodeSelectorField(ControlDefinition definition) : base(definition)
+		public MultiNodeSelectorField(IPropertyBag settings, ControlDefinition definition) : base(settings, definition)
 		{
-		}
-		#endregion
-		#region Overrides of Field{TValue}
-		/// <summary>
-		/// Render this control.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionWebContext"/>.</param>
-		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
-		protected override void DoRender(IMansionWebContext context, ITemplateService templateService)
-		{
-			// set the field value
-			var selectedItems = GetValue(context) ?? string.Empty;
-			Definition.Properties.Set("Value", selectedItems);
-
-			// render the field
-			using (context.Stack.Push("SelectorProperties", SelectorProperties))
-			using (context.Stack.Push("FieldControl", PropertyBagAdapterFactory.Adapt<Field>(context, this)))
-			using (templateService.Render(context, "FieldContainer"))
-			using (templateService.Render(context, GetType().Name + "Control"))
-			{
-				// loop over all the values
-				var repository = context.Repository;
-				foreach (var value in selectedItems.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).Where(c => !string.IsNullOrEmpty(c)))
-				{
-					// retrieve the selected node
-					var selectedNode = repository.RetrieveSingleNode(context, new PropertyBag
-					                                                          {
-					                                                          	{"parentPointer", SelectorProperties.Get<NodePointer>(context, "rootPointer")},
-					                                                          	{ValueProperty, value},
-					                                                          	{"status", "any"},
-					                                                          	{"depth", "any"},
-					                                                          	{"bypassAuthorization", true},
-																									{StorageOnlyQueryComponent.PropertyKey, true}
-					                                                          });
-
-					// if the node was not found, assume it was deleted
-					if (selectedNode == null)
-						continue;
-
-					// turn into label/value row
-					var row = new PropertyBag
-					          {
-					          	{"label", selectedNode.Get(context, LabelProperty, selectedNode.Get<string>(context, ValueProperty))},
-					          	{"value", selectedNode.Get<object>(context, ValueProperty)}
-					          };
-
-					// render the selected value
-					using (context.Stack.Push("Row", row))
-						templateService.Render(context, GetType().Name + "ControlOption").Dispose();
-				}
-			}
 		}
 		#endregion
 	}

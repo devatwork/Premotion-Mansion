@@ -20,72 +20,17 @@
 	</head>
 	<body>
 
-		<p>Message: {Post.message}</p>
-		<form action="{Request.applicationUrl}" method="post">
-			<textarea name="message">{Post.message}</textarea>
-			<input type="submit" name="send">
-		</form>
-
-		<script>var coolScript; {Post.message}</script>
-
-		{CrumbPath}
-		{Layout}
+		{Controls}
 
 		<!-- Le javascript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 		<script src="{StaticResourceUrl( '/Shared/js/jquery/jquery.js' )}"></script>
 		<script src="{StaticResourceUrl( '/Shared/js/jquery/jquery-ui.js' )}"></script>
+		<script src="{StaticResourceUrl( '/Shared/js/lodash/lodash.js' )}"></script>
 		<script src="{DynamicResourceUrl( '/Controls/Js/Controls.js' )}"></script>
+		<script src="{StaticResourceUrl( '/Controls/Js/node-selector.js' )}"></script>
 		<script src="{StaticResourceUrl( '/Shared/js/bootstrap/bootstrap.min.js' )}"></script>
+		{Footer}
 	</body>
 </html></tpl:section>
-
-<tpl:section name="Layout">
-	<div class="row-fluid">
-		<div class="span6">
-			<h6>Left</h6>
-			{Post.message}
-			{Results}
-		</div>
-		<div class="span6">
-			<h6>Right</h6>
-			{Message}
-		</div>
-	</div>
-</tpl:section>
-
-
-<tpl:section name="Results">
-	<div class="block highlight border list-block">
-		<div class="content">
-			<ol class="unstyled list content-list extensive">
-				{ListItem}
-			</ol>
-		</div>
-	</div>
-	{#RenderPagingControl( $ResultSet, Concat( 'block-', BlockProperties.id ) )}
-</tpl:section>
-
-
-<tpl:section name="Message">
-	<div>Het bericht is: {Post.message}</div>
-</tpl:section>
-
-
-<tpl:section name="CrumbPath">
-	<ul class="breadcrumb">
-		{Crumb}
-	</ul>
-</tpl:section>
-
-<tpl:section name="ParentCrumb" field="Crumb">
-	<li>
-		<a href="{CmsNodeUrl( ParentNode.id, 'CmsBrowserPlugin', 'Browse' )}" title="Navigate to {ParentNode.name}">{#GetTypeDefinitionIcon( ParentNode.type )} {ParentNode.name}</a>
-		<span class="divider">/</span>
-	</li>
-</tpl:section>
-
-<tpl:section name="ActiveCrumb" field="Crumb">
-	<li class="active">{#GetTypeDefinitionIcon( CurrentNode.type )} {CurrentNode.name}</li>
-</tpl:section>

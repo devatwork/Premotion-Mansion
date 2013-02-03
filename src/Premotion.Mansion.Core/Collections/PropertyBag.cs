@@ -252,7 +252,8 @@ namespace Premotion.Mansion.Core.Collections
 		/// Merges properties into this bag.
 		/// </summary>
 		/// <param name="properties"></param>
-		public void Merge(IEnumerable<KeyValuePair<string, object>> properties)
+		/// <returns>Returns this for chaining.</returns>
+		public IPropertyBag Merge(IEnumerable<KeyValuePair<string, object>> properties)
 		{
 			// validate arguments
 			if (properties == null)
@@ -261,6 +262,7 @@ namespace Premotion.Mansion.Core.Collections
 			// loop through the properties
 			foreach (var property in properties)
 				Set(property.Key, property.Value);
+			return this;
 		}
 		/// <summary>
 		/// Checks whether this property bag contains the <paramref name="propertyName"/>.

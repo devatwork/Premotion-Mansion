@@ -61,7 +61,8 @@ namespace Premotion.Mansion.Core
 		/// Merges properties into this bag.
 		/// </summary>
 		/// <param name="properties"></param>
-		void Merge(IEnumerable<KeyValuePair<string, object>> properties);
+		/// <returns>Returns this for chaining.</returns>
+		IPropertyBag Merge(IEnumerable<KeyValuePair<string, object>> properties);
 		/// <summary>
 		/// Checks whether this property bag contains the <paramref name="propertyName"/>.
 		/// </summary>

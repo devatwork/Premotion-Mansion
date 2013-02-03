@@ -33,6 +33,12 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 		/// <returns>Returns the result.</returns>
 		protected override IPropertyBag Get(IMansionContext context, IPropertyBag attributes)
 		{
+			// check if query source is specified
+			IPropertyBag queryProperties;
+			if (attributes.TryGetAndRemove(context, "querySource", out queryProperties))
+				attributes = queryProperties.Copy().Merge(attributes);
+
+			// invoke template method
 			return Retrieve(context, attributes, context.Repository, parser);
 		}
 		/// <summary>

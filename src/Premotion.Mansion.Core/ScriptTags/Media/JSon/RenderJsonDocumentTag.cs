@@ -18,14 +18,8 @@ namespace Premotion.Mansion.Core.ScriptTags.Media.JSon
 			using (var jsonOutputPipe = new JsonOutputPipe(context.OutputPipe))
 			using (context.OutputPipeStack.Push(jsonOutputPipe))
 			{
-				// start the document
-				jsonOutputPipe.JsonWriter.WriteStartArray();
-
 				// execute the children
 				ExecuteChildTags(context);
-
-				// finish the document
-				jsonOutputPipe.JsonWriter.WriteEndArray();
 			}
 		}
 	}

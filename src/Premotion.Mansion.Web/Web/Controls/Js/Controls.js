@@ -1,22 +1,4 @@
 ﻿/*
-* Treeview 1.4 - jQuery plugin to hide and show branches of a tree
-* 
-* http://bassistance.de/jquery-plugins/jquery-plugin-treeview/
-* http://docs.jquery.com/Plugins/Treeview
-*
-* Copyright (c) 2007 Jörn Zaefferer
-*
-* Dual licensed under the MIT and GPL licenses:
-*   http://www.opensource.org/licenses/mit-license.php
-*   http://www.gnu.org/licenses/gpl.html
-*
-* Revision: $Id: jquery.treeview.js 4684 2008-02-07 19:08:06Z joern.zaefferer $
-*
-*/
-; (function (a) {  a.extend(a.fn, {  swapClass: function (e, d) {  var c = this.filter("." + e); this.filter("." + d).removeClass(d).addClass(e); c.removeClass(e).addClass(d); return this }, replaceClass: function (d, c) {  return this.filter("." + d).removeClass(d).addClass(c).end() }, hoverClass: function (c) {  c = c || "hover"; return this.hover(function () {  a(this).addClass(c) }, function () {  a(this).removeClass(c) }) }, heightToggle: function (c, d) {  c ? this.animate({  height: "toggle" }, c, d) : this.each(function () {  jQuery(this)[jQuery(this).is(":hidden") ? "show" : "hide"](); if (d) {  d.apply(this, arguments) } }) }, heightHide: function (c, d) {  if (c) {  this.animate({  height: "hide" }, c, d) } else {  this.hide(); if (d) {  this.each(d) } } }, prepareBranches: function (c) {  if (!c.prerendered) {  this.filter(":last-child:not(ul)").addClass(b.last); this.filter((c.collapsed ? "" : "." + b.closed) + ":not(." + b.open + ")").find(">ul").hide() } return this.filter(":has(>ul)") }, applyClasses: function (c, d) {  this.filter(":has(>ul):not(:has(>a))").find(">span").click(function (e) {  d.apply(a(this).next()) }).add(a("a", this)).hoverClass(); if (!c.prerendered) {  this.filter(":has(>ul:hidden)").addClass(b.expandable).replaceClass(b.last, b.lastExpandable); this.not(":has(>ul:hidden)").addClass(b.collapsable).replaceClass(b.last, b.lastCollapsable); this.prepend('<div class="' + b.hitarea + '"/>').find("div." + b.hitarea).each(function () {  var e = ""; a.each(a(this).parent().attr("class").split(" "), function () {  e += this + "-hitarea " }); a(this).addClass(e) }) } this.find("div." + b.hitarea).click(d) }, treeview: function (d) {  d = a.extend({  cookieId: "treeview" }, d); if (d.add) {  return this.trigger("add", [d.add]) } if (d.toggle) {  var i = d.toggle; d.toggle = function () {  return i.apply(a(this).parent()[0], arguments) } } function c(l, n) {  function m(o) {  return function () {  f.apply(a("div." + b.hitarea, l).filter(function () {  return o ? a(this).parent("." + o).length : true })); return false } } a("a:eq(0)", n).click(m(b.collapsable)); a("a:eq(1)", n).click(m(b.expandable)); a("a:eq(2)", n).click(m()) } function f() {  a(this).parent().find(">.hitarea").swapClass(b.collapsableHitarea, b.expandableHitarea).swapClass(b.lastCollapsableHitarea, b.lastExpandableHitarea).end().swapClass(b.collapsable, b.expandable).swapClass(b.lastCollapsable, b.lastExpandable).find(">ul").heightToggle(d.animated, d.toggle); if (d.unique) {  a(this).parent().siblings().find(">.hitarea").replaceClass(b.collapsableHitarea, b.expandableHitarea).replaceClass(b.lastCollapsableHitarea, b.lastExpandableHitarea).end().replaceClass(b.collapsable, b.expandable).replaceClass(b.lastCollapsable, b.lastExpandable).find(">ul").heightHide(d.animated, d.toggle) } } function k() {  function m(n) {  return n ? 1 : 0 } var l = []; j.each(function (n, o) {  l[n] = a(o).is(":has(>ul:visible)") ? 1 : 0 }); a.cookie(d.cookieId, l.join("")) } function e() {  var l = a.cookie(d.cookieId); if (l) {  var m = l.split(""); j.each(function (n, o) {  a(o).find(">ul")[parseInt(m[n]) ? "show" : "hide"]() }) } } this.addClass("treeview"); var j = this.find("li").prepareBranches(d); switch (d.persist) {  case "cookie": var h = d.toggle; d.toggle = function () {  k(); if (h) {  h.apply(this, arguments) } }; e(); break; case "location": var g = this.find("a").filter(function () {  return this.href.toLowerCase() == location.href.toLowerCase() }); if (g.length) {  g.addClass("selected").parents("ul, li").add(g.next()).show() } break } j.applyClasses(d, f); if (d.control) {  c(this, d.control); a(d.control).show() } return this.bind("add", function (m, l) {  a(l).prev().removeClass(b.last).removeClass(b.lastCollapsable).removeClass(b.lastExpandable).find(">.hitarea").removeClass(b.lastCollapsableHitarea).removeClass(b.lastExpandableHitarea); a(l).find("li").andSelf().prepareBranches(d).applyClasses(d, f) }) } }); var b = a.fn.treeview.classes = {  open: "open", closed: "closed", expandable: "expandable", expandableHitarea: "expandable-hitarea", lastExpandableHitarea: "lastExpandable-hitarea", collapsable: "collapsable", collapsableHitarea: "collapsable-hitarea", lastCollapsableHitarea: "lastCollapsable-hitarea", lastCollapsable: "lastCollapsable", lastExpandable: "lastExpandable", last: "last", hitarea: "hitarea" }; a.fn.Treeview = a.fn.treeview })(jQuery);
-; (function (c) {  function b(f, e, g, d) {  c.getJSON(f.url, {  root: e }, function (h) {  function i(k) {  var l = c("<li/>").attr("id", this.id || "").html("<span>" + this.text + "</span>").appendTo(k); if (this.classes) {  l.children("span").addClass(this.classes) } if (this.expanded) {  l.addClass("open") } if (this.hasChildren || this.children && this.children.length) {  var j = c("<ul/>").appendTo(l); if (this.hasChildren) {  l.addClass("hasChildren"); i.call({  text: "placeholder", id: "placeholder", children: [] }, j) } if (this.children && this.children.length) {  c.each(this.children, i, [j]) } } } c.each(h, i, [g]); c(d).treeview({  add: g }) }) } var a = c.fn.treeview; c.fn.treeview = function (f) {  if (!f.url) {  return a.apply(this, arguments) } var d = this; b(f, "source", this, d); var e = f.toggle; return a.call(this, c.extend({ }, f, {  collapsed: true, toggle: function () {  var h = c(this); if (h.hasClass("hasChildren")) {  var g = h.removeClass("hasChildren").find("ul"); g.empty(); b(f, this.id, g, d) } if (e) {  e.apply(this, arguments) } } })) } })(jQuery);
-
-/*
 * jQuery timepicker addon
 * By: Trent Richardson [http://trentrichardson.com]
 * Version 1.0.0
@@ -56,7 +38,7 @@ var CKEDITOR_BASEPATH = "{Request.applicationUrl}/static-resources/Shared/js/cke
 ;(function ($, undefined) {
 	
 	/* button fields */
-	$("form .form-actions .btn").click(function(event) {
+    $("form .form-actions .btn:not(.no-auto-submit)").click(function (event) {
 		event.preventDefault();
 		var action = $(this).attr("data-action");
 		var form = $(this).closest("form");
@@ -83,10 +65,6 @@ var CKEDITOR_BASEPATH = "{Request.applicationUrl}/static-resources/Shared/js/cke
 		dateFormat: "d MM yy",
 		timeFormat: "hh:mm"
 		
-	});
-
-	// initialize the node tree
-	$(".node-tree").treeview({
 	});
 	
 	// initialize tags
@@ -234,90 +212,4 @@ Author: Premotion Software Solutions
 
 })(window.jQuery);
 
-
-/* ==|== Node Selector Control ===========================================
-Author: Premotion Software Solutions
-========================================================================== */
-; (function ($, undefined) {
-	/* NODE SELECTOR CLASS DEFINITION
-	* ============================ */
-	var NodeSelector = function ($element, options) {
-		this.options = options;
-		this.$element = $element;
-		this.$valueElement = this.$element.find('.value');
-		this.$labelsElement = this.$element.find('.labels');
-		this.$modal = this.$element.find('.modal');
-	};
-	NodeSelector.prototype = {
-		constructor: NodeSelector,
-		init: function() {
-		},
-		selectValues: function() {
-			var that = this;
-				href = this.$modal.data('href') + '&selected=' + this.$valueElement.val();
-			this.$modal.controlDialog('open', href, function(message, selected) {
-				if (message === 'selected') {
-					var json = JSON.parse(selected);
-					that.updateValues(json);
-				}
-			});
-		},
-		clearValues: function() {
-			this.$valueElement.val('');
-			this.$labelsElement.empty();
-		},
-		updateValues: function (json) {
-			var that = this;
-			that.$valueElement.val('');
-			that.$labelsElement.empty();
-			$.each(json, function(index, sel) {
-				// append the value
-				var val = that.$valueElement.val();
-				if (val != null && val != '')
-					val += ',';
-				that.$valueElement.val(val + sel.value);
-
-				// add a label
-				that.$labelsElement.append('<li data-value="' + sel.value + '">' + sel.label + '</li>');
-			});
-		}
-	};
-	
-	/* NODE SELECTOR PLUGIN DEFINITION
-	* ============================== */
-	$.fn.nodeSelector = function (option) {
-		var args = arguments;
-		return this.each(function () {
-			var $this = $(this)
-				, data = $this.data('node-selector')
-				, options = $.extend({}, $.fn.nodeSelector.defaults, $this.data(), typeof option == 'object' && option);
-			if (!data)
-				$this.data('node-selector', (data = new NodeSelector($this, options)));
-			if (typeof option == 'string')
-				data[option].apply(data, Array.prototype.slice.call( args, 1 ));
-		});
-	};
-	$.fn.nodeSelector.defaults = { };
-	$.fn.nodeSelector.Constructor = NodeSelector;
-
-	/* NODE SELECTOR DATA-API
-	* ==================== */
-	$(function () {
-		$('body').on('click', "[data-behavior='node-selector'] .btn-select-values", function ( e ) {
-			e.preventDefault();
-			var $this = $(this)
-				, $parent = $this.parents("[data-behavior='node-selector']");
-			$parent.nodeSelector('selectValues');
-		});
-		$('body').on('click', "[data-behavior='node-selector'] .btn-clear-selection", function ( e ) {
-			e.preventDefault();
-			var $this = $(this)
-				, $parent = $this.parents("[data-behavior='node-selector']");
-			$parent.nodeSelector('clearValues');
-		});
-		
-		// init all controls
-		$("[data-behavior='node-selector']").nodeSelector('init');
-	});
-	
-})(window.jQuery);
+{IncludeStaticResource( '/Controls/Js/node-selector.js' )}

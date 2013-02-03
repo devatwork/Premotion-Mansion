@@ -16,7 +16,8 @@ namespace Premotion.Mansion.Core.ScriptTags.Stack
 		{
 			// get the attributes
 			var source = GetAttribute<IPropertyBag>(context, "source");
-// check if there is a source
+
+			// check if there is a source
 			if (source != null)
 			{
 				// create the dataspace and exeucte child tags
@@ -31,7 +32,6 @@ namespace Premotion.Mansion.Core.ScriptTags.Stack
 					throw new InvalidOperationException("Dataspace not found and no notFound tag detected");
 				notFound.Execute(context);
 			}
-			
 		}
 	}
 }

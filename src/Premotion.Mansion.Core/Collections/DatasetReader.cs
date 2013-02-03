@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Premotion.Mansion.Core.Patterns;
 
 namespace Premotion.Mansion.Core.Collections
@@ -36,7 +37,7 @@ namespace Premotion.Mansion.Core.Collections
 		/// <filterpriority>1</filterpriority>
 		public IEnumerator<IPropertyBag> GetEnumerator()
 		{
-			return dataset.Rows.GetEnumerator();
+			return dataset.Rows.ToList().GetEnumerator();
 		}
 		/// <summary>
 		/// Returns an enumerator that iterates through a collection.

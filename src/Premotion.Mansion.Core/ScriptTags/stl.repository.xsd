@@ -124,6 +124,11 @@
 	</xs:attributeGroup>
 
 	<xs:attributeGroup name="filterAttributes">
+		<xs:attribute name="querySource" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies a dataspace from which to load the query properties.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="status" type="nodeStatusEnumeration" use="optional">
 			<xs:annotation>
 				<xs:documentation>Specifies the status nodes must have in order to be retrieved by this query.</xs:documentation>

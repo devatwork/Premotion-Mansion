@@ -130,6 +130,22 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="extractProperties" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Extracts properties from source dataspace and store them in the target dataspace.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<!-- attributes -->
+			<xs:attributeGroup ref="sourceAttributes" />
+			<xs:attributeGroup ref="targetAttributes" />
+			<xs:attribute name="whitelist" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>A CSV of all the properties which should be extracted. Default extracts all the properties.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
 	<xs:element name="loopDataset" substitutionGroup="scriptTag">
 		<xs:annotation>
 			<xs:documentation>Loops through a dataset. Puts the Loop dataspace on the stack containing loop information.</xs:documentation>

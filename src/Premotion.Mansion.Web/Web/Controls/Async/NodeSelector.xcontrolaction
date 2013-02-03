@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:web="http://schemas.premotion.nl/mansion/1.0/web/tags.xsd">
+
+	<!-- Invoked if an async action is invoked on the node selector -->
+	<declareProcedure procedureName="ProcessAction">
+		<!-- push the control properties to the stack -->
+		<fetchDataspace source="{NotEmpty( Post.settings, Get.settings )}" target="QueryProperties" global="true">
+			<!-- extract the node selector properties -->
+			<createDataspace target="NodeSelectorProperties" global="true">
+				<extractProperties source="{$QueryProperties}" target="{$NodeSelectorProperties}" whitelist="valueProperty,labelProperty,selectableTypes,parentPointer,disabledExpression" />
+			</createDataspace>
+		</fetchDataspace>
+
+		<!-- retrieve the root node -->
+		<retrieveNode pointer="{NodeSelectorProperties.parentPointer}" target="RootNode" global="true">
+			<notFound>
+				<throw message="Root node not found"/>
+			</notFound>
+		</retrieveNode>
+
+		<!-- retrieve the current value -->
+		<if condition="{Not( IsEmpty( NotEmpty( Post.selected, Get.selected ) ) )}">
+			<if condition="{Contains( NotEmpty( Post.selected, Get.selected ), ',' )}">
+				<retrieveChildNodeset parentSource="{$RootNode}" querySource="{$QueryProperties}" depth="any" baseType="{NodeSelectorProperties.selectableTypes}" where="{InSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.selected, Get.selected ) )}" target="SelectedNodeset" global="true" />
+				<else>
+					<retrieveChildNode parentSource="{$RootNode}" querySource="{$QueryProperties}" depth="any" baseType="{NodeSelectorProperties.selectableTypes}" where="{InSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.selected, Get.selected ) )}" target="SelectedNode" global="true" />
+				</else>
+			</if>
+		</if>
+		
+		<!-- dispatch the request-->
+		<invokeProcedure procedureName="Process{NotEmpty( Post.action, Get.action, 'Dummy' )}Action" />
+	</declareProcedure>
+	
+	
+	
+	<!-- Invoked if a initiate is executed -->
+	<declareProcedure procedureName="ProcessInitiateAction">
+		<web:respondDocument cache="false" contentType="application/json" encoding="UTF-8">
+			<renderJsonDocument>
+				<renderJsonObject>
+
+					<!-- render parent id -->
+					<renderJsonProperty propertyName="parentId" value="{GetProperty( $RootNode, NodeSelectorProperties.valueProperty )}" />
+					
+					<!-- path -->
+					<renderJsonArrayProperty propertyName="crumbs">
+						<invokeProcedure procedureName="RenderNodeCrumbs" currentNode="{$RootNode}" rootNode="{$RootNode}" />
+					</renderJsonArrayProperty>
+
+					<!-- Results -->
+					<invokeProcedure procedureName="RenderChildNodesetAsResults" parentSource="{$RootNode}" />
+					
+					<!-- validate currently selected values -->
+					<renderJsonArrayProperty propertyName="selected">
+						<retrieveChildNodeset parentSource="{$RootNode}" depth="any" querySource="{$QueryProperties}" baseType="{NodeSelectorProperties.selectableTypes}" where="{InSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.selected, Get.selected ) )}" target="ResultSet">
+							<loopDataset source="{$Resultset}" target="Result">
+								<renderJsonObject id="{GetProperty( $Result, NodeSelectorProperties.valueProperty )}" label="{GetProperty( $Result, NodeSelectorProperties.labelProperty, '' )}" />
+							</loopDataset>
+						</retrieveChildNodeset>
+					</renderJsonArrayProperty>
+
+				</renderJsonObject>
+			</renderJsonDocument>
+		</web:respondDocument>
+	</declareProcedure>
+	
+	
+	
+	<!-- Invoked if a browse action is executed -->
+	<declareProcedure procedureName="ProcessBrowseAction">
+		<web:respondDocument cache="false" contentType="application/json" encoding="UTF-8">
+			<renderJsonDocument>
+				<renderJsonObject>
+					
+					<!-- retrieve the current node -->
+					<if condition="{IsEqual( NotEmpty( Post.parent, Get.parent ), GetProperty( $RootNode, NodeSelectorProperties.valueProperty ) )}">
+						<fetchDataspace source="{$RootNode}" target="CurrentNode" global="true" />
+						<else>
+							<retrieveChildNode parentSource="{$RootNode}" querySource="{$QueryProperties}" depth="any" where="{IsSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.parent, Get.parent ) )}" target="CurrentNode" global="true">
+								<notFound>
+									<throw message="Could not find current node"/>
+								</notFound>
+							</retrieveChildNode>
+						</else>
+					</if>
+					
+					<!-- render parent id -->
+					<renderJsonProperty propertyName="parentId" value="{GetProperty( $CurrentNode, NodeSelectorProperties.valueProperty )}" />
+					
+					<!-- path -->
+					<renderJsonArrayProperty propertyName="crumbs">
+						<invokeProcedure procedureName="RenderNodeCrumbs" currentNode="{$CurrentNode}" rootNode="{$RootNode}" />
+					</renderJsonArrayProperty>
+
+					<!-- Results -->
+					<invokeProcedure procedureName="RenderChildNodesetAsResults" parentSource="{$CurrentNode}" />
+
+				</renderJsonObject>
+			</renderJsonDocument>
+		</web:respondDocument>
+	</declareProcedure>
+	
+	
+	
+	<!-- Invoked if a browse action is executed -->
+	<declareProcedure procedureName="ProcessAutocompleteAction">
+		<web:respondDocument cache="false" contentType="application/json" encoding="UTF-8">
+			<renderJsonDocument>
+				<renderJsonObject>
+
+					<!-- retrieve the current node -->
+					<if condition="{IsEqual( NotEmpty( Post.parent, Get.parent ), GetProperty( $RootNode, NodeSelectorProperties.valueProperty ) )}">
+						<fetchDataspace source="{$RootNode}" target="CurrentNode" global="true" />
+						<else>
+							<retrieveChildNode parentSource="{$RootNode}" querySource="{$QueryProperties}" depth="any" where="{IsSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.parent, Get.parent ) )}" target="CurrentNode" global="true">
+								<notFound>
+									<throw message="Could not find current node"/>
+								</notFound>
+							</retrieveChildNode>
+						</else>
+					</if>
+
+					<!-- render parent id -->
+					<renderJsonProperty propertyName="parentId" value="{GetProperty( $CurrentNode, NodeSelectorProperties.valueProperty )}" />
+					
+					<!-- path -->
+					<renderJsonArrayProperty propertyName="crumbs">
+						<invokeProcedure procedureName="RenderNodeCrumbs" currentNode="{$CurrentNode}" rootNode="{$RootNode}" />
+						<renderJsonObject id=""	label="Results" />
+					</renderJsonArrayProperty>
+					
+					<!-- Results -->
+					<renderJsonArrayProperty propertyName="results">
+						<retrieveChildNodeset parentSource="{$CurrentNode}" depth="any" querySource="{$QueryProperties}" name_autocomplete="{NotEmpty( Post.fragment, Get.fragment )}" baseType="{NodeSelectorProperties.selectableTypes}" limit="10" target="ResultSet">
+							<loopDataset source="{$Resultset}" target="Result">
+								<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$Result}" />
+							</loopDataset>
+						</retrieveChildNodeset>
+					</renderJsonArrayProperty>
+
+				</renderJsonObject>
+			</renderJsonDocument>
+		</web:respondDocument>
+	</declareProcedure>
+
+
+
+	<!-- Renders the given dataspace as a Json object	-->
+	<!-- Arguments													-->
+	<!--   source: the dataspace								-->
+	<declareProcedure procedureName="RenderDataspaceAsJsonObject">
+		<renderJsonObject
+			id="{GetProperty( Arguments.source, NodeSelectorProperties.valueProperty )}"
+			label="{GetProperty( Arguments.source, NodeSelectorProperties.labelProperty, '' )}">
+			
+			<!-- check if this value is assignable -->
+			<if condition="{IsEmpty( NodeSelectorProperties.disabledExpression )}">
+				<renderJsonProperty propertyName="isAssignable" value="{IsAssignable( GetProperty( Arguments.source, 'type' ), NodeSelectorProperties.selectableTypes )}" />
+				<else>
+					<fetchDataspace source="{Arguments.source}" target="Node">
+						<renderJsonProperty propertyName="isAssignable" value="{And( IsAssignable( GetProperty( Arguments.source, 'type' ), NodeSelectorProperties.selectableTypes ), Not( EvaluateExpression( NodeSelectorProperties.disabledExpression ) ) )}" />
+					</fetchDataspace>
+				</else>
+			</if>
+			
+			<!-- check if the type contains children -->
+			<retrieveChildNodeset parentSource="{Arguments.source}" depth="any" baseType="{NodeSelectorProperties.selectableTypes}" querySource="{$QueryProperties}" pageNumber="1" pageSize="1" target="Resultset">
+				<renderJsonProperty propertyName="hasAssignableChildren" value="true" />
+				<notFound>
+					<renderJsonProperty propertyName="hasAssignableChildren" value="false" />
+				</notFound>
+			</retrieveChildNodeset>
+			
+		</renderJsonObject>
+	</declareProcedure>
+
+
+
+	<!-- Renders the crumbpath of the given node	-->
+	<!-- Arguments											-->
+	<!--   currentNode: the current node			-->
+	<!--   rootNode: the root node					-->
+	<declareProcedure procedureName="RenderNodeCrumbs">
+		<fetchNode source="{Arguments.rootNode}" target="RootNode">
+		<fetchNode source="{Arguments.currentNode}" target="CurrentNode">
+			<!-- recursively render the parents until the root node was found -->
+			<if condition="{Not( IsEqual( RootNode.id, CurrentNode.id ) )}">
+				<retrieveParentNode childSource="{$CurrentNode}" target="ParentNode">
+					<invokeProcedure procedureName="RenderNodeCrumbs" currentNode="{$ParentNode}" rootNode="{$RootNode}" />
+				</retrieveParentNode>
+			</if>
+			<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$CurrentNode}" />
+		</fetchNode>
+		</fetchNode>
+	</declareProcedure>
+
+
+
+	<!-- Renders the children of the given node as results	-->
+	<!-- Arguments															-->
+	<!--   parentSource: the parent node							-->
+	<declareProcedure procedureName="RenderChildNodesetAsResults">
+		<renderJsonArrayProperty propertyName="results">
+			<retrieveChildNodeset parentSource="{Arguments.parentSource}" querySource="{$QueryProperties}" target="Resultset">
+				<loopDataset source="{$Resultset}" target="Result">
+					<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$Result}" />
+				</loopDataset>
+			</retrieveChildNodeset>
+		</renderJsonArrayProperty>
+	</declareProcedure>
+
+</mansion>

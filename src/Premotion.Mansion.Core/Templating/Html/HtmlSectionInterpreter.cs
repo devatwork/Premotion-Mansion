@@ -59,7 +59,7 @@ namespace Premotion.Mansion.Core.Templating.Html
 			var expression = expressionScriptService.Parse(context, new LiteralResource(content.Trim()));
 
 			// create the section
-			return new Section(headerDescriptor.Properties, expression);
+			return new Section(context, headerDescriptor.Properties, expression);
 		}
 		#endregion
 	}
