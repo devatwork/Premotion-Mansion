@@ -144,57 +144,5 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	
-	
-	
-	<!-- tree providers -->
-	<xs:element name="nodeTreeProvider" substitutionGroup="stl:scriptTag">
-		<xs:annotation>
-			<xs:documentation>Retrieves the data from a node tree and transforms it into a control tree.</xs:documentation>
-		</xs:annotation>
-
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="ctrls:dataProviderBase">
-					<!-- attributes -->
-					<xs:attribute name="rootPointer" type="xs:string" use="required">
-						<xs:annotation>
-							<xs:documentation>The rootpointer from which the tree is started.</xs:documentation>
-						</xs:annotation>
-					</xs:attribute>
-					<xs:attribute name="valueProperty" type="xs:string" use="required">
-						<xs:annotation>
-							<xs:documentation>The name of the property specifying the value.</xs:documentation>
-						</xs:annotation>
-					</xs:attribute>
-					<xs:attribute name="labelProperty" type="xs:string" use="required">
-						<xs:annotation>
-							<xs:documentation>The name of the property specifying the label.</xs:documentation>
-						</xs:annotation>
-					</xs:attribute>
-					<xs:attribute name="disabledExpression" type="xs:string" use="optional">
-						<xs:annotation>
-							<xs:documentation>The disabled expression to evaluate. Dataspaces available Node. Note to execute within the context of a node the expression must be escaped.</xs:documentation>
-						</xs:annotation>
-					</xs:attribute>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-
-	<xs:element name="nodeTreeSelectProvider" substitutionGroup="stl:scriptTag">
-		<xs:annotation>
-			<xs:documentation>Retrieves the data from a node tree and transforms it into a control tree.</xs:documentation>
-		</xs:annotation>
-
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="ctrls:dataProviderBase">
-					<!-- attributes -->
-					<xs:attributeGroup ref="stl:sourceAttributes" />
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
 
 </xs:schema>

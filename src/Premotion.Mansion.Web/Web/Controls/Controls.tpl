@@ -154,30 +154,6 @@
 		</label>
 	</tpl:section>
 
-<tpl:section name="NodeTreeSelectFieldControl" field="Field">
-	<ul class="field tree-select node-tree">
-		{Leaf}
-	</ul>
-</tpl:section>
-	
-	<tpl:section name="NodeTreeSelectFieldControlLeaf" field="Leaf">
-		<li>
-			<label for="{@FieldName}-{LeafProperties.id}">
-				{@NodeTreeSelectFieldControlLeafButton}
-				{LeafProperties.label}
-			</label>
-			{Children}
-		</li>
-	</tpl:section>
-
-		<tpl:section name="NodeTreeSelectFieldControlLeafButton" requires="{Not( LeafProperties.disabled )}"><input type="{If( ControlProperties.allowMultiple, 'checkbox', 'radio' )}" name="{@FieldName}" id="{@FieldName}-{LeafProperties.id}" value="{LeafProperties.value}" {If( InList( LeafProperties.value, ControlProperties.value ), 'checked')} {If( LeafProperties.disabled, 'disabled' )}></tpl:section>
-	
-	<tpl:section name="NodeTreeSelectFieldControlWithChildren" field="Children">
-		<ul>
-			{Leaf}
-		</ul>
-	</tpl:section>
-
 <tpl:section name="DateFieldControl" field="Field">
 	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge date {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy' )}" {@FieldReadonlyAttribute}>
 </tpl:section>

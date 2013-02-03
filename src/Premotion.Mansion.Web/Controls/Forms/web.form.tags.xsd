@@ -132,16 +132,6 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="treeFieldBase" abstract="true">
-		<xs:annotation>
-			<xs:documentation>Base type for all web form tree field controls.</xs:documentation>
-		</xs:annotation>
-
-		<xs:complexContent>
-			<xs:extension base="fieldBase" />
-		</xs:complexContent>
-	</xs:complexType>
-
 	<xs:complexType name="buttonBase" abstract="true">
 		<xs:annotation>
 			<xs:documentation>Base type for all web form button controls.</xs:documentation>
@@ -564,25 +554,6 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="nodeSelectorBase" />
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-
-	<xs:element name="nodeTreeSelect" substitutionGroup="stl:scriptTag">
-		<xs:annotation>
-			<xs:documentation>a control which allows to select a node from a tree.</xs:documentation>
-		</xs:annotation>
-
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="treeFieldBase">
-					<!-- attributes -->
-					<xs:attribute name="allowMultiple" type="xs:boolean" use="optional">
-						<xs:annotation>
-							<xs:documentation>Indicates whether multiple values can be selected in this controls. Default value is false.</xs:documentation>
-						</xs:annotation>
-					</xs:attribute>
-				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>

@@ -140,7 +140,6 @@
     <Compile Include="Controls\Forms\Fields\HiddenField.cs" />
     <Compile Include="Controls\Forms\Fields\ImageUploadField.cs" />
     <Compile Include="Controls\Forms\Fields\MultiSelectField.cs" />
-    <Compile Include="Controls\Forms\Fields\NodeTreeSelectField.cs" />
     <Compile Include="Controls\Forms\Fields\NumberField.cs" />
     <Compile Include="Controls\Forms\Fields\PasswordField.cs" />
     <Compile Include="Controls\Forms\Fields\RangeField.cs" />
@@ -171,7 +170,6 @@
     <Compile Include="Controls\Forms\RowMappingStrategy.cs" />
     <Compile Include="Controls\Forms\ScriptFunctions\IsInValidationError.cs" />
     <Compile Include="Controls\Forms\Step.cs" />
-    <Compile Include="Controls\Forms\TreeField.cs" />
     <Compile Include="Controls\Forms\ValidationResult.cs" />
     <Compile Include="Controls\Forms\ValidationResults.cs" />
     <Compile Include="Controls\Forms\ValidationRule.cs" />
@@ -193,13 +191,9 @@
     <Compile Include="Controls\Providers\Datasets\CsvLabelValuePairProvider.cs" />
     <Compile Include="Controls\Providers\Datasets\FetchDatasetProvider.cs" />
     <Compile Include="Controls\Providers\Datasets\TypeDefinitionDatasetProvider.cs" />
-    <Compile Include="Controls\Providers\Leaf.cs" />
     <Compile Include="Controls\Providers\NodesetProvider.cs" />
     <Compile Include="Controls\Providers\Nodesets\FetchNodesetProvider.cs" />
     <Compile Include="Controls\Providers\Nodesets\RetrieveChildNodesetProvider.cs" />
-    <Compile Include="Controls\Providers\TreeProvider.cs" />
-    <Compile Include="Controls\Providers\Trees\NodeTreeProvider.cs" />
-    <Compile Include="Controls\Providers\Trees\NodeTreeSelectProvider.cs" />
     <Compile Include="Controls\ScriptFunctions\ControlRouteUrl.cs" />
     <Compile Include="Controls\ScriptFunctions\GetControlPropertyName.cs" />
     <Compile Include="Controls\ScriptFunctions\GetControlPropertyValue.cs" />
@@ -320,8 +314,6 @@
     <Compile Include="Web\Types\Default\TagListener.cs" />
     <Compile Include="Web\Types\Tag\TagListener.cs" />
     <EmbeddedResource Include="Web\Application.tpl" />
-    <EmbeddedResource Include="Web\Controls\DialogController.tpl" />
-    <EmbeddedResource Include="Web\Controls\DialogController.xinclude" />
     <EmbeddedResource Include="Web\Shared\css\bootstrap\less\accordion.less" />
     <EmbeddedResource Include="Web\Shared\css\bootstrap\less\alerts.less" />
     <EmbeddedResource Include="Web\Shared\css\bootstrap\less\bootstrap.less" />
@@ -829,11 +821,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Cms\js\cms.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Web\Controls\Images\Treeview\treeview-default.gif" />
-    <EmbeddedResource Include="Web\Controls\Images\Treeview\treeview-default-line.gif" />
-    <EmbeddedResource Include="Web\Controls\Images\Treeview\ajax-loader.gif" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap-responsive.css" />

@@ -12,6 +12,7 @@
 	</declareProcedure>
 
 	<!-- Invoked when the tree is rendered as HTML -->
+	<!-- TODO: refactor this -->
 	<declareProcedure procedureName="HandleDefault">
 
 		<!-- redirect action to type -->
