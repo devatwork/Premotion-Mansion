@@ -116,6 +116,7 @@ Author: Premotion Software Solutions
             that.candidateListCount = that.$candidateList.children().length;
             that.candidateListIndex = 0;
             that.$candidateList.children().eq(that.candidateListIndex).addClass('active');
+            return false;
         },
         // result list methods
         resultListOnkeydown: function (e) {
@@ -181,10 +182,13 @@ Author: Premotion Software Solutions
             this.candidateListIndex = this.$candidateList.children().index($(e.target).parents('li'));
             this.$candidateList.children().eq(this.candidateListIndex).addClass('active');
             this.resultListSelectCurrent();
+            return false;
         },
         resultListBrowseSelected: function (e) {
+            e.preventDefault();
             var $elem = $(e.target).parents('li');
             this.resultListBrowse($elem);
+            return false;
         },
         resultListBrowse: function ($elem) {
             var hasAssignableChildren = !$elem.hasClass('disabled'),
