@@ -26,6 +26,7 @@ Author: Premotion Software Solutions
         this.$searchInput = this.$element.find('[type="search"]');
         this.endpointUrl = this.$element.data('service-endpoint');
         this.$valueField = this.$element.find('#' + this.controlId + '-value');
+        this.settings = this.$element.find('#' + this.controlId + '-settings').val();
         this.parentId = undefined;
         this.listen();
         this.retrieve();
@@ -63,11 +64,12 @@ Author: Premotion Software Solutions
             var that = this;
             $.ajax({
                 data: {
+                    settings: that.settings,
                     action: 'initiate',
                     selected: that.$valueField.val()
                 },
                 dataType: 'json',
-                type: 'GET',
+                type: 'POST',
                 url: that.endpointUrl
             }).done(function (data) {
                 that.renderResults(data);
@@ -193,11 +195,12 @@ Author: Premotion Software Solutions
             }
             $.ajax({
                 data: {
+                    settings: that.settings,
                     action: 'browse',
                     parent: that.parentId
                 },
                 dataType: 'json',
-                type: 'GET',
+                type: 'POST',
                 url: that.endpointUrl
             }).done(function (data) {
                 that.renderResults(data);
@@ -214,12 +217,13 @@ Author: Premotion Software Solutions
             }
             $.ajax({
                 data: {
+                    settings: that.settings,
                     action: 'autocomplete',
                     fragment: that.query,
                     parent: that.parentId
                 },
                 dataType: 'json',
-                type: 'GET',
+                type: 'POST',
                 url: that.endpointUrl
             }).done(function (data) {
                 that.renderResults(data);

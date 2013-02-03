@@ -4,7 +4,7 @@
 	<!-- Invoked if an async action is invoked on the node selector -->
 	<declareProcedure procedureName="ProcessAction">
 		<!-- push the control properties to the stack -->
-		<fetchDataspace source="{Route.routeParameter0}" target="QueryProperties" global="true">
+		<fetchDataspace source="{NotEmpty( Post.settings, Get.settings )}" target="QueryProperties" global="true">
 			<!-- extract the node selector properties -->
 			<createDataspace target="NodeSelectorProperties" global="true">
 				<extractProperties source="{$QueryProperties}" target="{$NodeSelectorProperties}" whitelist="valueProperty,labelProperty,selectableTypes,parentPointer,disabledExpression" />
