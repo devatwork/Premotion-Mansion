@@ -300,7 +300,7 @@
 	</script>
 	<script type="text/ejs" id="node-selector-results-template">
 	<% _.forEach(results, function (result, index, array) { %>
-	<li class="clearfix" data-id="<%= result.id %>" data-label="<%= result.label %>" data-is-assignable="<%= result.isAssignable %>">
+	<li class="clearfix <%= result.hasAssignableChildren === true ? '' : 'disabled' %>" data-id="<%= result.id %>" data-label="<%= result.label %>" data-is-assignable="<%= result.isAssignable %>">
 		<a href="#" data-behavior="browse">
 			<% if ( result.isAssignable === true ) { %>
 			<i class="icon-plus-sign" data-behavior="select"></i>

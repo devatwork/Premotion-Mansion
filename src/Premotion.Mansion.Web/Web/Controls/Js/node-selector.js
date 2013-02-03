@@ -120,6 +120,20 @@ Author: Premotion Software Solutions
                     e.preventDefault();
                     this.resultListNext();
                     break;
+                case 37: // left arrow
+                    e.preventDefault();
+                    var $crumbs = this.$breadcrumbList.children(),
+                        length = $crumbs.length;
+                    if (length <= 1)
+                        return;
+                    var $parent = $crumbs.eq(length - 2);
+                    this.resultListBrowse($parent);
+                    break;
+                case 39: // right arrow
+                    e.preventDefault();
+                    var $child = this.$candidateList.children().eq(this.candidateListIndex);
+                    this.resultListBrowse($child);
+                    break;
             }
             e.stopPropagation();
         },
@@ -153,9 +167,14 @@ Author: Premotion Software Solutions
             this.resultListSelectCurrent();
         },
         resultListBrowseSelected: function (e) {
-            var id = $(e.target).parents('li').data('id'),
+            var $elem = $(e.target).parents('li');
+            this.resultListBrowse($elem);
+        },
+        resultListBrowse: function ($elem) {
+            var id = $elem.data('id'),
+                hasAssignableChildren = !$elem.hasClass('disabled'),
                 that = this;
-            if (id === undefined) {
+            if (id === undefined || hasAssignableChildren !== true) {
                 return that;
             }
             $.ajax({
