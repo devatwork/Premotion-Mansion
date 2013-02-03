@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Premotion.Mansion.Core.IO;
 
 namespace Premotion.Mansion.Core.Templating
@@ -56,9 +57,17 @@ namespace Premotion.Mansion.Core.Templating
 		{
 			get { throw new NotSupportedException(); }
 		}
+		/// <summary>
+		/// Gets a collection of rendered section ids.
+		/// </summary>
+		public ICollection<string> RenderedSections
+		{
+			get { return renderedSections; }
+		}
 		#endregion
 		#region Private Fields
 		private readonly IOutputPipe outputPipe;
+		private readonly List<string> renderedSections = new List<string>();
 		#endregion
 	}
 }

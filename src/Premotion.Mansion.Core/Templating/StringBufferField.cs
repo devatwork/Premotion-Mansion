@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 
 namespace Premotion.Mansion.Core.Templating
 {
@@ -30,9 +31,17 @@ namespace Premotion.Mansion.Core.Templating
 		{
 			get { return buffer.ToString(); }
 		}
+		/// <summary>
+		/// Gets a collection of rendered section ids.
+		/// </summary>
+		public ICollection<string> RenderedSections
+		{
+			get { return renderedSections; }
+		}
 		#endregion
 		#region Private Fields
 		private readonly StringBuilder buffer = new StringBuilder();
+		private readonly List<string> renderedSections = new List<string>();
 		#endregion
 	}
 }

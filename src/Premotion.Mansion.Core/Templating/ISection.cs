@@ -17,15 +17,22 @@ namespace Premotion.Mansion.Core.Templating
 		/// </summary>
 		ITemplate Template { get; }
 		/// <summary>
+		/// Gets the unique identifier of this section.
+		/// </summary>
+		string Id { get; }
+		/// <summary>
 		/// Gets the name of this section.
 		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		string GetName(IMansionContext context);
+		string Name { get; }
 		/// <summary>
 		/// Gets the target field to which this section is rendered.
 		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		string GetTargetField(IMansionContext context);
+		string TargetField { get; }
+		/// <summary>
+		/// Gets a flag indicating whether this section should be rendered only once..
+		/// </summary>
+		/// <returns>Returns true if this section should be rendered once, otherwise false.</returns>
+		bool ShouldBeRenderedOnce { get; }
 		/// <summary>
 		/// Checks whether this section is required or not.
 		/// </summary>

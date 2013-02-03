@@ -1,4 +1,6 @@
-﻿namespace Premotion.Mansion.Core.Templating
+﻿using System.Collections.Generic;
+
+namespace Premotion.Mansion.Core.Templating
 {
 	/// <summary>
 	/// Represents a field in a section.
@@ -17,6 +19,10 @@
 		/// Gets the content of this field.
 		/// </summary>
 		string Content { get; }
+		/// <summary>
+		/// Gets a collection of rendered section ids.
+		/// </summary>
+		ICollection<string> RenderedSections { get; }
 		#endregion
 	}
 }

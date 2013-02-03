@@ -68,7 +68,7 @@ namespace Premotion.Mansion.Web.Templating.Html
 			var expression = expressionScriptService.Parse(context, new LiteralResource(content.Trim()));
 
 			// create the section
-			return new Section(headerDescriptor.Properties, expression);
+			return new Section(context, headerDescriptor.Properties, expression);
 		}
 		#endregion
 		#region Inject Methods
@@ -98,14 +98,10 @@ namespace Premotion.Mansion.Web.Templating.Html
 
 				// check for expression end
 				if (currentCharacter == '}' && inExpresion)
-				{
 					inExpresion = false;
-				}
 				else if (currentCharacter == '{' && !inExpresion)
-				{
 					inExpresion = true;
-				}
-				// check if we are exiting an attribute
+					// check if we are exiting an attribute
 				else if (currentCharacter == quoteCharacter && inAttribute && !inExpresion)
 				{
 					// write the encoded buffer to the output
@@ -125,7 +121,7 @@ namespace Premotion.Mansion.Web.Templating.Html
 				else if (previousCharacter == '=' && (currentCharacter == '\'' || currentCharacter == '"') && inHtmlTag && !inExpresion)
 				{
 					// reset the buffer
-					output.Append(buffer.ToString());
+					output.Append(buffer);
 					buffer.Length = 0;
 
 					// we are in an html tag
@@ -136,7 +132,7 @@ namespace Premotion.Mansion.Web.Templating.Html
 				else if (currentCharacter == '>' && inHtmlTag && !inExpresion)
 				{
 					// reset the buffer
-					output.Append(buffer.ToString());
+					output.Append(buffer);
 					buffer.Length = 0;
 
 					// reset the flag

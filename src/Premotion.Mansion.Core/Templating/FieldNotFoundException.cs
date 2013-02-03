@@ -27,7 +27,7 @@ namespace Premotion.Mansion.Core.Templating
 			var buffer = new StringBuilder();
 			buffer.AppendLine(string.Format("Could not find field with name '{0}' in sections:", name));
 			foreach (var section in context.ActiveSectionStack.Select(activeSection => activeSection.Section))
-				buffer.AppendLine(string.Format("- {0} ({1})", section.GetName(context), section.Template.Path.Paths.First()));
+				buffer.AppendLine(string.Format("- {0} ({1})", section.Name, section.Template.Path.Paths.First()));
 			message = buffer.ToString();
 		}
 		#endregion

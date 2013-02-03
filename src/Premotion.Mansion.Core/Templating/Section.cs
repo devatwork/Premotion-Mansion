@@ -13,11 +13,14 @@ namespace Premotion.Mansion.Core.Templating
 		/// <summary>
 		/// Constructs an section.
 		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="properties">The descriptor of this section.</param>
 		/// <param name="expression">The expressio of this section.</param>
-		public Section(IPropertyBag properties, IExpressionScript expression)
+		public Section(IMansionContext context, IPropertyBag properties, IExpressionScript expression)
 		{
 			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
 			if (properties == null)
 				throw new ArgumentNullException("properties");
 			if (expression == null)
@@ -26,6 +29,24 @@ namespace Premotion.Mansion.Core.Templating
 			// set values
 			Properties = properties;
 			Expression = expression;
+			Id = Guid.NewGuid().ToString();
+			Name = Properties.Get<string>(context, "name");
+			ShouldBeRenderedOnce = !Properties.Get(context, "repeatable", true);
+			TargetField = Properties.Get(context, "field", Name);
+
+			// check if there is a requires property
+			string requiresExpressionString;
+			if (Properties.TryGet(context, "requires", out requiresExpressionString))
+			{
+				// assemble the expression
+				var expressionService = context.Nucleus.ResolveSingle<IExpressionScriptService>();
+				var requiresExpression = expressionService.Parse(context, new LiteralResource(requiresExpressionString));
+
+				// execute the expression
+				areRequirementsSatisfied = requiresExpression.Execute<bool>;
+			}
+			else
+				areRequirementsSatisfied = mansionContext => true;
 		}
 		#endregion
 		#region Properties
@@ -38,38 +59,21 @@ namespace Premotion.Mansion.Core.Templating
 		/// </summary>
 		public ITemplate Template { get; set; }
 		/// <summary>
+		/// Gets the unique identifier of this section.
+		/// </summary>
+		public string Id { get; private set; }
+		/// <summary>
 		/// Gets the expression for this section.
 		/// </summary>
 		public IExpressionScript Expression { get; private set; }
 		/// <summary>
 		/// Gets the name of this section.
 		/// </summary>
-		/// <summary>
-		/// Gets the name of this section.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		public string GetName(IMansionContext context)
-		{
-			// validate argument
-			if (context == null)
-				throw new ArgumentNullException("context");
-
-			// return the name
-			return Properties.Get<string>(context, "name");
-		}
+		public string Name { get; private set; }
 		/// <summary>
 		/// Gets the target field to which this section is rendered.
 		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		public string GetTargetField(IMansionContext context)
-		{
-			// validate argument
-			if (context == null)
-				throw new ArgumentNullException("context");
-
-			// return the name
-			return Properties.Get(context, "field", GetName(context));
-		}
+		public string TargetField { get; private set; }
 		/// <summary>
 		/// Checks whether this section is required or not.
 		/// </summary>
@@ -81,18 +85,16 @@ namespace Premotion.Mansion.Core.Templating
 			if (context == null)
 				throw new ArgumentNullException("context");
 
-			// check if there is a requires property
-			string requiresExpressionString;
-			if (!Properties.TryGet(context, "requires", out requiresExpressionString))
-				return true;
-
-			// assemble the expression
-			var expressionService = context.Nucleus.ResolveSingle<IExpressionScriptService>();
-			var requiresExpression = expressionService.Parse(context, new LiteralResource(requiresExpressionString));
-
-			// execute the expression
-			return requiresExpression.Execute<bool>(context);
+			return areRequirementsSatisfied(context);
 		}
+		/// <summary>
+		/// Gets a flag indicating whether this section should be rendered only once..
+		/// </summary>
+		/// <returns>Returns true if this section should be rendered once, otherwise false.</returns>
+		public bool ShouldBeRenderedOnce { get; private set; }
+		#endregion
+		#region Private Fields
+		private readonly Func<IMansionContext, bool> areRequirementsSatisfied;
 		#endregion
 	}
 }

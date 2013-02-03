@@ -51,7 +51,7 @@ namespace Premotion.Mansion.Core.Templating
 				throw new ArgumentNullException("sectionName");
 
 			// get the section
-			section = sections.SingleOrDefault(candidate => sectionName.Equals(candidate.GetName(context), StringComparison.OrdinalIgnoreCase));
+			section = sections.SingleOrDefault(candidate => sectionName.Equals(candidate.Name, StringComparison.OrdinalIgnoreCase));
 			return section != null;
 		}
 		#endregion
