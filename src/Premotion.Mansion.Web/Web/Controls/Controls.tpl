@@ -10,7 +10,7 @@
 <tpl:section name="FormControlName">{FormProperties.prefix}</tpl:section>
 	
 <tpl:section name="FormControl" field="Control">
-	<form method="post" action="{Request.url}" id="{@ControlId}" name="{@FormControlName}" class="form {NotEmpty( ControlProperties.cssClass, 'form-horizontal' )}" accept-charset="utf-8" enctype="multipart/form-data" target="_self">
+	<form method="post" action="{NotEmpty( FormProperties.submitUrl, Request.url )}" id="{@ControlId}" name="{@FormControlName}" class="form {NotEmpty( ControlProperties.cssClass, 'form-horizontal' )}" accept-charset="utf-8" enctype="multipart/form-data" target="_self">
 		{Control}
 		{Hidden}
 		<input type="hidden" name="{FormProperties.prefix}current-step" value="{FormProperties.currentStepId}">
