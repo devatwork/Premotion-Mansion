@@ -211,3 +211,5 @@ Author: Premotion Software Solutions
 	});
 
 })(window.jQuery);
+
+{IncludeStaticResource( '/Controls/Js/node-selector.js' )}

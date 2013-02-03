@@ -5,10 +5,51 @@ Author: Premotion Software Solutions
 (function($, undefined) {
     /* NODESELECTOR COMPILED TEMPLATES
 	* ============================= */
-    var breadcrumbsTemplate = _.template($('#node-selector-breadcrumbs-template').html());
-    var resultsTemplate = _.template($('#node-selector-results-template').html());
-    var selectedItemTemplate = _.template($('#node-selector-selected-item-tempate').html());
-    var selectedItemsTemplate = _.template($('#node-selector-selected-items-tempate').html());
+    var breadcrumbsTemplate = _.template('\
+<% _.forEach(crumbs, function (crumb, index, array) { %>\
+		<% if ( index !== (array.length - 1) ) { %>\
+		<li data-id="<%= crumb.id %>">\
+			<a href="#" data-behavior="browse">\
+				<%= crumb.label %>\
+			</a>\
+			<span class="divider">/</span>\
+		</li>\
+		<% } else { %>\
+		<li class="active">\
+			<%= crumb.label %>\
+		</li>\
+		<% } %>\
+<% }); %>\
+    ');
+    var resultsTemplate = _.template('\
+<% _.forEach(results, function (result, index, array) { %>\
+<li class="clearfix <%= result.hasAssignableChildren === true ? "" : "disabled" %>" data-id="<%= result.id %>" data-label="<%= result.label %>" data-is-assignable="<%= result.isAssignable %>">\
+	<a href="#" data-behavior="browse">\
+		<% if ( result.isAssignable === true ) { %>\
+		<i class="icon-plus-sign" data-behavior="select"></i>\
+		<% } %>\
+		<% if ( result.hasAssignableChildren === true ) { %>\
+		<i class="icon-chevron-right" data-behavior="browse"></i>\
+		<% } %>\
+		<%= result.label %>\
+	</a>\
+</li>\
+<% }); %>\
+    ');
+    var selectedItemTemplate = _.template('\
+<a href="#" data-behavior="remove" data-id="<%= id %>" class="btn">\
+	<%= label %>\
+	<i class="icon-remove"></i>\
+</a>\
+    ');
+    var selectedItemsTemplate = _.template('\
+<li data-id="<%= id %>" >\
+	<a href="#" data-behavior="remove">\
+		<i class="pull-right icon-remove"></i>\
+		<%= label %>\
+	</a>\
+</li>\
+    ');
     
     /* NODESELECTOR CLASS DEFINITION
 	* =========================== */

@@ -230,55 +230,6 @@
 Author: Premotion Software Solutions
 ========================================================================== */
 
-<tpl:section name="NodeSelectorTemplates" field="Footer" repeatable="false">
-	<script type="text/ejs" id="node-selector-breadcrumbs-template">
-	<% _.forEach(crumbs, function (crumb, index, array) { %>
-			<% if ( index !== (array.length - 1) ) { %>
-			<li data-id="<%= crumb.id %>">
-				<a href="#" data-behavior="browse">
-					<%= crumb.label %>
-				</a>
-				<span class="divider">/</span>
-			</li>
-			<% } else { %>
-			<li class="active">
-				<%= crumb.label %>
-			</li>
-			<% } %>
-	<% }); %>
-	</script>
-	<script type="text/ejs" id="node-selector-results-template">
-	<% _.forEach(results, function (result, index, array) { %>
-	<li class="clearfix <%= result.hasAssignableChildren === true ? '' : 'disabled' %>" data-id="<%= result.id %>" data-label="<%= result.label %>" data-is-assignable="<%= result.isAssignable %>">
-		<a href="#" data-behavior="browse">
-			<% if ( result.isAssignable === true ) { %>
-			<i class="icon-plus-sign" data-behavior="select"></i>
-			<% } %>
-			<% if ( result.hasAssignableChildren === true ) { %>
-			<i class="icon-chevron-right" data-behavior="browse"></i>
-			<% } %>
-			<%= result.label %>
-		</a>
-	</li>
-	<% }); %>
-	</script>
-	<script type="text/ejs" id="node-selector-selected-items-tempate">
-		<li data-id="<%= id %>" >
-			<a href="#" data-behavior="remove">
-				<i class="pull-right icon-remove"></i>
-				<%= label %>
-			</a>
-		</li>
-	</script>
-	<script type="text/ejs" id="node-selector-selected-item-tempate">
-		<a href="#" data-behavior="remove" data-id="<%= id %>" class="btn">
-			<%= label %>
-			<i class="icon-remove"></i>
-		</a>
-	</script>
-	<script src="{StaticResourceUrl( '/Controls/Js/node-selector.js' )}"></script>
-</tpl:section>
-
 <tpl:section name="SingleNodeSelectorFieldControl" field="Field">
 	<div id="{@ControlId}" class="field input-xxlarge" data-behavior="single-node-selector" data-service-endpoint="{RouteUrlWithArea( 'Controls', 'Async', 'NodeSelector', '0' )}">
 		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">

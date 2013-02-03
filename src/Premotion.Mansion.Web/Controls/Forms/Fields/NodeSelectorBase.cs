@@ -72,9 +72,6 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 		/// <param name="templateService">The <see cref="ITemplateService"/>.</param>
 		protected override void DoRender(IMansionWebContext context, ITemplateService templateService)
 		{
-			// render the templates
-			templateService.Render(context, "NodeSelectorTemplates").Dispose();
-
 			// render the control
 			using (context.Stack.Push("NodeSelectorProperties", settings))
 				base.DoRender(context, templateService);
