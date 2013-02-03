@@ -225,6 +225,143 @@
 </tpl:section>
 
 
+<tpl:section name="MultiNodeSelector2FieldControl" field="Field">
+	<div id="{@ControlId}" class="field input-xlarge row-fluid" data-behavior="single-node-selector">
+		<div class="span6">
+			<div class="clearfix">
+				<input type="search" class="pull-right input-medium search-query" data-behavior="filter-node-select" placeholder="Filter">
+			</div>
+			<div class="well well-small">
+				<ul class="breadcrumb">
+				  <li><a href="#">Home</a> <span class="divider">/</span></li>
+				  <li><a href="#">Library</a> <span class="divider">/</span></li>
+				  <li class="active">Data</li>
+				</ul>
+				<ul class="nav nav-list">
+					<li class="clearfix">
+						<div class="pull-right btn-group">
+							<a href="#" data-behavior="select" class="btn">
+								<i class="icon-plus-sign"></i>
+							</a>
+							<a href="#" data-behavior="browse" class="btn">
+								<i class="icon-chevron-right"></i>
+							</a>
+						</div>
+						Vakken
+					</li>
+					<li class="clearfix">
+						<div class="pull-right btn-group">
+							<a href="#" data-behavior="select" class="btn">
+								<i class="icon-plus-sign"></i>
+							</a>
+							<a href="#" data-behavior="browse" class="btn">
+								<i class="icon-chevron-right"></i>
+							</a>
+						</div>
+						Vakken
+					</li>
+					<li class="clearfix">
+						<div class="pull-right btn-group">
+							<a href="#" data-behavior="select" class="btn">
+								<i class="icon-plus-sign"></i>
+							</a>
+							<a href="#" data-behavior="browse" class="btn">
+								<i class="icon-chevron-right"></i>
+							</a>
+						</div>
+						Vakken
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="span6">
+			<div class="well well-small">
+				<ul class="nav nav-pills nav-stacked">
+					<li>
+						<a href="#" data-behavior="remove">
+							<i class="pull-right icon-remove"></i>
+							Item 1
+						</a>
+					</li>
+					<li>
+						<a href="#" data-behavior="remove">
+							<i class="pull-right icon-remove"></i>
+							Item 2 met een langere naam
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div id="{@ControlId}" class="field input-xlarge row-fluid" data-behavior="multi-node-selector">
+		<div class="span6">
+			<div class="clearfix">
+				<input type="search" class="pull-right input-medium search-query" data-behavior="filter-node-select" placeholder="Filter">
+			</div>
+			<div class="well well-small">
+				<ul class="breadcrumb">
+				  <li><a href="#">Home</a> <span class="divider">/</span></li>
+				  <li><a href="#">Library</a> <span class="divider">/</span></li>
+				  <li class="active">Data</li>
+				</ul>
+				<ul class="nav nav-list">
+					<li class="clearfix">
+						<div class="pull-right btn-group">
+							<a href="#" data-behavior="select" class="btn">
+								<i class="icon-plus-sign"></i>
+							</a>
+							<a href="#" data-behavior="browse" class="btn">
+								<i class="icon-chevron-right"></i>
+							</a>
+						</div>
+						Vakken
+					</li>
+					<li class="clearfix">
+						<div class="pull-right btn-group">
+							<a href="#" data-behavior="select" class="btn">
+								<i class="icon-plus-sign"></i>
+							</a>
+							<a href="#" data-behavior="browse" class="btn">
+								<i class="icon-chevron-right"></i>
+							</a>
+						</div>
+						Vakken
+					</li>
+					<li class="clearfix">
+						<div class="pull-right btn-group">
+							<a href="#" data-behavior="select" class="btn">
+								<i class="icon-plus-sign"></i>
+							</a>
+							<a href="#" data-behavior="browse" class="btn">
+								<i class="icon-chevron-right"></i>
+							</a>
+						</div>
+						Vakken
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="span6">
+			<div class="well well-small">
+				<ul class="nav nav-pills nav-stacked">
+					<li>
+						<a href="#" data-behavior="remove">
+							<i class="pull-right icon-remove"></i>
+							Item 1
+						</a>
+					</li>
+					<li>
+						<a href="#" data-behavior="remove">
+							<i class="pull-right icon-remove"></i>
+							Item 2 met een langere naam
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</tpl:section>
+
 
 /* ==|== Nodeselector Section ============================================
 Author: Premotion Software Solutions
