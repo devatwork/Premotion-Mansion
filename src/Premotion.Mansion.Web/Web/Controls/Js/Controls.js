@@ -38,7 +38,7 @@ var CKEDITOR_BASEPATH = "{Request.applicationUrl}/static-resources/Shared/js/cke
 ;(function ($, undefined) {
 	
 	/* button fields */
-	$("form .form-actions .btn").click(function(event) {
+    $("form .form-actions .btn:not(.no-auto-submit)").click(function (event) {
 		event.preventDefault();
 		var action = $(this).attr("data-action");
 		var form = $(this).closest("form");
