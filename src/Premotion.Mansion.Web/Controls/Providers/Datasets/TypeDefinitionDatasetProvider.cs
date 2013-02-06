@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Patterns;
 using Premotion.Mansion.Core.Scripting.TagScript;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Web.Cms.Descriptors;
@@ -117,14 +118,15 @@ namespace Premotion.Mansion.Web.Controls.Providers.Datasets
 				/// <returns>Returns the types which to provide.</returns>
 				protected override IEnumerable<ITypeDefinition> DoGet(IMansionContext context, ITypeService typeService)
 				{
-					return behavior.GetAllowedChildTypes(context).Where(candidate =>
-					                                                    {
-					                                                    	CmsBehaviorDescriptor cmsDescriptor;
-					                                                    	if (!candidate.TryFindDescriptorInHierarchy(out cmsDescriptor))
-					                                                    		throw new InvalidOperationException(string.Format("Could not find cmd behavoir descriptor on type {0}", candidate.Name));
-					                                                    	var cmsBehavoir = cmsDescriptor.GetBehavior(context);
-					                                                    	return !cmsBehavoir.IsAbstract;
-					                                                    });
+					return behavior.GetAllowedChildTypes(context).Distinct(new EquatableComparer<ITypeDefinition>(
+						                                                       (a, b) => string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase) == 0,
+						                                                       obj => obj.Name.GetHashCode())).Where(candidate => {
+							                                                       CmsBehaviorDescriptor cmsDescriptor;
+							                                                       if (!candidate.TryFindDescriptorInHierarchy(out cmsDescriptor))
+								                                                       throw new InvalidOperationException(string.Format("Could not find cmd behavoir descriptor on type {0}", candidate.Name));
+							                                                       var cmsBehavoir = cmsDescriptor.GetBehavior(context);
+							                                                       return !cmsBehavoir.IsAbstract;
+						                                                       });
 				}
 				#endregion
 				#region Private Fields
@@ -301,21 +303,19 @@ namespace Premotion.Mansion.Web.Controls.Providers.Datasets
 				var cmsBehavoir = cmsDescriptor.GetBehavior(context);
 
 				// create a row
-				dataset.AddRow(new PropertyBag
-				               {
-				               	{"label", cmsBehavoir.Label},
-				               	{"value", type.Name}
-				               });
+				dataset.AddRow(new PropertyBag {
+					{"label", cmsBehavoir.Label},
+					{"value", type.Name}
+				});
 			}
 
 			// sort the dataset
-			dataset.Sort((x, y) =>
-			             {
-			             	var labelX = x.Get<string>(context, "label");
-			             	var labelY = y.Get<string>(context, "label");
+			dataset.Sort((x, y) => {
+				var labelX = x.Get<string>(context, "label");
+				var labelY = y.Get<string>(context, "label");
 
-			             	return labelX.CompareTo(labelY);
-			             });
+				return labelX.CompareTo(labelY);
+			});
 
 			// return the set
 			return dataset;
