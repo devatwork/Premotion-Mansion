@@ -255,6 +255,7 @@
     <Compile Include="Patterns\DisposableAction.cs" />
     <Compile Include="Patterns\DisposableBase.cs" />
     <Compile Include="Patterns\DisposableChain.cs" />
+    <Compile Include="Patterns\EquatableComparer.cs" />
     <Compile Include="Patterns\Interpreting\IInterpreter.cs" />
     <Compile Include="Patterns\Interpreting\IVotingInterpreter.cs" />
     <Compile Include="Patterns\Pipes\Pipeline.cs" />
