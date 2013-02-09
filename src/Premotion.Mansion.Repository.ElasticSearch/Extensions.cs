@@ -56,7 +56,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch
 
 			// check type
 			if (!(mapping is TPropertyMapping))
-				throw new InvalidOperationException(string.Format("Could not case property mapping '{0}'.'{1}' of type '{2}' to '{3}'", typeMapping.Name, propertyName, mapping.GetType(), typeof (TPropertyMapping)));
+				throw new InvalidOperationException(string.Format("Could not find property mapping '{0}'.'{1}' of type '{2}' to '{3}'", typeMapping.Name, propertyName, mapping.GetType(), typeof (TPropertyMapping)));
 
 			// return the mapping
 			return (TPropertyMapping) mapping;
