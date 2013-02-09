@@ -26,10 +26,9 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 			var propertyMapping = searchQuery.TypeMapping.FindPropertyMapping<SinglePropertyMapping>(specification.PropertyName);
 
 			// add a term filter
-			searchQuery.Add(new TermsFilter(specification.PropertyName, specification.Values.Select(propertyMapping.Normalize))
-			                {
-			                	Cache = false
-			                });
+			searchQuery.Add(new TermsFilter(propertyMapping.QueryField, specification.Values.Select(propertyMapping.Normalize)) {
+				Cache = false
+			});
 		}
 		#endregion
 	}

@@ -25,7 +25,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 			var propertyMapping = searchQuery.TypeMapping.FindPropertyMapping<SinglePropertyMapping>(specification.PropertyName);
 
 			// add a range filter
-			searchQuery.Add(RangeFilter.LessThanOrEqualTo(specification.PropertyName, propertyMapping.Normalize(specification.Value)));
+			searchQuery.Add(RangeFilter.LessThanOrEqualTo(propertyMapping.QueryField, propertyMapping.Normalize(specification.Value)));
 		}
 		#endregion
 	}
