@@ -22,7 +22,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 		protected override void DoMap(IMansionContext context, Query query, IsPropertyGreaterThanOrEqualSpecification specification, SearchQuery searchQuery)
 		{
 			// find the property mapping
-			var propertyMapping = searchQuery.TypeMapping.FindPropertyMapping<SinglePropertyMapping>(specification.PropertyName);
+			var propertyMapping = searchQuery.TypeMapping.FindPropertyMapping<PropertyMapping>(specification.PropertyName);
 
 			// add a range filter
 			searchQuery.Add(RangeFilter.GreaterThanOrEqualTo(propertyMapping.QueryField, propertyMapping.Normalize(specification.Value)));

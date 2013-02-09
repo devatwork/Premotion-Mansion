@@ -244,7 +244,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 		/// </summary>
 		/// <param name="value">The value which to normalize.</param>
 		/// <returns>Returns the normalized values.</returns>
-		public object Normalize(object value)
+		public override object Normalize(object value)
 		{
 			// check for null
 			if (value == null)

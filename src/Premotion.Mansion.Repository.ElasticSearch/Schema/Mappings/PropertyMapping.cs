@@ -96,6 +96,17 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 		/// <param name="target">The <see cref="IPropertyBag"/>.</param>
 		protected abstract void DoMap(IMansionContext context, Hit source, JProperty property, IPropertyBag target);
 		#endregion
+		#region Normalize Methods
+		/// <summary>
+		/// Normalizes the given <paramref name="value"/>.
+		/// </summary>
+		/// <param name="value">The value which to normalize.</param>
+		/// <returns>Returns the normalized values.</returns>
+		public virtual object Normalize(object value)
+		{
+			return value;
+		}
+		#endregion
 		#region Properties
 		/// <summary>
 		/// Gets the name of the field.
