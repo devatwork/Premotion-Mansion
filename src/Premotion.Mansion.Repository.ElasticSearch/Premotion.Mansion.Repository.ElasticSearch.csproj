@@ -144,7 +144,7 @@
     <Compile Include="Schema\Analysis\StandardTokenFilter.cs" />
     <Compile Include="Schema\Analysis\StopTokenFilter.cs" />
     <Compile Include="Schema\Analysis\UniqueTokenFilter.cs" />
-    <Compile Include="Schema\Mappings\PublicationStatusPropertyMappingBaseDescriptor.cs" />
+    <Compile Include="Schema\Mappings\PublicationStatusPropertyMappingDescriptor.cs" />
     <Compile Include="Schema\Mappings\IgnoredPropertyMapping.cs" />
     <Compile Include="Schema\Mappings\MultiFieldPropertyMapping.cs" />
     <Compile Include="Schema\Mappings\MultiValuedPropertyMapping.cs" />

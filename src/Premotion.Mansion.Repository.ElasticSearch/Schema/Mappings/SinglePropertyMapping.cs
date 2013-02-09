@@ -133,7 +133,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 		/// <summary>
 		/// Represents the base <see cref="TypeDescriptor"/> for elastic search properties.
 		/// </summary>
-		public abstract class SinglePropertyMappingDescriptor : PropertyMappingBaseDescriptor
+		public abstract class SinglePropertyMappingDescriptor : PropertyMappingDescriptor
 		{
 			#region Overrides of PropertyMappingBaseDescriptor
 			/// <summary>
