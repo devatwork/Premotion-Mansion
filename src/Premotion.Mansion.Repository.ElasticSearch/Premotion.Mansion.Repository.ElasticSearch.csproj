@@ -131,6 +131,7 @@
     <Compile Include="Schema\Analysis\BaseTokenFilter.cs" />
     <Compile Include="Schema\Analysis\BaseAnalyzer.cs" />
     <Compile Include="Schema\Analysis\BaseTokenizer.cs" />
+    <Compile Include="Schema\Analysis\KeywordTokenizer.cs" />
     <Compile Include="Schema\Analysis\StemmerOverrideTokenFilter.cs" />
     <Compile Include="Schema\Analysis\KeywordMarkerTokenFilter.cs" />
     <Compile Include="Schema\Analysis\EdgeNGramTokenFilter.cs" />
