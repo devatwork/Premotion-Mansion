@@ -100,9 +100,27 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 		/// <summary>
 		/// Normalizes the given <paramref name="value"/>.
 		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="value">The value which to normalize.</param>
 		/// <returns>Returns the normalized values.</returns>
-		public virtual object Normalize(object value)
+		public object Normalize(IMansionContext context, object value)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (value == null)
+				return null;
+
+			// invoke template method
+			return DoNormalize(context, value);
+		}
+		/// <summary>
+		/// Normalizes the given <paramref name="value"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="value">The value which to normalize.</param>
+		/// <returns>Returns the normalized values.</returns>
+		protected virtual object DoNormalize(IMansionContext context, object value)
 		{
 			return value;
 		}

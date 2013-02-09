@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/elasticsearch.descriptors.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/elasticsearch.descriptors.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:def="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd">
-	
+
 	<!-- import -->
 	<xs:import namespace="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" />
-	
-	
+
 	<!-- types -->
 	<xs:complexType name="propertyMappingBase" abstract="true">
 		<xs:annotation>
@@ -134,13 +133,16 @@
 						<xs:documentation>The analyzer used to analyze the field when part of a query string.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
+				<xs:attribute name="normalizeExpression" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>An escaped expression which normalizes the value. The value is available in Row.value.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	
-	
-	
-	<!-- schema descriptor -->	
+
+	<!-- schema descriptor -->
 	<xs:element name="index" substitutionGroup="def:typeDescriptor">
 		<xs:annotation>
 			<xs:documentation>Defines a specific ElasticSearch index on this type.</xs:documentation>
@@ -209,8 +211,6 @@
 		</xs:complexType>
 	</xs:element>
 
-
-	
 	<!-- ############################ -->
 	<!-- Analysis                     -->
 	<!-- ############################ -->
@@ -292,7 +292,7 @@
 			<xs:extension base="analysisBase" />
 		</xs:complexContent>
 	</xs:complexType>
-	
+
 	<!-- Analysers -->
 	<xs:element name="customAnalyzer" substitutionGroup="def:typeDescriptor">
 		<xs:annotation>
@@ -321,7 +321,7 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	
+
 	<!-- Character filters -->
 	<xs:element name="htmlCharacterFilter" substitutionGroup="def:typeDescriptor">
 		<xs:annotation>
@@ -333,7 +333,7 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	
+
 	<!-- Token filters -->
 	<xs:element name="edgeNGramTokenFilter" substitutionGroup="def:typeDescriptor">
 		<xs:annotation>
@@ -396,7 +396,7 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	
+
 	<xs:element name="lowercaseTokenFilter" substitutionGroup="def:typeDescriptor">
 		<xs:annotation>
 			<xs:documentation>A token filter of type lowercase that normalizes token text to lower case.</xs:documentation>
@@ -571,7 +571,7 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	
+
 	<!-- Tokenizers -->
 	<xs:element name="standardTokenizer" substitutionGroup="def:typeDescriptor">
 		<xs:annotation>

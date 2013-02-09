@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Scripting.ExpressionScript;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.ElasticSearch.Responses;
 
@@ -22,6 +23,13 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 		{
 			#region Create Methods
 			/// <summary>
+			/// Constructs a <see cref="MultiValuedPropertyMappingDescriptor"/>.
+			/// </summary>
+			/// <param name="expressionScriptService">The <see cref="IExpressionScriptService"/></param>
+			public MultiValuedPropertyMappingDescriptor(IExpressionScriptService expressionScriptService) : base(expressionScriptService)
+			{
+			}
+			/// <summary>
 			/// Creates a <see cref="PropertyMapping"/> from this descriptor.
 			/// </summary>
 			/// <param name="context">The <see cref="IMansionContext"/>.</param>
@@ -30,11 +38,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 			protected override SinglePropertyMapping DoCreateSingleMapping(IMansionContext context, IPropertyDefinition property)
 			{
 				// create the mapping
-				return new MultiValuedPropertyMapping(property)
-				       {
-				       	// map the type
-				       	Type = Properties.Get<string>(context, "type")
-				       };
+				return new MultiValuedPropertyMapping(property) {
+					// map the type
+					Type = Properties.Get<string>(context, "type")
+				};
 			}
 			#endregion
 		}
@@ -64,7 +71,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 			var raw = source.Get(context, Field, string.Empty) ?? string.Empty;
 
 			// split on comma, trim all values, remove empty entries
-			var values = raw.Split(new[] {','}).Select(x => Normalize(x.Trim()).ToString()).Where(x => !string.IsNullOrEmpty(x)).ToArray();
+			var values = raw.Split(new[] {','}).Select(x => Normalize(context, x.Trim()).ToString()).Where(x => !string.IsNullOrEmpty(x)).ToArray();
 
 			// write the values to the document
 			document.Add(Field, values);

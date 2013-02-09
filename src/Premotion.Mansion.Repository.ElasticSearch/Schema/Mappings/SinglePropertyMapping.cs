@@ -1,6 +1,10 @@
 using System;
 using Newtonsoft.Json;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.IO.Memory;
+using Premotion.Mansion.Core.Scripting;
+using Premotion.Mansion.Core.Scripting.ExpressionScript;
 using Premotion.Mansion.Core.Types;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
@@ -135,6 +139,21 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 		/// </summary>
 		public abstract class SinglePropertyMappingDescriptor : PropertyMappingDescriptor
 		{
+			#region Constructors
+			/// <summary>
+			/// Constructs a <see cref="SinglePropertyMappingDescriptor"/>.
+			/// </summary>
+			/// <param name="expressionScriptService">The <see cref="IExpressionScriptService"/></param>
+			protected SinglePropertyMappingDescriptor(IExpressionScriptService expressionScriptService)
+			{
+				// validate arguments
+				if (expressionScriptService == null)
+					throw new ArgumentNullException("expressionScriptService");
+
+				// set the value
+				this.expressionScriptService = expressionScriptService;
+			}
+			#endregion
 			#region Overrides of PropertyMappingBaseDescriptor
 			/// <summary>
 			/// Adds <see cref="PropertyMapping"/>s of <paramref name="property"/> to the given <paramref name="typeMapping"/>.
@@ -212,6 +231,11 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 				if (Properties.TryGet(context, "searchAnalyzer", out searchAnalyzer))
 					mapping.SearchAnalyzer = searchAnalyzer;
 
+				// map normalize method
+				string normalizeExpression;
+				if (Properties.TryGet(context, "normalizeExpression", out normalizeExpression))
+					mapping.NormalizeExpression = expressionScriptService.Parse(context, new LiteralResource(normalizeExpression));
+
 				// add the property mapping to type mapping
 				typeMapping.Add(mapping);
 			}
@@ -222,6 +246,9 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 			/// <param name="property">The <see cref="IPropertyDefinition"/>.</param>
 			/// <returns>The created <see cref="PropertyMapping"/>.</returns>
 			protected abstract SinglePropertyMapping DoCreateSingleMapping(IMansionContext context, IPropertyDefinition property);
+			#endregion
+			#region Private Fields
+			private readonly IExpressionScriptService expressionScriptService;
 			#endregion
 		}
 		#endregion
@@ -238,24 +265,23 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 			Index = "analyzed";
 		}
 		#endregion
-		#region Normalize Methods
+		#region Overrides of PropertyMapping
 		/// <summary>
 		/// Normalizes the given <paramref name="value"/>.
 		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		/// <param name="value">The value which to normalize.</param>
 		/// <returns>Returns the normalized values.</returns>
-		public override object Normalize(object value)
+		protected override object DoNormalize(IMansionContext context, object value)
 		{
-			// check for null
-			if (value == null)
-				return null;
-
-			// only normalize not_analyzed strings
-			if (!Type.Equals("string", StringComparison.OrdinalIgnoreCase) || !Index.Equals("not_analyzed", StringComparison.OrdinalIgnoreCase))
+			// check if there is no normalize expression
+			if (NormalizeExpression == null)
 				return value;
 
-			// to low
-			return value.ToString().ToLower();
+			using (context.Stack.Push("Row", new PropertyBag {
+				{"value", value}
+			}))
+				return NormalizeExpression.Execute<object>(context);
 		}
 		#endregion
 		#region Properties
@@ -334,6 +360,11 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 		/// </summary>
 		[JsonProperty("search_analyzer")]
 		public string SearchAnalyzer { get; set; }
+		/// <summary>
+		/// Gets the normalize <see cref="IScript"/> expression.
+		/// </summary>
+		[JsonIgnore]
+		private IScript NormalizeExpression { get; set; }
 		#endregion
 	}
 }

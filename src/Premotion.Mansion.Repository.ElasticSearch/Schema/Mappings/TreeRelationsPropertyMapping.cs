@@ -83,40 +83,34 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 			{
 				typeMapping.Add(new TreeRelationsPropertyMapping());
 				typeMapping.Add(new MultiFieldPropertyMapping(
-				                	"name",
-				                	"name",
-				                	"untouched",
-				                	new[]
-				                	{
-				                		new SingleValuedPropertyMapping("name")
-				                		{
-				                			Type = "string",
-				                			Index = "analyzed",
-				                			Boost = 5
-				                		},
-				                		new SingleValuedPropertyMapping("untouched")
-				                		{
-				                			Type = "string",
-				                			Index = "not_analyzed"
-				                		},
-				                		new SingleValuedPropertyMapping("autocomplete")
-				                		{
-				                			Type = "string",
-				                			Index = "analyzed",
-												Analyzer = "autocompletesearch",
-												IndexAnalyzer = "autocompleteindex"
-				                		}
-				                	}
-				                	));
-				typeMapping.Add(new SingleValuedPropertyMapping("type")
-				                {
-				                	Type = "string",
-				                	Index = "not_analyzed"
-				                });
-				typeMapping.Add(new SingleValuedPropertyMapping("order")
-				                {
-				                	Type = "long"
-				                });
+					                "name",
+					                "name",
+					                "untouched",
+					                new[] {
+						                new SingleValuedPropertyMapping("name") {
+							                Type = "string",
+							                Index = "analyzed",
+							                Boost = 5
+						                },
+						                new SingleValuedPropertyMapping("untouched") {
+							                Type = "string",
+							                Index = "not_analyzed"
+						                },
+						                new SingleValuedPropertyMapping("autocomplete") {
+							                Type = "string",
+							                Index = "analyzed",
+							                Analyzer = "autocompletesearch",
+							                IndexAnalyzer = "autocompleteindex"
+						                }
+					                }
+					                ));
+				typeMapping.Add(new SingleValuedPropertyMapping("type") {
+					Type = "string",
+					Index = "not_analyzed",
+				});
+				typeMapping.Add(new SingleValuedPropertyMapping("order") {
+					Type = "long"
+				});
 				typeMapping.Add(new IgnoredPropertyMapping("depth"));
 				typeMapping.Add(new IgnoredPropertyMapping("structure"));
 				typeMapping.Add(new IgnoredPropertyMapping("path"));
