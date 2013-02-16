@@ -106,7 +106,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 					                ));
 				typeMapping.Add(new SingleValuedPropertyMapping("type") {
 					Type = "string",
-					Analyzer = "keyword_ignorecase"
+					Index = "not_analyzed"
 				});
 				typeMapping.Add(new SingleValuedPropertyMapping("order") {
 					Type = "long"

@@ -281,6 +281,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 		/// <returns>Returns the normalized values.</returns>
 		protected override object DoNormalize(IMansionContext context, object value)
 		{
+			// check for not_analyzed string properties
+			if ("not_analyzed".Equals(Index, StringComparison.OrdinalIgnoreCase) && "string".Equals(Type, StringComparison.OrdinalIgnoreCase))
+				return (value as string ?? string.Empty).ToLower();
+
 			// check if there is no normalize expression
 			if (NormalizeExpression == null)
 				return value;
