@@ -29,7 +29,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 			if (propertyMapping.IsAnalyzed)
 			{
 				// add a field query
-				searchQuery.Add(new FieldQuery(propertyMapping.QueryField, propertyMapping.Normalize(context, specification.Value)));
+				searchQuery.Add(new QueryFilter(new FieldQuery(propertyMapping.QueryField, propertyMapping.Normalize(context, specification.Value))));
 			}
 			else
 			{

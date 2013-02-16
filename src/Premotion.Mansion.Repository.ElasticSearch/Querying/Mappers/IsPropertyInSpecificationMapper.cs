@@ -33,7 +33,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 				var q = string.Join(" ", specification.Values.Select(value => "+" + propertyMapping.Normalize(context, value)));
 
 				// add a field query
-				searchQuery.Add(new FieldQuery(propertyMapping.QueryField, q));
+				searchQuery.Add(new QueryFilter(new FieldQuery(propertyMapping.QueryField, q)));
 			}
 			else
 			{

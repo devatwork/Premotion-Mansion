@@ -73,6 +73,7 @@
     <Compile Include="Querying\Filters\AndFilter.cs" />
     <Compile Include="Querying\Filters\NotFilter.cs" />
     <Compile Include="Querying\Filters\NestedFilter.cs" />
+    <Compile Include="Querying\Filters\QueryFilter.cs" />
     <Compile Include="Querying\Filters\RangeFilter.cs" />
     <Compile Include="Querying\Filters\TermsFilter.cs" />
     <Compile Include="Querying\Filters\OrFilter.cs" />
