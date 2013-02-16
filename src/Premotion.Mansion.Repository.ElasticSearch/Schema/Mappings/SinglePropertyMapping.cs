@@ -267,6 +267,13 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 		#endregion
 		#region Overrides of PropertyMapping
 		/// <summary>
+		/// Gets a flag indicating whether this field is analyzed or not.
+		/// </summary>
+		public override bool IsAnalyzed
+		{
+			get { return "analyzed".Equals(Index, StringComparison.OrdinalIgnoreCase); }
+		}
+		/// <summary>
 		/// Normalizes the given <paramref name="value"/>.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>

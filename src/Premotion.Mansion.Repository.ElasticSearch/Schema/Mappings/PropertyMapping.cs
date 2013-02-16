@@ -141,6 +141,14 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 		/// </summary>
 		[JsonIgnore]
 		public string SortField { get; private set; }
+		/// <summary>
+		/// Gets a flag indicating whether this field is analyzed or not.
+		/// </summary>
+		[JsonIgnore]
+		public virtual bool IsAnalyzed
+		{
+			get { return false; }
+		}
 		#endregion
 	}
 }

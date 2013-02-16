@@ -15,7 +15,7 @@
 	</property>
 	<property name="key">
 		<sqlserver:column allowNullValue="true" />
-		<es:singleValuedProperty type="string" index="not_analyzed" />
+		<es:singleValuedProperty type="string" analyzer="keyword_ignorecase" />
 	</property>
 	<property name="created">
 		<sqlserver:dateTimeColumn defaultValue="{Now()}" />
@@ -187,7 +187,8 @@ END]]></sqlserver:schema>
 	<es:htmlCharacterFilter registeredName="stripHtml" />
 	
 	<!-- Tokenizers -->
-	<es:standardTokenizer registeredName="standardTokenizer"  />
+	<es:standardTokenizer registeredName="standardTokenizer" />
+	<es:keywordTokenizer registeredName="keywordTokenizer"/>
 	
 	<!-- Token filters -->
 	<es:standardTokenFilter registeredName="standardTokenFilter" />
@@ -203,6 +204,7 @@ END]]></sqlserver:schema>
 	<es:synonymTokenFilter registeredName="dutchSynonymTokenFilter" ignoreCase="true" expand="true" synonyms="{GetSynonymList( 'Dutch' )}" />
 	
 	<!-- Analyzers -->
+	<es:customAnalyzer registeredName="keyword_ignorecase" tokenizer="keywordTokenizer" tokenFilters="lowercaseTokenFilter" />
 	<es:customAnalyzer registeredName="dutchIndexAnalyzer" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,standardTokenFilter,dutchKeywordMarkerTokenFilter,dutchStemmerOverrideTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter,dutchNGramTokenFilter" />
 	<es:customAnalyzer registeredName="dutchQueryAnalyzer" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,dutchSynonymTokenFilter,standardTokenFilter,dutchKeywordMarkerTokenFilter,dutchStemmerOverrideTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter" />
 	<es:customAnalyzer registeredName="default_index" tokenizer="standardTokenizer" charFilters="stripHtml" tokenFilters="dutchStopTokenFilter,standardTokenFilter,dutchKeywordMarkerTokenFilter,dutchStemmerOverrideTokenFilter,lowercaseTokenFilter,dutchSnowballTokenFilter,uniqueTokenFilter,dutchNGramTokenFilter" />

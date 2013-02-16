@@ -2,6 +2,7 @@
 using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Data.Queries.Specifications;
 using Premotion.Mansion.Repository.ElasticSearch.Querying.Filters;
+using Premotion.Mansion.Repository.ElasticSearch.Querying.Queries;
 using Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
@@ -24,10 +25,19 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 			// find the property mapping
 			var propertyMapping = searchQuery.TypeMapping.FindPropertyMapping<PropertyMapping>(specification.PropertyName);
 
-			// add a term filter
-			searchQuery.Add(new TermFilter(propertyMapping.QueryField, propertyMapping.Normalize(context, specification.Value)) {
-				Cache = false
-			});
+			// if the field is analyzed, use a field query, otherwise a term filter
+			if (propertyMapping.IsAnalyzed)
+			{
+				// add a field query
+				searchQuery.Add(new FieldQuery(propertyMapping.QueryField, propertyMapping.Normalize(context, specification.Value)));
+			}
+			else
+			{
+				// add a term filter
+				searchQuery.Add(new TermFilter(propertyMapping.QueryField, propertyMapping.Normalize(context, specification.Value)) {
+					Cache = false
+				});
+			}
 		}
 		#endregion
 	}
