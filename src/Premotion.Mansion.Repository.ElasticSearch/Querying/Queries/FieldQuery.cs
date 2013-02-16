@@ -22,6 +22,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Queries
 			/// <param name="writer">The <see cref="T:Newtonsoft.Json.JsonWriter"/> to write to.</param><param name="value">The value.</param><param name="serializer">The calling serializer.</param>
 			protected override void DoWriteJson(JsonWriter writer, FieldQuery value, JsonSerializer serializer)
 			{
+				writer.WriteStartObject(); // root
 				writer.WritePropertyName("field");
 				writer.WriteStartObject(); // field
 
@@ -36,6 +37,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Queries
 				writer.WriteEndObject(); // field
 
 				writer.WriteEndObject(); // field
+				writer.WriteEndObject(); // root
 			}
 			#endregion
 		}

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Queries.BaseQuery">
-    <Position X="3" Y="0.5" Width="1.5" />
+    <Position X="4.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Querying\Queries\BaseQuery.cs</FileName>
@@ -37,10 +37,36 @@
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Queries.FieldQuery">
     <Position X="5.75" Y="2" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Queries.FieldQuery.FieldQueryConverter" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Querying\Queries\FieldQuery.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
       <FileName>Querying\Queries\FieldQuery.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Queries.BoolQuery">
+    <Position X="8" Y="2" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Repository.ElasticSearch.Querying.Queries.BoolQuery.BoolQueryConverter" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Querying\Queries\BoolQuery.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAQAABAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Querying\Queries\BoolQuery.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="must" />
+      <Field Name="mustNot" />
+      <Field Name="should" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
