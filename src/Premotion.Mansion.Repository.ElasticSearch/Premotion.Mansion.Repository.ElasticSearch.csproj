@@ -104,6 +104,7 @@
     <Compile Include="Querying\Mappers\SortQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\SpecificationQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\StatusSpecificationMapper.cs" />
+    <Compile Include="Querying\Queries\FieldQuery.cs" />
     <Compile Include="Querying\Queries\TextPhrasePrefixQuery.cs" />
     <Compile Include="Querying\Queries\MultiMatchQuery.cs" />
     <Compile Include="Querying\Sorts\FieldSort.cs" />
