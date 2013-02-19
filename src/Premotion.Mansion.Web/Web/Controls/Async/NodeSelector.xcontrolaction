@@ -146,7 +146,7 @@
 					<renderJsonArrayProperty propertyName="results">
 						<retrieveChildNodeset parentSource="{$CurrentNode}" depth="any" querySource="{$QueryProperties}" name_autocomplete="{NotEmpty( Post.fragment, Get.fragment )}" baseType="{NodeSelectorProperties.selectableTypes}" limit="10" target="ResultSet">
 							<loopDataset source="{$Resultset}" target="Result">
-								<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$Result}" path="{GetPath( $Result, RootNode.depth )}" />
+								<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$Result}" path="{Concat( GetParentPath( $Result, CurrentNode.depth, ' / ' ), ' / ' )}" />
 							</loopDataset>
 						</retrieveChildNodeset>
 					</renderJsonArrayProperty>
