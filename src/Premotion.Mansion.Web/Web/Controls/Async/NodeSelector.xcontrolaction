@@ -23,7 +23,13 @@
 			<if condition="{Contains( NotEmpty( Post.selected, Get.selected ), ',' )}">
 				<retrieveChildNodeset parentSource="{$RootNode}" querySource="{$QueryProperties}" depth="any" baseType="{NodeSelectorProperties.selectableTypes}" where="{InSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.selected, Get.selected ) )}" target="SelectedNodeset" global="true" />
 				<else>
-					<retrieveChildNode parentSource="{$RootNode}" querySource="{$QueryProperties}" depth="any" baseType="{NodeSelectorProperties.selectableTypes}" where="{InSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.selected, Get.selected ) )}" target="SelectedNode" global="true" />
+					<!-- check if root node is selected -->
+					<if condition="{IsEqual( GetProperty( $RootNode, NodeSelectorProperties.valueProperty ), NotEmpty( Post.selected, Get.selected ) )}">
+						<fetchNode source="{$RootNode}" target="SelectedNode" global="true" />
+						<else>
+							<retrieveChildNode parentSource="{$RootNode}" querySource="{$QueryProperties}" depth="any" baseType="{NodeSelectorProperties.selectableTypes}" where="{InSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.selected, Get.selected ) )}" target="SelectedNode" global="true" />
+						</else>
+					</if>
 				</else>
 			</if>
 		</if>
