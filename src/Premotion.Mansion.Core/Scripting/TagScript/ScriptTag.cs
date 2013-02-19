@@ -264,7 +264,7 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 
 			// get all the attributes
 			var attributeValues = new PropertyBag();
-			foreach (var attributeName in attributes.Keys)
+			foreach (var attributeName in attributes.Keys.Where(x => !"debug".Equals(x, StringComparison.OrdinalIgnoreCase)))
 				attributeValues.Set(attributeName, GetAttribute<object>(context, attributeName));
 
 			return attributeValues;
