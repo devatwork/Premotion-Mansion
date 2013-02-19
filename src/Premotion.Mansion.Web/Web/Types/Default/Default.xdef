@@ -3,7 +3,7 @@
 	
 	<!-- define identity properties -->
 	<property name="id">
-		<es:singleValuedProperty type="integer" />
+		<es:singleValuedProperty type="integer" index="not_analyzed" />
 	</property>
 	<property name="pointer">
 		<sqlserver:treeRelations />

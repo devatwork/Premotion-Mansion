@@ -109,7 +109,8 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 					Index = "not_analyzed"
 				});
 				typeMapping.Add(new SingleValuedPropertyMapping("order") {
-					Type = "long"
+					Type = "long",
+					Index = "not_analyzed"
 				});
 				typeMapping.Add(new IgnoredPropertyMapping("depth"));
 				typeMapping.Add(new IgnoredPropertyMapping("structure"));
