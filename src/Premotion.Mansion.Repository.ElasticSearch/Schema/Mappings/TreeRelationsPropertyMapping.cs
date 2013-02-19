@@ -169,7 +169,18 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 			var structure = jStructure.Select(value => value.Value<string>()).ToArray();
 
 			// create the pointer
-			target.Set("pointer", new NodePointer(pointer, structure, path));
+			var nodePointer = new NodePointer(pointer, structure, path);
+			target.Set("pointer", nodePointer);
+			target.Set("path", nodePointer.PathString);
+			target.Set("structure", nodePointer.StructureString);
+			target.Set("depth", nodePointer.Depth);
+			target.Set("name", nodePointer.Name);
+			target.Set("type", nodePointer.Type);
+			if (nodePointer.HasParent)
+			{
+				target.Set("parentPointer", nodePointer.Parent);
+				target.Set("parentId", nodePointer.Parent.Id);
+			}
 		}
 		#endregion
 	}

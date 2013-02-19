@@ -42,6 +42,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Mappers
 			properties.Set("pointer", nodePointer);
 			properties.Set("path", nodePointer.PathString);
 			properties.Set("structure", nodePointer.StructureString);
+			properties.Set("depth", nodePointer.Depth);
 			properties.Set("name", nodePointer.Name);
 			properties.Set("type", nodePointer.Type);
 			if (nodePointer.HasParent)
