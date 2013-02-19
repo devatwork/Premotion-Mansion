@@ -283,7 +283,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 		{
 			// check for not_analyzed string properties
 			if ("not_analyzed".Equals(Index, StringComparison.OrdinalIgnoreCase) && "string".Equals(Type, StringComparison.OrdinalIgnoreCase))
-				return (value as string ?? string.Empty).ToLower();
+				return (value != null ? value.ToString() : string.Empty).ToLower();
 
 			// check if there is no normalize expression
 			if (NormalizeExpression == null)
