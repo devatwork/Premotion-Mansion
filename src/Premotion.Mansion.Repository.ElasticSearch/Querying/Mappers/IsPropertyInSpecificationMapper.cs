@@ -29,7 +29,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 			// get the normalized properties
 			var normalized = specification.Values.Select(value => propertyMapping.Normalize(context, value)).ToList();
 			if (normalized.Count == 0)
-				return;
+			{
+				// do not match at all
+				searchQuery.Add(new NotFilter(new MatchAllFilter()));
+			}
 
 			// if the field is analyzed, use a field query, otherwise a term filter
 			if (propertyMapping.IsAnalyzed)

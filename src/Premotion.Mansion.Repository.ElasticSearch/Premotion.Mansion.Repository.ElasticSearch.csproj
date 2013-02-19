@@ -71,6 +71,7 @@
     <Compile Include="Querying\Facets\TermsFacet.cs" />
     <Compile Include="Querying\Filters\CompositeFilter.cs" />
     <Compile Include="Querying\Filters\AndFilter.cs" />
+    <Compile Include="Querying\Filters\MatchAllFilter.cs" />
     <Compile Include="Querying\Filters\NotFilter.cs" />
     <Compile Include="Querying\Filters\NestedFilter.cs" />
     <Compile Include="Querying\Filters\QueryFilter.cs" />
