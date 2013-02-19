@@ -59,13 +59,14 @@
 					
 					<!-- validate currently selected values -->
 					<renderJsonArrayProperty propertyName="selected">
-						<fetchDataspace source="{$SelectedNodeset}" target="Resultset>">
+						<fetchDataspace source="{$SelectedNodeset}" target="Resultset">
 							<loopDataset source="{$Resultset}" target="Result">
 								<renderJsonObject id="{GetProperty( $Result, NodeSelectorProperties.valueProperty )}" label="{GetProperty( $Result, NodeSelectorProperties.labelProperty, '' )}" />
 							</loopDataset>
 							<notFound>
 								<fetchDataspace source="{$SelectedNode}" target="Result">
 									<renderJsonObject id="{GetProperty( $Result, NodeSelectorProperties.valueProperty )}" label="{GetProperty( $Result, NodeSelectorProperties.labelProperty, '' )}" />
+									<notFound />
 								</fetchDataspace>
 							</notFound>
 						</fetchDataspace>
@@ -145,7 +146,7 @@
 					<renderJsonArrayProperty propertyName="results">
 						<retrieveChildNodeset parentSource="{$CurrentNode}" depth="any" querySource="{$QueryProperties}" name_autocomplete="{NotEmpty( Post.fragment, Get.fragment )}" baseType="{NodeSelectorProperties.selectableTypes}" limit="10" target="ResultSet">
 							<loopDataset source="{$Resultset}" target="Result">
-								<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$Result}" />
+								<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$Result}" path="{GetPath( $Result, RootNode.depth )}" />
 							</loopDataset>
 						</retrieveChildNodeset>
 					</renderJsonArrayProperty>
@@ -163,7 +164,8 @@
 	<declareProcedure procedureName="RenderDataspaceAsJsonObject">
 		<renderJsonObject
 			id="{GetProperty( Arguments.source, NodeSelectorProperties.valueProperty )}"
-			label="{GetProperty( Arguments.source, NodeSelectorProperties.labelProperty, '' )}">
+			label="{GetProperty( Arguments.source, NodeSelectorProperties.labelProperty, '' )}"
+			path="{Arguments.path}">
 			
 			<!-- check if this value is assignable -->
 			<if condition="{IsEmpty( NodeSelectorProperties.disabledExpression )}">
