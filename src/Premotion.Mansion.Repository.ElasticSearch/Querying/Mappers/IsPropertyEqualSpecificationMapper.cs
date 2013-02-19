@@ -24,17 +24,20 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 		{
 			// find the property mapping
 			var propertyMapping = searchQuery.TypeMapping.FindPropertyMapping<PropertyMapping>(specification.PropertyName);
+			var normalized = propertyMapping.Normalize(context, specification.Value);
+			if (normalized == null)
+				return;
 
 			// if the field is analyzed, use a field query, otherwise a term filter
 			if (propertyMapping.IsAnalyzed)
 			{
 				// add a field query
-				searchQuery.Add(new QueryFilter(new FieldQuery(propertyMapping.QueryField, propertyMapping.Normalize(context, specification.Value))));
+				searchQuery.Add(new QueryFilter(new FieldQuery(propertyMapping.QueryField, normalized)));
 			}
 			else
 			{
 				// add a term filter
-				searchQuery.Add(new TermFilter(propertyMapping.QueryField, propertyMapping.Normalize(context, specification.Value)) {
+				searchQuery.Add(new TermFilter(propertyMapping.QueryField, normalized) {
 					Cache = false
 				});
 			}

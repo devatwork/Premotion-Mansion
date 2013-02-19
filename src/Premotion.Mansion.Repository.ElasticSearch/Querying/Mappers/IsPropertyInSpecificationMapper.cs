@@ -26,11 +26,16 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 			// find the property mapping
 			var propertyMapping = searchQuery.TypeMapping.FindPropertyMapping<PropertyMapping>(specification.PropertyName);
 
+			// get the normalized properties
+			var normalized = specification.Values.Select(value => propertyMapping.Normalize(context, value)).ToList();
+			if (normalized.Count == 0)
+				return;
+
 			// if the field is analyzed, use a field query, otherwise a term filter
 			if (propertyMapping.IsAnalyzed)
 			{
 				// construct the query
-				var q = string.Join(" ", specification.Values.Select(value => "+" + propertyMapping.Normalize(context, value)));
+				var q = string.Join(" ", normalized.Select(value => "+" + value));
 
 				// add a field query
 				searchQuery.Add(new QueryFilter(new FieldQuery(propertyMapping.QueryField, q)));
@@ -38,7 +43,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 			else
 			{
 				// add a term filter
-				searchQuery.Add(new TermsFilter(propertyMapping.QueryField, specification.Values.Select(value => propertyMapping.Normalize(context, value))) {
+				searchQuery.Add(new TermsFilter(propertyMapping.QueryField, normalized) {
 					Cache = false
 				});
 			}
