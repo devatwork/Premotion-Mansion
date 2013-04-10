@@ -41,7 +41,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>
@@ -71,8 +72,10 @@
     <Compile Include="Querying\Facets\TermsFacet.cs" />
     <Compile Include="Querying\Filters\CompositeFilter.cs" />
     <Compile Include="Querying\Filters\AndFilter.cs" />
+    <Compile Include="Querying\Filters\MatchAllFilter.cs" />
     <Compile Include="Querying\Filters\NotFilter.cs" />
     <Compile Include="Querying\Filters\NestedFilter.cs" />
+    <Compile Include="Querying\Filters\QueryFilter.cs" />
     <Compile Include="Querying\Filters\RangeFilter.cs" />
     <Compile Include="Querying\Filters\TermsFilter.cs" />
     <Compile Include="Querying\Filters\OrFilter.cs" />
@@ -104,6 +107,8 @@
     <Compile Include="Querying\Mappers\SortQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\SpecificationQueryComponentMapper.cs" />
     <Compile Include="Querying\Mappers\StatusSpecificationMapper.cs" />
+    <Compile Include="Querying\Queries\BoolQuery.cs" />
+    <Compile Include="Querying\Queries\FieldQuery.cs" />
     <Compile Include="Querying\Queries\TextPhrasePrefixQuery.cs" />
     <Compile Include="Querying\Queries\MultiMatchQuery.cs" />
     <Compile Include="Querying\Sorts\FieldSort.cs" />
@@ -131,6 +136,7 @@
     <Compile Include="Schema\Analysis\BaseTokenFilter.cs" />
     <Compile Include="Schema\Analysis\BaseAnalyzer.cs" />
     <Compile Include="Schema\Analysis\BaseTokenizer.cs" />
+    <Compile Include="Schema\Analysis\KeywordTokenizer.cs" />
     <Compile Include="Schema\Analysis\StemmerOverrideTokenFilter.cs" />
     <Compile Include="Schema\Analysis\KeywordMarkerTokenFilter.cs" />
     <Compile Include="Schema\Analysis\EdgeNGramTokenFilter.cs" />
@@ -144,7 +150,7 @@
     <Compile Include="Schema\Analysis\StandardTokenFilter.cs" />
     <Compile Include="Schema\Analysis\StopTokenFilter.cs" />
     <Compile Include="Schema\Analysis\UniqueTokenFilter.cs" />
-    <Compile Include="Schema\Mappings\PublicationStatusPropertyMappingBaseDescriptor.cs" />
+    <Compile Include="Schema\Mappings\PublicationStatusPropertyMappingDescriptor.cs" />
     <Compile Include="Schema\Mappings\IgnoredPropertyMapping.cs" />
     <Compile Include="Schema\Mappings\MultiFieldPropertyMapping.cs" />
     <Compile Include="Schema\Mappings\MultiValuedPropertyMapping.cs" />

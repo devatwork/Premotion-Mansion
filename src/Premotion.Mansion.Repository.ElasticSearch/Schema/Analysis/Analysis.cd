@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.AnalysisSettings">
-    <Position X="6.5" Y="0.75" Width="1.75" />
+    <Position X="7.25" Y="0.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAIABAAAAABAAAAAAAAAAAAAAAAAIABAAAAAAAAAAAA=</HashCode>
       <FileName>Schema\Analysis\AnalysisSettings.cs</FileName>
@@ -14,7 +14,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.BaseAnalyzer">
-    <Position X="6.5" Y="6.5" Width="1.5" />
+    <Position X="9.5" Y="6.5" Width="1.5" />
     <NestedTypes>
       <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.BaseAnalyzer.BaseAnalyzerDescriptor" Collapsed="true">
         <TypeIdentifier>
@@ -140,7 +140,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.BaseTokenizer">
-    <Position X="3.5" Y="6.5" Width="1.5" />
+    <Position X="1.75" Y="6.5" Width="1.5" />
     <NestedTypes>
       <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.BaseTokenizer.BaseTokenizerDescriptor" Collapsed="true">
         <TypeIdentifier>
@@ -154,7 +154,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.StandardTokenizer">
-    <Position X="3.5" Y="9" Width="1.75" />
+    <Position X="0.5" Y="9" Width="1.75" />
     <NestedTypes>
       <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.StandardTokenizer.StandardTokenizerDescriptor" Collapsed="true">
         <TypeIdentifier>
@@ -168,7 +168,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.BaseCharFilter">
-    <Position X="0.5" Y="5.5" Width="1.5" />
+    <Position X="6.5" Y="6.5" Width="1.5" />
     <NestedTypes>
       <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.BaseCharFilter.BaseCharFilterDescriptor" Collapsed="true">
         <TypeIdentifier>
@@ -182,7 +182,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.HtmlCharFilter">
-    <Position X="0.5" Y="8" Width="1.5" />
+    <Position X="6.5" Y="9" Width="1.5" />
     <NestedTypes>
       <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.HtmlCharFilter.HtmlCharFilterDescriptor" Collapsed="true">
         <TypeIdentifier>
@@ -196,21 +196,21 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.AnalysisComponent&lt;TComponent&gt;" Collapsed="true">
-    <Position X="26.25" Y="0.5" Width="1.5" />
+    <Position X="26.25" Y="0.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAABAAAAAAAA=</HashCode>
       <FileName>Schema\Analysis\AnalysisComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.BaseAnalysisDescriptor&lt;TComponent&gt;" Collapsed="true">
-    <Position X="28" Y="0.5" Width="1.5" />
+    <Position X="28" Y="0.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>Schema\Analysis\BaseAnalysisDescriptor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.CustomAnalyzer">
-    <Position X="6.5" Y="9" Width="1.5" />
+    <Position X="9.5" Y="9" Width="1.5" />
     <NestedTypes>
       <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.CustomAnalyzer.CustomAnalyzerDescriptor" Collapsed="true">
         <TypeIdentifier>
@@ -224,7 +224,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.EdgeNGramTokenFilter">
-    <Position X="18.75" Y="3" Width="1.5" />
+    <Position X="18.75" Y="3" Width="2" />
     <NestedTypes>
       <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.EdgeNGramTokenFilter.EdgeNGramTokenFilterDescriptor" Collapsed="true">
         <TypeIdentifier>
@@ -238,7 +238,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.StemmerOverrideTokenFilter">
-    <Position X="11.75" Y="3" Width="1.5" />
+    <Position X="11.75" Y="3" Width="2.25" />
     <NestedTypes>
       <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.StemmerOverrideTokenFilter.StemmerOverrideTokenFilterDescriptor" Collapsed="true">
         <TypeIdentifier>
@@ -252,7 +252,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.KeywordMarkerTokenFilter">
-    <Position X="16.5" Y="3" Width="1.5" />
+    <Position X="16.5" Y="3" Width="2.25" />
     <NestedTypes>
       <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.KeywordMarkerTokenFilter.KeywordMarkerTokenFilterDescriptor" Collapsed="true">
         <TypeIdentifier>
@@ -263,6 +263,20 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAQ=</HashCode>
       <FileName>Schema\Analysis\KeywordMarkerTokenFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.KeywordTokenizer">
+    <Position X="3" Y="9" Width="1.75" />
+    <NestedTypes>
+      <Class Name="Premotion.Mansion.Repository.ElasticSearch.Schema.Analysis.KeywordTokenizer.KeywordTokenFilterDescriptor" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Schema\Analysis\KeywordTokenizer.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Schema\Analysis\KeywordTokenizer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

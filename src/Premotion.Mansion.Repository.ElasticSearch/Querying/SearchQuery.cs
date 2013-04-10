@@ -39,16 +39,15 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 				BaseFilter filter = null;
 				if (value.filterListStack.TryPeek(out filterList))
 				{
+					writer.WritePropertyName("filter");
 					if (filterList.Count == 1)
 					{
 						filter = filterList[0];
-						writer.WritePropertyName("filter");
 						serializer.Serialize(writer, filter);
 					}
 					else if (filterList.Count > 1)
 					{
 						filter = new AndFilter().Add(filterList);
-						writer.WritePropertyName("filter");
 						serializer.Serialize(writer, filter);
 					}
 				}
@@ -81,10 +80,16 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying
 				if (value.queryList.Count > 0)
 				{
 					writer.WritePropertyName("query");
-					writer.WriteStartObject();
-					foreach (var query in value.queryList)
+					if (value.queryList.Count == 1)
+					{
+						var query = value.queryList[0];
 						serializer.Serialize(writer, query);
-					writer.WriteEndObject();
+					}
+					else if (value.queryList.Count > 1)
+					{
+						var query = new BoolQuery().AddMust(value.queryList);
+						serializer.Serialize(writer, query);
+					}
 				}
 
 				// write paging options

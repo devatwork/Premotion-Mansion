@@ -9,7 +9,7 @@
 				<forms:validationSummary/>
 
 				<forms:singleNodeSelector name="newParentId" label="Select a new parent" defaultValue="{UrlNode.parentId}">
-					<forms:nodeSelectorProperties parentPointer="1" valueProperty="id" labelProperty="name" selectableTypes="Default" disabledExpression="{\Or( IsChildOf( $Node, $SelectedNode ), IsEqual( Node.pointer, SelectedNode.pointer ), Not( CanContainChild( $Node, $SelectedNode ) ) )}" />
+					<forms:nodeSelectorProperties parentPointer="1" valueProperty="id" labelProperty="name" selectableTypes="Default" disabledExpression="{\Or( IsChildOf( $Node, $TargetNode ), IsEqual( Node.id, TargetNode.id ), Not( CanContainChild( $Node, $TargetNode ) ) )}" targetNodeId="{UrlNode.id}" />
 					<forms:requiredFieldValidator message="Select a new parent"/>
 				</forms:singleNodeSelector>
 

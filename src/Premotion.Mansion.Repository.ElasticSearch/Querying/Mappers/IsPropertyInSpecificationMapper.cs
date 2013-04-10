@@ -3,6 +3,7 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Data.Queries.Specifications;
 using Premotion.Mansion.Repository.ElasticSearch.Querying.Filters;
+using Premotion.Mansion.Repository.ElasticSearch.Querying.Queries;
 using Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings;
 
 namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
@@ -23,13 +24,32 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Mappers
 		protected override void DoMap(IMansionContext context, Query query, IsPropertyInSpecification specification, SearchQuery searchQuery)
 		{
 			// find the property mapping
-			var propertyMapping = searchQuery.TypeMapping.FindPropertyMapping<SinglePropertyMapping>(specification.PropertyName);
+			var propertyMapping = searchQuery.TypeMapping.FindPropertyMapping<PropertyMapping>(specification.PropertyName);
 
-			// add a term filter
-			searchQuery.Add(new TermsFilter(specification.PropertyName, specification.Values.Select(propertyMapping.Normalize))
-			                {
-			                	Cache = false
-			                });
+			// get the normalized properties
+			var normalized = specification.Values.Select(value => propertyMapping.Normalize(context, value)).ToList();
+			if (normalized.Count == 0)
+			{
+				// do not match at all
+				searchQuery.Add(new NotFilter(new MatchAllFilter()));
+			}
+
+			// if the field is analyzed, use a field query, otherwise a term filter
+			if (propertyMapping.IsAnalyzed)
+			{
+				// construct the query
+				var q = string.Join(" ", normalized.Select(value => "+" + value));
+
+				// add a field query
+				searchQuery.Add(new QueryFilter(new FieldQuery(propertyMapping.QueryField, q)));
+			}
+			else
+			{
+				// add a term filter
+				searchQuery.Add(new TermsFilter(propertyMapping.QueryField, normalized) {
+					Cache = false
+				});
+			}
 		}
 		#endregion
 	}

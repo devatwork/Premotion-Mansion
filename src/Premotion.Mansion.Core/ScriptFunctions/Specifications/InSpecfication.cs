@@ -27,7 +27,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Specifications
 				throw new ArgumentNullException("propertyName");
 
 			// split the values and clean them up
-			var splittedValues = (values ?? string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
+			var splittedValues = (values ?? string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).Where(x => !string.IsNullOrEmpty(x));
 
 			// create the specification
 			return new IsPropertyInSpecification(propertyName, splittedValues);
