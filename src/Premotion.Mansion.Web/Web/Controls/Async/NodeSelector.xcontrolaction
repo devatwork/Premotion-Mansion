@@ -7,7 +7,7 @@
 		<fetchDataspace source="{NotEmpty( Post.settings, Get.settings )}" target="QueryProperties" global="true">
 			<!-- extract the node selector properties -->
 			<createDataspace target="NodeSelectorProperties" global="true">
-				<extractProperties source="{$QueryProperties}" target="{$NodeSelectorProperties}" whitelist="valueProperty,labelProperty,selectableTypes,parentPointer,disabledExpression" />
+				<extractProperties source="{$QueryProperties}" target="{$NodeSelectorProperties}" whitelist="valueProperty,labelProperty,selectableTypes,parentPointer,disabledExpression,targetNodeId" />
 			</createDataspace>
 		</fetchDataspace>
 
@@ -18,12 +18,27 @@
 			</notFound>
 		</retrieveNode>
 
+		<!-- retrieve the target node if any -->
+		<if condition="{Not( IsEmpty( NodeSelectorProperties.targetNodeId ) )}">
+			<retrieveNode id="{NodeSelectorProperties.targetNodeId}" target="TargetNode" global="true">
+				<notFound>
+					<throw message="Target node not found"/>
+				</notFound>
+			</retrieveNode>
+		</if>
+
 		<!-- retrieve the current value -->
 		<if condition="{Not( IsEmpty( NotEmpty( Post.selected, Get.selected ) ) )}">
 			<if condition="{Contains( NotEmpty( Post.selected, Get.selected ), ',' )}">
 				<retrieveChildNodeset parentSource="{$RootNode}" querySource="{$QueryProperties}" depth="any" baseType="{NodeSelectorProperties.selectableTypes}" where="{InSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.selected, Get.selected ) )}" target="SelectedNodeset" global="true" />
 				<else>
-					<retrieveChildNode parentSource="{$RootNode}" querySource="{$QueryProperties}" depth="any" baseType="{NodeSelectorProperties.selectableTypes}" where="{InSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.selected, Get.selected ) )}" target="SelectedNode" global="true" />
+					<!-- check if root node is selected -->
+					<if condition="{IsEqual( GetProperty( $RootNode, NodeSelectorProperties.valueProperty ), NotEmpty( Post.selected, Get.selected ) )}">
+						<fetchNode source="{$RootNode}" target="SelectedNode" global="true" />
+						<else>
+							<retrieveChildNode parentSource="{$RootNode}" querySource="{$QueryProperties}" depth="any" baseType="{NodeSelectorProperties.selectableTypes}" where="{InSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.selected, Get.selected ) )}" target="SelectedNode" global="true" />
+						</else>
+					</if>
 				</else>
 			</if>
 		</if>
@@ -53,11 +68,17 @@
 					
 					<!-- validate currently selected values -->
 					<renderJsonArrayProperty propertyName="selected">
-						<retrieveChildNodeset parentSource="{$RootNode}" depth="any" querySource="{$QueryProperties}" baseType="{NodeSelectorProperties.selectableTypes}" where="{InSpecification( NodeSelectorProperties.valueProperty, NotEmpty( Post.selected, Get.selected ) )}" target="ResultSet">
+						<fetchDataspace source="{$SelectedNodeset}" target="Resultset">
 							<loopDataset source="{$Resultset}" target="Result">
 								<renderJsonObject id="{GetProperty( $Result, NodeSelectorProperties.valueProperty )}" label="{GetProperty( $Result, NodeSelectorProperties.labelProperty, '' )}" />
 							</loopDataset>
-						</retrieveChildNodeset>
+							<notFound>
+								<fetchDataspace source="{$SelectedNode}" target="Result">
+									<renderJsonObject id="{GetProperty( $Result, NodeSelectorProperties.valueProperty )}" label="{GetProperty( $Result, NodeSelectorProperties.labelProperty, '' )}" />
+									<notFound />
+								</fetchDataspace>
+							</notFound>
+						</fetchDataspace>
 					</renderJsonArrayProperty>
 
 				</renderJsonObject>
@@ -134,7 +155,7 @@
 					<renderJsonArrayProperty propertyName="results">
 						<retrieveChildNodeset parentSource="{$CurrentNode}" depth="any" querySource="{$QueryProperties}" name_autocomplete="{NotEmpty( Post.fragment, Get.fragment )}" baseType="{NodeSelectorProperties.selectableTypes}" limit="10" target="ResultSet">
 							<loopDataset source="{$Resultset}" target="Result">
-								<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$Result}" />
+								<invokeProcedure procedureName="RenderDataspaceAsJsonObject" source="{$Result}" path="{Concat( GetParentPath( $Result, CurrentNode.depth, ' / ' ), ' / ' )}" />
 							</loopDataset>
 						</retrieveChildNodeset>
 					</renderJsonArrayProperty>
@@ -152,7 +173,8 @@
 	<declareProcedure procedureName="RenderDataspaceAsJsonObject">
 		<renderJsonObject
 			id="{GetProperty( Arguments.source, NodeSelectorProperties.valueProperty )}"
-			label="{GetProperty( Arguments.source, NodeSelectorProperties.labelProperty, '' )}">
+			label="{GetProperty( Arguments.source, NodeSelectorProperties.labelProperty, '' )}"
+			path="{Arguments.path}">
 			
 			<!-- check if this value is assignable -->
 			<if condition="{IsEmpty( NodeSelectorProperties.disabledExpression )}">

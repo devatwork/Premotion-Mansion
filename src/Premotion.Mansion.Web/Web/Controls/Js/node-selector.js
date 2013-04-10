@@ -31,7 +31,7 @@ Author: Premotion Software Solutions
 		<% if ( result.hasAssignableChildren === true ) { %>\
 		<i class="icon-chevron-right" data-behavior="browse"></i>\
 		<% } %>\
-		<%= result.label %>\
+		<%= result.path %><%= result.label %>\
 	</a>\
 </li>\
 <% }); %>\

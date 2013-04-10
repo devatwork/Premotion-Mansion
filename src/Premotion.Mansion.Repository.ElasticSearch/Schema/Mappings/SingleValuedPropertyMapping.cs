@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Scripting.ExpressionScript;
 using Premotion.Mansion.Core.Types;
 using Premotion.Mansion.Repository.ElasticSearch.Responses;
 
@@ -21,6 +22,13 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 		{
 			#region Create Methods
 			/// <summary>
+			/// Constructs a <see cref="SingleValuedPropertyMappingDescriptor"/>.
+			/// </summary>
+			/// <param name="expressionScriptService">The <see cref="IExpressionScriptService"/></param>
+			public SingleValuedPropertyMappingDescriptor(IExpressionScriptService expressionScriptService) : base(expressionScriptService)
+			{
+			}
+			/// <summary>
 			/// Creates a <see cref="PropertyMapping"/> from this descriptor.
 			/// </summary>
 			/// <param name="context">The <see cref="IMansionContext"/>.</param>
@@ -29,11 +37,10 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 			protected override SinglePropertyMapping DoCreateSingleMapping(IMansionContext context, IPropertyDefinition property)
 			{
 				// create the mapping
-				return new SingleValuedPropertyMapping(property.Name)
-				       {
-				       	// map the type
-				       	Type = Properties.Get<string>(context, "type")
-				       };
+				return new SingleValuedPropertyMapping(property.Name) {
+					// map the type
+					Type = Properties.Get<string>(context, "type")
+				};
 			}
 			#endregion
 		}
@@ -60,7 +67,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 		protected override void DoTransform(IMansionContext context, IPropertyBag source, Dictionary<string, object> document)
 		{
 			// just map the value to the document
-			document.Add(Field, Normalize(source.Get<object>(context, Field)));
+			document.Add(Field, Normalize(context, source.Get<object>(context, Field)));
 		}
 		/// <summary>
 		/// Maps the properties from <paramref name="source"/> to <paramref name="target"/>.

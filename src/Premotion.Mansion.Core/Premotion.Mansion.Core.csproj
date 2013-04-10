@@ -45,7 +45,8 @@
       <HintPath>..\packages\Dynamo.Ioc.3.0.1.0\lib\net40\Dynamo.Ioc.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -288,6 +289,7 @@
     <Compile Include="ScriptFunctions\Math\Divide.cs" />
     <Compile Include="ScriptFunctions\Math\Multiply.cs" />
     <Compile Include="ScriptFunctions\Media\JSon\DatasetToJSonArray.cs" />
+    <Compile Include="ScriptFunctions\Relational\GetParentPath.cs" />
     <Compile Include="ScriptFunctions\Repository\CreateFacet.cs" />
     <Compile Include="ScriptFunctions\InvokeProcedure.cs" />
     <Compile Include="ScriptFunctions\Conditional\And.cs" />

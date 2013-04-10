@@ -96,6 +96,35 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 		/// <param name="target">The <see cref="IPropertyBag"/>.</param>
 		protected abstract void DoMap(IMansionContext context, Hit source, JProperty property, IPropertyBag target);
 		#endregion
+		#region Normalize Methods
+		/// <summary>
+		/// Normalizes the given <paramref name="value"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="value">The value which to normalize.</param>
+		/// <returns>Returns the normalized values.</returns>
+		public object Normalize(IMansionContext context, object value)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (value == null)
+				return null;
+
+			// invoke template method
+			return DoNormalize(context, value);
+		}
+		/// <summary>
+		/// Normalizes the given <paramref name="value"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="value">The value which to normalize.</param>
+		/// <returns>Returns the normalized values.</returns>
+		protected virtual object DoNormalize(IMansionContext context, object value)
+		{
+			return value;
+		}
+		#endregion
 		#region Properties
 		/// <summary>
 		/// Gets the name of the field.
@@ -112,6 +141,14 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 		/// </summary>
 		[JsonIgnore]
 		public string SortField { get; private set; }
+		/// <summary>
+		/// Gets a flag indicating whether this field is analyzed or not.
+		/// </summary>
+		[JsonIgnore]
+		public virtual bool IsAnalyzed
+		{
+			get { return false; }
+		}
 		#endregion
 	}
 }

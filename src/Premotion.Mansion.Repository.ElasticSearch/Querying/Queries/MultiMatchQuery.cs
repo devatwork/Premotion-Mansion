@@ -24,6 +24,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Queries
 			/// <param name="writer">The <see cref="T:Newtonsoft.Json.JsonWriter"/> to write to.</param><param name="value">The value.</param><param name="serializer">The calling serializer.</param>
 			protected override void DoWriteJson(JsonWriter writer, MultiMatchQuery value, JsonSerializer serializer)
 			{
+				writer.WriteStartObject(); // root
 				writer.WritePropertyName("multi_match");
 				writer.WriteStartObject(); // multi_match
 
@@ -39,6 +40,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Querying.Queries
 				writer.WriteEndArray(); // fields
 
 				writer.WriteEndObject(); // multi_match
+				writer.WriteEndObject(); // root
 			}
 			#endregion
 		}

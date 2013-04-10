@@ -83,6 +83,16 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 		{
 			mappings.First().Map(context, source, property, target);
 		}
+		/// <summary>
+		/// Normalizes the given <paramref name="value"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="value">The value which to normalize.</param>
+		/// <returns>Returns the normalized values.</returns>
+		protected override object DoNormalize(IMansionContext context, object value)
+		{
+			return mappings.Single(x => x.QueryField.Equals(QueryField)).Normalize(context, value);
+		}
 		#endregion
 		#region Properties
 		/// <summary>

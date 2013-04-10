@@ -70,7 +70,7 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 		/// Represents the <see cref="TypeDescriptor"/> for elastic search tree relation properties.
 		/// </summary>
 		[TypeDescriptor(Constants.DescriptorNamespaceUri, "treeRelations")]
-		public class TreeRelationsPropertyMappingDescriptor : PropertyMappingBaseDescriptor
+		public class TreeRelationsPropertyMappingDescriptor : PropertyMappingDescriptor
 		{
 			#region Overrides of PropertyMappingBaseDescriptor
 			/// <summary>
@@ -83,40 +83,35 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 			{
 				typeMapping.Add(new TreeRelationsPropertyMapping());
 				typeMapping.Add(new MultiFieldPropertyMapping(
-				                	"name",
-				                	"name",
-				                	"untouched",
-				                	new[]
-				                	{
-				                		new SingleValuedPropertyMapping("name")
-				                		{
-				                			Type = "string",
-				                			Index = "analyzed",
-				                			Boost = 5
-				                		},
-				                		new SingleValuedPropertyMapping("untouched")
-				                		{
-				                			Type = "string",
-				                			Index = "not_analyzed"
-				                		},
-				                		new SingleValuedPropertyMapping("autocomplete")
-				                		{
-				                			Type = "string",
-				                			Index = "analyzed",
-												Analyzer = "autocompletesearch",
-												IndexAnalyzer = "autocompleteindex"
-				                		}
-				                	}
-				                	));
-				typeMapping.Add(new SingleValuedPropertyMapping("type")
-				                {
-				                	Type = "string",
-				                	Index = "not_analyzed"
-				                });
-				typeMapping.Add(new SingleValuedPropertyMapping("order")
-				                {
-				                	Type = "long"
-				                });
+					                "name",
+					                "name",
+					                "untouched",
+					                new[] {
+						                new SingleValuedPropertyMapping("name") {
+							                Type = "string",
+							                Index = "analyzed",
+							                Boost = 5
+						                },
+						                new SingleValuedPropertyMapping("untouched") {
+							                Type = "string",
+							                Index = "not_analyzed"
+						                },
+						                new SingleValuedPropertyMapping("autocomplete") {
+							                Type = "string",
+							                Index = "analyzed",
+							                Analyzer = "autocompletesearch",
+							                IndexAnalyzer = "autocompleteindex"
+						                }
+					                }
+					                ));
+				typeMapping.Add(new SingleValuedPropertyMapping("type") {
+					Type = "string",
+					Index = "not_analyzed"
+				});
+				typeMapping.Add(new SingleValuedPropertyMapping("order") {
+					Type = "long",
+					Index = "not_analyzed"
+				});
 				typeMapping.Add(new IgnoredPropertyMapping("depth"));
 				typeMapping.Add(new IgnoredPropertyMapping("structure"));
 				typeMapping.Add(new IgnoredPropertyMapping("path"));
@@ -174,7 +169,18 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 			var structure = jStructure.Select(value => value.Value<string>()).ToArray();
 
 			// create the pointer
-			target.Set("pointer", new NodePointer(pointer, structure, path));
+			var nodePointer = new NodePointer(pointer, structure, path);
+			target.Set("pointer", nodePointer);
+			target.Set("path", nodePointer.PathString);
+			target.Set("structure", nodePointer.StructureString);
+			target.Set("depth", nodePointer.Depth);
+			target.Set("name", nodePointer.Name);
+			target.Set("type", nodePointer.Type);
+			if (nodePointer.HasParent)
+			{
+				target.Set("parentPointer", nodePointer.Parent);
+				target.Set("parentId", nodePointer.Parent.Id);
+			}
 		}
 		#endregion
 	}

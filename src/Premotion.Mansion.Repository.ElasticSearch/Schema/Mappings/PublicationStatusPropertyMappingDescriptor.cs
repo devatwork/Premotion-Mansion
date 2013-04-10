@@ -7,9 +7,9 @@ namespace Premotion.Mansion.Repository.ElasticSearch.Schema.Mappings
 	/// Represents the <see cref="TypeDescriptor"/> for elastic search publication status properties.
 	/// </summary>
 	[TypeDescriptor(Constants.DescriptorNamespaceUri, "publicationStatus")]
-	public class PublicationStatusPropertyMappingBaseDescriptor : PropertyMappingBaseDescriptor
+	public class PublicationStatusPropertyMappingDescriptor : PropertyMappingDescriptor
 	{
-		#region Overrides of PropertyMappingBaseDescriptor
+		#region Overrides of PropertyMappingDescriptor
 		/// <summary>
 		/// Adds <see cref="PropertyMapping"/>s of <paramref name="property"/> to the given <paramref name="typeMapping"/>.
 		/// </summary>

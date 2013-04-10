@@ -1,3 +1,4 @@
+using System;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data.Queries;
 
@@ -20,6 +21,13 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 			// loop through all the sorts
 			foreach (var sort in component.Sorts)
 			{
+				// ignore sort on _score which is handled by the FTS clause converter
+				if ("_score".Equals(sort.PropertyName, StringComparison.OrdinalIgnoreCase))
+				{
+					commandContext.QueryBuilder.AppendOrderBy(string.Format("[FTS].[RANK] {0}", sort.Ascending ? "ASC" : "DESC"));
+					continue;
+				}
+
 				// get the table and the column
 				var tableAndColumn = commandContext.Schema.FindTableAndColumn(sort.PropertyName);
 
