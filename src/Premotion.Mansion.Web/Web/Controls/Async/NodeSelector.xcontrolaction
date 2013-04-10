@@ -7,7 +7,7 @@
 		<fetchDataspace source="{NotEmpty( Post.settings, Get.settings )}" target="QueryProperties" global="true">
 			<!-- extract the node selector properties -->
 			<createDataspace target="NodeSelectorProperties" global="true">
-				<extractProperties source="{$QueryProperties}" target="{$NodeSelectorProperties}" whitelist="valueProperty,labelProperty,selectableTypes,parentPointer,disabledExpression" />
+				<extractProperties source="{$QueryProperties}" target="{$NodeSelectorProperties}" whitelist="valueProperty,labelProperty,selectableTypes,parentPointer,disabledExpression,targetNodeId" />
 			</createDataspace>
 		</fetchDataspace>
 
@@ -17,6 +17,15 @@
 				<throw message="Root node not found"/>
 			</notFound>
 		</retrieveNode>
+
+		<!-- retrieve the target node if any -->
+		<if condition="{Not( IsEmpty( NodeSelectorProperties.targetNodeId ) )}">
+			<retrieveNode id="{NodeSelectorProperties.targetNodeId}" target="TargetNode" global="true">
+				<notFound>
+					<throw message="Target node not found"/>
+				</notFound>
+			</retrieveNode>
+		</if>
 
 		<!-- retrieve the current value -->
 		<if condition="{Not( IsEmpty( NotEmpty( Post.selected, Get.selected ) ) )}">

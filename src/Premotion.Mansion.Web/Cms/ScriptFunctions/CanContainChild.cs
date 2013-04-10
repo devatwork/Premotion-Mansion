@@ -26,6 +26,8 @@ namespace Premotion.Mansion.Web.Cms.ScriptFunctions
 				throw new ArgumentNullException("context");
 			if (parentType == null)
 				throw new ArgumentNullException("parentType");
+			if (childType == null)
+				return false;
 
 			// find the descriptor
 			CmsBehaviorDescriptor cmsDescriptor;
