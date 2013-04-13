@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Premotion.Mansion.Core;
 
 namespace Premotion.Mansion.Linking
@@ -26,7 +27,7 @@ namespace Premotion.Mansion.Linking
 		/// <param name="target">The target <see cref="Linkbase"/> to which to create the link.</param>
 		/// <param name="properties">The properties of the link.</param>
 		/// <exception cref="InvalidLinkException">Thrown if a the specified link would not be valid.</exception>
-		protected override Link CreateToLink(IMansionContext context, Linkbase source, Linkbase target, IPropertyBag properties)
+		protected override Link CreateToLink(IMansionContext context, Linkbase source, Linkbase target, IEnumerable<KeyValuePair<string, object>> properties)
 		{
 			// make sure the both linkbases do not have this link already
 			if (source.Links.OfType(this).Any())
@@ -44,7 +45,7 @@ namespace Premotion.Mansion.Linking
 		/// <param name="properties">The properties of the link.</param>
 		/// <param name="sourceToTarget">The <see cref="Link"/> for which to create a bi-directional <see cref="Link"/> back.</param>
 		/// <exception cref="InvalidLinkException">Thrown if a the specified link would not be valid.</exception>
-		protected override Link CreateFromLink(IMansionContext context, Linkbase source, Linkbase target, IPropertyBag properties, Link sourceToTarget)
+		protected override Link CreateFromLink(IMansionContext context, Linkbase source, Linkbase target, IEnumerable<KeyValuePair<string, object>> properties, Link sourceToTarget)
 		{
 			// already did validation, just create the link
 			return CreateLink(target, source, properties);

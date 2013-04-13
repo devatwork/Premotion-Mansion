@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Data;
 
 namespace Premotion.Mansion.Linking
 {
@@ -20,7 +19,7 @@ namespace Premotion.Mansion.Linking
 		/// <param name="record"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentNullException"></exception>
-		public static LinkbaseData Create(IMansionContext context, Record record)
+		public static LinkbaseData Create(IMansionContext context, IPropertyBag record)
 		{
 			// validate arguments
 			if (context == null)

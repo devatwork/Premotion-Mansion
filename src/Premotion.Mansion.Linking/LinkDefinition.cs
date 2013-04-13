@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Collections;
 
 namespace Premotion.Mansion.Linking
 {
@@ -64,7 +66,7 @@ namespace Premotion.Mansion.Linking
 		/// <param name="target">The target <see cref="Linkbase"/> to which to create the link.</param>
 		/// <param name="properties">The properties of the link.</param>
 		/// <exception cref="InvalidLinkException">Thrown if a the specified link would not be valid.</exception>
-		protected abstract Link CreateToLink(IMansionContext context, Linkbase source, Linkbase target, IPropertyBag properties);
+		protected abstract Link CreateToLink(IMansionContext context, Linkbase source, Linkbase target, IEnumerable<KeyValuePair<string, object>> properties);
 		/// <summary>
 		/// Creates the <see cref="Link"/> from <paramref name="target"/> to <paramref name="source"/>.
 		/// </summary>
@@ -74,7 +76,7 @@ namespace Premotion.Mansion.Linking
 		/// <param name="properties">The properties of the link.</param>
 		/// <param name="sourceToTarget">The <see cref="Link"/> for which to create a bi-directional <see cref="Link"/> back.</param>
 		/// <exception cref="InvalidLinkException">Thrown if a the specified link would not be valid.</exception>
-		protected abstract Link CreateFromLink(IMansionContext context, Linkbase source, Linkbase target, IPropertyBag properties, Link sourceToTarget);
+		protected abstract Link CreateFromLink(IMansionContext context, Linkbase source, Linkbase target, IEnumerable<KeyValuePair<string, object>> properties, Link sourceToTarget);
 		/// <summary>
 		/// Creates a <see cref="Link"/>.
 		/// </summary>
@@ -83,7 +85,7 @@ namespace Premotion.Mansion.Linking
 		/// <param name="properties">The properties of the link.</param>
 		/// <returns>Returns the created <see cref="Link"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		protected Link CreateLink(Linkbase source, Linkbase target, IPropertyBag properties)
+		protected Link CreateLink(Linkbase source, Linkbase target, IEnumerable<KeyValuePair<string, object>> properties)
 		{
 			// validate arguments
 			if (source == null)
@@ -94,7 +96,12 @@ namespace Premotion.Mansion.Linking
 				throw new ArgumentNullException("properties");
 
 			// create the link
-			return new Link(name, properties, source.Id, target.Id);
+			return new Link {
+				Name = name,
+				Properties = new PropertyBag(properties),
+				SourceLinkbaseId = source.Id,
+				TargetLinkbaseId = target.Id
+			};
 		}
 		#endregion
 		#region Properties

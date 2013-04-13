@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Converters\JObjectTLinkbaseDataConverter.cs" />
     <Compile Include="Descriptors\LinkbaseDescriptor.cs" />
     <Compile Include="Descriptors\LinkDescriptor.cs" />
     <Compile Include="Descriptors\ManyToManyLinkDescriptor.cs" />
@@ -56,11 +57,13 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="ILinkService.cs" />
     <Compile Include="InvalidLinkException.cs" />
+    <Compile Include="LinkingApplicationBootstrapper.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="Linkbase.cs" />
     <Compile Include="LinkbaseData.cs" />
     <Compile Include="LinkbaseDefinition.cs" />
     <Compile Include="LinkDefinition.cs" />
+    <Compile Include="LinkHelper.cs" />
     <Compile Include="LinkService.cs" />
     <Compile Include="ManyToManyLinkDefinition.cs" />
     <Compile Include="OneToManyLinkDefinition.cs" />

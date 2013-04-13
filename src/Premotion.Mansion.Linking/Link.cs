@@ -1,6 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Collections;
 
 namespace Premotion.Mansion.Linking
 {
@@ -10,34 +10,6 @@ namespace Premotion.Mansion.Linking
 	[JsonObject(MemberSerialization.OptIn)]
 	public class Link
 	{
-		#region Constructors
-		/// <summary>
-		/// Constructs a Link.
-		/// </summary>
-		/// <param name="name">The name of the link.</param>
-		/// <param name="properties">The properties of the link.</param>
-		/// <param name="sourceLinkbaseId">The ID of the linkbase from which this link was made.</param>
-		/// <param name="targetLinkbaseId">The IDNof the linkbase to which this link was made.</param>
-		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		public Link(string name, IPropertyBag properties, string sourceLinkbaseId, string targetLinkbaseId)
-		{
-			// validate arguments
-			if (string.IsNullOrEmpty(name))
-				throw new ArgumentNullException("name");
-			if (properties == null)
-				throw new ArgumentNullException("properties");
-			if (string.IsNullOrEmpty(sourceLinkbaseId))
-				throw new ArgumentNullException("sourceLinkbaseId");
-			if (string.IsNullOrEmpty(targetLinkbaseId))
-				throw new ArgumentNullException("targetLinkbaseId");
-
-			// set values
-			this.name = name;
-			this.properties = properties;
-			this.sourceLinkbaseId = sourceLinkbaseId;
-			this.targetLinkbaseId = targetLinkbaseId;
-		}
-		#endregion
 		#region Boolean Methods
 		/// <summary>
 		/// Checks whether this Link is a to the given <paramref name="linkbase"/>.
@@ -49,7 +21,7 @@ namespace Premotion.Mansion.Linking
 			// validate arguments
 			if (linkbase == null)
 				throw new ArgumentNullException("linkbase");
-			return linkbase.Id.Equals(targetLinkbaseId);
+			return linkbase.Id.Equals(TargetLinkbaseId);
 		}
 		/// <summary>
 		/// Checks if this Link is an instance of <paramref name="definition"/>.
@@ -62,18 +34,30 @@ namespace Premotion.Mansion.Linking
 			//  validate arguments
 			if (definition == null)
 				throw new ArgumentNullException("definition");
-			return name.Equals(definition.Name, StringComparison.OrdinalIgnoreCase);
+			return Name.Equals(definition.Name, StringComparison.OrdinalIgnoreCase);
 		}
 		#endregion
 		#region Private Fields
-		[JsonProperty("name")]
-		private readonly string name;
-		[JsonProperty("properties")]
-		private readonly IPropertyBag properties;
-		[JsonProperty("sourceLinkbaseId")]
-		private readonly string sourceLinkbaseId;
-		[JsonProperty("targetLinkbaseId")]
-		private readonly string targetLinkbaseId;
+		/// <summary>
+		/// The name of this link.
+		/// </summary>
+		[JsonProperty("name", Required = Required.Always)]
+		public string Name { get; set; }
+		/// <summary>
+		/// The properties of this link.
+		/// </summary>
+		[JsonProperty("properties", Required = Required.Always)]
+		public PropertyBag Properties { get; set; }
+		/// <summary>
+		/// The source linkbase ID.
+		/// </summary>
+		[JsonProperty("sourceLinkbaseId", Required = Required.Always)]
+		public string SourceLinkbaseId { get; set; }
+		/// <summary>
+		/// The target linkbase ID.
+		/// </summary>
+		[JsonProperty("targetLinkbaseId", Required = Required.Always)]
+		public string TargetLinkbaseId { get; set; }
 		#endregion
 	}
 }
