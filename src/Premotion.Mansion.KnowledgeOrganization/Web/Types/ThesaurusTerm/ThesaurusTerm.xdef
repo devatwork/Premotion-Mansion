@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<type inherits="DefaultIndex" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd">
+<type inherits="DefaultIndex" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:listeners="http://schemas.premotion.nl/mansion/1.0/data.listeners.descriptors.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd">
 
 	<!-- properties -->
 	<property name="namespace">
@@ -8,6 +8,9 @@
 	<property name="identifier">
 		<!-- Defines the identifier of this thesaurus term, must be unique within the thesaurus -->
 	</property>
+
+	<!-- register the listeners for this type -->
+	<listeners:register type="Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm.ThesaurusTermIdentifierChangeListener, Premotion.Mansion.KnowledgeOrganization" />
 	
 	<!-- Represents a term from a thesaurus -->
 	<cms:behavior label="Thesaurus term" abstract="true" icon="Types/ThesaurusTerm/ThesaurusTerm.png" />

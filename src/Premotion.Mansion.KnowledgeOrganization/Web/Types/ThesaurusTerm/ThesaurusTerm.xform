@@ -24,7 +24,6 @@
 
 	<!-- Listen to xform events to prepare the stack -->
 	<declareEventHandler eventName="BeforeRenderInlineUpdateForm">
-		<throw message="BeforeRenderInlineUpdateForm"/>
 		<retrieveParentNode childSource="{$FormSourceNode}" baseType="Thesaurus" status="any" bypassAuthorization="true" target="ThesaurusNode" global="true" />
 	</declareEventHandler>
 	<declareEventHandler eventName="BeforeRenderInlineCreateForm">
