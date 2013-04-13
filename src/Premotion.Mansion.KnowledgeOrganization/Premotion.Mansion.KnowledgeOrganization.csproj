@@ -61,6 +61,15 @@
     <EmbeddedResource Include="Web\Types\FolksonomyTag\FolksonomyTag.xdef" />
     <EmbeddedResource Include="Web\Types\Taxonomy\Taxonomy.xdef" />
     <EmbeddedResource Include="Web\Types\TaxonomyClassification\TaxonomyClassification.xdef" />
+    <EmbeddedResource Include="Web\Types\Thesaurus\Thesaurus.xform">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Web\Types\Folksonomy\Folksonomy.xform">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Web\Types\Taxonomy\Taxonomy.xform">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

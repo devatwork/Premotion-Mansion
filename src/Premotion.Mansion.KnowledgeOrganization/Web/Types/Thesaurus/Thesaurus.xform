@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd">
+
+	<!-- Renders the xForm content -->
+	<declareProcedure procedureName="RenderXFormContent">
+		<forms:fieldset label="General">
+			<forms:textbox name="name" label="Name">
+				<forms:requiredFieldValidator />
+			</forms:textbox>
+			<invokeProcedure procedureName="IncludeFieldNamespace" />
+		</forms:fieldset>
+		<invokeProcedure procedureName="IncludeThesaurusProperties"/>
+		<invokeProcedure procedureName="IncludeGroupPublication"/>
+		<invokeProcedure procedureName="IncludeGroupIdentity"/>
+		<invokeProcedure procedureName="IncludeGroupSecurity"/>
+	</declareProcedure>
+
+
+
+	<!-- Includes the namespace field -->
+	<declareProcedure procedureName="IncludeFieldNamespace">
+		<forms:url name="namespace" label="Namespace">
+			<forms:requiredFieldValidator message="Please specify a valid namepsace" />
+		</forms:url>
+	</declareProcedure>
+	
+</mansion>
