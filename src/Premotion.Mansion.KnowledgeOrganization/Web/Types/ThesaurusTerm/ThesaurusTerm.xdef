@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<type inherits="DefaultIndex" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd">
+
+	<!-- properties -->
+	<property name="namespace">
+		<!-- Defines the namespace of the thesaurus in which this term lives -->
+	</property>
+	<property name="identifier">
+		<!-- Defines the identifier of this thesaurus term, must be unique within the thesaurus -->
+	</property>
+	
+	<!-- Represents a term from a thesaurus -->
+	<cms:behavior label="Thesaurus term" abstract="true" icon="Types/ThesaurusTerm/ThesaurusTerm.png" />
+
+</type>

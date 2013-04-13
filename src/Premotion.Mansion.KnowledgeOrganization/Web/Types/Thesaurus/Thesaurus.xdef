@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<type inherits="DefaultIndex" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd">
+	
+	<!-- properties -->
+	<property name="namespace">
+		<!-- Defines the namespace of this thesaurus -->
+	</property>
+	
+	<!-- Represents a thesaurus -->
+	<cms:behavior label="Thesaurus" abstract="true" icon="Types/Thesaurus/Thesaurus.png" />
+
+</type>

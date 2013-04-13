@@ -45,11 +45,23 @@
       <Project>{95dfbc37-6549-4bc0-ab9f-0f5d22d35926}</Project>
       <Name>Premotion.Mansion.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Premotion.Mansion.Web\Premotion.Mansion.Web.csproj">
+      <Project>{7170bc06-87e5-4bfd-831c-b0a286f93182}</Project>
+      <Name>Premotion.Mansion.Web</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Premotion.Mansion.KnowledgeOrganization.nuspec" />
     <None Include="Premotion.Mansion.KnowledgeOrganization.symbols.nuspec" />
+    <EmbeddedResource Include="Web\Types\ThesaurusIndex\ThesaurusIndex.xdef" />
+    <EmbeddedResource Include="Web\Types\Thesaurus\Thesaurus.xdef" />
+    <EmbeddedResource Include="Web\Types\ThesaurusTerm\ThesaurusTerm.xdef" />
+    <EmbeddedResource Include="Web\Types\Folksonomy\Folksonomy.xdef" />
+    <EmbeddedResource Include="Web\Types\FolksonomyTag\FolksonomyTag.xdef" />
+    <EmbeddedResource Include="Web\Types\Taxonomy\Taxonomy.xdef" />
+    <EmbeddedResource Include="Web\Types\TaxonomyClassification\TaxonomyClassification.xdef" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
