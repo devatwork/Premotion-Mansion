@@ -362,6 +362,7 @@
     <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.ttf" />
     <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.woff" />
     <EmbeddedResource Include="Web\Shared\css\fontawesome\FontAwesome.otf" />
+    <EmbeddedResource Include="Web\Types\RootIndex\RootIndex.xdef" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Premotion.Mansion.Core\Premotion.Mansion.Core.csproj">
