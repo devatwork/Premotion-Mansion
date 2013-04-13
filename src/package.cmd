@@ -4,6 +4,7 @@
 .nuget\NuGet.exe pack Premotion.Mansion.Amazon\Premotion.Mansion.Amazon.nuspec
 .nuget\NuGet.exe pack Premotion.Mansion.Core\Premotion.Mansion.Core.nuspec
 .nuget\NuGet.exe pack Premotion.Mansion.KnowledgeOrganization\Premotion.Mansion.KnowledgeOrganization.nuspec
+.nuget\NuGet.exe pack Premotion.Mansion.Linking\Premotion.Mansion.Linking.nuspec
 .nuget\NuGet.exe pack Premotion.Mansion.Repository.ElasticSearch\Premotion.Mansion.Repository.ElasticSearch.nuspec
 .nuget\NuGet.exe pack Premotion.Mansion.Repository.SqlServer\Premotion.Mansion.Repository.SqlServer.nuspec
 .nuget\NuGet.exe pack Premotion.Mansion.Web\Premotion.Mansion.Web.nuspec
@@ -14,6 +15,7 @@
 # .nuget\NuGet.exe pack Premotion.Mansion.Amazon\Premotion.Mansion.Amazon.symbols.nuspec -Symbols
 # .nuget\NuGet.exe pack Premotion.Mansion.Core\Premotion.Mansion.Core.symbols.nuspec -Symbols
 # .nuget\NuGet.exe pack Premotion.Mansion.KnowledgeOrganization\Premotion.Mansion.KnowledgeOrganization.symbols.nuspec -Symbols
+# .nuget\NuGet.exe pack Premotion.Mansion.Linking\Premotion.Mansion.Linking.symbols.nuspec -Symbols
 # .nuget\NuGet.exe pack Premotion.Mansion.Repository.ElasticSearch\Premotion.Mansion.Repository.ElasticSearch.symbols.nuspec -Symbols
 # .nuget\NuGet.exe pack Premotion.Mansion.Repository.SqlServer\Premotion.Mansion.Repository.SqlServer.symbols.nuspec -Symbols
 # .nuget\NuGet.exe pack Premotion.Mansion.Web\Premotion.Mansion.Web.symbols.nuspec -Symbols
