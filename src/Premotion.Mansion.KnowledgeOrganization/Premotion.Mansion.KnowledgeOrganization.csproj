@@ -81,7 +81,27 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Types\Thesaurus\Thesaurus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Types\Folksonomy\Folksonomy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Types\Taxonomy\Taxonomy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Types\FolksonomyTag\FolksonomyTag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Types\TaxonomyClassification\TaxonomyClassification.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Types\ThesaurusTerm\ThesaurusTerm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Types\ThesaurusIndex\ThesaurusIndex.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
