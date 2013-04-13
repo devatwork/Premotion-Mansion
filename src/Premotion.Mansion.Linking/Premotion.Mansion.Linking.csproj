@@ -38,6 +38,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
+    <Compile Include="Descriptors\LinkbaseDescriptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +49,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Descriptors\link-descriptors.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Premotion.Mansion.Linking.nuspec" />
     <None Include="Premotion.Mansion.Linking.symbols.nuspec" />
   </ItemGroup>
