@@ -10,9 +10,7 @@
 			<invokeProcedure procedureName="IncludeFieldNamespace" />
 		</forms:fieldset>
 		<invokeProcedure procedureName="IncludeThesaurusProperties"/>
-		<invokeProcedure procedureName="IncludeGroupPublication"/>
 		<invokeProcedure procedureName="IncludeGroupIdentity"/>
-		<invokeProcedure procedureName="IncludeGroupSecurity"/>
 	</declareProcedure>
 
 

@@ -70,6 +70,15 @@
     <EmbeddedResource Include="Web\Types\Taxonomy\Taxonomy.xform">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Web\Types\ThesaurusTerm\ThesaurusTerm.xform">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Web\Types\TaxonomyClassification\TaxonomyClassification.xform">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Web\Types\FolksonomyTag\FolksonomyTag.xform">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

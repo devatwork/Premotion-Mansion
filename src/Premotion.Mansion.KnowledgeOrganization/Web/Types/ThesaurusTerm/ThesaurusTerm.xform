@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd">
+
+	<!-- Renders the xForm content -->
+	<declareProcedure procedureName="RenderXFormContent">
+		<invokeProcedure procedureName="IncludeGroupTermIdentity"/>
+		<invokeProcedure procedureName="IncludeTermProperties"/>
+		<invokeProcedure procedureName="IncludeGroupIdentity"/>
+	</declareProcedure>
+
+
+
+	<!-- Includes the namespace field -->
+	<declareProcedure procedureName="IncludeGroupTermIdentity">
+		<forms:fieldset label="Identity">
+			<forms:url name="namespace" label="Namespace" readonly="true" defaultValue="{ThesaurusNode.namespace}" />
+			<forms:textbox name="identifier" label="Identifier">
+				<forms:requiredFieldValidator message="Please specify an unique term name" />
+			</forms:textbox>
+		</forms:fieldset>
+	</declareProcedure>
+
+
+
+	<!-- Listen to xform events to prepare the stack -->
+	<declareEventHandler eventName="BeforeRenderInlineUpdateForm">
+		<throw message="BeforeRenderInlineUpdateForm"/>
+		<retrieveParentNode childSource="{$FormSourceNode}" baseType="Thesaurus" status="any" bypassAuthorization="true" target="ThesaurusNode" global="true" />
+	</declareEventHandler>
+	<declareEventHandler eventName="BeforeRenderInlineCreateForm">
+		<fetchNode source="{$ParentNode}" target="ThesaurusNode" global="true" />
+	</declareEventHandler>
+	
+</mansion>

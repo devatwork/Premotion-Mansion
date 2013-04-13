@@ -16,6 +16,8 @@
 		<switch condition="{Arguments.mode}">
 			<case value="update">
 				<fetchNode source="{Arguments.source}" target="FormSourceNode">
+					<!-- fire initialize xForm event -->
+					<fireEvent eventName="BeforeRenderInlineUpdateForm" />
 					<invokeProcedure procedureName="RenderInlineUpdateForm" />
 
 					<notFound>
@@ -26,6 +28,8 @@
 			<!-- node is created -->
 			<case value="create">
 				<fetchNode source="{Arguments.source}" target="ParentNode">
+					<!-- fire initialize xForm event -->
+					<fireEvent eventName="BeforeRenderInlineCreateForm" />
 					<invokeProcedure procedureName="RenderInlineCreateForm" />
 
 					<notFound>
