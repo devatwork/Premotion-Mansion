@@ -58,6 +58,7 @@
     <Compile Include="InvalidLinkException.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="Linkbase.cs" />
+    <Compile Include="LinkbaseData.cs" />
     <Compile Include="LinkbaseDefinition.cs" />
     <Compile Include="LinkDefinition.cs" />
     <Compile Include="LinkService.cs" />

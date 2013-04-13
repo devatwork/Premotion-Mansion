@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Data;
-using Premotion.Mansion.Core.Types;
-using Premotion.Mansion.Linking.Descriptors;
 
 namespace Premotion.Mansion.Linking
 {
@@ -13,38 +9,6 @@ namespace Premotion.Mansion.Linking
 	/// </summary>
 	public static class Extensions
 	{
-		/// <summary>
-		/// Gets the <see cref="Linkbase"/> of the given <paramref name="this"/>.
-		/// </summary>
-		/// <param name="this">The <see cref="Record"/> from which to get the linkbase.</param>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="typeService">The <see cref="ITypeService"/>.</param>
-		/// <returns>Returns the <see cref="Linkbase"/>.</returns>
-		/// <exception cref="ArgumentNullException">Thrown if any of the arguments is null.</exception>
-		/// <exception cref="TypeNotFoundException">Thrown if the type of <paramref name="this"/> could not be found.</exception>
-		/// <exception cref="InvalidLinkException">Thrown if the <see cref="Record.Type"/> does not have a definition of a linkbase.</exception>
-		public static Linkbase GetLinkbase(this Record @this, IMansionContext context, ITypeService typeService)
-		{
-			// validate arguments
-			if (@this == null)
-				throw new ArgumentNullException("this");
-			if (context == null)
-				throw new ArgumentNullException("context");
-			if (typeService == null)
-				throw new ArgumentNullException("typeService");
-
-			// check if the type has got a linkbase
-			var type = typeService.Load(context, @this.Type);
-			LinkbaseDescriptor linkbaseDescriptor;
-			if (!type.TryFindDescriptorInHierarchy(out linkbaseDescriptor))
-				throw new InvalidLinkException(string.Format("Type '{0}' does not have a link base", @this.Type));
-
-			// get the definition of the linkbase
-			var definition = linkbaseDescriptor.GetDefinition(context);
-
-			// return the created linkbase
-			return Linkbase.Create(context, definition, @this);
-		}
 		/// <summary>
 		/// Filters <paramref name="this"/> to only include links to <paramref name="target"/>.
 		/// </summary>

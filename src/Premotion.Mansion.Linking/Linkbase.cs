@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Data;
 
 namespace Premotion.Mansion.Linking
 {
@@ -16,61 +15,18 @@ namespace Premotion.Mansion.Linking
 		/// Constructs a linkbase.
 		/// </summary>
 		/// <param name="definition"></param>
-		/// <param name="id"></param>
-		/// <param name="record"></param>
-		private Linkbase(LinkbaseDefinition definition, string id, Record record)
+		/// <param name="data"></param>
+		public Linkbase(LinkbaseDefinition definition, LinkbaseData data)
 		{
 			// validate arguments
 			if (definition == null)
 				throw new ArgumentNullException("definition");
-			if (string.IsNullOrEmpty(id))
-				throw new ArgumentNullException("id");
-			if (record == null)
-				throw new ArgumentNullException("record");
+			if (data == null)
+				throw new ArgumentNullException("data");
 
 			// set the values
 			this.definition = definition;
-			this.id = id;
-			this.record = record;
-		}
-		#endregion
-		#region Factory Methods
-		/// <summary>
-		/// Gets the <see cref="Linkbase"/> of the given <paramref name="record"/>.
-		/// </summary>
-		/// <param name="context">The <see cref="IMansionContext"/>.</param>
-		/// <param name="definition">The <see cref="LinkbaseDefinition"/>.</param>
-		/// <param name="record">The <see cref="Record"/>.</param>
-		/// <returns>Returns the loaded <see cref="Linkbase"/>.</returns>
-		/// <exception cref="ArgumentNullException"></exception>
-		public static Linkbase Create(IMansionContext context, LinkbaseDefinition definition, Record record)
-		{
-			// validate arguments
-			if (context == null)
-				throw new ArgumentNullException("context");
-			if (definition == null)
-				throw new ArgumentNullException("definition");
-			if (record == null)
-				throw new ArgumentNullException("record");
-
-			// create the link base
-			var linkbase = new Linkbase(definition, record.Get<string>(context, "guid"), record);
-
-			// initialize the linkbase
-			linkbase.Load(context);
-
-			// return the initialized linkbase
-			return linkbase;
-		}
-		#endregion
-		#region Load & Store Methods
-		private void Load(IMansionContext context)
-		{
-			throw new NotImplementedException();
-		}
-		private void Save(IMansionContext context)
-		{
-			throw new NotImplementedException();
+			this.data = data;
 		}
 		#endregion
 		#region Manipulation Methods
@@ -101,12 +57,8 @@ namespace Premotion.Mansion.Linking
 			LinkDefinition.Create(context, this, target, name, properties, out sourceToTarget, out targetToSource);
 
 			// add the links
-			links.Add(sourceToTarget);
-			target.links.Add(targetToSource);
-
-			// store both bases
-			Save(context);
-			target.Save(context);
+			data.Links.Add(sourceToTarget);
+			target.data.Links.Add(targetToSource);
 		}
 		/// <summary>
 		/// Removes a link between this and <paramref name="target"/>. The link type is identified by <paramref name="name"/> and. Both reqcords must be saved after the link was removed.
@@ -133,15 +85,11 @@ namespace Premotion.Mansion.Linking
 			{
 				// find the corresponding from links
 				foreach (var from in target.Links.To(this).OfType(linkDefinition).ToList())
-					target.links.Remove(from);
+					target.data.Links.Remove(from);
 
 				// remove the link
-				links.Remove(to);
+				data.Links.Remove(to);
 			}
-
-			// store both bases
-			Save(context);
-			target.Save(context);
 		}
 		#endregion
 		#region Properties
@@ -150,14 +98,14 @@ namespace Premotion.Mansion.Linking
 		/// </summary>
 		public string Id
 		{
-			get { return id; }
+			get { return data.Id; }
 		}
 		/// <summary>
 		/// Gets the <see cref="Link"/>s of this linkbase.
 		/// </summary>
 		public IEnumerable<Link> Links
 		{
-			get { return links; }
+			get { return data.Links; }
 		}
 		/// <summary>
 		/// Gets the <see cref="LinkbaseDefinition"/> of this <see cref="Linkbase"/>.
@@ -166,12 +114,17 @@ namespace Premotion.Mansion.Linking
 		{
 			get { return definition; }
 		}
+		/// <summary>
+		/// Gets the <see cref="LinkbaseData"/>.
+		/// </summary>
+		public LinkbaseData Data
+		{
+			get { return data; }
+		}
 		#endregion
 		#region Private Fields
+		private readonly LinkbaseData data;
 		private readonly LinkbaseDefinition definition;
-		private readonly string id;
-		private readonly List<Link> links = new List<Link>();
-		private readonly Record record;
 		#endregion
 	}
 }
