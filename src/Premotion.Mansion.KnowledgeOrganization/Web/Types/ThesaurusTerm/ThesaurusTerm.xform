@@ -5,6 +5,7 @@
 	<declareProcedure procedureName="RenderXFormContent">
 		<invokeProcedure procedureName="IncludeGroupTermIdentity"/>
 		<invokeProcedure procedureName="IncludeTermProperties"/>
+		<invokeProcedure procedureName="IncludeTermExtendedProperties"/>
 		<invokeProcedure procedureName="IncludeGroupIdentity"/>
 	</declareProcedure>
 
@@ -14,9 +15,18 @@
 	<declareProcedure procedureName="IncludeGroupTermIdentity">
 		<forms:fieldset label="Identity">
 			<forms:url name="namespace" label="Namespace" readonly="true" defaultValue="{ThesaurusNode.namespace}" />
-			<forms:textbox name="identifier" label="Identifier">
+			<forms:textbox name="identifier" label="Identifier" explanation="Unique identifier of this term">
 				<forms:requiredFieldValidator message="Please specify an unique term name" />
 			</forms:textbox>
+		</forms:fieldset>
+	</declareProcedure>
+
+
+
+	<!-- Includes the default term properties -->
+	<declareProcedure procedureName="IncludeTermProperties">
+		<forms:fieldset label="Properties">
+			<forms:checkbox name="assignable" label="Assignable" defaultValue="true" explanation="If checked, the term can be assigned" />
 		</forms:fieldset>
 	</declareProcedure>
 

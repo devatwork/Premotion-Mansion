@@ -8,6 +8,9 @@
 	<property name="identifier">
 		<!-- Defines the identifier of this thesaurus term, must be unique within the thesaurus -->
 	</property>
+	<property name="assignable">
+		<!-- Flag indicating whether this term is assignable or not -->
+	</property>
 
 	<!-- register the listeners for this type -->
 	<listeners:register type="Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm.ThesaurusTermIdentifierChangeListener, Premotion.Mansion.KnowledgeOrganization" />
