@@ -19,22 +19,13 @@
 	</xs:complexType>
 	<xs:element name="link" abstract="true" />
 
-	<xs:complexType name="bidirectionalLink" abstract="true">
-		<xs:annotation>
-			<xs:documentation>Describes a biderectional link where both ends know about the link.</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="link" />
-		</xs:complexContent>
-	</xs:complexType>
-
 	<xs:element name="oneToOne" substitutionGroup="link">
 		<xs:annotation>
 			<xs:documentation>Describes a one-to-one relation ship from a single source to a single single target.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="bidirectionalLink" />
+				<xs:extension base="link" />
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
@@ -45,7 +36,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="bidirectionalLink" />
+				<xs:extension base="link" />
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
@@ -56,7 +47,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="bidirectionalLink" />
+				<xs:extension base="link" />
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
