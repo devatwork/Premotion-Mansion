@@ -84,6 +84,10 @@
       <Project>{95DFBC37-6549-4BC0-AB9F-0F5D22D35926}</Project>
       <Name>Premotion.Mansion.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Premotion.Mansion.KnowledgeOrganization\Premotion.Mansion.KnowledgeOrganization.csproj">
+      <Project>{45cd25ba-6944-4ebd-a0d4-36c5781bafbf}</Project>
+      <Name>Premotion.Mansion.KnowledgeOrganization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Premotion.Mansion.Repository.ElasticSearch\Premotion.Mansion.Repository.ElasticSearch.csproj">
       <Project>{062CF6EC-8555-4F43-B536-C848A6435813}</Project>
       <Name>Premotion.Mansion.Repository.ElasticSearch</Name>
