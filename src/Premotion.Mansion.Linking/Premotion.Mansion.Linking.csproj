@@ -39,7 +39,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Descriptors\BidirectionalLinkDescriptor.cs" />
     <Compile Include="Descriptors\LinkbaseDescriptor.cs" />
+    <Compile Include="Descriptors\LinkDescriptor.cs" />
+    <Compile Include="Descriptors\ManyToManyLinkDescriptor.cs" />
+    <Compile Include="Descriptors\OneToManyLinkDescriptor.cs" />
+    <Compile Include="Descriptors\OneToOneLinkDescriptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +60,7 @@
     <None Include="Premotion.Mansion.Linking.nuspec" />
     <None Include="Premotion.Mansion.Linking.symbols.nuspec" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

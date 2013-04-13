@@ -11,6 +11,11 @@
 	<property name="assignable">
 		<!-- Flag indicating whether this term is assignable or not -->
 	</property>
+	
+	<!-- declare the links -->
+	<linking:linkbase xmlns:linking="http://schemas.premotion.nl/mansion/1.0/link-descriptors.xsd">
+		<linking:oneToMany name="thesaurus:synonym" />
+	</linking:linkbase>
 
 	<!-- register the listeners for this type -->
 	<listeners:register type="Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm.ThesaurusTermIdentifierChangeListener, Premotion.Mansion.KnowledgeOrganization" />
