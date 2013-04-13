@@ -3,7 +3,7 @@
 
 	<!-- Represents a term from a taxonomy -->
 	<cms:behavior label="Classification" icon="Types/TaxonomyClassification/TaxonomyClassification.png">
-		<cms:childType baseType="Classification" />
+		<cms:childType baseType="TaxonomyClassification" />
 	</cms:behavior>
 
 </type>
