@@ -19,6 +19,7 @@
 
 	<!-- register the listeners for this type -->
 	<listeners:register type="Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm.ThesaurusTermIdentifierChangeListener, Premotion.Mansion.KnowledgeOrganization" />
+	<listeners:register type="Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm.ThesaurusTermPreferredTermChangeListener, Premotion.Mansion.KnowledgeOrganization" />
 	
 	<!-- Represents a term from a thesaurus -->
 	<cms:behavior label="Thesaurus term" abstract="true" icon="Types/ThesaurusTerm/ThesaurusTerm.png" />

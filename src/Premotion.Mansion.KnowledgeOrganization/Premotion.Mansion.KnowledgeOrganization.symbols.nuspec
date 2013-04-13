@@ -11,11 +11,14 @@
 		<frameworkAssemblies>
 			<frameworkAssembly assemblyName="System" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Xml" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net40" />
 		</frameworkAssemblies>
 		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
 		<copyright>Copyright 2013</copyright>
 		<dependencies>
 			<dependency id="Premotion.Mansion.Core" />
+			<dependency id="Premotion.Mansion.Linking" />
 			<dependency id="Premotion.Mansion.Web" />
 		</dependencies>
 		<tags>Premotion Mansion</tags>

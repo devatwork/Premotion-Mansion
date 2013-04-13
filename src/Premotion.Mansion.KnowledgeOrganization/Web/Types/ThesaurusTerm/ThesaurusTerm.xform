@@ -6,6 +6,7 @@
 		<invokeProcedure procedureName="IncludeGroupTermIdentity"/>
 		<invokeProcedure procedureName="IncludeTermProperties"/>
 		<invokeProcedure procedureName="IncludeTermExtendedProperties"/>
+		<invokeProcedure procedureName="IncludeGroupSynoniem"/>
 		<invokeProcedure procedureName="IncludeGroupIdentity"/>
 	</declareProcedure>
 
@@ -27,6 +28,18 @@
 	<declareProcedure procedureName="IncludeTermProperties">
 		<forms:fieldset label="Properties">
 			<forms:checkbox name="assignable" label="Assignable" defaultValue="true" explanation="If checked, the term can be assigned" />
+		</forms:fieldset>
+	</declareProcedure>
+
+
+
+	<!-- Includes the default term properties -->
+	<declareProcedure procedureName="IncludeGroupSynoniem">
+		<forms:fieldset label="Synonym">
+			<forms:infoMessage><![CDATA[Is this is a synonym for another term? Select the preferred term.]]></forms:infoMessage>
+			<forms:singleNodeSelector name="preferredTermGuid" label="Preferred">
+				<forms:nodeSelectorProperties parentPointer="{ThesaurusNode.pointer}" selectableTypes="ThesaurusTerm" />
+			</forms:singleNodeSelector>
 		</forms:fieldset>
 	</declareProcedure>
 
