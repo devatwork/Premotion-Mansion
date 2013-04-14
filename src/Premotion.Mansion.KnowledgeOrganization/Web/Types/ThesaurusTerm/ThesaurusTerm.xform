@@ -38,7 +38,7 @@
 		<forms:fieldset label="Synonym">
 			<forms:infoMessage><![CDATA[Is this is a synonym for another term? Select the preferred term.]]></forms:infoMessage>
 			<forms:singleNodeSelector name="preferredTermGuid" label="Preferred">
-				<forms:nodeSelectorProperties parentPointer="{ThesaurusNode.pointer}" selectableTypes="ThesaurusTerm" />
+				<forms:nodeSelectorProperties parentPointer="{ThesaurusNode.pointer}" selectableTypes="ThesaurusTerm" disabledExpression="{\IsEqual( Node.id, TargetNode.id )}" targetNodeId="{UrlNode.id}" />
 			</forms:singleNodeSelector>
 		</forms:fieldset>
 	</declareProcedure>
