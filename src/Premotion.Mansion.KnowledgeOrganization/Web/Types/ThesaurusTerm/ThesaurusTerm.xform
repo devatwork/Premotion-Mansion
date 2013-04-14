@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?> 
-<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd">
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd" xmlns:linking="http://schemas.premotion.nl/mansion/1.0/link-tags.xsd">
 
 	<!-- Renders the xForm content -->
 	<declareProcedure procedureName="RenderXFormContent">
@@ -40,6 +40,17 @@
 			<forms:singleNodeSelector name="preferredTermGuid" label="Preferred">
 				<forms:nodeSelectorProperties parentPointer="{ThesaurusNode.pointer}" selectableTypes="ThesaurusTerm" disabledExpression="{\IsEqual( Node.id, TargetNode.id )}" targetNodeId="{UrlNode.id}" />
 			</forms:singleNodeSelector>
+			<forms:renderScript>
+				<linking:getIncomingLinksDataset source="{$UrlNode}" linkName="thesaurus:synonym" target="SynonymDataset">
+					<openTemplate type="{UrlNode.type}">
+						<renderSection name="SynonymSet">
+							<loopDataset source="{$SynonymDataset}" target="Synonym">
+								<renderSection name="Synonym" />
+							</loopDataset>
+						</renderSection>
+					</openTemplate>
+				</linking:getIncomingLinksDataset>
+			</forms:renderScript>
 		</forms:fieldset>
 	</declareProcedure>
 

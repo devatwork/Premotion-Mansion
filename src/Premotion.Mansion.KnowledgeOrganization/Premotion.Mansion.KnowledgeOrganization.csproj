@@ -88,6 +88,9 @@
     <EmbeddedResource Include="Web\Types\FolksonomyTag\FolksonomyTag.xform">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Web\Types\ThesaurusTerm\ThesaurusTerm.tpl">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Types\Thesaurus\Thesaurus.png" />
