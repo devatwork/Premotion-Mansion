@@ -30,5 +30,14 @@ namespace Premotion.Mansion.Linking
 		/// <exception cref="ArgumentNullException">Thrown if any of the arguments is null.</exception>
 		/// <exception cref="InvalidLinkException">Thrown if the operation would have resulted in an invalid <see cref="Linkbase"/>.</exception>
 		void Unlink(IMansionContext context, IPropertyBag source, IPropertyBag target, string name);
+		/// <summary>
+		/// Gets the <see cref="Linkbase"/> of the given <paramref name="source"/>. The <see cref="Linkbase"/> must not be modified.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="source">The source <see cref="IPropertyBag"/> for which to get the <see cref="Linkbase"/>.</param>
+		/// <returns>Retrns the <see cref="Linkbase"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if any of the arguments is null.</exception>
+		/// <exception cref="InvalidLinkException">Thrown if the <paramref name="source"/> does not have a <see cref="Linkbase"/>.</exception>
+		Linkbase GetLinkbase(IMansionContext context, IPropertyBag source);
 	}
 }

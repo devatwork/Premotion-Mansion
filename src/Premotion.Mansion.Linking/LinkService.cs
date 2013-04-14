@@ -62,6 +62,25 @@ namespace Premotion.Mansion.Linking
 			// destroy the link
 			UpdateLinkbase(context, source, target, (sourceLinkbase, targetLinkbase) => sourceLinkbase.Unlink(context, targetLinkbase, name));
 		}
+		/// <summary>
+		/// Gets the <see cref="Linkbase"/> of the given <paramref name="source"/>. The <see cref="Linkbase"/> must not be modified.
+		/// </summary>
+		/// <param name="context">The <see cref="IMansionContext"/>.</param>
+		/// <param name="source">The source <see cref="IPropertyBag"/> for which to get the <see cref="Linkbase"/>.</param>
+		/// <returns>Retrns the <see cref="Linkbase"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if any of the arguments is null.</exception>
+		/// <exception cref="InvalidLinkException">Thrown if the <paramref name="source"/> does not have a <see cref="Linkbase"/>.</exception>
+		public Linkbase GetLinkbase(IMansionContext context, IPropertyBag source)
+		{
+			// validate arguments
+			if (context == null)
+				throw new ArgumentNullException("context");
+			if (source == null)
+				throw new ArgumentNullException("source");
+
+			// load and return the linkbase
+			return LoadLinkbase(context, source);
+		}
 		#endregion
 		#region Helper Methods
 		/// <summary>
@@ -97,23 +116,23 @@ namespace Premotion.Mansion.Linking
 			SaveLinkbase(context, targetLinkbase, target);
 		}
 		/// <summary>
-		/// Loads the <see cref="Linkbase"/> from <paramref name="record"/>.
+		/// Loads the <see cref="Linkbase"/> from <paramref name="source"/>.
 		/// </summary>
 		/// <param name="context"></param>
-		/// <param name="record"></param>
+		/// <param name="source"></param>
 		/// <returns></returns>
-		private Linkbase LoadLinkbase(IMansionContext context, IPropertyBag record)
+		private Linkbase LoadLinkbase(IMansionContext context, IPropertyBag source)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
-			if (record == null)
-				throw new ArgumentNullException("record");
+			if (source == null)
+				throw new ArgumentNullException("source");
 
 			// check if the type has got a linkbase
 			ITypeDefinition type;
-			if (!record.TryGet(context, "type", out type))
-				throw new InvalidLinkException("Record does not contain type information and therfore can not contain a linkbase");
+			if (!source.TryGet(context, "type", out type))
+				throw new InvalidLinkException("Source does not contain type information and therfore can not contain a linkbase");
 			LinkbaseDescriptor linkbaseDescriptor;
 			if (!type.TryFindDescriptorInHierarchy(out linkbaseDescriptor))
 				throw new InvalidLinkException(string.Format("Type '{0}' does not have a link base", type.Name));
@@ -123,30 +142,30 @@ namespace Premotion.Mansion.Linking
 
 			// load the data
 			LinkbaseData data;
-			if (!record.TryGet(context, Constants.LinkbaseDataKey, out data))
-				data = LinkbaseData.Create(context, record);
+			if (!source.TryGet(context, Constants.LinkbaseDataKey, out data))
+				data = LinkbaseData.Create(context, source);
 
 			// create the linkbase
 			return new Linkbase(definition, data);
 		}
 		/// <summary>
-		/// Saves the <paramref name="linkbase"/> into <paramref name="record"/>.
+		/// Saves the <paramref name="linkbase"/> into <paramref name="source"/>.
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="linkbase"></param>
-		/// <param name="record"></param>
-		private static void SaveLinkbase(IMansionContext context, Linkbase linkbase, IPropertyBag record)
+		/// <param name="source"></param>
+		private static void SaveLinkbase(IMansionContext context, Linkbase linkbase, IPropertyBag source)
 		{
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (linkbase == null)
 				throw new ArgumentNullException("linkbase");
-			if (record == null)
-				throw new ArgumentNullException("record");
+			if (source == null)
+				throw new ArgumentNullException("source");
 
 			// set the link base data
-			record.Set(Constants.LinkbaseDataKey, linkbase.Data);
+			source.Set(Constants.LinkbaseDataKey, linkbase.Data);
 		}
 		#endregion
 	}
