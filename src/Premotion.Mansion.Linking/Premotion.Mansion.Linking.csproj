@@ -69,6 +69,7 @@
     <Compile Include="OneToManyLinkDefinition.cs" />
     <Compile Include="OneToOneLinkDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScriptTags\GetIncomingLinksDatasetTag.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Premotion.Mansion.Core\Premotion.Mansion.Core.csproj">
@@ -83,6 +84,9 @@
     <None Include="packages.config" />
     <None Include="Premotion.Mansion.Linking.nuspec" />
     <None Include="Premotion.Mansion.Linking.symbols.nuspec" />
+    <None Include="ScriptTags\link-tags.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
