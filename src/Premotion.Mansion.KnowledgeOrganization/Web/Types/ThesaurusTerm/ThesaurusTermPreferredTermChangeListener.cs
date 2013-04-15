@@ -46,6 +46,8 @@ namespace Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm
 
 			// retrieve the preferredTermNode
 			var newPreferredTermNode = context.Repository.RetrieveSingleNode(context, newPreferredTermGuid);
+			if (newPreferredTermNode == null)
+				return;
 
 			// create the new link
 			var linkProperties = new PropertyBag();
@@ -54,6 +56,11 @@ namespace Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm
 
 			// store the record
 			context.Repository.Update(context, record, properties);
+
+			// update the target node as well
+			var newPreferredTermProperties = new PropertyBag();
+			LinkHelper.CopyLinkbase(context, newPreferredTermNode, newPreferredTermProperties);
+			context.Repository.UpdateNode(context, newPreferredTermNode, newPreferredTermProperties);
 		}
 		/// <summary>
 		/// This method is called just before a node is updated by the repository.
@@ -88,6 +95,8 @@ namespace Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm
 
 			// retrieve the preferredTermNode
 			var newPreferredTermNode = context.Repository.RetrieveSingleNode(context, newPreferredTermGuid);
+			if (newPreferredTermNode == null)
+				return;
 
 			// create the new link
 			var linkProperties = new PropertyBag();
@@ -96,6 +105,11 @@ namespace Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm
 
 			// copy the linkbase to the properties to its gets stored
 			LinkHelper.CopyLinkbase(context, record, properties);
+
+			// update the target node as well
+			var newPreferredTermProperties = new PropertyBag();
+			LinkHelper.CopyLinkbase(context, newPreferredTermNode, newPreferredTermProperties);
+			context.Repository.UpdateNode(context, newPreferredTermNode, newPreferredTermProperties);
 		}
 		#endregion
 		#region Private Fields
