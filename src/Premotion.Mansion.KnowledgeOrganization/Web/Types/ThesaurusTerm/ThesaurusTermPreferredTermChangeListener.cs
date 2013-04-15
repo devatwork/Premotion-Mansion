@@ -86,7 +86,12 @@ namespace Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm
 
 				// remove the link, if the target was found
 				if (currentPreferredTermNode != null)
+				{
 					linkService.Unlink(context, currentPreferredTermNode, record, Constants.SynonymLinkName);
+					var currentPreferredTermProperties = new PropertyBag();
+					LinkHelper.CopyLinkbase(context, currentPreferredTermNode, currentPreferredTermProperties);
+					context.Repository.UpdateNode(context, currentPreferredTermNode, currentPreferredTermProperties);
+				}
 			}
 
 			// check if there is no new synonym
