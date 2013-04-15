@@ -36,7 +36,7 @@ namespace Premotion.Mansion.Linking
 				throw new InvalidLinkException(string.Format("Target linkbase with id '{0}' does already have a link of type '{1}'", source.Id, Name));
 
 			// create the link
-			return CreateLink(source, target, properties);
+			return CreateLink(source, target, true, properties);
 		}
 		/// <summary>
 		/// Creates the <see cref="Link"/> from <paramref name="target"/> to <paramref name="source"/>.
@@ -50,7 +50,7 @@ namespace Premotion.Mansion.Linking
 		protected override Link CreateFromLink(IMansionContext context, Linkbase source, Linkbase target, IEnumerable<KeyValuePair<string, object>> properties, Link sourceToTarget)
 		{
 			// already did validation, just create the link
-			return CreateLink(target, source, properties);
+			return CreateLink(target, source, false, properties);
 		}
 		#endregion
 	}

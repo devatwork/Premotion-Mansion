@@ -41,5 +41,31 @@ namespace Premotion.Mansion.Linking
 				throw new ArgumentNullException("definition");
 			return @this.Where(candidate => candidate.IsInstanceOf(definition));
 		}
+		/// <summary>
+		/// Filters <paramref name="this"/> to only include links of with flag <see cref="Link.Originating"/> is true.
+		/// </summary>
+		/// <param name="this">The <see cref="Link"/>s which to filter.</param>
+		/// <returns>Returns the filtered <see cref="Link"/>s.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public static IEnumerable<Link> Outgoing(this IEnumerable<Link> @this)
+		{
+			//  validate arguments
+			if (@this == null)
+				throw new ArgumentNullException("this");
+			return @this.Where(candidate => candidate.Originating);
+		}
+		/// <summary>
+		/// Filters <paramref name="this"/> to only include links of with flag <see cref="Link.Originating"/> is false.
+		/// </summary>
+		/// <param name="this">The <see cref="Link"/>s which to filter.</param>
+		/// <returns>Returns the filtered <see cref="Link"/>s.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+		public static IEnumerable<Link> Incoming(this IEnumerable<Link> @this)
+		{
+			//  validate arguments
+			if (@this == null)
+				throw new ArgumentNullException("this");
+			return @this.Where(candidate => !candidate.Originating);
+		}
 	}
 }

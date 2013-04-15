@@ -69,6 +69,7 @@
     <Compile Include="OneToManyLinkDefinition.cs" />
     <Compile Include="OneToOneLinkDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScriptTags\GetOutgoingLinksDatasetTag.cs" />
     <Compile Include="ScriptTags\GetIncomingLinksDatasetTag.cs" />
   </ItemGroup>
   <ItemGroup>

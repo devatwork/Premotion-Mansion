@@ -6,16 +6,16 @@ using Premotion.Mansion.Core.Scripting.TagScript;
 namespace Premotion.Mansion.Linking.ScriptTags
 {
 	/// <summary>
-	/// Gets all the incoming links of a given source identified by their link name.
+	/// Gets all the outgoing links of a given source identified by their link name.
 	/// </summary>
-	[ScriptTag(Constants.TagNamespaceUri, "getIncomingLinksDataset")]
-	public class GetIncomingLinksDatasetTag : GetDatasetBaseTag
+	[ScriptTag(Constants.TagNamespaceUri, "getOutgoingLinksDataset")]
+	public class GetOutgoingLinksDatasetTag : GetDatasetBaseTag
 	{
 		#region Constructors
 		/// <summary>
 		/// </summary>
 		/// <param name="linkService"></param>
-		public GetIncomingLinksDatasetTag(ILinkService linkService)
+		public GetOutgoingLinksDatasetTag(ILinkService linkService)
 		{
 			this.linkService = linkService;
 		}
@@ -41,7 +41,7 @@ namespace Premotion.Mansion.Linking.ScriptTags
 
 			// get the links
 			var dataset = new Dataset();
-			foreach (var link in linkbase.Links.Incoming().OfType(linkDefinition))
+			foreach (var link in linkbase.Links.Outgoing().OfType(linkDefinition))
 				dataset.AddRow(link.Properties);
 			return dataset;
 		}

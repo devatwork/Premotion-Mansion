@@ -82,10 +82,11 @@ namespace Premotion.Mansion.Linking
 		/// </summary>
 		/// <param name="source">The source <see cref="Linkbase"/> from which to create the link.</param>
 		/// <param name="target">The target <see cref="Linkbase"/> to which to create the link.</param>
+		/// <param name="originating">Indicates the direction of link. If true then the link was created from the source to the target, otherwise the link was created from the target to the source.</param>
 		/// <param name="properties">The properties of the link.</param>
 		/// <returns>Returns the created <see cref="Link"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-		protected Link CreateLink(Linkbase source, Linkbase target, IEnumerable<KeyValuePair<string, object>> properties)
+		protected Link CreateLink(Linkbase source, Linkbase target, bool originating, IEnumerable<KeyValuePair<string, object>> properties)
 		{
 			// validate arguments
 			if (source == null)
@@ -98,6 +99,7 @@ namespace Premotion.Mansion.Linking
 			// create the link
 			return new Link {
 				Name = name,
+				Originating = originating,
 				Properties = new PropertyBag(properties),
 				SourceLinkbaseId = source.Id,
 				TargetLinkbaseId = target.Id

@@ -37,12 +37,17 @@ namespace Premotion.Mansion.Linking
 			return Name.Equals(definition.Name, StringComparison.OrdinalIgnoreCase);
 		}
 		#endregion
-		#region Private Fields
+		#region Properties Fields
 		/// <summary>
 		/// The name of this link.
 		/// </summary>
 		[JsonProperty("name", Required = Required.Always)]
 		public string Name { get; set; }
+		/// <summary>
+		/// Indicates the direction of link. If true then the link was created from the source to the target, otherwise the link was created from the target to the source.
+		/// </summary>
+		[JsonProperty("originating", Required = Required.Default)]
+		public bool Originating { get; set; }
 		/// <summary>
 		/// The properties of this link.
 		/// </summary>

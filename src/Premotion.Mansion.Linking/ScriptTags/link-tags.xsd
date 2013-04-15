@@ -30,4 +30,19 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="getOutgoingLinksDataset" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Gets all the outgoing links of a given source identified by their link name.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="stl:retrieveTagType">
+					<!-- attributes -->
+					<xs:attributeGroup ref="stl:sourceAttributes" />
+					<xs:attributeGroup ref="linkNameAttributes" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
 </xs:schema>

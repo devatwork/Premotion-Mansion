@@ -80,16 +80,13 @@ namespace Premotion.Mansion.Linking
 			// get the link definition
 			var linkDefinition = definition.GetLinkDefinition(name);
 
-			// find the matching links
+			// remove source to target links
 			foreach (var to in Links.To(target).OfType(linkDefinition).ToList())
-			{
-				// find the corresponding from links
-				foreach (var from in target.Links.To(this).OfType(linkDefinition).ToList())
-					target.data.Links.Remove(from);
-
-				// remove the link
 				data.Links.Remove(to);
-			}
+
+			// remove target to sourcelinks
+			foreach (var from in target.Links.To(this).OfType(linkDefinition).ToList())
+				target.data.Links.Remove(from);
 		}
 		#endregion
 		#region Properties
