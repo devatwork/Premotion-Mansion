@@ -233,7 +233,7 @@ Author: Premotion Software Solutions
 <tpl:section name="SingleNodeSelectorFieldControl" field="Field">
 	<div id="{@ControlId}" class="field input-xxlarge" data-behavior="single-node-selector" data-service-endpoint="{RouteUrlWithArea( 'Controls', 'Async', 'NodeSelector', '0' )}">
 		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">
-		<input type="hidden" id="{@ControlId}-settings" name="{@FieldName}-settings" value="{$NodeSelectorProperties}">
+		<input type="hidden" id="{@ControlId}-settings" name="_{@FieldName}-settings" value="{$NodeSelectorProperties}">
 		<div class="selected-item">
 		</div>
 		<div class="clearfix">
@@ -251,7 +251,7 @@ Author: Premotion Software Solutions
 <tpl:section name="MultiNodeSelectorFieldControl" field="Field">
 	<div id="{@ControlId}" class="field input-xxlarge" data-behavior="multi-node-selector" data-service-endpoint="{RouteUrlWithArea( 'Controls', 'Async', 'NodeSelector', '0' )}">
 		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">
-		<input type="hidden" id="{@ControlId}-settings" name="{@FieldName}-settings" value="{$NodeSelectorProperties}">
+		<input type="hidden" id="{@ControlId}-settings" name="_{@FieldName}-settings" value="{$NodeSelectorProperties}">
 		<div class="row-fluid">
 			<div class="span6">
 				<div class="clearfix">
