@@ -7,6 +7,6 @@
 	</property>
 	
 	<!-- Represents a thesaurus -->
-	<cms:behavior label="Thesaurus" abstract="true" icon="Types/Thesaurus/Thesaurus.png" />
+	<cms:behavior label="Thesaurus" abstract="true" icon="Types/KnowledgeOrganizationThesaurus/KnowledgeOrganizationThesaurus.png" />
 
 </type>

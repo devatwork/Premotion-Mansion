@@ -22,6 +22,6 @@
 	<listeners:register type="Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm.ThesaurusTermPreferredTermChangeListener, Premotion.Mansion.KnowledgeOrganization" />
 	
 	<!-- Represents a term from a thesaurus -->
-	<cms:behavior label="Thesaurus term" abstract="true" icon="Types/ThesaurusTerm/ThesaurusTerm.png" />
+	<cms:behavior label="Thesaurus term" abstract="true" icon="Types/KnowledgeOrganizationThesaurusTerm/KnowledgeOrganizationThesaurusTerm.png" />
 
 </type>

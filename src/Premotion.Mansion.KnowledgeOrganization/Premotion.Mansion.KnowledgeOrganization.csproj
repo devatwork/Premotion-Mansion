@@ -43,8 +43,8 @@
     <Compile Include="Constants.cs" />
     <Compile Include="KnowledgeOrganizationApplicationBootstrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Web\Types\ThesaurusTerm\ThesaurusTermPreferredTermChangeListener.cs" />
-    <Compile Include="Web\Types\ThesaurusTerm\ThesaurusTermIdentifierChangeListener.cs" />
+    <Compile Include="Web\Types\KnowledgeOrganizationThesaurusTerm\ThesaurusTermPreferredTermChangeListener.cs" />
+    <Compile Include="Web\Types\KnowledgeOrganizationThesaurusTerm\ThesaurusTermIdentifierChangeListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Premotion.Mansion.Core\Premotion.Mansion.Core.csproj">
@@ -63,55 +63,55 @@
   <ItemGroup>
     <None Include="Premotion.Mansion.KnowledgeOrganization.nuspec" />
     <None Include="Premotion.Mansion.KnowledgeOrganization.symbols.nuspec" />
-    <EmbeddedResource Include="Web\Types\ThesaurusIndex\ThesaurusIndex.xdef" />
-    <EmbeddedResource Include="Web\Types\Thesaurus\Thesaurus.xdef" />
-    <EmbeddedResource Include="Web\Types\ThesaurusTerm\ThesaurusTerm.xdef" />
-    <EmbeddedResource Include="Web\Types\Folksonomy\Folksonomy.xdef" />
-    <EmbeddedResource Include="Web\Types\FolksonomyTag\FolksonomyTag.xdef" />
-    <EmbeddedResource Include="Web\Types\Taxonomy\Taxonomy.xdef" />
-    <EmbeddedResource Include="Web\Types\TaxonomyClassification\TaxonomyClassification.xdef" />
-    <EmbeddedResource Include="Web\Types\Thesaurus\Thesaurus.xform">
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationThesaurusIndex\KnowledgeOrganizationThesaurusIndex.xdef" />
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationThesaurus\KnowledgeOrganizationThesaurus.xdef" />
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationThesaurusTerm\KnowledgeOrganizationThesaurusTerm.xdef" />
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationFolksonomy\KnowledgeOrganizationFolksonomy.xdef" />
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationFolksonomyTag\KnowledgeOrganizationFolksonomyTag.xdef" />
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationTaxonomy\KnowledgeOrganizationTaxonomy.xdef" />
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationTaxonomyClassification\KnowledgeOrganizationTaxonomyClassification.xdef" />
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationThesaurus\KnowledgeOrganizationThesaurus.xform">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Web\Types\Folksonomy\Folksonomy.xform">
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationFolksonomy\KnowledgeOrganizationFolksonomy.xform">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Web\Types\Taxonomy\Taxonomy.xform">
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationTaxonomy\KnowledgeOrganizationTaxonomy.xform">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Web\Types\ThesaurusTerm\ThesaurusTerm.xform">
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationThesaurusTerm\KnowledgeOrganizationThesaurusTerm.xform">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Web\Types\TaxonomyClassification\TaxonomyClassification.xform">
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationTaxonomyClassification\KnowledgeOrganizationTaxonomyClassification.xform">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Web\Types\FolksonomyTag\FolksonomyTag.xform">
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationFolksonomyTag\KnowledgeOrganizationFolksonomyTag.xform">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Web\Types\ThesaurusTerm\ThesaurusTerm.tpl">
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationThesaurusTerm\KnowledgeOrganizationThesaurusTerm.tpl">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Web\Types\Thesaurus\Thesaurus.png" />
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationThesaurus\KnowledgeOrganizationThesaurus.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Web\Types\Folksonomy\Folksonomy.png" />
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationFolksonomy\KnowledgeOrganizationFolksonomy.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Web\Types\Taxonomy\Taxonomy.png" />
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationTaxonomy\KnowledgeOrganizationTaxonomy.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Web\Types\FolksonomyTag\FolksonomyTag.png" />
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationFolksonomyTag\KnowledgeOrganizationFolksonomyTag.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Web\Types\TaxonomyClassification\TaxonomyClassification.png" />
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationTaxonomyClassification\KnowledgeOrganizationTaxonomyClassification.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Web\Types\ThesaurusTerm\ThesaurusTerm.png" />
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationThesaurusTerm\KnowledgeOrganizationThesaurusTerm.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Web\Types\ThesaurusIndex\ThesaurusIndex.png" />
+    <EmbeddedResource Include="Web\Types\KnowledgeOrganizationThesaurusIndex\KnowledgeOrganizationThesaurusIndex.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

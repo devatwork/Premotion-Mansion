@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<type inherits="Thesaurus" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd">
-	
-	<!-- Represents a taxonomy, which is a hierarchical structure of classifications -->
-	<cms:behavior label="Taxonomy" icon="Types/Taxonomy/Taxonomy.png">
-		<cms:childType baseType="TaxonomyClassification" />
-	</cms:behavior>
-
-</type>
