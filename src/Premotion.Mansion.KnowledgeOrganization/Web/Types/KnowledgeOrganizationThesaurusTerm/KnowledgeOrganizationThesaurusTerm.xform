@@ -41,15 +41,18 @@
 				<forms:nodeSelectorProperties parentPointer="{ThesaurusNode.pointer}" selectableTypes="KnowledgeOrganizationThesaurusTerm" disabledExpression="{\IsEqual( Node.id, TargetNode.id )}" targetNodeId="{UrlNode.id}" />
 			</forms:singleNodeSelector>
 			<forms:renderScript>
-				<linking:getOutgoingLinksDataset source="{$UrlNode}" linkName="thesaurus:synonym" target="SynonymDataset">
-					<openTemplate type="{UrlNode.type}">
-						<renderSection name="SynonymSet">
-							<loopDataset source="{$SynonymDataset}" target="Synonym">
-								<renderSection name="Synonym" />
-							</loopDataset>
-						</renderSection>
-					</openTemplate>
-				</linking:getOutgoingLinksDataset>
+				<fetchDataspace source="{$FormSourceNode}" target="FormSourceNode">
+					<linking:getOutgoingLinksDataset source="{$FormSourceNode}" linkName="thesaurus:synonym" target="SynonymDataset">
+						<openTemplate type="{UrlNode.type}">
+							<renderSection name="SynonymSet">
+								<loopDataset source="{$SynonymDataset}" target="Synonym">
+									<renderSection name="Synonym" />
+								</loopDataset>
+							</renderSection>
+						</openTemplate>
+					</linking:getOutgoingLinksDataset>
+					<notFound />
+				</fetchDataspace>
 			</forms:renderScript>
 		</forms:fieldset>
 	</declareProcedure>
