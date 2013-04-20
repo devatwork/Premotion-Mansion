@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Premotion.Mansion.Core.Scripting.ExpressionScript;
 
 namespace Premotion.Mansion.Core.ScriptFunctions.List
@@ -26,12 +25,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.List
 				needle = string.Empty;
 			if (haystack == null)
 				haystack = string.Empty;
-
-			// split the lists
-			var list = haystack.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
-
-			// reassemble the list without the needle
-			return string.Join(",", list.Except(new[] {needle}, StringComparer.OrdinalIgnoreCase));
+			return haystack.RemoveNeedle(needle);
 		}
 	}
 }

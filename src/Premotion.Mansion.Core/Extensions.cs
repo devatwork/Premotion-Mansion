@@ -950,6 +950,44 @@ namespace Premotion.Mansion.Core
 			// return the formatted string
 			return string.Format(format, args);
 		}
+		/// <summary>
+		/// Appends the given needle to the haystack.
+		/// </summary>
+		/// <param name="needle">The needle which to remove.</param>
+		/// <param name="haystack">The haystack in which to look.</param>
+		/// <param name="seperator">The seperator which to use to seperate the entries in the list.</param>
+		/// <returns>Returns the modified list.</returns>
+		public static string AppendNeedle(this string haystack, string needle, string seperator = ",")
+		{
+			// validate arguments
+			if (string.IsNullOrEmpty(needle))
+				throw new ArgumentNullException("needle");
+
+			// split the lists
+			var list = (haystack ?? string.Empty).Split(new[] {seperator}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
+
+			// reassemble the list with the needle
+			return string.Join(seperator, list.Union(new[] {needle}, StringComparer.OrdinalIgnoreCase));
+		}
+		/// <summary>
+		/// Removes the given needle from the haystack.
+		/// </summary>
+		/// <param name="haystack">The haystack in which to look.</param>
+		/// <param name="needle">The needle which to remove.</param>
+		/// <param name="seperator">The seperator which to use to seperate the entries in the list.</param>
+		/// <returns>Returns the modified list.</returns>
+		public static string RemoveNeedle(this string haystack, string needle, string seperator = ",")
+		{
+			// validate arguments
+			if (string.IsNullOrEmpty(needle))
+				throw new ArgumentNullException("needle");
+
+			// split the lists
+			var list = (haystack ?? string.Empty).Split(new[] {seperator}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
+
+			// reassemble the list without the needle
+			return string.Join(seperator, list.Except(new[] {needle}, StringComparer.OrdinalIgnoreCase));
+		}
 		#endregion
 		#region Extensions of StringBuilder
 		/// <summary>
