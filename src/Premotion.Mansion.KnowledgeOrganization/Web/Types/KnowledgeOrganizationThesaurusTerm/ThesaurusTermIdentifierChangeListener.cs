@@ -2,7 +2,7 @@
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Listeners;
 
-namespace Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm
+namespace Premotion.Mansion.KnowledgeOrganization.Web.Types.KnowledgeOrganizationThesaurusTerm
 {
 	/// <summary>
 	/// This listener manages the name of this thesaurus term.

@@ -7,5 +7,5 @@
 </tpl:section>
 
 	<tpl:section name="Synonym">
-		<dd>{Synonym.targetName}</dd>
+		<dd>{Synonym.name}</dd>
 	</tpl:section>

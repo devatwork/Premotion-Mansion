@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<type inherits="DefaultIndex" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:listeners="http://schemas.premotion.nl/mansion/1.0/data.listeners.descriptors.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd">
+<type inherits="DefaultIndex" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:listeners="http://schemas.premotion.nl/mansion/1.0/data.listeners.descriptors.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd" xmlns:sqlserver="http://schemas.premotion.nl/mansion/1.0/sqlserverrepository.descriptors.xsd" xmlns:es="http://schemas.premotion.nl/mansion/1.0/elasticsearch.descriptors.xsd">
 
 	<!-- properties -->
 	<property name="namespace">
@@ -11,17 +11,35 @@
 	<property name="assignable">
 		<!-- Flag indicating whether this term is assignable or not -->
 	</property>
-	
-	<!-- declare the links -->
-	<linking:linkbase xmlns:linking="http://schemas.premotion.nl/mansion/1.0/link-descriptors.xsd">
-		<linking:oneToMany name="thesaurus:synonym" />
-	</linking:linkbase>
+	<property name="synonymGuids">
+		<!-- contains a CSV of synonyms of this entry -->
+		<sqlserver:singleValuePropertyTable tableName="KnowledgeOrganizationThesaurusTermSynonymGuids"/>
+		<es:multiValuedProperty type="string" index="not_analyzed" />
+	</property>
 
 	<!-- register the listeners for this type -->
-	<listeners:register type="Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm.ThesaurusTermIdentifierChangeListener, Premotion.Mansion.KnowledgeOrganization" />
-	<listeners:register type="Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm.ThesaurusTermPreferredTermChangeListener, Premotion.Mansion.KnowledgeOrganization" />
+	<listeners:register type="Premotion.Mansion.KnowledgeOrganization.Web.Types.KnowledgeOrganizationThesaurusTerm.ThesaurusTermIdentifierChangeListener, Premotion.Mansion.KnowledgeOrganization" />
+	<listeners:register type="Premotion.Mansion.KnowledgeOrganization.Web.Types.KnowledgeOrganizationThesaurusTerm.ThesaurusTermPreferredTermChangeListener, Premotion.Mansion.KnowledgeOrganization" />
 	
 	<!-- Represents a term from a thesaurus -->
 	<cms:behavior label="Thesaurus term" abstract="true" icon="Types/KnowledgeOrganizationThesaurusTerm/KnowledgeOrganizationThesaurusTerm.png" />
+
+	<!-- schema -->
+	<sqlserver:schema>
+		<![CDATA[
+-- KnowledgeOrganizationThesaurusTermSynonymGuids
+IF NOT EXISTS ( SELECT [name] FROM [sysobjects] WHERE [name] = 'KnowledgeOrganizationThesaurusTermSynonymGuids' AND [xtype] = 'U' )
+BEGIN
+	-- Create table
+	CREATE TABLE [dbo].[KnowledgeOrganizationThesaurusTermSynonymGuids] (
+		[id] [int] NOT NULL
+			CONSTRAINT [PK_KnowledgeOrganizationThesaurusTermSynonymGuids.id] PRIMARY KEY CLUSTERED([id],[value])
+			CONSTRAINT [FK_KnowledgeOrganizationThesaurusTermSynonymGuids_Nodes] FOREIGN KEY([id]) REFERENCES [dbo].[Nodes] ([id])
+				ON UPDATE CASCADE
+				ON DELETE CASCADE,
+		[value] [uniqueidentifier] NOT NULL
+	);
+END]]>
+	</sqlserver:schema>
 
 </type>

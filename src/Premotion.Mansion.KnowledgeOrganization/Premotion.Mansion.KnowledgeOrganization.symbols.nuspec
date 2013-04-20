@@ -18,7 +18,6 @@
 		<copyright>Copyright 2013</copyright>
 		<dependencies>
 			<dependency id="Premotion.Mansion.Core" />
-			<dependency id="Premotion.Mansion.Linking" />
 			<dependency id="Premotion.Mansion.Web" />
 		</dependencies>
 		<tags>Premotion Mansion</tags>

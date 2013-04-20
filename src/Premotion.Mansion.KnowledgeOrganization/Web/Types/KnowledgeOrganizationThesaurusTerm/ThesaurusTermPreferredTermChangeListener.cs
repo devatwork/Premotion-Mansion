@@ -3,31 +3,14 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Listeners;
-using Premotion.Mansion.Linking;
 
-namespace Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm
+namespace Premotion.Mansion.KnowledgeOrganization.Web.Types.KnowledgeOrganizationThesaurusTerm
 {
 	/// <summary>
 	/// This listener manages the synonym relation of this thesaurus term.
 	/// </summary>
 	public class ThesaurusTermPreferredTermChangeListener : NodeListener
 	{
-		#region Constructors
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="linkService"></param>
-		/// <exception cref="ArgumentNullException"></exception>
-		public ThesaurusTermPreferredTermChangeListener(ILinkService linkService)
-		{
-			// validate arguments
-			if (linkService == null)
-				throw new ArgumentNullException("linkService");
-
-			// set the value
-			this.linkService = linkService;
-		}
-		#endregion
 		#region Overrides of NodeListener
 		/// <summary>
 		/// This method is called just after a node is created by the repository.
@@ -49,18 +32,10 @@ namespace Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm
 			if (newPreferredTermNode == null)
 				return;
 
-			// create the new link
-			var linkProperties = new PropertyBag();
-			LinkHelper.CopyLinkEndsProperties(context, newPreferredTermNode, record, linkProperties);
-			linkService.Link(context, newPreferredTermNode, record, Constants.SynonymLinkName, linkProperties);
-
-			// store the record
-			context.Repository.Update(context, record, properties);
-
-			// update the target node as well
-			var newPreferredTermProperties = new PropertyBag();
-			LinkHelper.CopyLinkbase(context, newPreferredTermNode, newPreferredTermProperties);
-			context.Repository.UpdateNode(context, newPreferredTermNode, newPreferredTermProperties);
+			// store the guid in the synonymGuids field
+			context.Repository.UpdateNode(context, newPreferredTermNode, new PropertyBag {
+				{"synonymGuids", newPreferredTermNode.Get(context, "synonymGuids", string.Empty).AppendNeedle(record.Get<string>(context, "guid"))}
+			});
 		}
 		/// <summary>
 		/// This method is called just before a node is updated by the repository.
@@ -78,6 +53,7 @@ namespace Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm
 				return;
 
 			// delete the old link if it exists
+			var recordGuidString = record.Get<string>(context, "guid");
 			Guid currentPreferredTermGuid;
 			if (record.TryGet(context, "preferredTermGuid", out currentPreferredTermGuid) && currentPreferredTermGuid != Guid.Empty)
 			{
@@ -87,10 +63,10 @@ namespace Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm
 				// remove the link, if the target was found
 				if (currentPreferredTermNode != null)
 				{
-					linkService.Unlink(context, currentPreferredTermNode, record, Constants.SynonymLinkName);
-					var currentPreferredTermProperties = new PropertyBag();
-					LinkHelper.CopyLinkbase(context, currentPreferredTermNode, currentPreferredTermProperties);
-					context.Repository.UpdateNode(context, currentPreferredTermNode, currentPreferredTermProperties);
+					// store the guid in the synonymGuids field
+					context.Repository.UpdateNode(context, currentPreferredTermNode, new PropertyBag {
+						{"synonymGuids", currentPreferredTermNode.Get(context, "synonymGuids", string.Empty).RemoveNeedle(recordGuidString)}
+					});
 				}
 			}
 
@@ -103,22 +79,11 @@ namespace Premotion.Mansion.KnowledgeOrganization.Web.Types.ThesaurusTerm
 			if (newPreferredTermNode == null)
 				return;
 
-			// create the new link
-			var linkProperties = new PropertyBag();
-			LinkHelper.CopyLinkEndsProperties(context, newPreferredTermNode, record, linkProperties);
-			linkService.Link(context, newPreferredTermNode, record, Constants.SynonymLinkName, linkProperties);
-
-			// copy the linkbase to the properties to its gets stored
-			LinkHelper.CopyLinkbase(context, record, properties);
-
-			// update the target node as well
-			var newPreferredTermProperties = new PropertyBag();
-			LinkHelper.CopyLinkbase(context, newPreferredTermNode, newPreferredTermProperties);
-			context.Repository.UpdateNode(context, newPreferredTermNode, newPreferredTermProperties);
+			// store the guid in the synonymGuids field
+			context.Repository.UpdateNode(context, newPreferredTermNode, new PropertyBag {
+				{"synonymGuids", newPreferredTermNode.Get(context, "synonymGuids", string.Empty).AppendNeedle(recordGuidString)}
+			});
 		}
-		#endregion
-		#region Private Fields
-		private readonly ILinkService linkService;
 		#endregion
 	}
 }
