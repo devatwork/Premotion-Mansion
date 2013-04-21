@@ -19,6 +19,8 @@
 			<forms:textbox name="identifier" label="Identifier" explanation="Unique identifier of this term">
 				<forms:requiredFieldValidator message="Please specify an unique term name" />
 			</forms:textbox>
+			<forms:textbox name="label" label="Label" explanation="The label which can be used for display purposes" />
+			<forms:textarea name="description" label="Description" explanation="A description of this term" />
 		</forms:fieldset>
 	</declareProcedure>
 
