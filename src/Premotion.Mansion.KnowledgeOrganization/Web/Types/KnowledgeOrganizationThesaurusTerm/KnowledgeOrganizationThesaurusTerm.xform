@@ -59,10 +59,15 @@
 
 	<!-- Listen to xform events to prepare the stack -->
 	<declareEventHandler eventName="BeforeRenderInlineUpdateForm">
-		<retrieveParentNode childSource="{$FormSourceNode}" baseType="Thesaurus" status="any" bypassAuthorization="true" target="ThesaurusNode" global="true" />
+		<retrieveParentNode childSource="{$FormSourceNode}" depth="any" baseType="KnowledgeOrganizationThesaurus" status="any" bypassAuthorization="true" target="ThesaurusNode" global="true" />
 	</declareEventHandler>
 	<declareEventHandler eventName="BeforeRenderInlineCreateForm">
-		<fetchNode source="{$ParentNode}" target="ThesaurusNode" global="true" />
+		<if condition="{IsAssignable( $ParentNode, 'KnowledgeOrganizationThesaurus' )}">
+			<fetchNode source="{$ParentNode}" target="ThesaurusNode" global="true" />
+			<else>
+				<retrieveParentNode childSource="{$ParentNode}" depth="any" baseType="KnowledgeOrganizationThesaurus" status="any" bypassAuthorization="true" target="ThesaurusNode" global="true" />
+			</else>
+		</if>
 	</declareEventHandler>
 	
 </mansion>
