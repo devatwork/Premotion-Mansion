@@ -20,7 +20,7 @@
 		<copyright>Copyright 2012</copyright>
 		<dependencies>
 			<dependency id="Premotion.Mansion.Core" />
-			<dependency id="Newtonsoft.Json" />
+			<dependency id="Newtonsoft.Json" version="[4,5]" />
 			<dependency id="AntiXSS" />
 			<dependency id="dotless" />
 		</dependencies> 
