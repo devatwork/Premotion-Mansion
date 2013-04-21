@@ -18,13 +18,12 @@ namespace Premotion.Mansion.Web.ScriptTags
 		protected override void DoExecute(IMansionContext context)
 		{
 			// create the cookie
-			var cookie = new WebCookie
-			             {
-			             	Name = GetRequiredAttribute<string>(context, "name"),
-			             	HttpOnly = GetAttribute(context, "httpOnly", true),
-			             	Expires = GetAttribute(context, "expires", DateTime.Today.AddDays(30)),
-			             	Value = GetRequiredAttribute<string>(context, "value")
-			             };
+			var cookie = new WebCookie {
+				Name = GetRequiredAttribute<string>(context, "name"),
+				HttpOnly = GetAttribute(context, "httpOnly", true),
+				Expires = GetAttribute(context, "expires", DateTime.Today.AddDays(30)),
+				Value = GetRequiredAttribute<string>(context, "value")
+			};
 
 			//  set the cookie
 			context.SetCookie(cookie);
