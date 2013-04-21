@@ -10,6 +10,8 @@
 	</property>
 	<property name="assignable">
 		<!-- Flag indicating whether this term is assignable or not -->
+		<sqlserver:column allowNullValue="false" />
+		<es:singleValuedProperty type="boolean" index="not_analyzed" />
 	</property>
 	<property name="synonymGuids">
 		<!-- contains a CSV of synonyms of this entry -->
@@ -24,9 +26,27 @@
 	<!-- Represents a term from a thesaurus -->
 	<cms:behavior label="Thesaurus term" abstract="true" icon="Types/KnowledgeOrganizationThesaurusTerm/KnowledgeOrganizationThesaurusTerm.png" />
 
+	<!-- tables -->
+	<sqlserver:typeTable tableName="KnowledgeOrganizationThesaurusTermNodes" />
+
 	<!-- schema -->
 	<sqlserver:schema>
-		<![CDATA[
+		<![CDATA[-- KnowledgeOrganizationThesaurusTermNodes
+IF NOT EXISTS ( SELECT [name] FROM [sysobjects] WHERE [name] = 'KnowledgeOrganizationThesaurusTermNodes' AND [xtype] = 'U' )
+BEGIN
+	-- Create table
+	CREATE TABLE [dbo].[KnowledgeOrganizationThesaurusTermNodes] (
+		[id] [int] NOT NULL
+			CONSTRAINT [PK_KnowledgeOrganizationThesaurusTermNodes.id] PRIMARY KEY CLUSTERED
+			CONSTRAINT [FK_KnowledgeOrganizationThesaurusTermNodes_Nodes] FOREIGN KEY( [id] ) REFERENCES [dbo].[Nodes] ([id])
+				ON UPDATE CASCADE
+				ON DELETE CASCADE,
+		[assignable] [int] NOT NULL
+			CONSTRAINT [DF_KnowledgeOrganizationThesaurusTermNodes_assignable] DEFAULT ((1))
+	);
+	-- Create indices
+	CREATE NONCLUSTERED INDEX [IX_KnowledgeOrganizationThesaurusTermNodes_assignable] ON [dbo].[KnowledgeOrganizationThesaurusTermNodes] ([assignable]);
+END
 -- KnowledgeOrganizationThesaurusTermSynonymGuids
 IF NOT EXISTS ( SELECT [name] FROM [sysobjects] WHERE [name] = 'KnowledgeOrganizationThesaurusTermSynonymGuids' AND [xtype] = 'U' )
 BEGIN
