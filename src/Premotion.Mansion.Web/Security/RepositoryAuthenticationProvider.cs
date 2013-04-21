@@ -43,21 +43,19 @@ namespace Premotion.Mansion.Web.Security
 			var userId = parameters.Get<int>(context, "userId");
 
 			// perform a query
-			var userNode = context.Repository.RetrieveSingleNode(context, new PropertyBag
-			                                                              {
-			                                                              	{"baseType", "User"},
-			                                                              	{"id", userId},
-			                                                              	{"status", "any"},
-			                                                              	{"bypassAuthorization", true},
-			                                                              	{"cache", false},
-			                                                              	{StorageOnlyQueryComponent.PropertyKey, true}
-			                                                              });
+			var userNode = context.Repository.RetrieveSingleNode(context, new PropertyBag {
+				{"baseType", "User"},
+				{"id", userId},
+				{"status", "any"},
+				{"bypassAuthorization", true},
+				{"cache", false},
+				{StorageOnlyQueryComponent.PropertyKey, true}
+			});
 			if (userNode == null)
 			{
-				return AuthenticationResult.Failed(new PropertyBag
-				                                   {
-				                                   	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.InvalidCredentialsReason}
-				                                   });
+				return AuthenticationResult.Failed(new PropertyBag {
+					{AuthenticationResult.ReasonPropertyName, AuthenticationResult.InvalidCredentialsReason}
+				});
 			}
 
 			// create and return the user state
@@ -75,46 +73,41 @@ namespace Premotion.Mansion.Web.Security
 			var username = parameters.Get(context, "username", string.Empty);
 			if (string.IsNullOrEmpty(username))
 			{
-				return AuthenticationResult.Failed(new PropertyBag
-				                                   {
-				                                   	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.NoUsernameSpecifiedReason}
-				                                   });
+				return AuthenticationResult.Failed(new PropertyBag {
+					{AuthenticationResult.ReasonPropertyName, AuthenticationResult.NoUsernameSpecifiedReason}
+				});
 			}
 			var password = parameters.Get(context, "password", string.Empty);
 			if (string.IsNullOrEmpty(password))
 			{
-				return AuthenticationResult.Failed(new PropertyBag
-				                                   {
-				                                   	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.NoPasswordSpecifiedReason}
-				                                   });
+				return AuthenticationResult.Failed(new PropertyBag {
+					{AuthenticationResult.ReasonPropertyName, AuthenticationResult.NoPasswordSpecifiedReason}
+				});
 			}
 
 			// perform a query
-			var userNode = context.Repository.RetrieveSingleNode(context, new PropertyBag
-			                                                              {
-			                                                              	{"baseType", "User"},
-			                                                              	{"login", username},
-			                                                              	{"password", password},
-			                                                              	{"status", "any"},
-			                                                              	{"bypassAuthorization", true},
-			                                                              	{"cache", false},
-			                                                              	{StorageOnlyQueryComponent.PropertyKey, true}
-			                                                              });
+			var userNode = context.Repository.RetrieveSingleNode(context, new PropertyBag {
+				{"baseType", "User"},
+				{"login", username},
+				{"password", password},
+				{"status", "any"},
+				{"bypassAuthorization", true},
+				{"cache", false},
+				{StorageOnlyQueryComponent.PropertyKey, true}
+			});
 			if (userNode == null)
 			{
-				return AuthenticationResult.Failed(new PropertyBag
-				                                   {
-				                                   	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.InvalidCredentialsReason}
-				                                   });
+				return AuthenticationResult.Failed(new PropertyBag {
+					{AuthenticationResult.ReasonPropertyName, AuthenticationResult.InvalidCredentialsReason}
+				});
 			}
 
 			// check against unpublished users
 			if (userNode.Status != NodeStatus.Published)
 			{
-				return AuthenticationResult.Failed(new PropertyBag
-				                                   {
-				                                   	{AuthenticationResult.ReasonPropertyName, AuthenticationResult.AccounDeactivatedReason}
-				                                   });
+				return AuthenticationResult.Failed(new PropertyBag {
+					{AuthenticationResult.ReasonPropertyName, AuthenticationResult.AccounDeactivatedReason}
+				});
 			}
 
 			// create and return the user state
@@ -149,10 +142,9 @@ namespace Premotion.Mansion.Web.Security
 				throw new ArgumentNullException("parameters");
 
 			// return the revival properties
-			return new PropertyBag
-			       {
-			       	{"id", userState.Id}
-			       };
+			return new PropertyBag {
+				{"id", userState.Id}
+			};
 		}
 		/// <summary>
 		/// Tries to revive the user based on the revival properties.
@@ -169,20 +161,19 @@ namespace Premotion.Mansion.Web.Security
 				throw new ArgumentNullException("revivalProperties");
 
 			// get the id of the from the revival properties
-			string id;
+			Guid id;
 			if (!revivalProperties.TryGet(context, "id", out id))
 				return null;
 
 			// retrieve the user by guid
-			var userNode = context.Repository.RetrieveSingleNode(context, new PropertyBag
-			                                                              {
-			                                                              	{"baseType", "User"},
-			                                                              	{"guid", id},
-			                                                              	{"status", "any"},
-			                                                              	{"bypassAuthorization", true},
-			                                                              	{"cache", false},
-			                                                              	{StorageOnlyQueryComponent.PropertyKey, true}
-			                                                              });
+			var userNode = context.Repository.RetrieveSingleNode(context, new PropertyBag {
+				{"baseType", "User"},
+				{"guid", id},
+				{"status", "any"},
+				{"bypassAuthorization", true},
+				{"cache", false},
+				{StorageOnlyQueryComponent.PropertyKey, true}
+			});
 			if (userNode == null)
 				return null;
 
