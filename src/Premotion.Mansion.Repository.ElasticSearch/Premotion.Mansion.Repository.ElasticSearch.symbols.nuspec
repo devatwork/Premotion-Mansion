@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
 	<metadata>
-		<version>1.2.29</version>
+		<version>1.2.30</version>
 		<authors>Premotion Software Solutions</authors>
 		<owners>Premotion Software Solutions</owners>
 		<id>Premotion.Mansion.Repository.ElasticSearch</id>
@@ -19,7 +19,7 @@
 		<copyright>Copyright 2012</copyright>
 		<dependencies>
 			<dependency id="RestSharp" />
-			<dependency id="Newtonsoft.Json" />
+			<dependency id="Newtonsoft.Json" version="[4,5]" />
 			<dependency id="Premotion.Mansion.Core" />
 		</dependencies>
 		<tags>Premotion Mansion Repository ElasticSearch</tags>

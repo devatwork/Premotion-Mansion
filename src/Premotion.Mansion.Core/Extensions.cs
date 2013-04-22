@@ -950,6 +950,77 @@ namespace Premotion.Mansion.Core
 			// return the formatted string
 			return string.Format(format, args);
 		}
+		/// <summary>
+		/// Splits the given <paramref name="haystack"/> csv into a set of values.
+		/// </summary>
+		/// <param name="haystack">The haystack which to split.</param>
+		/// <param name="seperator">The seperator which to use to seperate the entries in the list.</param>
+		/// <returns>Retutnrs the splitted entries.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="seperator"/> is null or empty.</exception>
+		public static IEnumerable<string> Split(this string haystack, string seperator = ",")
+		{
+			// validate arguments
+			if (string.IsNullOrEmpty(seperator))
+				throw new ArgumentNullException("seperator");
+
+			return (haystack ?? string.Empty).Split(new[] {seperator}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
+		}
+		/// <summary>
+		/// Appends the given needle to the haystack.
+		/// </summary>
+		/// <param name="needle">The needle which to remove.</param>
+		/// <param name="haystack">The haystack in which to look.</param>
+		/// <param name="seperator">The seperator which to use to seperate the entries in the list.</param>
+		/// <returns>Returns the modified list.</returns>
+		public static string AppendNeedle(this string haystack, string needle, string seperator = ",")
+		{
+			// validate arguments
+			if (string.IsNullOrEmpty(needle))
+				throw new ArgumentNullException("needle");
+
+			// split the lists
+			var list = haystack.Split(seperator);
+
+			// reassemble the list with the needle
+			return list.Union(new[] {needle}, StringComparer.OrdinalIgnoreCase).Join(seperator);
+		}
+		/// <summary>
+		/// Removes the given needle from the haystack.
+		/// </summary>
+		/// <param name="haystack">The haystack in which to look.</param>
+		/// <param name="needle">The needle which to remove.</param>
+		/// <param name="seperator">The seperator which to use to seperate the entries in the list.</param>
+		/// <returns>Returns the modified list.</returns>
+		public static string RemoveNeedle(this string haystack, string needle, string seperator = ",")
+		{
+			// validate arguments
+			if (string.IsNullOrEmpty(needle))
+				throw new ArgumentNullException("needle");
+
+			// split the lists
+			var list = haystack.Split(seperator);
+
+			// reassemble the list without the needle
+			return list.Except(new[] {needle}, StringComparer.OrdinalIgnoreCase).Join(seperator);
+		}
+		/// <summary>
+		/// Joins the given <paramref name="values"/> into a csv.
+		/// </summary>
+		/// <param name="values">The <see cref="IEnumerable{T}"/> of the values.</param>
+		/// <param name="seperator">The seperator which to use to seperate the entries in the list.</param>
+		/// <returns>Returns the joined string.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="values"/> is null or if <paramref name="seperator"/> is null or empty.</exception>
+		public static string Join(this IEnumerable<string> values, string seperator = ",")
+		{
+			// validate arguments
+			if (values == null)
+				throw new ArgumentNullException("values");
+			if (string.IsNullOrEmpty(seperator))
+				throw new ArgumentNullException("seperator");
+
+			// assemble the csv
+			return string.Join(seperator, values.Distinct(StringComparer.OrdinalIgnoreCase).Select(x => x.Trim()));
+		}
 		#endregion
 		#region Extensions of StringBuilder
 		/// <summary>

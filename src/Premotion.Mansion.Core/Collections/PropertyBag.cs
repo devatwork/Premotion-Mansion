@@ -404,7 +404,7 @@ namespace Premotion.Mansion.Core.Collections
 				return oneComparable.CompareTo(other) == 0;
 
 			// default
-			return one.Equals(other);
+			return false;
 		}
 		#endregion
 		#region Properties

@@ -80,7 +80,7 @@ namespace Premotion.Mansion.Core.Types.Xml
 
 			ITypeDefinition type;
 			if (!types.TryGetValue(typeName, out type))
-				throw new TypeNotFoundException(typeName);
+				type = rootType;
 			return type;
 		}
 		/// <summary>
