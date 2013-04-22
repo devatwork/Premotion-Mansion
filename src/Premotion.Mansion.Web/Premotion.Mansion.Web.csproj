@@ -998,6 +998,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web\Shared\css\jquery\images\animated-overlay.gif" />
+    <EmbeddedResource Include="Web\Shared\js\angular\angular.js" />
+    <EmbeddedResource Include="Web\Shared\js\angular\ui-bootstrap-tpls.js" />
     <EmbeddedResource Include="Web\Controls\Js\node-selector.js" />
     <Content Include="Web\Shared\css\fontawesome\fontawesome-webfont.svg" />
     <EmbeddedResource Include="Web\Shared\js\lodash\lodash.js" />
