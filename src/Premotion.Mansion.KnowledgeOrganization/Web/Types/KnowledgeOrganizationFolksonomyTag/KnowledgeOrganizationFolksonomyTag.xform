@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd" xmlns:providers="http://schemas.premotion.nl/mansion/1.0/web.control.provider.tags.xsd">
+
+	<!-- invoked from: ThesaurusTerm.xform -->
+	<declareProcedure procedureName="IncludeTermExtendedProperties">
+		<!-- specific fields go here -->
+	</declareProcedure>
+
+</mansion>

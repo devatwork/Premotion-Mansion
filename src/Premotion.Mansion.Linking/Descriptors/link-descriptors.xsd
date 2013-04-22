@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema targetNamespace="http://schemas.premotion.nl/mansion/1.0/link-descriptors.xsd" elementFormDefault="qualified" xmlns="http://schemas.premotion.nl/mansion/1.0/link-descriptors.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:def="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd">
+
+	<!-- import -->
+	<xs:import namespace="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" />
+
+	<!-- link descriptors -->
+	<xs:complexType name="link" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Describes a relation this type can have.</xs:documentation>
+		</xs:annotation>
+		<!-- attributes -->
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>The name of this relationship. Equal relationship names indicate the same relationship.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:element name="link" abstract="true" />
+
+	<xs:element name="oneToOne" substitutionGroup="link">
+		<xs:annotation>
+			<xs:documentation>Describes a one-to-one relation ship from a single source to a single single target.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="link" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="oneToMany" substitutionGroup="link">
+		<xs:annotation>
+			<xs:documentation>Describes a one-to-many relation ship from a single source to multiple targets.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="link" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="manyToMany" substitutionGroup="link">
+		<xs:annotation>
+			<xs:documentation>Describes a many-to-many relation ship from a mulitple sources to multiple targets.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="link" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- linkbase descriptor -->
+	<xs:element name="linkbase" substitutionGroup="def:typeDescriptor">
+		<xs:annotation>
+			<xs:documentation>This type has a linkbase, indicating that rich links can be made from and to this type.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="link" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

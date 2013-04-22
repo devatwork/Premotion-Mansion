@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<type inherits="KnowledgeOrganizationThesaurus" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd">
+	
+	<!-- Represents a taxonomy, which is a hierarchical structure of classifications -->
+	<cms:behavior label="Taxonomy" icon="Types/KnowledgeOrganizationTaxonomy/KnowledgeOrganizationTaxonomy.png">
+		<cms:childType baseType="KnowledgeOrganizationTaxonomyClassification" />
+	</cms:behavior>
+
+</type>

@@ -7,6 +7,7 @@
 		<cms:childType type="SecurityIndex" />
 		<cms:childType type="ContentIndexRoot" />
 		<cms:childType type="ConfigurationPanel" />
+		<cms:childType baseType="RootIndex" />
 	</cms:behavior>
 	
 </type>

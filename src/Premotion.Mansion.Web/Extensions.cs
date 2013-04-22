@@ -234,13 +234,12 @@ namespace Premotion.Mansion.Web
 			if (cookie == null)
 				throw new ArgumentNullException("cookie");
 
-			// get the output pipe if there is one
+			// write the cookie to the output pipe if there is one, otherwise write it directly to the http response
 			WebOutputPipe outputPipe;
 			if (context.TryGetWebOuputPipe(out outputPipe))
 				outputPipe.Response.Cookies.Add(cookie);
-
-			// write the cookie directly to the http output
-			HttpContextAdapter.TransferCookie(cookie, new HttpResponseWrapper(HttpContext.Current.Response));
+			else
+				HttpContextAdapter.TransferCookie(cookie, new HttpResponseWrapper(HttpContext.Current.Response));
 		}
 		#endregion
 		#region Url Extensions
