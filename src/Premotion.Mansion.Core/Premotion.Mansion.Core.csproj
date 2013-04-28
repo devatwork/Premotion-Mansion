@@ -285,10 +285,13 @@
     <Compile Include="ScriptFunctions\Guids\NewGuid.cs" />
     <Compile Include="ScriptFunctions\List\AppendNeedle.cs" />
     <Compile Include="ScriptFunctions\List\RemoveNeedle.cs" />
+    <Compile Include="ScriptFunctions\Math\Ceiling.cs" />
+    <Compile Include="ScriptFunctions\Math\Floor.cs" />
     <Compile Include="ScriptFunctions\Math\Min.cs" />
     <Compile Include="ScriptFunctions\Math\Max.cs" />
     <Compile Include="ScriptFunctions\Math\Divide.cs" />
     <Compile Include="ScriptFunctions\Math\Multiply.cs" />
+    <Compile Include="ScriptFunctions\Math\Round.cs" />
     <Compile Include="ScriptFunctions\Media\JSon\DatasetToJSonArray.cs" />
     <Compile Include="ScriptFunctions\Relational\GetParentPath.cs" />
     <Compile Include="ScriptFunctions\Repository\CreateFacet.cs" />
