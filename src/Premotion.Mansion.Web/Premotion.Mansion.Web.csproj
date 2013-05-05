@@ -234,6 +234,7 @@
     <Compile Include="Hosting\UrlPrefixSpecification.cs" />
     <Compile Include="Hosting\WebOutputRequestHandler.cs" />
     <Compile Include="ScriptFunctions\GetCookieValue.cs" />
+    <Compile Include="ScriptFunctions\StripHTML.cs" />
     <Compile Include="ScriptTags\ClearCookieTag.cs" />
     <Compile Include="ScriptTags\SetCookieTag.cs" />
     <Compile Include="ScriptTags\ParseApplicationUrlTag.cs" />
@@ -277,7 +278,7 @@
     <Compile Include="ScriptFunctions\StaticResourcePathUrl.cs" />
     <Compile Include="ScriptFunctions\StaticResourceUrl.cs" />
     <Compile Include="ScriptFunctions\StreamingStaticContentUrl.cs" />
-    <Compile Include="ScriptFunctions\StripHTML.cs" />
+    <Compile Include="ScriptFunctions\TextToHTML.cs" />
     <Compile Include="ScriptFunctions\UrlEncode.cs" />
     <Compile Include="ScriptFunctions\WithoutQueryString.cs" />
     <Compile Include="ScriptTags\DisableOutputCacheTag.cs" />
