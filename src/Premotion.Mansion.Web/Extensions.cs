@@ -146,6 +146,52 @@ namespace Premotion.Mansion.Web
 		{
 			return !string.IsNullOrEmpty(input) && EmailRegularExpression.IsMatch(input);
 		}
+		/// <summary>
+		/// Transforms th input text to html.
+		/// </summary>
+		/// <param name="input">The string which to transform.</param>
+		public static string TextToHTML(this string input)
+		{
+			// check if input is empty
+			if (string.IsNullOrEmpty(input))
+				return string.Empty;
+
+			var output = new StringBuilder(input.Length);
+			var buffer = new StringBuilder(input.Length);
+			foreach (var currentCharacter in input)
+			{
+				buffer.Append(currentCharacter);
+				if (currentCharacter != '\n')
+					continue;
+
+				// eat line fead and optionally the carriage return
+				buffer.Length--;
+				if (buffer.Length > 0 && buffer[buffer.Length - 1] == '\r')
+					buffer.Length--;
+
+				// turn into a paragraph
+				if (buffer.Length == 0)
+					output.AppendLine("<p>&nbsp;</p>");
+				else
+				{
+					output.Append("<p>");
+					output.Append(buffer.ToString().HtmlEncode());
+					output.AppendLine("</p>");
+				}
+				buffer.Length = 0;
+			}
+
+			// empty the remainder
+			if (buffer.Length != 0)
+			{
+				output.Append("<p>");
+				output.Append(buffer.ToString().HtmlEncode());
+				output.AppendLine("</p>");
+			}
+
+			// return the result
+			return output.ToString();
+		}
 		#endregion
 		#region IPropertyBag Extensions
 		/// <summary>

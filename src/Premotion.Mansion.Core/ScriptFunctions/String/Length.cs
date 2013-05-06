@@ -19,10 +19,8 @@ namespace Premotion.Mansion.Core.ScriptFunctions.String
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
-			if (input == null)
-				throw new ArgumentNullException("input");
 
-			return input.Length;
+			return input == null ? 0 : input.Length;
 		}
 	}
 }
