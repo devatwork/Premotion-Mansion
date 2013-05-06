@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.IO;
@@ -45,17 +46,16 @@ namespace Premotion.Mansion.Repository.ElasticSearch.ScriptFunctions
 
 			// create the path
 			var pathString = string.Format("Assets/{0}/synonyms.txt", language);
-			var path = resourceService.ParsePath(context, new PropertyBag
-			                                              {
-			                                              	{"path", pathString}
-			                                              });
+			var path = resourceService.ParsePath(context, new PropertyBag {
+				{"path", pathString}
+			});
 
 			// get the resource
-			var resource = resourceService.GetSingle(context, path);
+			var resource = resourceService.Get(context, path);
 
 			// parse the file
 			var synonyms = new List<string>();
-			using (var pipe = resource.OpenForReading())
+			using (var pipe = resource.Last().OpenForReading())
 			{
 				// loop over each line
 				string line;

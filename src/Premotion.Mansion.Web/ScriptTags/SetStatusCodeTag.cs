@@ -22,7 +22,9 @@ namespace Premotion.Mansion.Web.ScriptTags
 
 			// get the status code
 			outputPipe.Response.StatusCode = (HttpStatusCode) GetRequiredAttribute<int>(context, "code");
-			outputPipe.Response.StatusDescription = "Not Found";
+			string description;
+			if (TryGetAttribute(context, "description", out description))
+				outputPipe.Response.StatusDescription = description;
 		}
 		#endregion
 	}
