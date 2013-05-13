@@ -90,7 +90,12 @@ namespace Premotion.Mansion.Web
 				// ignore this character and move on
 				previousCharacter = currentChar;
 			}
-			return buffer.ToString().Trim('-');
+			var result = buffer.ToString();
+			if (input.Length > 0 && input[0] != '-')
+				result = result.TrimStart('-');
+			if (input.Length > 0 && input[input.Length - 1] != '-')
+				result = result.TrimEnd('-');
+			return result;
 		}
 		/// <summary>
 		/// URL decodes the <paramref name="input"/> string.
