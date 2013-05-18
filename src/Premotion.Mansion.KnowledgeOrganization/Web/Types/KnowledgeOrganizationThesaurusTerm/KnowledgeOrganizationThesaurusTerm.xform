@@ -7,6 +7,7 @@
 		<invokeProcedure procedureName="IncludeTermProperties"/>
 		<invokeProcedure procedureName="IncludeTermExtendedProperties"/>
 		<invokeProcedure procedureName="IncludeGroupSynoniem"/>
+		<invokeProcedure procedureName="IncludeGroupPublication"/>
 		<invokeProcedure procedureName="IncludeGroupIdentity"/>
 	</declareProcedure>
 
