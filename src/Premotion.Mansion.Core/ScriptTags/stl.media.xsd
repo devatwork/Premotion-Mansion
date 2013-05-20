@@ -147,6 +147,21 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="renderJsonValue" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Renders a JSON value to the JSON output pipe. If the value attribute is not specified the child tags can write content to the created buffer. This tag must be used within and RenderJsonObject tag.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!--attributes -->
+			<xs:attribute name="value" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>The value of the property.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
 	<xs:element name="renderJsonArrayProperty" substitutionGroup="scriptTag">
 		<xs:annotation>
 			<xs:documentation>Renders a JSON array property to the JSON output pipe. This tag must be used within and RenderJsonObject tag. Any attributes will be rendered as simple values of the array.</xs:documentation>
