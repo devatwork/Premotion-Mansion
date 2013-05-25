@@ -20,11 +20,9 @@ namespace Premotion.Mansion.Core.ScriptFunctions.String
 			// validate arguments
 			if (context == null)
 				throw new ArgumentNullException("context");
-			if (input == null)
-				throw new ArgumentNullException("input");
 
 			// split the values
-			var values = input.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => '\'' + x.Trim() + '\'').ToArray();
+			var values = (input ?? string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => '\'' + x.Trim() + '\'').ToArray();
 
 			// join the values
 			return string.Join(",", values);
