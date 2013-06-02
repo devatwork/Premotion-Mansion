@@ -180,6 +180,23 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="renderNestedJsonAsProperty" substitutionGroup="scriptTag">
+		<xs:annotation>
+			<xs:documentation>Renders a nested JSON structure as a property to the JSON output pipe. This tag must be used within and RenderJsonObject tag.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<!-- content -->
+			<xs:group ref="defaultContentGroup" />
+			<!--attributes -->
+			<xs:attribute name="propertyName" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Specified the name of the JSON property in which the structure is stored.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
 	<xs:element name="getDatasetFromJSon" substitutionGroup="scriptTag">
 		<xs:annotation>
 			<xs:documentation>Gets a dataset from a given JSon string. The JSon string must contain an array of objects.</xs:documentation>
