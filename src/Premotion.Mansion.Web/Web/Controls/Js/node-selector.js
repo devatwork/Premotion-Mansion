@@ -68,7 +68,6 @@ Author: Premotion Software Solutions
         this.endpointUrl = this.$element.data('service-endpoint');
         this.$valueField = this.$element.find('#' + this.controlId + '-value');
         this.settings = this.$element.find('#' + this.controlId + '-settings').val();
-        console.log('settings', this.settings);
         this.parentId = undefined;
         this.listen();
         this.retrieve();

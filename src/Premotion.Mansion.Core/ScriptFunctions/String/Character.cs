@@ -20,7 +20,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.String
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (input == null)
-				throw new ArgumentNullException("input");
+				return null;
 
 			// check for integers
 			if (input.IsNumber())

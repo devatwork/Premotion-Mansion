@@ -30,7 +30,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.String
 			var entries = csv.Split(';');
 
 			// find the proper entry
-			var entry = entries.Where(x => x.StartsWith(value + ",", StringComparison.OrdinalIgnoreCase)).SingleOrDefault();
+			var entry = entries.SingleOrDefault(x => x.StartsWith(value + ",", StringComparison.OrdinalIgnoreCase));
 			if (string.IsNullOrEmpty(entry))
 				return string.Empty;
 

@@ -54,7 +54,7 @@
 			<remove fileExtension=".otf" />
 			<mimeMap fileExtension=".otf" mimeType="font/otf" />
 			<remove fileExtension=".woff" />
-			<mimeMap fileExtension=".woff" mimeType="font/x-woff" />
+			<mimeMap fileExtension=".woff" mimeType="font/font-woff" />
 			<remove fileExtension=".less" />
 			<mimeMap fileExtension=".less" mimeType="text/css" />
 		</staticContent>
