@@ -214,7 +214,7 @@ namespace Premotion.Mansion.Web
 		                                                                         	{".xsd", "text/xml"},
 		                                                                         	{".z", "application/x-compress"},
 		                                                                         	{".zip", "application/x-zip-compressed"},
-		                                                                         	{".woff", "application/x-font-woff"},
+		                                                                         	{".woff", "application/font-woff"},
 		                                                                         	{".eot", "application/vnd.ms-fontobject"},
 		                                                                         	{".otf", "font/otf"},
 		                                                                         	{".svg", "image/svg+xml"},
