@@ -29,15 +29,14 @@ namespace Premotion.Mansion.Web
 		public Url Clone()
 		{
 			// create the clone
-			var clone = new Url
-			            {
-			            	Scheme = Scheme,
-			            	HostName = HostName,
-			            	Port = Port,
-			            	ApplicationPathSegments = ApplicationPathSegments.ToArray(),
-			            	PathSegments = PathSegments.ToArray(),
-			            	Fragment = Fragment
-			            };
+			var clone = new Url {
+				Scheme = Scheme,
+				HostName = HostName,
+				Port = Port,
+				ApplicationPathSegments = ApplicationPathSegments.ToArray(),
+				PathSegments = PathSegments.ToArray(),
+				Fragment = Fragment
+			};
 
 			// copy the query string
 			foreach (var kvp in QueryString)
@@ -61,14 +60,13 @@ namespace Premotion.Mansion.Web
 			// get the application url
 			var applicationUrl = context.Request.ApplicationUrl;
 
-			return new Url
-			       {
-			       	Scheme = applicationUrl.Scheme,
-			       	HostName = applicationUrl.HostName,
-			       	Port = applicationUrl.Port,
-			       	ApplicationPathSegments = applicationUrl.ApplicationPathSegments,
-			       	PathSegments = new string[0]
-			       };
+			return new Url {
+				Scheme = applicationUrl.Scheme,
+				HostName = applicationUrl.HostName,
+				Port = applicationUrl.Port,
+				ApplicationPathSegments = applicationUrl.ApplicationPathSegments,
+				PathSegments = new string[0]
+			};
 		}
 		/// <summary>
 		/// Parses the given <paramref name="uri"/> as an url.
@@ -86,20 +84,19 @@ namespace Premotion.Mansion.Web
 				throw new ArgumentNullException("uri");
 
 			// create the url
-			var url = new Url
-			          {
-			          	Scheme = applicationUrl.Scheme,
-			          	HostName = applicationUrl.HostName,
-			          	Port = applicationUrl.Port,
-			          	ApplicationPathSegments = applicationUrl.ApplicationPathSegments,
-			          	PathSegments = uri.Segments.Select(candidate => candidate.Trim(Dispatcher.Constants.UrlPartTrimCharacters)).Where(candidate => candidate.Length > 0).Skip(applicationUrl.ApplicationPathSegments.Length).ToArray(),
-							CanHaveExtension = true
-			          };
+			var url = new Url {
+				Scheme = applicationUrl.Scheme,
+				HostName = applicationUrl.HostName,
+				Port = applicationUrl.Port,
+				ApplicationPathSegments = applicationUrl.ApplicationPathSegments,
+				PathSegments = uri.Segments.Select(candidate => candidate.Trim(Dispatcher.Constants.UrlPartTrimCharacters)).Where(candidate => candidate.Length > 0).Skip(applicationUrl.ApplicationPathSegments.Length).ToArray(),
+				CanHaveExtension = true
+			};
 
 			// parse the query string
 			var nvc = HttpUtility.ParseQueryString(uri.Query);
 			foreach (var key in nvc.Cast<string>())
-				url.QueryString[key] = nvc[key];
+				url.QueryString[key ?? string.Empty] = nvc[key] ?? string.Empty;
 
 			// return the parsed url
 			return url;
@@ -117,14 +114,13 @@ namespace Premotion.Mansion.Web
 				throw new ArgumentNullException("uri");
 
 			// return the url
-			return new Url
-			       {
-			       	Scheme = uri.Scheme,
-			       	HostName = uri.Host,
-			       	Port = uri.Port,
-			       	ApplicationPathSegments = uri.Segments.Select(candidate => candidate.Trim(Dispatcher.Constants.UrlPartTrimCharacters)).Where(candidate => candidate.Length > 0).ToArray(),
-			       	PathSegments = new string[0]
-			       };
+			return new Url {
+				Scheme = uri.Scheme,
+				HostName = uri.Host,
+				Port = uri.Port,
+				ApplicationPathSegments = uri.Segments.Select(candidate => candidate.Trim(Dispatcher.Constants.UrlPartTrimCharacters)).Where(candidate => candidate.Length > 0).ToArray(),
+				PathSegments = new string[0]
+			};
 		}
 		/// <summary>
 		/// Parses the given <paramref name="relativeUrl"/> into a <see cref="Url"/>.
@@ -164,7 +160,7 @@ namespace Premotion.Mansion.Web
 				var queryString = relativeUrl.Substring(queryStringStart, parsedIndex - queryStringStart + 1);
 				var nvc = HttpUtility.ParseQueryString(queryString);
 				foreach (var key in nvc.Cast<string>())
-					url.QueryString[key] = nvc[key];
+					url.QueryString[key ?? string.Empty] = nvc[key] ?? string.Empty;
 				parsedIndex -= queryString.Length;
 				if (parsedIndex == 0)
 					return url;

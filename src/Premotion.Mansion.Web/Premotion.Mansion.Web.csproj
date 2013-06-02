@@ -364,6 +364,13 @@
     <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.woff" />
     <EmbeddedResource Include="Web\Shared\css\fontawesome\FontAwesome.otf" />
     <EmbeddedResource Include="Web\Types\RootIndex\RootIndex.xdef" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\bootstrap.less" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\core.less" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\extras.less" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\icons.less" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\mixins.less" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\path.less" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\variables.less" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Premotion.Mansion.Core\Premotion.Mansion.Core.csproj">
@@ -998,11 +1005,12 @@
     <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesome.min.css" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesome-ie7.css" />
     <Content Include="Web\Shared\css\jquery\images\animated-overlay.gif" />
     <EmbeddedResource Include="Web\Shared\js\angular\angular.js" />
     <EmbeddedResource Include="Web\Shared\js\angular\ui-bootstrap-tpls.js" />
     <EmbeddedResource Include="Web\Controls\Js\node-selector.js" />
-    <Content Include="Web\Shared\css\fontawesome\fontawesome-webfont.svg" />
+    <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.svg" />
     <EmbeddedResource Include="Web\Shared\js\lodash\lodash.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

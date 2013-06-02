@@ -32,7 +32,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.String
 			if (context == null)
 				throw new ArgumentNullException("context");
 			if (input == null)
-				throw new ArgumentNullException("input");
+				return null;
 			if (length < 0)
 				throw new ArgumentNullException("length");
 			if (clipSymbol == null)
