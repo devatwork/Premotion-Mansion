@@ -16,6 +16,7 @@
 		<switch condition="{Arguments.mode}">
 			<case value="update">
 				<fetchNode source="{Arguments.source}" target="FormSourceNode">
+					<retrieveParentNode childSource="{$FormSourceNode}" target="ParentNode" global="true" />
 					<!-- fire initialize xForm event -->
 					<fireEvent eventName="BeforeRenderInlineUpdateForm" />
 					<invokeProcedure procedureName="RenderInlineUpdateForm" />
