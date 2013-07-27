@@ -36,16 +36,7 @@ namespace Premotion.Mansion.Repository.SqlServer
 		{
 			// execute the command
 			foreach (var command in commandQueue)
-			{
-				try
-				{
-					command.ExecuteNonQuery();
-				}
-				catch (Exception)
-				{
-					//TODO: improve logging!!!!
-				}
-			}
+				command.ExecuteNonQuery();
 		}
 		/// <summary>
 		/// Adds a new <see cref="SqlCommand"/> to this bulk operation.
