@@ -3,6 +3,7 @@
 
 	<!-- Renders the xForm content -->
 	<declareProcedure procedureName="RenderXFormContent">
+		<invokeProcedure procedureName="IncludeGroupTitle" />
 		<invokeProcedure procedureName="IncludeGroupBlockProperties" />
 		<invokeProcedure procedureName="IncludeGroupLookAndFeel" />
 		<invokeProcedure procedureName="IncludeGroupColumn" />
@@ -14,11 +15,19 @@
 	
 	
 	<!-- render the properties of this block -->
-	<declareProcedure procedureName="IncludeGroupBlockProperties">
-		<forms:fieldset label="Configuration">
+	<declareProcedure procedureName="IncludeGroupTitle">
+		<forms:fieldset label="Title">
 			<forms:textbox name="name" label="Name">
 				<forms:requiredFieldValidator />
 			</forms:textbox>
+		</forms:fieldset>
+	</declareProcedure>
+
+	
+	
+	<!-- render the properties of this block -->
+	<declareProcedure procedureName="IncludeGroupBlockProperties">
+		<forms:fieldset label="Configuration">
 			<invokeProcedure procedureName="IncludeBlockConfiguration" checkExists="false" />
 		</forms:fieldset>
 	</declareProcedure>
