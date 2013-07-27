@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Queries;
 using Premotion.Mansion.Core.Data.Queries.Specifications.Nodes;
@@ -35,8 +36,13 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 			var query = parser.Parse(context, arguments);
 
 			// make sure a child of clause is specified
-			if (!query.HasSpecification<ParentOfSpecification>())
+			var parentOfSpecifications = query.Components.OfType<SpecificationQueryComponent>().Select(component => component.Specification).OfType<ParentOfSpecification>().ToArray();
+			if (!parentOfSpecifications.Any())
 				throw new InvalidOperationException("The child node was not specified.");
+
+			// if there is a parent of specification for depth 0 it means a parent of the root node is queried, which does not exist
+			if (parentOfSpecifications.Any(candidate => candidate.ChildPointer.Depth == 1))
+				return null;
 
 			// execute the query
 			return repository.RetrieveSingleNode(context, query);
