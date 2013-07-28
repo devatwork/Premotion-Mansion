@@ -838,6 +838,24 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="fieldContainer" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Groups a set of fields.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="formControlContainerBase">
+					<!-- attributes -->
+					<xs:attribute name="label" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>The label of the field container.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
 	<!-- messages -->
 	<xs:element name="infoMessage" substitutionGroup="stl:scriptTag">
 		<xs:annotation>

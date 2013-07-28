@@ -98,6 +98,7 @@
     <Compile Include="ConfigurationSettingsApplicationInitializer.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controls\Container.cs" />
+    <Compile Include="Controls\Forms\Containers\FieldContainer.cs" />
     <Compile Include="Controls\Containers\Group.cs" />
     <Compile Include="Controls\Control.cs" />
     <Compile Include="Controls\ControlDefinition.cs" />

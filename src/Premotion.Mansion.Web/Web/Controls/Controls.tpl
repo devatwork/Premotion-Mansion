@@ -224,6 +224,16 @@
 	</fieldset>
 </tpl:section>
 
+<tpl:section name="FieldContainerControl" field="Control">
+	<div class="control-group">
+		{@FieldLabel}
+		<div class="controls">
+			{Control}
+			{@FieldExplanation}
+		</div>
+	</div>
+</tpl:section>
+
 
 
 /* ==|== Nodeselector Section ============================================
