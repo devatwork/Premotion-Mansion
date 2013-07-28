@@ -24,15 +24,19 @@
 <!-- step control sections -->
 <tpl:section name="StepControl" field="Control">
 	<fieldset id="{@ControlId}" class="step {ControlProperties.cssClass}">
-		<legend>
-			<h3 class="step-title {ControlProperties.headerCssClasses}">{StepProperties.label}</h3>
-		</legend>
+		{@StepControlLegend}
 		<div class="{ControlProperties.bodyCssClasses}">
 			{Control}
 		</div>
 		{CommandBar}
 	</fieldset>
 </tpl:section>
+
+	<tpl:section name="StepControlLegend" requires="{Not( IsEmpty( StepProperties.label ) )}">
+		<legend>
+			<h3 class="step-title {ControlProperties.headerCssClasses}">{StepProperties.label}</h3>
+		</legend>
+	</tpl:section>
 
 
 
