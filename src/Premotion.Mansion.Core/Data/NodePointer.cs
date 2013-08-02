@@ -536,6 +536,22 @@ namespace Premotion.Mansion.Core.Data
 			return !Equals(one, other);
 		}
 		#endregion
+		#region Helpers
+		/// <summary>
+		/// Generates a safe name for a node.
+		/// </summary>
+		/// <param name="unsafe">The unsafe name.</param>
+		/// <returns>Returns the safe name.</returns>
+		public static string MakeSafeName(string @unsafe)
+		{
+			// validate arguments
+			if (string.IsNullOrEmpty(@unsafe))
+				throw new ArgumentNullException("unsafe");
+
+			// replase the path seperator
+			return @unsafe.Replace(PathSeparator, "-");
+		}
+		#endregion
 		#region Private Fields
 		[JsonProperty]
 		private readonly int depth;

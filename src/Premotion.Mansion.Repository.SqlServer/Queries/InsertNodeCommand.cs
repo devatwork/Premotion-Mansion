@@ -70,6 +70,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 			SqlServerUtilities.PopulateFullTextColumn(context, type, properties, properties);
 
 			// create the new pointer
+			name = NodePointer.MakeSafeName(name);
 			var newPointer = NodePointer.Parse(string.Join(NodePointer.PointerSeparator, new[] {parent.PointerString, 0.ToString(CultureInfo.InvariantCulture)}), string.Join(NodePointer.StructureSeparator, new[] {parent.StructureString, type.Name}), string.Join(NodePointer.PathSeparator, new[] {parent.PathString, name}));
 			properties.Set("_newPointer", newPointer);
 
