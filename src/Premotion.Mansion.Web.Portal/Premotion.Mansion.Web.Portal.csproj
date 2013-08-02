@@ -159,7 +159,9 @@
     <EmbeddedResource Include="Web\Types\ListBlock\ListBlock.tpl" />
     <EmbeddedResource Include="Web\Types\ListBlock\ListBlock.png" />
     <EmbeddedResource Include="Web\Types\ListBlock\ListBlock.xdef" />
-    <EmbeddedResource Include="Web\Types\ListBlock\ListBlock.xform" />
+    <EmbeddedResource Include="Web\Types\ListBlock\ListBlock.xform">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Web\Types\ListBlock\ListBlock.xinclude" />
     <EmbeddedResource Include="Web\Types\NavigationIndex\NavigationIndex.xdef" />
     <EmbeddedResource Include="Web\Types\NavigationItemExternalLink\NavigationItemExternalLink.tpl" />

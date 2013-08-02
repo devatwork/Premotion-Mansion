@@ -19,7 +19,7 @@
 		<copyright>Copyright 2012</copyright>
 		<dependencies>
 			<dependency id="RestSharp" />
-			<dependency id="Newtonsoft.Json" version="[4,5]" />
+			<dependency id="Newtonsoft.Json" />
 			<dependency id="Premotion.Mansion.Core" />
 		</dependencies>
 		<tags>Premotion Mansion Repository ElasticSearch</tags>

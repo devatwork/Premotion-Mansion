@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 
 namespace Premotion.Mansion.Core.Conversion.Converters
@@ -23,7 +22,7 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 			using (var bufferStream = new MemoryStream())
 			using (var writer = new BsonWriter(bufferStream))
 			{
-				serializer.Serialize(writer, source);
+				Serializers.JsonSerializer.Serialize(writer, source);
 				return bufferStream.ToArray();
 			}
 		}
@@ -46,9 +45,6 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 				return defaultValue;
 			}
 		}
-		#endregion
-		#region Private Fields
-		private static readonly JsonSerializer serializer = new JsonSerializer();
 		#endregion
 	}
 }

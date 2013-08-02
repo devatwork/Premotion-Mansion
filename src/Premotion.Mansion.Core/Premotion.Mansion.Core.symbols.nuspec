@@ -18,7 +18,7 @@
 		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
 		<copyright>Copyright 2012</copyright>
 		<dependencies>
-			<dependency id="Newtonsoft.Json" version="[4,5]" />
+			<dependency id="Newtonsoft.Json" />
 			<dependency id="Dynamo.Ioc" />
 		</dependencies>
 		<tags>Premotion Mansion</tags>

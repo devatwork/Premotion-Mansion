@@ -17,7 +17,7 @@
 		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
 		<copyright>Copyright 2013</copyright>
 		<dependencies>
-			<dependency id="Newtonsoft.Json" version="[4,5]" />
+			<dependency id="Newtonsoft.Json" />
 			<dependency id="Premotion.Mansion.Core" />
 		</dependencies>
 		<tags>Premotion Mansion</tags>
