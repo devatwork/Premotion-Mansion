@@ -342,6 +342,8 @@
     <Compile Include="ScriptFunctions\Resources\IncludeMergedResources.cs" />
     <Compile Include="ScriptFunctions\Resources\IncludeStaticResource.cs" />
     <Compile Include="ScriptFunctions\Script\EvaluateExpression.cs" />
+    <Compile Include="ScriptFunctions\Security\Encrypt.cs" />
+    <Compile Include="ScriptFunctions\Security\Decrypt.cs" />
     <Compile Include="ScriptFunctions\Security\GeneratePassword.cs" />
     <Compile Include="ScriptFunctions\Security\HasPermission.cs" />
     <Compile Include="ScriptFunctions\Security\IsAuthenticated.cs" />
