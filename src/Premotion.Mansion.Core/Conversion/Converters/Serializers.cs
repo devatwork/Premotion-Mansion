@@ -58,6 +58,7 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 			JsonSerializer = new JsonSerializer {
 				TypeNameHandling = TypeNameHandling.Auto
 			};
+			JsonSerializer.Converters.Add(new GuidConverter());
 		}
 		/// <summary>
 		/// The <see cref="JsonSerializer"/> to use.
