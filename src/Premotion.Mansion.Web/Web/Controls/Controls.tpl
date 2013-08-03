@@ -15,7 +15,6 @@
 		{Hidden}
 		<input type="hidden" name="{FormProperties.prefix}current-step" value="{FormProperties.currentStepId}">
 		<input type="hidden" name="{FormProperties.prefix}state" value="{$FieldProperties}">
-		<input type="hidden" name="{FormProperties.actionPrefix}" class="action" value="">
 	</form>
 </tpl:section>
 
@@ -306,8 +305,10 @@ Author: Premotion Software Solutions
 </tpl:section>
 
 <tpl:section name="ButtonControl" field="Control">
-	<button href="#" id="{@ControlId}" class="btn {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}" data-action="{ControlProperties.action}" {@ButtonControlTooltip}>{@ButtonControlIcon}{ControlProperties.label}</button>&nbsp;
+	<button id="{@ControlId}" class="btn {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}" {@ButtonControlSubmitType} name="{FormProperties.actionPrefix}" value="{ControlProperties.action}" {@ButtonControlTooltip}>{@ButtonControlIcon}{ControlProperties.label}</button>&nbsp;
 </tpl:section>	
+
+	<tpl:section name="ButtonControlSubmitType" requires="{IsTrue( ControlProperties.isDefault )}">type="submit"</tpl:section>
 
 <tpl:section name="LinkButtonControl" field="Control">
 	<a href="{ControlProperties.action}" id="{@ControlId}" class="btn {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}" {@ButtonControlTooltip}>{@ButtonControlIcon}{ControlProperties.label}</a>&nbsp;
