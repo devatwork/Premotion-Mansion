@@ -45,6 +45,10 @@ namespace Premotion.Mansion.Core.Data.Facets
 		/// Gets/Sets the display value of this facet value.
 		/// </summary>
 		public object DisplayValue { get; set; }
+		/// <summary>
+		/// Gets/Sets a flag indicating whether this facet value was selected.
+		/// </summary>
+		public bool Selected { get; set; }
 		#endregion
 		#region Private Fields
 		private readonly int count;
