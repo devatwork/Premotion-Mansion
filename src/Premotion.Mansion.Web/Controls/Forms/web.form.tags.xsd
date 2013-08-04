@@ -857,6 +857,18 @@
 	</xs:element>
 
 	<!-- messages -->
+	<xs:element name="message" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Shows a message for the user.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="messageBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
 	<xs:element name="infoMessage" substitutionGroup="stl:scriptTag">
 		<xs:annotation>
 			<xs:documentation>Shows an info message for the user.</xs:documentation>

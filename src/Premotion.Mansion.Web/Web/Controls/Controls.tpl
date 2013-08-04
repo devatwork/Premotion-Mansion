@@ -338,24 +338,28 @@ Author: Premotion Software Solutions
 
 
 <!-- messages -->
+<tpl:section name="MessageControl" field="Control">
+	<div>{#ControlProperties.message}</div>
+</tpl:section>
+
 <tpl:section name="InfoMessageControl" field="Control">
-	<div class="alert alert-info">{ControlProperties.message}</div>
+	<div class="alert alert-info">{#ControlProperties.message}</div>
 </tpl:section>
 
 <tpl:section name="InstructionMessageControl" field="Control">
-	<div class="alert alert-info">{ControlProperties.message}</div>
+	<div class="alert alert-info">{#ControlProperties.message}</div>
 </tpl:section>
 
 <tpl:section name="WarningMessageControl" field="Control">
-	<div class="alert alert-warning">{ControlProperties.message}</div>
+	<div class="alert alert-warning">{#ControlProperties.message}</div>
 </tpl:section>
 
 <tpl:section name="SuccessMessageControl" field="Control">
-	<div class="alert alert-success">{ControlProperties.message}</div>
+	<div class="alert alert-success">{#ControlProperties.message}</div>
 </tpl:section>
 
 <tpl:section name="ErrorMessageControl" field="Control">
-	<div class="alert alert-error">{ControlProperties.message}</div>
+	<div class="alert alert-error">{#ControlProperties.message}</div>
 </tpl:section>
 
 
