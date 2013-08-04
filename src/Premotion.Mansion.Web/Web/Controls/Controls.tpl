@@ -95,7 +95,7 @@
 </tpl:section>
 
 <tpl:section name="TextareaFieldControl" field="Field">
-	<textarea id="{@ControlId}" name="{@FieldName}" class="field input-xlarge textarea {ControlProperties.cssClass}" {@FieldReadonlyAttribute}>{ControlProperties.Value}</textarea>
+	<textarea id="{@ControlId}" name="{@FieldName}" class="field input-xlarge textarea {ControlProperties.cssClass}" rows="{NotEmpty( ControlProperties.rows, '3' )}" {@FieldReadonlyAttribute}>{ControlProperties.Value}</textarea>
 </tpl:section>
 
 <tpl:section name="EmailFieldControl" field="Field">
