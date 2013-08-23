@@ -398,7 +398,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="Premotion.Mansion.Web.symbols.nuspec" />
     <None Include="Descriptors\web.descriptors.xsd">
       <SubType>Designer</SubType>
     </None>

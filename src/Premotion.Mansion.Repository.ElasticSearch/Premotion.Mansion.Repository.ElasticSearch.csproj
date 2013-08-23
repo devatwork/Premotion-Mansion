@@ -178,7 +178,6 @@
     <None Include="app.config.transform" />
     <None Include="packages.config" />
     <None Include="Premotion.Mansion.Repository.ElasticSearch.nuspec" />
-    <None Include="Premotion.Mansion.Repository.ElasticSearch.symbols.nuspec" />
     <None Include="Querying\Facets\Facets.cd" />
     <None Include="Querying\Filters\Filters.cd" />
     <None Include="Querying\Mappers\Mappers.cd" />

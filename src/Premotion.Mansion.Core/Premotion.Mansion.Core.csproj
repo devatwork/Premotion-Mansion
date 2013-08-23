@@ -572,7 +572,6 @@
     <None Include="Data\Queries\Specifications\Mansion.Core.Data.Queries.Specifications.cd" />
     <None Include="Data\Facets\Premotion.Mansion.Core.Data.Facets.cd" />
     <None Include="Patterns\Pipes\Pipes.cd" />
-    <None Include="Premotion.Mansion.Core.symbols.nuspec" />
     <None Include="Data\Mansion.Core.Data.cd" />
     <None Include="Data\Listeners\data.listeners.descriptors.xsd">
       <SubType>Designer</SubType>
