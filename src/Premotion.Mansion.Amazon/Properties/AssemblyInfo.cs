@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Premotion Software Solutions")]
 [assembly: AssemblyProduct("Premotion.Mansion.Amazon")]
-[assembly: AssemblyCopyright("Copyright © Premotion Software Solutions 2012")]
+[assembly: AssemblyCopyright("Copyright 2012 Premotion Software Solutions, Bert Willems and contributors")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
