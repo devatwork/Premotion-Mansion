@@ -11,11 +11,11 @@
 		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
 		<copyright>Copyright 2012 Premotion Software Solutions, Bert Willems and contributors</copyright>
 		<frameworkAssemblies>
-			<frameworkAssembly assemblyName="System" targetFramework="net40" />
-			<frameworkAssembly assemblyName="System.Configuration" targetFramework="net40" />
-			<frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
-			<frameworkAssembly assemblyName="System.Xml" targetFramework="net40" />
-			<frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.Configuration" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.Core" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.Xml" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net45" />
 		</frameworkAssemblies>
 		<dependencies>
 			<dependency id="Premotion.Mansion.Core" />
@@ -23,4 +23,9 @@
 		</dependencies>
 		<tags>Premotion Mansion</tags>
 	</metadata>
+	<files>
+		<file src="**\*.xsd" target="content\Schemas" />
+		<file src="app.config.transform" target="content" />
+		<file src="web.config.transform" target="content" />
+	</files>
 </package>
