@@ -1,13 +1,19 @@
 <?xml version="1.0"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+<package>
 	<metadata>
-		<version>1.2.35</version>
-		<authors>Premotion Software Solutions</authors>
-		<owners>Premotion Software Solutions</owners>
-		<id>Premotion.Mansion.Web</id>
-		<title>Premotion Mansion Web Framework</title>
+		<id>$id$</id>
+		<version>$version$</version>
+		<title>$title$</title>
+		<authors>$author$</authors>
+		<owners>$author$</owners>
+		<licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+		<projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+		<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<description>Contains the Premotion Mansion Framework core types.</description>
+		<description>$description$</description>
+		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+		<copyright>Copyright 2012 Premotion Software Solutions, Bert Willems and contributors</copyright>
+		<tags>Premotion Mansion Web</tags>
 		<frameworkAssemblies>
 			<frameworkAssembly assemblyName="System" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Configuration" targetFramework="net40" />
@@ -16,22 +22,11 @@
 			<frameworkAssembly assemblyName="System.Xml" targetFramework="net40" />
 			<frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net40" />
 		</frameworkAssemblies>
-		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
-		<copyright>Copyright 2012</copyright>
 		<dependencies>
 			<dependency id="Premotion.Mansion.Core" />
 			<dependency id="Newtonsoft.Json" />
 			<dependency id="AntiXSS" />
 			<dependency id="dotless" />
-		</dependencies> 
-		<tags>Premotion Mansion Web</tags>
+		</dependencies>
 	</metadata>
-	<files>
-		<file src="bin\Premotion.Mansion.Web.dll" target="lib\net45" />
-		<file src="bin\Premotion.Mansion.Web.xml" target="lib\net45" />
-		<file src="**\*.xsd" target="content\Schemas" />
-		<file src="Web\Default.xts.pp" target="content\Web" />
-		<file src="MyApplicationBootstrapper.cs.pp" target="content" />
-		<file src="web.config.transform" target="content" />
-	</files>
 </package>
