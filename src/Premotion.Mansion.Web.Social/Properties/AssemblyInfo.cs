@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Premotion.Mansion.Web.Social")]
 [assembly: AssemblyDescription("Implements the Premotion Mansion Web Social application framework")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Premotion Software Solutions")]
+[assembly: AssemblyCompany("Premotion Software Solutions, Bert Willems and contributors")]
 [assembly: AssemblyProduct("Premotion.Mansion.Web.Social")]
-[assembly: AssemblyCopyright("Copyright © Premotion Software Solutions 2012")]
+[assembly: AssemblyCopyright("Copyright 2012 Premotion Software Solutions, Bert Willems and contributors")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
