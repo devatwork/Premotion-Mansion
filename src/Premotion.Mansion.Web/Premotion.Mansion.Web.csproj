@@ -1007,7 +1007,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesome-ie7.css" />
-    <Content Include="Web\Shared\css\jquery\images\animated-overlay.gif" />
+    <EmbeddedResource Include="Web\Shared\css\jquery\images\animated-overlay.gif" />
     <EmbeddedResource Include="Web\Shared\js\angular\angular.js" />
     <EmbeddedResource Include="Web\Shared\js\angular\ui-bootstrap-tpls.js" />
     <EmbeddedResource Include="Web\Controls\Js\node-selector.js" />
