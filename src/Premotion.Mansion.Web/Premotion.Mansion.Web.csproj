@@ -51,7 +51,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.5.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -98,6 +98,7 @@
     <Compile Include="ConfigurationSettingsApplicationInitializer.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controls\Container.cs" />
+    <Compile Include="Controls\Forms\Containers\FieldContainer.cs" />
     <Compile Include="Controls\Containers\Group.cs" />
     <Compile Include="Controls\Control.cs" />
     <Compile Include="Controls\ControlDefinition.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Controls\Forms\Field.cs" />
     <Compile Include="Controls\Forms\Fields\CheckboxField.cs" />
     <Compile Include="Controls\Forms\Fields\CheckboxListField.cs" />
+    <Compile Include="Controls\Forms\Messages\Message.cs" />
     <Compile Include="Controls\Grid\Column.cs" />
     <Compile Include="Controls\Grid\ColumnFilter.cs" />
     <Compile Include="Controls\Grid\ColumnSort.cs" />
@@ -396,7 +398,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="Premotion.Mansion.Web.symbols.nuspec" />
     <None Include="Descriptors\web.descriptors.xsd">
       <SubType>Designer</SubType>
     </None>

@@ -46,7 +46,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.5.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -59,6 +59,7 @@
     <Compile Include="Collections\DatasetReader.cs" />
     <Compile Include="Conversion\Converters\GuidToStringConverter.cs" />
     <Compile Include="Conversion\Converters\JObjectToNodePointerConverter.cs" />
+    <Compile Include="Conversion\Converters\Serializers.cs" />
     <Compile Include="Conversion\Converters\StringToFloatConverter.cs" />
     <Compile Include="Conversion\Converters\FloatToDoubleConverter.cs" />
     <Compile Include="Data\BaseStorageEngine.cs" />
@@ -341,6 +342,8 @@
     <Compile Include="ScriptFunctions\Resources\IncludeMergedResources.cs" />
     <Compile Include="ScriptFunctions\Resources\IncludeStaticResource.cs" />
     <Compile Include="ScriptFunctions\Script\EvaluateExpression.cs" />
+    <Compile Include="ScriptFunctions\Security\Encrypt.cs" />
+    <Compile Include="ScriptFunctions\Security\Decrypt.cs" />
     <Compile Include="ScriptFunctions\Security\GeneratePassword.cs" />
     <Compile Include="ScriptFunctions\Security\HasPermission.cs" />
     <Compile Include="ScriptFunctions\Security\IsAuthenticated.cs" />
@@ -569,7 +572,6 @@
     <None Include="Data\Queries\Specifications\Mansion.Core.Data.Queries.Specifications.cd" />
     <None Include="Data\Facets\Premotion.Mansion.Core.Data.Facets.cd" />
     <None Include="Patterns\Pipes\Pipes.cd" />
-    <None Include="Premotion.Mansion.Core.symbols.nuspec" />
     <None Include="Data\Mansion.Core.Data.cd" />
     <None Include="Data\Listeners\data.listeners.descriptors.xsd">
       <SubType>Designer</SubType>

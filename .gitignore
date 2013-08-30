@@ -7,10 +7,9 @@
 *.orig
 *.pidb
 *.userprefs
-*.log
 .DS_Store
 deploy/
-build/
+[Bb]uild/
 [Bb]in/
 [Dd]ebug/
 [Oo]bj/
@@ -19,4 +18,10 @@ _[Rr]e[Ss]harper.*/
 *.docstates
 *.tss
 packages/
-*.nupkg
+src/Content/
+
+*.sublime-project
+*.sublime-workspace
+*.log
+TestResult.xml
+*.DotSettings

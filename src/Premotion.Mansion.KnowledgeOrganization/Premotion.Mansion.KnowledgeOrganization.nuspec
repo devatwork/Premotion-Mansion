@@ -1,30 +1,28 @@
 <?xml version="1.0"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+<package >
 	<metadata>
-		<version>1.2.34</version>
-		<authors>Premotion Software Solutions</authors>
-		<owners>Premotion Software Solutions</owners>
-		<id>Premotion.Mansion.KnowledgeOrganization</id>
-		<title>Premotion Mansion Knowledge Organization</title>
+		<id>$id$</id>
+		<version>$version$</version>
+		<title>$title$</title>
+		<authors>$author$</authors>
+		<owners>$author$</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<description>Provides types and logic to implement thesauri, vocabularies etc. for managing knowledge.</description>
-		<frameworkAssemblies>
-			<frameworkAssembly assemblyName="System" targetFramework="net40" />
-			<frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
-			<frameworkAssembly assemblyName="System.Xml" targetFramework="net40" />
-			<frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net40" />
-		</frameworkAssemblies>
+		<description>$description$</description>
 		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
-		<copyright>Copyright 2013</copyright>
+		<copyright>Copyright 2012 Premotion Software Solutions, Bert Willems and contributors</copyright>
+		<tags>Premotion Mansion</tags>
+		<frameworkAssemblies>
+			<frameworkAssembly assemblyName="System" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.Core" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.Xml" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net45" />
+		</frameworkAssemblies>
 		<dependencies>
 			<dependency id="Premotion.Mansion.Core" />
 			<dependency id="Premotion.Mansion.Web" />
 		</dependencies>
-		<tags>Premotion Mansion</tags>
 	</metadata>
 	<files>
-		<file src="bin\Premotion.Mansion.KnowledgeOrganization.dll" target="lib\net45" />
-		<file src="bin\Premotion.Mansion.KnowledgeOrganization.xml" target="lib\net45" />
 		<file src="**\*.xsd" target="content\Schemas" />
 	</files>
 </package>

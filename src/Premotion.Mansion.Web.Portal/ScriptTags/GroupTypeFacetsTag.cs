@@ -38,6 +38,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 		{
 			// retrieve the nodeset
 			var nodeset = GetRequiredAttribute<Nodeset>(context, "source");
+			var selected = (GetAttribute<string>(context, "selected") ?? string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
 			// get the taxonomy facet
 			var facet = nodeset.Facets.FirstOrDefault(candidate => "type".Equals(candidate.PropertyName, StringComparison.OrdinalIgnoreCase));
@@ -51,17 +52,16 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 			var groupOnTypes = GetRequiredAttribute<string>(context, "baseTypes").Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(typeName => typeService.Load(context, typeName));
 
 			// group the types
-			var grouped = facet.Values.Select(facetValue => new
-			                                                {
-			                                                	Type = typeService.Load(context, (string) facetValue.Value),
-			                                                	Value = facetValue
-			                                                }).GroupBy(type => groupOnTypes.FirstOrDefault(candidateParent => type.Type.IsAssignable(candidateParent)));
+			var grouped = facet.Values.Select(facetValue => new {
+				Type = typeService.Load(context, (string) facetValue.Value),
+				Value = facetValue
+			}).GroupBy(type => groupOnTypes.FirstOrDefault(type.Type.IsAssignable));
 
 			// transform the grouped items into facet result
-			var result = FacetResult.Create(context, new FacetDefinition(facet.PropertyName, facet.FriendlyName), grouped.Select(group => new FacetValue(group.Key, group.Aggregate(0, (current, item) => current + item.Value.Count))
-			                                                                                                                              {
-			                                                                                                                              	DisplayValue = group.Key != null ? group.Key.GetTypeDefinitionLabel(context) : "misc"
-			                                                                                                                              }));
+			var result = FacetResult.Create(context, new FacetDefinition(facet.PropertyName, facet.FriendlyName), grouped.Select(group => new FacetValue(@group.Key, @group.Aggregate(0, (current, item) => current + item.Value.Count)) {
+				DisplayValue = @group.Key != null ? @group.Key.GetTypeDefinitionLabel(context) : "misc",
+				Selected = @group.Key != null && selected.Contains(@group.Key.Name, StringComparer.OrdinalIgnoreCase)
+			}));
 
 			// add the facet
 			nodeset.AddFacet(result);

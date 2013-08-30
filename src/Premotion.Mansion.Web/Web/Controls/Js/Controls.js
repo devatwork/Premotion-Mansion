@@ -37,16 +37,6 @@ var CKEDITOR_BASEPATH = "{Request.applicationUrl}/static-resources/Shared/js/cke
 /* initialize controls */
 ;(function ($, undefined) {
 	
-	/* button fields */
-    $("form .form-actions .btn:not(.no-auto-submit)").click(function (event) {
-		event.preventDefault();
-		var action = $(this).attr("data-action");
-		var form = $(this).closest("form");
-		var actionField = form.find(".action");
-		actionField.val(action);
-		form.submit();
-	});
-	
 	// initialize the date selectors
 	$("input.date").datepicker({
 		dateFormat: "d MM yy",

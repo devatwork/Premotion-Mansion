@@ -58,7 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Premotion.Mansion.KnowledgeOrganization.nuspec" />
-    <None Include="Premotion.Mansion.KnowledgeOrganization.symbols.nuspec" />
     <EmbeddedResource Include="Web\Types\KnowledgeOrganizationThesaurusIndex\KnowledgeOrganizationThesaurusIndex.xdef" />
     <EmbeddedResource Include="Web\Types\KnowledgeOrganizationThesaurus\KnowledgeOrganizationThesaurus.xdef" />
     <EmbeddedResource Include="Web\Types\KnowledgeOrganizationThesaurusTerm\KnowledgeOrganizationThesaurusTerm.xdef" />

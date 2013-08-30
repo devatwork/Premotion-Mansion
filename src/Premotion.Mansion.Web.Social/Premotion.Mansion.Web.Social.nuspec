@@ -1,33 +1,31 @@
 <?xml version="1.0"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+<package >
 	<metadata>
-		<version>1.2.34</version>
-		<authors>Premotion Software Solutions</authors>
-		<owners>Premotion Software Solutions</owners>
-		<id>Premotion.Mansion.Web.Social</id>
-		<title>Premotion Mansion Web Social Framework</title>
+		<id>$id$</id>
+		<version>$version$</version>
+		<title>$title$</title>
+		<authors>$author$</authors>
+		<owners>$author$</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<description>Contains the Premotion Mansion Framework Social types.</description>
-		<frameworkAssemblies>
-			<frameworkAssembly assemblyName="System" targetFramework="net40" />
-			<frameworkAssembly assemblyName="System.Configuration" targetFramework="net40" />
-			<frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
-			<frameworkAssembly assemblyName="System.Web" targetFramework="net40" />
-			<frameworkAssembly assemblyName="System.Xml" targetFramework="net40" />
-			<frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net40" />
-		</frameworkAssemblies>
+		<description>$description$</description>
 		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
-		<copyright>Copyright 2012</copyright>
+		<copyright>Copyright 2012 Premotion Software Solutions, Bert Willems and contributors</copyright>
+		<tags>Premotion Mansion Web Social</tags>
+		<frameworkAssemblies>
+			<frameworkAssembly assemblyName="System" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.Configuration" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.Core" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.Web" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.Xml" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net45" />
+		</frameworkAssemblies>
 		<dependencies>
 			<dependency id="RestSharp" />
 			<dependency id="Premotion.Mansion.Core" />
 			<dependency id="Premotion.Mansion.Web" />
-		</dependencies> 
-		<tags>Premotion Mansion Web Social</tags>
+		</dependencies>
 	</metadata>
 	<files>
-		<file src="bin\Premotion.Mansion.Web.Social.dll" target="lib\net45" />
-		<file src="bin\Premotion.Mansion.Web.Social.xml" target="lib\net45" />
 		<file src="**\*.xsd" target="content\Schemas" />
 		<file src="app.config.transform" target="content" />
 		<file src="web.config.transform" target="content" />

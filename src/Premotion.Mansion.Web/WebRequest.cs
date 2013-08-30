@@ -64,6 +64,10 @@ namespace Premotion.Mansion.Web
 		/// </summary>
 		public Url ApplicationUrl { get; set; }
 		/// <summary>
+		/// Gets the referrer <see cref="Url"/> url if there is any.
+		/// </summary>
+		public Url ReferrerUrl { get; set; }
+		/// <summary>
 		/// Gets the <see cref="Url"/> of the request.
 		/// </summary>
 		public Url RequestUrl { get; set; }

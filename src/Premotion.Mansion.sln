@@ -5,6 +5,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{246A7A
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.targets = .nuget\NuGet.targets
+		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Core", "Premotion.Mansion.Core\Premotion.Mansion.Core.csproj", "{95DFBC37-6549-4BC0-AB9F-0F5D22D35926}"
@@ -26,8 +27,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Repository.ElasticSearch", "Premotion.Mansion.Repository.ElasticSearch\Premotion.Mansion.Repository.ElasticSearch.csproj", "{062CF6EC-8555-4F43-B536-C848A6435813}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.KnowledgeOrganization", "Premotion.Mansion.KnowledgeOrganization\Premotion.Mansion.KnowledgeOrganization.csproj", "{45CD25BA-6944-4EBD-A0D4-36C5781BAFBF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Premotion.Mansion.Linking", "Premotion.Mansion.Linking\Premotion.Mansion.Linking.csproj", "{EF1EE5A5-24C6-4640-829A-DDF1CB6086C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -139,16 +138,6 @@ Global
 		{45CD25BA-6944-4EBD-A0D4-36C5781BAFBF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{45CD25BA-6944-4EBD-A0D4-36C5781BAFBF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{45CD25BA-6944-4EBD-A0D4-36C5781BAFBF}.Release|x86.ActiveCfg = Release|Any CPU
-		{EF1EE5A5-24C6-4640-829A-DDF1CB6086C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EF1EE5A5-24C6-4640-829A-DDF1CB6086C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EF1EE5A5-24C6-4640-829A-DDF1CB6086C0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{EF1EE5A5-24C6-4640-829A-DDF1CB6086C0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{EF1EE5A5-24C6-4640-829A-DDF1CB6086C0}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{EF1EE5A5-24C6-4640-829A-DDF1CB6086C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EF1EE5A5-24C6-4640-829A-DDF1CB6086C0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EF1EE5A5-24C6-4640-829A-DDF1CB6086C0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{EF1EE5A5-24C6-4640-829A-DDF1CB6086C0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{EF1EE5A5-24C6-4640-829A-DDF1CB6086C0}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

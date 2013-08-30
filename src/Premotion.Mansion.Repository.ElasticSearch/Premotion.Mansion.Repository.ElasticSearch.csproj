@@ -42,7 +42,7 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.5.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>
@@ -178,7 +178,6 @@
     <None Include="app.config.transform" />
     <None Include="packages.config" />
     <None Include="Premotion.Mansion.Repository.ElasticSearch.nuspec" />
-    <None Include="Premotion.Mansion.Repository.ElasticSearch.symbols.nuspec" />
     <None Include="Querying\Facets\Facets.cd" />
     <None Include="Querying\Filters\Filters.cd" />
     <None Include="Querying\Mappers\Mappers.cd" />

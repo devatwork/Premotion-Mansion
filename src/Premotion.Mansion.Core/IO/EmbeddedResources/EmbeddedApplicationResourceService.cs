@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Premotion.Mansion.Core.Nucleus;
@@ -12,6 +13,12 @@ namespace Premotion.Mansion.Core.IO.EmbeddedResources
 	/// </summary>
 	public class EmbeddedApplicationResourceService : IApplicationResourceService
 	{
+		#region Constants
+		/// <summary>
+		/// Directory seperators.
+		/// </summary>
+		private static readonly char[] DirectorySeperators = new[] {Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar};
+		#endregion
 		#region Constructors
 		/// <summary>
 		/// Constructs the EmbeddedApplicationResourceService.
@@ -37,36 +44,33 @@ namespace Premotion.Mansion.Core.IO.EmbeddedResources
 			this.resourceSubFolder = TranslatePath(resourceSubFolder);
 
 			// first select all the resource names from all assemblies
-			var allResourceNames = reflectionService.Assemblies.SelectMany(assembly =>
-			                                                               {
-			                                                               	// get all the resources in this assembly
-			                                                               	var resourceNames = assembly.GetManifestResourceNames();
+			var allResourceNames = reflectionService.Assemblies.SelectMany(assembly => {
+				// get all the resources in this assembly
+				var resourceNames = assembly.GetManifestResourceNames();
 
-			                                                               	// remove the assembly name from each resource.
-			                                                               	var assemblyName = assembly.GetName();
-			                                                               	var assemblyNameLength = assemblyName.Name.Length + 1 + this.resourceSubFolder.Length + 1;
-			                                                               	var normalizedResourceNames = resourceNames.Where(resourceName => resourceName.Length > assemblyNameLength).Select(resourceName => resourceName.Substring(assemblyNameLength));
+				// remove the assembly name from each resource.
+				var assemblyName = assembly.GetName();
+				var assemblyNameLength = assemblyName.Name.Length + 1 + this.resourceSubFolder.Length + 1;
+				var normalizedResourceNames = resourceNames.Where(resourceName => resourceName.Length > assemblyNameLength).Select(resourceName => resourceName.Substring(assemblyNameLength));
 
-			                                                               	// return the assembly and the normalized resource name
-			                                                               	return normalizedResourceNames.Select(resourceName => new
-			                                                               	                                                      {
-			                                                               	                                                      	AssemblyName = assemblyName,
-			                                                               	                                                      	ResourceName = resourceName
-			                                                               	                                                      });
-			                                                               }
+				// return the assembly and the normalized resource name
+				return normalizedResourceNames.Select(resourceName => new {
+					AssemblyName = assemblyName,
+					ResourceName = resourceName
+				});
+			}
 				);
 
 			// group all the assemblies by the common resource names
 			var groupedResourceNames = allResourceNames.GroupBy(resourceName => resourceName.ResourceName, StringComparer.OrdinalIgnoreCase);
 
 			// turn the grouped resource name into a lookup table
-			lookupTable = groupedResourceNames.ToDictionary(key => key.Key, group =>
-			                                                                {
-			                                                                	var assemblyNames = group.Select(resource => resource.AssemblyName).Where(name => name != null).ToArray();
-			                                                                	if (assemblyNames.Length == 0)
-			                                                                		throw new InvalidOperationException(string.Format("No assemblies registered for resource '{0}'", group.First().ResourceName));
-			                                                                	return assemblyNames;
-			                                                                }, StringComparer.OrdinalIgnoreCase);
+			lookupTable = groupedResourceNames.ToDictionary(key => key.Key, group => {
+				var assemblyNames = group.Select(resource => resource.AssemblyName).Where(name => name != null).ToArray();
+				if (assemblyNames.Length == 0)
+					throw new InvalidOperationException(string.Format("No assemblies registered for resource '{0}'", group.First().ResourceName));
+				return assemblyNames;
+			}, StringComparer.OrdinalIgnoreCase);
 		}
 		#endregion
 		#region Implementation of IResourceService
@@ -226,7 +230,15 @@ namespace Premotion.Mansion.Core.IO.EmbeddedResources
 			if (path == null)
 				throw new ArgumentNullException("path");
 
-			return path.Replace('/', '.').Replace('\\', '.').TrimStart('.');
+			// first split the path on slashes
+			var parts = path.Split(DirectorySeperators, StringSplitOptions.RemoveEmptyEntries);
+
+			// replace the dash with an underscore for the directory parts
+			for (var index = 0; index < parts.Length - 1; index++)
+				parts[index] = parts[index].Replace('-', '_');
+
+			// join the parts using a dot as separtor
+			return string.Join(".", parts);
 		}
 		/// <summary>
 		/// Locates all the <see cref="IResource"/>s for the given <paramref name="path"/>.

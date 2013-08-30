@@ -46,6 +46,10 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			// parse url
 			request.RequestUrl = Url.ParseUri(request.ApplicationUrl, httpRequest.Url);
 
+			// parse the referrer url if any and if it is from the same domain as the request
+			if (httpRequest.UrlReferrer != null && httpRequest.Url.Host.Equals(httpRequest.UrlReferrer.Host))
+				request.ReferrerUrl = Url.ParseUri(request.ApplicationUrl, httpRequest.UrlReferrer);
+
 			// map the cookies
 			foreach (var entry in httpRequest.Cookies.Cast<string>().Select(key => new KeyValuePair<string, HttpCookie>(key, httpRequest.Cookies[key])))
 			{

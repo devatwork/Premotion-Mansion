@@ -15,7 +15,6 @@
 		{Hidden}
 		<input type="hidden" name="{FormProperties.prefix}current-step" value="{FormProperties.currentStepId}">
 		<input type="hidden" name="{FormProperties.prefix}state" value="{$FieldProperties}">
-		<input type="hidden" name="{FormProperties.actionPrefix}" class="action" value="">
 	</form>
 </tpl:section>
 
@@ -24,15 +23,19 @@
 <!-- step control sections -->
 <tpl:section name="StepControl" field="Control">
 	<fieldset id="{@ControlId}" class="step {ControlProperties.cssClass}">
-		<legend>
-			<h3 class="step-title {ControlProperties.headerCssClasses}">{StepProperties.label}</h3>
-		</legend>
+		{@StepControlLegend}
 		<div class="{ControlProperties.bodyCssClasses}">
 			{Control}
 		</div>
 		{CommandBar}
 	</fieldset>
 </tpl:section>
+
+	<tpl:section name="StepControlLegend" requires="{Not( IsEmpty( StepProperties.label ) )}">
+		<legend>
+			<h3 class="step-title {ControlProperties.headerCssClasses}">{StepProperties.label}</h3>
+		</legend>
+	</tpl:section>
 
 
 
@@ -92,7 +95,7 @@
 </tpl:section>
 
 <tpl:section name="TextareaFieldControl" field="Field">
-	<textarea id="{@ControlId}" name="{@FieldName}" class="field input-xlarge textarea {ControlProperties.cssClass}" {@FieldReadonlyAttribute}>{ControlProperties.Value}</textarea>
+	<textarea id="{@ControlId}" name="{@FieldName}" class="field input-xlarge textarea {ControlProperties.cssClass}" rows="{NotEmpty( ControlProperties.rows, '3' )}" {@FieldReadonlyAttribute}>{ControlProperties.Value}</textarea>
 </tpl:section>
 
 <tpl:section name="EmailFieldControl" field="Field">
@@ -224,6 +227,16 @@
 	</fieldset>
 </tpl:section>
 
+<tpl:section name="FieldContainerControl" field="Control">
+	<div class="control-group">
+		{@FieldLabel}
+		<div class="controls">
+			{Control}
+			{@FieldExplanation}
+		</div>
+	</div>
+</tpl:section>
+
 
 
 /* ==|== Nodeselector Section ============================================
@@ -292,8 +305,10 @@ Author: Premotion Software Solutions
 </tpl:section>
 
 <tpl:section name="ButtonControl" field="Control">
-	<button href="#" id="{@ControlId}" class="btn {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}" data-action="{ControlProperties.action}" {@ButtonControlTooltip}>{@ButtonControlIcon}{ControlProperties.label}</button>&nbsp;
+	<button id="{@ControlId}" class="btn {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}" {@ButtonControlSubmitType} name="{FormProperties.actionPrefix}" value="{ControlProperties.action}" {@ButtonControlTooltip}>{@ButtonControlIcon}{ControlProperties.label}</button>&nbsp;
 </tpl:section>	
+
+	<tpl:section name="ButtonControlSubmitType" requires="{IsTrue( ControlProperties.isDefault )}">type="submit"</tpl:section>
 
 <tpl:section name="LinkButtonControl" field="Control">
 	<a href="{ControlProperties.action}" id="{@ControlId}" class="btn {If( IsTrue( ControlProperties.isDefault ), 'default' )} {ControlProperties.cssClass}" {@ButtonControlTooltip}>{@ButtonControlIcon}{ControlProperties.label}</a>&nbsp;
@@ -323,24 +338,28 @@ Author: Premotion Software Solutions
 
 
 <!-- messages -->
+<tpl:section name="MessageControl" field="Control">
+	<div>{#ControlProperties.message}</div>
+</tpl:section>
+
 <tpl:section name="InfoMessageControl" field="Control">
-	<div class="alert alert-info">{ControlProperties.message}</div>
+	<div class="alert alert-info">{#ControlProperties.message}</div>
 </tpl:section>
 
 <tpl:section name="InstructionMessageControl" field="Control">
-	<div class="alert alert-info">{ControlProperties.message}</div>
+	<div class="alert alert-info">{#ControlProperties.message}</div>
 </tpl:section>
 
 <tpl:section name="WarningMessageControl" field="Control">
-	<div class="alert alert-warning">{ControlProperties.message}</div>
+	<div class="alert alert-warning">{#ControlProperties.message}</div>
 </tpl:section>
 
 <tpl:section name="SuccessMessageControl" field="Control">
-	<div class="alert alert-success">{ControlProperties.message}</div>
+	<div class="alert alert-success">{#ControlProperties.message}</div>
 </tpl:section>
 
 <tpl:section name="ErrorMessageControl" field="Control">
-	<div class="alert alert-error">{ControlProperties.message}</div>
+	<div class="alert alert-error">{#ControlProperties.message}</div>
 </tpl:section>
 
 
