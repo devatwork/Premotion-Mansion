@@ -38,12 +38,14 @@ namespace Premotion.Mansion.Core.Data.Facets
 		/// <returns>Returns the transformed <see cref="FacetValue"/>s.</returns>
 		protected override IEnumerable<FacetValue> DoTransform(IMansionContext context, IEnumerable<FacetValue> values)
 		{
-			return base.DoTransform(context, values.Select(value =>
-			                                               {
-			                                               	using (context.Stack.Push("Row", PropertyBagAdapterFactory.Adapt(context, value)))
-			                                               		transformation.Execute(context);
-			                                               	return value;
-			                                               }));
+			using (context.Stack.Push("Facet", PropertyBagAdapterFactory.Adapt(context, this)))
+			{
+				return base.DoTransform(context, values.Select(value => {
+					using (context.Stack.Push("Row", PropertyBagAdapterFactory.Adapt(context, value)))
+						transformation.Execute(context);
+					return value;
+				})).ToArray();
+			}
 		}
 		#endregion
 		#region Private Fields

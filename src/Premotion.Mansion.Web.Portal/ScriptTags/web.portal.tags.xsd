@@ -107,6 +107,11 @@
 					<xs:documentation>The base types on which to group seperated by a comma.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+			<xs:attribute name="selected" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>The selected types seperated by commas.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 

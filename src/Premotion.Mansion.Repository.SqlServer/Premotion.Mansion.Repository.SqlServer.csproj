@@ -157,7 +157,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="web.config.transform" />
-    <None Include="Premotion.Mansion.Repository.SqlServer.symbols.nuspec" />
     <None Include="Premotion.Mansion.Repository.SqlServer.nuspec" />
     <None Include="ScriptTags\repository.mssql.tags.xsd">
       <SubType>Designer</SubType>

@@ -46,8 +46,7 @@
 
 <tpl:section name="CrumbTrailItem">
 	<li {If( IsLast(), 'class="active"' )}>
-		{@CrumbTrailHome}
-		{RenderSection( If( And( CrumbProperties.IsLinked, Not( IsLast() ) ), 'CrumbTrailItemLinked', 'CrumbTrailItemLabel' ) )}
+		{#RenderSection( If( And( CrumbProperties.IsLinked, Not( IsLast() ) ), 'CrumbTrailItemLinked', 'CrumbTrailItemLabel' ) )}
 		{@CrumbTrailDivider}
 	</li>
 </tpl:section>
@@ -56,9 +55,7 @@
 
 	<tpl:section name="CrumbTrailItemLabel">{CrumbProperties.name}</tpl:section>
 
-	<tpl:section name="CrumbTrailHome" requires="{IsFirst()}"><i class="icon-home"></i></tpl:section>
-
-	<tpl:section name="CrumbTrailDivider" requires="{Not( IsLast() )}"><span class="divider">&raquo;</span></tpl:section>
+	<tpl:section name="CrumbTrailDivider" requires="{Not( IsLast() )}"><span class="divider">/</span></tpl:section>
 
 
 

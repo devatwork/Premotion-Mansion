@@ -9,9 +9,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Premotion.Mansion.Core")]
 [assembly: AssemblyDescription("Core library of the Premotion Mansion Framework")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Premotion Software Solutions")]
+[assembly: AssemblyCompany("Premotion Software Solutions, Bert Willems and contributors")]
 [assembly: AssemblyProduct("Premotion.Mansion.Core")]
-[assembly: AssemblyCopyright("Copyright © Premotion Software Solutions 2012")]
+[assembly: AssemblyCopyright("Copyright 2012 Premotion Software Solutions, Bert Willems and contributors")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -36,6 +36,6 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.2.34")]
-[assembly: AssemblyFileVersion("1.2.34")]
+[assembly: AssemblyVersion("1.3.0")]
+[assembly: AssemblyFileVersion("1.3.0")]
 [assembly: CLSCompliant(true)]

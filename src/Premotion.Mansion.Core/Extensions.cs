@@ -933,6 +933,31 @@ namespace Premotion.Mansion.Core
 			return sb.ToString();
 		}
 		/// <summary>
+		/// Strips the UTF-8 characters from the <paramref name="input"/>.
+		/// </summary>
+		/// <param name="input">The input which to strip.</param>
+		/// <returns>Returns the stripped <paramref name="input"/>.</returns>
+		/// <remarks>http://stackoverflow.com/a/135473/1255744</remarks>
+		public static string StripUTF8Characters(this string input)
+		{
+			// validate arguments
+			if (string.IsNullOrEmpty(input))
+				return string.Empty;
+
+			// replaces all ascii charachters
+			return Encoding.ASCII.GetString(
+				Encoding.Convert(
+					Encoding.UTF8,
+					Encoding.GetEncoding(
+						Encoding.ASCII.EncodingName,
+						new EncoderReplacementFallback(string.Empty),
+						new DecoderExceptionFallback()
+						),
+					Encoding.UTF8.GetBytes(input)
+					)
+				);
+		}
+		/// <summary>
 		/// Replaces each format item in a specified string with the text equivalent of a corresponding object's value.
 		/// </summary>
 		/// <param name="format">A composite format string.</param>

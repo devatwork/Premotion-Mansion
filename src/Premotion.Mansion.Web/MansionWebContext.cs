@@ -43,6 +43,8 @@ namespace Premotion.Mansion.Web
 			Stack.Push("Headers", request.Headers.ToPropertyBag(), true);
 			var requestUrlProperties = request.RequestUrl.ToPropertyBag();
 			requestUrlProperties.Set("applicationUrl", request.ApplicationUrl);
+			if (request.ReferrerUrl != null)
+				requestUrlProperties.Set("referrerUrl", request.ReferrerUrl);
 			Stack.Push("Request", requestUrlProperties, true);
 
 			// set context location flag
