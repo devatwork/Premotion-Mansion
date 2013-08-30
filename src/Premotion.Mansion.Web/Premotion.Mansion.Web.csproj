@@ -205,6 +205,7 @@
     <Compile Include="Converters\UrlToStringConverter.cs" />
     <Compile Include="Converters\UriToStringConverter.cs" />
     <Compile Include="Descriptors\NodeUrlGeneratorDescriptor.cs" />
+    <Compile Include="Hosting\AspNet\Diagnostics\RequestDurationTracer.cs" />
     <Compile Include="Dispatcher\Constants.cs" />
     <Compile Include="Dispatcher\ScriptFunctions\CommandRouteUrl.cs" />
     <Compile Include="Dispatcher\ScriptFunctions\RouteUrlWithArea.cs" />

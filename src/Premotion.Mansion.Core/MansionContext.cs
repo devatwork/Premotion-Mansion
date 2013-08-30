@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Globalization;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Diagnostics;
 using Premotion.Mansion.Core.IO;
 using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Patterns;
@@ -321,6 +322,14 @@ namespace Premotion.Mansion.Core
 		{
 			get { return readerStack; }
 		}
+		/// <summary>
+		/// Gets the <see cref="IMansionContext.TraceLog"/> for this context.
+		/// </summary>
+		public virtual ITraceLog TraceLog
+		{
+			get { return traceLog ?? NullTraceLog.Instance; }
+			set { traceLog = value; }
+		}
 		#endregion
 		#region Overrides of DisposableBase
 		/// <summary>
@@ -355,6 +364,7 @@ namespace Premotion.Mansion.Core
 		private UserState backofficeUser;
 		private UserState frontofficeUser;
 		private IAutoPopDictionaryStack<string, IPropertyBag> stack = new AutoPopDictionaryStack<string, IPropertyBag>(StringComparer.OrdinalIgnoreCase);
+		private ITraceLog traceLog;
 		#endregion
 	}
 }

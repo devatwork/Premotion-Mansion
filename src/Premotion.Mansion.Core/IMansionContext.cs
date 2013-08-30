@@ -2,6 +2,7 @@
 using System.Globalization;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Diagnostics;
 using Premotion.Mansion.Core.IO;
 using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Scripting;
@@ -169,6 +170,10 @@ namespace Premotion.Mansion.Core
 		/// Gets the <see cref="IPropertyBag"/> stack.
 		/// </summary>
 		IAutoPopStack<IPropertyBagReader> ReaderStack { get; }
+		/// <summary>
+		/// Gets the <see cref="TraceLog"/> for this context.
+		/// </summary>
+		ITraceLog TraceLog { get; }
 		#endregion
 	}
 }

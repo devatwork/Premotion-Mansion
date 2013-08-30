@@ -7,6 +7,7 @@ using System.Web;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Diagnostics;
 using Premotion.Mansion.Web.Controls;
 using Premotion.Mansion.Web.Controls.Forms;
 
@@ -33,6 +34,7 @@ namespace Premotion.Mansion.Web
 
 			// set value
 			Request = request;
+			this.applicationContext = applicationContext;
 
 			// create thet stack
 			Stack = new AutoPopDictionaryStack<string, IPropertyBag>(StringComparer.OrdinalIgnoreCase, initialStack);
@@ -206,6 +208,14 @@ namespace Premotion.Mansion.Web
 		#endregion
 		#region Overrides of MansionContext
 		/// <summary>
+		/// Gets the <see cref="IMansionContext.TraceLog"/> for this context.
+		/// </summary>
+		public override ITraceLog TraceLog
+		{
+			get { return applicationContext.TraceLog; }
+			set { throw new NotSupportedException("Set the trace log on the application context."); }
+		}
+		/// <summary>
 		/// Dispose resources. Override this method in derived classes. Unmanaged resources should always be released
 		/// when this method is called. Managed resources may only be disposed of if disposeManagedResources is true.
 		/// </summary>
@@ -226,6 +236,7 @@ namespace Premotion.Mansion.Web
 		private readonly IAutoPopStack<MailMessage> messageStack = new AutoPopStack<MailMessage>();
 		private readonly IDisposable repositoryDisposable;
 		private int controlIdGenerator;
+		private readonly IMansionContext applicationContext;
 		#endregion
 	}
 }

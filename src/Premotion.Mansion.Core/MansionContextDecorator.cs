@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
+using Premotion.Mansion.Core.Diagnostics;
 using Premotion.Mansion.Core.IO;
 using Premotion.Mansion.Core.Nucleus;
 using Premotion.Mansion.Core.Patterns;
@@ -279,6 +280,10 @@ namespace Premotion.Mansion.Core
 		{
 			get { return decoratedContext.ReaderStack; }
 		}
+		/// <summary>
+		/// Gets the <see cref="IMansionContext.TraceLog"/> for this context.
+		/// </summary>
+		public ITraceLog TraceLog { get { return decoratedContext.TraceLog; } }
 		#endregion
 		#region Overrides of DisposableBase
 		/// <summary>

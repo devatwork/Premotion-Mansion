@@ -155,6 +155,9 @@
     <Compile Include="Data\Queries\Specifications\SpecificationFactory.cs" />
     <Compile Include="Data\Record.cs" />
     <Compile Include="Data\RecordSet.cs" />
+    <Compile Include="Diagnostics\ITraceLog.cs" />
+    <Compile Include="Diagnostics\LogEntry.cs" />
+    <Compile Include="Diagnostics\NullTraceLog.cs" />
     <Compile Include="IO\Csv\CsvReader.cs" />
     <Compile Include="IO\EmbeddedResources\EmbeddedApplicationResourceService.cs" />
     <Compile Include="IO\EmbeddedResources\EmbeddedResource.cs" />
@@ -623,6 +626,7 @@
     </None>
     <None Include="Security\Mansion.Core.Security.cd" />
     <None Include="Templating\Mansion.Core.Templating.cd" />
+    <None Include="Diagnostics\Diagnostics.cd" />
     <None Include="Types\Mansion.Core.Types.cd" />
     <None Include="Types\Xml\type.definition.xsd">
       <SubType>Designer</SubType>

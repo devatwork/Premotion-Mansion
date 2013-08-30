@@ -7,6 +7,7 @@ using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Patterns;
 using Premotion.Mansion.Core.Patterns.Voting;
 using Premotion.Mansion.Core.Security;
+using Premotion.Mansion.Web.Hosting.AspNet.Diagnostics;
 
 namespace Premotion.Mansion.Web.Hosting.AspNet
 {
@@ -108,6 +109,9 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 
 				// transfer the response
 				HttpContextAdapter.Transfer(response, context.Response);
+
+				// end the request trace
+				RequestDurationTracer.End(webRequestContext);
 			}
 			#endregion
 			#region Template Methods
@@ -270,6 +274,9 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			// get the mansion request context
 			var requestContext = MansionWebContext.Create(applicationContext, request);
 
+			// start a request trace
+			RequestDurationTracer.Start(requestContext);
+
 			// select the handler
 			RequestHandlerFactory handlerFactory;
 			if (!Election<RequestHandlerFactory, IMansionWebContext>.TryElect(applicationContext, HandlerFactories.Value, requestContext, out handlerFactory))
@@ -342,28 +349,26 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 		}
 		#endregion
 		#region Private Fields
-		private static readonly Lazy<IEnumerable<RequestHandlerFactory>> HandlerFactories = new Lazy<IEnumerable<RequestHandlerFactory>>(() =>
-		                                                                                                                                 {
-		                                                                                                                                 	// get the application context
-		                                                                                                                                 	var applicationContext = MansionWebApplicationContextFactory.Instance;
+		private static readonly Lazy<IEnumerable<RequestHandlerFactory>> HandlerFactories = new Lazy<IEnumerable<RequestHandlerFactory>>(() => {
+			// get the application context
+			var applicationContext = MansionWebApplicationContextFactory.Instance;
 
-		                                                                                                                                 	// resolve the RequestHandler implementations
-		                                                                                                                                 	var factories = applicationContext.Nucleus.Resolve<RequestHandlerFactory>();
+			// resolve the RequestHandler implementations
+			var factories = applicationContext.Nucleus.Resolve<RequestHandlerFactory>();
 
-		                                                                                                                                 	// return the sorted request handler array
-		                                                                                                                                 	return factories.ToArray();
-		                                                                                                                                 });
-		private static readonly Lazy<IEnumerable<RequestHandlerConfigurator>> HandlerConfigurators = new Lazy<IEnumerable<RequestHandlerConfigurator>>(() =>
-		                                                                                                                                               {
-		                                                                                                                                               	// get the application context
-		                                                                                                                                               	var applicationContext = MansionWebApplicationContextFactory.Instance;
+			// return the sorted request handler array
+			return factories.ToArray();
+		});
+		private static readonly Lazy<IEnumerable<RequestHandlerConfigurator>> HandlerConfigurators = new Lazy<IEnumerable<RequestHandlerConfigurator>>(() => {
+			// get the application context
+			var applicationContext = MansionWebApplicationContextFactory.Instance;
 
-		                                                                                                                                               	// resolve the RequestHandler implementations
-		                                                                                                                                               	var configurators = applicationContext.Nucleus.Resolve<RequestHandlerConfigurator>();
+			// resolve the RequestHandler implementations
+			var configurators = applicationContext.Nucleus.Resolve<RequestHandlerConfigurator>();
 
-		                                                                                                                                               	// return the sorted request handler array
-		                                                                                                                                               	return configurators.ToArray();
-		                                                                                                                                               });
+			// return the sorted request handler array
+			return configurators.ToArray();
+		});
 		#endregion
 	}
 }

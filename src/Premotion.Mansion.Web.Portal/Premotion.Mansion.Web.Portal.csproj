@@ -117,7 +117,9 @@
     <EmbeddedResource Include="Web\Images\Icons\style-block.png" />
     <EmbeddedResource Include="Web\Js\PortalAdmin.js" />
     <EmbeddedResource Include="Web\PortalController.tpl" />
-    <EmbeddedResource Include="Web\PortalController.xinclude" />
+    <EmbeddedResource Include="Web\PortalController.xinclude">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Web\Types\Article\Article.tpl" />
     <EmbeddedResource Include="Web\Types\Article\Article.png" />
     <EmbeddedResource Include="Web\Types\Article\Article.xdef" />
