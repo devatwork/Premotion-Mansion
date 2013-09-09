@@ -134,7 +134,7 @@
 
 		<!-- default action for form submits -->
 		<declareProcedure procedureName="OnCancel">
-			<web:redirectRequest url="{CmsNodeUrl( FormSourceNode.id, 'CmsBrowserPlugin', 'Browse' )}?change=cancelled" />
+			<web:redirectRequest url="{CmsNodeUrl( NotEmpty(FormSourceNode.id, ParentNode.id ), 'CmsBrowserPlugin', 'Browse' )}?change=cancelled" />
 			<breakExecution />
 		</declareProcedure>
 
