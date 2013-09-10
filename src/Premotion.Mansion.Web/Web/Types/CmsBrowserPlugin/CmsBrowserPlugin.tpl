@@ -107,7 +107,7 @@
 </tpl:section>
 
 <tpl:section name="FindSearchForm">
-	<form class="well form-vertical" action="{Request.url}" method="get">
+	<form class="well form-vertical" action="{WithoutQueryString( Request.url )}" method="get">
 		<fieldset>
 			<div class="control-group">
 				<label class="control-label" for="q">Keywords:</label>
