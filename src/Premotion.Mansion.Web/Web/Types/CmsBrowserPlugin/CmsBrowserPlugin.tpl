@@ -153,3 +153,11 @@
 		<a href="{ChangeQueryString( Request.url, FacetRow.propertyName, FacetValueRow.value )}" title="Filter op {FacetValueRow.displayValue}">{FacetValueRow.displayValue} ({FacetValueRow.count})</a>
 	</li>
 </tpl:section>
+
+<tpl:section name="ActiveFacetValue" field="FacetValue">
+	<li>
+		<a href="{ChangeQueryString( Request.url, FacetRow.propertyName, '' )}" title="Stop filter op {FacetValueRow.displayValue}">
+			<i class="icon-remove-sign"></i> {FacetValueRow.displayValue} ({FacetValueRow.count})
+		</a>
+	</li>
+</tpl:section>
