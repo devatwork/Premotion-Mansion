@@ -126,7 +126,7 @@
 				</button>
 			</div>
 		</fieldset>
-		<input type="hidden" name="{GetControlPropertyName( 'node-browser', 'page-number' )}" value="1">
+		<input type="hidden" name="{GetControlPropertyName( 'node-browser', 'page-number' )}" value="1" />
 	</form>
 </tpl:section>
 
@@ -157,6 +157,7 @@
 <tpl:section name="ActiveFacetValue" field="FacetValue">
 	<li>
 		<a href="{ChangeQueryString( Request.url, FacetRow.propertyName, '' )}" title="Stop filter op {FacetValueRow.displayValue}">
+			<input type="hidden" name="{FacetRow.propertyName}" value="{FacetValueRow.value}" />
 			<i class="icon-remove-sign"></i> {FacetValueRow.displayValue} ({FacetValueRow.count})
 		</a>
 	</li>
