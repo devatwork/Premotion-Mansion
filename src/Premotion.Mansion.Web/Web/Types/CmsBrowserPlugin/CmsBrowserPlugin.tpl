@@ -107,7 +107,7 @@
 </tpl:section>
 
 <tpl:section name="FindSearchForm">
-	<form class="well form-vertical" action="{Request.url}" method="get">
+	<form class="well form-vertical" action="{WithoutQueryString( Request.url )}" method="get">
 		<fieldset>
 			<div class="control-group">
 				<label class="control-label" for="q">Keywords:</label>
@@ -126,7 +126,7 @@
 				</button>
 			</div>
 		</fieldset>
-		<input type="hidden" name="{GetControlPropertyName( 'node-browser', 'page-number' )}" value="1">
+		<input type="hidden" name="{GetControlPropertyName( 'node-browser', 'page-number' )}" value="1" />
 	</form>
 </tpl:section>
 
@@ -151,5 +151,14 @@
 <tpl:section name="FacetValue">
 	<li>
 		<a href="{ChangeQueryString( Request.url, FacetRow.propertyName, FacetValueRow.value )}" title="Filter op {FacetValueRow.displayValue}">{FacetValueRow.displayValue} ({FacetValueRow.count})</a>
+	</li>
+</tpl:section>
+
+<tpl:section name="ActiveFacetValue" field="FacetValue">
+	<li>
+		<a href="{ChangeQueryString( Request.url, FacetRow.propertyName, '' )}" title="Stop filter op {FacetValueRow.displayValue}">
+			<input type="hidden" name="{FacetRow.propertyName}" value="{FacetValueRow.value}" />
+			<i class="icon-remove-sign"></i> {FacetValueRow.displayValue} ({FacetValueRow.count})
+		</a>
 	</li>
 </tpl:section>

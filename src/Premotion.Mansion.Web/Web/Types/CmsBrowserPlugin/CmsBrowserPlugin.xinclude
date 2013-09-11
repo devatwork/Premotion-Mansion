@@ -199,24 +199,45 @@
 	<declareProcedure procedureName="RenderPluginFindDetailViewSearchForm">
 		<renderSection name="FindSearchForm">
 
-			<!-- render the facets -->
 			<fetchFacetsDataset source="{$ResultSet}" target="FacetDataset">
 				<loopDataset source="{$FacetDataset}" target="FacetRow">
-					<if condition="{IsGreaterThan( FacetRow.valueCount, '1' )}">
 
-						<renderSection name="Facet">
-							<fetchFacetValuesDataset source="{$FacetRow}" target="FacetValueDataset">
-								<loopDataset source="{$FacetValueDataset}" target="FacetValueRow">
-									<renderSection name="FacetValue" />
-								</loopDataset>
-							</fetchFacetValuesDataset>
-						</renderSection>
-
-					</if>
+					<!-- render facet group -->
+					<renderSection name="Facet">
+						<if condition="{HasProperty( $Get, FacetRow.propertyName )}">
+							<invokeProcedure procedureName="RenderActiveFacetValues" />
+							<else>
+								<invokeProcedure procedureName="RenderFacetValues" />
+							</else>
+						</if>
+					</renderSection>
 				</loopDataset>
 			</fetchFacetsDataset>
-			
+
 		</renderSection>
+	</declareProcedure>
+
+	<!-- render the facet values -->
+	<declareProcedure procedureName="RenderFacetValues">
+		<fetchFacetValuesDataset source="{$FacetRow}" target="FacetValueDataset">
+			<loopDataset source="{$FacetValueDataset}" target="FacetValueRow">
+				<renderSection name="FacetValue" />
+			</loopDataset>
+		</fetchFacetValuesDataset>
+	</declareProcedure>
+
+	<!-- render the active facet values -->
+	<declareProcedure procedureName="RenderActiveFacetValues">
+		<fetchFacetValuesDataset source="{$FacetRow}" target="FacetValueDataset">
+			<loopDataset source="{$FacetValueDataset}" target="FacetValueRow">
+				<if condition="{IsEqual( GetProperty( $Get, FacetRow.propertyName ), FacetValueRow.value )}">
+					<renderSection name="ActiveFacetValue" />
+					<else>
+						<renderSection name="FacetValue" />
+					</else>
+				</if>
+			</loopDataset>
+		</fetchFacetValuesDataset>
 	</declareProcedure>
 
 </mansion>
