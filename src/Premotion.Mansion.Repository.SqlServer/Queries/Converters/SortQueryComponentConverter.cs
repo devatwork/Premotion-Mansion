@@ -28,14 +28,23 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 					continue;
 				}
 
-				// get the table and the column
-				var tableAndColumn = commandContext.Schema.FindTableAndColumn(sort.PropertyName);
+				// check for ordering by function
+				if (sort.PropertyName.Contains("(") && sort.PropertyName.EndsWith(")"))
+				{
+					// append the sort
+					commandContext.QueryBuilder.AppendOrderBy(string.Format("{0} {1}", sort.PropertyName, sort.Ascending ? "ASC" : "DESC"));
+				}
+				else
+				{
+					// get the table and the column
+					var tableAndColumn = commandContext.Schema.FindTableAndColumn(sort.PropertyName);
 
-				// add the table to the query
-				commandContext.QueryBuilder.AddTable(context, tableAndColumn.Table, commandContext.Command);
+					// add the table to the query
+					commandContext.QueryBuilder.AddTable(context, tableAndColumn.Table, commandContext.Command);
 
-				// append the query
-				commandContext.QueryBuilder.AppendOrderBy(string.Format("[{0}].[{1}] {2}", tableAndColumn.Table.Name, tableAndColumn.Column.ColumnName, sort.Ascending ? "ASC" : "DESC"));
+					// append the sort
+					commandContext.QueryBuilder.AppendOrderBy(string.Format("[{0}].[{1}] {2}", tableAndColumn.Table.Name, tableAndColumn.Column.ColumnName, sort.Ascending ? "ASC" : "DESC"));
+				}
 			}
 		}
 		#endregion
