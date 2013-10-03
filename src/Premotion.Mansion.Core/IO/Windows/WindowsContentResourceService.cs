@@ -153,7 +153,7 @@ namespace Premotion.Mansion.Core.IO.Windows
 			// check if it is an existing resource
 			string relativePath;
 			if (properties.TryGet(context, "relativePath", out relativePath))
-				return new ContentResourcePath(ResourceUtils.Combine(categoryBasePath, relativePath));
+				return new ContentResourcePath(relativePath);
 
 			// check if it is a new file name
 			string fileName;
