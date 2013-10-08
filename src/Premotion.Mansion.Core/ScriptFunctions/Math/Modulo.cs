@@ -3,7 +3,7 @@
 namespace Premotion.Mansion.Core.ScriptFunctions.Math
 {
 	/// <summary>
-	/// Modulo computes a remainder. Multiplies the first value with the second value.
+	/// Computes the remainder of division of the first- by the second number.
 	/// </summary>
 	[ScriptFunction("Modulo")]
 	public class Modulo : FunctionExpression
