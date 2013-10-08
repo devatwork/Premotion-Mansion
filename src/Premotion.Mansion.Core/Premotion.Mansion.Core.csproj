@@ -287,6 +287,7 @@
     <Compile Include="ScriptFunctions\List\AppendNeedle.cs" />
     <Compile Include="ScriptFunctions\List\RemoveNeedle.cs" />
     <Compile Include="ScriptFunctions\Math\Ceiling.cs" />
+    <Compile Include="ScriptFunctions\Math\Modulo.cs" />
     <Compile Include="ScriptFunctions\Math\ToInteger.cs" />
     <Compile Include="ScriptFunctions\Math\Floor.cs" />
     <Compile Include="ScriptFunctions\Math\Min.cs" />
