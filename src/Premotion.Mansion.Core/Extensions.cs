@@ -21,6 +21,7 @@ namespace Premotion.Mansion.Core
 	public static partial class Extensions
 	{
 		#region Constants
+		private static readonly JsonSerializer Serializer = JsonSerializer.Create(new JsonSerializerSettings());
 		private static readonly string[][] HtmlNamedEntities = new[] {
 			new[] {"&quot;", "\""},
 			new[] {"&lt;", "<"},
@@ -1235,7 +1236,7 @@ namespace Premotion.Mansion.Core
 				if (dataset != null)
 					dataset.WriteAsJSonArray(writer);
 				else
-					writer.WriteValue(property.Value);
+					Serializer.Serialize(writer, property.Value);
 			}
 
 			writer.WriteEndObject();
