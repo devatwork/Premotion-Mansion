@@ -1229,7 +1229,13 @@ namespace Premotion.Mansion.Core
 			foreach (var property in bag)
 			{
 				writer.WritePropertyName(property.Key);
-				writer.WriteValue(property.Value);
+
+				// check if the value is a dataset, if so render it as such, otherwise render it as plain value
+				var dataset = property.Value as Dataset;
+				if (dataset != null)
+					dataset.WriteAsJSonArray(writer);
+				else
+					writer.WriteValue(property.Value);
 			}
 
 			writer.WriteEndObject();
