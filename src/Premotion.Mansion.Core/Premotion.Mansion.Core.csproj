@@ -368,6 +368,7 @@
     <Compile Include="ScriptFunctions\String\Clip.cs" />
     <Compile Include="ScriptFunctions\String\Concat.cs" />
     <Compile Include="ScriptFunctions\String\ConvertToString.cs" />
+    <Compile Include="ScriptFunctions\String\Split.cs" />
     <Compile Include="ScriptFunctions\String\Trim.cs" />
     <Compile Include="ScriptFunctions\String\FormatNumber.cs" />
     <Compile Include="ScriptFunctions\String\GetLabelFromCsv.cs" />
