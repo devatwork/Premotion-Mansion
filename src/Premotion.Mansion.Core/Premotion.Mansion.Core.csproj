@@ -406,6 +406,7 @@
     <Compile Include="Scripting\TagScript\AlternativeScriptTag.cs" />
     <Compile Include="Scripting\TagScript\AttributeNotSpecifiedException.cs" />
     <Compile Include="Scripting\TagScript\AttributeNullException.cs" />
+    <Compile Include="Scripting\TagScript\AttributeOutOfRangeException.cs" />
     <Compile Include="Scripting\TagScript\ITagScript.cs" />
     <Compile Include="Scripting\TagScript\ITagScriptService.cs" />
     <Compile Include="Scripting\TagScript\ScriptTagAttribute.cs" />
