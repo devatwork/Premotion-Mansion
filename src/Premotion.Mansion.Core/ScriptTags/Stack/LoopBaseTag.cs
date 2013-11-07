@@ -22,9 +22,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Stack
 			var dataset = GetLoopset(context);
 
 			// create the loop
-			var start = GetAttribute(context, "start", 0);
-			var end = Math.Max(start, GetAttribute(context, "end", dataset.RowCount - 1));
-			var loop = new Loop(new DatasetReader(dataset), start, end);
+			var loop = new Loop(new DatasetReader(dataset), 0, dataset.RowCount);
 
 			// push the loop to the stack
 			using (context.Stack.Push("Loop", loop))
