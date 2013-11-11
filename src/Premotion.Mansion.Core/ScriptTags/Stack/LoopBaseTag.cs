@@ -9,6 +9,18 @@ namespace Premotion.Mansion.Core.ScriptTags.Stack
 	/// </summary>
 	public abstract class LoopBaseTag : ScriptTag
 	{
+		#region Protected Fields
+		/// <summary>
+		/// Start of the loop
+		/// </summary>
+		protected int Start = 0;
+
+		/// <summary>
+		/// End of the loop
+		/// </summary>
+		protected int End = 0;
+		#endregion
+
 		/// <summary>
 		/// </summary>
 		/// <param name="context"></param>
@@ -22,7 +34,7 @@ namespace Premotion.Mansion.Core.ScriptTags.Stack
 			var dataset = GetLoopset(context);
 
 			// create the loop
-			var loop = new Loop(new DatasetReader(dataset), 0, dataset.RowCount);
+			var loop = new Loop(new DatasetReader(dataset), Start, End);
 
 			// push the loop to the stack
 			using (context.Stack.Push("Loop", loop))
