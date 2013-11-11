@@ -18,7 +18,9 @@ namespace Premotion.Mansion.Core.ScriptTags.Repository
 		/// <returns>Returns the <see cref="Dataset"/> on which to loop.</returns>
 		protected override Dataset GetLoopset(IMansionContext context)
 		{
-			return GetRequiredAttribute<Nodeset>(context, "source");
+			var loopset = GetRequiredAttribute<Nodeset>(context, "source");
+			End = loopset.RowCount;
+			return loopset;
 		}
 	}
 }
