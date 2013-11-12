@@ -28,16 +28,15 @@ namespace Premotion.Mansion.Core.ScriptTags
 			if (end < 0 || end < start)
 				throw new AttributeOutOfRangeException("end", this);
 
+			Start = start;
+			End = end;
+
 			// create the dataset
 			var dataset = new Dataset();
 
 			// fill the dataset
 			for (var index = start; index <= end; index++)
-			{
-				dataset.AddRow(new PropertyBag {
-					{"index", index}
-				});
-			}
+				dataset.AddRow(new PropertyBag());
 
 			return dataset;
 		}
