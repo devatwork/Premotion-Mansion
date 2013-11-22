@@ -31,7 +31,7 @@ namespace Premotion.Mansion.Core.Collections
 			Reader = reader;
 			Start = start;
 			End = end;
-			offset = 0;
+			offset = start;
 		}
 		/// <summary>
 		/// Constructs a loop for the specified dataset.
@@ -107,7 +107,7 @@ namespace Premotion.Mansion.Core.Collections
 			get
 			{
 				Current = offset;
-				var loopCurrent = 0;
+				var loopCurrent = start;
 				foreach (var row in Reader)
 				{
 					if (loopCurrent >= start && loopCurrent <= End)
