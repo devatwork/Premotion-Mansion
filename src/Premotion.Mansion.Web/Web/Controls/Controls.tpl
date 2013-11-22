@@ -183,6 +183,7 @@
 <tpl:section name="ImageUploadFieldControl" field="Field">
 	<div id="{@ControlId}" class="field input-small image-upload {ControlProperties.cssClass}">
 		{@ImageUploadFieldControlPreview}
+		{@ImageUploadFieldControlRemove}
 		<input type="file" id="{@ControlId}-upload" name="{@FieldName}-upload" {@FieldReadonlyAttribute} value="{ControlProperties.value}">
 		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">
 	</div>
@@ -190,6 +191,9 @@
 
 	<tpl:section name="ImageUploadFieldControlPreview" requires="{Not( IsEmpty( ControlProperties.value ) )}">
 		<img id="{@ControlId}-preview" src="{StaticContentUrl( ControlProperties.value )}">
+	</tpl:section>
+
+	<tpl:section name="ImageUploadFieldControlRemove" requires="{Not( IsTrue( ControlProperties.readonly ) )}">
 		<a href="#" id="{@ControlId}-clear" name="{@FieldName}-clear">Remove</a>
 	</tpl:section>
 
