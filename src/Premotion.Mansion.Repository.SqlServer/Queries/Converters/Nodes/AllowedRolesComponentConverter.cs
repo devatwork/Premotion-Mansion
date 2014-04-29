@@ -26,9 +26,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters.Nodes
 			// get the table in which the column exists from the schema
 			var pair = commandContext.Schema.FindTableAndColumn("allowedRoleGuids");
 
-			// add the table to the query
-			commandContext.QueryBuilder.AddTable(context, pair.Table, commandContext.Command);
-
 			// assemble the properties
 			var buffer = new StringBuilder();
 			foreach (var value in specification.RoleIds)
