@@ -20,9 +20,6 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 			// get the table in which the column exists from the schema
 			var pair = commandContext.Schema.FindTableAndColumn(specification.PropertyName);
 
-			// add the table to the query
-			commandContext.QueryBuilder.AddTable(context, pair.Table, commandContext.Command);
-
 			// allow the table to map the value
 			pair.Column.ToWhereStatement(context, commandContext, specification.Values);
 		}
