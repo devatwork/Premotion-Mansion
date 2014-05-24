@@ -4,7 +4,7 @@ using Premotion.Mansion.Core.Scripting.ExpressionScript;
 namespace Premotion.Mansion.Core.ScriptFunctions.Date
 {
 	/// <summary>
-	/// Adds a number of days to the date.
+	/// Adds a number of hours, minutes or seconds to the date.
 	/// </summary>
 	[ScriptFunction("TimeAdd")]
 	public class TimeAdd : FunctionExpression
