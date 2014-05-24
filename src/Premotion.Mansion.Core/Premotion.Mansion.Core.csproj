@@ -282,6 +282,7 @@
     <Compile Include="Nucleus\IReflectionService.cs" />
     <Compile Include="Nucleus\ReflectionService.cs" />
     <Compile Include="Data\OrchestratingRepository.cs" />
+    <Compile Include="ScriptFunctions\Date\TimeAdd.cs" />
     <Compile Include="ScriptFunctions\Guids\NewGuid.cs" />
     <Compile Include="ScriptFunctions\List\AppendNeedle.cs" />
     <Compile Include="ScriptFunctions\List\RemoveNeedle.cs" />
