@@ -39,7 +39,7 @@ namespace Premotion.Mansion.Core.ScriptFunctions.Conditional
 				throw new ArgumentNullException("context");
 
 			// convert the value
-			return conversionService.Convert(context, input, true);
+			return (conversionService.Convert(context, input, true) == false);
 		}
 		#endregion
 		#region Private Fields
