@@ -26,19 +26,20 @@ namespace Premotion.Mansion.Repository.SqlServer.Schemas
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="queryBuilder"></param>
-		/// <param name="properties"></param>
-		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, IPropertyBag properties)
+		/// <param name="newProperties"></param>
+		protected override void DoToInsertStatement(IMansionContext context, ModificationQueryBuilder queryBuilder, IPropertyBag newProperties)
 		{
+			var extendedProperties = new PropertyBag(newProperties);
 			// remove all properties starting with an underscore
-			var unstoredPropertyNames = properties.Names.Where(candidate => candidate.StartsWith("_")).ToList();
+			var unstoredPropertyNames = extendedProperties.Names.Where(candidate => candidate.StartsWith("_")).ToList();
 			foreach (var propertyName in unstoredPropertyNames)
-				properties.Remove(propertyName);
+				extendedProperties.Remove(propertyName);
 
 			// get the conversion service
 			var conversionService = context.Nucleus.ResolveSingle<IConversionService>();
 
 			// set the column value
-			queryBuilder.AddColumnValue("extendedProperties", conversionService.Convert<byte[]>(context, properties), DbType.Binary);
+			queryBuilder.AddColumnValue("extendedProperties", conversionService.Convert<byte[]>(context, extendedProperties), DbType.Binary);
 		}
 		/// <summary>
 		/// 
