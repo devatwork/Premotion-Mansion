@@ -109,6 +109,11 @@
 			<controls:expressionColumn expression="{\GetTypeDefinitionLabel( Row.type )}" heading="Type">
 				<controls:columnSort on="type" />
 			</controls:expressionColumn>
+			<if condition="{IsAssignable( NotEmpty( Get.type, CurrentNode.type ), 'Content' )}">
+				<controls:expressionColumn expression="{\GetTypeDefinitionLabel( Row.publicationDate )}" heading="Publication date">
+					<controls:columnSort on="publicationDate" />
+				</controls:expressionColumn>
+			</if>
 		</controls:grid>
 	</declareProcedure>
 
