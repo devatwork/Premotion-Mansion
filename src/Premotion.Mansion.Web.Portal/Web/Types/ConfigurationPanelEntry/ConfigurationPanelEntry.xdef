@@ -2,6 +2,6 @@
 <type inherits="DefaultIndex" xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd" xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd">
 	
 	<!-- specify cms behavior -->
-	<cms:behavior label="Configuration panel entry" abstract="true" icon="Types/ConfigurationPanelEntryt/ConfigurationPanelEntry.png" />
+	<cms:behavior label="Configuration panel entry" abstract="true" icon="Types/ConfigurationPanelEntry/ConfigurationPanelEntry.png" />
 	
 </type>
