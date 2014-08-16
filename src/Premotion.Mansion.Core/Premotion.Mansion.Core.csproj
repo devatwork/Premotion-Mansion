@@ -61,6 +61,9 @@
     <Compile Include="Conversion\Converters\Serializers.cs" />
     <Compile Include="Conversion\Converters\StringToFloatConverter.cs" />
     <Compile Include="Conversion\Converters\FloatToDoubleConverter.cs" />
+    <Compile Include="Conversion\Converters\StringToTimeSpanConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Data\BaseStorageEngine.cs" />
     <Compile Include="Data\BaseIndexEngine.cs" />
     <Compile Include="Caching\CacheDependency.cs" />
