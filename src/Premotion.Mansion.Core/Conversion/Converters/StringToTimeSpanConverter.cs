@@ -9,7 +9,7 @@ namespace Premotion.Mansion.Core.Conversion.Converters
 	public class StringToTimeSpanConverter : ConverterBase<string, TimeSpan>
 	{
 		#region Constants
-		private static readonly string[] Formats = new[] {"g"};
+		private static readonly string[] Formats = new[] { "h\\:m", "h\\:mm", "hh\\:m", "hh\\:mm", "hh\\:mm\\:s", "hh\\:mm\\:ss" };
 		#endregion
 		#region Overrides of ConverterBase<string,TimeSpan>
 		/// <summary>
