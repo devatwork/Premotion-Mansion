@@ -649,6 +649,18 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="time" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Represents a time control.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fieldBase" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
 	<!-- button elements -->
 	<xs:element name="buttonBar" substitutionGroup="stl:scriptTag">
 		<xs:annotation>
