@@ -57,6 +57,12 @@ var CKEDITOR_BASEPATH = "{Request.applicationUrl}/static-resources/Shared/js/cke
 		
 	});
 	
+	// initialize the time selectors
+	$("input.time").datetimepicker({
+		timeFormat: "hh:mm",
+		timeOnly: true
+});
+
 	// initialize tags
 	$(".tags").each(function() {
 		var params = { };
