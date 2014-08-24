@@ -21,8 +21,8 @@ namespace Premotion.Mansion.Web.Mail.ScriptTags
 			var recipients = GetRequiredAttribute<string>(context, "recipients");
 			var recipientNames = GetAttribute(context, "recipientNames", string.Empty);
 			var ccRecipients = GetAttribute(context, "ccRecipients", string.Empty);
-			var ccRecipientNames = GetAttribute(context, "bccRecipientNames", string.Empty);
-			var bccRecipients = GetAttribute(context, "ccRecipients", string.Empty);
+			var ccRecipientNames = GetAttribute(context, "ccRecipientNames", string.Empty);
+			var bccRecipients = GetAttribute(context, "bccRecipients", string.Empty);
 			var bccRecipientNames = GetAttribute(context, "bccRecipientNames", string.Empty);
 			var from = GetRequiredAttribute<string>(context, "from");
 			var fromName = GetAttribute(context, "fromName", string.Empty);
