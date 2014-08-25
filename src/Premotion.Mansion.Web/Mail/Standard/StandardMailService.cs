@@ -19,7 +19,18 @@ namespace Premotion.Mansion.Web.Mail.Standard
 		public StandardMailService()
 		{
 			// create the client
-			smptClient = new SmtpClient();
+			smtpClient = new SmtpClient();
+
+			if (!string.IsNullOrEmpty(Constants.SmtpHost))
+				smtpClient.Host = Constants.SmtpHost;
+
+			if (Constants.SmtpPort != 0)
+				smtpClient.Port = Constants.SmtpPort;
+
+			smtpClient.EnableSsl = Constants.SmtpEnableSsl;
+
+			if (!String.IsNullOrEmpty(Constants.SmtpUsername) && !String.IsNullOrEmpty(Constants.SmtpPassword))
+				smtpClient.Credentials = new System.Net.NetworkCredential(Constants.SmtpUsername, Constants.SmtpPassword);
 		}
 		#endregion
 		#region Implementation of IMailService
@@ -64,7 +75,7 @@ namespace Premotion.Mansion.Web.Mail.Standard
 			}
 
 			// send the message
-			smptClient.Send(message);
+			smtpClient.Send(message);
 		}
 		/// <summary>
 		/// Creates an <see cref="MailMessage"/>.
@@ -89,12 +100,12 @@ namespace Premotion.Mansion.Web.Mail.Standard
 				return;
 
 			// dispose
-			if (smptClient != null)
-				smptClient.Dispose();
+			if (smtpClient != null)
+				smtpClient.Dispose();
 		}
 		#endregion
 		#region Private Fields
-		private readonly SmtpClient smptClient;
+		private readonly SmtpClient smtpClient;
 		#endregion
 	}
 }
