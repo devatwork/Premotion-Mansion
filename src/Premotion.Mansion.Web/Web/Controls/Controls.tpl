@@ -157,6 +157,10 @@
 		</label>
 	</tpl:section>
 
+<tpl:section name="TimeFieldControl" field="Field">
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge time {ControlProperties.cssClass}" value="{FormatTimeSpan( ControlProperties.Value, 'hh\:mm\:ss' )}" {@FieldReadonlyAttribute}>
+</tpl:section>
+
 <tpl:section name="DateFieldControl" field="Field">
 	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge date {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy' )}" {@FieldReadonlyAttribute}>
 </tpl:section>
