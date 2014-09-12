@@ -285,6 +285,7 @@
     <Compile Include="Nucleus\IReflectionService.cs" />
     <Compile Include="Nucleus\ReflectionService.cs" />
     <Compile Include="Data\OrchestratingRepository.cs" />
+    <Compile Include="ScriptFunctions\Date\Ticks.cs" />
     <Compile Include="ScriptFunctions\Date\FormatTimeSpan.cs" />
     <Compile Include="ScriptFunctions\Date\TimeAdd.cs" />
     <Compile Include="ScriptFunctions\Guids\NewGuid.cs" />
