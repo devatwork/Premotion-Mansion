@@ -167,15 +167,22 @@ namespace Premotion.Mansion.Core.Scripting.TagScript
 			if (resource == null)
 				throw new ArgumentNullException("resource");
 
-			// read in the XML document
-			var document = new XmlDocument();
-			using (var openResource = resource.OpenForReading())
-			using (var reader = new MansionScriptXmlTextReader(openResource.Reader))
-				document.Load(reader);
-			if (document.DocumentElement == null)
-				throw new InvalidOperationException("The document root can not be null");
+			try
+			{
+				// read in the XML document
+				var document = new XmlDocument();
+				using (var openResource = resource.OpenForReading())
+				using (var reader = new MansionScriptXmlTextReader(openResource.Reader))
+					document.Load(reader);
+				if (document.DocumentElement == null)
+					throw new InvalidOperationException("The document root can not be null");
 
-			return document.DocumentElement;
+				return document.DocumentElement;
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(String.Format("Failed to load script {0}", resource.GetResourceIdentifier()), ex);
+			}
 		}
 		#endregion
 		#region Resolve Methods
