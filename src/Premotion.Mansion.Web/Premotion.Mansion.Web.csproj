@@ -834,13 +834,10 @@
     <EmbeddedResource Include="Web\Cms\js\cms.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap-responsive.css" />
     <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap-responsive.min.css" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap.css" />
     <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap.min.css" />
     <EmbeddedResource Include="Web\Shared\css\img\glyphicons-halflings-white.png" />
     <EmbeddedResource Include="Web\Shared\css\img\glyphicons-halflings.png" />
-    <EmbeddedResource Include="Web\Shared\js\bootstrap\bootstrap.js" />
     <EmbeddedResource Include="Web\Shared\js\bootstrap\bootstrap.min.js" />
   </ItemGroup>
   <ItemGroup>
@@ -984,10 +981,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesome.css" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap-icons.css" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap-icons.min.css" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Shared\js\modernizr\modernizr.js" />
