@@ -19,8 +19,13 @@
 	</head>
 	<body>
 
-		{Control}
-		
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title">Modal title</h4>
+		</div>
+		<div class="modal-body">
+			{Control}
+		</div>
 		<!-- Le javascript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
@@ -33,4 +38,5 @@
 		<script src="{StaticResourceUrl( '/Cms/js/cms.js' )}"></script>
 		{Footer}
 	</body>
-</html></tpl:section>
+</html>
+</tpl:section>

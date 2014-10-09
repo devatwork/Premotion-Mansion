@@ -19,12 +19,7 @@
 			// assemble dialog
 			$(this).html(frame);
 		});
-		$('.btn-popup').click(function (e){
-			e.preventDefault();
-			$('#modal-popup').attr('data-href', $(this).attr('href'));
-			$('#modal-popup').modal("show");
-		});
-		
+
 		// register handlers for top level document
 		if (top.document === document) {
 			var topDocument = $(document);
