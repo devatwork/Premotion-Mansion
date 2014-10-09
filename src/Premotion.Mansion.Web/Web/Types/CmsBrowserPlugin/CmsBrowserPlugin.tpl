@@ -89,13 +89,13 @@
 
 <!-- View: Find -->
 <tpl:section name="Find" field="View">
-	<div class="page-slider">
+	<div class="find page-slider">
 		{NumberOfResults}
 		<div class="row">
 			<div class="col-md-8">
 				{Results}
 			</div>
-			<div class="col-md-4">
+			<div class="search-form col-md-4">
 				{FindSearchForm}
 			</div>
 		</div>
@@ -109,13 +109,13 @@
 <tpl:section name="FindSearchForm">
 	<form class="well form-vertical" action="{WithoutQueryString( Request.url )}" method="get">
 		<fieldset>
-			<div class="control-group">
+			<div class="keywords control-group">
 				<label class="control-label" for="q">Keywords:</label>
 				<div class="controls">
 					<input type="search" class="input-large" id="q" name="q" value="{Get.q}">
 				</div>
 			</div>
-			<div class="control-group">
+			<div class="facets control-group">
 				<ul class="nav nav-list">
 					{Facet}
 				</ul>
