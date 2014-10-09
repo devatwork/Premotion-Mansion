@@ -1,3 +1,7 @@
 body { padding: 0; }
 
 .cms-page {	padding-top: 60px; }
+
+.cms-page .thumbnails li {
+	list-style-type: none;
+}
