@@ -22,7 +22,7 @@
 	<tpl:section name="ParentCrumb" field="Crumb">
 		<li>
 			<a href="{CmsNodeUrl( ParentNode.id, 'CmsBrowserPlugin', 'Browse' )}" title="Navigate to {ParentNode.name}">{#GetTypeDefinitionIcon( ParentNode.type )} {ParentNode.name}</a>
-			<span class="divider">/</span>
+			<span class="divider"></span>
 		</li>
 	</tpl:section>
 

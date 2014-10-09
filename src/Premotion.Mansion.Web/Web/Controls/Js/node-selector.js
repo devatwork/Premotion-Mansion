@@ -12,7 +12,7 @@ Author: Premotion Software Solutions
 			<a href="#" data-behavior="browse">\
 				<%= crumb.label %>\
 			</a>\
-			<span class="divider">/</span>\
+			<span class="divider"></span>\
 		</li>\
 		<% } else { %>\
 		<li class="active">\
