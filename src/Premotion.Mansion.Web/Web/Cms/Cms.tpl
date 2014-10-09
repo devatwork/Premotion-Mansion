@@ -38,12 +38,13 @@
 
 
 <tpl:section name="PageContainer" field="Container">
-	<div class="navbar navbar-fixed-top">
-		<div class="navbar-inner">
-			<div class="container-fluid">
-				<a class="navbar-brand" href="{CmsNodeUrl( RootNode.id, 'CmsHomePlugin', 'Default' )}">Premotion Mansion CMS</a>
-				{UserMenu}
-			</div>
+	<div class="navbar navbar-default navbar-fixed-top">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="{CmsNodeUrl( RootNode.id, 'CmsHomePlugin', 'Default' )}">Premotion Mansion CMS</a>
+		</div>
+
+		<div class="navbar-right">
+			{UserMenu}
 		</div>
 	</div>
 
