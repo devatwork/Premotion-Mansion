@@ -273,8 +273,8 @@ Author: Premotion Software Solutions
 	<div id="{@ControlId}" class="field input-xxlarge" data-behavior="multi-node-selector" data-service-endpoint="{RouteUrlWithArea( 'Controls', 'Async', 'NodeSelector', '0' )}">
 		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">
 		<input type="hidden" id="{@ControlId}-settings" name="_{@FieldName}-settings" value="{$NodeSelectorProperties}">
-		<div class="row-fluid">
-			<div class="span6">
+		<div class="row">
+			<div class="col-md-6">
 				<div class="clearfix">
 					<input type="search" class="pull-right input-medium search-query" data-behavior="filter-node-select" placeholder="Filter">
 				</div>
@@ -285,7 +285,7 @@ Author: Premotion Software Solutions
 					</ul>
 				</div>
 			</div>
-			<div class="span6">
+			<div class="col-md-6">
 				<div class="well well-small">
 					<ul class="nav nav-pills nav-stacked">
 					</ul>

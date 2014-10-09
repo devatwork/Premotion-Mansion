@@ -91,11 +91,11 @@
 <tpl:section name="Find" field="View">
 	<div class="page-slider">
 		{NumberOfResults}
-		<div class="row-fluid">
-			<div class="span8">
+		<div class="row">
+			<div class="col-md-8">
 				{Results}
 			</div>
-			<div class="span4">
+			<div class="col-md-4">
 				{FindSearchForm}
 			</div>
 		</div>

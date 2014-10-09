@@ -1,5 +1,5 @@
 ﻿<tpl:section name="View">
-	<div class="hero-unit">
+	<div class="jumbotron">
 		<h2>Welcome to Premotion Mansion CMS</h2>
 		<p>Use the menu on the left or the actions below to start managing content for your websites.</p>
 	</div>
@@ -9,7 +9,7 @@
 </tpl:section>
 
 <tpl:section name="HomeBlock">
-	<li class="span4">
+	<li class="col-md-4">
 		<div class="clearfix thumbnail">
 			<h3>
 				<i class="{Section.iconClass}"></i> {Section.label}

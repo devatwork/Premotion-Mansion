@@ -1,6 +1,6 @@
 ﻿<tpl:section name="Content">
 	<div class="container">
-		<div class="hero-unit">
+		<div class="jumbotron">
 			<header>
 				<h1>Welcome</h1>
 			</header>

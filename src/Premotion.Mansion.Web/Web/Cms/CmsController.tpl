@@ -19,11 +19,11 @@
 
 <!-- layout section -->
 <tpl:section name="Layout" field="Content">
-	<div class="row-fluid">
-		<div class="span3">
+	<div class="row">
+		<div class="col-md-3">
 			{Navigation}
 		</div>
-		<div class="span9">
+		<div class="col-md-9">
 			{View}
 		</div>
 	</div>
