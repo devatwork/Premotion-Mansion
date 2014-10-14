@@ -52,9 +52,9 @@
 <tpl:section name="FieldName">{FormProperties.fieldPrefix}{ControlProperties.name}</tpl:section>
 
 <tpl:section name="FieldContainer" field="Control">
-	<div class="control-group {If( IsInValidationError( $FormControl, $FieldControl ), 'error' )}">
+	<div class="form-group {If( IsInValidationError( $FormControl, $FieldControl ), 'error' )}">
 		{@FieldLabel}
-		<div class="controls">
+		<div class="col-xs-10">
 			{Field}
 			{@FieldExplanation}
 		</div>
@@ -62,7 +62,7 @@
 </tpl:section>
 
 <tpl:section name="FieldLabel" requires="{Not( IsEmpty( ControlProperties.label ) )}">
-	<label class="control-label" for="{@ControlId}">{ControlProperties.label}{@FieldRequired}:</label>
+	<label class="col-xs-2" for="{@ControlId}">{ControlProperties.label}{@FieldRequired}:</label>
 </tpl:section>
 
 <tpl:section name="FieldRequired" requires="{IsTrue( ControlProperties.isRequired )}">
@@ -83,36 +83,36 @@
 </tpl:section>
 
 <tpl:section name="ReadonlyFieldControl" field="Field">
-	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge readonly" value="{ControlProperties.Value}" disabled>
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="form-control readonly" value="{ControlProperties.Value}" disabled>
 </tpl:section>
 
 <tpl:section name="TextboxFieldControl" field="Field">
-	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute}>
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="form-control text {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
 <tpl:section name="PasswordFieldControl" field="Field">
-	<input type="password" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text password {ControlProperties.cssClass}" value="{ControlProperties.value}">
+	<input type="password" id="{@ControlId}" name="{@FieldName}" class="form-control text password {ControlProperties.cssClass}" value="{ControlProperties.value}">
 </tpl:section>
 
 <tpl:section name="TextareaFieldControl" field="Field">
-	<textarea id="{@ControlId}" name="{@FieldName}" class="field input-xlarge textarea {ControlProperties.cssClass}" rows="{NotEmpty( ControlProperties.rows, '3' )}" {@FieldReadonlyAttribute}>{ControlProperties.Value}</textarea>
+	<textarea id="{@ControlId}" name="{@FieldName}" class="form-control textarea {ControlProperties.cssClass}" rows="{NotEmpty( ControlProperties.rows, '3' )}" {@FieldReadonlyAttribute}>{ControlProperties.Value}</textarea>
 </tpl:section>
 
 <tpl:section name="EmailFieldControl" field="Field">
-	<input type="email" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text email {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute}>
+	<input type="email" id="{@ControlId}" name="{@FieldName}" class="form-control text email {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
 <tpl:section name="UrlFieldControl" field="Field">
-	<input type="url" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text url {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute}>
+	<input type="url" id="{@ControlId}" name="{@FieldName}" class="form-control text url {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
 <tpl:section name="RichTextAreaFieldControl" field="Field">
-	<textarea id="{@ControlId}" name="{@FieldName}" class="field input-xlarge rich-text {ControlProperties.cssClass}" {@FieldReadonlyAttribute}>{ControlProperties.Value}</textarea>
+	<textarea id="{@ControlId}" name="{@FieldName}" class="form-control rich-text {ControlProperties.cssClass}" {@FieldReadonlyAttribute}>{ControlProperties.Value}</textarea>
 </tpl:section>
 
 
 <tpl:section name="TagTextboxFieldControl" field="Field">
-	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text tags {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute} data-autocomplete-url="{RouteUrlWithArea( 'Controls', 'Async', 'AutoComplete', TagIndexNode.id )}">
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="form-control text tags {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute} data-autocomplete-url="{RouteUrlWithArea( 'Controls', 'Async', 'AutoComplete', TagIndexNode.id )}">
 </tpl:section>
 
 <tpl:section name="CheckboxFieldControl" field="Field">
@@ -120,7 +120,7 @@
 </tpl:section>
 
 <tpl:section name="SelectboxFieldControl" field="Field">
-	<select id="{@ControlId}" name="{@FieldName}" class="field input-xlarge selectbox {ControlProperties.cssClass}" {@FieldReadonlyAttribute}>
+	<select id="{@ControlId}" name="{@FieldName}" class="form-control selectbox {ControlProperties.cssClass}" {@FieldReadonlyAttribute}>
 		{@SelectboxFieldControlDefaultOption}
 		{SelectboxFieldControlOption}
 	</select>
@@ -135,7 +135,7 @@
 	</tpl:section>
 
 <tpl:section name="MultiSelectFieldControl" field="Field">
-	<select id="{@ControlId}" name="{@FieldName}" class="field input-xlarge multiselect {ControlProperties.cssClass}" {@FieldReadonlyAttribute} multiple="multiple">
+	<select id="{@ControlId}" name="{@FieldName}" class="form-control multiselect {ControlProperties.cssClass}" {@FieldReadonlyAttribute} multiple="multiple">
 		{MultiSelectFieldControlOption}
 	</select>
 </tpl:section>
@@ -145,7 +145,7 @@
 	</tpl:section>
 
 <tpl:section name="CheckboxListFieldControl" field="Field">
-	<div id="{@ControlId}" class="field input-xlarge checkbox-list {ControlProperties.cssClass}">
+	<div id="{@ControlId}" class="form-control checkbox-list {ControlProperties.cssClass}">
 		{CheckboxListFieldControlOption}
 	</div>
 </tpl:section>
@@ -158,15 +158,15 @@
 	</tpl:section>
 
 <tpl:section name="TimeFieldControl" field="Field">
-	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge time {ControlProperties.cssClass}" value="{FormatTimeSpan( ControlProperties.Value, 'hh\:mm\:ss' )}" {@FieldReadonlyAttribute}>
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="form-control time {ControlProperties.cssClass}" value="{FormatTimeSpan( ControlProperties.Value, 'hh\:mm\:ss' )}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
 <tpl:section name="DateFieldControl" field="Field">
-	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge date {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy' )}" {@FieldReadonlyAttribute}>
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="form-control date {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy' )}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
 <tpl:section name="DateTimeFieldControl" field="Field">
-	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge datetime {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy HH:mm' )}" {@FieldReadonlyAttribute}>
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="form-control datetime {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy HH:mm' )}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
 <tpl:section name="UploadFieldControl" field="Field">
@@ -236,7 +236,7 @@
 </tpl:section>
 
 <tpl:section name="FieldContainerControl" field="Control">
-	<div class="control-group">
+	<div class="form-group">
 		{@FieldLabel}
 		<div class="controls">
 			{Control}
