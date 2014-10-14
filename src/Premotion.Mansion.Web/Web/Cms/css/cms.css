@@ -14,3 +14,7 @@ body { padding: 0; }
 .find .search-form .facets {
 	margin-bottom: 15px;
 }
+
+.navbar div.navbar-header {
+	float: left;
+}
