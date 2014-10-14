@@ -258,7 +258,7 @@ Author: Premotion Software Solutions
 		<div class="selected-item">
 		</div>
 		<div class="clearfix">
-			<input type="search" class="pull-right input-medium search-query" data-behavior="filter-node-select" placeholder="Filter">
+			<input type="search" class="form-control search-query" data-behavior="filter-node-select" placeholder="Filter">
 		</div>
 		<div class="well well-small" tabindex="0">
 			<ul class="breadcrumb">
@@ -276,7 +276,7 @@ Author: Premotion Software Solutions
 		<div class="row">
 			<div class="col-md-6">
 				<div class="clearfix">
-					<input type="search" class="pull-right input-medium search-query" data-behavior="filter-node-select" placeholder="Filter">
+					<input type="search" class="form-control search-query" data-behavior="filter-node-select" placeholder="Filter">
 				</div>
 				<div class="well well-small" tabindex="0">
 					<ul class="breadcrumb">

@@ -15,7 +15,7 @@
 				
 				<!-- check security -->
 				<if condition="{Not( And( IsAuthenticated(), HasPermission( 'Cms', 'use' ) ) )}">
-					<ctrls:invokeDialogParentTrigger action="cms.refresh" />
+					<web:redirectRequest url="{NodeUrl( $UrlNode )}" />
 					<breakExecution />
 				</if>
 
