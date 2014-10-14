@@ -112,7 +112,7 @@
 			<div class="keywords control-group">
 				<label class="control-label" for="q">Keywords:</label>
 				<div class="controls">
-					<input type="search" class="input-large" id="q" name="q" value="{Get.q}">
+					<input type="search" class="form-control" id="q" name="q" value="{Get.q}">
 				</div>
 			</div>
 			<div class="facets control-group">
