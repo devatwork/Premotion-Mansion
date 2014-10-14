@@ -414,17 +414,15 @@ Author: Premotion Software Solutions
 
 <!-- paging controls -->
 <tpl:section name="PagingControl" field="Control">
-	<div class="pagination {PagingProperties.cssClasses}">
-		<ul>
-			<li class="{If( IsEqual( PagingProperties.currentPage, '1' ), 'disabled' )}">
-				<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), Max( Subtract( PagingProperties.currentPage, '1' ), '1' ) )}"><i class="icon-caret-left"></i></a>
-			</li>
-			{PagingControlPageOption}
-			<li class="{If( IsEqual( PagingProperties.currentPage, PagingProperties.pageCount ), 'disabled' )}">
-				<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), Min( Add( PagingProperties.currentPage, '1' ), PagingProperties.pageCount ) )}"><i class="icon-caret-right"></i></a>
-			</li>
-		</ul>
-	</div>
+	<ul class="pagination {PagingProperties.cssClasses}">
+		<li class="{If( IsEqual( PagingProperties.currentPage, '1' ), 'disabled' )}">
+			<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), Max( Subtract( PagingProperties.currentPage, '1' ), '1' ) )}"><i class="icon-caret-left"></i></a>
+		</li>
+		{PagingControlPageOption}
+		<li class="{If( IsEqual( PagingProperties.currentPage, PagingProperties.pageCount ), 'disabled' )}">
+			<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), Min( Add( PagingProperties.currentPage, '1' ), PagingProperties.pageCount ) )}"><i class="icon-caret-right"></i></a>
+		</li>
+	</ul>
 </tpl:section>
 
 	<tpl:section name="PagingControlPageOption">
