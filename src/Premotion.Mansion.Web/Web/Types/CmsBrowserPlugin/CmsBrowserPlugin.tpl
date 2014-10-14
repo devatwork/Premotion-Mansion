@@ -46,31 +46,31 @@
 </tpl:section>
 
 	<tpl:section name="AddChildButton" requires="{HasChildTypes( $CurrentNode )}">
-		<a href="{CmsRouteUrl( 'Dialog', 'AddChildToNode', CurrentNode.id )}" class="btn btn-primary" rel="tooltip" data-toggle="modal" data-target="#modal-popup" title="Add a new child to this node">
+		<a href="{CmsRouteUrl( 'Dialog', 'AddChildToNode', CurrentNode.id )}" class="btn btn-primary" rel="tooltip" data-toggle="modal" data-target="#modal-popup" data-container="body" title="Add a new child to this node">
 			<i class="icon-plus-sign"></i> Add child
 		</a>
 	</tpl:section>
 
 	<tpl:section name="ChangeOrderButton" requires="{IsTrue( GetTypeDefinitionProperty( CurrentNode.type, 'reorderable', 'true' ) )}">
-		<a href="{CmsRouteUrl( 'Dialog', 'ChangeOrder', CurrentNode.id )}" class="btn btn-primary" rel="tooltip" data-toggle="modal" data-target="#modal-popup" title="Reorder the position of this node">
+		<a href="{CmsRouteUrl( 'Dialog', 'ChangeOrder', CurrentNode.id )}" class="btn btn-primary" rel="tooltip" data-toggle="modal" data-target="#modal-popup" data-container="body" title="Reorder the position of this node">
 			<i class="icon-reorder"></i> Change order
 		</a>
 	</tpl:section>
 
 	<tpl:section name="MoveNodeButton" requires="{IsTrue( GetTypeDefinitionProperty( CurrentNode.type, 'movable', 'true' ) )}">
-		<a href="{CmsRouteUrl( 'Dialog', 'MoveNode', CurrentNode.id )}" class="btn btn-primary" rel="tooltip" data-toggle="modal" data-target="#modal-popup" title="Move this node to another folder">
+		<a href="{CmsRouteUrl( 'Dialog', 'MoveNode', CurrentNode.id )}" class="btn btn-primary" rel="tooltip" data-toggle="modal" data-target="#modal-popup" data-container="body" title="Move this node to another folder">
 			<i class="icon-move"></i> Move
 		</a>
 	</tpl:section>
 
 	<tpl:section name="CopyNodeButton" requires="{IsTrue( GetTypeDefinitionProperty( CurrentNode.type, 'copyable', 'true' ) )}">
-		<a href="{CmsRouteUrl( 'Dialog', 'CopyNode', CurrentNode.id )}" class="btn btn-primary" rel="tooltip" data-toggle="modal" data-target="#modal-popup" title="Create a copy of this node">
+		<a href="{CmsRouteUrl( 'Dialog', 'CopyNode', CurrentNode.id )}" class="btn btn-primary" rel="tooltip" data-toggle="modal" data-target="#modal-popup" data-container="body" title="Create a copy of this node">
 			<i class="icon-copy"></i> Copy
 		</a>
 	</tpl:section>
 
 	<tpl:section name="DeleteNodeButton" requires="{IsTrue( GetTypeDefinitionProperty( CurrentNode.type, 'deletable', 'true' ) )}">
-		<a href="{CmsRouteUrl( 'Dialog', 'DeleteNode', CurrentNode.id )}" class="btn btn-danger" rel="tooltip" data-toggle="modal" data-target="#modal-popup" title="Delete this node">
+		<a href="{CmsRouteUrl( 'Dialog', 'DeleteNode', CurrentNode.id )}" class="btn btn-danger" rel="tooltip" data-toggle="modal" data-target="#modal-popup" data-container="body" title="Delete this node">
 			<i class="icon-remove-sign"></i> Delete
 		</a>
 	</tpl:section>

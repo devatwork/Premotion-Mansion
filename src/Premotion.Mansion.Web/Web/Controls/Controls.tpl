@@ -307,7 +307,7 @@ Author: Premotion Software Solutions
 </tpl:section>
 
 <tpl:section name="ButtonGroupControl" field="Control">
-	<div class="clearfix btn-group {ControlProperties.cssClass}">
+	<div class="btn-group {ControlProperties.cssClass}">
 		{Control}
 	</div>
 </tpl:section>
@@ -323,7 +323,7 @@ Author: Premotion Software Solutions
 </tpl:section>
 
 	<tpl:section name="ButtonControlIcon" requires="{Not( IsEmpty( ControlProperties.iconClass ) )}"><i class="{ControlProperties.iconClass}"></i>&nbsp;</tpl:section>
-	<tpl:section name="ButtonControlTooltip" requires="{Not( IsEmpty( ControlProperties.tooltip ) )}">rel="tooltip" data-original-title="{ControlProperties.tooltip}"</tpl:section>
+	<tpl:section name="ButtonControlTooltip" requires="{Not( IsEmpty( ControlProperties.tooltip ) )}">rel="tooltip" data-original-title="{ControlProperties.tooltip}" data-container="body"</tpl:section>
 
 
 
