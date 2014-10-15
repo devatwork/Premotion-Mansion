@@ -52,9 +52,9 @@
 <tpl:section name="FieldName">{FormProperties.fieldPrefix}{ControlProperties.name}</tpl:section>
 
 <tpl:section name="FieldContainer" field="Control">
-	<div class="control-group {If( IsInValidationError( $FormControl, $FieldControl ), 'error' )}">
+	<div class="form-group {If( IsInValidationError( $FormControl, $FieldControl ), 'error' )}">
 		{@FieldLabel}
-		<div class="controls">
+		<div class="col-xs-10">
 			{Field}
 			{@FieldExplanation}
 		</div>
@@ -62,7 +62,7 @@
 </tpl:section>
 
 <tpl:section name="FieldLabel" requires="{Not( IsEmpty( ControlProperties.label ) )}">
-	<label class="control-label" for="{@ControlId}">{ControlProperties.label}{@FieldRequired}:</label>
+	<label class="col-xs-2" for="{@ControlId}">{ControlProperties.label}{@FieldRequired}:</label>
 </tpl:section>
 
 <tpl:section name="FieldRequired" requires="{IsTrue( ControlProperties.isRequired )}">
@@ -83,36 +83,36 @@
 </tpl:section>
 
 <tpl:section name="ReadonlyFieldControl" field="Field">
-	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge readonly" value="{ControlProperties.Value}" disabled>
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="form-control readonly" value="{ControlProperties.Value}" disabled>
 </tpl:section>
 
 <tpl:section name="TextboxFieldControl" field="Field">
-	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute}>
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="form-control text {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
 <tpl:section name="PasswordFieldControl" field="Field">
-	<input type="password" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text password {ControlProperties.cssClass}" value="{ControlProperties.value}">
+	<input type="password" id="{@ControlId}" name="{@FieldName}" class="form-control text password {ControlProperties.cssClass}" value="{ControlProperties.value}">
 </tpl:section>
 
 <tpl:section name="TextareaFieldControl" field="Field">
-	<textarea id="{@ControlId}" name="{@FieldName}" class="field input-xlarge textarea {ControlProperties.cssClass}" rows="{NotEmpty( ControlProperties.rows, '3' )}" {@FieldReadonlyAttribute}>{ControlProperties.Value}</textarea>
+	<textarea id="{@ControlId}" name="{@FieldName}" class="form-control textarea {ControlProperties.cssClass}" rows="{NotEmpty( ControlProperties.rows, '3' )}" {@FieldReadonlyAttribute}>{ControlProperties.Value}</textarea>
 </tpl:section>
 
 <tpl:section name="EmailFieldControl" field="Field">
-	<input type="email" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text email {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute}>
+	<input type="email" id="{@ControlId}" name="{@FieldName}" class="form-control text email {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
 <tpl:section name="UrlFieldControl" field="Field">
-	<input type="url" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text url {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute}>
+	<input type="url" id="{@ControlId}" name="{@FieldName}" class="form-control text url {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
 <tpl:section name="RichTextAreaFieldControl" field="Field">
-	<textarea id="{@ControlId}" name="{@FieldName}" class="field input-xlarge rich-text {ControlProperties.cssClass}" {@FieldReadonlyAttribute}>{ControlProperties.Value}</textarea>
+	<textarea id="{@ControlId}" name="{@FieldName}" class="form-control rich-text {ControlProperties.cssClass}" {@FieldReadonlyAttribute}>{ControlProperties.Value}</textarea>
 </tpl:section>
 
 
 <tpl:section name="TagTextboxFieldControl" field="Field">
-	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge text tags {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute} data-autocomplete-url="{RouteUrlWithArea( 'Controls', 'Async', 'AutoComplete', TagIndexNode.id )}">
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="form-control text tags {ControlProperties.cssClass}" value="{ControlProperties.value}" {@FieldReadonlyAttribute} data-autocomplete-url="{RouteUrlWithArea( 'Controls', 'Async', 'AutoComplete', TagIndexNode.id )}">
 </tpl:section>
 
 <tpl:section name="CheckboxFieldControl" field="Field">
@@ -120,7 +120,7 @@
 </tpl:section>
 
 <tpl:section name="SelectboxFieldControl" field="Field">
-	<select id="{@ControlId}" name="{@FieldName}" class="field input-xlarge selectbox {ControlProperties.cssClass}" {@FieldReadonlyAttribute}>
+	<select id="{@ControlId}" name="{@FieldName}" class="form-control selectbox {ControlProperties.cssClass}" {@FieldReadonlyAttribute}>
 		{@SelectboxFieldControlDefaultOption}
 		{SelectboxFieldControlOption}
 	</select>
@@ -135,7 +135,7 @@
 	</tpl:section>
 
 <tpl:section name="MultiSelectFieldControl" field="Field">
-	<select id="{@ControlId}" name="{@FieldName}" class="field input-xlarge multiselect {ControlProperties.cssClass}" {@FieldReadonlyAttribute} multiple="multiple">
+	<select id="{@ControlId}" name="{@FieldName}" class="form-control multiselect {ControlProperties.cssClass}" {@FieldReadonlyAttribute} multiple="multiple">
 		{MultiSelectFieldControlOption}
 	</select>
 </tpl:section>
@@ -145,7 +145,7 @@
 	</tpl:section>
 
 <tpl:section name="CheckboxListFieldControl" field="Field">
-	<div id="{@ControlId}" class="field input-xlarge checkbox-list {ControlProperties.cssClass}">
+	<div id="{@ControlId}" class="form-control checkbox-list {ControlProperties.cssClass}">
 		{CheckboxListFieldControlOption}
 	</div>
 </tpl:section>
@@ -158,15 +158,15 @@
 	</tpl:section>
 
 <tpl:section name="TimeFieldControl" field="Field">
-	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge time {ControlProperties.cssClass}" value="{FormatTimeSpan( ControlProperties.Value, 'hh\:mm\:ss' )}" {@FieldReadonlyAttribute}>
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="form-control time {ControlProperties.cssClass}" value="{FormatTimeSpan( ControlProperties.Value, 'hh\:mm\:ss' )}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
 <tpl:section name="DateFieldControl" field="Field">
-	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge date {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy' )}" {@FieldReadonlyAttribute}>
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="form-control date {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy' )}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
 <tpl:section name="DateTimeFieldControl" field="Field">
-	<input type="text" id="{@ControlId}" name="{@FieldName}" class="field input-xlarge datetime {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy HH:mm' )}" {@FieldReadonlyAttribute}>
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="form-control datetime {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy HH:mm' )}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
 <tpl:section name="UploadFieldControl" field="Field">
@@ -236,7 +236,7 @@
 </tpl:section>
 
 <tpl:section name="FieldContainerControl" field="Control">
-	<div class="control-group">
+	<div class="form-group">
 		{@FieldLabel}
 		<div class="controls">
 			{Control}
@@ -258,7 +258,7 @@ Author: Premotion Software Solutions
 		<div class="selected-item">
 		</div>
 		<div class="clearfix">
-			<input type="search" class="pull-right input-medium search-query" data-behavior="filter-node-select" placeholder="Filter">
+			<input type="search" class="form-control search-query" data-behavior="filter-node-select" placeholder="Filter">
 		</div>
 		<div class="well well-small" tabindex="0">
 			<ul class="breadcrumb">
@@ -273,10 +273,10 @@ Author: Premotion Software Solutions
 	<div id="{@ControlId}" class="field input-xxlarge" data-behavior="multi-node-selector" data-service-endpoint="{RouteUrlWithArea( 'Controls', 'Async', 'NodeSelector', '0' )}">
 		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">
 		<input type="hidden" id="{@ControlId}-settings" name="_{@FieldName}-settings" value="{$NodeSelectorProperties}">
-		<div class="row-fluid">
-			<div class="span6">
+		<div class="row">
+			<div class="col-md-6">
 				<div class="clearfix">
-					<input type="search" class="pull-right input-medium search-query" data-behavior="filter-node-select" placeholder="Filter">
+					<input type="search" class="form-control search-query" data-behavior="filter-node-select" placeholder="Filter">
 				</div>
 				<div class="well well-small" tabindex="0">
 					<ul class="breadcrumb">
@@ -285,7 +285,7 @@ Author: Premotion Software Solutions
 					</ul>
 				</div>
 			</div>
-			<div class="span6">
+			<div class="col-md-6">
 				<div class="well well-small">
 					<ul class="nav nav-pills nav-stacked">
 					</ul>
@@ -307,7 +307,7 @@ Author: Premotion Software Solutions
 </tpl:section>
 
 <tpl:section name="ButtonGroupControl" field="Control">
-	<div class="clearfix btn-group {ControlProperties.cssClass}">
+	<div class="btn-group {ControlProperties.cssClass}">
 		{Control}
 	</div>
 </tpl:section>
@@ -323,7 +323,7 @@ Author: Premotion Software Solutions
 </tpl:section>
 
 	<tpl:section name="ButtonControlIcon" requires="{Not( IsEmpty( ControlProperties.iconClass ) )}"><i class="{ControlProperties.iconClass}"></i>&nbsp;</tpl:section>
-	<tpl:section name="ButtonControlTooltip" requires="{Not( IsEmpty( ControlProperties.tooltip ) )}">rel="tooltip" data-original-title="{ControlProperties.tooltip}"</tpl:section>
+	<tpl:section name="ButtonControlTooltip" requires="{Not( IsEmpty( ControlProperties.tooltip ) )}">rel="tooltip" data-original-title="{ControlProperties.tooltip}" data-container="body"</tpl:section>
 
 
 
@@ -414,17 +414,15 @@ Author: Premotion Software Solutions
 
 <!-- paging controls -->
 <tpl:section name="PagingControl" field="Control">
-	<div class="pagination {PagingProperties.cssClasses}">
-		<ul>
-			<li class="{If( IsEqual( PagingProperties.currentPage, '1' ), 'disabled' )}">
-				<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), Max( Subtract( PagingProperties.currentPage, '1' ), '1' ) )}"><i class="icon-caret-left"></i></a>
-			</li>
-			{PagingControlPageOption}
-			<li class="{If( IsEqual( PagingProperties.currentPage, PagingProperties.pageCount ), 'disabled' )}">
-				<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), Min( Add( PagingProperties.currentPage, '1' ), PagingProperties.pageCount ) )}"><i class="icon-caret-right"></i></a>
-			</li>
-		</ul>
-	</div>
+	<ul class="pagination {PagingProperties.cssClasses}">
+		<li class="{If( IsEqual( PagingProperties.currentPage, '1' ), 'disabled' )}">
+			<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), Max( Subtract( PagingProperties.currentPage, '1' ), '1' ) )}"><i class="icon-caret-left"></i></a>
+		</li>
+		{PagingControlPageOption}
+		<li class="{If( IsEqual( PagingProperties.currentPage, PagingProperties.pageCount ), 'disabled' )}">
+			<a href="{ChangeQueryString( Request.url, GetControlPropertyName( PagingProperties.id, 'page-number' ), Min( Add( PagingProperties.currentPage, '1' ), PagingProperties.pageCount ) )}"><i class="icon-caret-right"></i></a>
+		</li>
+	</ul>
 </tpl:section>
 
 	<tpl:section name="PagingControlPageOption">

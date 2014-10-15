@@ -18,9 +18,9 @@
 <!-- maintenance toolbars -->
 <tpl:section name="BlockToolbar" requires="{And( HasPortalAdminPermission(), Not( IsTrue( BlockProperties._readonly ) ) )}">
 	<div class="block-toolbar">
-		<a href="{RouteUrl( 'Portal', 'ConfigureBlock', BlockProperties.id )}" class="hide-text command dialog configure" title="Configure this block">Configure</a>
+		<a href="{RouteUrl( 'Portal', 'ConfigureBlock', BlockProperties.id )}" data-toggle="modal" data-target="#portal-modal-popup" class="hide-text command dialog configure" title="Configure this block">Configure</a>
 		<span class="hide-text command move" title="Move this block">Move</span>
-		<a href="{RouteUrl( 'Portal', 'RemoveBlock', BlockProperties.id )}" class="hide-text command dialog remove" title="Remove this block">Remove</a>
+		<a href="{RouteUrl( 'Portal', 'RemoveBlock', BlockProperties.id )}" data-toggle="modal" data-target="#portal-modal-popup" class="hide-text command dialog remove" title="Remove this block">Remove</a>
 	</div>
 </tpl:section>
 

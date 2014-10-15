@@ -146,7 +146,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Web\Types\Content\Content.xinclude" />
     <EmbeddedResource Include="Web\Types\ConfigurationPanelEntry\ConfigurationPanelEntry.xdef" />
-    <EmbeddedResource Include="Web\Types\DefaultTheme\DefaultTheme.tpl" />
+    <EmbeddedResource Include="Web\Types\DefaultTheme\DefaultTheme.tpl">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Web\Types\DefaultTheme\DefaultTheme.xdef" />
     <EmbeddedResource Include="Web\Types\DefaultTheme\DefaultTheme.xinclude" />
     <EmbeddedResource Include="Web\Types\Default\Default.xform" />

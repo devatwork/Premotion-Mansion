@@ -318,47 +318,6 @@
     <Compile Include="Web\Types\Default\TagListener.cs" />
     <Compile Include="Web\Types\Tag\TagListener.cs" />
     <EmbeddedResource Include="Web\Application.tpl" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\accordion.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\alerts.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\bootstrap.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\breadcrumbs.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\button-groups.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\buttons.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\carousel.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\close.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\code.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\component-animations.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\dropdowns.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\forms.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\grid.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\hero-unit.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\labels-badges.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\layouts.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\media.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\mixins.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\modals.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\navbar.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\navs.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\pager.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\pagination.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\popovers.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\progress-bars.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\reset.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\responsive-1200px-min.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\responsive-767px-max.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\responsive-768px-979px.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\responsive-navbar.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\responsive-utilities.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\responsive.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\scaffolding.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\sprites.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\tables.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\thumbnails.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\tooltip.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\type.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\utilities.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\variables.less" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\less\wells.less" />
     <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesome-ie7.less" />
     <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesome.less" />
     <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.eot" />
@@ -373,6 +332,9 @@
     <EmbeddedResource Include="Web\Shared\css\fontawesome\mixins.less" />
     <EmbeddedResource Include="Web\Shared\css\fontawesome\path.less" />
     <EmbeddedResource Include="Web\Shared\css\fontawesome\variables.less" />
+    <EmbeddedResource Include="Web\Shared\fonts\glyphicons-halflings-regular.eot" />
+    <EmbeddedResource Include="Web\Shared\fonts\glyphicons-halflings-regular.ttf" />
+    <EmbeddedResource Include="Web\Shared\fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Premotion.Mansion.Core\Premotion.Mansion.Core.csproj">
@@ -764,7 +726,9 @@
     <EmbeddedResource Include="Web\Types\AssetTypeIndex\AssetTypeIndex.xdef" />
     <EmbeddedResource Include="Web\Types\AssetType\AssetType.xdef" />
     <EmbeddedResource Include="Web\Types\CmsBrowserPlugin\CmsBrowserPlugin.xdef" />
-    <EmbeddedResource Include="Web\Types\CmsBrowserPlugin\CmsBrowserPlugin.xinclude" />
+    <EmbeddedResource Include="Web\Types\CmsBrowserPlugin\CmsBrowserPlugin.xinclude">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Web\Types\CmsBrowserPlugin\CmsBrowserPlugin.tpl" />
     <EmbeddedResource Include="Web\Types\CmsHomePlugin\CmsHomePlugin.xdef" />
     <EmbeddedResource Include="Web\Types\CmsHomePlugin\CmsHomePlugin.tpl" />
@@ -834,13 +798,9 @@
     <EmbeddedResource Include="Web\Cms\js\cms.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap-responsive.css" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap-responsive.min.css" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap.css" />
     <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap.min.css" />
     <EmbeddedResource Include="Web\Shared\css\img\glyphicons-halflings-white.png" />
     <EmbeddedResource Include="Web\Shared\css\img\glyphicons-halflings.png" />
-    <EmbeddedResource Include="Web\Shared\js\bootstrap\bootstrap.js" />
     <EmbeddedResource Include="Web\Shared\js\bootstrap\bootstrap.min.js" />
   </ItemGroup>
   <ItemGroup>
@@ -986,10 +946,6 @@
     <EmbeddedResource Include="Web\Shared\css\fontawesome\font-awesome.css" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap-icons.css" />
-    <EmbeddedResource Include="Web\Shared\css\bootstrap\bootstrap-icons.min.css" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Web\Shared\js\modernizr\modernizr.js" />
   </ItemGroup>
   <ItemGroup>
@@ -1013,6 +969,9 @@
     <EmbeddedResource Include="Web\Controls\Js\node-selector.js" />
     <EmbeddedResource Include="Web\Shared\css\fontawesome\fontawesome-webfont.svg" />
     <EmbeddedResource Include="Web\Shared\js\lodash\lodash.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Shared\fonts\glyphicons-halflings-regular.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

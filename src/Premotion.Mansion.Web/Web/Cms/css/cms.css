@@ -1,3 +1,20 @@
 body { padding: 0; }
 
 .cms-page {	padding-top: 60px; }
+
+.cms-page .thumbnails li {
+	list-style-type: none;
+}
+
+.find .search-form li a {
+	padding: 3px 15px;
+}
+
+.find .search-form .keywords,
+.find .search-form .facets {
+	margin-bottom: 15px;
+}
+
+.navbar div.navbar-header {
+	float: left;
+}

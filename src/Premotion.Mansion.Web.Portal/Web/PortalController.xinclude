@@ -134,15 +134,18 @@
 
 							<!-- processes the form actions -->
 							<forms:processScriptAction supportedActions="cancel" requiresValidForm="false">
-								<ctrls:invokeDialogParentTrigger action="portal.dialog.close" />
-								<breakExecution />
+								<retrieveParentNode childSource="{$FormSourceNode}" target="ParentNode">
+									<web:redirectRequest url="{NodeUrl( $ParentNode )}" />
+									<breakExecution />
+								</retrieveParentNode>
+								
 							</forms:processScriptAction>
 							<forms:processScriptAction supportedActions="store">
 								<retrieveParentNode childSource="{$FormSourceNode}" target="ParentNode">
 									<editNode source="{$FormSourceNode}">
 										<copyProperties source="{$FieldProperties}" target="{$EditProperties}" />
 									</editNode>
-									<ctrls:invokeDialogParentTrigger action="portal.navigate" url="{NodeUrl( $ParentNode )}" />
+									<web:redirectRequest url="{NodeUrl( $ParentNode )}" />
 								</retrieveParentNode>
 								<breakExecution />
 							</forms:processScriptAction>
@@ -212,13 +215,15 @@
 
 						<!-- processes the form actions -->
 						<forms:processScriptAction supportedActions="cancel" requiresValidForm="false">
-							<ctrls:invokeDialogParentTrigger action="portal.dialog.close" />
-							<breakExecution />
+							<retrieveParentNode childSource="{$FormSourceNode}" target="ParentNode">
+								<web:redirectRequest url="{NodeUrl( $ParentNode )}" />
+								<breakExecution />
+							</retrieveParentNode>
 						</forms:processScriptAction>
 						<forms:processScriptAction supportedActions="delete">
 							<retrieveParentNode childSource="{$UrlNode}" target="ParentNode">
 								<deleteNode source="{$UrlNode}" />
-								<ctrls:invokeDialogParentTrigger action="portal.navigate" url="{NodeUrl( $ParentNode )}" />
+								<web:redirectRequest url="{NodeUrl( $ParentNode )}" />
 							</retrieveParentNode>
 							<breakExecution />
 						</forms:processScriptAction>
