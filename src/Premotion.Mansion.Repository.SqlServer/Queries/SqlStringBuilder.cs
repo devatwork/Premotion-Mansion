@@ -111,17 +111,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <param name="clause">The clause which to append.</param>
 		public void AppendWhere(string clause)
 		{
-			// validate arguments
-			if (string.IsNullOrEmpty(clause))
-				throw new ArgumentNullException("clause");
-
-			// check for separator
-			if (WhereBuilder.Length > 0)
-				WhereBuilder.Append(" AND ");
-
-			WhereBuilder.Append("(");
-			WhereBuilder.Append(clause);
-			WhereBuilder.Append(")");
+			WhereBuilder.AppendWhere(clause);
 		}
 		/// <summary>
 		/// Appends a where clause.
@@ -130,17 +120,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <param name="parameters">The parameters to use in the format string.</param>
 		public void AppendWhere(string clause, params object[] parameters)
 		{
-			// validate arguments
-			if (string.IsNullOrEmpty(clause))
-				throw new ArgumentNullException("clause");
-
-			// check for separator
-			if (WhereBuilder.Length > 0)
-				WhereBuilder.Append(" AND ");
-
-			WhereBuilder.Append("(");
-			WhereBuilder.AppendFormat(clause, parameters);
-			WhereBuilder.Append(")");
+            WhereBuilder.AppendWhere(clause, parameters);
 		}
 		/// <summary>
 		/// Appends a ORDER BY clause.
@@ -283,7 +263,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 
 			// replace values
 			commandText.Replace(FromReplacePlaceholder, string.Format(" FROM {0}", tables));
-			commandText.Replace(WhereReplacePlaceholder, WhereBuilder.Length > 0 ? string.Format(" WHERE {0}", WhereBuilder) : string.Empty);
+			commandText.Replace(WhereReplacePlaceholder, WhereBuilder.Buffer.Length > 0 ? string.Format(" WHERE {0}", WhereBuilder.Buffer) : string.Empty);
 			commandText.Replace(OrderByReplacePlaceholder, orderBys.Length > 0 ? string.Format(" ORDER BY {0}", orderBys) : string.Empty);
 
 			// return the assembled query
@@ -322,7 +302,7 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 
 			// replace values
 			commandText.Replace(FromReplacePlaceholder, string.Format(" FROM {0}", tables));
-			commandText.Replace(WhereReplacePlaceholder, WhereBuilder.Length > 0 ? string.Format(" WHERE {0}", WhereBuilder) : string.Empty);
+			commandText.Replace(WhereReplacePlaceholder, WhereBuilder.Buffer.Length > 0 ? string.Format(" WHERE {0}", WhereBuilder.Buffer) : string.Empty);
 			commandText.Replace(OrderByReplacePlaceholder, orderBys.Length > 0 ? string.Format(" ORDER BY {0}", orderBys) : string.Empty);
 
 			return commandText.ToString();
@@ -354,18 +334,18 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		/// <summary>
 		/// Gets the active where clause <see cref="StringBuilder"/>/
 		/// </summary>
-		private StringBuilder WhereBuilder
+        private SqlQueryAggregator WhereBuilder
 		{
 			get
 			{
-				StringBuilder current;
+                SqlQueryAggregator current;
 				return whereBuilderStack.TryPeek(out current) ? current : rootWhereBuilder;
 			}
 		}
 		/// <summary>
 		/// Gets the where builder <see cref="IAutoPopStack{TEntry}"/>.
 		/// </summary>
-		public IAutoPopStack<StringBuilder> WhereBuilderStack
+		public IAutoPopStack<SqlQueryAggregator> WhereBuilderStack
 		{
 			get { return whereBuilderStack; }
 		}
@@ -377,9 +357,9 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries
 		private readonly ICollection<Table> includedTables = new List<Table>();
 		private readonly StringBuilder orderBys = new StringBuilder();
 		private readonly Table rootTable;
-		private readonly StringBuilder rootWhereBuilder = new StringBuilder();
+        private readonly SqlQueryAggregator rootWhereBuilder = SqlQueryAggregator.And();
 		private readonly StringBuilder tables = new StringBuilder();
-		private readonly AutoPopStack<StringBuilder> whereBuilderStack = new AutoPopStack<StringBuilder>();
+        private readonly AutoPopStack<SqlQueryAggregator> whereBuilderStack = new AutoPopStack<SqlQueryAggregator>();
 		private int? limit;
 		private bool orderByEnabled = true;
 		private string postfix;

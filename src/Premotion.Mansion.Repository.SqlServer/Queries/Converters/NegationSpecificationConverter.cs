@@ -38,12 +38,12 @@ namespace Premotion.Mansion.Repository.SqlServer.Queries.Converters
 		protected override void DoConvert(IMansionContext context, Negation specification, QueryCommandContext commandContext)
 		{
 			// construct the statement
-			var buffer = new StringBuilder();
-			using (commandContext.QueryBuilder.WhereBuilderStack.Push(buffer))
+			var aggregator = SqlQueryAggregator.And();
+			using (commandContext.QueryBuilder.WhereBuilderStack.Push(aggregator))
 				converterFactory.Value.Elect(context, specification.Negated).Convert(context, specification.Negated, commandContext);
 
 			// append the statement
-			commandContext.QueryBuilder.AppendWhere("NOT (" + buffer + ')');
+			commandContext.QueryBuilder.AppendWhere("NOT (" + aggregator.Buffer + ')');
 		}
 		#endregion
 		#region Private Fields
