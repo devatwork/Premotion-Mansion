@@ -9,7 +9,7 @@
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>$description$</description>
 		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
-		<copyright>Copyright 2012 Premotion Software Solutions, Bert Willems and contributors</copyright>
+		<copyright>Copyright 2012 Premotion Software Solutions, Bert Willems, Erik van Leeuwen and contributors</copyright>
 		<tags>Premotion Mansion Repository SQLServer</tags>
 		<frameworkAssemblies>
 			<frameworkAssembly assemblyName="System" targetFramework="net45" />

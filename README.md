@@ -4,7 +4,7 @@ This framework is developed by Premotion and is intended for rapid prototyping .
 
 ## Copyright
 
-Copyright (c) 2013 Bert Willems and contributors
+Copyright (c) 2013 Bert Willems, Erik van Leeuwen and contributors
 
 ## License
 
