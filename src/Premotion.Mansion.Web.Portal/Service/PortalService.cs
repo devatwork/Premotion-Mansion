@@ -316,6 +316,10 @@ namespace Premotion.Mansion.Web.Portal.Service
 			if (!blockType.TryFindDescriptorInHierarchy(out behavior))
 				throw new InvalidOperationException(string.Format("Block type '{0}' does not have a behavior", blockType.Name));
 
+			// Set blocks without an id as read-only, so they will not render the block toolbar.
+			if (!blockProperties.Contains("id"))
+				blockProperties.Set("_readonly", true);
+
 			// perform the rendering on the behavior
 			behavior.Render(context, blockProperties, targetField);
 		}
