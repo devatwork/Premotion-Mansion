@@ -24,7 +24,7 @@ namespace Premotion.Mansion.Web.Portal.ScriptTags
 			var blockProperties = GetAttributes(context);
 			string targetField;
 			if (!blockProperties.TryGetAndRemove(context, "targetField", out targetField) || string.IsNullOrEmpty(targetField))
-				throw new InvalidOperationException("The target attribute is manditory");
+				throw new AttributeNullException("targetField", this);
 
 			var portalService = context.Nucleus.ResolveSingle<IPortalService>();
 			portalService.RenderBlockToOutput(context, blockProperties, targetField);
