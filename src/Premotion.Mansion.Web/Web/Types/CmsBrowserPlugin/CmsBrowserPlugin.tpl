@@ -131,8 +131,8 @@
 </tpl:section>
 
 <tpl:section name="SearchFacets">
-	<div class="well sidebar-nav">
-		<ul class="nav nav-list">
+	<div class="well">
+		<ul class="nav">
 			{Facet}
 		</ul>
 	</div>

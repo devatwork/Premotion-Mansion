@@ -33,8 +33,8 @@
 
 <!-- Navigation menu sections -->
 <tpl:section name="Navigation">
-	<div class="well sidebar-nav">
-		<ul class="nav nav-list">
+	<div class="well">
+		<ul class="nav">
 			{NavigationItem}
 		</ul>
 	</div>
