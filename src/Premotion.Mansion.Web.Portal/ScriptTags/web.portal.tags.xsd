@@ -13,7 +13,12 @@
 		<xs:complexType>
 			<xs:attribute name="type" type="xs:string" use="required">
 				<xs:annotation>
-					<xs:documentation>Specifies the type nodes must have in order to be retrieved by this query.</xs:documentation>
+					<xs:documentation>Specifies the block type to render.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="targetField" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Specifies the name of the target field to which to render this content.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 			<xs:anyAttribute namespace="##any" processContents="skip" />
