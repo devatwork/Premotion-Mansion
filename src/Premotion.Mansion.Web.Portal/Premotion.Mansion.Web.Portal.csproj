@@ -72,6 +72,7 @@
     <Compile Include="ScriptFunctions\RenderSeoMetaTags.cs" />
     <Compile Include="ScriptTags\GroupTypeFacetsTag.cs" />
     <Compile Include="ScriptTags\GetColumnDatasetTag.cs" />
+    <Compile Include="ScriptTags\RenderBlockTag.cs" />
     <Compile Include="ScriptTags\RetrieveBlockNodesetTag.cs" />
     <Compile Include="ScriptTags\RetrieveLayoutNodeTag.cs" />
     <Compile Include="ScriptTags\RetrieveTemplatePageNodeTag.cs" />
