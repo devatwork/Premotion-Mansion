@@ -39,18 +39,27 @@
 
 <tpl:section name="PageContainer" field="Container">
 	<div class="navbar navbar-default navbar-fixed-top">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="{CmsNodeUrl( RootNode.id, 'CmsHomePlugin', 'Default' )}">Premotion Mansion CMS</a>
-		</div>
-
-		<div class="navbar-right">
-			{UserMenu}
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#cms-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="{CmsNodeUrl( RootNode.id, 'CmsHomePlugin', 'Default' )}">Premotion Mansion CMS</a>
+			</div>
+			<div class="navbar-collapse collapse" id="cms-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					{UserMenu}
+				</ul>
+			</div>
 		</div>
 	</div>
 
 	<div class="container-fluid cms-page">
 		{Content}
-		<hr>
+		<hr />
 		<footer>
 			<p>&copy; Premotion Software Solutions</p>
 		</footer>
