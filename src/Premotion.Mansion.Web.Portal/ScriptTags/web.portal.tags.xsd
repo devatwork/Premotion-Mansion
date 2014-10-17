@@ -6,6 +6,20 @@
 	<xs:import namespace="http://schemas.premotion.nl/mansion/1.0/stl.xsd" />
 
 	<!-- elements -->
+	<xs:element name="renderBlock" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Renders a block</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="type" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Specifies the type nodes must have in order to be retrieved by this query.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:anyAttribute namespace="##any" processContents="skip" />
+		</xs:complexType>
+	</xs:element>
+	
 	<xs:element name="retrieveTemplatePageNode" substitutionGroup="stl:scriptTag">
 		<xs:annotation>
 			<xs:documentation>Retrieves the template page for the specified source node.</xs:documentation>
