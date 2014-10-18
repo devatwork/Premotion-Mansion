@@ -3,7 +3,7 @@
 		<h2>Welcome to Premotion Mansion CMS</h2>
 		<p>Use the menu on the left or the actions below to start managing content for your websites.</p>
 	</div>
-	<div class="row">
+	<div class="thumbnails row">
 		{HomeBlock}
 	</div>
 </tpl:section>
