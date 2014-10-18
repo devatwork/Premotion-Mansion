@@ -1,5 +1,9 @@
 ﻿<tpl:section name="NavigationHeader" field="NavigationItem">
-	<li class="nav-header">{Section.label}</li>
+	<li class="disabled">
+		<a href="#">
+			{Section.label}
+		</a>
+	</li>
 </tpl:section>
 
 <tpl:section name="NavigationItem">
