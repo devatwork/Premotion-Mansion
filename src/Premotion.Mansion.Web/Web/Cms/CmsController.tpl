@@ -1,18 +1,18 @@
 ﻿<!-- User menu section -->
 <tpl:section name="UserMenu">
-	<div class="btn-group pull-right">
-		<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+	<li class="dropdown">
+		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 			<i class="icon-user"></i> Welcome {User.name}
 			<span class="caret"></span>
 		</a>
-		<ul class="dropdown-menu">
+		<ul class="dropdown-menu" role="menu">
 			<li>
 				<a href="{CmsRouteUrl( 'Authentication', 'Logoff' )}" title="Sign Out">
 					<i class="icon-signout"></i>Sign Out
 				</a>
 			</li>
 		</ul>
-	</div>
+	</li>
 </tpl:section>
 
 
