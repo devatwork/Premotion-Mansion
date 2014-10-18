@@ -1,5 +1,5 @@
 ﻿<tpl:section name="NavigationHeader" field="NavigationItem">
-	<li class="disabled">
+	<li class="navigation-header disabled">
 		<a href="#">
 			{Section.label}
 		</a>
@@ -7,7 +7,7 @@
 </tpl:section>
 
 <tpl:section name="NavigationItem">
-	<li class="{If( Section.active, 'active' )}">
+	<li class="navigation-item {If( Section.active, 'active' )}">
 		<a href="{Section.url}">
 			<i class="{Section.iconClass}"></i> {Section.label}
 		</a>

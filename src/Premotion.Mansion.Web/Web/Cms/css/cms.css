@@ -10,3 +10,13 @@ body { padding: 0; }
 .find .search-form .facets {
 	margin-bottom: 15px;
 }
+
+.main-navigation > li.navigation-header {
+	font-weight: bold;
+	cursor: default;
+}
+
+.main-navigation > li.navigation-header > a:hover,
+.main-navigation > li.navigation-header > a:focus {
+	cursor: default;
+}

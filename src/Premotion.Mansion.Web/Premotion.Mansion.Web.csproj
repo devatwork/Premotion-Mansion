@@ -382,7 +382,9 @@
     <EmbeddedResource Include="Web\Cms\AuthenticationController.tpl">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Web\Cms\AuthenticationController.xinclude" />
+    <EmbeddedResource Include="Web\Cms\AuthenticationController.xinclude">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Web\Cms\Cms.tpl">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -731,7 +733,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Web\Types\CmsBrowserPlugin\CmsBrowserPlugin.tpl" />
     <EmbeddedResource Include="Web\Types\CmsHomePlugin\CmsHomePlugin.xdef" />
-    <EmbeddedResource Include="Web\Types\CmsHomePlugin\CmsHomePlugin.tpl" />
+    <EmbeddedResource Include="Web\Types\CmsHomePlugin\CmsHomePlugin.tpl">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Web\Types\CmsHomePlugin\CmsHomePlugin.xinclude" />
     <EmbeddedResource Include="Web\Types\CmsPlugin\CmsPlugin.tpl" />
     <EmbeddedResource Include="Web\Types\CmsPlugin\CmsPlugin.xinclude" />
