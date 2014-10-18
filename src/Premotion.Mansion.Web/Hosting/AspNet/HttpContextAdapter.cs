@@ -53,14 +53,18 @@ namespace Premotion.Mansion.Web.Hosting.AspNet
 			// map the cookies
 			foreach (var entry in httpRequest.Cookies.Cast<string>().Select(key => new KeyValuePair<string, HttpCookie>(key, httpRequest.Cookies[key])))
 			{
-				request.Cookies.Add(entry.Key, new WebCookie {
-					Domain = entry.Value.Domain,
-					Expires = entry.Value.Expires,
-					HttpOnly = entry.Value.HttpOnly,
-					Name = entry.Value.Name,
-					Secure = entry.Value.Secure,
-					Value = entry.Value.Value
-				});
+				if (!request.Cookies.ContainsKey(entry.Key))
+				{
+					request.Cookies.Add(entry.Key, new WebCookie
+					{
+						Domain = entry.Value.Domain,
+						Expires = entry.Value.Expires,
+						HttpOnly = entry.Value.HttpOnly,
+						Name = entry.Value.Name,
+						Secure = entry.Value.Secure,
+						Value = entry.Value.Value
+					});
+				}
 			}
 
 			// map the files

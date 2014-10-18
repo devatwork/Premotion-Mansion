@@ -10,3 +10,12 @@ body { padding: 0; }
 .find .search-form .facets {
 	margin-bottom: 15px;
 }
+
+
+/*
+	Default behaviour is to hide all dismissable alerts.
+	These alerts will be shown when determined that the user didn't yet closed the alert.
+*/
+.alert.alert-dismissible {
+	display: none;
+}
