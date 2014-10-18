@@ -10,3 +10,11 @@ body { padding: 0; }
 .find .search-form .facets {
 	margin-bottom: 15px;
 }
+
+ .multi-node-selector .nav>li>a {
+	padding: 5px 15px;
+}
+
+ .multi-node-selector .form-control.search-query {
+	 margin-bottom: 10px;
+ }

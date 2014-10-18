@@ -23,8 +23,8 @@ Author: Premotion Software Solutions
     ');
     var resultsTemplate = _.template('\
 <% _.forEach(results, function (result, index, array) { %>\
-<li class="clearfix <%= result.hasAssignableChildren === true ? "" : "disabled" %>" data-id="<%= result.id %>" data-label="<%= result.label %>" data-is-assignable="<%= result.isAssignable %>">\
-	<a href="#" data-behavior="browse">\
+<li class="clearfix <%= (result.hasAssignableChildren === false && result.isAssignable === false) ? "disabled" : "" %>" data-id="<%= result.id %>" data-label="<%= result.label %>" data-is-assignable="<%= result.isAssignable %>">\
+	<a href="#" data-behavior="<%= (result.hasAssignableChildren === false && result.isAssignable === true) ? "select" : "browse" %>">\
 		<% if ( result.isAssignable === true ) { %>\
 		<i class="icon-plus-sign" data-behavior="select"></i>\
 		<% } %>\

@@ -270,7 +270,7 @@ Author: Premotion Software Solutions
 </tpl:section>
 
 <tpl:section name="MultiNodeSelectorFieldControl" field="Field">
-	<div id="{@ControlId}" class="field input-xxlarge" data-behavior="multi-node-selector" data-service-endpoint="{RouteUrlWithArea( 'Controls', 'Async', 'NodeSelector', '0' )}">
+	<div id="{@ControlId}" class="field multi-node-selector input-xxlarge" data-behavior="multi-node-selector" data-service-endpoint="{RouteUrlWithArea( 'Controls', 'Async', 'NodeSelector', '0' )}">
 		<input type="hidden" id="{@ControlId}-value" name="{@FieldName}" value="{ControlProperties.value}">
 		<input type="hidden" id="{@ControlId}-settings" name="_{@FieldName}-settings" value="{$NodeSelectorProperties}">
 		<div class="row">
