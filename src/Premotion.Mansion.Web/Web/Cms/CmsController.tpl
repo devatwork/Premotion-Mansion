@@ -33,7 +33,7 @@
 
 <!-- Navigation menu sections -->
 <tpl:section name="Navigation">
-	<ul class="nav nav-pills nav-stacked">
+	<ul class="nav nav-pills nav-stacked main-navigation">
 		{NavigationItem}
 	</ul>
 </tpl:section>
