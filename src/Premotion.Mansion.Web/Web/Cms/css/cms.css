@@ -24,3 +24,11 @@ body { padding: 0; }
 .main-navigation > li.navigation-header > a:focus {
 	cursor: default;
 }
+
+ .multi-node-selector .nav>li>a {
+	padding: 5px 15px;
+}
+
+.multi-node-selector .form-control.search-query {
+	margin-bottom: 10px;
+}
