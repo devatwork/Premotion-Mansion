@@ -33,12 +33,12 @@
 							<forms:processScriptAction supportedActions="login" requiresValidForm="true">
 
 								<authenticateUser authenticationProvider="RepositoryAuthenticationProvider" username="{FieldProperties.login}" password="{FieldProperties.password}" allowRevival="{FieldProperties.rememberByCookie}">
-
-									<!-- redirect to cms home -->
+									<!-- Login succesfull -->
+									<web:clearCookie name="dismissed-alerts" />
 									<web:redirectRequest url="{CmsRouteUrl( 'Cms', 'Home' )}"/>
 
 									<failed>
-										<!-- show validation message -->
+										<!-- Login failed -->
 										<forms:addValidationMessage controlName="login" message="Invalid login/password combination" />
 									</failed>
 								</authenticateUser>
@@ -60,6 +60,7 @@
 	<!-- Invoked by the dispatcher when the application is bootstrapped -->
 	<declareProcedure procedureName="HandleLogoff">
 		<logoff />
+		<web:clearCookie name="dismissed-alerts" />
 		<web:redirectRequest url="{CmsRouteUrl( 'Authentication', 'Authenticate' )}"/>
 	</declareProcedure>
 

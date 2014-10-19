@@ -32,3 +32,11 @@ body { padding: 0; }
 .multi-node-selector .form-control.search-query {
 	margin-bottom: 10px;
 }
+
+/*
+	Default behaviour is to hide all dismissable alerts.
+	These alerts will be shown when determined that the user didn't yet closed the alert.
+*/
+.alert.alert-dismissible {
+	display: none;
+}
