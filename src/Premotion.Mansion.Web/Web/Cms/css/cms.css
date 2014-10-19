@@ -2,6 +2,10 @@ body { padding: 0; }
 
 .cms-page { padding-top: 65px; }
 
+.cms-page .thumbnails .col-md-4:nth-child(3n+1) {
+	clear: left;
+}
+
 .find .search-form li a {
 	padding: 3px 15px;
 }
