@@ -2,10 +2,6 @@ body { padding: 0; }
 
 .cms-page { padding-top: 65px; }
 
-.cms-page .thumbnails .col-md-4:nth-child(3n+1) {
-	clear: left;
-}
-
 .find .search-form li a {
 	padding: 3px 15px;
 }
@@ -39,4 +35,19 @@ body { padding: 0; }
 */
 .alert.alert-dismissible {
 	display: none;
+}
+
+/*
+	Solution for responsive panels on the home screen from col-xs to col-lg
+	*/
+@media(min-width: 992px) {
+	.cms-page .panels .col-md-4:nth-child(3n+1) {
+		clear: left;
+	}
+}
+
+@media(max-width: 992px) {
+	.cms-page .panels .col-sm-6:nth-child(2n+1) {
+		clear: left;
+	}
 }
