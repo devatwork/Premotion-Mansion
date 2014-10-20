@@ -10,7 +10,7 @@
 <tpl:section name="FormControlName">{FormProperties.prefix}</tpl:section>
 	
 <tpl:section name="FormControl" field="Control">
-	<form method="post" action="{NotEmpty( FormProperties.submitUrl, Request.url )}" id="{@ControlId}" name="{@FormControlName}" class="form {NotEmpty( ControlProperties.cssClass, 'form-horizontal' )}" accept-charset="utf-8" enctype="multipart/form-data" target="_self">
+	<form method="post" action="{NotEmpty( FormProperties.submitUrl, Request.url )}" id="{@ControlId}" name="{@FormControlName}" class="form {NotEmpty( ControlProperties.cssClass, 'form-horizontal' )}" accept-charset="utf-8" enctype="multipart/form-data" target="_self" role="form">
 		{Control}
 		{Hidden}
 		<input type="hidden" name="{FormProperties.prefix}current-step" value="{FormProperties.currentStepId}">
@@ -54,7 +54,7 @@
 <tpl:section name="FieldContainer" field="Control">
 	<div class="form-group {If( IsInValidationError( $FormControl, $FieldControl ), 'error' )}">
 		{@FieldLabel}
-		<div class="col-xs-10">
+		<div class="col-sm-9">
 			{Field}
 			{@FieldExplanation}
 		</div>
@@ -62,7 +62,7 @@
 </tpl:section>
 
 <tpl:section name="FieldLabel" requires="{Not( IsEmpty( ControlProperties.label ) )}">
-	<label class="col-xs-2" for="{@ControlId}">{ControlProperties.label}{@FieldRequired}:</label>
+	<label class="col-sm-3 control-label" for="{@ControlId}">{ControlProperties.label}{@FieldRequired}:</label>
 </tpl:section>
 
 <tpl:section name="FieldRequired" requires="{IsTrue( ControlProperties.isRequired )}">
@@ -455,7 +455,7 @@ Author: Premotion Software Solutions
 
 <!-- Grid control sections -->
 <tpl:section name="FormGridControl" field="Control">
-	<form method="get" action="{ChangeQueryString( Request.url, GetControlPropertyName( 'page-number' ), '1' )}">
+	<form method="get" action="{ChangeQueryString( Request.url, GetControlPropertyName( 'page-number' ), '1' )}" role="form">
 		<div id="{@ControlId}">
 			<table class="table table-striped table-bordered table-condensed">
 				{Content}
