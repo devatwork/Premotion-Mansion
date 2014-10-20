@@ -14,24 +14,24 @@
 		</div>
 	</div>
 
-	<div class="thumbnails row">
+	<div class="panels row">
 		{HomeBlock}
 	</div>
 </tpl:section>
 
 <tpl:section name="HomeBlock">
-	<div class="col-md-4">
-		<div class="thumbnail">
-			<div class="caption">
-				<h3>
+	<div class="col-sm-6 col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">
 					<i class="{Section.iconClass}"></i> {Section.label}
 				</h3>
+			</div>
+			<div class="panel-body">
 				<p>{Section.description}</p>
-				<p>
-					<a href="{Section.url}" class="btn btn-primary" role="button">
-						Go <i class="icon-chevron-right"></i>
-					</a>
-				</p>
+				<a href="{Section.url}" class="btn btn-primary pull-right" role="button">
+					Go <i class="icon-chevron-right"></i>
+				</a>
 			</div>
 		</div>
 	</div>
