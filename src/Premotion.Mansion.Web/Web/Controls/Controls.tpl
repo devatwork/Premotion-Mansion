@@ -162,11 +162,11 @@
 </tpl:section>
 
 <tpl:section name="DateFieldControl" field="Field">
-	<input type="text" id="{@ControlId}" name="{@FieldName}" class="form-control date {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy' )}" {@FieldReadonlyAttribute}>
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="form-control date {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd-MM-yyyy' )}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
 <tpl:section name="DateTimeFieldControl" field="Field">
-	<input type="text" id="{@ControlId}" name="{@FieldName}" class="form-control datetime {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd MMMM yyyy HH:mm' )}" {@FieldReadonlyAttribute}>
+	<input type="text" id="{@ControlId}" name="{@FieldName}" class="form-control datetime {ControlProperties.cssClass}" value="{FormatDate( ControlProperties.Value, 'dd-MM-yyyy HH:mm' )}" {@FieldReadonlyAttribute}>
 </tpl:section>
 
 <tpl:section name="UploadFieldControl" field="Field">

@@ -39,7 +39,7 @@ var CKEDITOR_BASEPATH = "{Request.applicationUrl}/static-resources/Shared/js/cke
 	
 	// initialize the date selectors
 	$("input.date").datepicker({
-		dateFormat: "d MM yy",
+		dateFormat: "dd-mm-yy",
 		changeMonth: true,
 		changeYear: true,
 		howOtherMonths: true,
@@ -52,7 +52,7 @@ var CKEDITOR_BASEPATH = "{Request.applicationUrl}/static-resources/Shared/js/cke
 	
 	// initialize the date time selectors
 	$("input.datetime").datetimepicker({
-		dateFormat: "d MM yy",
+		dateFormat: "dd-mm-yy",
 		timeFormat: "hh:mm"
 		
 	});
