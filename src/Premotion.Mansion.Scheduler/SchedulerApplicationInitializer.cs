@@ -25,7 +25,7 @@ namespace Premotion.Mansion.Scheduler
 		protected override void DoInitialize(IMansionContext context)
 		{
 			var scheduler = context.Nucleus.ResolveSingle<QuartzSchedulerService>();
-			scheduler.ScheduleJob<ExampleJob>("jobName", "jobGroup", "triggerName", "triggerGroup");
+			scheduler.ScheduleJobs();
 		}
 		#endregion
 	}
