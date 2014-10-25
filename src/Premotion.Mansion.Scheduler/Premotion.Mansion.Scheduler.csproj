@@ -66,6 +66,7 @@
     <None Include="scheduler.descriptors.xsd">
       <SubType>Designer</SubType>
     </None>
+    <EmbeddedResource Include="Web\Types\Job\Job.xform" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Premotion.Mansion.Core\Premotion.Mansion.Core.csproj">
