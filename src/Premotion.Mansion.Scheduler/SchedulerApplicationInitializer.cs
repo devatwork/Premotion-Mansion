@@ -1,7 +1,9 @@
-﻿using Premotion.Mansion.Core;
+﻿using System.Linq;
+using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Nucleus;
+using Premotion.Mansion.Core.Types;
 
 namespace Premotion.Mansion.Scheduler
 {
@@ -21,26 +23,37 @@ namespace Premotion.Mansion.Scheduler
 		#endregion
 		#region Overrides of ApplicationInitializer
 		/// <summary>
-		/// Initializes the application.
+		/// Initializes the scheduler.
 		/// </summary>
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		protected override void DoInitialize(IMansionContext context)
 		{
-			// open the repository
 			using (RepositoryUtil.Open(context))
 			{
 				var repository = context.Repository;
-				var taskNodeset = repository.RetrieveNodeset(context, new PropertyBag
+				var jobNodeset = repository.RetrieveNodeset(context, new PropertyBag
 				{
 					{"parentSource", repository.RetrieveRootNode(context)},
-					{"baseType", "Task"},
+					{"baseType", "Job"},
 					{"depth", "any"},
 					{"bypassAuthorization", true}
 				});
 
-				var scheduler = context.Nucleus.ResolveSingle<QuartzSchedulerService>();
+				var typeService = context.Nucleus.ResolveSingle<ITypeService>();
+				var schedulerService = context.Nucleus.ResolveSingle<QuartzSchedulerService>();
 
-				scheduler.ScheduleJobs(context);
+				foreach (var jobNode in jobNodeset.Nodes)
+				{
+					var type = typeService.Load(context, jobNode.Type);
+					var tasks =
+						type.GetDescriptors<RegisterTaskDescriptor>()
+							.Select(descriptor => descriptor.TaskType.CreateInstance<Task>(context.Nucleus));
+
+					foreach (var task in tasks)
+					{
+						schedulerService.ScheduleTask(context, task, jobNode);
+					}
+				}
 			}
 		}
 		#endregion

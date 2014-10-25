@@ -1,19 +1,10 @@
-﻿using System;
-using Premotion.Mansion.Core;
+﻿using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Data;
 using Quartz;
 using Quartz.Impl;
 
 namespace Premotion.Mansion.Scheduler
 {
-	public class ExampleJob : IJob
-	{
-		public void Execute(IJobExecutionContext context)
-		{
-			var dataMap = context.MergedJobDataMap;
-			var welcome = (string)dataMap["welcome"];
-		}
-	}
-
 	public class QuartzSchedulerService
 	{
 		#region Constructors
@@ -25,14 +16,15 @@ namespace Premotion.Mansion.Scheduler
 		}
 		#endregion
 		#region Implementation of ISchedulerService
-		public void ScheduleJobs(IMansionContext context)
+		public void ScheduleTask(IMansionContext context, Task task, Node jobNode)
 		{
 			var jobKey = new JobKey("jobName", "jobGroup");
-			var job = JobBuilder.Create<ExampleJob>()
+			var job = JobBuilder.Create(task.GetType())
 				.WithIdentity(jobKey)
 				.StoreDurably()
 				.Build();
-			job.JobDataMap.Put("welcome", "Hello, world!");
+			job.JobDataMap.Put("context", context);
+			job.JobDataMap.Put("record", jobNode);
 
 
 			JobBuilder.Create();
@@ -47,7 +39,6 @@ namespace Premotion.Mansion.Scheduler
 
 
 			_sched.ScheduleJob(job, trigger);
-			_sched.Start();
 		}
 
 		#endregion
