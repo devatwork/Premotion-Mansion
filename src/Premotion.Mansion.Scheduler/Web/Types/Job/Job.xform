@@ -25,19 +25,29 @@
 
 
 	<declareProcedure procedureName="JobStatus">
-		<scheduler:GetTasksDataset source="{$FormSourceNode}" target="Dataset">
-			<loopDataset source="{$Dataset}" target="TaskRow">
-				<forms:fieldset label="Status for task: {TaskRow.name}">
-					<forms:readonly name="{TaskRow.name}.lastRun" label="Last run" />
-					<forms:readonly name="{TaskRow.name}.lastRunSuccessfull" label="Last run successfull" />
-					<if condition="{Not( IsEmpty( GetProperty( $FormSourceNode, Concat( TaskRow.name, '.taskOutput' ) ) ) )}">
-						<forms:readonly name="{TaskRow.name}.taskOutput" label="Task output" />
-					</if>
-					<if condition="{IsTrue( GetProperty( $FormSourceNode, Concat( TaskRow.name, '.exceptionThrown' ) ) )}">
-						<forms:readonly name="{TaskRow.name}.exceptionMessage" label="Exception" />
-					</if>
-				</forms:fieldset>
-			</loopDataset>
-		</scheduler:GetTasksDataset>
+		<fetchDataspace source="{$FormSourceNode}" target="FormSourceNode">
+			<scheduler:GetTasksDataset source="{$FormSourceNode}" target="Dataset">
+				<loopDataset source="{$Dataset}" target="TaskRow">
+					<forms:fieldset label="Status for task: {TaskRow.name}">
+						<forms:readonly name="{TaskRow.name}.lastRun" label="Last run" />
+						<forms:readonly name="{TaskRow.name}.lastRunSuccessfull" label="Last run successfull" />
+
+						<if condition="{HasProperty( $FormSourceNode, Concat( TaskRow.name, '.taskOutput' ) )}">
+							<if condition="{Not( IsEmpty( GetProperty( $FormSourceNode, Concat( TaskRow.name, '.taskOutput' ) ) ) )}">
+								<forms:readonly name="{TaskRow.name}.taskOutput" label="Task output" />
+							</if>
+						</if>
+
+						<if condition="{HasProperty( $FormSourceNode, Concat( TaskRow.name, '.exceptionThrown' ) )}">
+							<if condition="{IsTrue( GetProperty( $FormSourceNode, Concat( TaskRow.name, '.exceptionThrown' ) ) )}">
+								<forms:readonly name="{TaskRow.name}.exceptionMessage" label="Exception" />
+							</if>
+						</if>
+
+					</forms:fieldset>
+				</loopDataset>
+			</scheduler:GetTasksDataset>
+			<notFound />
+		</fetchDataspace>
 	</declareProcedure>
 </mansion>

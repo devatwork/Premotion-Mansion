@@ -12,7 +12,7 @@ namespace Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob
 		{
 			// To demonstrate error handling, the next calculation could generate an 'Attempted to divide by zero' error.
 			var rnd = new Random();
-			int a = rnd.Next(1,10);
+			int a = rnd.Next(1, 10);
 			int b = rnd.Next(3);
 			double c = a / b;
 
@@ -21,7 +21,7 @@ namespace Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob
 		}
 	}
 
-	public class SecondExampleTask : Task
+	public class FailingTask : Task
 	{
 		public override bool DoExecute(IMansionContext context, Node jobNode, ref StringBuilder taskOutput)
 		{

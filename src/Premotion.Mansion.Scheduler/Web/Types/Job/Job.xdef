@@ -2,7 +2,10 @@
 <type
 	inherits="Default"
 	xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd"
-	xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd">
+	xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd"
+	xmlns:listeners="http://schemas.premotion.nl/mansion/1.0/data.listeners.descriptors.xsd">
 
 	<cms:behavior abstract="true" label="Job" icon="Types/Job/Job.png" />
+	<listeners:register type="Premotion.Mansion.Scheduler.Web.Types.Job.JobListener, Premotion.Mansion.Scheduler" />
+	
 </type>

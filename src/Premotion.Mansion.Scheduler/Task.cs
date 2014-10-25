@@ -53,6 +53,7 @@ namespace Premotion.Mansion.Scheduler
 				{
 					editProperties.Add(typeName + ".lastRun", DateTime.Now);
 					editProperties.Add(typeName + ".taskOutput", taskOutput);
+					editProperties.Add("_scheduleStatusUpdate", taskOutput);
 					mansionContext.Repository.UpdateNode(mansionContext, record, editProperties);
 				}
 			}

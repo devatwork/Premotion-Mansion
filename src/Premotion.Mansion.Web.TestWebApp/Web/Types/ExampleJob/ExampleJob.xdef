@@ -8,5 +8,5 @@
 	<cms:behavior label="Example Job" />
 	
 	<scheduler:registerTask type="Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob.ExampleTask, Premotion.Mansion.Web.TestWebApp" />
-	<scheduler:registerTask type="Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob.SecondExampleTask, Premotion.Mansion.Web.TestWebApp" />
+	<scheduler:registerTask type="Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob.FailingTask, Premotion.Mansion.Web.TestWebApp" />
 </type>
