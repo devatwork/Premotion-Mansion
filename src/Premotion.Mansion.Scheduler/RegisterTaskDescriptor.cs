@@ -22,6 +22,9 @@ namespace Premotion.Mansion.Scheduler
 		/// Gets the task type.
 		/// </summary>
 		public Type TaskType { get; private set; }
+		/// <summary>
+		/// Gets the task friendly name.
+		/// </summary>
 		public String TaskLabel { get; private set; }
 		#endregion
 	}

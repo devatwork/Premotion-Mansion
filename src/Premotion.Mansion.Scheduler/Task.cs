@@ -21,7 +21,7 @@ namespace Premotion.Mansion.Scheduler
 
 
 		/// <summary>
-		/// 
+		/// This method is called when the task is triggered to execute.
 		/// </summary>
 		/// <param name="context"></param>
 		public void Execute(IJobExecutionContext context)

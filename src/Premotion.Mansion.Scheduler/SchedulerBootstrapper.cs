@@ -1,5 +1,4 @@
-﻿using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Nucleus;
+﻿using Premotion.Mansion.Core.Nucleus;
 
 namespace Premotion.Mansion.Scheduler
 {

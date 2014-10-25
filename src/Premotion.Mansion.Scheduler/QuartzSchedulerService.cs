@@ -21,7 +21,7 @@ namespace Premotion.Mansion.Scheduler
 
 
 		/// <summary>
-		/// 
+		/// Add the given task to the scheduler.
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="task"></param>
@@ -65,7 +65,7 @@ namespace Premotion.Mansion.Scheduler
 
 
 		/// <summary>
-		/// 
+		/// Remove the given task from the scheduler.
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="task"></param>
@@ -78,7 +78,7 @@ namespace Premotion.Mansion.Scheduler
 
 
 		/// <summary>
-		/// 
+		/// Get the job key based on the task and job.
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="jobNode"></param>
@@ -94,7 +94,7 @@ namespace Premotion.Mansion.Scheduler
 
 
 		/// <summary>
-		/// 
+		/// Get the trigger key based on the task and job.
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="task"></param>
