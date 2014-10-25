@@ -187,11 +187,11 @@ namespace Premotion.Mansion.Core.Data
 		protected override void DoUpdateNode(IMansionContext context, Node node, IPropertyBag modifiedProperties)
 		{
 			// store the record
-			var updated = storageEngine.UpdateNode(context, node, modifiedProperties);
+			node = storageEngine.UpdateNode(context, node, modifiedProperties);
 
 			// index the record
 			foreach (var indexer in indexEngines)
-				indexer.Index(context, updated);
+				indexer.Index(context, node);
 		}
 		/// <summary>
 		/// Deletes an existing node from this repository.
