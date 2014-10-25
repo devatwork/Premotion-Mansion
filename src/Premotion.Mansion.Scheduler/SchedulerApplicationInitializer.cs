@@ -47,11 +47,11 @@ namespace Premotion.Mansion.Scheduler
 					var type = typeService.Load(context, jobNode.Type);
 					var tasks =
 						type.GetDescriptors<RegisterTaskDescriptor>()
-							.Select(descriptor => descriptor.TaskType.CreateInstance<Task>(context.Nucleus));
+							.Select(descriptor => descriptor.TaskType);
 
 					foreach (var task in tasks)
 					{
-						schedulerService.ScheduleTask(context, task.GetType(), jobNode);
+						schedulerService.ScheduleTask(context, task, jobNode);
 					}
 				}
 			}
