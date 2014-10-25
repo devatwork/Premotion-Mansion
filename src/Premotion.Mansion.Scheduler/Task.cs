@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
@@ -8,37 +9,44 @@ namespace Premotion.Mansion.Scheduler
 {
 	public abstract class Task : IJob
 	{
-		public abstract void DoExecute(IMansionContext context, Node jobNode);
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="jobNode"></param>
+		/// <param name="taskOutput"></param>
+		/// <returns>Boolean indicating if the job ran successfully</returns>
+		public abstract bool DoExecute(IMansionContext context, Node jobNode, ref StringBuilder taskOutput);
+
+
 
 		public void Execute(IJobExecutionContext context)
 		{
 			var dataMap = context.MergedJobDataMap;
-			var mansionContext = (IMansionContext)dataMap["context"];
-			var record = (Node)dataMap["record"];
+			var mansionContext = (IMansionContext) dataMap["context"];
+			var record = (Node) dataMap["record"];
 
-			try
+			var editProperties = new PropertyBag();
+			var taskOutput = new StringBuilder();
+
+			using (RepositoryUtil.Open(mansionContext))
 			{
-				using (RepositoryUtil.Open(mansionContext))
+				try
 				{
-					DoExecute(mansionContext, record);
-
-					var editProperties = new PropertyBag
-					{
-						{"lastRunSuccessfull", true}
-					};
-					mansionContext.Repository.UpdateNode(mansionContext, record, editProperties);
+					var ranSuccessfully = DoExecute(mansionContext, record, ref taskOutput);
+					editProperties.Add("lastRunSuccessfull", ranSuccessfully);
+					editProperties.Add("exceptionThrown", false);
 				}
-			}
-			catch (Exception e)
-			{
-				// Log error
-				using (RepositoryUtil.Open(mansionContext))
+				catch (Exception e)
 				{
-					var editProperties = new PropertyBag
-					{
-						{"lastRunSuccessfull", false},
-						{"exceptionMessage", e.Message}
-					};
+					editProperties.Add("lastRunSuccessfull", false);
+					editProperties.Add("exceptionThrown", true);
+					editProperties.Add("exceptionMessage", e.Message);
+				}
+				finally
+				{
+					editProperties.Add("lastRun", DateTime.Now);
+					editProperties.Add("taskOutput", taskOutput);
 					mansionContext.Repository.UpdateNode(mansionContext, record, editProperties);
 				}
 			}

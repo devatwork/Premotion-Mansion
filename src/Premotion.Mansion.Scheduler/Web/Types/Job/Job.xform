@@ -23,9 +23,11 @@
 	
 	<declareProcedure procedureName="JobStatus">
 		<forms:fieldset label="Status">
+			<forms:readonly name="lastRun" label="Last run" />
 			<forms:readonly name="lastRunSuccessfull" label="Last run successfull" />
+			<forms:readonly name="taskOutput" label="Task output" />
 
-			<if condition="{IsFalse( FormSourceNode.lastRunSuccessfull )}">
+			<if condition="{IsTrue( FormSourceNode.exceptionThrown )}">
 				<forms:readonly name="exceptionMessage" label="Exception" />
 			</if>
 
