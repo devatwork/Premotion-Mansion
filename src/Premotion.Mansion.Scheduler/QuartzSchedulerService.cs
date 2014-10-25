@@ -1,9 +1,20 @@
-﻿using Quartz;
+﻿using System;
+using Premotion.Mansion.Core;
+using Quartz;
 using Quartz.Impl;
 
 namespace Premotion.Mansion.Scheduler
 {
-	public class QuartzSchedulerService : ISchedulerService
+	public class ExampleJob : IJob
+	{
+		public void Execute(IJobExecutionContext context)
+		{
+			var dataMap = context.MergedJobDataMap;
+			var welcome = (string)dataMap["welcome"];
+		}
+	}
+
+	public class QuartzSchedulerService
 	{
 		#region Constructors
 		public QuartzSchedulerService()
@@ -14,22 +25,26 @@ namespace Premotion.Mansion.Scheduler
 		}
 		#endregion
 		#region Implementation of ISchedulerService
-		public void ScheduleJob<T>(string jobName, string jobGroup, string triggerName, string triggerGroup)
-			where T : IJob
+		public void ScheduleJobs(IMansionContext context)
 		{
-			var jobKey = new JobKey(jobName, jobGroup);
-			var job = JobBuilder.Create<T>()
+			var jobKey = new JobKey("jobName", "jobGroup");
+			var job = JobBuilder.Create<ExampleJob>()
 				.WithIdentity(jobKey)
 				.StoreDurably()
 				.Build();
+			job.JobDataMap.Put("welcome", "Hello, world!");
 
+
+			JobBuilder.Create();
 			var trigger = TriggerBuilder.Create()
-				.WithIdentity(triggerName, triggerGroup)
+				.WithIdentity("triggerName", "triggerGroup")
 				.StartNow()
 				.WithSimpleSchedule(x => x
-					.WithIntervalInSeconds(40)
+					.WithIntervalInSeconds(10)
 					.RepeatForever())
 				.Build();
+
+
 
 			_sched.ScheduleJob(job, trigger);
 			_sched.Start();
@@ -40,15 +55,5 @@ namespace Premotion.Mansion.Scheduler
 		private readonly ISchedulerFactory _schedFact;
 		private readonly IScheduler _sched;
 		#endregion
-	}
-
-
-
-	public class ExampleJob : IJob
-	{
-		public void Execute(IJobExecutionContext context)
-		{
-			
-		}
 	}
 }

@@ -1,4 +1,6 @@
 ﻿using Premotion.Mansion.Core;
+using Premotion.Mansion.Core.Collections;
+using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Nucleus;
 
 namespace Premotion.Mansion.Scheduler
@@ -24,8 +26,22 @@ namespace Premotion.Mansion.Scheduler
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		protected override void DoInitialize(IMansionContext context)
 		{
-			var scheduler = context.Nucleus.ResolveSingle<QuartzSchedulerService>();
-			scheduler.ScheduleJobs();
+			// open the repository
+			using (RepositoryUtil.Open(context))
+			{
+				var repository = context.Repository;
+				var taskNodeset = repository.RetrieveNodeset(context, new PropertyBag
+				{
+					{"parentSource", repository.RetrieveRootNode(context)},
+					{"baseType", "Task"},
+					{"depth", "any"},
+					{"bypassAuthorization", true}
+				});
+
+				var scheduler = context.Nucleus.ResolveSingle<QuartzSchedulerService>();
+
+				scheduler.ScheduleJobs(context);
+			}
 		}
 		#endregion
 	}
