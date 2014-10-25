@@ -9,6 +9,7 @@
 			<forms:textbox name="name" label="Name" />
 		</forms:fieldset>
 
+		<invokeProcedure procedureName="JobTrigger" />
 		<invokeProcedure procedureName="JobConfiguration" />
 		<invokeProcedure procedureName="JobStatus" />
 		<invokeProcedure procedureName="IncludeGroupPublication"/>
@@ -24,6 +25,16 @@
 
 
 
+	<declareProcedure procedureName="JobTrigger">
+		<forms:fieldset label="Job trigger">
+			<forms:number name="triggerIntervalSeconds" label="Interval seconds" />
+			<forms:number name="triggerIntervalMinutes" label="Interval minutes" />
+			<forms:number name="triggerIntervalHours" label="Interval hours" />
+		</forms:fieldset>
+	</declareProcedure>
+	
+	
+	
 	<declareProcedure procedureName="JobStatus">
 		<fetchDataspace source="{$FormSourceNode}" target="FormSourceNode">
 			<scheduler:GetTasksDataset source="{$FormSourceNode}" target="Dataset">

@@ -36,13 +36,27 @@ namespace Premotion.Mansion.Scheduler
 			job.JobDataMap.Put("context", context);
 			job.JobDataMap.Put("record", jobNode);
 
+
+			var triggerTimeSpan = new TimeSpan();
+
+			
+			int triggerInterval;
+			if (jobNode.TryGet(context, "triggerIntervalSeconds", out triggerInterval))
+				triggerTimeSpan = triggerTimeSpan.Add(TimeSpan.FromSeconds(triggerInterval));
+
+			if (jobNode.TryGet(context, "triggerIntervalMinutes", out triggerInterval))
+				triggerTimeSpan = triggerTimeSpan.Add(TimeSpan.FromMinutes(triggerInterval));
+
+			if (jobNode.TryGet(context, "triggerIntervalHours", out triggerInterval))
+				triggerTimeSpan = triggerTimeSpan.Add(TimeSpan.FromHours(triggerInterval));
+
+			var simpleSchedule = SimpleScheduleBuilder.Create().WithInterval(triggerTimeSpan).RepeatForever();
+
 			JobBuilder.Create();
 			var trigger = TriggerBuilder.Create()
 				.WithIdentity(GetTriggerKey(context, task, jobNode))
 				.StartNow()
-				.WithSimpleSchedule(x => x
-					.WithIntervalInSeconds(10)
-					.RepeatForever())
+				.WithSchedule(simpleSchedule)
 				.Build();
 
 			_sched.ScheduleJob(job, trigger);
