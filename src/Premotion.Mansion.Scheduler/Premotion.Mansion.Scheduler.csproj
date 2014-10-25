@@ -54,7 +54,6 @@
     <Compile Include="RegisterTaskDescriptor.cs" />
     <Compile Include="SchedulerApplicationInitializer.cs" />
     <Compile Include="SchedulerBootstrapper.cs" />
-    <Compile Include="Web\Types\ExampleJob\ExampleTask.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="job_scheduling_data_2_0.xsd">
@@ -64,8 +63,6 @@
     <EmbeddedResource Include="Web\Types\Scheduler\Scheduler.xdef" />
     <EmbeddedResource Include="Web\Types\Scheduler\Scheduler.xform" />
     <EmbeddedResource Include="Web\Types\Job\Job.xdef" />
-    <EmbeddedResource Include="Web\Types\ExampleJob\ExampleJob.xdef" />
-    <EmbeddedResource Include="Web\Types\ExampleJob\ExampleJob.xform" />
     <None Include="scheduler.descriptors.xsd">
       <SubType>Designer</SubType>
     </None>

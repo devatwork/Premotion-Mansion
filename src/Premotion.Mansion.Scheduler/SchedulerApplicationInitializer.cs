@@ -51,7 +51,7 @@ namespace Premotion.Mansion.Scheduler
 
 					foreach (var task in tasks)
 					{
-						schedulerService.ScheduleTask(context, task, jobNode);
+						schedulerService.ScheduleTask(context, task.GetType(), jobNode);
 					}
 				}
 			}

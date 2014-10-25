@@ -1,4 +1,5 @@
-﻿using Premotion.Mansion.Core;
+﻿using System;
+using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 using Quartz;
 using Quartz.Impl;
@@ -16,27 +17,27 @@ namespace Premotion.Mansion.Scheduler
 		}
 		#endregion
 		#region Implementation of ISchedulerService
-		public void ScheduleTask(IMansionContext context, Task task, Node jobNode)
+		public void ScheduleTask(IMansionContext context, Type task, Node jobNode)
 		{
-			var jobKey = new JobKey("jobName", "jobGroup");
-			var job = JobBuilder.Create(task.GetType())
+			var jobName = jobNode.Get<string>(context, "name");
+			var taskName = String.Format("{0} {1}, {2}", jobNode.Id, jobName, task);
+
+			var jobKey = new JobKey(taskName, jobName);
+			var job = JobBuilder.Create(task)
 				.WithIdentity(jobKey)
 				.StoreDurably()
 				.Build();
 			job.JobDataMap.Put("context", context);
 			job.JobDataMap.Put("record", jobNode);
 
-
 			JobBuilder.Create();
 			var trigger = TriggerBuilder.Create()
-				.WithIdentity("triggerName", "triggerGroup")
+				.WithIdentity(taskName, jobName)
 				.StartNow()
 				.WithSimpleSchedule(x => x
 					.WithIntervalInSeconds(10)
 					.RepeatForever())
 				.Build();
-
-
 
 			_sched.ScheduleJob(job, trigger);
 		}
