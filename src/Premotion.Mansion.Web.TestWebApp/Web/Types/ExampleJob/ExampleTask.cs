@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Scheduler;
 
@@ -26,8 +25,7 @@ namespace Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob
 	{
 		public override bool DoExecute(IMansionContext context, Node jobNode, ref StringBuilder taskOutput)
 		{
-			//taskOutput.Append("Task ran successfully.");
-			return true;
+			throw new ApplicationException("something went terribly wrong");
 		}
 	}
 }

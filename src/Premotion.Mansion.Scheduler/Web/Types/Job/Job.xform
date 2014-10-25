@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<mansion xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd" xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd">
+<mansion
+	xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd"
+	xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd"
+	xmlns:scheduler="http://schemas.premotion.nl/mansion/1.0/scheduler.tags.xsd">
 
 	<declareProcedure procedureName="RenderXFormContent">
 		<forms:fieldset label="General">
@@ -14,23 +17,27 @@
 	</declareProcedure>
 
 
-	<!-- this method can be overridden in inheriting types -->
+
 	<declareProcedure procedureName="JobConfiguration">
 		<throw message="The JobConfiguration should be overriden in {TargetProperties.type}"/>
 	</declareProcedure>
-	
-	
-	
+
+
+
 	<declareProcedure procedureName="JobStatus">
-		<forms:fieldset label="Status">
-			<forms:readonly name="lastRun" label="Last run" />
-			<forms:readonly name="lastRunSuccessfull" label="Last run successfull" />
-			<forms:readonly name="taskOutput" label="Task output" />
-
-			<if condition="{IsTrue( FormSourceNode.exceptionThrown )}">
-				<forms:readonly name="exceptionMessage" label="Exception" />
-			</if>
-
-		</forms:fieldset>
+		<scheduler:GetTasksDataset source="{$FormSourceNode}" target="Dataset">
+			<loopDataset source="{$Dataset}" target="TaskRow">
+				<forms:fieldset label="Status for task: {TaskRow.name}">
+					<forms:readonly name="{TaskRow.name}.lastRun" label="Last run" />
+					<forms:readonly name="{TaskRow.name}.lastRunSuccessfull" label="Last run successfull" />
+					<if condition="{Not( IsEmpty( GetProperty( $FormSourceNode, Concat( TaskRow.name, '.taskOutput' ) ) ) )}">
+						<forms:readonly name="{TaskRow.name}.taskOutput" label="Task output" />
+					</if>
+					<if condition="{IsTrue( GetProperty( $FormSourceNode, Concat( TaskRow.name, '.exceptionThrown' ) ) )}">
+						<forms:readonly name="{TaskRow.name}.exceptionMessage" label="Exception" />
+					</if>
+				</forms:fieldset>
+			</loopDataset>
+		</scheduler:GetTasksDataset>
 	</declareProcedure>
 </mansion>

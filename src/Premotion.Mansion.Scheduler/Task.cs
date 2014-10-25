@@ -20,12 +20,18 @@ namespace Premotion.Mansion.Scheduler
 
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
 		public void Execute(IJobExecutionContext context)
 		{
 			var dataMap = context.MergedJobDataMap;
 			var mansionContext = (IMansionContext) dataMap["context"];
 			var record = (Node) dataMap["record"];
 
+			var type = GetType();
+			var typeName = type.Name;
 			var editProperties = new PropertyBag();
 			var taskOutput = new StringBuilder();
 
@@ -34,19 +40,19 @@ namespace Premotion.Mansion.Scheduler
 				try
 				{
 					var ranSuccessfully = DoExecute(mansionContext, record, ref taskOutput);
-					editProperties.Add("lastRunSuccessfull", ranSuccessfully);
-					editProperties.Add("exceptionThrown", false);
+					editProperties.Add(typeName + ".lastRunSuccessfull", ranSuccessfully);
+					editProperties.Add(typeName + ".exceptionThrown", false);
 				}
 				catch (Exception e)
 				{
-					editProperties.Add("lastRunSuccessfull", false);
-					editProperties.Add("exceptionThrown", true);
-					editProperties.Add("exceptionMessage", e.Message);
+					editProperties.Add(typeName + ".lastRunSuccessfull", false);
+					editProperties.Add(typeName + ".exceptionThrown", true);
+					editProperties.Add(typeName + ".exceptionMessage", e.Message);
 				}
 				finally
 				{
-					editProperties.Add("lastRun", DateTime.Now);
-					editProperties.Add("taskOutput", taskOutput);
+					editProperties.Add(typeName + ".lastRun", DateTime.Now);
+					editProperties.Add(typeName + ".taskOutput", taskOutput);
 					mansionContext.Repository.UpdateNode(mansionContext, record, editProperties);
 				}
 			}
