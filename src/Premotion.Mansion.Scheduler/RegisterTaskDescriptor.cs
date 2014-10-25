@@ -13,14 +13,16 @@ namespace Premotion.Mansion.Scheduler
 		/// <param name="context">The <see cref="IMansionContext"/>.</param>
 		protected override void DoInitialize(IMansionContext context)
 		{
+			TaskLabel = Properties.Get<String>(context, "label");
 			TaskType = Properties.Get<Type>(context, "type");
 		}
 		#endregion
 		#region Properties
 		/// <summary>
-		/// Gets the listener type.
+		/// Gets the task type.
 		/// </summary>
 		public Type TaskType { get; private set; }
+		public String TaskLabel { get; private set; }
 		#endregion
 	}
 }

@@ -39,7 +39,7 @@
 		<fetchDataspace source="{$FormSourceNode}" target="FormSourceNode">
 			<scheduler:GetTasksDataset source="{$FormSourceNode}" target="Dataset">
 				<loopDataset source="{$Dataset}" target="TaskRow">
-					<forms:fieldset label="Status for task: {TaskRow.name}">
+					<forms:fieldset label="Status for task: {TaskRow.label}">
 						<forms:readonly name="{TaskRow.name}.lastRun" label="Last run" />
 						<forms:readonly name="{TaskRow.name}.lastRunSuccessfull" label="Last run successfull" />
 

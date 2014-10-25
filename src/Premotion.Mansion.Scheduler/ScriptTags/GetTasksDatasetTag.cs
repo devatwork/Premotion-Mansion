@@ -26,14 +26,16 @@ namespace Premotion.Mansion.Scheduler.ScriptTags
 			var dataset = new Dataset();
 			var typeService = context.Nucleus.ResolveSingle<ITypeService>();
 			var type = typeService.Load(context, jobNode.Type);
-			var tasks = type.GetDescriptors<RegisterTaskDescriptor>().Select(descriptor => descriptor.TaskType);
+			var descriptors = type.GetDescriptors<RegisterTaskDescriptor>().Select(descriptor => descriptor);
 
-			foreach (var task in tasks)
+			foreach (var descriptor in descriptors)
 			{
+				
 				var taskProperties = new PropertyBag
 				{
-					{ "name", task.Name},
-					{ "type", task.ToString()}
+					{ "name", descriptor.TaskType.Name},
+					{ "type", descriptor.TaskType.ToString()},
+					{ "label", descriptor.TaskLabel}
 				};
 				dataset.AddRow(taskProperties);
 			}

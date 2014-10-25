@@ -10,7 +10,12 @@
 		</xs:annotation>
 
 		<xs:complexType>
-			<!-- attributes -->
+			<xs:attribute name="label" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The friendly name of the task.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
 			<xs:attribute name="type" type="xs:string" use="required">
 				<xs:annotation>
 					<xs:documentation>The fully qualified class name of the task.</xs:documentation>
