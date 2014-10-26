@@ -66,9 +66,9 @@ namespace Premotion.Mansion.Web.Controls.Forms.Fields
 			base.DoInitialize(context, form);
 
 			// if the datetime is null, remove it from the properties
-			DateTime date;
-			var value = form.State.FieldProperties.TryGetAndRemove(context, Name, out date) && date != DateTime.MinValue ? (object) date : null;
-			form.State.FieldProperties.Set(Name, value);
+			DateTime dateTime;
+			if (!form.State.FieldProperties.TryGet<DateTime>(context, Name, out dateTime) || dateTime == DateTime.MinValue)
+				form.State.FieldProperties.Remove(Name);
 		}
 		#endregion
 	}
