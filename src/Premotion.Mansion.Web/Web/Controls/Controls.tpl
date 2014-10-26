@@ -202,7 +202,7 @@
 	</tpl:section>
 
 <tpl:section name="NumberFieldControl" field="Field">
-	<input type="number" id="{@ControlId}" name="{@FieldName}" class="field input-small number {ControlProperties.cssClass}" value="{ControlProperties.value}" {If( Not( IsEmpty( ControlProperties.min ) ), Concat( ' min="', ControlProperties.min, '"'  ) )} {If( Not( IsEmpty( ControlProperties.max ) ), Concat( ' max="', ControlProperties.max, '"'  ) )} {@FieldReadonlyAttribute}>
+	<input type="number" id="{@ControlId}" name="{@FieldName}" class="form-control input-small number {ControlProperties.cssClass}" value="{ControlProperties.value}" {If( Not( IsEmpty( ControlProperties.min ) ), Concat( ' min="', ControlProperties.min, '"'  ) )} {If( Not( IsEmpty( ControlProperties.max ) ), Concat( ' max="', ControlProperties.max, '"'  ) )} {@FieldReadonlyAttribute}>
 </tpl:section>
 
 <tpl:section name="DecimalFieldControl" field="Field">
