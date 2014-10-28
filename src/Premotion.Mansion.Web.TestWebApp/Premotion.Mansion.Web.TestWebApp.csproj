@@ -132,7 +132,9 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Web\Types\ExampleJob\ExampleJob.xdef" />
+    <EmbeddedResource Include="Web\Types\ExampleJob\ExampleJob.xdef">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Types\ExampleJob\ExampleJob.xform" />

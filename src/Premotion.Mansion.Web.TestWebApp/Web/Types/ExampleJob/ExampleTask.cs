@@ -8,7 +8,7 @@ namespace Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob
 {
 	public class ExampleTask : Task
 	{
-		public override bool DoExecute(IMansionContext context, Node jobNode, ref StringBuilder taskOutput)
+		public override bool DoExecute(IMansionContext context, Record jobRecord, ref StringBuilder taskOutput)
 		{
 			// To demonstrate error handling, the next calculation could generate an 'Attempted to divide by zero' error.
 			var rnd = new Random();
@@ -23,7 +23,7 @@ namespace Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob
 
 	public class FailingTask : Task
 	{
-		public override bool DoExecute(IMansionContext context, Node jobNode, ref StringBuilder taskOutput)
+		public override bool DoExecute(IMansionContext context, Record jobRecord, ref StringBuilder taskOutput)
 		{
 			throw new ApplicationException("something went terribly wrong");
 		}

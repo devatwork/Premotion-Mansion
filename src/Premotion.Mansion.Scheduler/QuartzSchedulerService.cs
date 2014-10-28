@@ -33,13 +33,11 @@ namespace Premotion.Mansion.Scheduler
 				.WithIdentity(jobKey)
 				.StoreDurably()
 				.Build();
-			job.JobDataMap.Put("context", context);
-			job.JobDataMap.Put("record", jobNode);
-
+			job.JobDataMap.Put("nucleus", context.Nucleus);
+			job.JobDataMap.Put("jobNode", jobNode);
 
 			var triggerTimeSpan = new TimeSpan();
 
-			
 			int triggerInterval;
 			if (jobNode.TryGet(context, "triggerIntervalSeconds", out triggerInterval))
 				triggerTimeSpan = triggerTimeSpan.Add(TimeSpan.FromSeconds(triggerInterval));
