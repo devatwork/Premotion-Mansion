@@ -67,8 +67,11 @@ namespace Premotion.Mansion.Scheduler
 				.WithInterval(triggerTimeSpan)
 				.RepeatForever();
 
+			var dateTimeOffset = new DateTimeOffset();
 			var lastRun = jobNode.Get(context, task.Name + ".lastRun", DateTime.MinValue);
-			var dateTimeOffset = new DateTimeOffset(lastRun).Add(triggerTimeSpan);
+			if (lastRun != DateTime.MinValue)
+				dateTimeOffset = new DateTimeOffset(lastRun).Add(triggerTimeSpan);
+			
 			if (lastRun != DateTime.MinValue && dateTimeOffset > DateTime.Now)
 			{
 				return TriggerBuilder.Create()
