@@ -53,7 +53,6 @@ namespace Premotion.Mansion.Scheduler
 		private ITrigger GetTaskTrigger(IMansionContext context, Type task, Node jobNode)
 		{
 			var triggerTimeSpan = new TimeSpan();
-
 			int triggerInterval;
 			if (jobNode.TryGet(context, "triggerIntervalSeconds", out triggerInterval))
 				triggerTimeSpan = triggerTimeSpan.Add(TimeSpan.FromSeconds(triggerInterval));
@@ -68,13 +67,12 @@ namespace Premotion.Mansion.Scheduler
 				.WithInterval(triggerTimeSpan)
 				.RepeatForever();
 
-			
-			DateTime lastRun;
-			ITrigger trigger;
-			if (jobNode.TryGet(context, task.Name + ".lastRun", out lastRun))
+			var lastRun = jobNode.Get(context, task.Name + ".lastRun", DateTime.MinValue);
+			lastRun = lastRun.AddDays(-1);
+			var dateTimeOffset = new DateTimeOffset(lastRun).Add(triggerTimeSpan);
+			if (lastRun != DateTime.MinValue && dateTimeOffset > DateTime.Now)
 			{
-				var dateTimeOffset = new DateTimeOffset(lastRun).Add(triggerTimeSpan);
-				trigger = TriggerBuilder.Create()
+				return TriggerBuilder.Create()
 					.WithIdentity(GetTriggerKey(context, task, jobNode))
 					.StartAt(dateTimeOffset)
 					.WithSchedule(simpleSchedule)
@@ -82,13 +80,12 @@ namespace Premotion.Mansion.Scheduler
 			}
 			else
 			{
-				trigger = TriggerBuilder.Create()
+				return TriggerBuilder.Create()
 					.WithIdentity(GetTriggerKey(context, task, jobNode))
 					.StartNow()
 					.WithSchedule(simpleSchedule)
 					.Build();
 			}
-			return trigger;
 		}
 
 
