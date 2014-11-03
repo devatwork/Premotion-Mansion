@@ -33,7 +33,7 @@ namespace Premotion.Mansion.Scheduler
 				.WithIdentity(jobKey)
 				.StoreDurably()
 				.Build();
-			job.JobDataMap.Put("nucleus", context.Nucleus);
+			job.JobDataMap.Put("applicationContext", context);
 			job.JobDataMap.Put("jobNode", jobNode);
 
 			var trigger = GetTaskTrigger(context, task, jobNode);

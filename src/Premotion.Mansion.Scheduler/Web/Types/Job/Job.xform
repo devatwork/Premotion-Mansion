@@ -10,6 +10,7 @@
 		</forms:fieldset>
 
 		<invokeProcedure procedureName="JobTrigger" />
+		<invokeProcedure procedureName="JobErrorHandling" />
 		<invokeProcedure procedureName="JobConfiguration" />
 		<invokeProcedure procedureName="JobStatus" />
 		<invokeProcedure procedureName="IncludeGroupPublication"/>
@@ -36,6 +37,17 @@
 				<forms:button action="trigger-task" label="Trigger job now" cssClass="btn-success" />
 				<notFound />
 			</fetchDataspace>
+		</forms:fieldset>
+	</declareProcedure>
+
+
+
+	<declareProcedure procedureName="JobErrorHandling">
+		<forms:fieldset label="Error handling">
+			<forms:checkbox name="mailReportWhenFailed" label="Send an email when a task fails" />
+			<forms:textbox name="reportEmailFrom" label="Sender e-mail address" />
+			<forms:textbox name="reportEmailTo" label="Recipient e-mail address for the report" />
+			
 		</forms:fieldset>
 	</declareProcedure>
 
