@@ -26,5 +26,18 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="TriggerJob" substitutionGroup="stl:scriptTag">
+		<xs:annotation>
+			<xs:documentation>Trigger all tasks for the given job node.</xs:documentation>
+		</xs:annotation>
 
+		<xs:complexType>
+			<xs:group ref="stl:defaultContentGroup" />
+			<xs:attribute name="source" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Job node</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

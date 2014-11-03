@@ -50,7 +50,7 @@ namespace Premotion.Mansion.Scheduler
 		/// <param name="task"></param>
 		/// <param name="jobNode"></param>
 		/// <returns>Quartz ITrigger</returns>
-		private ITrigger GetTaskTrigger(IMansionContext context, Type task, Node jobNode)
+		private static ITrigger GetTaskTrigger(IMansionContext context, Type task, Node jobNode)
 		{
 			var triggerTimeSpan = new TimeSpan();
 			int triggerInterval;
@@ -104,13 +104,26 @@ namespace Premotion.Mansion.Scheduler
 
 
 		/// <summary>
+		/// Remove the given task from the scheduler.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="task"></param>
+		/// <param name="jobNode"></param>
+		public void TriggerTask(IMansionContext context, Type task, Node jobNode)
+		{
+			_sched.TriggerJob(GetJobKey(context, task, jobNode));
+		}
+
+
+
+		/// <summary>
 		/// Get the job key based on the task and job.
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="jobNode"></param>
 		/// <param name="task"></param>
 		/// <returns></returns>
-		private JobKey GetJobKey(IMansionContext context, Type task, Node jobNode)
+		private static JobKey GetJobKey(IMansionContext context, Type task, Node jobNode)
 		{
 			var jobName = jobNode.Get<string>(context, "name");
 			var taskName = String.Format("{0} {1}, {2}", jobNode.Id, jobName, task);
@@ -126,7 +139,7 @@ namespace Premotion.Mansion.Scheduler
 		/// <param name="task"></param>
 		/// <param name="jobNode"></param>
 		/// <returns></returns>
-		private TriggerKey GetTriggerKey(IMansionContext context, Type task, Node jobNode)
+		private static TriggerKey GetTriggerKey(IMansionContext context, Type task, Node jobNode)
 		{
 			var jobName = jobNode.Get<string>(context, "name");
 			var taskName = String.Format("{0} {1}, {2}", jobNode.Id, jobName, task);

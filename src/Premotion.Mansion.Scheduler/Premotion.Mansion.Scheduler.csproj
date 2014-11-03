@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="ScriptTags\TriggerJobTag.cs" />
     <Compile Include="ScriptTags\GetTasksDatasetTag.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="QuartzSchedulerService.cs" />
