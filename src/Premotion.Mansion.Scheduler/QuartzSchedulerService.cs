@@ -36,6 +36,22 @@ namespace Premotion.Mansion.Scheduler
 			job.JobDataMap.Put("nucleus", context.Nucleus);
 			job.JobDataMap.Put("jobNode", jobNode);
 
+			var trigger = GetTaskTrigger(context, task, jobNode);
+			_sched.ScheduleJob(job, trigger);
+		}
+
+
+
+		/// <summary>
+		/// Schedules the task depending on the last run datetime.
+		/// If the last run is known, it schedules the next run accordingly, else it will start immediately.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="task"></param>
+		/// <param name="jobNode"></param>
+		/// <returns>Quartz ITrigger</returns>
+		private ITrigger GetTaskTrigger(IMansionContext context, Type task, Node jobNode)
+		{
 			var triggerTimeSpan = new TimeSpan();
 
 			int triggerInterval;
@@ -47,17 +63,32 @@ namespace Premotion.Mansion.Scheduler
 
 			if (jobNode.TryGet(context, "triggerIntervalHours", out triggerInterval))
 				triggerTimeSpan = triggerTimeSpan.Add(TimeSpan.FromHours(triggerInterval));
+			
+			var simpleSchedule = SimpleScheduleBuilder.Create()
+				.WithInterval(triggerTimeSpan)
+				.RepeatForever();
 
-			var simpleSchedule = SimpleScheduleBuilder.Create().WithInterval(triggerTimeSpan).RepeatForever();
-
-			JobBuilder.Create();
-			var trigger = TriggerBuilder.Create()
-				.WithIdentity(GetTriggerKey(context, task, jobNode))
-				.StartNow()
-				.WithSchedule(simpleSchedule)
-				.Build();
-
-			_sched.ScheduleJob(job, trigger);
+			
+			DateTime lastRun;
+			ITrigger trigger;
+			if (jobNode.TryGet(context, task.Name + ".lastRun", out lastRun))
+			{
+				var dateTimeOffset = new DateTimeOffset(lastRun).Add(triggerTimeSpan);
+				trigger = TriggerBuilder.Create()
+					.WithIdentity(GetTriggerKey(context, task, jobNode))
+					.StartAt(dateTimeOffset)
+					.WithSchedule(simpleSchedule)
+					.Build();
+			}
+			else
+			{
+				trigger = TriggerBuilder.Create()
+					.WithIdentity(GetTriggerKey(context, task, jobNode))
+					.StartNow()
+					.WithSchedule(simpleSchedule)
+					.Build();
+			}
+			return trigger;
 		}
 
 
