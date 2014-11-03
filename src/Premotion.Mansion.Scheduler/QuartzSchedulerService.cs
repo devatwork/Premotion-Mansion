@@ -68,7 +68,6 @@ namespace Premotion.Mansion.Scheduler
 				.RepeatForever();
 
 			var lastRun = jobNode.Get(context, task.Name + ".lastRun", DateTime.MinValue);
-			lastRun = lastRun.AddDays(-1);
 			var dateTimeOffset = new DateTimeOffset(lastRun).Add(triggerTimeSpan);
 			if (lastRun != DateTime.MinValue && dateTimeOffset > DateTime.Now)
 			{
