@@ -73,6 +73,7 @@
     <None Include="ScriptTags\scheduler.tags.xsd">
       <SubType>Designer</SubType>
     </None>
+    <EmbeddedResource Include="Web\Scheduler\Poke.xts" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Premotion.Mansion.Core\Premotion.Mansion.Core.csproj">

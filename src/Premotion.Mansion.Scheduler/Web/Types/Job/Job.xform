@@ -33,7 +33,7 @@
 			<forms:number name="triggerIntervalHours" label="Interval hours" />
 
 			<fetchDataspace source="{$FormSourceNode}" target="FormSourceNode">
-				<forms:button action="trigger-task" label="Trigger tasks now" cssClass="btn-success" />
+				<forms:button action="trigger-task" label="Trigger job now" cssClass="btn-success" />
 				<notFound />
 			</fetchDataspace>
 		</forms:fieldset>
