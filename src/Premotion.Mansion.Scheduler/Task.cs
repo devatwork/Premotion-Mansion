@@ -17,10 +17,10 @@ namespace Premotion.Mansion.Scheduler
 		/// 
 		/// </summary>
 		/// <param name="context"></param>
-		/// <param name="jobRecord"></param>
+		/// <param name="jobProperties"></param>
 		/// <param name="taskOutput"></param>
 		/// <returns>Boolean indicating if the job ran successfully</returns>
-		public abstract bool DoExecute(IMansionContext context, Record jobRecord, ref StringBuilder taskOutput);
+		public abstract bool DoExecute(IMansionContext context, IPropertyBag jobProperties, ref StringBuilder taskOutput);
 
 		private static readonly ConcurrentDictionary<int, object> JobLocks = new ConcurrentDictionary<int, object>();
 
@@ -95,7 +95,7 @@ namespace Premotion.Mansion.Scheduler
 		/// <param name="task"></param>
 		/// <param name="taskOutput"></param>
 		/// <param name="exception"></param>
-		private static void SendReportEmail(MansionContext context, Node jobNode, Type task, StringBuilder taskOutput, Exception exception = null)
+		private static void SendReportEmail(IMansionContext context, IPropertyBag jobNode, Type task, StringBuilder taskOutput, Exception exception = null)
 		{
 			var reportEmailFrom =jobNode.Get<string>(context, "reportEmailFrom", null);
 			if (reportEmailFrom.IsNullOrWhiteSpace())
