@@ -48,9 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Job.cs" />
     <Compile Include="ScriptTags\TriggerJobTag.cs" />
     <Compile Include="ScriptTags\GetTasksDatasetTag.cs" />
-    <Compile Include="Task.cs" />
+    <Compile Include="ITask.cs" />
     <Compile Include="QuartzSchedulerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterTaskDescriptor.cs" />

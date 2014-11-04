@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using Premotion.Mansion.Core;
+﻿using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Data.Listeners;
-using Premotion.Mansion.Core.Types;
 
 namespace Premotion.Mansion.Scheduler.Web.Types.Job
 {
@@ -17,7 +15,7 @@ namespace Premotion.Mansion.Scheduler.Web.Types.Job
 		protected override void DoAfterCreate(IMansionContext context, Record record, IPropertyBag properties)
 		{
 			if (!properties.Contains("_scheduleStatusUpdate"))
-				ScheduleTask(context, record);
+				ScheduleJob(context, record as Node);
 			base.DoAfterCreate(context, record, properties);
 		}
 
@@ -30,7 +28,7 @@ namespace Premotion.Mansion.Scheduler.Web.Types.Job
 		/// <param name="record"></param>
 		protected override void DoBeforeDelete(IMansionContext context, Record record)
 		{
-			DeleteTask(context, record);
+			DeleteJob(context, record as Node);
 			base.DoBeforeDelete(context, record);
 		}
 
@@ -45,7 +43,7 @@ namespace Premotion.Mansion.Scheduler.Web.Types.Job
 		protected override void DoBeforeUpdate(IMansionContext context, Record record, IPropertyBag properties)
 		{
 			if (!properties.Contains("_scheduleStatusUpdate"))
-				DeleteTask(context, record);
+				DeleteJob(context, record as Node);
 			base.DoBeforeUpdate(context, record, properties);
 		}
 
@@ -60,7 +58,7 @@ namespace Premotion.Mansion.Scheduler.Web.Types.Job
 		protected override void DoAfterUpdate(IMansionContext context, Record record, IPropertyBag properties)
 		{
 			if (!properties.Contains("_scheduleStatusUpdate"))
-				ScheduleTask(context, record);
+				ScheduleJob(context, record as Node);
 			base.DoAfterUpdate(context, record, properties);
 		}
 
@@ -70,19 +68,11 @@ namespace Premotion.Mansion.Scheduler.Web.Types.Job
 		/// Add the job tasks to the scheduler
 		/// </summary>
 		/// <param name="context"></param>
-		/// <param name="record"></param>
-		private static void ScheduleTask(IMansionContext context, Record record)
+		/// <param name="node"></param>
+		private static void ScheduleJob(IMansionContext context, Node node)
 		{
-			var typeService = context.Nucleus.ResolveSingle<ITypeService>();
 			var schedulerService = context.Nucleus.ResolveSingle<QuartzSchedulerService>();
-
-			var type = typeService.Load(context, record.Type);
-			var tasks =
-				type.GetDescriptors<RegisterTaskDescriptor>()
-					.Select(descriptor => descriptor.TaskType);
-
-			foreach (var task in tasks)
-				schedulerService.ScheduleTask(context, task, record as Node);
+			schedulerService.ScheduleJob(context, node);
 		}
 
 
@@ -91,19 +81,11 @@ namespace Premotion.Mansion.Scheduler.Web.Types.Job
 		/// Remove the job tasks from the scheduler
 		/// </summary>
 		/// <param name="context"></param>
-		/// <param name="record"></param>
-		private static void DeleteTask(IMansionContext context, Record record)
+		/// <param name="node"></param>
+		private static void DeleteJob(IMansionContext context, Node node)
 		{
-			var typeService = context.Nucleus.ResolveSingle<ITypeService>();
 			var schedulerService = context.Nucleus.ResolveSingle<QuartzSchedulerService>();
-
-			var type = typeService.Load(context, record.Type);
-			var tasks =
-				type.GetDescriptors<RegisterTaskDescriptor>()
-					.Select(descriptor => descriptor.TaskType);
-
-			foreach (var task in tasks)
-				schedulerService.DeleteTask(context, task, record as Node);
+			schedulerService.DeleteJob(context, node);
 		}
 	}
 }

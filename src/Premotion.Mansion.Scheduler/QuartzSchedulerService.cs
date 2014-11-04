@@ -20,23 +20,17 @@ namespace Premotion.Mansion.Scheduler
 
 
 
-		/// <summary>
-		/// Add the given task to the scheduler.
-		/// </summary>
-		/// <param name="context"></param>
-		/// <param name="task"></param>
-		/// <param name="jobNode"></param>
-		public void ScheduleTask(IMansionContext context, Type task, Node jobNode)
+		public void ScheduleJob(IMansionContext context, Node jobNode)
 		{
-			var jobKey = GetJobKey(context, task, jobNode);
-			var job = JobBuilder.Create(task)
+			var jobKey = GetJobKey(context, jobNode);
+			var job = JobBuilder.Create<Job>()
 				.WithIdentity(jobKey)
 				.StoreDurably()
 				.Build();
 			job.JobDataMap.Put("applicationContext", context);
 			job.JobDataMap.Put("jobNode", jobNode);
 
-			var trigger = GetTaskTrigger(context, task, jobNode);
+			var trigger = GetJobTrigger(context, jobNode);
 			_sched.ScheduleJob(job, trigger);
 		}
 
@@ -47,20 +41,19 @@ namespace Premotion.Mansion.Scheduler
 		/// If the last run is known, it schedules the next run accordingly, else it will start immediately.
 		/// </summary>
 		/// <param name="context"></param>
-		/// <param name="task"></param>
-		/// <param name="jobNode"></param>
+		/// <param name="jobRecord"></param>
 		/// <returns>Quartz ITrigger</returns>
-		private static ITrigger GetTaskTrigger(IMansionContext context, Type task, Node jobNode)
+		private static ITrigger GetJobTrigger(IMansionContext context, Record jobRecord)
 		{
 			var triggerTimeSpan = new TimeSpan();
 			int triggerInterval;
-			if (jobNode.TryGet(context, "triggerIntervalSeconds", out triggerInterval))
+			if (jobRecord.TryGet(context, "triggerIntervalSeconds", out triggerInterval))
 				triggerTimeSpan = triggerTimeSpan.Add(TimeSpan.FromSeconds(triggerInterval));
 
-			if (jobNode.TryGet(context, "triggerIntervalMinutes", out triggerInterval))
+			if (jobRecord.TryGet(context, "triggerIntervalMinutes", out triggerInterval))
 				triggerTimeSpan = triggerTimeSpan.Add(TimeSpan.FromMinutes(triggerInterval));
 
-			if (jobNode.TryGet(context, "triggerIntervalHours", out triggerInterval))
+			if (jobRecord.TryGet(context, "triggerIntervalHours", out triggerInterval))
 				triggerTimeSpan = triggerTimeSpan.Add(TimeSpan.FromHours(triggerInterval));
 			
 			var simpleSchedule = SimpleScheduleBuilder.Create()
@@ -68,14 +61,14 @@ namespace Premotion.Mansion.Scheduler
 				.RepeatForever();
 
 			var dateTimeOffset = new DateTimeOffset();
-			var lastRun = jobNode.Get(context, task.Name + ".lastRun", DateTime.MinValue);
+			var lastRun = jobRecord.Get(context, "lastRun", DateTime.MinValue);
 			if (lastRun != DateTime.MinValue)
 				dateTimeOffset = new DateTimeOffset(lastRun).Add(triggerTimeSpan);
 			
 			if (lastRun != DateTime.MinValue && dateTimeOffset > DateTime.Now)
 			{
 				return TriggerBuilder.Create()
-					.WithIdentity(GetTriggerKey(context, task, jobNode))
+					.WithIdentity(GetTriggerKey(context, jobRecord))
 					.StartAt(dateTimeOffset)
 					.WithSchedule(simpleSchedule)
 					.Build();
@@ -83,7 +76,7 @@ namespace Premotion.Mansion.Scheduler
 			else
 			{
 				return TriggerBuilder.Create()
-					.WithIdentity(GetTriggerKey(context, task, jobNode))
+					.WithIdentity(GetTriggerKey(context, jobRecord))
 					.StartNow()
 					.WithSchedule(simpleSchedule)
 					.Build();
@@ -96,11 +89,10 @@ namespace Premotion.Mansion.Scheduler
 		/// Remove the given task from the scheduler.
 		/// </summary>
 		/// <param name="context"></param>
-		/// <param name="task"></param>
 		/// <param name="jobNode"></param>
-		public void DeleteTask(IMansionContext context, Type task, Node jobNode)
+		public void DeleteJob(IMansionContext context, Record jobNode)
 		{
-			_sched.DeleteJob(GetJobKey(context, task, jobNode));
+			_sched.DeleteJob(GetJobKey(context, jobNode));
 		}
 
 
@@ -109,11 +101,10 @@ namespace Premotion.Mansion.Scheduler
 		/// Remove the given task from the scheduler.
 		/// </summary>
 		/// <param name="context"></param>
-		/// <param name="task"></param>
 		/// <param name="jobNode"></param>
-		public void TriggerTask(IMansionContext context, Type task, Node jobNode)
+		public void TriggerJob(IMansionContext context, Record jobNode)
 		{
-			_sched.TriggerJob(GetJobKey(context, task, jobNode));
+			_sched.TriggerJob(GetJobKey(context, jobNode));
 		}
 
 
@@ -123,12 +114,11 @@ namespace Premotion.Mansion.Scheduler
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="jobNode"></param>
-		/// <param name="task"></param>
 		/// <returns></returns>
-		private static JobKey GetJobKey(IMansionContext context, Type task, Node jobNode)
+		private static JobKey GetJobKey(IMansionContext context, Record jobNode)
 		{
 			var jobName = jobNode.Get<string>(context, "name");
-			var taskName = String.Format("{0} {1}, {2}", jobNode.Id, jobName, task);
+			var taskName = String.Format("{0} {1}", jobNode.Id, jobName);
 			return new JobKey(taskName, jobName);
 		}
 
@@ -138,13 +128,12 @@ namespace Premotion.Mansion.Scheduler
 		/// Get the trigger key based on the task and job.
 		/// </summary>
 		/// <param name="context"></param>
-		/// <param name="task"></param>
 		/// <param name="jobNode"></param>
 		/// <returns></returns>
-		private static TriggerKey GetTriggerKey(IMansionContext context, Type task, Node jobNode)
+		private static TriggerKey GetTriggerKey(IMansionContext context, Record jobNode)
 		{
 			var jobName = jobNode.Get<string>(context, "name");
-			var taskName = String.Format("{0} {1}, {2}", jobNode.Id, jobName, task);
+			var taskName = String.Format("{0} {1}", jobNode.Id, jobName);
 			return new TriggerKey(taskName, jobName);
 		}
 		#region Private Fields

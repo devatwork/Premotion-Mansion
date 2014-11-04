@@ -5,9 +5,9 @@ using Premotion.Mansion.Scheduler;
 
 namespace Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob
 {
-	public class ExampleTask : Task
+	public class ExampleTask : ITask
 	{
-		public override bool DoExecute(IMansionContext context, IPropertyBag jobProperties, ref StringBuilder taskOutput)
+		public bool DoExecute(IMansionContext context, IPropertyBag jobProperties, ref StringBuilder taskOutput)
 		{
 			// To demonstrate error handling, the next calculation could generate an 'Attempted to divide by zero' error.
 			var rnd = new Random();
@@ -20,9 +20,9 @@ namespace Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob
 		}
 	}
 
-	public class FailingTask : Task
+	public class FailingTask : ITask
 	{
-		public override bool DoExecute(IMansionContext context, IPropertyBag jobProperties, ref StringBuilder taskOutput)
+		public bool DoExecute(IMansionContext context, IPropertyBag jobProperties, ref StringBuilder taskOutput)
 		{
 			throw new ApplicationException("something went terribly wrong");
 		}

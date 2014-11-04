@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using Premotion.Mansion.Core;
+﻿using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
 using Premotion.Mansion.Core.Nucleus;
-using Premotion.Mansion.Core.Types;
 
 namespace Premotion.Mansion.Scheduler
 {
@@ -39,19 +37,9 @@ namespace Premotion.Mansion.Scheduler
 					{"bypassAuthorization", true}
 				});
 
-				var typeService = context.Nucleus.ResolveSingle<ITypeService>();
 				var schedulerService = context.Nucleus.ResolveSingle<QuartzSchedulerService>();
-
 				foreach (var jobNode in jobNodeset.Nodes)
-				{
-					var type = typeService.Load(context, jobNode.Type);
-					var tasks =
-						type.GetDescriptors<RegisterTaskDescriptor>()
-							.Select(descriptor => descriptor.TaskType);
-
-					foreach (var task in tasks)
-						schedulerService.ScheduleTask(context, task, jobNode);
-				}
+					schedulerService.ScheduleJob(context, jobNode);
 			}
 		}
 		#endregion
