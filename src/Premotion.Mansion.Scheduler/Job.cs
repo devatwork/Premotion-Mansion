@@ -96,7 +96,7 @@ namespace Premotion.Mansion.Scheduler
 					// Catch any exceptions that were thrown by the task and save them on the job node
 					ranSuccessfully = false;
 					editProperties.Add(taskType.Name + ".exceptionThrown", true);
-					editProperties.Add(taskType.Name + ".exceptionMessage", e.Message);
+					editProperties.Add(taskType.Name + ".exceptionMessage", e.InnerException.Message);
 
 					if (mailReportWhenFailed)
 						SendReportEmail(applicationContext, jobNode, taskType, taskOutput, e);
