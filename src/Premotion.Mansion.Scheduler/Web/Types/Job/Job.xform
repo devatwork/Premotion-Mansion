@@ -7,6 +7,10 @@
 	<declareProcedure procedureName="RenderXFormContent">
 		<forms:fieldset label="General">
 			<forms:textbox name="name" label="Name" />
+			<fetchDataspace source="{$FormSourceNode}" target="FormSourceNode">
+				<forms:readonly name="lastRun" label="Last run" />
+				<notFound />
+			</fetchDataspace>
 		</forms:fieldset>
 
 		<invokeProcedure procedureName="JobTrigger" />
