@@ -10,6 +10,12 @@
 		</xs:annotation>
 
 		<xs:complexType>
+			<xs:attribute name="id" type="xs:integer" use="required">
+				<xs:annotation>
+					<xs:documentation>The identifier for this task.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
 			<xs:attribute name="label" type="xs:string" use="required">
 				<xs:annotation>
 					<xs:documentation>The friendly name of the task.</xs:documentation>
@@ -19,6 +25,12 @@
 			<xs:attribute name="type" type="xs:string" use="required">
 				<xs:annotation>
 					<xs:documentation>The fully qualified class name of the task.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="waitsFor" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>This task should execute after the given task id's (csv).</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 		</xs:complexType>

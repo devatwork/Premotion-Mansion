@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Scheduler;
 
@@ -9,7 +10,7 @@ namespace Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob
 	{
 		public bool DoExecute(IMansionContext context, IPropertyBag jobProperties, ref StringBuilder taskOutput)
 		{
-			// To demonstrate error handling, the next calculation could generate an 'Attempted to divide by zero' error.
+			// To demonstrate error handling, the following calculation could generate an 'Attempted to divide by zero' error.
 			var rnd = new Random();
 			int a = rnd.Next(1, 10);
 			int b = rnd.Next(3);
@@ -24,7 +25,27 @@ namespace Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob
 	{
 		public bool DoExecute(IMansionContext context, IPropertyBag jobProperties, ref StringBuilder taskOutput)
 		{
+			// To demonstrate error handling
 			throw new ApplicationException("something went terribly wrong");
+		}
+	}
+
+	public class WaitingTask : ITask
+	{
+		public bool DoExecute(IMansionContext context, IPropertyBag jobProperties, ref StringBuilder taskOutput)
+		{
+			// To demonstrate a task that needs some time to finish it's work
+			Thread.Sleep(10000);
+			return true;
+		}
+	}
+
+	public class AnotherWaitingTask : ITask
+	{
+		public bool DoExecute(IMansionContext context, IPropertyBag jobProperties, ref StringBuilder taskOutput)
+		{
+			// A simple task.
+			return true;
 		}
 	}
 }

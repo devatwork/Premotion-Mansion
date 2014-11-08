@@ -7,6 +7,8 @@
 
 	<cms:behavior label="Example Job" />
 	
-	<scheduler:registerTask label="Example task" type="Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob.ExampleTask, Premotion.Mansion.Web.TestWebApp" />
-	<scheduler:registerTask label="Failing task" type="Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob.FailingTask, Premotion.Mansion.Web.TestWebApp" />
+	<scheduler:registerTask id="1" label="Example task" type="Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob.ExampleTask, Premotion.Mansion.Web.TestWebApp" />
+	<scheduler:registerTask id="2" label="Failing task" type="Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob.FailingTask, Premotion.Mansion.Web.TestWebApp" />
+	<scheduler:registerTask id="3" waitsFor="1" label="Waiting task" type="Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob.WaitingTask, Premotion.Mansion.Web.TestWebApp" />
+	<scheduler:registerTask id="4" waitsFor="1,3" label="Another Waiting task" type="Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob.AnotherWaitingTask, Premotion.Mansion.Web.TestWebApp" />
 </type>
