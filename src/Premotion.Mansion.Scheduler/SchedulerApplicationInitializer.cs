@@ -37,7 +37,7 @@ namespace Premotion.Mansion.Scheduler
 					{"bypassAuthorization", true}
 				});
 
-				var schedulerService = context.Nucleus.ResolveSingle<QuartzSchedulerService>();
+				var schedulerService = context.Nucleus.ResolveSingle<ISchedulerService>();
 				foreach (var jobNode in jobNodeset.Nodes)
 					schedulerService.ScheduleJob(context, jobNode);
 			}

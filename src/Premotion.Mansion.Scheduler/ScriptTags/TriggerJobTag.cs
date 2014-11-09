@@ -13,7 +13,7 @@ namespace Premotion.Mansion.Scheduler.ScriptTags
 		protected override void DoExecute(IMansionContext context)
 		{
 			var jobNode = GetRequiredAttribute<Node>(context, "source");
-			var schedulerService = context.Nucleus.ResolveSingle<QuartzSchedulerService>();
+			var schedulerService = context.Nucleus.ResolveSingle<ISchedulerService>();
 			schedulerService.TriggerJob(context, jobNode);
 		}
 	}

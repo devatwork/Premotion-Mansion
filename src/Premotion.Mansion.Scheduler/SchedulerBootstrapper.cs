@@ -22,7 +22,7 @@ namespace Premotion.Mansion.Scheduler
 		/// <param name="nucleus">The <see cref="IConfigurableNucleus"/> in which to register the services used by the application.</param>
 		protected override void DoBootstrap(IConfigurableNucleus nucleus)
 		{
-			nucleus.Register(resolver => new QuartzSchedulerService());
+			nucleus.Register<ISchedulerService>(resolver => new QuartzSchedulerService());
 		}
 		#endregion
 	}

@@ -71,7 +71,7 @@ namespace Premotion.Mansion.Scheduler.Web.Types.Job
 		/// <param name="node"></param>
 		private static void ScheduleJob(IMansionContext context, Node node)
 		{
-			var schedulerService = context.Nucleus.ResolveSingle<QuartzSchedulerService>();
+			var schedulerService = context.Nucleus.ResolveSingle<ISchedulerService>();
 			schedulerService.ScheduleJob(context, node);
 		}
 
@@ -84,7 +84,7 @@ namespace Premotion.Mansion.Scheduler.Web.Types.Job
 		/// <param name="node"></param>
 		private static void DeleteJob(IMansionContext context, Node node)
 		{
-			var schedulerService = context.Nucleus.ResolveSingle<QuartzSchedulerService>();
+			var schedulerService = context.Nucleus.ResolveSingle<ISchedulerService>();
 			schedulerService.DeleteJob(context, node);
 		}
 	}

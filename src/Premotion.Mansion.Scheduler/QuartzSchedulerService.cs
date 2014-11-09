@@ -6,8 +6,9 @@ using Quartz.Impl;
 
 namespace Premotion.Mansion.Scheduler
 {
-	public class QuartzSchedulerService
+	public class QuartzSchedulerService : ISchedulerService
 	{
+		#region Constructor(s)
 		/// <summary>
 		/// 
 		/// </summary>
@@ -17,9 +18,9 @@ namespace Premotion.Mansion.Scheduler
 			_sched = _schedFact.GetScheduler();
 			_sched.Start();
 		}
+		#endregion
 
-
-
+		#region ISchedulerService implementation
 		public void ScheduleJob(IMansionContext context, Node jobNode)
 		{
 			var jobKey = GetJobKey(context, jobNode);
@@ -40,6 +41,52 @@ namespace Premotion.Mansion.Scheduler
 
 
 
+		/// <summary>
+		/// Remove the given task from the scheduler.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="jobNode"></param>
+		public void DeleteJob(IMansionContext context, Node jobNode)
+		{
+			_sched.DeleteJob(GetJobKey(context, jobNode));
+		}
+
+
+
+		/// <summary>
+		/// Trigger the given job.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="jobNode"></param>
+		public void TriggerJob(IMansionContext context, Node jobNode)
+		{
+			var jobKey = GetJobKey(context, jobNode);
+			if (_sched.GetJobDetail(jobKey) != null)
+			{
+				// Trigger an already scheduled job
+				_sched.TriggerJob(jobKey);
+			}
+			else
+			{
+				// Trigger a non scheduled job
+				var jobTrigger = TriggerBuilder.Create()
+					.WithIdentity(GetTriggerKey(context, jobNode))
+					.StartNow()
+					.Build();
+
+				var job = JobBuilder.Create<Job>()
+					.WithIdentity(jobKey)
+					.StoreDurably()
+					.Build();
+
+				job.JobDataMap.Put("applicationContext", context);
+				job.JobDataMap.Put("jobNode", jobNode);
+				_sched.ScheduleJob(job, jobTrigger);
+			}
+		}
+		#endregion
+
+		#region Helper methods
 		/// <summary>
 		/// Get the Job timespan
 		/// </summary>
@@ -63,8 +110,9 @@ namespace Premotion.Mansion.Scheduler
 		}
 
 
+
 		/// <summary>
-		/// Schedules the task depending on the last run datetime.
+		/// Creates an SimpleSchedule for the job depending on the last run datetime.
 		/// If the last run is known, it schedules the next run accordingly, else it will start immediately.
 		/// </summary>
 		/// <param name="context"></param>
@@ -81,7 +129,7 @@ namespace Premotion.Mansion.Scheduler
 			var lastRun = jobRecord.Get(context, "lastRun", DateTime.MinValue);
 			if (lastRun != DateTime.MinValue)
 				dateTimeOffset = new DateTimeOffset(lastRun).Add(triggerTimeSpan);
-			
+
 			if (lastRun != DateTime.MinValue && dateTimeOffset > DateTime.Now)
 			{
 				return TriggerBuilder.Create()
@@ -97,52 +145,6 @@ namespace Premotion.Mansion.Scheduler
 					.StartNow()
 					.WithSchedule(simpleSchedule)
 					.Build();
-			}
-		}
-
-
-
-		/// <summary>
-		/// Remove the given task from the scheduler.
-		/// </summary>
-		/// <param name="context"></param>
-		/// <param name="jobRecord"></param>
-		public void DeleteJob(IMansionContext context, Record jobRecord)
-		{
-			_sched.DeleteJob(GetJobKey(context, jobRecord));
-		}
-
-
-
-		/// <summary>
-		/// Trigger the given job.
-		/// </summary>
-		/// <param name="context"></param>
-		/// <param name="jobRecord"></param>
-		public void TriggerJob(IMansionContext context, Record jobRecord)
-		{
-			var jobKey = GetJobKey(context, jobRecord);
-			if (_sched.GetJobDetail(jobKey) != null)
-			{
-				// Trigger an already scheduled job
-				_sched.TriggerJob(jobKey);
-			}
-			else
-			{
-				// Trigger a non scheduled job
-				var jobTrigger = TriggerBuilder.Create()
-					.WithIdentity(GetTriggerKey(context, jobRecord))
-					.StartNow()
-					.Build();
-
-				var job = JobBuilder.Create<Job>()
-					.WithIdentity(jobKey)
-					.StoreDurably()
-					.Build();
-
-				job.JobDataMap.Put("applicationContext", context);
-				job.JobDataMap.Put("jobNode", jobRecord);
-				_sched.ScheduleJob(job, jobTrigger);
 			}
 		}
 
@@ -175,6 +177,8 @@ namespace Premotion.Mansion.Scheduler
 			var taskName = String.Format("{0} {1}", jobRecord.Id, jobName);
 			return new TriggerKey(taskName, jobName);
 		}
+		#endregion
+
 		#region Private Fields
 		private readonly ISchedulerFactory _schedFact;
 		private readonly IScheduler _sched;
