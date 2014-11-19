@@ -235,6 +235,7 @@
     <Compile Include="Hosting\SpecificationRequestHandlerFactory.cs" />
     <Compile Include="Hosting\UrlPrefixSpecification.cs" />
     <Compile Include="Hosting\WebOutputRequestHandler.cs" />
+    <Compile Include="ScriptFunctions\EscapeApos.cs" />
     <Compile Include="ScriptFunctions\GetCookieValue.cs" />
     <Compile Include="ScriptFunctions\StripHTML.cs" />
     <Compile Include="ScriptTags\ClearCookieTag.cs" />
