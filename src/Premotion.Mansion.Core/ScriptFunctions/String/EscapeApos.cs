@@ -1,7 +1,6 @@
-﻿using Premotion.Mansion.Core;
-using Premotion.Mansion.Core.Scripting.ExpressionScript;
+﻿using Premotion.Mansion.Core.Scripting.ExpressionScript;
 
-namespace Premotion.Mansion.Web.ScriptFunctions
+namespace Premotion.Mansion.Core.ScriptFunctions.String
 {
 	/// <summary>
 	/// Returns an apostrophe escaped string
