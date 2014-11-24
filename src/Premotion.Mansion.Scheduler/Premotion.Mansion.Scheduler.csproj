@@ -68,6 +68,7 @@
     <EmbeddedResource Include="Web\Types\Scheduler\Scheduler.xdef" />
     <EmbeddedResource Include="Web\Types\Scheduler\Scheduler.xform" />
     <EmbeddedResource Include="Web\Types\Job\Job.xdef" />
+    <None Include="Premotion.Mansion.Scheduler.nuspec" />
     <None Include="scheduler.descriptors.xsd">
       <SubType>Designer</SubType>
     </None>

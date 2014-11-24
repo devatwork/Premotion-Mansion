@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>$id$</id>
+		<version>$version$</version>
+		<title>$title$</title>
+		<authors>$author$</authors>
+		<owners>$author$</owners>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>$description$</description>
+		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+		<copyright>Copyright 2012 Premotion Software Solutions, Bert Willems, Erik van Leeuwen and contributors</copyright>
+		<tags>Premotion Mansion Scheduler</tags>
+		<frameworkAssemblies>
+			<frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.Core" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.Data" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.DataSetExtensions" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.Xml" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net45" />
+		</frameworkAssemblies>
+		<dependencies>
+			<dependency id="RestSharp" />
+			<dependency id="Premotion.Mansion.Core" />
+			<dependency id="Premotion.Mansion.Web" />
+			<dependency id="Quartz" />
+			<dependency id="Common.Logging" />
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="**\*.xsd" target="content\Schemas" />
+	</files>
+</package>
