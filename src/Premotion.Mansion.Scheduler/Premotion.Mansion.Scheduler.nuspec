@@ -16,7 +16,7 @@
 			<frameworkAssembly assemblyName="System" targetFramework="net45" />
 			<frameworkAssembly assemblyName="System.Core" targetFramework="net45" />
 			<frameworkAssembly assemblyName="System.Data" targetFramework="net45" />
-			<frameworkAssembly assemblyName="System.DataSetExtensions" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.Data.DataSetExtensions" targetFramework="net45" />
 			<frameworkAssembly assemblyName="System.Xml" targetFramework="net45" />
 			<frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net45" />
 		</frameworkAssemblies>
