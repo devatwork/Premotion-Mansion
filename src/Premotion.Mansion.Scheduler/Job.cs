@@ -99,7 +99,7 @@ namespace Premotion.Mansion.Scheduler
 					editProperties.Add(taskType.Name + ".exceptionMessage", e.InnerException.Message);
 
 					if (mailReportWhenFailed)
-						SendReportEmail(applicationContext, jobNode, taskType, taskOutput, e);
+						SendReportEmail(applicationContext, jobNode, taskType, taskOutput, e.InnerException);
 				}
 				finally
 				{
