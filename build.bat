@@ -52,6 +52,8 @@ cmd /c %nuget% pack "src\Premotion.Mansion.Repository.ElasticSearch\Premotion.Ma
 if %errorlevel% neq 0 goto failure
 cmd /c %nuget% pack "src\Premotion.Mansion.Repository.SqlServer\Premotion.Mansion.Repository.SqlServer.csproj" -symbols -o Build -p Configuration=%config% %version%
 if %errorlevel% neq 0 goto failure
+cmd /c %nuget% pack "src\Premotion.Mansion.Scheduler\Premotion.Mansion.Scheduler.csproj" -symbols -o Build -p Configuration=%config% %version%
+if %errorlevel% neq 0 goto failure
 cmd /c %nuget% pack "src\Premotion.Mansion.Web\Premotion.Mansion.Web.csproj" -symbols -o Build -p Configuration=%config% %version%
 if %errorlevel% neq 0 goto failure
 cmd /c %nuget% pack "src\Premotion.Mansion.Web.Portal\Premotion.Mansion.Web.Portal.csproj" -symbols -o Build -p Configuration=%config% %version%
