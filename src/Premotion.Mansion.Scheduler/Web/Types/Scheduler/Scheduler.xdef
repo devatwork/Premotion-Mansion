@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<type
+	inherits="ConfigurationPanelEntry"
+	xmlns="http://schemas.premotion.nl/mansion/1.0/type.definition.xsd"
+	xmlns:cms="http://schemas.premotion.nl/mansion/1.0/web/web.cms.descriptors.xsd">
+
+	<cms:behavior label="Scheduler" icon="Types/Scheduler/Scheduler.png">
+		<cms:childType baseType="Job" />
+	</cms:behavior>
+</type>

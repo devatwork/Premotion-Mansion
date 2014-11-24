@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mansion
+	xmlns="http://schemas.premotion.nl/mansion/1.0/stl.xsd"
+	xmlns:forms="http://schemas.premotion.nl/mansion/1.0/web.form.tags.xsd"
+	xmlns:scheduler="http://schemas.premotion.nl/mansion/1.0/scheduler.tags.xsd">
+
+	<declareProcedure procedureName="RenderXFormContent">
+		<forms:fieldset label="General">
+			<forms:textbox name="name" label="Name" />
+			<fetchDataspace source="{$FormSourceNode}" target="FormSourceNode">
+				<forms:readonly name="lastRun" label="Last run" />
+				<notFound />
+			</fetchDataspace>
+		</forms:fieldset>
+
+		<invokeProcedure procedureName="JobTrigger" />
+		<invokeProcedure procedureName="JobErrorHandling" />
+		<invokeProcedure procedureName="JobConfiguration" />
+		<invokeProcedure procedureName="JobStatus" />
+		<invokeProcedure procedureName="IncludeGroupPublication"/>
+		<invokeProcedure procedureName="IncludeGroupIdentity"/>
+		<invokeProcedure procedureName="IncludeGroupSecurity"/>
+		<invokeProcedure procedureName="processScriptActions" />
+	</declareProcedure>
+
+
+
+	<declareProcedure procedureName="JobConfiguration">
+		<throw message="The JobConfiguration should be overriden in {TargetProperties.type}"/>
+	</declareProcedure>
+
+
+
+	<declareProcedure procedureName="JobTrigger">
+		<forms:fieldset label="Job trigger">
+			<forms:number name="triggerIntervalSeconds" label="Interval seconds" />
+			<forms:number name="triggerIntervalMinutes" label="Interval minutes" />
+			<forms:number name="triggerIntervalHours" label="Interval hours" />
+
+			<fetchDataspace source="{$FormSourceNode}" target="FormSourceNode">
+				<forms:button action="trigger-task" label="Trigger job now" cssClass="btn-success" />
+				<notFound />
+			</fetchDataspace>
+		</forms:fieldset>
+	</declareProcedure>
+
+
+
+	<declareProcedure procedureName="JobErrorHandling">
+		<forms:fieldset label="Error handling">
+			<forms:checkbox name="mailReportWhenFailed" label="Send an email when a task fails" />
+			<forms:textbox name="reportEmailFrom" label="Sender e-mail address" />
+			<forms:textbox name="reportEmailTo" label="Recipient e-mail address for the report" />
+			
+		</forms:fieldset>
+	</declareProcedure>
+
+
+
+	<declareProcedure procedureName="JobStatus">
+		<fetchDataspace source="{$FormSourceNode}" target="FormSourceNode">
+			<scheduler:GetTasksDataset source="{$FormSourceNode}" target="Dataset">
+				<loopDataset source="{$Dataset}" target="TaskRow">
+					<forms:fieldset label="Status for task: {TaskRow.label}">
+						<forms:readonly name="{TaskRow.name}.lastRun" label="Last run" />
+						<forms:readonly name="{TaskRow.name}.lastRunSuccessfull" label="Last run successfull" />
+
+						<if condition="{HasProperty( $FormSourceNode, Concat( TaskRow.name, '.taskOutput' ) )}">
+							<if condition="{Not( IsEmpty( GetProperty( $FormSourceNode, Concat( TaskRow.name, '.taskOutput' ) ) ) )}">
+								<forms:readonly name="{TaskRow.name}.taskOutput" label="Task output" />
+							</if>
+						</if>
+
+						<if condition="{HasProperty( $FormSourceNode, Concat( TaskRow.name, '.exceptionThrown' ) )}">
+							<if condition="{IsTrue( GetProperty( $FormSourceNode, Concat( TaskRow.name, '.exceptionThrown' ) ) )}">
+								<forms:readonly name="{TaskRow.name}.exceptionMessage" label="Exception" />
+							</if>
+						</if>
+					</forms:fieldset>
+				</loopDataset>
+			</scheduler:GetTasksDataset>
+			<notFound />
+		</fetchDataspace>
+	</declareProcedure>
+
+
+
+	<declareProcedure procedureName="ProcessScriptActions">
+		<forms:processScriptAction supportedActions="trigger-task">
+			<scheduler:TriggerJob source="{$FormSourceNode}" />
+		</forms:processScriptAction>
+	</declareProcedure>
+</mansion>

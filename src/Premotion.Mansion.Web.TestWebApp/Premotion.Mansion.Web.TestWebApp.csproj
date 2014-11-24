@@ -48,8 +48,16 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Common.Logging, Version=2.1.2.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
     <Reference Include="dotless.Core, Version=1.3.1.1, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
       <HintPath>..\packages\dotless.1.3.1.1\lib\dotless.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz, Version=2.2.4.400, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Quartz.2.2.4\lib\net40\Quartz.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -74,6 +82,7 @@
     <Compile Include="IMyUsefulService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestWebAppBootstrapper.cs" />
+    <Compile Include="Web\Types\ExampleJob\ExampleTask.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Premotion.Mansion.Amazon\Premotion.Mansion.Amazon.csproj">
@@ -96,6 +105,10 @@
       <Project>{ACCEC1F3-EFDB-40BA-94BB-9EF9F6659397}</Project>
       <Name>Premotion.Mansion.Repository.SqlServer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Premotion.Mansion.Scheduler\Premotion.Mansion.Scheduler.csproj">
+      <Project>{55f97963-1ee3-4933-8e16-3c151683e210}</Project>
+      <Name>Premotion.Mansion.Scheduler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Premotion.Mansion.Web.Portal\Premotion.Mansion.Web.Portal.csproj">
       <Project>{9F72860A-6878-41BE-AF4B-75AF7CADEF1A}</Project>
       <Name>Premotion.Mansion.Web.Portal</Name>
@@ -117,6 +130,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Types\ExampleJob\ExampleJob.xdef">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\Types\ExampleJob\ExampleJob.xform" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
