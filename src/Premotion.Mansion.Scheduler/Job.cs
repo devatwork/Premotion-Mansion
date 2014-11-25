@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Net.Mail;
@@ -64,6 +65,12 @@ namespace Premotion.Mansion.Scheduler
 
 
 
+		/// <summary>
+		/// Start the given task
+		/// </summary>
+		/// <param name="applicationContext"></param>
+		/// <param name="taskDescriptor"></param>
+		/// <param name="jobNode"></param>
 		private void ExecuteTask(IMansionContext applicationContext, RegisterTaskDescriptor taskDescriptor, Node jobNode)
 		{
 			// Initialize and set context
@@ -77,10 +84,13 @@ namespace Premotion.Mansion.Scheduler
 
 			using (RepositoryUtil.Open(context))
 			{
+				var taskStopwatch = new Stopwatch();
 				try
 				{
 					// Execute the asynchronous task
+					taskStopwatch.Start();
 					var theActualTask = Task<bool>.Factory.StartNew(() => task.DoExecute(context, jobNode, ref taskOutput));
+					Task.Factory.ContinueWhenAll(new[] {theActualTask}, tasks => taskStopwatch.Stop());
 					ranSuccessfully = theActualTask.Result;
 
 					editProperties.Add(taskType.Name + ".exceptionThrown", false);
@@ -93,7 +103,7 @@ namespace Premotion.Mansion.Scheduler
 				}
 				catch (Exception e)
 				{
-					// Catch any exceptions that were thrown by the task and save them on the job node
+					// Catch any exception that is thrown by the task and save it on the job node
 					ranSuccessfully = false;
 					editProperties.Add(taskType.Name + ".exceptionThrown", true);
 					editProperties.Add(taskType.Name + ".exceptionMessage", e.InnerException.Message);
@@ -106,6 +116,7 @@ namespace Premotion.Mansion.Scheduler
 					// Update job node with task results
 					editProperties.Add(taskType.Name + ".lastRunSuccessfull", ranSuccessfully);
 					editProperties.Add(taskType.Name + ".lastRun", DateTime.Now);
+					editProperties.Add(taskType.Name + ".lastDuration", taskStopwatch.Elapsed);
 					editProperties.Add(taskType.Name + ".taskOutput", taskOutput);
 					editProperties.Add("_scheduleStatusUpdate", taskOutput);
 
