@@ -16,7 +16,6 @@ namespace Premotion.Mansion.Web.Mail
 		/// The name or IP address of the host used for SMTP transactions.
 		/// </summary>
 		public static string SmtpHost = ConfigurationManager.AppSettings["SMTP_HOST"];
-
 		/// <summary>
 		/// The port used for SMTP transactions.
 		/// </summary>
@@ -33,5 +32,9 @@ namespace Premotion.Mansion.Web.Mail
 		/// The password for the SMTP network credentials.
 		/// </summary>
 		public static string SmtpPassword = ConfigurationManager.AppSettings["SMTP_PASSWORD"];
+		/// <summary>
+		/// The staging e-mail address.
+		/// </summary>
+		public static string StagingEmail = ConfigurationManager.AppSettings["stagingEmail"];
 	}
 }
