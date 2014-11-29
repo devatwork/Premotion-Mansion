@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="ApplicationSettingsConstants.cs" />
     <Compile Include="Collections\DatasetReader.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Conversion\Converters\GuidToStringConverter.cs" />
     <Compile Include="Conversion\Converters\JObjectToNodePointerConverter.cs" />
     <Compile Include="Conversion\Converters\Serializers.cs" />

@@ -49,9 +49,7 @@ namespace Premotion.Mansion.Web.Mail.Standard
 			CheckDisposed();
 
 			// if the application is not live, capture all mail
-			var application = context.Stack.Peek<IPropertyBag>(ApplicationSettingsConstants.DataspaceName);
-			var isApplicationStaging = !application.Get(context, ApplicationSettingsConstants.IsLiveApplicationSetting, false);
-			if (isApplicationStaging)
+			if (Core.Constants.ApplicationIsLive)
 			{
 				var subject = new StringBuilder();
 				subject.Append("[staging - to:");
@@ -68,8 +66,8 @@ namespace Premotion.Mansion.Web.Mail.Standard
 				message.Bcc.Clear();
 
 				// set the staging e-mail addresses
-				string stagingEmailAddresses;
-				if (!application.TryGet(context, "stagingEmail", out stagingEmailAddresses) || string.IsNullOrEmpty(stagingEmailAddresses))
+				var stagingEmailAddresses = Constants.StagingEmail;
+				if (string.IsNullOrEmpty(stagingEmailAddresses))
 					stagingEmailAddresses = "support@premotion.nl";
 				message.To.Add(stagingEmailAddresses, string.Empty);
 			}
