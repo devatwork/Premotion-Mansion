@@ -49,7 +49,7 @@ namespace Premotion.Mansion.Web.Mail.Standard
 			CheckDisposed();
 
 			// if the application is not live, capture all mail
-			if (Core.Constants.ApplicationIsLive)
+			if (!Core.Constants.ApplicationIsLive)
 			{
 				var subject = new StringBuilder();
 				subject.Append("[staging - to:");
