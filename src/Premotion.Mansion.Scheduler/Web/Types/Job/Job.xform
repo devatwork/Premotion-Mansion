@@ -14,8 +14,8 @@
 		</forms:fieldset>
 
 		<invokeProcedure procedureName="JobTrigger" />
-		<invokeProcedure procedureName="JobErrorHandling" />
 		<invokeProcedure procedureName="JobConfiguration" />
+		<invokeProcedure procedureName="JobErrorHandling" />
 		<invokeProcedure procedureName="JobStatus" />
 		<invokeProcedure procedureName="IncludeGroupPublication"/>
 		<invokeProcedure procedureName="IncludeGroupIdentity"/>
