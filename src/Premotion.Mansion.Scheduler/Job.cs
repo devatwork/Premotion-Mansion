@@ -59,7 +59,7 @@ namespace Premotion.Mansion.Scheduler
 				.Where(descriptor => descriptor.TaskWaitsFor.IsNullOrWhiteSpace()))
 			{
 				var descriptor = taskDescriptor;
-				Task.Factory.StartNew(() => ExecuteTask(applicationContext, descriptor, jobNode));
+				System.Threading.Tasks.Task.Factory.StartNew(() => ExecuteTask(applicationContext, descriptor, jobNode));
 			}
 		}
 
@@ -79,7 +79,7 @@ namespace Premotion.Mansion.Scheduler
 			var editProperties = new PropertyBag();
 			var taskOutput = new StringBuilder();
 			var taskType = taskDescriptor.TaskType;
-			var task = (ITask) Activator.CreateInstance(taskType);
+			var task = (Task) Activator.CreateInstance(taskType);
 			bool ranSuccessfully = false;
 
 			using (RepositoryUtil.Open(context))
@@ -90,7 +90,7 @@ namespace Premotion.Mansion.Scheduler
 					// Execute the asynchronous task
 					taskStopwatch.Start();
 					var theActualTask = Task<bool>.Factory.StartNew(() => task.DoExecute(context, jobNode, ref taskOutput));
-					Task.Factory.ContinueWhenAll(new[] {theActualTask}, tasks => taskStopwatch.Stop());
+					System.Threading.Tasks.Task.Factory.ContinueWhenAll(new[] {theActualTask}, tasks => taskStopwatch.Stop());
 					ranSuccessfully = theActualTask.Result;
 
 					editProperties.Add(taskType.Name + ".exceptionThrown", false);
@@ -98,7 +98,7 @@ namespace Premotion.Mansion.Scheduler
 					if (!ranSuccessfully)
 					{
 						if (mailReportWhenFailed)
-							SendReportEmail(applicationContext, jobNode, taskType, taskOutput);
+							SendErrorReportEmail(applicationContext, jobNode, taskType, task, taskOutput);
 					}
 				}
 				catch (Exception e)
@@ -109,7 +109,7 @@ namespace Premotion.Mansion.Scheduler
 					editProperties.Add(taskType.Name + ".exceptionMessage", e.InnerException.Message);
 
 					if (mailReportWhenFailed)
-						SendReportEmail(applicationContext, jobNode, taskType, taskOutput, e.InnerException);
+						SendErrorReportEmail(applicationContext, jobNode, taskType, task, taskOutput, e.InnerException);
 				}
 				finally
 				{
@@ -150,7 +150,7 @@ namespace Premotion.Mansion.Scheduler
 									.Count(finishedDescriptor => finishedDescriptor.TaskId.ToString(CultureInfo.InvariantCulture).Equals(waitFor)) != 0);
 
 								if (allDependenciesFinished)
-									Task.Factory.StartNew(() => ExecuteTask(applicationContext, descriptor, jobNode));
+									System.Threading.Tasks.Task.Factory.StartNew(() => ExecuteTask(applicationContext, descriptor, jobNode));
 							}
 						}
 					}
@@ -166,9 +166,10 @@ namespace Premotion.Mansion.Scheduler
 		/// <param name="context"></param>
 		/// <param name="jobNode"></param>
 		/// <param name="taskDescriptor"></param>
+		/// <param name="task"></param>
 		/// <param name="taskOutput"></param>
 		/// <param name="exception"></param>
-		private static void SendReportEmail(IMansionContext context, IPropertyBag jobNode, Type taskDescriptor,
+		private static void SendErrorReportEmail(IMansionContext context, IPropertyBag jobNode, Type taskDescriptor, Task task,
 			StringBuilder taskOutput, Exception exception = null)
 		{
 			var reportEmailFrom = jobNode.Get<string>(context, "reportEmailFrom", null);
@@ -192,6 +193,7 @@ namespace Premotion.Mansion.Scheduler
 						exception.Message)
 					: String.Format("The task '{0}' failed and gave the following output: {1}", taskDescriptor.Name, taskOutput);
 
+				task.EnrichErrorReportEmail(message, exception);
 				mailService.Send(context, message);
 			}
 		}
