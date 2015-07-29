@@ -189,8 +189,8 @@ namespace Premotion.Mansion.Scheduler
 					taskDescriptor.Name);
 
 				message.Body = (exception != null)
-					? String.Format("The following exception occurred while executing task '{0}': {1}", taskDescriptor.Name,
-						exception.Message)
+					? String.Format("The following exception occurred while executing task '{0}': [{1}] {2}", taskDescriptor.Name,
+						exception.GetType().Name, exception.Message)
 					: String.Format("The task '{0}' failed and gave the following output: {1}", taskDescriptor.Name, taskOutput);
 
 				task.EnrichErrorReportEmail(message, exception);
