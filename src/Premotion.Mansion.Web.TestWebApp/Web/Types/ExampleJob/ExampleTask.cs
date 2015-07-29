@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Mail;
 using System.Text;
 using System.Threading;
 using Premotion.Mansion.Core;
@@ -6,9 +7,9 @@ using Premotion.Mansion.Scheduler;
 
 namespace Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob
 {
-	public class ExampleTask : ITask
+	public class ExampleTask : Task
 	{
-		public bool DoExecute(IMansionContext context, IPropertyBag jobProperties, ref StringBuilder taskOutput)
+		public override bool DoExecute(IMansionContext context, IPropertyBag jobProperties, ref StringBuilder taskOutput)
 		{
 			// To demonstrate error handling, the following calculation could generate an 'Attempted to divide by zero' error.
 			var rnd = new Random();
@@ -21,18 +22,18 @@ namespace Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob
 		}
 	}
 
-	public class FailingTask : ITask
+	public class FailingTask : Task
 	{
-		public bool DoExecute(IMansionContext context, IPropertyBag jobProperties, ref StringBuilder taskOutput)
+		public override bool DoExecute(IMansionContext context, IPropertyBag jobProperties, ref StringBuilder taskOutput)
 		{
 			// To demonstrate error handling
 			throw new ApplicationException("something went terribly wrong");
 		}
 	}
 
-	public class WaitingTask : ITask
+	public class WaitingTask : Task
 	{
-		public bool DoExecute(IMansionContext context, IPropertyBag jobProperties, ref StringBuilder taskOutput)
+		public override bool DoExecute(IMansionContext context, IPropertyBag jobProperties, ref StringBuilder taskOutput)
 		{
 			// To demonstrate a task that needs some time to finish it's work
 			Thread.Sleep(10000);
@@ -40,9 +41,9 @@ namespace Premotion.Mansion.Web.TestWebApp.Web.Types.ExampleJob
 		}
 	}
 
-	public class AnotherWaitingTask : ITask
+	public class AnotherWaitingTask : Task
 	{
-		public bool DoExecute(IMansionContext context, IPropertyBag jobProperties, ref StringBuilder taskOutput)
+		public override bool DoExecute(IMansionContext context, IPropertyBag jobProperties, ref StringBuilder taskOutput)
 		{
 			// A simple task.
 			return true;
