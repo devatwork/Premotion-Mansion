@@ -48,7 +48,10 @@ namespace Premotion.Mansion.Web
 			Stack.Push("Request", requestUrlProperties, true);
 
 			// set context location flag
-			IsBackoffice = request.RequestUrl.PathSegments.Length > 0 && request.RequestUrl.PathSegments[0].Equals(Constants.BackofficeUrlPrefix, StringComparison.OrdinalIgnoreCase);
+			var backofficeRequest = request.RequestUrl.PathSegments.Length > 0 && request.RequestUrl.PathSegments[0].Equals(Constants.BackofficeUrlPrefix, StringComparison.OrdinalIgnoreCase);
+			var backofficeReferrerRequest = request.ReferrerUrl != null && request.ReferrerUrl.PathSegments.Length > 0 && request.ReferrerUrl.PathSegments[0].Equals(Constants.BackofficeUrlPrefix, StringComparison.OrdinalIgnoreCase);
+
+			IsBackoffice = (backofficeRequest || backofficeReferrerRequest);
 
 			// initialize the context
 			IPropertyBag applicationSettings;
