@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.ModelBinding;
 using Premotion.Mansion.Core;
 using Premotion.Mansion.Core.Collections;
 using Premotion.Mansion.Core.Data;
@@ -80,6 +81,9 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 				// retrieve the target node
 				var repository = context.Repository;
 				var targetNode = repository.RetrieveSingleNode(context, new PropertyBag {{"guid", targetGuid}});
+
+				if (targetNode == null)
+					return null;
 
 				// return the leaf with target node
 				return new Leaf(navigationNode, parentLeaf, targetNode);
@@ -256,6 +260,8 @@ namespace Premotion.Mansion.Web.Portal.ScriptFunctions
 
 				// create the leaf
 				var leaf = Leaf.Create(context, leafNode, parentLeaf);
+				if (leaf == null)
+					continue;
 
 				// add the leaf to the parent leaf
 				parentLeaf.Add(leaf);
