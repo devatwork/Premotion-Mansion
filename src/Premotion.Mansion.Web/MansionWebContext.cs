@@ -47,8 +47,18 @@ namespace Premotion.Mansion.Web
 				requestUrlProperties.Set("referrerUrl", request.ReferrerUrl);
 			Stack.Push("Request", requestUrlProperties, true);
 
+			// determine if current context location is backoffice based on the request url
+			var backofficeRequest = request.RequestUrl.PathSegments.Length > 0 && request.RequestUrl.PathSegments[0].Equals(Constants.BackofficeUrlPrefix, StringComparison.OrdinalIgnoreCase);
+
+			// determine if current context location is backoffice based on the referrer and route
+			if (!backofficeRequest) {
+				var backofficeReferrer = request.ReferrerUrl != null && request.ReferrerUrl.PathSegments.Length > 0 && request.ReferrerUrl.PathSegments[0].Equals(Constants.BackofficeUrlPrefix, StringComparison.OrdinalIgnoreCase);
+				var routeRequest = request.RequestUrl.PathSegments.Length > 0 && request.RequestUrl.PathSegments[0].Equals(Dispatcher.Constants.RouteUrlPrefix, StringComparison.OrdinalIgnoreCase);
+				backofficeRequest = backofficeReferrer && routeRequest;
+			}
+
 			// set context location flag
-			IsBackoffice = request.RequestUrl.PathSegments.Length > 0 && request.RequestUrl.PathSegments[0].Equals(Constants.BackofficeUrlPrefix, StringComparison.OrdinalIgnoreCase);
+			IsBackoffice = backofficeRequest;
 
 			// initialize the context
 			IPropertyBag applicationSettings;
