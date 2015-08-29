@@ -230,7 +230,7 @@ namespace Premotion.Mansion.Web.Security
 			// assemble the role select criteria
 			var assignedRoleGuidsUser = userNode.Get(context, "assignedRoleGuids", string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
 			var assignedRoleGuidsGroups = groupNodes.Nodes.SelectMany(group => group.Get(context, "assignedRoleGuids", string.Empty).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries));
-			var assignedRoleGuids = assignedRoleGuidsUser.Union(assignedRoleGuidsGroups).Distinct();
+			var assignedRoleGuids = assignedRoleGuidsUser.Union(assignedRoleGuidsGroups).Distinct().ToList();
 
 			// retrieve the roles
 			var roleNodes = RetrieveRoleNodes(context, assignedRoleGuids, repository);
@@ -289,15 +289,21 @@ namespace Premotion.Mansion.Web.Security
 		/// <param name="roleGuids"></param>
 		/// <param name="repository"></param>
 		/// <returns></returns>
-		private Nodeset RetrieveRoleNodes(IMansionContext context, IEnumerable<string> roleGuids, IRepository repository)
+		private Nodeset RetrieveRoleNodes(IMansionContext context, List<string> roleGuids, IRepository repository)
 		{
-			return repository.RetrieveNodeset(context, new PropertyBag
-			                                           {
-			                                           	{"baseType", "Role"},
-			                                           	{"guid", string.Join(",", roleGuids)},
-			                                           	{"bypassAuthorization", true},
-			                                           	{StorageOnlyQueryComponent.PropertyKey, true}
-			                                           });
+			var queryProperties = new PropertyBag
+			{
+				{"baseType", "Role"},
+				{"bypassAuthorization", true},
+				{StorageOnlyQueryComponent.PropertyKey, true}
+			};
+
+			if (roleGuids.Count == 0)
+				queryProperties.Add("name", "Visitor");
+			else
+				queryProperties.Add("guid", string.Join(",", roleGuids));
+
+			return repository.RetrieveNodeset(context, queryProperties);
 		}
 		/// <summary>
 		/// Retrieves the role node.
